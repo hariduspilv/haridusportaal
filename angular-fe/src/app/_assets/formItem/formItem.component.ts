@@ -43,6 +43,11 @@ export interface FormItemOption {
   value: string;
 }
 
+interface CustomKeyboardEvent extends KeyboardEventInit {
+  keyCode: number;
+  which: number;
+}
+
 @Component({
   selector: 'formItem',
   templateUrl: 'formItem.template.html',
@@ -145,24 +150,24 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   keydownEvent(e) {
-     
-    if (e.code  === 'Enter' ){
+    if (e.code  === 'Enter') {
       return false;
     }
 
-    if (e.code === "Space") {
-      const keyboardEvent = new KeyboardEvent('keydown', {
-          code: 'Enter',
-          key: 'Enter',
-          keyCode: 13,
-          which: 13, 
-          view: window,
-          bubbles: true
-      });
+    if (e.code === 'Space') {
+      const event: CustomKeyboardEvent = {
+        code: 'Enter',
+        key: 'Enter',
+        keyCode: 13,
+        which: 13,
+        view: window,
+        bubbles: true,
+      };
+      const keyboardEvent = new KeyboardEvent('keydown', event);
 
-      if(this.ngSelect) {
+      if (this.ngSelect) {
         e.preventDefault();
-        this.ngSelect.handleKeyCode(keyboardEvent)
+        this.ngSelect.handleKeyCode(keyboardEvent);
       }
     }
   }
