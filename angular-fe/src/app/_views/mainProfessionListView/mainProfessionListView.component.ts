@@ -198,7 +198,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
         this.filteredJob = highlight;
         this.jobLoading = false;
       } else {
-        if (!this.filteredJob || !filtersExist) {
+        if (!this.filteredJob || (!filtersExist && !this.filteredJob)) {
           const filteredList: Object[] = list.filter(elem =>
             elem.fieldFillingBar === 1 || elem.fieldFillingBar === 2);
           if (filteredList.length) {
