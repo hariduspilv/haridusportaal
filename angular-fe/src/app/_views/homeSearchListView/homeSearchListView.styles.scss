@@ -236,4 +236,12 @@
 		text-align: center;
 		margin-top: 40px;
 	}
+
+	::ng-deep block .block__content {
+		padding: 1.5rem 0;
+	}
+	
+	label-count {
+    margin: 0 1.5rem .5rem 1.5rem;
+  }
 }
