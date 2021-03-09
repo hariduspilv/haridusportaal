@@ -25,7 +25,7 @@
 							[id]="data.nid"
 							[state]="data.isFavorite">
 						</favourite>
-						<share [title]="title"></share>
+						<share [pageTitle]="data.title"></share>
 						<compare *ngIf="compareKey" [id]="data.nid" [sessionStorageKey]="compareKey"></compare>
 						<labels *ngIf="data.fixedLabel" [data]="[data.fixedLabel.entity]" type="orange"></labels>
 					</div><!--/toolbar-->
