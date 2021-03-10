@@ -1,0 +1,8 @@
+uuid: 8e38063f-18d8-45f8-ab82-3c8bf797362e
+langcode: et
+status: true
+dependencies: {  }
+name: 'Uuringu teema'
+vid: studytopic
+description: ''
+weight: 0
