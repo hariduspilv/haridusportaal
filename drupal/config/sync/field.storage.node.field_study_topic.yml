@@ -1,17 +1,16 @@
-uuid: 61b850a3-c84e-4f1c-bfb3-11f4ef20e608
+uuid: 9744581a-2d5c-40d2-9cac-239c84607123
 langcode: et
 status: true
 dependencies:
   module:
     - node
-id: node.field_person
-field_name: field_person
+    - taxonomy
+id: node.field_study_topic
+field_name: field_study_topic
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  is_ascii: false
-  case_sensitive: false
+  target_type: taxonomy_term
 module: core
 locked: false
 cardinality: -1
