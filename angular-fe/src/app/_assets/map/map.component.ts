@@ -37,6 +37,7 @@ export class MapComponent {
   @Input() legendKey: string;
   @Input() loading: boolean;
   @Output() layerChange: EventEmitter<string> = new EventEmitter;
+  @Output() mapLoaded = new EventEmitter<boolean>();
 
   private map: any;
   private heatmap: any;
@@ -70,6 +71,7 @@ export class MapComponent {
     this.mapService.activeMap = this.map;
     this.map.setZoom(this.options.zoom);
     this.setCenter(this.map, this.options, this.defaultMapOptions);
+    this.mapLoaded.emit();
   }
 
   setCenter(activeMap: any, options: MapOptions, defaultMapOptions: any) {
