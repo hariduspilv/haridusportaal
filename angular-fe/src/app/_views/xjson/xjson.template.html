@@ -60,7 +60,7 @@
               </div>
 
               <form [class.disabled-step]="opened_step != this.max_step && !edit_step" (submit)="submitForm()"
-                *ngIf="data_elements && objectKeys(data_elements).length > 0">
+                *ngIf="data_elements && objectKeys(data_elements).length > 0 && formVisible">
 
                 <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 
