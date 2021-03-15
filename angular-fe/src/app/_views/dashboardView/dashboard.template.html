@@ -18,7 +18,7 @@
 							htm-button
 							theme="link"
 							*ngIf="currentRole === 'natural_person'"
-							attr.aria-label="{{ 'modal.modaler' | translate }}"
+							attr.aria-label="{{auth.user.firstname && auth.user.lastname}} {{ 'frontpage.dashboard_tabs_personal_label' | translate }}"
 							(click)="loadUserModal()"
 						>
 							<h1>

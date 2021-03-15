@@ -226,7 +226,7 @@
             />
             <div class="formItem__radio__indicator"></div>
           </div><!--/formItem__check__wrapper-->
-          <div class="formItem__radio__title"  [class.selected]="item.value === field">
+          <div class="formItem__radio__title"  [class.selected]="item.value === field" [attr.aria-label]="item.ariaLabel ? ('frontpage.isikukood' | translate) + ' '  + item.ariaLabel : null">
             {{ item.key }} <tooltip *ngIf="item.info">{{ item.info }}</tooltip>
           </div><!--/formItem__check__title-->
         </label><!--/formItem__check-->
