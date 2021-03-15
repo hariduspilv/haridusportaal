@@ -10,10 +10,10 @@ dependencies:
     - field.field.node.studypage.field_highlighted_study_intro
     - field.field.node.studypage.field_introduction
     - field.field.node.studypage.field_label
-    - field.field.node.studypage.field_person
     - field.field.node.studypage.field_right_column
     - field.field.node.studypage.field_study_tag
     - field.field.node.studypage.field_study_text
+    - field.field.node.studypage.field_study_topic
     - node.type.studypage
   module:
     - user
@@ -34,9 +34,9 @@ hidden:
   field_highlighted_study_intro: true
   field_introduction: true
   field_label: true
-  field_person: true
   field_right_column: true
   field_study_tag: true
   field_study_text: true
+  field_study_topic: true
   langcode: true
   search_api_excerpt: true

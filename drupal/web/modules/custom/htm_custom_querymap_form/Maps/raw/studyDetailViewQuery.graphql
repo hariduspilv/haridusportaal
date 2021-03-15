@@ -1,0 +1,122 @@
+query studyDetailViewQuery($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        title
+        language {
+          id
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+      entity {
+        ... on NodeStudypage {
+          title
+          fieldStudyTag {
+            entity {
+              ... on TaxonomyTermStudytag {
+                entityId
+                entityLabel
+              }
+            }
+          }
+          fieldHighlightedStudyIntro
+          fieldStudyTopic {
+            entity {
+              ... on TaxonomyTermStudytopic {
+                entityId
+                entityLabel
+              }
+            }
+          }
+          fieldIntroduction
+          fieldContent {
+            value
+          }
+          fieldAdditionalImages {
+            derivative(style: CROP_LARGE) {
+              url
+            }
+            alt
+            title
+          }
+          fieldStudyText {
+            url {
+              routed
+              path
+            }
+            title
+          }
+          fieldAccordion {
+            entity {
+              ... on ParagraphStudyPageAccordion {
+                fieldStudyPageAccordionTitle
+                fieldStudyAccordionIntro
+                fieldStudyAccordionContent
+              }
+            }
+          }
+          fieldLabel {
+            entity {
+              ... on TaxonomyTermStudylabel {
+                entityId
+                entityLabel
+              }
+            }
+          }
+          fieldRightColumn {
+            entity {
+              ... on ParagraphStudypageRightColumn {
+                fieldStudy {
+                  entity {
+                    ... on ParagraphStudy {
+                      fieldAuthor
+                      fieldAuthorInstitution
+                      fieldPublicationLang {
+                        entity {
+                          ... on TaxonomyTermPublicationlanguage {
+                            entityId
+                            entityLabel
+                          }
+                        }
+                      }
+                      fieldYear
+                      fieldOrderer
+                      fieldPublisher
+                      fieldPublicationType {
+                        entity {
+                          ... on TaxonomyTermPublicationtype {
+                            entityId
+                            entityLabel
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                fieldAdditionalLinks {
+                  entity {
+                    ... on ParagraphAdditionalLinks {
+                      fieldLinks {
+                        url {
+                          routed
+                          path
+                        }
+                        title
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -56,6 +56,7 @@ export class FiltersDirective implements AfterViewInit, OnDestroy {
     Object.keys(queryParams).forEach((item) => {
       if (Array.isArray(queryParams[item])) {
         queryParams[item] = queryParams[item].join(';');
+        if (!queryParams[item].length) delete queryParams[item];
       }
     });
 

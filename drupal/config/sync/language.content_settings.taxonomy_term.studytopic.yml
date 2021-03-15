@@ -1,0 +1,11 @@
+uuid: eb3dc7e9-31c2-4ec1-a7d4-e816cc966496
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytopic
+id: taxonomy_term.studytopic
+target_entity_type_id: taxonomy_term
+target_bundle: studytopic
+default_langcode: site_default
+language_alterable: false

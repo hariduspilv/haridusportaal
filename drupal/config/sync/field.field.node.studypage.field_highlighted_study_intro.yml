@@ -10,7 +10,7 @@ field_name: field_highlighted_study_intro
 entity_type: node
 bundle: studypage
 label: 'Esiletõstetud uuringu sissejuhatus'
-description: ''
+description: 'Uuringute nimekirja vaates esiletõstetud uuringut tutvustav tekst'
 required: false
 translatable: false
 default_value: {  }

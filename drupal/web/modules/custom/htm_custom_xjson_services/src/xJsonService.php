@@ -355,7 +355,7 @@ class xJsonService implements xJsonServiceInterface {
             $return['body']['steps'][$step_key]['messages'] = [];
           }
         } else {
-          // add all other steps aswel
+          // add all other steps as well
           $return['body']['steps'][$step_key]['title'] = $step['title'];
         }
       }
@@ -471,7 +471,7 @@ class xJsonService implements xJsonServiceInterface {
       case 'file':
         if ($table) $additional_keys = ['width', 'acceptable_extensions'];
         else $additional_keys = ['multiple', 'acceptable_extensions', 'max_size'];
-        /*TODO File check if array aswel*/
+        /*TODO File check if array as well*/
         if ($element && $element['value']) {
           if (is_array($element['value'])) {
             foreach ($element['value'] as $value) {
@@ -606,6 +606,5 @@ class xJsonService implements xJsonServiceInterface {
 
     return $json;
   }
-
 
 }

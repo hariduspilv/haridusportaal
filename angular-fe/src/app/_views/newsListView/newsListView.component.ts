@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, AfterViewInit, ContentChildren, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 export class NewsListViewComponent implements AfterViewInit {
   @Input() path: string;
   @ViewChild('filterToggle') filterToggle: ElementRef;
+  @ViewChild('detailed') detailed: ElementRef;
 
   lang: any;
   params: any;
@@ -59,6 +60,15 @@ export class NewsListViewComponent implements AfterViewInit {
     };
   }
 
+  expandFilters(): void {
+    this.filterFull = !this.filterFull;
+
+    setTimeout(() => {
+      const detailedBtn = this.detailed?.nativeElement;
+      if(detailedBtn) detailedBtn.focus();
+     });
+  }
+  
   getTags() {
 
     const variables = {
