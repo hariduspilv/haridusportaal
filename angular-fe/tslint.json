@@ -3,6 +3,14 @@
     "tslint-config-airbnb"
   ],
   "rules": {
+    "max-line-length": {
+      "options": [125]
+    },
+    "no-conditional-assignment": true,
+    "no-sparse-arrays": true,
+    "restrict-plus-operands": true,
+    "no-invalid-template-strings": true,
+    "no-boolean-literal-compare": true,
     "no-console": {
       "severity": "warning"
     }

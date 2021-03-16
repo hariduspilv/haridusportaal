@@ -41,7 +41,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   public listOffset = 0;
   public listCount = 0;
   public professionCount = 0;
-  public generalCount = 0;
+  public nonProfessionCount = 0;
 
   private paramsWatcher: Subscription = new Subscription();
   private httpWatcher: Subscription = new Subscription();
@@ -56,6 +56,8 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   public canLoadMore: boolean = true;
   public noResultStringByType: string = 'news.no_results';
   private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
+  public listItemCount: number;
+  public searchWithParams: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -71,7 +73,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
       list,
       highlight,
       listCount: this.listCount,
-      generalCount: this.generalCount,
+      nonProfessionCount: this.nonProfessionCount,
       professionCount: this.professionCount,
     });
   }
@@ -190,9 +192,15 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           this.list = [];
         }
 
+        this.searchWithParams = !!Object.values(this.route.snapshot.queryParams)
+          .filter(val => val)?.length;
         if (listValue) {
           this.loading = false;
           this.loadingMore = false;
+          this.listCount = this.scrollRestorationValues[this.type].listItemCount;
+          this.nonProfessionCount = this.scrollRestorationValues[this.type].nonProfessionCount;
+          this.professionCount = this.scrollRestorationValues[this.type].professionCount;
+          this.listCount = this.scrollRestorationValues[this.type].listItemCount;
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             if (position) {
@@ -210,10 +218,10 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           (response) => {
             this.loading = false;
             this.loadingMore = false;
-            // if (response['data']['countProfessionsValueFalse']) {
-            //   this.generalCount = response['data']['countProfessionsValueFalse']['count'];
-            //   this.professionCount = response['data']['countProfessionsValue']['count'];
-            // }
+            if (response['data']['countProfessionsFalseValue']) {
+              this.nonProfessionCount = response['data']['countProfessionsFalseValue']['count'];
+              this.professionCount = response['data']['countProfessionsValue']['count'];
+            }
             this.listCount = response['data']['nodeQuery']['count'];
             const listData = response['data']['nodeQuery']['entities'];
             if (append) {
@@ -257,6 +265,9 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         values,
         list: this.list,
         canLoadMore: this.canLoadMore,
+        listItemCount: this.listCount,
+        nonProfessionCount: this.nonProfessionCount,
+        professionCount: this.professionCount,
         highlight: this.filteredJob,
       },
     });

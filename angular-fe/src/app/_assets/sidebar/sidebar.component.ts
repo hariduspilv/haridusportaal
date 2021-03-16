@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostBinding,
   Input,
   OnChanges,
@@ -35,7 +36,7 @@ import { AccessType } from '@app/modules/certificates/models/enums/access-type.e
 import { IdCodePipe } from '@app/_pipes/idCode.pipe';
 import { CertificateAccess } from '@app/modules/certificates/models/interfaces/certificate-access';
 import { AccessScope } from '@app/modules/certificates/models/enums/access-scope.enum';
-import { FileFormat } from '@app/_core/models/file-format.enum';
+import { FileFormat } from '@app/_core/models/enums/file-format.enum';
 import { CertificateTranscriptTemplateType } from '@app/modules/certificates/models/enums/certificate-transcript-template-type.enum';
 import { Certificate } from '@app/modules/certificates/models/interfaces/certificate';
 import { TitleCasePipe } from '@angular/common';
@@ -394,6 +395,7 @@ export class SidebarActionsComponent implements OnInit{
 })
 export class SidebarLocationComponent {
   @Input() public data: any;
+  constructor(private el: ElementRef){}
   private markers: any[] = [];
   private options = {
     centerLat: null,
@@ -406,6 +408,15 @@ export class SidebarLocationComponent {
     enableStreetViewControl: false,
     draggable: false,
   };
+  
+  mapLoaded() {
+    setTimeout(() => {
+      const elements = this.el.nativeElement.querySelectorAll('agm-map a')
+        elements.forEach(element => {
+          element.setAttribute('tabindex', '-1')
+        });  
+    }, 3000);
+  }
 
   public parseData() {
     if (this.data && this.data.length) {
@@ -458,6 +469,7 @@ export class SidebarLocationComponent {
   public ngOnInit() {
     this.parseData();
   }
+
 }
 
 @Component({
