@@ -11,6 +11,8 @@ export interface ListRestorationType {
   activeFilters?: any[];
   fullList?: Object[];
   listItemCount?: number;
+  nonProfessionCount?: number;
+  professionCount?: number;
 }
 @Injectable({
   providedIn: 'root',
