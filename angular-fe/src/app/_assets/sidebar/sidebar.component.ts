@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostBinding,
   Input,
   OnChanges,
@@ -394,6 +395,7 @@ export class SidebarActionsComponent implements OnInit{
 })
 export class SidebarLocationComponent {
   @Input() public data: any;
+  constructor(private el: ElementRef){}
   private markers: any[] = [];
   private options = {
     centerLat: null,
@@ -406,6 +408,15 @@ export class SidebarLocationComponent {
     enableStreetViewControl: false,
     draggable: false,
   };
+  
+  mapLoaded() {
+    setTimeout(() => {
+      const elements = this.el.nativeElement.querySelectorAll('agm-map a')
+        elements.forEach(element => {
+          element.setAttribute('tabindex', '-1')
+        });  
+    }, 3000);
+  }
 
   public parseData() {
     if (this.data && this.data.length) {
@@ -458,6 +469,7 @@ export class SidebarLocationComponent {
   public ngOnInit() {
     this.parseData();
   }
+
 }
 
 @Component({
