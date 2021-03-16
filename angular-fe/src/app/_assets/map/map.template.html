@@ -90,7 +90,7 @@
         <div class="pair__value">{{ item.value | shorten: 20: '...' }}</div>
       </div>
     </div>
-    <a class="outerLink" *ngIf="options.enableOuterLink" href="http://www.google.com/maps/place/{{ options.centerLat }},{{ options.centerLng }}" target="_blank">
+    <a class="outerLink" *ngIf="options.enableOuterLink" href="http://www.google.com/maps/place/{{ options.centerLat }},{{ options.centerLng }}" attr.aria-label="{{'button.map_closer' | translate}}" target="_blank">
       <icon glyph="external-link" size="medium"></icon>
       <span>{{'button.map_closer' | translate}}</span>
     </a>
