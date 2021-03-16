@@ -1,6 +1,6 @@
 {
   "name": "haridusportaal-fe",
-  "version": "9.55.8",
+  "version": "9.55.9",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
