@@ -1,6 +1,5 @@
 import { FormGroup } from '@angular/forms';
 import { FinalDocumentDownloadSidebar, FinalDocumentHistorySidebar } from '@app/_assets/sidebar/models/final-document-download-sidebar';
-import { SortDirection } from '@app/_core/models/Sorting';
 import { sortByMultipleKeys } from '@app/_core/sortingUtilities';
 import { CertificateData } from './models/interfaces/certificate-data';
 import {
@@ -17,6 +16,7 @@ import { GraduationDocumentType } from './models/enums/graduation-document-type.
 import { CertificateDocumentContent } from './models/interfaces/certificate-document-content';
 import { CertificateDocumentResponse } from './models/interfaces/certificate-document-response';
 import { GraduationCertificate } from './models/interfaces/graduation-certificate';
+import { SortDirection } from '@app/_core/models/enums/sort-direction.enum';
 
 export class CertificatesUtility {
 

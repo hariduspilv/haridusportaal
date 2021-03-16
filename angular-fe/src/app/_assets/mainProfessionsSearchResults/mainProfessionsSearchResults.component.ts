@@ -56,6 +56,8 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   public canLoadMore: boolean = true;
   public noResultStringByType: string = 'news.no_results';
   private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
+  public listItemCount: number;
+  public searchWithParams: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -190,9 +192,12 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           this.list = [];
         }
 
+        this.searchWithParams = !!Object.values(this.route.snapshot.queryParams)
+          .filter(val => val)?.length;
         if (listValue) {
           this.loading = false;
           this.loadingMore = false;
+          this.listCount = this.scrollRestorationValues[this.type].listItemCount;
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             if (position) {
@@ -257,6 +262,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         values,
         list: this.list,
         canLoadMore: this.canLoadMore,
+        listItemCount: this.listCount,
         highlight: this.filteredJob,
       },
     });

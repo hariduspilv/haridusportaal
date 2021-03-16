@@ -7,7 +7,6 @@ dependencies:
     - paragraphs.paragraphs_type.homepage_topics_new
   module:
     - link
-    - maxlength
 id: paragraph.homepage_topics_new.default
 targetEntityType: paragraph
 bundle: homepage_topics_new
