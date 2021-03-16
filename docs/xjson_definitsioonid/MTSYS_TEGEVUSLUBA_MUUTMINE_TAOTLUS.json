@@ -1,0 +1,49 @@
+{
+  "header": {
+    "endpoint": "EHIS",
+    "form_name": "MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS",
+    "number_of_steps": 2
+  },
+  "body": {
+    "title": {
+      "et": "Tegevusloa muutmise taotlus"
+    },
+    "steps": {
+      "step_0": {
+        "editable": true,
+        "sequence": 0,
+        "title": {
+          "et": "Taotlemine"
+        },
+        "data_elements": {
+          "menetlusKommentaar": {
+            "type": "textarea",
+            "required": true,
+            "title": {
+              "et": "Selgitus"
+            },
+            "helpertext": {
+              "et": "Kui olete kindel, et soovite tegevusluba muuta, siis sisestage selgitus ja vajutage Esita"
+            }
+          }
+        }
+      },
+      "step_1": {
+        "editable": false,
+        "sequence": 1,
+        "title": {
+          "et": "Taotluse vastus"
+        },
+        "data_elements": {
+          "infotekst": {
+            "type": "text",
+            "title": {
+              "et": "Tulemus"
+            },
+            "readonly": true
+          }
+        }
+      }
+    }
+  }
+}

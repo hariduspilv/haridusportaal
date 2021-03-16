@@ -1,0 +1,299 @@
+{
+  "header": {
+    "endpoint": "EHIS",
+    "form_name": "MTSYS_TEGEVUSLUBA",
+    "number_of_steps": 1
+  },
+  "body": {
+    "title": {
+      "et": "Tegevusluba"
+    },
+    "steps": {
+      "step_0": {
+        "sequence": 0,
+        "editable": false,
+        "title": {
+          "et": "Tegevusluba"
+        },
+        "data_elements": {
+          "tegevusloaandmedPealkiri": {
+            "type": "heading",
+            "title": {
+              "et": "Tegevusloa andmed"
+            }
+          },
+          "tegevusloaLiik": {
+            "type": "selectlist",
+            "title": {
+              "et": "Tegevusloa liik"
+            },
+            "options_list": "tegevusloaLiigid",
+            "readonly": true
+          },
+          "tegevusloaStaatus": {
+            "type": "selectlist",
+            "title": {
+              "et": "Tegevusloa staatus"
+            },
+            "options_list": "oppekavaStaatused",
+            "readonly": true
+          },
+          "tegevusloaNumber": {
+            "type": "text",
+            "title": {
+              "et": "Tegevusloa number"
+            },
+            "readonly": true
+          },
+          "oppekavaNimetus": {
+            "type": "text",
+            "title": {
+              "et": "Õppekava nimetus"
+            },
+            "readonly": true
+          },
+          "kaskkirjaNr": {
+            "type": "text",
+            "title": {
+              "et": "Käskkirja number"
+            },
+            "readonly": true
+          },
+          "kaskkirjaKuupaev": {
+            "type": "date",
+            "title": {
+              "et": "Käskkirja kuupäev"
+            },
+            "readonly": true
+          },
+          "alguseKuupaev": {
+            "type": "date",
+            "title": {
+              "et": "Kehtivuse alguse kuupäev"
+            },
+            "readonly": true
+          },
+          "lopuKuupaev": {
+            "type": "date",
+            "title": {
+              "et": "Kehtivuse lõpu kuupäev"
+            },
+            "readonly": true
+          },
+          "tuhistamiseKuupaev": {
+            "type": "date",
+            "title": {
+              "et": "Tühistamise kuupäev"
+            },
+            "readonly": true
+          },
+          "laagriNimetus": {
+            "type": "text",
+            "title": {
+              "et": "Laagri nimetus"
+            },
+            "readonly": true
+          },
+          "kohtadeArvLaagris": {
+            "type": "number",
+            "title": {
+              "et": "Kohtade arv laagris"
+            },
+            "readonly": true
+          },
+          "tkkLiik": {
+            "type": "selectlist",
+            "title": {
+              "et": "TKK liik"
+            },
+            "options_list": "tkkLiigid",
+            "readonly": true
+          },
+          "keeleTase": {
+            "type": "selectlist",
+            "title": {
+              "et": "Keele tase"
+            },
+            "options_list": "eestiKeeleTasemed",
+            "readonly": true
+          },
+          "soidukiteKategooria": {
+            "type": "selectlist",
+            "title": {
+              "et": "Sõidukite kategooria"
+            },
+            "options_list": "soidukiKategooriad",
+            "readonly": true
+          },
+          "oppeTasemed": {
+            "type": "table",
+            "title": {
+              "et": "Õppetasemed"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "nimetus": {
+                "type": "text",
+                "title": {
+                  "et": "Nimetus"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "oppekavaRuhmad": {
+            "type": "table",
+            "title": {
+              "et": "Õppekavarühmad"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "nimetus": {
+                "type": "selectlist",
+                "title": {
+                  "et": "Nimetus"
+                },
+                "options_list": "opperyhmad",
+                "readonly": true
+              }
+            }
+          },
+          "aadressiPealkiri": {
+            "type": "heading",
+            "title": {
+              "et": "Asukoht"
+            }
+          },
+          "valisAadress": {
+            "type": "checkbox",
+            "title": {
+              "et": "Tegevus toimub välisriigi aadressil"
+            },
+            "readonly": true
+          },
+          "aadressid": {
+            "type": "table",
+            "title": {
+              "et": "Aadressid"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "aadress": {
+                "type": "address",
+                "title": {
+                  "et": "Aadress"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "kontaktidPealkiri": {
+            "type": "heading",
+            "title": {
+              "et": "Kontaktandmed"
+            }
+          },
+          "oppeasutuseNimetus": {
+            "type": "text",
+            "title": {
+              "et": "Õppeasutuse nimetus"
+            },
+            "readonly": true
+          },
+          "omanik": {
+            "type": "text",
+            "title": {
+              "et": "Omanik"
+            },
+            "readonly": true
+          },
+          "kontaktisik": {
+            "type": "text",
+            "title": {
+              "et": "Kontaktisik"
+            },
+            "readonly": true
+          },
+          "telefon": {
+            "type": "text",
+            "title": {
+              "et": "Õppeasutuse üldtelefon"
+            },
+            "readonly": true
+          },
+          "epost": {
+            "type": "email",
+            "title": {
+              "et": "Õppeasutuse e-posti aadress"
+            },
+            "readonly": true
+          },
+          "koduleht": {
+            "type": "text",
+            "title": {
+              "et": "Õppeasutuse kodulehe aadress"
+            },
+            "readonly": true
+          },
+          "peatamised": {
+            "type": "table",
+            "title": {
+              "et": "Peatamised"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "algusKp": {
+                "type": "date",
+                "title": {
+                  "et": "Alguse kuupäev"
+                },
+                "readonly": true
+              },
+              "loppKp": {
+                "type": "date",
+                "title": {
+                  "et": "Lõpu kuupäev"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "dokumendid": {
+            "type": "table",
+            "title": {
+              "et": "Dokumendid"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "liik": {
+                "type": "selectlist",
+                "title": {
+                  "et": "Liik"
+                },
+                "options_list": "failiTyybid",
+                "readonly": true
+              },
+              "fail": {
+                "type": "file",
+                "title": {
+                  "et": "Fail"
+                },
+                "acceptable_extensions": [
+                  "pdf"
+                ],
+                "readonly": true
+              },
+              "kommentaar": {
+                "type": "textarea",
+                "title": {
+                  "et": "Kommentaar"
+                },
+                "readonly": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
