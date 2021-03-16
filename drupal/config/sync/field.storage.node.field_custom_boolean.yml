@@ -1,15 +1,14 @@
-uuid: 0b76b9cf-9e9f-4815-b52b-e010a7f70f95
+uuid: 27878f53-cd16-488a-b356-b9006f1b9458
 langcode: et
 status: true
 dependencies:
   module:
     - node
-id: node.field_highlighted_study_intro
-field_name: field_highlighted_study_intro
+id: node.field_custom_boolean
+field_name: field_custom_boolean
 entity_type: node
-type: string_long
-settings:
-  case_sensitive: false
+type: boolean
+settings: {  }
 module: core
 locked: false
 cardinality: 1
