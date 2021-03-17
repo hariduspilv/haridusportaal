@@ -48,7 +48,7 @@
         },
         "year": {
           "type": "string",
-          "minLength": 1900
+          "minLength": 1
         }
       }
     },
@@ -56,13 +56,16 @@
       "type": "object",
       "properties": {
         "day": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "month": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "year": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         }
       }
     },
