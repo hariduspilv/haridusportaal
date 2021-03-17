@@ -48,29 +48,26 @@
         },
         "year": {
           "type": "string",
-          "minLength": 1900
+          "minLength": 1
         }
-      },
-      "required": [
-        "et"
-      ]
+      }
     },
     "max_date": {
       "type": "object",
       "properties": {
         "day": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "month": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "year": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         }
-      },
-      "required": [
-        "et"
-      ]
+      }
     },
     "readonly": {
       "type": "boolean"
