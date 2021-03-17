@@ -1,5 +1,4 @@
-import { SortDirection } from './models/Sorting';
-
+import { SortDirection } from './models/enums/sort-direction.enum';
 export interface MultipleSortKeys {
   key: string;
   direction?: SortDirection;

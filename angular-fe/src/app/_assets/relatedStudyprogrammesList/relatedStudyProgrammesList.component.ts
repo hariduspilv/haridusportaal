@@ -35,6 +35,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
 
   public page: number = 0;
   public totalItems: number = 0;
+  public searchWithParams: boolean = false;
 
   public relatedProgrammesForm: FormGroup = this.formBuilder.group(
     {
@@ -72,6 +73,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
         0);
     }
 
+    this.searchWithParams = !!this.relatedProgrammesForm.controls.address.value;
     if (restoredList) {
       const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
         if (position[this.nid]) {
@@ -99,18 +101,19 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
           } else {
 
             if (this.type === 'school') {
+              this.totalItems = res.data.nodeQuery.entities.length;
               this.list = [
                 ...this.list,
                 ...this.localFieldVary(res.data.nodeQuery.entities),
               ];
             } else {
+              this.totalItems = res.data.CustomStudyProgrammeElasticQuery2.count;
               this.list = [
                 ...this.list,
                 ...this.localFieldVary(res.data.CustomStudyProgrammeElasticQuery2.entities),
               ];
             }
 
-            this.totalItems = this.list.length;
           }
           this.loading = false;
           this.loadingMore = false;

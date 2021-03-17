@@ -1,0 +1,49 @@
+{
+  "header": {
+    "endpoint": "EHIS",
+    "form_name": "MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS",
+    "number_of_steps": 2
+  },
+  "body": {
+    "title": {
+      "et": "Tegevusloa sulgemise taotlus"
+    },
+    "steps": {
+      "step_0": {
+        "sequence": 0,
+        "editable": true,
+        "title": {
+          "et": "Taotlemine"
+        },
+        "data_elements": {
+          "menetlusKommentaar": {
+            "type": "textarea",
+            "required": true,
+            "title": {
+              "et": "Selgitus"
+            },
+            "helpertext": {
+              "et": "Kui olete kindel, et soovite tegevusloa kehtivust lõpetada, siis sisestage selgitus ja vajutage Esita"
+            }
+          }
+        }
+      },
+      "step_1": {
+        "sequence": 1,
+        "editable": false,
+        "title": {
+          "et": "Taotluse vastus"
+        },
+        "data_elements": {
+          "infotekst": {
+            "type": "text",
+            "title": {
+              "et": "Tulemus"
+            },
+            "readonly": true
+          }
+        }
+      }
+    }
+  }
+}

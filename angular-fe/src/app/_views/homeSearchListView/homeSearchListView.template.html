@@ -40,6 +40,7 @@
 						</ng-container>
 					</div>
 				</ng-container>
+				<label-count *ngIf="!loading && filteredResults?.length" [count]="filteredResults?.length">{{ 'search.results_of' | translate }}: </label-count>
 				<loader *ngIf="loading"></loader>
 				<ng-container *ngIf="filteredResults && filteredResults.length">
 					<ng-container *ngFor="let item of filteredResults;let i = index;">
@@ -81,14 +82,15 @@
 				<div class="text-center actions__error" *ngIf="!loading && !filteredResults">
 					<div class="alert text-center" role="alert">{{ 'news.no_results' | translate }}</div>
 				</div>
-				<div class="text-center actions"
-					*ngIf="listLength > listLimit && filteredResults && filteredResults.length">
-					<div class="loadMore">
-						<button htm-button (click)="loadMore()">{{ 'button.load_more' | translate }}</button>
-					</div>
-				</div>
 				<!--/text-center-->
 			</block-content>
 		</block>
+		<div class="text-center actions"
+			*ngIf="listLength > listLimit && filteredResults && filteredResults.length">
+			<button htm-button (click)="loadMore()">
+				<span>{{ 'button.load_more' | translate }}</span>
+				<span> ({{ filteredResults.length - listLimit }})</span>
+			</button>
+		</div>
 	</div><!--/inline-->
 </base-layout>
