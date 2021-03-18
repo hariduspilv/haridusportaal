@@ -1,10 +1,11 @@
 {
   "name": "haridusportaal-fe",
-  "version": "9.55.1",
+  "version": "9.55.9",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "build-dev": "ng build --configuration=dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

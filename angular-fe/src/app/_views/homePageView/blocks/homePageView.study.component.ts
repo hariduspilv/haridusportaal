@@ -11,7 +11,6 @@ export class HomePageStudyComponent {
   @Input() title: string;
   @Input() intro: string;
   @Input() data: IStudy[];
-  @Input() learnMore = true;
 
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;

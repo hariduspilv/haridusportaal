@@ -1,3 +1,4 @@
+
 // tslint:disable
 export const collection = {
   'nodeQuery': 'articles',
@@ -187,7 +188,7 @@ export const parseProfessionData = (inputData, translate) => {
 
     if (mappedData['fieldProfession']) additionalData = additionalData.slice(1);
 
-    additionalData.forEach((item, index) => {
+    additionalData.forEach((item) => {
       let match = false;
       mappedData['fieldQuickFind'].forEach((link) => {
         if (link.title === item.title) {

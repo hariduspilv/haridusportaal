@@ -25,7 +25,7 @@
 							[id]="data.nid"
 							[state]="data.isFavorite">
 						</favourite>
-						<share [title]="title"></share>
+						<share [pageTitle]="title"></share>
 						<compare *ngIf="compareKey" [id]="data.nid" [sessionStorageKey]="compareKey"></compare>
 						<labels *ngIf="data.fixedLabel" [data]="[data.fixedLabel.entity]" type="orange"></labels>
 					</div><!--/toolbar-->
@@ -77,9 +77,10 @@
 					<accordion [collapsible]="true" *ngIf="data.accordion">
 						<accordion-item [active]="ind === 0 && type === 'profession'" *ngFor="let item of data.accordion; let ind = index" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
 							<ng-template>
-							<ng-container *ngIf="!item.entity.professions">
+							<ng-container *ngIf="!item.entity?.professions">
 								<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
-								<links *ngIf="item.entity.fieldRelatedArticle && item.entity.fieldRelatedArticle.length > 0" [data]="item.entity.fieldRelatedArticle"></links>
+								<links *ngIf="item.entity?.fieldRelatedArticle?.length > 0" [data]="item.entity.fieldRelatedArticle"></links>
+								<links *ngIf="item.entity?.fieldLinks?.length > 0" [data]="item.entity.fieldLinks"></links>
 							</ng-container>
 							<ng-container *ngIf="item.entity.professions">
 								<listItems [list]="item.entity.professions" orderBy="title" type='mainProfession' addonClass="list__item--detailedProfession"></listItems>

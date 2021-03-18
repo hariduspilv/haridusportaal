@@ -8,12 +8,11 @@ import {
   BlockTitleComponent,
   BlockSecondaryTitleSubtextComponent,
 } from './block';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ButtonComponent } from './button';
 import { LoaderComponent } from './loader';
 import { SkeletonComponent } from './skeleton';
 import { IconComponent } from './icon';
-import { BreadcrumbsComponent } from './breadcrumbs';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { SchoolTable, StudyProgrammeTable, TableComponent } from './table';
@@ -112,6 +111,7 @@ import { InlineLinksComponent } from './inline-links/inline-links.component';
 import { InlineArticlesComponent } from './inline-articles/inline-articles.component';
 import { ArticlesSingleComponent } from './articles-single/articles-single.component';
 import { NewsletterOrderComponent } from './newsletter-order/newsletter-order.component';
+import { LabelCountComponent } from './label-count/label-count.component';
 import { PictoComponent } from './picto';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
@@ -124,7 +124,8 @@ import { SessionExpirationComponent } from './sessionExpiration';
 import { MoreBlockComponent } from './more.block/more.block.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ToggletipComponent } from './toggleTip/toggleTip.component';
-import { MainProfessionsSearchResultsComponent } from './mainProfessionsSearchResults/mainProfessionsSearchResults.component';
+import {
+  MainProfessionsSearchResultsComponent } from './mainProfessionsSearchResults/mainProfessionsSearchResults.component';
 import { TagComponent } from './tag/tag.component';
 import { CertificateDetailedComponent } from '@app/modules/certificates/components/certificate-detailed/certificate-detailed.component';
 import { CarouselComponent } from './carousel/carousel.component';
@@ -133,6 +134,9 @@ import { CertificatesComponent } from '@app/modules/certificates/components/cert
 import { CertificateDocumentCheckComponent } from '@app/modules/certificates/components/certificate-document-check/certificate-document-check.component';
 import { CertificateFinalDocumentsComponent } from '@app/modules/certificates/components/certificate-final-documents/certificate-final-documents.component';
 import { CertificateGradeSheetComponent } from '@app/modules/certificates/components/certificate-grade-sheet/certificate-grade-sheet.component';
+import { BaseLayoutModule } from './base-layout/base-layout.module';
+import { IconModule } from './icon/icon.module';
+import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -161,8 +165,6 @@ const declarations = [
   CarouselComponent,
   LoaderComponent,
   SkeletonComponent,
-  IconComponent,
-  BreadcrumbsComponent,
   AccordionComponent,
   AccordionItemComponent,
   TableComponent,
@@ -184,7 +186,6 @@ const declarations = [
   ModalComponent,
   ModalContentComponent,
   MainProfessionsComponent,
-  BaseLayout,
   ArticleLayout,
   SidebarComponent,
   SidebarLinksComponent,
@@ -239,12 +240,18 @@ const declarations = [
   SessionExpirationComponent,
   MoreBlockComponent,
   TooltipComponent,
+  LabelCountComponent,
   MainProfessionsSearchResultsComponent,
   TagComponent,
   ...certificatesModuleDeclarations,
 ];
 
-const exports = [NgbTooltipModule];
+const exports = [
+  NgbTooltipModule,
+  BaseLayoutModule,
+  IconModule,
+  BreadcrumbsModule,
+];
 
 const providers = [
   RippleService,
@@ -261,6 +268,7 @@ const providers = [
   QueryParamsService,
   ScrollRestorationService,
   AnalyticsService,
+  TitleCasePipe,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',
@@ -298,6 +306,9 @@ const imports = [
   ReactiveFormsModule,
   A11yModule,
   NgxUsefulSwiperModule,
+  BaseLayoutModule,
+  IconModule,
+  BreadcrumbsModule,
 ];
 
 @NgModule({

@@ -19,6 +19,8 @@
 >
 	<ng-template>
 		<h1>{{'finaldocuments.action_history' | translate}}</h1>
+		<loader *ngIf="loadingDownload"></loader>
+		<alerts small="true" id="documentAlerts"></alerts>
 		<ng-container *ngIf="actionHistory.length > 0; else noResults">
 			<scrollableContent scrollParentClass="modal__block">
 				<table htm-table>
@@ -35,7 +37,7 @@
 							<button
 								htm-button
 								theme="link"
-								*ngIf="action.document"
+								*ngIf="action.document?.id && action.document.status !== 'CERT_DOCUMENT_STATUS:INVALID'"
 								(click)="openDocument(action.document)"
 							>
 								{{ 'button.open' | translate }}

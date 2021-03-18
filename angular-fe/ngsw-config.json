@@ -42,12 +42,16 @@
   ],
   "navigationUrls": [
     "/**",
+    "!/main*.*.js",
+    "!/auth.html**",
     "!/amp/**",
     "!/stats",
     "!/stats/**",
     "!/picto",
     "!/picto/**",
     "!/storybook",
-    "!/storybook/**"
+    "!/storybook/**",
+    "!/sitemap.xml",
+    "!/robots*.txt"
   ]
 }

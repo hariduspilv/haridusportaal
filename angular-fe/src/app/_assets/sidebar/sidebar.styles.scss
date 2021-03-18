@@ -111,12 +111,12 @@
           }
         }
       }
-      sidebar-events, sidebar-notifications {
+      sidebar-events, sidebar-notifications, sidebar-links {
         .bottom {
           margin-top: 1rem;
           display: flex;
           justify-content: center;
-          a {
+          a, button {
             text-decoration: underline;
             &:hover {
               text-decoration: none;
@@ -144,6 +144,10 @@
         .no-link {
           text-decoration: none !important;
           color: #333;
+        }
+        .showMore {
+          border-radius: 0;
+          padding: 0;
         }
       }
       sidebar-categories {

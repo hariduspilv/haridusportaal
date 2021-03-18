@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostBinding,
   Input,
   OnChanges,
@@ -29,13 +30,16 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { RecaptchaComponent } from 'ng-recaptcha';
 import { CertificatesUtility } from '@app/modules/certificates/certificates.utility';
 import { CertificatesApi } from '@app/modules/certificates/certificates.api.service';
-import { FinalDocumentDownloadSidebar } from './models/final-document-download-sidebar';
+import { FinalDocumentDownloadSidebar, FinalDocumentHistorySidebar } from './models/final-document-download-sidebar';
 import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/interfaces/certificate-document';
 import { AccessType } from '@app/modules/certificates/models/enums/access-type.enum';
 import { IdCodePipe } from '@app/_pipes/idCode.pipe';
 import { CertificateAccess } from '@app/modules/certificates/models/interfaces/certificate-access';
 import { AccessScope } from '@app/modules/certificates/models/enums/access-scope.enum';
-import { FileFormat } from '@app/_core/models/file-format.enum';
+import { FileFormat } from '@app/_core/models/enums/file-format.enum';
+import { CertificateTranscriptTemplateType } from '@app/modules/certificates/models/enums/certificate-transcript-template-type.enum';
+import { Certificate } from '@app/modules/certificates/models/interfaces/certificate';
+import { TitleCasePipe } from '@angular/common';
 
 interface SidebarType {
   [key: string]: string;
@@ -215,6 +219,7 @@ export class SidebarComponent implements OnInit, OnChanges {
 export class SidebarLinksComponent implements OnInit, OnChanges {
   @Input() public data: Object[];
   public parsedData: Object[];
+  public showAll = false;
   public blocks;
 
   constructor() {
@@ -390,6 +395,7 @@ export class SidebarActionsComponent implements OnInit{
 })
 export class SidebarLocationComponent {
   @Input() public data: any;
+  constructor(private el: ElementRef){}
   private markers: any[] = [];
   private options = {
     centerLat: null,
@@ -402,6 +408,15 @@ export class SidebarLocationComponent {
     enableStreetViewControl: false,
     draggable: false,
   };
+  
+  mapLoaded() {
+    setTimeout(() => {
+      const elements = this.el.nativeElement.querySelectorAll('agm-map a')
+        elements.forEach(element => {
+          element.setAttribute('tabindex', '-1')
+        });  
+    }, 3000);
+  }
 
   public parseData() {
     if (this.data && this.data.length) {
@@ -454,6 +469,7 @@ export class SidebarLocationComponent {
   public ngOnInit() {
     this.parseData();
   }
+
 }
 
 @Component({
@@ -1109,10 +1125,11 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   templateUrl: './templates/sidebar.finaldocument-history.template.html',
 })
 export class SidebarFinalDocumentHistoryComponent implements OnInit {
-  @Input() public data: any;
+  @Input() public data: FinalDocumentHistorySidebar;
   public issuingHistory = [];
   public actionHistory = [];
   public documentCache = {};
+  public loadingDownload: boolean = false;
   public loadingDocument: boolean = true;
   public loadingDocumentError: boolean = false;
   public documentToShow: number;
@@ -1122,12 +1139,39 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
     private settings: SettingsService,
     private route: ActivatedRoute,
     public modal: ModalService,
+    private certificatesApi: CertificatesApi,
     private alertsService: AlertsService,
+    private titleCasePipe: TitleCasePipe,
   ) {
   }
 
   public ngOnInit() {
     this.getData();
+  }
+
+  constructDocumentName(data: Certificate, fileFormat: FileFormat): string {
+    const ownerName = this.titleCasePipe.transform(
+      CertificatesUtility.constructOwnerName(this.data));
+    return `${ownerName} ${data.typeName} ${data.number}.${fileFormat.toLowerCase()
+    }`;
+  }
+
+  public downloadDocument(documentId, data) {
+    this.certificatesApi.downloadTranscript(this.route.snapshot.params.id, {
+      fileFormat: FileFormat.Pdf,
+      TemplateTypes: CertificateTranscriptTemplateType.WithoutCoatOfArms,
+      documentIds: [documentId],
+      ...(this.data.accessType ? { accessType: this.data.accessType } : {}),
+      ...(this.route.snapshot.params.accessorCode ? {
+        accessorCode: this.route.snapshot.params.accessorCode
+      } : {}),
+    }).subscribe((res: Blob) => {
+      saveAs(res, this.constructDocumentName(data, FileFormat.Pdf));
+      this.loadingDownload = false;
+    }, (err: HttpErrorResponse) => {
+      this.loadingDownload = false;
+      this.alertsService.error(err.message, 'documentAlerts', false);
+    });
   }
 
   public getDocument(documentId) {
@@ -1139,22 +1183,37 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
         const document = res.document;
         document.content = JSON.parse(document.content);
         this.documentCache[res.document.id] = document;
-        this.loadingDocument = false;
+        if (this.data.generalEducationDocumentType) {
+          this.loadingDocument = false;
+          this.loadingDocumentError = false;
+          return;
+        }
+        this.downloadDocument(documentId, document);
       },
       () => {
         this.loadingDocumentError = true;
         this.loadingDocument = false;
+        this.loadingDownload = false;
         this.alertsService.error('certificates.loading_error', 'documentAlerts', '', true);
       });
   }
 
   public openDocument(document) {
-    this.modal.close('finalDocument-actionHistory');
-    this.documentToShow = document;
+    if (!this.data.generalEducationDocumentType) {
+      this.loadingDownload = true;
+    }
     if (!this.documentCache[document.id]) {
       this.getDocument(document.id);
     }
-    this.modal.toggle('finalDocument-document');
+    if (this.data.generalEducationDocumentType) {
+      this.modal.close('finalDocument-actionHistory');
+      this.documentToShow = document;
+      this.modal.toggle('finalDocument-document');
+      return;
+    }
+    if (this.documentCache[document.id]) {
+      this.downloadDocument(document.id, this.documentCache[document.id]);
+    }
   }
 
   public openIssueHistory() {
@@ -1251,14 +1310,12 @@ export class SidebarFinalDocumentDownloadComponent {
   };
 
   constructor(
-    private http: HttpClient,
-    private settings: SettingsService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     public modal: ModalService,
     private certificatesApi: CertificatesApi,
-    private translate: TranslateService,
     private alertsService: AlertsService,
+    private titleCasePipe: TitleCasePipe,
   ) {
   }
 
@@ -1287,7 +1344,10 @@ export class SidebarFinalDocumentDownloadComponent {
   }
 
   constructCertificateName(data: FinalDocumentDownloadSidebar, fileFormat: FileFormat): string {
-    return `${data.certificateName}_${data.documentName}_${data.certificateNumber}.${fileFormat.toLowerCase()}`;
+    const ownerName = this.titleCasePipe.transform(
+      CertificatesUtility.constructOwnerName(this.data));
+    const document = `${data.documentName} ${data.certificateNumber}`;
+    return `${ownerName} ${document}.${fileFormat.toLowerCase()}`;
   }
 
   dispatchErrorsToAlert(err: HttpErrorResponse): void {

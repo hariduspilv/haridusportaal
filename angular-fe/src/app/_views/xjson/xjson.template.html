@@ -33,8 +33,8 @@
               </li>
             </ul>
 
-            <div *ngIf="upperInfoText" class="upper-infotext">
-              <span tabindex="-1" attr.aria-label="{{ upperInfoText }}" innerHtml="{{ upperInfoText }}"></span>
+            <div *ngIf="data.body?.helpertext" class="upper-infotext">
+              <div tabindex="-1" [innerHtml]="selectLanguage(data.body.helpertext)"></div>
               <hr aria-hidden="true" class="divider">
             </div>
 
@@ -46,7 +46,7 @@
               </div>
 
               <!-- STEP BODY -->
-              <div *ngIf="activityButtons && activityButtons['primary']"class="row button-list button-list-top">
+              <div *ngIf="activityButtons && activityButtons['primary']" class="row button-list button-list-top">
                 <ng-container *ngFor="let activity of activityButtons['primary']">
                   <button htm-button *ngIf="activity.action == 'EDIT'" theme="default"
                     (click)="submitForm(activity.action)">
@@ -60,7 +60,7 @@
               </div>
 
               <form [class.disabled-step]="opened_step != this.max_step && !edit_step" (submit)="submitForm()"
-                *ngIf="data_elements && objectKeys(data_elements).length > 0">
+                *ngIf="data_elements && objectKeys(data_elements).length > 0 && formVisible">
 
                 <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 

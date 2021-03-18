@@ -15,6 +15,9 @@
   }
   table {
     table-layout: fixed;
+    thead tr td {
+      background: $white;
+    }
     tr {
       &.shade {
         background: $light-gray;

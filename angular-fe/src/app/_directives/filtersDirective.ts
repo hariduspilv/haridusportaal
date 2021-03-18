@@ -3,6 +3,7 @@ import {
   ContentChildren,
   Directive,
   ElementRef,
+  Input,
   OnDestroy,
   QueryList,
 } from '@angular/core';
@@ -19,6 +20,7 @@ export class FiltersDirective implements AfterViewInit, OnDestroy {
 
   @ContentChildren(FormItemComponent, { descendants: true })
     formItems: QueryList<FormItemComponent>;
+  @Input() outsideParameters: Object = {};
 
   private paramsWatcher: Subscription = new Subscription();
 
@@ -38,7 +40,10 @@ export class FiltersDirective implements AfterViewInit, OnDestroy {
   }
 
   gatherValues(): void {
-    const queryParams = {};
+    let queryParams = {};
+    if (this.outsideParameters) {
+      queryParams = { ...this.outsideParameters };
+    }
 
     this.formItems.forEach((item) => {
       const data = item.getValue();
@@ -51,6 +56,7 @@ export class FiltersDirective implements AfterViewInit, OnDestroy {
     Object.keys(queryParams).forEach((item) => {
       if (Array.isArray(queryParams[item])) {
         queryParams[item] = queryParams[item].join(';');
+        if (!queryParams[item].length) delete queryParams[item];
       }
     });
 

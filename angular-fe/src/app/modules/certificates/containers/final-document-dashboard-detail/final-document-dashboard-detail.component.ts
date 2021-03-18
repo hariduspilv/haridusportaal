@@ -9,11 +9,9 @@ import { CertificatesUtility } from '../../certificates.utility';
 import { CertificateData } from '../../models/interfaces/certificate-data';
 import { CertificateDocumentWithClassifier, FormattedCertificateDocumentData } from '../../models/interfaces/certificate-document';
 import { CertificateDocumentResponse } from '../../models/interfaces/certificate-document-response';
-import { CertificateIndex } from '../../models/interfaces/certificate-index';
 import { GraduationDocumentLanguage } from '../../models/enums/graduation-document-language.enum';
-import { GraduationDocumentType } from '../../models/enums/graduation-document-type.enum';
-import { GraduationDocumentTypeClassification } from '../../models/enums/graduation-document-type-classification.enum';
 import { CertificateDocumentContent } from '../../models/interfaces/certificate-document-content';
+import { CertificateFinalDocumentDashboardSidebar } from '../../models/interfaces/certificate-final-document-dashboard-sidebar';
 
 @Component({
   selector: 'final-document-dashboard-detail',
@@ -28,10 +26,10 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
   public generalEducationDocumentType = false;
   public typeTranslation = this.translate.get('certificates.graduation_certificate');
 
-  public sidebar = {
+  public sidebar: CertificateFinalDocumentDashboardSidebar = {
     entity: {
       finalDocumentDownload: {
-        certificateName: '',
+        certificateOwner: {},
         certificateNumber: '',
         hasGradeSheet: false,
         invalid: false,
@@ -119,8 +117,9 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
           data.index,
           this.mainLanguage,
         ).subscribe((documentsWithClassifiers: CertificateDocumentWithClassifier[]) => {
+          const validDocuments = CertificatesUtility.getValidDocuments(documentsWithClassifiers);
           this.transcriptDocuments = CertificatesUtility
-            .sortTranscriptDocuments(documentsWithClassifiers);
+            .sortTranscriptDocuments(validDocuments);
           this.sidebar = CertificatesUtility.composeSidebarData(
             this.documents, this.transcriptDocuments, this.generalEducationDocumentType);
           this.typeTranslation = CertificatesUtility.typeTitle(

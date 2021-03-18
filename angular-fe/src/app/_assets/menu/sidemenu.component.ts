@@ -27,6 +27,7 @@ import { MenuItemComponent } from './sidemenu-item.component';
 })
 export class MenuComponent implements OnInit, OnDestroy {
   public isVisible: boolean;
+  public wasClosed: boolean = false;
   public readerVisible = false;
   public version: any = environment.VERSION;
   private subscription: Subscription = new Subscription();
@@ -72,7 +73,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
       if (event instanceof NavigationEnd) {
-        this.makeActive(false);
+        this.makeActive();
       }
     });
   }
@@ -87,6 +88,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.subscription = this.sidemenuService.isVisibleSubscription.subscribe((value) => {
       this.isVisible = value;
       clearTimeout(this.visibilityBounce);
+      if (!value && this.initialSub) {
+        this.wasClosed = true;
+      }
       if (value) {
         this.readerVisible = true;
         clearTimeout(this.focusBounce);
@@ -115,7 +119,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.data.forEach((item: IMenuData) => item.firstLevel = true);
       this.cdr.detectChanges();
       if (init) {
-        this.makeActive(true);
+        this.makeActive();
       }
     });
   }
@@ -125,9 +129,8 @@ export class MenuComponent implements OnInit, OnDestroy {
    * the route changes or page reloads.
    * @param items List of menu items, starts from the items from menus in `menus`
    * @param path Browser URL
-   * @param depth Current menu depth, starts at 0
    */
-  private hasActiveInTree(items: IMenuData[], path: string, depth: number): boolean {
+  private hasActiveInTree(items: IMenuData[], path: string): boolean {
     let hasExpanded = false;
     for (const item of items) {
       const pathSplit = path.split('/');
@@ -135,22 +138,15 @@ export class MenuComponent implements OnInit, OnDestroy {
         path.replace(/\?.*/, '') === item.url.path;
 
       if (item.links && item.links.length) {
-        const has = this.hasActiveInTree(item.links, path, depth + 1);
-        if (depth === 1) {
-          item.expanded = !item.userClosed;
-          item.active = has;
-          if (!hasExpanded && (match || has)) {
-            hasExpanded = true;
-          }
+        const has = this.hasActiveInTree(item.links, path);
+  
+        if (match || has) {
+          item.expanded = true;
+          item.active = true;
+          hasExpanded = true;
         } else {
-          if (match || has) {
-            item.expanded = true;
-            item.active = true;
-            hasExpanded = true;
-          } else {
-            item.expanded = false;
-            item.active = false;
-          }
+          item.expanded = false;
+          item.active = false;
         }
       } else if (match) {
         item.active = true;
@@ -168,12 +164,12 @@ export class MenuComponent implements OnInit, OnDestroy {
    * the menu automatically when the page is a content page
    * and was opened directly (on initialization).
    */
-  private makeActive(init = false): void {
+  private makeActive(): void {
     const path = decodeURI(this.location.path());
     let opened = false;
 
     for (const menu of this.menus) {
-      if (this.hasActiveInTree(menu.items, path, 0)) {
+      if (this.hasActiveInTree(menu.items, path)) {
         opened = true;
       }
     }
@@ -190,9 +186,9 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
       }
 
-      // Open the menu when: 1. the page was just initialized 2. mobile view 3. the menu
-      // is not already visible and 4. the page is not in the list of pages not to open on
-      if (init && !this.sidemenuService.isMobileView && !this.isVisible &&
+      // Open the menu when: 1. not in mobile view 2. the menu
+      // is not already visible and 3. the page is not in the list of pages not to open on
+      if (!this.sidemenuService.isMobileView && !this.isVisible && !this.wasClosed &&
         this.sidemenuService.ignoreAutoOpen.indexOf(path) === -1) {
         this.sidemenuService.toggle();
       }
