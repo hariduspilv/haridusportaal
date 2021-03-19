@@ -177,6 +177,7 @@ export class HeaderComponent implements OnInit {
   public getAuthMethods() {
     this.loading = true;
     if (
+      this.settings.url === 'https://api.haridusportaal.twn.zone' ||
       this.settings.url === 'https://htm.wiseman.ee' ||
       this.settings.url === 'http://test-htm.wiseman.ee:30000' ||
       this.settings.url === 'https://apitest.hp.edu.ee'
