@@ -1,14 +1,38 @@
-# Docker instructions
+# FRONT-END docker instructions for different environments
+## Production build from release version (https://github.com/hariduspilv/haridusportaal/releases)
+  1. Working directory set to /angular-fe (replace build version with release tag (e.g 1.54.8))
+    1. docker build . --build-arg BUILD_VERSION=1.54.8 -t hub.wiseman.ee/htm/angular:prod
+    2. docker push hub.wiseman.ee/htm/angular:prod
+## Develop (building from current working branch)
+### SERVER:
+  * root@haridusportaal.twn.zone
+
+### CI:
+  https://bamboo.twn.ee/browse/HP-DEVFE
+
+### MANUAL DEPLOY:
+
+#### Working directory set to /haridusportaal, build new image:
+  * Possible repositories, docker-compose.yaml specifies currently used one
+    * harbor.twn.zone/haridusportaal/angular:develop
+    * hub.wiseman.ee/htm/angular-dev:develop
+
+  1. docker build . -t harbor.twn.zone/haridusportaal/angular:develop -f docker/develop/Dockerfile.angular
+  2. docker push harbor.twn.zone/haridusportaal/angular:develop
+
+#### Connect to server and compose new containers:
+  1. ssh root@haridusportaal.twn.zone
+  2. docker pull harbor.twn.zone/haridusportaal/angular:develop
+  3. docker pull hub.wiseman.ee/htm/drupal-dev
+  4. docker image prune -f
+  5. docker-compose down
+  6. docker-compose up -d
 
 ## Docker compose
   * Replica of the one on the server.
   * Access over ssh: ssh root@haridusportaal.twn.zone
 
-## Dockerfile
-  * Builds angular application with storybook and node express server
-  * Uses /node and /angular-fe directories
-  * Node server as entrypoint, which conditionally serves one of the following:
-    * stats page
-    * amp
-    * storybook
-    * angular
+## Environment files for postgres.env and swag.env
+  * These files hold env variables for their respective containers
+  * Store in the same directory as docker-compose.yaml
+  
