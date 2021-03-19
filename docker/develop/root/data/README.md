@@ -4,9 +4,11 @@
   * used for storing backup files / dumps / files transferred from elsewhere.
 
 ## javaApp
-  * *htm-liides* container volume mount on host
-  * add xRoad-0.0.1-SNAPSHOT.jar from github to initialize *htm-liides* container
-  * holds *htm-liides* conf files
+  * *htm-liides* container configuration and logs mount on host
+  * requires the following to setup (example files provided):
+    1. xRoad-0.0.1-SNAPSHOT.jar from github
+    2. conf directory which includes *xroad.properties*, *log4j.properties*, *application.properties*
+    3. conditional plumbr.jar file in /plumbr subdirectory if plumbr is provided in container env variables.
 
 ## postgres
   * *db* container volume mount on host
