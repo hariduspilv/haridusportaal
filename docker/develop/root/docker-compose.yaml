@@ -1,29 +1,32 @@
 version: '3.7'
 
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:10.4
+  db:
+    container_name: db
+    image: hub.wiseman.ee/htm/db
     networks:
       - htm
     restart: always
     env_file:
-      - postgres.env
+      - ./environment-variables/db.env
     volumes:
       - /root/data/postgres:/var/lib/postgresql/data
   redis:
     container_name: redis
-    image: redis:3
+    image: redis:3.2.12
     networks:
       - htm
+    restart: always
+    depends_on:
+      - db
   htm-stunnel:
     container_name: htm-stunnel
     image: hub.wiseman.ee/htm/stunnel
     networks:
       - htm
     restart: always
-    ports:
-      - "30088:80"
+    depends_on:
+      - redis
     volumes:
       - /root/data/stunnel:/etc/stunnel
   htm-liides:
@@ -36,26 +39,28 @@ services:
       - "30080:8080"
       - "30081:8081"
     env_file:
-      - liides.env
+      - ./environment-variables/liides.env
     volumes:
       - /root/data/javaApp:/htmApp
       - /root/data/javaApp/logs:/logs
+  drupal:
+    container_name: drupal
+    image: hub.wiseman.ee/htm/drupal-dev
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - htm-stunnel
+    env_file:
+      - ./environment-variables/drupal.env
+    volumes:
+      - /root/data/web/sites:/app/drupal/web/sites
   angular:
     container_name: angular
     image: harbor.twn.zone/haridusportaal/angular:develop
     networks:
       - htm
     restart: always
-  drupal:
-    container_name: drupal
-    image: hub.wiseman.ee/htm/drupal-live
-    networks:
-      - htm
-    restart: always
-    env_file:
-      - drupal.env
-    volumes:
-      - /root/data/web/sites:/app/drupal/web/sites
   swag:
     container_name: swag
     image: linuxserver/swag
@@ -63,7 +68,7 @@ services:
       - htm
     restart: unless-stopped
     env_file:
-      - swag.env
+      - ./environment-variables/swag.env
     volumes:
       - /etc/config:/config
   nginx:
@@ -73,6 +78,7 @@ services:
       - htm
     restart: always
     depends_on:
+      - drupal
       - angular
       - swag
     ports:

@@ -22,10 +22,11 @@
 
 #### Connect to server and compose new containers:
   1. ssh root@haridusportaal.twn.zone
-  2. docker image prune -f
-  3. docker-compose down
-  4. docker-compose pull
-  5. docker-compose up -d
+  2. docker pull harbor.twn.zone/haridusportaal/angular:develop
+  3. docker pull hub.wiseman.ee/htm/drupal-dev
+  4. docker image prune -f
+  5. docker-compose down
+  6. docker-compose up -d
 
 ## Docker compose
   * Replica of the one on the server.
