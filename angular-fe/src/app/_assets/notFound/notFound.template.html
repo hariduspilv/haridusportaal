@@ -16,7 +16,7 @@
         id="toFront"
         htm-button
         aria-live="assertive"
-        attr.aria-label="{{ 'frontpage.message' | translate }}, {{ !redirectUrl ? ('Tundub, et otsitud lehte ei leitud. Veakood: 404.') : ('notFound.auth_explanation' | translate) }}"
+        attr.aria-label="{{ 'frontpage.message' | translate }}, {{ !redirectUrl ?  ('notFound.explanation_string' | translate) +  ('frontpage.navigate' | translate): ('notFound.auth_explanation_string' | translate) }}"
         theme="default"
         (click)="action()">
         <ng-container *ngIf="!redirectUrl; else authLabel">

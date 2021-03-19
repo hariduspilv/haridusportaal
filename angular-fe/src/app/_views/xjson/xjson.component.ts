@@ -38,6 +38,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public elemAtStart: any = {};
   public tableCountPerStep = 0;
   public tableIndexes = [];
+  public dataElementsHaveValues = true;
+  public formVisible = true;
 
   public objectKeys = Object.keys;
   public test: boolean;
@@ -1134,6 +1136,18 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.tableIndexes.push(index);
         }
       });
+
+      /**
+       * TODO: Move to BE or tunnel (lõime)
+       * Hiding "OLT" form and data_elements if:
+       * "hide_steps" === true (no navigation)
+       * no values in data_elements value arrays
+       */
+      this.dataElementsHaveValues = !!Object.values(this.data_elements).find(elem => elem['value']?.length);
+      if (!this.dataElementsHaveValues && this.data.body.hide_steps && this.form_name.includes('OLT')) {
+        this.formVisible = false;
+      }
+
       this.tableIndexes.forEach((elem) => {
         this.elemAtStart[elem] = true;
         this.tableOverflown[elem] = true;

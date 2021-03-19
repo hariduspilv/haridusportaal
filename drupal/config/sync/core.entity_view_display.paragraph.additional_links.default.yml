@@ -1,0 +1,28 @@
+uuid: 51b67a48-6216-472d-bfaa-2d4898abe378
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.additional_links.field_links
+    - paragraphs.paragraphs_type.additional_links
+  module:
+    - link
+id: paragraph.additional_links.default
+targetEntityType: paragraph
+bundle: additional_links
+mode: default
+content:
+  field_links:
+    weight: 0
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+hidden:
+  search_api_excerpt: true

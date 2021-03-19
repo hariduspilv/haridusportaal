@@ -1,5 +1,5 @@
 <ul *ngIf="parsedData && parsedData.length && !blocks">
-  <ng-container *ngFor="let item of parsedData">
+  <ng-container *ngFor="let item of (showAll ? parsedData : parsedData | slice:0:5)">
     <li *ngIf="item.url">
 
       <ng-container *ngIf="item.url && !item.url.url">
@@ -41,6 +41,19 @@
         <span role="text">{{ item.title }}</span>
       </a>
     </li>
+  </ng-container>
+  <ng-container *ngIf="parsedData.length > 5">
+    <div class="bottom">
+      <button htm-button theme="plain" class="showMore" (click)="showAll = !showAll"
+              attr.aria-label="{{ ('button.show_' + (showAll ? 'less' : 'more')) | translate }}">
+        <ng-container *ngIf="showAll;else showMoreText">
+          - {{ 'button.show_less' | translate }} ({{ parsedData.length - 5 }})
+        </ng-container>
+        <ng-template #showMoreText>
+          + {{ 'button.show_more' | translate }} ({{ parsedData.length - 5 }})
+        </ng-template>
+      </button>
+    </div>
   </ng-container>
 </ul>
 

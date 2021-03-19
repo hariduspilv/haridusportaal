@@ -1,0 +1,255 @@
+{
+  "header": {
+    "endpoint": "EHIS",
+    "form_name": "MTSYS_TEGEVUSNAITAJAD_ARUANNE",
+    "number_of_steps": 1
+  },
+  "body": {
+    "title": {
+      "et": "Tegevusnäitajate aruanne"
+    },
+    "steps": {
+      "step_aruanne": {
+        "sequence": 0,
+        "editable": true,
+        "title": {
+          "et": "Tegevusnäitajate esitamine"
+        },
+        "data_elements": {
+          "aasta": {
+            "type": "number",
+            "title": {
+              "et": "Aasta"
+            },
+            "readonly": true
+          },
+          "oppeasutusId": {
+            "type": "text",
+            "title": {
+              "et": "Õppeasutuse id"
+            },
+            "hidden": true
+          },
+          "eeltaidetudCSV": {
+            "type": "file",
+            "title": {
+              "et": "Eeltäidetud aruande fail alla laadimiseks"
+            },
+            "helpertext": {
+              "et": "Laadige alla eeltäidetud aruanne, vajadusel tehke korrektuurid ja laadige fail üles."
+            },
+            "readonly": true
+          },
+          "esitamiseksCSV": {
+            "type": "file",
+            "submit_on_change": true,
+            "title": {
+              "et": "Aruanne fail üles  laadimiseks"
+            },
+            "helpertext": {
+              "et": "Laadige siit üles esitatava aruande fail"
+            },
+            "acceptable_extensions": [
+              "csv"
+            ],
+            "max_size": 5
+          },
+          "majandustegevuseTeateTabel": {
+            "type": "table",
+            "title": {
+              "et": "Majandustegevuse teate õppekava rühmad"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "nimetus": {
+                "type": "text",
+                "title": {
+                  "et": "Nimetus"
+                },
+                "readonly": true
+              },
+              "oppijateArv": {
+                "type": "number",
+                "title": {
+                  "et": "Alustanud õppijate arv"
+                },
+                "min": 0
+              },
+              "tunnistusteArv": {
+                "type": "number",
+                "title": {
+                  "et": "Välja antud tunnistuste arv"
+                },
+                "min": 0
+              },
+              "kuni8": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus kuni 8 tundi"
+                },
+                "min": 0
+              },
+              "kuni26": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus 9-26 tundi"
+                },
+                "min": 0
+              },
+              "kuni80": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus 27-80 tundi"
+                },
+                "min": 0
+              },
+              "kuni240": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus 81-240 tundi"
+                },
+                "min": 0
+              },
+              "yle240": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus rohkem kui 240 tundi"
+                },
+                "min": 0
+              },
+              "kokku": {
+                "type": "number",
+                "title": {
+                  "et": "Kokku"
+                },
+                "hidden": true,
+                "min": 0
+              },
+              "klOkLiik": {
+                "type": "text",
+                "title": {
+                  "et": "klOkLiik"
+                },
+                "hidden": true
+              },
+              "klOpperuhm": {
+                "type": "text",
+                "title": {
+                  "et": "klOkLiik"
+                },
+                "hidden": true
+              },
+              "klKategooria": {
+                "type": "text",
+                "title": {
+                  "et": "klOkLiik"
+                },
+                "hidden": true
+              },
+              "klEkTase": {
+                "type": "text",
+                "title": {
+                  "et": "klOkLiik"
+                },
+                "hidden": true
+              }
+            }
+          },
+          "tegevuslubaTabel": {
+            "type": "table",
+            "title": {
+              "et": "Tegevuslubade koolitused"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "nimetus": {
+                "type": "text",
+                "title": {
+                  "et": "Nimetus"
+                },
+                "readonly": true
+              },
+              "oppijateArv": {
+                "type": "number",
+                "title": {
+                  "et": "Alustanud õppijate arv"
+                }
+              },
+              "tunnistusteArv": {
+                "type": "number",
+                "title": {
+                  "et": "Välja antud tunnistuste arv"
+                }
+              },
+              "kuni8": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus kuni 8 tundi"
+                }
+              },
+              "kuni26": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus 9-26 tundi"
+                }
+              },
+              "kuni80": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus 27-80 tundi"
+                }
+              },
+              "kuni240": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus 81-240 tundi"
+                }
+              },
+              "yle240": {
+                "type": "number",
+                "title": {
+                  "et": "Kursused mahus rohkem kui 240 tundi"
+                }
+              },
+              "kokku": {
+                "type": "number",
+                "title": {
+                  "et": "Kokku"
+                },
+                "hidden": true
+              },
+              "klOkLiik": {
+                "type": "text",
+                "title": {
+                  "et": "klOkLiik"
+                },
+                "hidden": true
+              },
+              "klOpperuhm": {
+                "type": "text",
+                "title": {
+                  "et": "klOkLiik"
+                },
+                "hidden": true
+              },
+              "klKategooria": {
+                "type": "text",
+                "title": {
+                  "et": "klOkLiik"
+                },
+                "hidden": true
+              },
+              "klEkTase": {
+                "type": "text",
+                "title": {
+                  "et": "klOkLiik"
+                },
+                "hidden": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+uuid: 96f8b723-5ca5-4440-870a-028b33e49062
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.studypage_right_column.field_additional_links
+    - field.field.paragraph.studypage_right_column.field_study
+    - paragraphs.paragraphs_type.studypage_right_column
+  module:
+    - paragraphs
+id: paragraph.studypage_right_column.default
+targetEntityType: paragraph
+bundle: studypage_right_column
+mode: default
+content:
+  field_additional_links:
+    type: entity_reference_paragraphs
+    weight: 1
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_study:
+    type: entity_reference_paragraphs
+    weight: 0
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true

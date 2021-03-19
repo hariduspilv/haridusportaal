@@ -35,12 +35,16 @@
       <div class="text-center" *ngIf="!loading && !list.length">
         {{ 'studyProgramme.related_no_results' | translate }}
       </div><!--/text-center-->
+      <label-count *ngIf="searchWithParams && !loading && totalItems && list?.length" [count]="totalItems">{{ 'search.results_of' | translate }}: </label-count>
       <listItems *ngIf="!loading" [list]="list" type="studyProgramme" compare="studyProgrammeComparison"></listItems>
     </block-content>
   </block>
-  <div class="loadMore-wrapper" *ngIf="showList">
+  <div class="loadMore-wrapper" *ngIf="showList && !loading">
     <loader *ngIf="loadingMore"></loader>
-    <button *ngIf="!loadingMore && (totalItems+1 > ((1 + page)  * 24))" htm-button (click)="loadMore()" type="button">{{ 'button.load_more' | translate }}</button>
+    <button *ngIf="!loadingMore && (totalItems+1 > ((1 + page)  * 24))" htm-button (click)="loadMore()" type="button">
+      <span>{{ 'button.load_more' | translate }}</span>
+      <span> ({{ (totalItems - ((1 + page) * 24)) }})</span>
+    </button>
   </div>
 </ng-template>
 

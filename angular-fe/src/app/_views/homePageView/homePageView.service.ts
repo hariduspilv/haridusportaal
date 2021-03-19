@@ -43,6 +43,7 @@ export class HomePageService {
       'homepage-articles-1.svg',
       'homepage-articles-2.svg',
       'homepage-articles-3.svg',
+      'homepage-articles-4.svg',
     ],
     career: [
       'homepage-articles-career-1.svg',
@@ -228,9 +229,9 @@ export class HomePageService {
     if (!items) {
       return [];
     }
-    return items.filter((t: IGraphTopic) => t.entity !== null).map((item: IGraphTopic) => {
+    return items.filter(t => t?.entity !== null).map(item => {
       return {
-        title: item.entity.fieldTitle,
+        title: item.entity.fieldTitle || item.entity.fieldThemeTitle,
         content: item.entity.fieldText,
         theme: item.entity.fieldTheme,
         link: {
@@ -266,33 +267,26 @@ export class HomePageService {
     } else if (['career', 'learning'].includes(theme)) {
       articles = this.cleanTopic(items);
       topics = this.topics[theme];
+    } else if (theme === 'teachers') {
+      topics = this.cleanTopic(items);
     } else {
-      topics = items.map((item: IGraphTopic) => {
-        let image: any = false;
-        let link: any;
-        let scrollTo: boolean | string = false;
-
-        if (theme === 'default') {
-          image = '';
-          link = item.entity.fieldTopicLink;
-          if (link.url.path.match('scrollTo:')) {
-            scrollTo = link.url.path.split('scrollTo:')[1];
-          }
-        } else if (theme === 'teachers') {
-          link = {
-            title: this.translate.get('home.view_more'),
-            url: item.entity.fieldInternalLink.entity.entityUrl,
-          };
-        }
-
+      topics = items.map(item => {
+        const lnk = item.entity.fieldTopicLink as ILink;
         return {
-          image,
-          link,
-          scrollTo,
-          title: item.entity.fieldTopicTitle || item.entity.fieldThemeTitle,
-          content: item.entity.fieldTopicText,
-          button: item.entity.fieldTopicButtonText,
+          title: lnk.title,
+          link: {
+            title: '',
+            url: lnk.url,
+          },
         };
+      });
+      articles = data.fieldFrontpageReferences?.map(item => {
+        return {
+          title: item.entity.fieldReferenceTitle,
+          theme: item.entity.fieldReferenceQuestionTitle,
+          content: item.entity.fieldReferenceContent,
+          link: item.entity.fieldReferenceLink,
+        }
       });
     }
 
@@ -301,11 +295,8 @@ export class HomePageService {
     }
 
     if (articles.length) {
-      articles = this.alternateMapping(articles, theme)
-        .filter((item) => {
-          return item.title !== '-';
-        })
-        .map((topic: ITopic, index: number) => {
+      articles = this.alternateMapping(articles, theme).map(
+        (topic: ITopic, index: number) => {
           if (this.articleImages[theme]) {
             topic.image = this.getArticleImage(theme, index);
           }

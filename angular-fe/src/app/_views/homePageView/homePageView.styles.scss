@@ -146,11 +146,13 @@
         height: 30.625rem;
         padding-top: 7.1875rem;
         @include break-on(sm, max) {
+          padding-top: 3.625rem;
           flex-direction: column;
         }
         @include break-on(xxs, max) {
-          min-height: 21.625rem;
-          padding-top: 4.1875rem;
+          padding-top: 1.875rem;
+          height: initial;
+          min-height: initial;
         }
 
         &__inner {
@@ -161,7 +163,7 @@
             line-height: 1.875rem;
             font-weight: 300;
           }
-          @include break-on(xxs, max) {
+          @include break-on(sm, max) {
             padding-right: 0;
           }
         }
@@ -217,7 +219,7 @@
           justify-content: center;
           flex-wrap: wrap;
           @include break-on(sm, max) {
-            padding-top: 2rem
+            padding-top: 0;
           }
           @include break-on(xxs, max) {
             padding-top: 0;
@@ -333,6 +335,63 @@
               }
             }
           }
+        }
+      }
+    }
+    &.theme--default {
+      .navBlock {
+        .inner {
+          max-width: 72.5rem;
+          @include break-on(sm, max) {
+            padding-bottom: 5.25rem;
+          }
+        }
+        &__title {
+          padding-right: 4rem;
+          padding-left: 4rem;
+          @include break-on(xxs, max) {
+            padding: 1.875rem 0 0 0;
+          }
+          @include break-on(xs, max) {
+            height: initial;
+            min-height: initial;
+          }
+        }
+        &__buttons {
+          @include break-on(sm, max) {
+            transform: translateY(2rem);
+          }
+          ul {
+            li {
+              width: 20%;
+              flex-grow: 1;
+              padding: 0 0.75rem;
+              @include break-on(sm, max) {
+                width: 100%;
+                padding: 0.5rem;
+                margin: 0 5rem 0 5rem;
+              }
+              @include break-on(xs, max) {
+                margin: 0;
+              }
+            }
+            button, a {
+              padding: 1rem 2rem 1rem 2rem;
+              min-height: 8rem;
+              @include break-on(sm, max) {
+                display: block;
+                align-items: normal;
+                padding: 1.5rem 2rem;
+                min-height: 0;
+                height: 100%;
+              }
+            }
+          }
+        }
+      }
+      &+homepage-articles {
+        @include break-on(sm, max) {
+          padding-top: 3rem;
         }
       }
     }
@@ -1539,7 +1598,10 @@
 
     &.theme--default {
       .contact {
-        width: 22.125rem;
+        width: 28rem;
+        @include break-on(sm, max) {
+          width: initial;
+        }
       }
     }
   }

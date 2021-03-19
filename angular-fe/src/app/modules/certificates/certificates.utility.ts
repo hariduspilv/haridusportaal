@@ -1,11 +1,11 @@
 import { FormGroup } from '@angular/forms';
 import { FinalDocumentDownloadSidebar, FinalDocumentHistorySidebar } from '@app/_assets/sidebar/models/final-document-download-sidebar';
-import { SortDirection } from '@app/_core/models/Sorting';
 import { sortByMultipleKeys } from '@app/_core/sortingUtilities';
 import { CertificateData } from './models/interfaces/certificate-data';
 import {
   CertificateDocument,
   CertificateDocumentWithClassifier,
+  CertificateStatus,
   FormattedCertificateDocumentData,
 } from './models/interfaces/certificate-document';
 import { CertificateIndex } from './models/interfaces/certificate-index';
@@ -15,6 +15,8 @@ import { GraduationDocumentTypeClassification } from './models/enums/graduation-
 import { GraduationDocumentType } from './models/enums/graduation-document-type.enum';
 import { CertificateDocumentContent } from './models/interfaces/certificate-document-content';
 import { CertificateDocumentResponse } from './models/interfaces/certificate-document-response';
+import { GraduationCertificate } from './models/interfaces/graduation-certificate';
+import { SortDirection } from '@app/_core/models/enums/sort-direction.enum';
 
 export class CertificatesUtility {
 
@@ -66,6 +68,22 @@ export class CertificatesUtility {
       { key: 'isInMainLanguage', direction: SortDirection.DESC },
       { key: 'isMainDocument', direction: SortDirection.DESC },
     ]);
+  }
+
+  public static sortGraduationCertificates(
+    certificates: GraduationCertificate[],
+  ): GraduationCertificate[] {
+    return sortByMultipleKeys(certificates, [
+      { key: 'typeName', direction: SortDirection.ASC },
+      { key: 'issuerName', direction: SortDirection.ASC },
+      { key: 'issued', direction: SortDirection.DESC },
+    ]);
+  }
+
+  public static getValidDocuments(
+    documents: CertificateDocumentWithClassifier[],
+  ): CertificateDocumentWithClassifier[] {
+    return documents.filter(document => document.status === CertificateStatus.VALID);
   }
 
   public static gatherTranscriptRequestParameters(
@@ -241,6 +259,6 @@ export class CertificatesUtility {
     alldocs: CertificateDocumentWithClassifier[],
   ): string {
     const classifier = alldocs.find(xdoc => xdoc.type === document.type);
-    return classifier.metadata.shortName || classifier.typeName;
+    return classifier?.metadata?.shortName || classifier?.typeName;
   }
 }

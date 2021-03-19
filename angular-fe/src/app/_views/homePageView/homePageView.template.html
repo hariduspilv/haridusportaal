@@ -1,29 +1,10 @@
 <loader *ngIf="loading"></loader>
 <ng-container *ngIf="!loading">
-  <div class="navBlock-wrapper">
-    <div class="navBlock">
-      <div class="inner">
-        <div class="navBlock__title">
-          <div class="navBlock__title__inner">
-            <h1 [innerHTML]="'home.slogan' | translate"></h1>
-          </div><!--/navBlock__title__inner-->
-          <img src="/assets/img/homePage-navBlock.svg" alt="" />
-        </div><!--/navBlock__title-->
-        <div class="navBlock__buttons" *ngIf="topics.length" >
-          <ul>
-            <ng-container *ngFor="let item of topics">
-              <li *ngIf="!item.scrollTo">
-                <button [scrollTo]="item.button | slugify">{{ item.button }} <icon glyph="chevrons-down"></icon></button>
-              </li>
-              <li *ngIf="item.scrollTo">
-                <button [scrollTo]="item.scrollTo">{{ 'home.services' | translate }} <icon glyph="chevrons-down"></icon></button>
-              </li>
-            </ng-container>
-          </ul>
-        </div><!--/navBlock__buttons-->
-      </div><!--/inner-->
-    </div><!--/navBlock-->
-  </div><!--/navBlock-wrapper-->
+  <homepage-navblock
+    [data]="topics"
+    [theme]="theme"
+    [title]="'home.slogan' | translate"
+    [image]="'/assets/img/homePage-navBlock.svg'"></homepage-navblock>
   <homepage-articles
     *ngIf="articles && articles.length"
     [data]="articles"

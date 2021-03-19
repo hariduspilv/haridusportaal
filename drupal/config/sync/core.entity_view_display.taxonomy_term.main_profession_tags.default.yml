@@ -1,0 +1,23 @@
+uuid: 604b1a32-48cb-4b8f-ac29-1f353100f3e2
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.main_profession_tags
+  module:
+    - text
+id: taxonomy_term.main_profession_tags.default
+targetEntityType: taxonomy_term
+bundle: main_profession_tags
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  search_api_excerpt: true

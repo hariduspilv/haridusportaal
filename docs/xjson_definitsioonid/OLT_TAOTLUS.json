@@ -1,0 +1,314 @@
+{
+  "header": {
+    "endpoint": "EHIS",
+    "form_name": "OLT_TAOTLUS",
+    "number_of_steps": 3
+  },
+  "body": {
+    "title": {
+      "et": "Õpetajate lähtetoetuse taotlus"
+    },
+    "helpertext": {
+      "et": "Kui teil on küsimusi õpetajate lähtetoetuse kohta, kirjutage aadressil&nbsp;oppetoetused@rtk.ee.&nbsp;<a href=\"https://www.rtk.ee/vajadusp%C3%B5hine-%C3%B5ppetoetusneeds-based-study-allowance\" target=\"_blank\">Täpsem info.</a>"
+    },
+    "steps": {
+      "step_type_selection": {
+        "sequence": 1,
+        "editable": true,
+        "title": {
+          "et": "Taotluse liik"
+        },
+        "data_elements": {
+          "grant_type": {
+            "type": "selectlist",
+            "title": {
+              "et": "Taotluse liik"
+            },
+            "options": [
+              {
+                "key": "Õpetaja lähtetoetuse taotlus",
+                "value": "STARTING_ALLOWANCE_PEDAGOGUE"
+              },
+              {
+                "key": "Tugispetsialist lähtetoetuse taotlus",
+                "value": "STARTING_ALLOWANCE_SPECIALIST"
+              }
+            ],
+            "required": false
+          }
+        }
+      },
+      "step_application": {
+        "sequence": 2,
+        "editable": true,
+        "title": {
+          "et": "Taotluse sisestamine"
+        },
+        "data_elements": {
+          "applicant_heading": {
+            "type": "heading",
+            "title": {
+              "et": "Taotleja isiku kohta andmed"
+            }
+          },
+          "person_application_first_name": {
+            "type": "text",
+            "title": {
+              "et": "Taotleja eesnimi"
+            },
+            "readonly": true
+          },
+          "person_application_last_name": {
+            "type": "text",
+            "title": {
+              "et": "Taotleja perekonnanimi"
+            },
+            "readonly": true
+          },
+          "person_application_id_code": {
+            "type": "text",
+            "title": {
+              "et": "Taotleja isikukood"
+            },
+            "readonly": true
+          },
+          "person_application_email": {
+            "type": "text",
+            "title": {
+              "et": "Taotleja e-posti aadress"
+            },
+            "required": true
+          },
+          "person_application_phone_number": {
+            "type": "text",
+            "title": {
+              "et": "Taotleja telefoni number"
+            },
+            "required": false
+          },
+          "person_application_bank_account": {
+            "type": "text",
+            "title": {
+              "et": "Taotleja pangaarve number"
+            },
+            "required": true
+          },
+          "occupation_data": {
+            "type": "table",
+            "title": {
+              "et": "Töötamise andmed"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "educational_institute_name": {
+                "type": "text",
+                "title": {
+                  "et": "Õppeasutus"
+                },
+                "readonly": true
+              },
+              "applicant_occupation": {
+                "type": "text",
+                "title": {
+                  "et": "Ametikoht"
+                },
+                "readonly": true
+              },
+              "applicant_subjects": {
+                "type": "text",
+                "title": {
+                  "et": "Õppeained"
+                },
+                "readonly": true
+              },
+              "applicant_workload": {
+                "type": "number",
+                "title": {
+                  "et": "Töötamise koormus"
+                },
+                "readonly": true
+              },
+              "meets_requirement": {
+                "type": "checkbox",
+                "title": {
+                  "et": "Vastab kvalifikatsioonile"
+                },
+                "readonly": true
+              },
+              "contract_begin_date": {
+                "type": "date",
+                "title": {
+                  "et": "Lepingu algus"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "qualification_data": {
+            "type": "table",
+            "title": {
+              "et": "Kvalifikatsioonid"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "qualification": {
+                "type": "text",
+                "title": {
+                  "et": "Õppekava tase"
+                },
+                "readonly": true
+              },
+              "curriculum_name": {
+                "type": "text",
+                "title": {
+                  "et": "Õppekava nimetus"
+                },
+                "readonly": true
+              },
+              "educational_institute_name": {
+                "type": "text",
+                "title": {
+                  "et": "Õppeasutus"
+                },
+                "readonly": true
+              },
+              "language": {
+                "type": "text",
+                "title": {
+                  "et": "Õppekeel"
+                },
+                "readonly": true
+              },
+              "qualification_document_number": {
+                "type": "text",
+                "title": {
+                  "et": "Diplomi number"
+                },
+                "readonly": true
+              },
+              "qualification_date": {
+                "type": "date",
+                "title": {
+                  "et": "Lõpetamise kuupäev"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "vocation_data": {
+            "type": "table",
+            "title": {
+              "et": "Kutse andmed"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "vocation_name": {
+                "type": "text",
+                "title": {
+                  "et": "Kutse nimetus ja tase"
+                },
+                "readonly": true
+              },
+              "vocation_date": {
+                "type": "date",
+                "title": {
+                  "et": "Kehtivuse algus"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "application_entry_extensions": {
+            "type": "table",
+            "title": {
+              "et": "Taotluse esitamise tähtaja pikendamine"
+            },
+            "helpertext": {
+              "et": "Õpetaja lähtetoetuse taotlust saab esitata 18 kuu jooksul pärast õppeasutuse lõpetamist ja 4 kuu jooksul pärast tööle asumist. Lõpetamise tähtaega pikendatakse kaitseväeteenistuses, rasedus- ja sünnituspuhkusel või lapsehoolduspuhkusel viibimise korral."
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "extension_begin_date": {
+                "type": "date",
+                "title": {
+                  "et": "Alguse kuupäev"
+                },
+                "readonly": true
+              },
+              "extension_end_date": {
+                "type": "date",
+                "title": {
+                  "et": "Lõpukuupäev"
+                },
+                "readonly": true
+              },
+              "extension_type": {
+                "type": "text",
+                "title": {
+                  "et": "Põhjus"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "additional_info_heading": {
+            "type": "heading",
+            "title": {
+              "et": "Täiendav info"
+            }
+          },
+          "additional_info_intro": {
+            "type": "helpertext",
+            "title": {
+              "et": "Juhul, kui ülal esitatud infos on puudusi või peate vajalikuks esitada õpetajate lähtetoetuse taotlemise õigust kinnitavaid täiendavaid dokumente (näiteks välisriigis pedagoogilisel praktikal viibimist tõendav dokument, C1 tasemele keeleoskust tõendav dokument), siis kirjutage selgitus allolevasse lahtrisse või lisage dokumendifailid."
+            }
+          },
+          "additional_info_text": {
+            "type": "textarea",
+            "title": {
+              "et": "Nõuete täitmise selgitus"
+            }
+          },
+          "additional_info_file": {
+            "type": "file",
+            "multiple": true,
+            "max_size": 10,
+            "title": {
+              "et": "Nõuete täitmist tõendavad dokumendifailid"
+            },
+            "acceptable_extensions": [
+              "pdf",
+              "bdoc",
+              "asice",
+              "jpg",
+              "png"
+            ]
+          }
+        }
+      },
+      "step_response": {
+        "sequence": 3,
+        "editable": false,
+        "title": {
+          "et": "Esitamise tagasiside"
+        },
+        "data_elements": {
+          "infotekst": {
+            "type": "text",
+            "title": {
+              "et": "Õpetajate lähtetoetuse taotlus"
+            },
+            "readonly": true,
+            "hidden": true
+          },
+          "success_message": {
+            "type": "helpertext",
+            "title": {
+              "et": "Õpetajate lähtetoetuse taotlus esitatud!"
+            }
+          }
+        }
+      }
+    }
+  }
+}

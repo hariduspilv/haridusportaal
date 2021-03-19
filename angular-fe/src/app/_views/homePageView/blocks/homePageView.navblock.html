@@ -13,8 +13,12 @@
     <div class="navBlock__buttons" *ngIf="data.length">
       <ul>
         <li *ngFor="let item of data">
-          <a *ngIf="!item.link.url.routed" target="_blank" [href]="item.link.url.path">{{ item.title }}  <span class="label">{{ item.link.title }}</span></a>
-          <a *ngIf="item.link.url.routed" [routerLink]="item.link.url.path">{{ item.title }}  <span class="label">{{ item.link.title }}</span></a>
+          <a *ngIf="!item.link.url.routed" target="_blank" [href]="item.link.url.path">{{ item.title }}
+            <span class="label" *ngIf="item.link.title">{{ item.link.title }}</span>
+          </a>
+          <a *ngIf="item.link.url.routed" [routerLink]="item.link.url.path">{{ item.title }}
+            <span class="label" *ngIf="item.link.title">{{ item.link.title }}</span>
+          </a>
         </li>
       </ul>
     </div><!--/navBlock__buttons-->
