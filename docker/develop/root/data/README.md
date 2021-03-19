@@ -13,8 +13,8 @@
 
 ## stunnel
   * *stunnel* container configuration mount on host
-  * requires *.key, *.cert, stunnel.conf for *stunnel* container to work (stunnel.conf example provided)
+  * requires *.key, *.cert, stunnel.conf for *stunnel* container to work (stunnel.conf provided)
 
 ## web/sites
   * *drupal* container sites mount on host
-  * primary host related settings found in *settings.php* file. 
+  * primary host related settings found in *settings.php* file. (settings.php provided)
