@@ -17,7 +17,6 @@ query studyDetailViewQuery($path: String!) {
       entity {
         ... on NodeStudypage {
           title
-          fieldPerson
           fieldStudyTag {
             entity {
               ... on TaxonomyTermStudytag {
@@ -27,6 +26,14 @@ query studyDetailViewQuery($path: String!) {
             }
           }
           fieldHighlightedStudyIntro
+          fieldStudyTopic {
+            entity {
+              ... on TaxonomyTermStudytopic {
+                entityId
+                entityLabel
+              }
+            }
+          }
           fieldIntroduction
           fieldContent {
             value
