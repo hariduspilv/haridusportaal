@@ -1041,6 +1041,442 @@ xjson:
     translation_type: textarea
     et: 'Sisestage korrektne isikukood'
     en: 'Sisestage korrektne isikukood'
+  getGrantsBadOrderBy:
+    translation_type: textarea
+    et: 'Vigane orderBy parameeter.'
+    en: ''
+  getGrantsBadSort:
+    translation_type: textarea
+    et: 'Vigane sort parameeter.'
+    en: ''
+  getGrantsBadStartFrom:
+    translation_type: textarea
+    et: 'Vigane startFrom parameeter.'
+    en: ''
+  getGrantsBadCount:
+    translation_type: textarea
+    et: 'Vigane count parameeter.'
+    en: ''
+  getGrantsForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  getGrantsStatusBadValue:
+    translation_type: textarea
+    et: 'Parameetri status väärtus on vigane.'
+    en: ''
+  getGrantNotFound:
+    translation_type: textarea
+    et: 'Toetust ei leitud.'
+    en: ''
+  getGrantForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  getGrantGrantNumberBadValue:
+    translation_type: textarea
+    et: 'Parameeter grantNumber on kohustuslik.'
+    en: ''
+  getApplicationForbidden:
+    translation_type: textarea
+    et: "\tKasutajal puudub õigus toimingu teostamiseks."
+    en: ''
+  getApplicationApplicantNotFound:
+    translation_type: textarea
+    et: 'Kasutaja isiku andmeid ei leitud.'
+    en: ''
+  getApplicationGrantsGranted:
+    translation_type: textarea
+    et: 'Taotleja on juba toetust saanud.'
+    en: ''
+  getApplicationGrantSubmitted:
+    translation_type: textarea
+    et: 'Taotleja on juba taotluse esitanud.'
+    en: ''
+  getApplicationOccupationsNotFound:
+    translation_type: textarea
+    et: 'Taotlejal puudub kehtiv töötamine.'
+    en: ''
+  getApplicationQualificationsNotFound:
+    translation_type: textarea
+    et: 'Taotlejal puudub vastav erialane kvalifikatsioon.'
+    en: ''
+  getApplicationGrantSubmissionTime:
+    translation_type: textarea
+    et: 'Taotleja ei vasta seaduses sätestatud taotluse esitamise aja nõuetele.'
+    en: ''
+  getCanApplyForGrantForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  postPaymentForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  postPaymentGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  postPaymentNoPositiveDecision:
+    translation_type: textarea
+    et: 'Toetust pole määratud.'
+    en: ''
+  postPaymentPaymentSumBadValue:
+    translation_type: textarea
+    et: 'Väljamakse summa väärtus ei ole sobiv.'
+    en: ''
+  putPaymentForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  putPaymentGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  putPaymentPaymentNotFound:
+    translation_type: textarea
+    et: 'Väljamakse kirjet ei leitud.'
+    en: ''
+  putPaymentPaymentSumBadValue:
+    translation_type: textarea
+    et: 'Väljamakse summa väärtus ei ole sobiv.'
+    en: ''
+  deletePaymentForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  deletePaymentGrantNumberRequired:
+    translation_type: textarea
+    et: 'Parameeter grantNumber on kohustuslik.'
+    en: ''
+  deletePaymentPaymentIdRequired:
+    translation_type: textarea
+    et: 'Parameeter grantPaymentId on kohustuslik.'
+    en: ''
+  deletePaymentGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  deletePaymentPaymentNotFound:
+    translation_type: textarea
+    et: 'Väljamakse kirjet ei leitud.'
+    en: ''
+  postGrantSuspensionForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  postGrantSuspensionGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  postGrantSuspensionBadChronologicalOrder:
+    translation_type: textarea
+    et: 'Kuupäevad ei ole kronoloogilises järjekorras.'
+    en: ''
+  postGrantSuspensionBadValidFrom:
+    translation_type: textarea
+    et: 'Peatamise algus on enne väljamakse aega.'
+    en: ''
+  postGrantSuspensionBadValidFromOrValidUntil:
+    translation_type: textarea
+    et: 'Peatamise algus või lõpp ühtib juba olemas oleva peatamise ajaga.'
+    en: ''
+  postGrantSuspensionNoPositiveDecision:
+    translation_type: textarea
+    et: 'Toetust pole määratud.'
+    en: ''
+  postGrantSuspensionPaymentNotFound:
+    translation_type: textarea
+    et: 'Väljamakset ei ole tehtud.'
+    en: ''
+  putGrantSuspensionForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  putGrantSuspensionGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  putGrantSuspensionBadValidFrom:
+    translation_type: textarea
+    et: 'Peatamise algus on enne väljamakse aega.'
+    en: ''
+  putGrantSuspensionBadValidFromOrValidUntil:
+    translation_type: textarea
+    et: 'Peatamise algus või lõpp ühtib juba olemas oleva peatamise ajaga.'
+    en: ''
+  putGrantSuspensionStatusNotFound:
+    translation_type: textarea
+    et: 'Staatuse kirjet ei leitud.'
+    en: ''
+  putGrantSuspensionNotAllowedToEdit:
+    translation_type: textarea
+    et: 'Kirjet ei ole lubatud muuta.'
+    en: ''
+  putGrantSuspensionBadChronologicalOrder:
+    translation_type: textarea
+    et: 'Kuupäevad ei ole kronoloogilises järjekorras.'
+    en: ''
+  putGrantSuspensionPaymentNotFound:
+    translation_type: textarea
+    et: 'Väljamakset ei ole tehtud.'
+    en: ''
+  deleteGrantSuspensionForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  deleteGrantSuspensionGrantNumberRequired:
+    translation_type: textarea
+    et: 'Parameeter grantNumber on kohustuslik.'
+    en: ''
+  deleteGrantSuspensionStatusIdRequired:
+    translation_type: textarea
+    et: 'Parameeter statusId on kohustuslik.'
+    en: ''
+  deleteGrantSuspensionGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  deleteGrantSuspensionStatusNotFound:
+    translation_type: textarea
+    et: 'Staatuse kirjet ei leitud.'
+    en: ''
+  deleteGrantSuspensionNotAllowedToEdit:
+    translation_type: textarea
+    et: 'Kirjet ei ole lubatud muuta.'
+    en: ''
+  postNotesForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  postNotesGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  postRecoveryForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  postRecoveryGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  postRecoveryPinalDocNotFound:
+    translation_type: textarea
+    et: 'Pinalist dokumenti ei leitud.'
+    en: ''
+  postRecoveryNoPositiveDecision:
+    translation_type: textarea
+    et: 'Toetust ei ole määratud.'
+    en: ''
+  postRecoveryBadRecoveryDate:
+    translation_type: textarea
+    et: 'Tagasinõude algus on enne väljamakse aega.'
+    en: ''
+  postRecoveryAlreadyExists:
+    translation_type: textarea
+    et: 'Toetus on juba tagasi nõutud.'
+    en: ''
+  postRecoverySumBadValue:
+    translation_type: textarea
+    et: 'Parameetri sum väärtus ei ole korrektne.'
+    en: ''
+  postRecoveryPaymentNotFound:
+    translation_type: textarea
+    et: 'Väljamakset ei ole tehtud.'
+    en: ''
+  putRecoveryForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  putRecoveryGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  putRecoveryPinalDocNotFound:
+    translation_type: textarea
+    et: 'Pinalist dokumenti ei leitud.'
+    en: ''
+  putRecoveryNoPositiveDecision:
+    translation_type: textarea
+    et: 'Toetust ei ole määratud.'
+    en: ''
+  putRecoveryBadRecoveryDate:
+    translation_type: textarea
+    et: 'Tagasinõude algus on enne väljamakse aega.'
+    en: ''
+  putRecoveryNotFound:
+    translation_type: textarea
+    et: 'Tagasinõude kirjet ei leitud.'
+    en: ''
+  putRecoverySumBadValue:
+    translation_type: textarea
+    et: 'Parameetri sum väärtus ei ole korrektne.'
+    en: ''
+  putRecoveryPaymentNotFound:
+    translation_type: textarea
+    et: 'Väljamakset ei ole tehtud.'
+    en: ''
+  deleteRecoveryForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  deleteRecoveryGrantNumberRequired:
+    translation_type: textarea
+    et: 'Parameeter grantNumber on kohustuslik.'
+    en: ''
+  deleteRecoveryRecoveryIdRequired:
+    translation_type: textarea
+    et: 'Parameeter recoveryId on kohustuslik.'
+    en: ''
+  deleteRecoveryGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  deleteRecoveryNotFound:
+    translation_type: textarea
+    et: 'Tagasinõude kirjet ei leitud.'
+    en: ''
+  patchNoncomplianceForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  patchNoncomplianceNotFound:
+    translation_type: textarea
+    et: 'Nõude mittetäitmise kirjet ei leitud.'
+    en: ''
+  patchNoncomplianceGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  patchNoncomplianceBadComplianceDate:
+    translation_type: textarea
+    et: 'Mittetäitmise parandamise aeg ei tohi olla enne mittetäitmise tuvastamise aega.'
+    en: ''
+  patchApplicationForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  patchApplicationNotFound:
+    translation_type: textarea
+    et: 'Toetust ei leitud.'
+    en: ''
+  patchApplicationGrantNumberBadValue:
+    translation_type: textarea
+    et: 'Parameeter grantNumber on kohustuslik.'
+    en: ''
+  patchApplicationNoApplicationData:
+    translation_type: textarea
+    et: 'Taotlusel puudub taotluse andmestik.'
+    en: ''
+  patchApplicationSubmitted:
+    translation_type: textarea
+    et: 'Taotlus on juba esitatud.'
+    en: ''
+  patchApplicationIban:
+    translation_type: textarea
+    et: 'Pangakonto ei ole korrektne.'
+    en: ''
+  patchApplication009:
+    translation_type: textarea
+    et: 'Taotluse esitamise perioodi pikendav tõend puudu.'
+    en: ''
+  postFileForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  postFileGrantNumberRequired:
+    translation_type: textarea
+    et: 'Parameeter grantNumber on kohustuslik.'
+    en: ''
+  postFileGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  postFileSubmitted:
+    translation_type: textarea
+    et: 'Taotlus on juba esitatud.'
+    en: ''
+  postFileMaxSizeExceeded:
+    translation_type: textarea
+    et: 'Faili suurus ületab maksimaalset lubatud suurust.'
+    en: ''
+  postFileExtensionForbidden:
+    translation_type: textarea
+    et: 'Faililaiend ei ole lubatud.'
+    en: ''
+  postFileExtensionNotFound:
+    translation_type: textarea
+    et: 'Faililaiendit ei leitud.'
+    en: ''
+  postFileDuplicateFileName:
+    translation_type: textarea
+    et: 'Taotluse juures eksisteerib juba antud nimega fail.'
+    en: ''
+  getFileForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  getFileGrantNumberRequired:
+    translation_type: textarea
+    et: 'Parameeter grantNumber on kohustuslik.'
+    en: ''
+  getFileUidRequired:
+    translation_type: textarea
+    et: 'Parameeter uid on kohustuslik.'
+    en: ''
+  getFileGrantNotFound:
+    translation_type: textarea
+    et: 'Faili kirjet ei leitud.'
+    en: ''
+  deleteFileForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  deleteFileGrantNumberRequired:
+    translation_type: textarea
+    et: 'Parameeter grantNumber on kohustuslik.'
+    en: ''
+  deleteFileUidRequired:
+    translation_type: textarea
+    et: 'Parameeter uid on kohustuslik.'
+    en: ''
+  deleteFileSubmitted:
+    translation_type: textarea
+    et: 'Taotlus on juba esitatud.'
+    en: ''
+  deleteFileGrantNotFound:
+    translation_type: textarea
+    et: 'Toetuse kirjet ei leitud.'
+    en: ''
+  deleteFileNotFound:
+    translation_type: textarea
+    et: 'Faili kirjet ei leitud.'
+    en: ''
+  deleteFileNotSuccessful:
+    translation_type: textarea
+    et: 'Faili kustutamine ebaõnnestus.'
+    en: ''
+  startProcessForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  getGrantsReportForbidden:
+    translation_type: textarea
+    et: 'Kasutajal puudub õigus toimingu teostamiseks.'
+    en: ''
+  getGrantsReportStatusBadValue:
+    translation_type: textarea
+    et: 'Parameetri status väärtus on vigane.'
+    en: ''
+  getGrantsReportNoGrantsFound:
+    translation_type: textarea
+    et: 'Toetusi ei leitud.'
+    en: ''
+  getApplicationWrongGrantType:
+    translation_type: textarea
+    et: 'Vale toetuse liik, lubatud liigid on <liikide nimekiri>.'
+    en: ''
 article:
   label:
     translation_type: textarea
@@ -2301,8 +2737,8 @@ tooltip:
     en: 'Copy page url to clipboard'
   share_fb:
     translation_type: textarea
-    et: 'Jaga facebookis'
-    en: 'Share on facebook'
+    et: 'Jaga Facebookis'
+    en: 'Share on Facebook'
   share_twitter:
     translation_type: textarea
     et: 'Jaga Twitteris'
@@ -2466,6 +2902,10 @@ search:
     translation_type: textarea
     et: 'Tulemust saadaval'
     en: 'Results available'
+  results_of:
+    translation_type: textarea
+    et: 'Nimekirjas kokku'
+    en: Results
 data:
   dashboard_link:
     translation_type: textarea

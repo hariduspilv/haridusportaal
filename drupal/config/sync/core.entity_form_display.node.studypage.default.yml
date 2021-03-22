@@ -6,13 +6,13 @@ dependencies:
     - field.field.node.studypage.field_accordion
     - field.field.node.studypage.field_additional_images
     - field.field.node.studypage.field_content
-    - field.field.node.studypage.field_highlighted_study_intro
+    - field.field.node.studypage.field_custom_boolean
     - field.field.node.studypage.field_introduction
     - field.field.node.studypage.field_label
-    - field.field.node.studypage.field_person
     - field.field.node.studypage.field_right_column
     - field.field.node.studypage.field_study_tag
     - field.field.node.studypage.field_study_text
+    - field.field.node.studypage.field_study_topic
     - image.style.thumbnail
     - node.type.studypage
   module:
@@ -71,19 +71,18 @@ content:
       maxlength:
         maxlength_js: 1200
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-        maxlength_js_summary: 1200
+        maxlength_js_summary: null
         maxlength_js_label_summary: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
         maxlength_js_enforce: true
         maxlength_js_truncate_html: true
     type: text_textarea_with_summary
     region: content
-  field_highlighted_study_intro:
-    weight: 12
+  field_custom_boolean:
+    weight: 10
     settings:
-      rows: 5
-      placeholder: ''
+      display_label: true
     third_party_settings: {  }
-    type: string_textarea
+    type: boolean_checkbox
     region: content
   field_introduction:
     weight: 13
@@ -107,17 +106,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
-    region: content
-  field_person:
-    weight: 10
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings:
-      maxlength:
-        maxlength_js: null
-        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
     region: content
   field_right_column:
     type: entity_reference_paragraphs
@@ -148,6 +136,16 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
+    region: content
+  field_study_topic:
+    weight: 12
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   path:
     type: path
