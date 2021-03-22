@@ -7,7 +7,7 @@ dependencies:
     - field.field.node.studypage.field_accordion
     - field.field.node.studypage.field_additional_images
     - field.field.node.studypage.field_content
-    - field.field.node.studypage.field_highlighted_study_intro
+    - field.field.node.studypage.field_custom_boolean
     - field.field.node.studypage.field_introduction
     - field.field.node.studypage.field_label
     - field.field.node.studypage.field_right_column
@@ -31,7 +31,7 @@ hidden:
   field_accordion: true
   field_additional_images: true
   field_content: true
-  field_highlighted_study_intro: true
+  field_custom_boolean: true
   field_introduction: true
   field_label: true
   field_right_column: true

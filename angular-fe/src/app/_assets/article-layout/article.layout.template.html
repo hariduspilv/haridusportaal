@@ -1,4 +1,6 @@
 <main>
   <div class="content"><ng-content></ng-content></div>
-  <sidebar *ngIf="sidebar && sidebar.entity" [feedbackNid]="feedbackNid" [data]="sidebar.entity"></sidebar>
+  <aside>
+    <sidebar *ngIf="sidebar && sidebar.entity" [feedbackNid]="feedbackNid" [data]="sidebar.entity"></sidebar>
+  </aside>
 </main>

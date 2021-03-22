@@ -15,6 +15,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 export class EventsViewComponent implements OnDestroy, OnInit{
   @ViewChild('filterToggle') filterToggle: ElementRef;
+  @ViewChild('detailed') detailed: ElementRef;
   public breadcrumbsPath: string = '/sündmused';
   public eventsTypes;
   public eventsTags;
@@ -96,6 +97,15 @@ export class EventsViewComponent implements OnDestroy, OnInit{
       action: 'submit',
       label: this.searchTitle,
     };
+  }
+
+  expandFilters(): void {
+    this.filterFull = !this.filterFull;
+
+    setTimeout(() => {
+      const detailedBtn = this.detailed?.nativeElement;
+      if(detailedBtn) detailedBtn.focus();
+     });
   }
 
   getTags() {

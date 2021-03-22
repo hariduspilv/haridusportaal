@@ -15,13 +15,15 @@
         </div>
       </div>
       <div class="col-12" *ngIf="modal && modal.position == i">
-        <div class="modal" id="modal" tabindex="0" role="alert" attr.aria-label="{{ 'oskaProfessions.modal_opened' | translate }}" >
+        <div class="modal" id="modal" role="alert" attr.aria-label="{{ 'oskaProfessions.card_opened' | translate }}" >
           <div class="modal__header">
             <div class="modal__header__col">
-              <h2 role="heading" tabindex="0" id="modalTitle"><a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ modal.title }}" >{{ modal.title }}</a></h2>
+              <h2 role="heading">
+                <a  id="modalTitle" [routerLink]="modal.entityUrl.path" role="link" attr.aria-label="{{ modal.title }}" >{{ modal.title }}</a>
+              </h2>
             </div><!--/modal__header__col-->
             <div class="modal__header__col">
-              <button htm-button theme="icon" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()"><icon glyph="x" size="medium"></icon></button>
+              <button htm-button theme="icon" attr.aria-label="{{ 'oskaProfessions.card_close' | translate }}" (click)="modalClose()"><icon glyph="x" size="medium"></icon></button>
             </div><!--/modal__header__col-->
           </div>
           <div class="modal__content">
@@ -73,7 +75,7 @@
                 </a>
               </li>
             </ul>
-            <button class="hidden-button" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()" (blur)="resetFocus($event, 'modalTitle')"></button>
+            <!-- <button class="hidden-button" attr.aria-label="{{ 'oskaProfessions.card_close' | translate }}" (click)="modalClose()" (blur)="resetFocus($event, 'modalTitle')"></button> -->
           </div><!--/modal__content-->
         </div>
       </div>
