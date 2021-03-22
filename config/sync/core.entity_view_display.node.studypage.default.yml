@@ -6,7 +6,7 @@ dependencies:
     - field.field.node.studypage.field_accordion
     - field.field.node.studypage.field_additional_images
     - field.field.node.studypage.field_content
-    - field.field.node.studypage.field_highlighted_study_intro
+    - field.field.node.studypage.field_custom_boolean
     - field.field.node.studypage.field_introduction
     - field.field.node.studypage.field_label
     - field.field.node.studypage.field_right_column
@@ -54,17 +54,20 @@ content:
     third_party_settings: {  }
     type: text_default
     region: content
-  field_highlighted_study_intro:
-    weight: 12
+  field_custom_boolean:
+    weight: 15
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    type: boolean
     region: content
   field_introduction:
     weight: 3
     label: above
-    settings: {  }
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
     third_party_settings: {  }
     type: basic_string
     region: content

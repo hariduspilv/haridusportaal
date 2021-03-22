@@ -1079,7 +1079,7 @@ xjson:
     en: ''
   getApplicationForbidden:
     translation_type: textarea
-    et: '	Kasutajal puudub õigus toimingu teostamiseks.'
+    et: "\tKasutajal puudub õigus toimingu teostamiseks."
     en: ''
   getApplicationApplicantNotFound:
     translation_type: textarea
@@ -2737,8 +2737,8 @@ tooltip:
     en: 'Copy page url to clipboard'
   share_fb:
     translation_type: textarea
-    et: 'Jaga facebookis'
-    en: 'Share on facebook'
+    et: 'Jaga Facebookis'
+    en: 'Share on Facebook'
   share_twitter:
     translation_type: textarea
     et: 'Jaga Twitteris'
@@ -2902,6 +2902,10 @@ search:
     translation_type: textarea
     et: 'Tulemust saadaval'
     en: 'Results available'
+  results_of:
+    translation_type: textarea
+    et: 'Nimekirjas kokku'
+    en: Results
 data:
   dashboard_link:
     translation_type: textarea
