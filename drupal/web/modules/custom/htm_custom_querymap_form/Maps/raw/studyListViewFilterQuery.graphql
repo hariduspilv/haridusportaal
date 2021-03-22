@@ -1,0 +1,39 @@
+query studyListViewFilterQuery($lang: LanguageId!)
+{
+  publicationTypeOptions:taxonomyTermQuery(filter:
+  {conditions: [{operator: EQUAL, field: "vid", value: ["publicationtype"], language: $lang}]}) {
+    entities(language: $lang) {
+      ... on TaxonomyTermPublicationtype {
+        entityId
+        entityLabel
+      }
+    }
+  }
+  publicationLanguageOptions:taxonomyTermQuery(filter:
+  {conditions: [{operator: EQUAL, field: "vid", value: ["publicationlanguage"], language: $lang}]}) {
+    entities(language: $lang) {
+      ... on TaxonomyTermPublicationlanguage {
+        entityId
+        entityLabel
+      }
+    }
+  }
+  studyLabelOptions:taxonomyTermQuery(filter:
+  {conditions: [{operator: EQUAL, field: "vid", value: ["studylabel"], language: $lang}]}) {
+    entities(language: $lang) {
+      ... on TaxonomyTermStudylabel {
+        entityId
+        entityLabel
+      }
+    }
+  }
+  studyTopicsOptions:taxonomyTermQuery(filter:
+  {conditions: [{operator: EQUAL, field: "vid", value: ["studytopic"], language: $lang}]}) {
+    entities(language: $lang) {
+      ... on TaxonomyTermStudytopic {
+        entityId
+        entityLabel
+      }
+    }
+  }
+}
