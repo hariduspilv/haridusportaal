@@ -13,7 +13,7 @@ services:
       - /root/data/postgres:/var/lib/postgresql/data
   redis:
     container_name: redis
-    image: redis:3.2.12
+    image: redis:3
     networks:
       - htm
     restart: always
@@ -29,15 +29,22 @@ services:
       - redis
     volumes:
       - /root/data/stunnel:/etc/stunnel
+  htm-stunnelsec:
+    container_name: htm-stunnelsec
+    image: hub.wiseman.ee/htm/stunnel
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - /root/data/stunnelsec:/etc/stunnel
   htm-liides:
     container_name: htm-liides
     image: hub.wiseman.ee/htm/liides
     networks:
       - htm
     restart: always
-    ports:
-      - "30080:8080"
-      - "30081:8081"
     env_file:
       - ./environment-variables/liides.env
     volumes:
@@ -55,6 +62,33 @@ services:
       - ./environment-variables/drupal.env
     volumes:
       - /root/data/web/sites:/app/drupal/web/sites
+  varnish:
+    container_name: varnish
+    image: hub.wiseman.ee/htm/varnish
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - drupal
+    env_file:
+      - ./environment-variables/varnish.env
+    volumes:
+      - /root/data/varnish/default.vcl:/etc/varnish/default.vcl
+  elasticsearch:
+    container_name: elasticsearch
+    image: hub.wiseman.ee/htm/elasticsearch-live
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - varnish
+    env_file:
+      - ./environment-variables/elasticsearch.env
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - /root/data/elasticsearch:/usr/share/elasticsearch/data
   angular:
     container_name: angular
     image: harbor.twn.zone/haridusportaal/angular:develop
