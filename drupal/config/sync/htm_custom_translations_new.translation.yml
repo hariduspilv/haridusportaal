@@ -4316,12 +4316,12 @@ home:
     en: 'Haldusvaldkonna e-teenused'
   study_title:
     translation_type: textarea
-    et: 'Õppekavad ja ametid'
-    en: 'Õppekavad ja ametid'
+    et: 'Ametialad-ametid ja õppekavad'
+    en: 'Ametialad-ametid ja õppekavad'
   study_intro:
     translation_type: textarea
-    et: 'Uuri ametialasid ja õppekavasid, et leida endale sobivaim õpitee.'
-    en: 'Uuri ametialasid ja õppekavasid, et leida endale sobivaim õpitee.'
+    et: 'Vaata ameteid ja erialasid, et leida endale <br /> sobivaim õpitee'
+    en: 'Vaata ameteid ja erialasid, et leida endale <br /> sobivaim õpitee'
   studyprogramme_compare:
     translation_type: textarea
     et: Õppekavad
@@ -4384,8 +4384,8 @@ home:
     en: 'VALDKONNAD TÖÖTURUL'
   topics_professions:
     translation_type: textarea
-    et: AMETIALAD
-    en: AMETIALAD
+    et: 'AMETIALAD JA AMETID'
+    en: 'AMETIALAD JA AMETID'
   toolbox:
     translation_type: textarea
     et: Tööriistakast
