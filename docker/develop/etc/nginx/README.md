@@ -1,7 +1,7 @@
 # Nginx and SSL config files
 
 ## Sites enabled /etc/nginx/sites-enabled/haridusportaal-fe:
-  1. sites-enabled/haridusportaal-fe symlinked from sites-available with angular container reference.
+  1. sites-enabled/haridusportaal symlinked from sites-available with angular container reference.
 
 ## Other conf files /etc/nginx/:
   1. common.conf for request headers.

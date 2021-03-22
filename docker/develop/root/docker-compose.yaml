@@ -1,0 +1,127 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: db
+    image: hub.wiseman.ee/htm/db
+    networks:
+      - htm
+    restart: always
+    env_file:
+      - ./environment-variables/db.env
+    volumes:
+      - /root/data/postgres:/var/lib/postgresql/data
+  redis:
+    container_name: redis
+    image: redis:3
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - db
+  htm-stunnel:
+    container_name: htm-stunnel
+    image: hub.wiseman.ee/htm/stunnel
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - /root/data/stunnel:/etc/stunnel
+  htm-stunnelsec:
+    container_name: htm-stunnelsec
+    image: hub.wiseman.ee/htm/stunnel
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - /root/data/stunnelsec:/etc/stunnel
+  htm-liides:
+    container_name: htm-liides
+    image: hub.wiseman.ee/htm/liides
+    networks:
+      - htm
+    restart: always
+    env_file:
+      - ./environment-variables/liides.env
+    volumes:
+      - /root/data/javaApp:/htmApp
+      - /root/data/javaApp/logs:/logs
+  drupal:
+    container_name: drupal
+    image: hub.wiseman.ee/htm/drupal-dev
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - htm-stunnel
+    env_file:
+      - ./environment-variables/drupal.env
+    volumes:
+      - /root/data/web/sites:/app/drupal/web/sites
+  varnish:
+    container_name: varnish
+    image: hub.wiseman.ee/htm/varnish
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - drupal
+    env_file:
+      - ./environment-variables/varnish.env
+    volumes:
+      - /root/data/varnish/default.vcl:/etc/varnish/default.vcl
+  elasticsearch:
+    container_name: elasticsearch
+    image: hub.wiseman.ee/htm/elasticsearch-live
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - varnish
+    env_file:
+      - ./environment-variables/elasticsearch.env
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - /root/data/elasticsearch:/usr/share/elasticsearch/data
+  angular:
+    container_name: angular
+    image: harbor.twn.zone/haridusportaal/angular:develop
+    networks:
+      - htm
+    restart: always
+  swag:
+    container_name: swag
+    image: linuxserver/swag
+    networks:
+      - htm
+    restart: unless-stopped
+    env_file:
+      - ./environment-variables/swag.env
+    volumes:
+      - /etc/config:/config
+  nginx:
+    container_name: nginx
+    image: nginx:1.15
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - drupal
+      - angular
+      - swag
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx:/etc/nginx
+      - /etc/nginx/certs/fullchain.pem:/etc/ssl/private/fullchain.pem
+      - /etc/nginx/certs/privkey.pem:/etc/ssl/private/privkey.pem
+
+networks:
+  htm:
