@@ -23,13 +23,12 @@ import { Subscription, Subject } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ThrowStmt } from '@angular/compiler';
 import { takeUntil } from 'rxjs/operators';
-import { IdCodePipe } from '@app/_pipes/idCode.pipe';
 const moment = _moment;
 @Component({
   selector: 'dashboard-view',
   templateUrl: 'dashboard.template.html',
   styleUrls: ['dashboard.styles.scss'],
-  providers: [IdCodePipe]
+  providers: []
 })
 
 export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -96,7 +95,6 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     public router: Router,
     public route: ActivatedRoute,
     public translate: TranslateService,
-    public idCodePipe: IdCodePipe
   ) {}
 
   pathWatcher() {
@@ -218,7 +216,6 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
               {
                 key: this.userData.username,
                 value: 'natural_person',
-                ariaLabel: this.idCodePipe.split(this.userData.username),
               },
             ];
           }

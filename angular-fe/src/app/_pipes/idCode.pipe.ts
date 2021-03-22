@@ -12,8 +12,4 @@ export class IdCodePipe implements PipeTransform {
     }
     return idCode.substring(2);
   }
-
-  split(idCode: string): any {
-    return idCode.split('').join(' ');
-  }
 }
