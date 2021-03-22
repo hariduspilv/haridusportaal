@@ -12,7 +12,6 @@
   * requires the following to setup (example files provided):
     1. xRoad-0.0.1-SNAPSHOT.jar from github
     2. conf directory which includes *xroad.properties*, *log4j.properties*, *application.properties*
-      * application.conf management.server.port needs to match htm-liides container port defined in *settings.php*
       * xroad.properties need to match service provider defined in *stunnel.conf*
     3. conditional plumbr.jar file in /plumbr subdirectory if plumbr is provided in container env variables.
 
