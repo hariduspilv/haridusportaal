@@ -2,7 +2,7 @@ oska_file_entity.batch_import:
   path: '/oska-data-import'
   defaults:
     _form: '\Drupal\htm_custom_oska\Form\OskaImportDataForm'
-    _title: 'Import oska and file oska data'
+    _title: 'Import oska infograph data'
   requirements:
     _permission: 'import oska csv data'
 
