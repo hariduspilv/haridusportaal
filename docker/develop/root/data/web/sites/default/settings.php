@@ -782,9 +782,6 @@ $settings['entity_update_batch_size'] = 50;
  * Keep this code block at the end of this file to take full effect.
  */
 #
-if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-  include $app_root . '/' . $site_path . '/settings.local.php';
-}
 $config_directories['sync'] = '../config/sync';
 $databases['default']['default'] = array (
   'database' => ${db},
@@ -796,15 +793,13 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\pgsql',
   'driver' => 'pgsql',
 );
+
 $settings['redis.connection']['interface'] = 'PhpRedis';
 $settings['redis.connection']['host'] = 'redis';
-# $settings['redis.connection']['port'] = '6379';
-# $settings['cache']['default'] = 'cache.backend.redis';
 
 $settings['install_profile'] = 'standard';
 ini_set('memory_limit', '1024M');
 $settings['http_client_config']['timeout'] = 3600;
-ini_set('max_execution_time', 0); 
 
 $settings['kafka'] = [
   'consumer' => [
@@ -815,17 +810,16 @@ $settings['kafka'] = [
   ],
 ];
 $settings['container_yamls'][] = 'sites/default/monolog.services.yml';
-# $settings['container_yamls'][] = 'sites/default/redis.services.yml';
-$settings['reverse_proxy'] = TRUE;
-$settings['reverse_proxy_addresses'] = array('api.haridusportaal.twn.zone');
 $settings['omit_vary_cookie'] = TRUE;
 
 $settings['tara_secret'] = ${tara_secret};
 $settings['harid_client_id'] = ${harid_client_id};
 $settings['harid_secret'] = ${harid_secret};
-$settings['loime_default_url'] = 'test-htm.wiseman.ee:30080/api/';
+$settings['loime_default_url'] = 'htm-liides:8080/api/';
+# $settings['loime_default_url'] = 'test-htm.wiseman.ee:30080/api/';
+
 ini_set('post_max_size', '20M');
 ini_set('upload_max_filesize', '20M');
 
 $settings['mobileid_url'] = 'https://tsp.demo.sk.ee/';
-$settings['mobileid_service_name'] = 'MOBILE-ID DEMO'; 
+$settings['mobileid_service_name'] = 'MOBILE-ID DEMO';

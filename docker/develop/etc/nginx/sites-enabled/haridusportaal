@@ -2,8 +2,8 @@ upstream angular {
     server      angular;
 }
 
-upstream drupal {
-    server      drupal:8080;
+upstream backend {
+    server      varnish:8080;
 }
 
 server {
@@ -36,7 +36,7 @@ server {
     include /etc/nginx/ssl.conf;
 
     location / {
-        proxy_pass  http://drupal;
+        proxy_pass  http://backend;
         include common_location.conf;
     }
 }
