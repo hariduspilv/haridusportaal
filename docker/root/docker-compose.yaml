@@ -29,16 +29,6 @@ services:
       - redis
     volumes:
       - /root/data/stunnel:/etc/stunnel
-  htm-stunnelsec:
-    container_name: htm-stunnelsec
-    image: hub.wiseman.ee/htm/stunnel
-    networks:
-      - htm
-    restart: always
-    depends_on:
-      - redis
-    volumes:
-      - /root/data/stunnelsec:/etc/stunnel
   htm-liides:
     container_name: htm-liides
     image: hub.wiseman.ee/htm/liides
@@ -52,7 +42,8 @@ services:
       - /root/data/javaApp/logs:/logs
   drupal:
     container_name: drupal
-    image: hub.wiseman.ee/htm/drupal-dev
+    image: hub.wiseman.ee/htm/drupal:prod
+    pull_policy: always
     networks:
       - htm
     restart: always
@@ -91,37 +82,31 @@ services:
       - /root/data/elasticsearch:/usr/share/elasticsearch/data
   angular:
     container_name: angular
+    # image: hub.wiseman.ee/htm/angular:prod
     image: harbor.twn.zone/haridusportaal/angular:develop
+    pull_policy: always
     networks:
       - htm
     restart: always
   swag:
     container_name: swag
-    image: linuxserver/swag
+    image: linuxserver/swag:version-1.13.0
+    cap_add:
+      - NET_ADMIN
     networks:
       - htm
     restart: unless-stopped
     env_file:
       - ./environment-variables/swag.env
-    volumes:
-      - /etc/config:/config
-  nginx:
-    container_name: nginx
-    image: nginx:1.15
-    networks:
-      - htm
-    restart: always
     depends_on:
       - drupal
       - angular
-      - swag
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/nginx:/etc/nginx
-      - /etc/nginx/certs/fullchain.pem:/etc/ssl/private/fullchain.pem
-      - /etc/nginx/certs/privkey.pem:/etc/ssl/private/privkey.pem
+      - /root/data/swag:/config
+      - /root/data/logrotate/nginx:/etc/logrotate.d/nginx
 
 networks:
   htm:

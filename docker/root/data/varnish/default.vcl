@@ -1,13 +1,13 @@
 vcl 4.0;
 
 acl upstream_proxy {
-    "nginx";
+    "swag";
 }
 
 # Default backend definition. Set this to point to your content server.
 backend default {
     .host = "drupal";
-    .port = "8080";
+    .port = "80";
 }
 
 sub vcl_recv {
