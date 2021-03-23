@@ -61,6 +61,8 @@ RUN	apk update && \
 	php7-pear \
 	php7-dev \
 	php7-soap \
+	php7-sockets \
+	php7-memcached \
 	libcrypto1.0 \
 	libssl1.0
 
