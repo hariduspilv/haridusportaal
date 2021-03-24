@@ -8,3 +8,5 @@ Noortevaldkonna, hariduse, õppe- ja karjäärinõustamise ning tööturgu
 - Info
 - Teenused
 - Statistika
+
+## Docker and deployment instructions in /docker directory

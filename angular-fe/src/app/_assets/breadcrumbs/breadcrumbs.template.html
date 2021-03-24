@@ -5,9 +5,11 @@
     </span>
     <a [routerLink]="[item.link]" *ngIf="item.link">{{ item.title }}</a>
     <ng-container *ngIf="!item.link">
-      <a href="javascript:window.location.reload();" aria-current="page">
-        {{ item.title }}
-     </a>
+      <a href="javascript:window.location.reload();" attr.aria-label="{{ ('breadcrumbs.current_page' | translate) + ' ' + item.title }}">
+        <span aria-hidden="true">
+          {{ item.title }}
+        </span>
+      </a>
     </ng-container>
   </li>
 </ul>
