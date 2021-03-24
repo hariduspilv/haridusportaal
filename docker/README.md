@@ -19,12 +19,14 @@
 ### Htm-stunnel
   * works as a connection tunnel for htm-liides container making x-road requests
   * requires certificate files and stunnel.conf for setup (examples provided)
+  * ports 30088 and 30089 opened to make direct connections from outside (for testing purposes)
 
 ### Htm-liides
   * defines x-road requests and provides configuration for x-road and EHIS requests
   * requires a mounted xRoad-0.0.1-SNAPSHOT.jar from github and configuration files under conf to run
   * takes 1 conditional env variable for plumbr implementation (e.g liides.env)
-  * mounts logs to host
+  * mounts logs to host (/root/data/javaApp/logs)
+  * ports 30080 and 30081 opened to make direct connections from outside (for testing purposes)
 
 ### Drupal
   * headless drupal implementation
@@ -70,11 +72,11 @@
 
 ### Connect to server and compose new containers:
   1. ssh root@haridusportaal.twn.zone
-  2. docker pull harbor.twn.zone/haridusportaal/angular:develop
-  3. docker pull hub.wiseman.ee/htm/drupal-dev
-  4. docker image prune -f
-  5. docker-compose down
-  6. docker-compose up -d
+  2. docker-compose pull
+  3. docker-compose down
+  4. docker-compose up -d
+  5. docker image prune -f
+
 
 ## Docker compose
   * Replica of the one on the server.

@@ -27,6 +27,8 @@ services:
     restart: always
     depends_on:
       - redis
+    ports:
+      - "30088:80"
     volumes:
       - /root/data/stunnel:/etc/stunnel
   htm-liides:
@@ -39,6 +41,8 @@ services:
     env_file:
       - containers.env
     ports:
+      - "30080:8080"
+      - "30081:8081"
       - "30082:8000"
     volumes:
       - /root/data/javaApp:/htmApp
@@ -118,6 +122,8 @@ services:
     restart: always
     depends_on:
       - redis
+    ports:
+      - "30089:80"
     volumes:
       - /root/data/stunnelsec:/etc/stunnel
 
