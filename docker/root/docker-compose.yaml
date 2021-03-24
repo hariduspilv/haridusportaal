@@ -8,7 +8,7 @@ services:
       - htm
     restart: always
     env_file:
-      - ./environment-variables/db.env
+      - containers.env
     volumes:
       - /root/data/postgres:/var/lib/postgresql/data
   redis:
@@ -36,21 +36,20 @@ services:
       - htm
     restart: always
     env_file:
-      - ./environment-variables/liides.env
+      - containers.env
     volumes:
       - /root/data/javaApp:/htmApp
-      - /root/data/javaApp/logs:/logs
+      - /root/data/javaApp/logs:/htmLogs
   drupal:
     container_name: drupal
     image: hub.wiseman.ee/htm/drupal:prod
-    pull_policy: always
     networks:
       - htm
     restart: always
     depends_on:
       - htm-stunnel
     env_file:
-      - ./environment-variables/drupal.env
+      - containers.env
     volumes:
       - /root/data/web/sites:/app/drupal/web/sites
   varnish:
@@ -62,7 +61,7 @@ services:
     depends_on:
       - drupal
     env_file:
-      - ./environment-variables/varnish.env
+      - containers.env
     volumes:
       - /root/data/varnish/default.vcl:/etc/varnish/default.vcl
   elasticsearch:
@@ -74,7 +73,7 @@ services:
     depends_on:
       - varnish
     env_file:
-      - ./environment-variables/elasticsearch.env
+      - containers.env
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -84,7 +83,6 @@ services:
     container_name: angular
     # image: hub.wiseman.ee/htm/angular:prod
     image: harbor.twn.zone/haridusportaal/angular:develop
-    pull_policy: always
     networks:
       - htm
     restart: always
@@ -97,7 +95,7 @@ services:
       - htm
     restart: unless-stopped
     env_file:
-      - ./environment-variables/swag.env
+      - containers.env
     depends_on:
       - drupal
       - angular
@@ -107,6 +105,18 @@ services:
     volumes:
       - /root/data/swag:/config
       - /root/data/logrotate/nginx:/etc/logrotate.d/nginx
+
+  # For DEVELOPMENT environment only (for additional x-road security server)
+  htm-stunnelsec:
+    container_name: htm-stunnelsec
+    image: hub.wiseman.ee/htm/stunnel
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - /root/data/stunnelsec:/etc/stunnel
 
 networks:
   htm:
