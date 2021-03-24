@@ -3,37 +3,61 @@
 cd /app
 git init
 git remote add origin https://github.com/hariduspilv/haridusportaal.git
-git fetch --tags
-git reset --hard $BUILD_VERSION
 
-if [ $ENVIRONMENT == "Live" ]; then
+if [ $ENVIRONMENT == "Development" ]; then
+
   echo $ENVIRONMENT
-  cd /app/drupal
-  drush cex -y
-  cp /app/drupal/config/sync/htm_custom_variables.variable.yml /app/drupal/web/sites/default/live-conf/
-  cp /app/drupal/config/sync/htm_custom_translations_new.translation.yml /app/drupal/web/sites/default/live-conf/
-  cp /app/drupal/config/sync/htm_custom_authentication.customauthsetting.yml /app/drupal/web/sites/default/live-conf/
-fi
+  git fetch origin
+  git checkout -b develop --track origin/develop
 
-if [ $ENVIRONMENT == "Prelive" ]; then
-  echo $ENVIRONMENT
-  cd /app/drupal
-  drush cex -y
-  cp /app/drupal/config/sync/htm_custom_variables.variable.yml /app/drupal/web/sites/default/live-conf/
-  cp /app/drupal/config/sync/htm_custom_translations_new.translation.yml /app/drupal/web/sites/default/live-conf/
-fi
+  if [ ! -d /app/drupal/web ]; then
+    git reset origin/develop
+    if [ ! -d /app/drupal/web/sites ]; then
+      cd /data
+      cp -R web /app/drupal
+    fi
+    if [ -d /app/drupal/config/sync ]; then
+      cd /app/drupal
+      drush cim
+    fi
+  else 
+    git pull
+  fi
 
-cd /app
-git reset --hard $BUILD_VERSION
+else
 
-if [ -d /app/drupal/web/sites/default/live-conf ]; then
-  cd /app/drupal/web/sites/default/live-conf
-  cp * /app/drupal/config/sync/
-fi
+  git fetch --tags
+  git reset --hard $BUILD_VERSION
 
-if [ -d /app/drupal/config/sync ]; then
-  cd /app/drupal
-  drush cim
+  if [ $ENVIRONMENT == "Live" ]; then
+    echo $ENVIRONMENT
+    cd /app/drupal
+    drush cex -y
+    cp /app/drupal/config/sync/htm_custom_variables.variable.yml /app/drupal/web/sites/default/live-conf/
+    cp /app/drupal/config/sync/htm_custom_translations_new.translation.yml /app/drupal/web/sites/default/live-conf/
+    cp /app/drupal/config/sync/htm_custom_authentication.customauthsetting.yml /app/drupal/web/sites/default/live-conf/
+  fi
+
+  if [ $ENVIRONMENT == "Prelive" ]; then
+    echo $ENVIRONMENT
+    cd /app/drupal
+    drush cex -y
+    cp /app/drupal/config/sync/htm_custom_variables.variable.yml /app/drupal/web/sites/default/live-conf/
+    cp /app/drupal/config/sync/htm_custom_translations_new.translation.yml /app/drupal/web/sites/default/live-conf/
+  fi
+
+  cd /app
+  git reset --hard $BUILD_VERSION
+
+  if [ -d /app/drupal/web/sites/default/live-conf ]; then
+    cd /app/drupal/web/sites/default/live-conf
+    cp * /app/drupal/config/sync/
+  fi
+
+  if [ -d /app/drupal/config/sync ]; then
+    cd /app/drupal
+    drush cim
+  fi
 fi
 
 cd /app/drupal
