@@ -27,16 +27,23 @@ services:
     restart: always
     depends_on:
       - redis
+    ports:
+      - "30088:80"
     volumes:
       - /root/data/stunnel:/etc/stunnel
   htm-liides:
     container_name: htm-liides
-    image: hub.wiseman.ee/htm/liides
+    # image: hub.wiseman.ee/htm/liides
+    image: hub.wiseman.ee/htm/liides:develop
     networks:
       - htm
     restart: always
     env_file:
       - containers.env
+    ports:
+      - "30080:8080"
+      - "30081:8081"
+      - "30082:8000"
     volumes:
       - /root/data/javaApp:/htmApp
       - /root/data/javaApp/logs:/htmLogs
@@ -115,6 +122,8 @@ services:
     restart: always
     depends_on:
       - redis
+    ports:
+      - "30089:80"
     volumes:
       - /root/data/stunnelsec:/etc/stunnel
 
