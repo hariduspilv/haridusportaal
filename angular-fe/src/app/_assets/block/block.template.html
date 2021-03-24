@@ -54,7 +54,7 @@
       </button>
       <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
         <ng-container *ngIf="tab.tabVisible">
-          <button *ngIf="tab.tabLink" (click)="selectTab(tab)"  [routerLink]="tab.tabLink" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <button *ngIf="tab.tabLink" (click)="selectTab(tab)"  [routerLink]="tab.tabLink" ripple="dark" [class.active]="tab.tabLabel == activeTab" [attr.aria-label]="tab.tabLabel == activeTab ? tab.tabLabel + ' ' + 'active': ''">
             <span class="button__contents">
               <ng-container *ngIf="tab.tabIcon">
                 <icon [glyph]="tab.tabIcon"></icon>

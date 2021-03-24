@@ -28,6 +28,10 @@
       font-size: $small;
       justify-content: space-between;
 
+      h1 {
+        all:unset;
+      }
+
       &--border {
         border-bottom: $gray 0.0625rem solid;
       }
