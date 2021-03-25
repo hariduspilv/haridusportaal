@@ -154,9 +154,7 @@ module.exports.serve = async (req, res) => {
 
   if (picto) {
     picto = await this.getFullPath(req) + '/picto?url=' + picto;
-    if (picto) {
-      logger.debug(`Picto fetch successful: ${picto}`)
-    } else {
+    if (!picto) {
       logger.error(`Picto fetch failed: ${picto}`)
     } 
   }
