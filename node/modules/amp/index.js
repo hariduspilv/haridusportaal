@@ -3,6 +3,11 @@ const fields = require('./fields');
 const fs = require('fs');
 const path = require('path');
 const Mustache = require('mustache');
+const log4js = require("log4js");
+log4js.configure({
+  appenders: { amp: { type: "file", filename: "amp.log" } },
+  categories: { default: { appenders: ["amp"], level: "all" } }
+});
 
 module.exports.getPrefix = (server) => {
   return new Promise(async (resolve, reject) => {
@@ -11,10 +16,10 @@ module.exports.getPrefix = (server) => {
       "edu.ee": "https://api.hp.edu.ee",
       "www.edu.ee": "https://api.hp.edu.ee",
       "test.edu.ee": "https://apitest.hp.edu.ee",
-      "haridusportaal.twn.zone": "https://htm.wiseman.ee",
-      "htm.local": "https://htm.wiseman.ee",
+      "haridusportaal.twn.zone": "https://api.haridusportaal.twn.zone",
+      "htm.local": "https://api.haridusportaal.twn.zone",
       "haridusportaal.edu.ee": "https://api.hp.edu.ee",
-      "fallback": "https://htm.wiseman.ee"
+      "fallback": "https://api.haridusportaal.twn.zone"
     }
     const prefix = urlTemplates[server] || urlTemplates.fallback;
     resolve(prefix);
@@ -87,6 +92,7 @@ module.exports.getRequestParams = (articlePath, api) => {
 
 module.exports.getData = (opts) => {
   return new Promise(async (resolve, reject) => {
+    const logger = log4js.getLogger('amp');
     let url = `${opts.api}/graphql?queryId=${opts.queryId}:1&variables={%22lang%22:%22ET%22,%22path%22:%22${encodeURI(opts.path)}%22}`;
     request.get(url, (err, response) => {
       let data = {};
@@ -94,6 +100,7 @@ module.exports.getData = (opts) => {
         data = JSON.parse(response.body).data.route || {};
       } catch (err) {
         console.log(err);
+        logger.error(`Data parsing failed: ${opts.api}/${opts.path}`);
       }
       
       resolve(data);
@@ -113,15 +120,20 @@ module.exports.getFullPath = (req, absolute) => {
 
 module.exports.serve = async (req, res) => {
   const articlePath = req.params[0];
+  const logger = log4js.getLogger('amp');
   const apiPrefix = await this.getPrefix(req.get('host'));
   const requestOptions = await this.getRequestParams(articlePath, apiPrefix);
-
   let rawData = {};
-
   if (requestOptions.queryId) {
      rawData = await this.getData(requestOptions);
+     if (rawData) {
+       logger.debug(`Data fetch successful: ${requestOptions.api} -> ${requestOptions.path}`)
+     } else {
+      logger.error(`Data fetch failed: ${requestOptions.api} -> ${requestOptions.path}`)
+     }
+  } else {
+    logger.error(`QueryId missing: ${requestOptions.api} -> ${requestOptions.path}`);
   }
-  
   const data = rawData.entity || {};
   const parsedData = fields(data);
 
@@ -134,6 +146,11 @@ module.exports.serve = async (req, res) => {
 
   if (picto) {
     picto = await this.getFullPath(req) + '/picto?url=' + picto;
+    if (picto) {
+      logger.debug(`Picto fetch successful: ${picto}`)
+    } else {
+      logger.error(`Picto fetch failed: ${picto}`)
+    } 
   }
   let fullPath = await this.getFullPath(req, true);
 
@@ -148,7 +165,7 @@ module.exports.serve = async (req, res) => {
   if (Object.keys(data).length === 0) {
     if (req.url.match('/amp')) {
       const url = req.url.replace('/amp', '');
-      console.log(url);
+      logger.error(`Data object empty ${req.url}, redirecting`)
       res.redirect(url);
     } else {
       res.sendFile(path.resolve('./', 'dist/index.html'));
