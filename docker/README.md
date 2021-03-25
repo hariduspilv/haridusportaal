@@ -61,9 +61,13 @@
 
 # Docker instructions for different environments
 
-## FE Building for production environments
-  1. docker build . --build-arg BUILD_VERSION=2.5.0 -f Dockerfile.prod -t hub.wiseman.ee/htm/angular:prod
+## FE Building for production environments in /angular-fe directory (required on every release)
+  1. docker build . --build-arg BUILD_VERSION=2.5.0 -f Dockerfile.prod -t hub.wiseman.ee/htm/angular:prod
   2. docker push hub.wiseman.ee/htm/angular:prod
+
+## BE Building for production environments in /drupal/docker/prod if updating drupal or other dependecies (not required on every release)
+  1. docker build . -t hub.wiseman.ee/htm/drupal:prod
+  2. docker push hub.wiseman.ee/htm/drupal:prod
 ## Dev server and CI
   * root@haridusportaal.twn.zone
   * https://bamboo.twn.ee/browse/HP-DEVFE
