@@ -16,7 +16,7 @@ module.exports.getPrefix = (server) => {
       "edu.ee": "https://api.hp.edu.ee",
       "www.edu.ee": "https://api.hp.edu.ee",
       "test.edu.ee": "https://apitest.hp.edu.ee",
-      "haridusportaal.twn.zone": "https://api.haridusportaal.twn.zone",
+      "haridusportaal.twn.zone": "https://api.hp.edu.ee",
       "htm.local": "https://api.haridusportaal.twn.zone",
       "haridusportaal.edu.ee": "https://api.hp.edu.ee",
       "fallback": "https://api.haridusportaal.twn.zone"
@@ -67,7 +67,11 @@ module.exports.getRequestParams = (articlePath, api) => {
   };
 
   return new Promise(async (resolve, reject) => {
+    const logger = log4js.getLogger('amp');
     request.get(`${api}/variables?_format=json&lang=et`, (err, response) => {
+      if (err) {
+        logger.error(`Variables request failed: ${url} -> ${err}`);
+      }
       const splitValues = articlePath.split('/') || [];
       const values = splitValues[0] === '' ? splitValues[1] : splitValues[0];
       const mapValues = map[values] || {};
@@ -100,10 +104,14 @@ module.exports.getData = (opts) => {
         data = JSON.parse(response.body).data.route || {};
       } catch (err) {
         console.log(err);
-        logger.error(`Data parsing failed: ${opts.api}/${opts.path}`);
+        logger.error(`Data parsing failed: ${opts.api} -> ${opts.path}`);
       }
-      
-      resolve(data);
+      if (err) {
+        logger.error(`Data request failed: ${url} -> ${err}`);
+        resolve(null);
+      } else {
+        resolve(data);
+      }
     });
   });
 }
@@ -126,7 +134,7 @@ module.exports.serve = async (req, res) => {
   let rawData = {};
   if (requestOptions.queryId) {
      rawData = await this.getData(requestOptions);
-     if (rawData) {
+     if (Object.keys(rawData).length) {
        logger.debug(`Data fetch successful: ${requestOptions.api} -> ${requestOptions.path}`)
      } else {
       logger.error(`Data fetch failed: ${requestOptions.api} -> ${requestOptions.path}`)
@@ -165,7 +173,7 @@ module.exports.serve = async (req, res) => {
   if (Object.keys(data).length === 0) {
     if (req.url.match('/amp')) {
       const url = req.url.replace('/amp', '');
-      logger.error(`Data object empty ${req.url}, redirecting`)
+      logger.error(`Request data empty: ${url}`)
       res.redirect(url);
     } else {
       res.sendFile(path.resolve('./', 'dist/index.html'));
