@@ -15,10 +15,14 @@
       * xroad.properties need to match service provider defined in *stunnel.conf*
     3. conditional plumbr.jar file in /plumbr subdirectory if plumbr is provided in container env variables.
 
-## logrotate
-  * configurations for log rotations
-  * rotation conf for nginx inside swag container: keeps last 12 weeks of logs
-
+## logs
+  * amp logs from angular container
+  * logrotate/nginx rotation conf for nginx inside swag container: keeps last 12 weeks of logs
+  * should create symbolic links to other logs for ease of access:
+    * ln -s /root/data/web/sites/default/files/logs/ drupal
+    * ln -s /root/data/swag/log/ swag
+    * ln -s /root/data/javaApp/logs/ htm-liides
+ 
 ## postgres
   * *db* container volume mount on host
 

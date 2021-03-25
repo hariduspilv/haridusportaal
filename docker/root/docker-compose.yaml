@@ -46,7 +46,7 @@ services:
       - "30082:8000"
     volumes:
       - /root/data/javaApp:/htmApp
-      - /root/data/logs/htm-liides:/htmLogs
+      - /root/data/javaApp/logs:/htmLogs
   drupal:
     container_name: drupal
     image: hub.wiseman.ee/htm/drupal:prod
