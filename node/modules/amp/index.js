@@ -5,7 +5,7 @@ const path = require('path');
 const Mustache = require('mustache');
 const log4js = require("log4js");
 log4js.configure({
-  appenders: { amp: { type: "file", filename: "amp.log" } },
+  appenders: { amp: { type: "file", filename: path.join(__dirname, '../../logs/amp.log') } },
   categories: { default: { appenders: ["amp"], level: "all" } }
 });
 

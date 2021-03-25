@@ -46,7 +46,7 @@ services:
       - "30082:8000"
     volumes:
       - /root/data/javaApp:/htmApp
-      - /root/data/javaApp/logs:/htmLogs
+      - /root/data/logs/htm-liides:/htmLogs
   drupal:
     container_name: drupal
     image: hub.wiseman.ee/htm/drupal:prod
@@ -94,7 +94,7 @@ services:
       - htm
     restart: always
     volumes:
-      - /root/data/logs/amp.log:/app/node/amp.log
+      - /root/data/logs/amp:/app/node/logs
   swag:
     container_name: swag
     image: linuxserver/swag:version-1.13.0
@@ -113,7 +113,7 @@ services:
       - "443:443"
     volumes:
       - /root/data/swag:/config
-      - /root/data/logrotate/nginx:/etc/logrotate.d/nginx
+      - /root/data/logs/logrotate/nginx:/etc/logrotate.d/nginx
 
   # For DEVELOPMENT environment only (for additional x-road security server)
   htm-stunnelsec:
