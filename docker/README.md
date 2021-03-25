@@ -62,7 +62,7 @@
 # Docker instructions for different environments
 
 ## FE Building for production environments
-  1. docker build . --build-arg BUILD_VERSION=2.5.0 -t hub.wiseman.ee/htm/angular:prod
+  1. docker build . --build-arg BUILD_VERSION=2.5.0 -f Dockerfile.prod -t hub.wiseman.ee/htm/angular:prod
   2. docker push hub.wiseman.ee/htm/angular:prod
 ## Dev server and CI
   * root@haridusportaal.twn.zone
