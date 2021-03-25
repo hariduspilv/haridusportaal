@@ -16,10 +16,10 @@ module.exports.getPrefix = (server) => {
       "edu.ee": "https://api.hp.edu.ee",
       "www.edu.ee": "https://api.hp.edu.ee",
       "test.edu.ee": "https://apitest.hp.edu.ee",
-      "haridusportaal.twn.zone": "https://api.hp.edu.ee",
+      "haridusportaal.twn.zone": "https://api.haridusportaal.twn.zone",
       "htm.local": "https://api.haridusportaal.twn.zone",
       "haridusportaal.edu.ee": "https://api.hp.edu.ee",
-      "fallback": "https://api.haridusportaal.twn.zone"
+      "fallback": "https://api.hp.edu.ee"
     }
     const prefix = urlTemplates[server] || urlTemplates.fallback;
     resolve(prefix);
