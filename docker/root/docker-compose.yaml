@@ -88,11 +88,13 @@ services:
       - /root/data/elasticsearch:/usr/share/elasticsearch/data
   angular:
     container_name: angular
-    # image: hub.wiseman.ee/htm/angular:prod
+    # image: hub.wiseman.ee/htm/angular:prod
     image: harbor.twn.zone/haridusportaal/angular:develop
     networks:
       - htm
     restart: always
+    volumes:
+      - /root/data/logs/amp.log:/app/node/amp.log
   swag:
     container_name: swag
     image: linuxserver/swag:version-1.13.0
