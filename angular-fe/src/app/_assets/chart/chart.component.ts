@@ -626,6 +626,7 @@ export class ChartComponent implements OnInit {
         label: filters.silt || '',
         graphGroupBy: filters['grupeeri'] || '',
         graphVAxis: current['graph_v_axis'],
+				fileName: current.filterValues.graph_source_file,
       };
 
       if (!variables.indicator) {
@@ -647,12 +648,9 @@ export class ChartComponent implements OnInit {
           tmpVariables[i] = variables[i];
         }
       }
-      let url
-        = '/graphql?queryName=googleChartData&queryId=9bdca5d7f53e0755482e65d091682f48ee77b635:1';
-      url += `&variables=${JSON.stringify(tmpVariables)}`;
-      url = encodeURI(url);
-      this.requestSubscription[id] = this.http.get(`${this.settings.url}${url}`).subscribe(
-          (response) => {
+			const path = this.settings.query('googleChartData', tmpVariables);
+			this.requestSubscription[id]
+				= this.http.get(path).subscribe((response) => {
             const data = response['data'].GoogleChartQuery.map((item) => {
               const type = variables['graphType'];
 

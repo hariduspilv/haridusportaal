@@ -80,8 +80,9 @@
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
         [disabled]="disabled"
+        [attr.aria-label]="ariaLabel"
         [(ngModel)]="dateField" />
-      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [disabled]="disabled">
+      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [disabled]="disabled" attr.aria-label="{{ 'calendar.open' | translate }}">
         <icon glyph="calendar" aria-label="kuupäev"></icon>
       </button>
     </ng-container>
@@ -137,10 +138,13 @@
           [searchable]="false"
           [appendTo]="appendTo"
           [disabled]="disabled"
+          (keydown)="keydownEvent($event)"
+          [keyDownFn]="keydownEvent"
           *ngIf="options"
           [(ngModel)]="field"
-          [attr.aria-label]="ariaLabel">
-
+          [attr.aria-label]="ariaLabel"
+          [attr.aria-multiselectable]="true"
+          >
           <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
             <formItem type="checkbox" [label]="item.key" [ngModel]="item$.selected"></formItem>
           </ng-template>
@@ -223,6 +227,7 @@
             (focus)="update('focus')"
             [attr.disabled]="disabled"
             (blur)="update('blur')"
+            [attr.aria-label]="ariaLabel"
             />
             <div class="formItem__radio__indicator"></div>
           </div><!--/formItem__check__wrapper-->

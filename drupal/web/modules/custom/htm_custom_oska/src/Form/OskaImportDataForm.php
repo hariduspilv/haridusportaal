@@ -57,6 +57,13 @@ class OskaImportDataForm extends FormBase {
     }
 
     public function validateForm(array &$form, FormStateInterface $form_state){
+      $filename = $form_state->getValue('filename');
+      if($filename === '') {
+        $form_state->setErrorByName('file', $this->t('Please enter a file name'));
+      }
+      else if($filename === 'oska_map_csv' || $filename === 'oska_csv') {
+        $form_state->setErrorByName('file', $this->t('Please enter a different file name'));
+      }
 
         // checking if the headers of the uploaded csv file are correct
         $required_headers = [

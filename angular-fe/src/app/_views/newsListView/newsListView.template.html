@@ -13,23 +13,23 @@
 			<ng-container *ngIf="showFilter">
 				<div class="row">
 					<div class="col-4 sm-12">
-						<formItem type="text" title="{{ 'news.filter_name' | translate }}" name="title"
+						<formItem type="text" ariaLabel="{{ 'news.filter_name' | translate }}" title="{{ 'news.filter_name' | translate }}" name="title"
 						[(ngModel)]="searchTitle"></formItem>
 					</div>
 					<!--/col-4-->
 					<div class="col-25 sm-12">
-						<formItem type="date" title="{{ 'time.date_period_from' | translate }}" name="minDate">
+						<formItem type="date" ariaLabel="{{ 'time.date_period_from' | translate }}" title="{{ 'time.date_period_from' | translate }}" name="minDate">
 						</formItem>
 					</div>
 					<!--/col-3-->
 					<div class="col-25 sm-12">
-						<formItem type="date" title="{{ 'time.date_period_to' | translate }}" name="maxDate"></formItem>
+						<formItem type="date" ariaLabel="{{ 'time.date_period_to' | translate }}" title="{{ 'time.date_period_to' | translate }}" name="maxDate"></formItem>
 					</div>
 
 					<div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
 						<div class="align-center filter-state sm-hide">
-							<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-								(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
+							<a #detailed role="button" class="pointer" (keyup.enter)="expandFilters()"
+								(click)="expandFilters()" tabindex="0" aria-expanded="false">
 								<span>{{ 'button.search_detailed' | translate}}</span>
 							</a>
 						</div>
@@ -42,20 +42,20 @@
 				<!--/row-->
 				<div class="row" *ngIf="filterFull">
 					<div class="col-9 sm-12">
-						<formItem type="multi-select" title="{{ 'news.filter_tag' | translate }}" name="tag"
+						<formItem type="multi-select" ariaLabel="{{ 'news.filter_tag' | translate }}" title="{{ 'news.filter_tag' | translate }}" name="tag"
 							[options]="tags" [(ngModel)]="selectedTag">
 						</formItem>
 					</div>
 
 					<div class="col-3 align-end text-right sm-12 inline-flex">
 						<div class="align-center filter-state sm-hide">
-							<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-								(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
+							<a role="button" class="pointer" (keyup.enter)="expandFilters()"
+								(click)="expandFilters()" tabindex="0" aria-expanded="false">
 								<span>{{ 'button.search_brief' | translate}}</span>
 							</a>
 						</div>
 						<div class="button-row">
-							<button htm-button>{{ 'button.search' | translate }}</button>
+							<button htm-button class="search">{{ 'button.search' | translate }}</button>
 						</div>
 					</div>
 				</div>

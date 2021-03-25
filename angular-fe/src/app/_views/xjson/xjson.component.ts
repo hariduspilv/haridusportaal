@@ -10,6 +10,8 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AlertsService, ModalService, SettingsService, UploadService } from '@app/_services';
 import { AddressService } from '@app/_services/AddressService';
+import { NgbDateStruct } from '@app/_assets/formItem';
+import { XjsonDateRangeObject } from './xjson-date-range-object';
 
 const moment = _moment;
 
@@ -493,6 +495,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   tableColumnAttribute(element, index, attribute) {
     return this.data_elements[element].table_columns[this.tableColumnName(element, index)][attribute];
+  }
+
+  private convertDateRangeAttributeToNgbDateStruct(dateObject: XjsonDateRangeObject): NgbDateStruct {
+    if (!dateObject) return null;
+    return {
+      year: parseInt(dateObject.year, 10),
+      month: parseInt(dateObject.month, 10),
+      day: parseInt(dateObject.day, 10),
+    };
   }
 
   tableAddRow(element) {
