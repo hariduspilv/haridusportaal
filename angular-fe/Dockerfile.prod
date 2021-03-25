@@ -33,10 +33,7 @@ RUN npm ci
 RUN ng build --prod
 
 WORKDIR /app/node
-RUN npm i
-
+RUN npm ci
 RUN apk del native-deps
-
-EXPOSE 80
 
 ENTRYPOINT node --max-http-header-size 80000 index.js
