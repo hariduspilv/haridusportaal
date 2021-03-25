@@ -15,6 +15,10 @@
       "type": "string",
       "enum": ["NOTICE", "WARNING", "ERROR"],
       "minLength": 1
+    },
+    "message_code":  {
+      "type": "string",
+      "minLength": 1
     }
   },
   "required": ["message_text", "message_type"],

@@ -6,6 +6,7 @@ use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
+use League\Csv\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
@@ -55,7 +56,7 @@ class GoogleChartQuery extends FieldPluginBase {
     protected function getCacheDependencies(array $result, $parent, array $args, ResolveContext $context, ResolveInfo $info) {
         $cache = parent::getCacheDependencies($result, $parent, $args, $context, $info);
 
-        $cache[0]->setCacheTags(['oska_csv']);
+        $cache[0]->setCacheTags([$args['filters']['file'].'_csv']);
 
         return $cache;
     }
@@ -66,6 +67,7 @@ class GoogleChartQuery extends FieldPluginBase {
 
         $filter_values = $graph_info;
         $graph_info_fields = [
+            'file',
             'graph_set',
             'graph_type',
             'secondary_graph_type',
@@ -94,8 +96,12 @@ class GoogleChartQuery extends FieldPluginBase {
 
         $this->filter_values = $filter_values;
 
-        $reader = Reader::createFromPath('/app/drupal/web/sites/default/files/private/oska_csv/oska_csv.csv', 'r');
-        $reader->setDelimiter(';');
+      try {
+        $reader = Reader::createFromPath('/app/drupal/web/sites/default/files/private/oska_csv/'.$graph_info['file'].'.csv', 'r');
+      } catch (Exception $e) {
+        return NULL;
+      }
+      $reader->setDelimiter(';');
         $reader->setHeaderOffset(0);
         $stmt = (new Statement())
             ->where([$this,'applyFilters']);

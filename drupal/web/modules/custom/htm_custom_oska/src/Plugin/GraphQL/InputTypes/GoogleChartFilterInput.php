@@ -15,6 +15,7 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  *     "graph_v_axis" = "String",
  *     "indicator" = "[String]",
  *     "secondary_graph_indicator" = "[String]",
+ *      "file" = "String!",
  *     "valdkond" = "[String]",
  *     "alavaldkond" = "[String]",
  *     "ametiala" = "[String]",
