@@ -1327,7 +1327,7 @@ export class SidebarFinalDocumentDownloadComponent {
   }
 
   public downloadTranscript(): void {
-    const id = this.route.snapshot.params.id;
+    const id = this.data.id || this.route.snapshot.params.id;
     if (this.downloadForm.invalid) {
       return;
     }
