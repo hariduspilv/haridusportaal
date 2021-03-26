@@ -395,7 +395,7 @@ export class SidebarActionsComponent implements OnInit{
 })
 export class SidebarLocationComponent {
   @Input() public data: any;
-  constructor(private el: ElementRef){}
+  constructor(private el: ElementRef) {}
   private markers: any[] = [];
   private options = {
     centerLat: null,
@@ -408,14 +408,14 @@ export class SidebarLocationComponent {
     enableStreetViewControl: false,
     draggable: false,
   };
-  
+
   mapLoaded() {
     setTimeout(() => {
-      const elements = this.el.nativeElement.querySelectorAll('agm-map a')
-        elements.forEach(element => {
-          element.setAttribute('tabindex', '-1')
-        });  
-    }, 3000);
+      const elements = this.el.nativeElement.querySelectorAll('agm-map a');
+      elements.forEach((element) => {
+        element.setAttribute('tabindex', '-1');
+      });
+    },         3000);
   }
 
   public parseData() {
@@ -709,7 +709,7 @@ export class SidebarGdprComponent {
 @Component({
   selector: 'sidebar-finaldocument-access',
   templateUrl: './templates/sidebar.finaldocument-access.template.html',
-  providers: [ IdCodePipe ]
+  providers: [IdCodePipe],
 })
 export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   @Input() public data: any;
@@ -768,7 +768,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   public addAccessOptions = {
     type: [],
     scope: [],
-  } 
+  };
 
   private generateAccessOptions() {
     this.addAccessOptions = {
@@ -796,7 +796,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
           value: AccessScope.WITH_ACCOMPANYING_DOCUMENTS,
         },
       ],
-    }
+    };
   }
 
   public ngOnInit(): void {
@@ -815,13 +815,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     this.certificatesService
     .isDisclosureAllowed(this.data.certificate.type)
     .subscribe((disclosureIsAllowed: boolean) => {
-      if(disclosureIsAllowed) {
+      if (disclosureIsAllowed) {
         this.addAccessOptions.type = [...this.addAccessOptions.type, {
           key: 'Avalikusta',
           value: AccessType.DISCLOSURE,
           info: this.translate.get('certificates.disclosure_info'),
           requireAttribute: true,
-        }]
+        }];
       }
     });
   }
@@ -1106,18 +1106,18 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       }
       return {};
     }
-    getAccessType(access: CertificateAccess): string {
-      switch (access.type) {
-        case AccessType.ID_CODE:
-          return this.idCodePipe.transform(access.accessorCode)
-        case AccessType.DISCLOSURE:
-          return 'Avalikustamine';
-        case AccessType.ACCESS_CODE:
-          return access.accessorCode
-        default:
-          return access.accessorCode;
-      }
+  getAccessType(access: CertificateAccess): string {
+    switch (access.type) {
+      case AccessType.ID_CODE:
+        return this.idCodePipe.transform(access.accessorCode);
+      case AccessType.DISCLOSURE:
+        return 'Avalikustamine';
+      case AccessType.ACCESS_CODE:
+        return access.accessorCode;
+      default:
+        return access.accessorCode;
     }
+  }
 }
 
 @Component({
@@ -1163,14 +1163,21 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
       documentIds: [documentId],
       ...(this.data.accessType ? { accessType: this.data.accessType } : {}),
       ...(this.route.snapshot.params.accessorCode ? {
-        accessorCode: this.route.snapshot.params.accessorCode
+        accessorCode: this.route.snapshot.params.accessorCode,
       } : {}),
     }).subscribe((res: Blob) => {
       saveAs(res, this.constructDocumentName(data, FileFormat.Pdf));
       this.loadingDownload = false;
-    }, (err: HttpErrorResponse) => {
+    },           (response: HttpErrorResponse) => {
       this.loadingDownload = false;
-      this.alertsService.error(err.message, 'documentAlerts', false);
+      this.dispatchErrorsToAlert('documentAlerts', response);
+    });
+  }
+
+  private dispatchErrorsToAlert(alertId: string, err: HttpErrorResponse): void {
+    const { error: { errors } } = err;
+    errors.forEach((errorObject) => {
+      this.alertsService.error(errorObject.message, alertId, null, true);
     });
   }
 
