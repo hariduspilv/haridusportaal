@@ -1,6 +1,6 @@
 <ng-container *ngIf="status == 'vote'">
-  <h2 attr.aria-label="{{ 'feedback_heading' | translate }}">
-    <b>{{ 'feedback_heading' | translate }}</b></h2>
+  <h3 attr.aria-label="{{ 'feedback_heading' | translate }}">
+    <b>{{ 'feedback_heading' | translate }}</b></h3>
   <div class="options">
     <button (click)="vote(true)" attr.aria-label="{{ 'feedback_yes' | translate }}">
       <icon glyph="thumbs-up" bg="true"></icon>
@@ -15,12 +15,12 @@
 </ng-container>
 
 <ng-container *ngIf="status == 'add_comment'">
-  <h2 role="alert" *ngIf="!values.vote">
+  <h3 role="alert" *ngIf="!values.vote">
     <b>{{ 'feedback_how_to_improve' | translate }}</b>
-  </h2>
-  <h2 role="alert" *ngIf="values.vote">
+  </h3>
+  <h3 role="alert" *ngIf="values.vote">
     <b>{{ 'feedback_add_comment' | translate }}</b>
-  </h2>
+  </h3>
   <div class="comment">
     <div tabindex="0" class="formItem">
       <formItem
@@ -51,8 +51,8 @@
 
 <ng-container *ngIf="status == 'response'">
   <div class="response">
-    <h2 role="alert">
+    <h3 role="alert">
       <b>{{ 'feedback_thanks' | translate }}</b>
-    </h2>
+    </h3>
   </div><!--/response-->
 </ng-container>

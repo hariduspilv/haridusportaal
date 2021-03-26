@@ -24,6 +24,13 @@ li {
 	display: inline;
 	white-space: nowrap;
 	color: $black;
+
+	&:last-of-type {
+		a {
+			color: unset;
+			text-decoration: unset;
+		}
+	}
 }
 .ellipsis li {
 	max-width: 12.5rem;
