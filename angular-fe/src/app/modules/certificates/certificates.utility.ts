@@ -259,6 +259,6 @@ export class CertificatesUtility {
     alldocs: CertificateDocumentWithClassifier[],
   ): string {
     const classifier = alldocs.find(xdoc => xdoc.type === document.type);
-    return classifier?.metadata?.shortName || classifier?.typeName;
+    return classifier?.metadata?.shortName || classifier?.typeName || document?.typeName;
   }
 }
