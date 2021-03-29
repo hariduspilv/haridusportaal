@@ -142,6 +142,7 @@
           [keyDownFn]="keydownEvent"
           *ngIf="options"
           [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel"
           [attr.aria-multiselectable]="true"
           >
           <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
