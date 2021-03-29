@@ -59,7 +59,8 @@
               <ng-container *ngIf="tab.tabIcon">
                 <icon [glyph]="tab.tabIcon"></icon>
               </ng-container>
-              <div class="title">{{ tab.tabLabel }}</div>
+              <div *ngIf="!tab.tabHeading" class="title">{{ tab.tabLabel }}</div>
+              <h2 *ngIf="tab.tabHeading">{{tab.tabLabel}}</h2>
             </span>
             <!--/button__contents-->
           </button>
