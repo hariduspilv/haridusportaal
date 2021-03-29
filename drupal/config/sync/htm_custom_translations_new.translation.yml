@@ -4970,3 +4970,8 @@ calendar:
     translation_type: textarea
     et: 'Ava kalender'
     en: 'Open calendar'
+tab:
+  active:
+    translation_type: textarea
+    et: aktiivne
+    en: active

@@ -1,0 +1,9 @@
+/root/data/logs/amp/*.log {
+  weekly
+  rotate 12
+  dateext
+  dateformat -%d.%m.%Y
+  compress
+  delaycompress
+  missingok
+}
