@@ -29,7 +29,7 @@
     "@angular/service-worker": "^10.1.6",
     "@auth0/angular-jwt": "^5.0.2",
     "@ng-bootstrap/ng-bootstrap": "^8.0.4",
-    "@ng-select/ng-select": "^3.7.3",
+    "@ng-select/ng-select": "^5.1.0",
     "angular-google-tag-manager": "^1.2.3",
     "autoprefixer": "^10.2.1",
     "bootstrap": "^4.5.0",
