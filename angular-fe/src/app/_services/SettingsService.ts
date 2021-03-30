@@ -26,15 +26,15 @@ export class SettingsService {
   public url: string = '';
   public ehisUrl: string = '';
   public urlTemplates = {
-    '192.168.6.193': 'https://htm.wiseman.ee',
-    'edu.twn.ee': 'https://htm.wiseman.ee',
+    '192.168.6.193': 'https://api.haridusportaal.twn.zone',
+    'edu.twn.ee': 'https://api.haridusportaal.twn.zone',
     'edu.ee': 'https://api.hp.edu.ee',
     'www.edu.ee': 'https://api.hp.edu.ee',
-    '10.0.2.2': 'https://htm.wiseman.ee',
-    '192.168.72.253': 'https://htm.wiseman.ee',
+    '10.0.2.2': 'https://api.haridusportaal.twn.zone',
+    '192.168.72.253': 'https://api.haridusportaal.twn.zone',
     'test.edu.ee': 'https://apitest.hp.edu.ee',
-    'haridusportaal.twn.zone': 'https://htm.wiseman.ee',
-    localhost: 'https://htm.wiseman.ee',
+    'haridusportaal.twn.zone': 'https://api.haridusportaal.twn.zone',
+    localhost: 'https://api.haridusportaal.twn.zone',
     otherwise: 'https://api.hp.edu.ee',
   };
 
