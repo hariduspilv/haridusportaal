@@ -1,6 +1,3 @@
-// tslint:disable: variable-name
-// tslint:disable: max-line-length
-// tslint:disable: radix
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';

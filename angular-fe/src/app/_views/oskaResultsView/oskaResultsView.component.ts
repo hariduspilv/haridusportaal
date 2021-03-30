@@ -97,9 +97,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
     this.field = field;
     if (field === 'field') {
       this.filteredTableData = this.filteredTableData.sort((a, b) => {
-        // tslint:disable-next-line: max-line-length
         const aField = a['oskaField'] && a['oskaField'][0] ? a['oskaField'][0]['entity']['title'].toLowerCase() : '';
-        // tslint:disable-next-line: max-line-length
         const bField = b['oskaField'] && b['oskaField'][0] ? b['oskaField'][0]['entity']['title'].toLowerCase() : '';
         if (aField < bField) { return this.modifier ? -1 : 1; }
         if (aField > bField) { return this.modifier ? 1 : -1; }
@@ -130,7 +128,6 @@ export class OskaResultsView extends FiltersService implements OnInit {
 
   removeAllRedundantClasses() {
     const elems = document.querySelectorAll('[class*="elem-"]');
-    // tslint:disable-next-line: no-increment-decrement
     for (let i = 0; i < elems.length; i++) {
       Array.from(elems[i].classList).forEach((className: any) => {
         if (className.startsWith('elem')) {
@@ -206,12 +203,10 @@ export class OskaResultsView extends FiltersService implements OnInit {
     // this doesnt do anything in live?
     // if (sortedBy) {
     //   let modifierValue = this.modifier ? 'sort.descending' : 'sort.ascending';
-    // tslint:disable-next-line: max-line-length
     //   let sortLabel = `${this.translate.get(sortedBy)['value']} - ${this.translate.get(modifierValue)['value']}`;
     //   this.alertText = `${this.translate.get('button.sorted_by')['value']} ${sortLabel}`;
     // } else {
     //   let commentValue = this.commentVisible ? 'button.column_opened' : 'button.column_closed';
-    // tslint:disable-next-line: max-line-length
     //   this.alertText = `${this.translate.get('oska.table_experts_comment')['value']} ${this.translate.get(commentValue)['value']}`;
     // }
   }

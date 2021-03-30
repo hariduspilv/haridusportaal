@@ -49,7 +49,6 @@ interface TitleLess {
   [key: string]: boolean;
 }
 
-// tslint:disable
 const sidebarOrder = {
   article: [
     'additional',
@@ -101,7 +100,6 @@ const sidebarOrder = {
   ]
 };
 
-// tslint:enable
 
 @Component({
   selector: 'sidebar',

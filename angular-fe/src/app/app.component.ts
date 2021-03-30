@@ -98,7 +98,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       window['__lc'].license = 10834647;
       (function () {
         const lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = false;
-        // tslint:disable-next-line: max-line-length
         lc.src = `${('https:' === document.location.protocol ? 'https://' : 'http://')}cdn.livechatinc.com/tracking.js`;
         const s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
       })();

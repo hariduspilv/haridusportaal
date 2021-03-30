@@ -1,4 +1,4 @@
-//tslint:disable
+
 import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';

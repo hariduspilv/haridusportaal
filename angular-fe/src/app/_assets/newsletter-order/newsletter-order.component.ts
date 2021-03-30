@@ -127,7 +127,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
     let output = '';
 
     let counter = 0;
-    // tslint:disable-next-line: prefer-const
+
     for (let i in this.formItems) {
       if (!this.formItems[i]) { continue; }
       output += output === '' ? i : `, ${i}`;
@@ -144,7 +144,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
     }
 
     let errorCounter = 0;
-    // tslint:disable-next-line: prefer-const
+
     for (let i in this.errors) {
       if (this.errors[i]) {
         errorCounter += 1;
