@@ -17,6 +17,9 @@
     -ms-grid-columns: 16.25rem 1fr;
   }
   grid-template-rows: 4rem 1fr;
+  &[withMargins] {
+    margin: 0 1.5rem;
+  }
   main {
     box-sizing: border-box;
     grid-area: content;

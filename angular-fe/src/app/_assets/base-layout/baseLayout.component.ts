@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'base-layout',
@@ -7,5 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class BaseLayout {
+  @Input() withMargins: boolean;
   constructor() {}
 }

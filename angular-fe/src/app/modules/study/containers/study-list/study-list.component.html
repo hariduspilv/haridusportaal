@@ -1,1 +1,12 @@
-<p>study-list works!</p>
+<base-layout withMargins>
+  <breadcrumbs path="/uuringud"></breadcrumbs>
+  <block [titleBorder]="false" [loading]="!studyList">
+    <block-title>UURINGUD</block-title>
+    <block-content>
+      <study-list-item
+        *ngFor="let study of studyList; let first = first;"
+        [study]="study">
+      </study-list-item>
+    </block-content>
+  </block>
+</base-layout>

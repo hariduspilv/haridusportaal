@@ -28,6 +28,7 @@
         "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
         "@typescript-eslint/restrict-plus-operands": "error",
         "@angular-eslint/component-selector": "off",
+        "@angular-eslint/component-class-suffix": "warn",
         "arrow-parens": [
           "off",
           "always"
@@ -47,6 +48,7 @@
             "code": 125
           }
         ],
+        "no-shadow": "off",
         "no-duplicate-imports": "error",
         "no-multiple-empty-lines": "error",
         "no-sparse-arrays": "error",

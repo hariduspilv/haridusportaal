@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MappedStudy } from '../../models/mapped-study';
+import { Study } from '../../models/study';
 
 @Component({
   selector: 'study-list-item',
@@ -7,7 +7,7 @@ import { MappedStudy } from '../../models/mapped-study';
   styleUrls: ['./study-list-item.component.scss'],
 })
 export class StudyListItemComponent {
-  @Input() study: MappedStudy;
+  @Input() study: Study;
   @Input() highlighted: boolean;
   @Input() noBorderBefore: boolean;
 }
