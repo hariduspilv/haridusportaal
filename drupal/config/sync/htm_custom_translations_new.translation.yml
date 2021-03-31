@@ -1477,6 +1477,10 @@ xjson:
     translation_type: textarea
     et: 'Vale toetuse liik, lubatud liigid on <liikide nimekiri>.'
     en: ''
+  grantSubmitted:
+    translation_type: textarea
+    et: 'Taotlus esitatud!'
+    en: ''
 article:
   label:
     translation_type: textarea
