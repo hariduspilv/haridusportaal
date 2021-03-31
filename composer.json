@@ -84,7 +84,7 @@
         "drupal/ultimate_cron": "^2.0",
         "drupal/varnish": "1.x-dev",
         "drupal/varnish_purge": "^1.11",
-        "drush/drush": "^9.0.0",
+        "drush/drush": "^10.4",
         "elasticsearch/elasticsearch": "^7.0",
         "eluceo/ical": "^0.14.0",
         "hshn/base64-encoded-file": "^1.2",
