@@ -18,9 +18,10 @@ if [ $ENVIRONMENT == "Development" ]; then
     fi
     if [ -d /app/drupal/config/sync ]; then
       cd /app/drupal
+      drush cex -y
       drush cim
     fi
-  else 
+  else
     git pull
   fi
 
@@ -70,7 +71,7 @@ chown apache.apache -R /app/drupal/web/sites/default/files
 
 if [ -d /plumbr-agent-installer ] && [[ $ENVIRONMENT == "Live" ]]; then
   /plumbr-agent-installer/PlumbrAgentInstaller --unpack-only --cluster-id="Drupal-${ENVIRONMENT}"
-  /lib/ld-musl-x86_64.so.1 -- /opt/plumbr-agent/plumbrd & 
+  /lib/ld-musl-x86_64.so.1 -- /opt/plumbr-agent/plumbrd &
   export LD_PRELOAD=/opt/plumbr-agent/libplumbrmonitor.so
 fi
 
