@@ -7,7 +7,7 @@ acl upstream_proxy {
 # Default backend definition. Set this to point to your content server.
 backend default {
     .host = "drupal";
-    .port = "80";
+    .port = "8080";
 }
 
 sub vcl_recv {
