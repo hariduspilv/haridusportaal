@@ -44,6 +44,9 @@
   * provides an elasticsearch search engine
   * requires 2mb ram space allocation on startup (error-prone)
   * takes 2 env variables (containers.env)
+  * needs hunspell dictionary ee_ET directory as mount (example provided)
+  * container might need permissions to write into mount (ERR: AccessDeniedException[/usr/share/elasticsearch/data/nodes])
+    run: chown -R 1000:1000 /root/data/elasticsearch
   * after running the container, when its health status is at least *yellow*, visit https://${drupal-url}/admin/config/search/elasticsearch/reindex to reindex it - select everything and click rebuild, afterwards when all numbers match clear drupal cache.
   * mounts elasticsearch nodes to host
 

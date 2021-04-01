@@ -49,7 +49,8 @@ services:
       - /root/data/javaApp/logs:/htmLogs
   drupal:
     container_name: drupal
-    image: hub.wiseman.ee/htm/drupal:prod
+    # image: hub.wiseman.ee/htm/drupal:testing
+    # image: hub.wiseman.ee/htm/drupal:prod
     networks:
       - htm
     restart: always
@@ -74,6 +75,8 @@ services:
   elasticsearch:
     container_name: elasticsearch
     image: hub.wiseman.ee/htm/elasticsearch-live
+    # For drupal 9
+    # image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
     networks:
       - htm
     restart: always
@@ -86,6 +89,8 @@ services:
       - "9300:9300"
     volumes:
       - /root/data/elasticsearch:/usr/share/elasticsearch/data
+      # For drupal 9
+      # - /root/data/elasticsearch/hunspell:/usr/share/elasticsearch/config/hunspell
   angular:
     container_name: angular
     # image: hub.wiseman.ee/htm/angular:prod
