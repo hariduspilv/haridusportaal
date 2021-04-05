@@ -33,7 +33,7 @@ export class SettingsService {
     '10.0.2.2': 'https://htm.wiseman.ee',
     '192.168.72.253': 'https://htm.wiseman.ee',
     'test.edu.ee': 'https://apitest.hp.edu.ee',
-    'haridusportaal.twn.zone': 'https://htm.wiseman.ee',
+    'haridusportaal.twn.zone': 'https://api.haridusportaal.twn.zone',
     localhost: 'https://htm.wiseman.ee',
     otherwise: 'https://api.hp.edu.ee',
   };

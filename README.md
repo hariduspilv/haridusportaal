@@ -8,3 +8,17 @@ Noortevaldkonna, hariduse, õppe- ja karjäärinõustamise ning tööturgu
 - Info
 - Teenused
 - Statistika
+
+## Rakendus ja seotud konteinerid:
+  * paigalduse ülevaade kaustas /docker/README.md
+  * seotud failide kirjeldus /docker/root/data/README.md
+
+## Tarned
+  * https://wiki.twn.ee/display/HP/Tarned
+
+### Paigaldusjuhend paigaldajatele
+  1. Muuta BUILD_VERSION keskkonna muutuja containers.env failis vastavaks reliisi verisooni sildiga (e.g tag 2.5.0)
+  2. docker-compose pull
+  3. docker-compose down
+  4. docker-compose up -d
+  5. docker image prune -a -f (eemaldab üleliigsed mitte-kasutusel image'id)
