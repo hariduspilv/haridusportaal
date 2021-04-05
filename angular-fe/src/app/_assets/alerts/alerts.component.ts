@@ -86,6 +86,7 @@ export class AlertsComponent implements OnDestroy {
 
   remove(alert) {
     this.alerts = this.alerts.filter(item => item !== alert);
+    this.alertService.close(this.alerts)
   }
 
   destroySubscriptions() {

@@ -3,6 +3,7 @@ import { viewOptions, maxItems, translationsPerType } from './helpers/compare';
 import { AlertsService, ModalService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services/SettingsService';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'compare',
@@ -16,6 +17,8 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
   private sessionStorageSubscription: any;
   public compare: any;
   public checked: boolean = false;
+  public selectedElement: any;
+  private subscription: Subscription;
   private viewLink: Object = {
     url: '/',
     label: '',
@@ -30,6 +33,7 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
 
   compareChange(id, $event) {
     this.compare = this.readFromLocalStorage(this.sessionStorageKey);
+    this.selectedElement = event.target; 
     const maximumItems = maxItems[this.sessionStorageKey]
       ? maxItems[this.sessionStorageKey] : maxItems.default;
     if ($event && !this.isChecked(id)) {
@@ -96,6 +100,11 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
     this.compare = this.readFromLocalStorage(this.sessionStorageKey);
     this.checked = this.isChecked(this.id);
     this.viewLink['url'] = viewOptions[this.sessionStorageKey];
+    this.subscription = this.alertsService.alertClosed.subscribe(() => {
+      if (this.selectedElement) {
+        this.selectedElement.focus();
+      }
+    })
   }
 
   ngAfterViewInit(): void {
@@ -111,6 +120,7 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
+    this.subscription.unsubscribe();
     if (this.sessionStorageSubscription) {
       this.sessionStorageSubscription.unsubscribe();
     }
