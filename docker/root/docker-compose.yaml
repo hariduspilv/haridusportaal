@@ -33,8 +33,9 @@ services:
       - /root/data/stunnel:/etc/stunnel
   htm-liides:
     container_name: htm-liides
-    # image: hub.wiseman.ee/htm/liides
-    image: hub.wiseman.ee/htm/liides:develop
+    image: hub.wiseman.ee/htm/liides
+    # For DEVELOPMENT server (extra testing utilities)
+    # image: hub.wiseman.ee/htm/liides:develop
     networks:
       - htm
     restart: always
@@ -49,8 +50,7 @@ services:
       - /root/data/javaApp/logs:/htmLogs
   drupal:
     container_name: drupal
-    # image: hub.wiseman.ee/htm/drupal:testing
-    # image: hub.wiseman.ee/htm/drupal:prod
+    image: harbor.twn.zone/haridusportaal/drupal:prod
     networks:
       - htm
     restart: always
@@ -93,8 +93,9 @@ services:
       # - /root/data/elasticsearch/hunspell:/usr/share/elasticsearch/config/hunspell
   angular:
     container_name: angular
-    # image: hub.wiseman.ee/htm/angular:prod
-    image: harbor.twn.zone/haridusportaal/angular:develop
+    image: harbor.twn.zone/haridusportaal/angular:prod
+    # For DEVELOPMENT server (with storybook)
+    # image: harbor.twn.zone/haridusportaal/angular:develop
     networks:
       - htm
     restart: always
@@ -120,7 +121,7 @@ services:
       - /root/data/swag:/config
       - /root/data/logs/logrotate/nginx:/etc/logrotate.d/nginx
 
-  # For DEVELOPMENT environment only (for additional x-road security server)
+  # For DEVELOPMENT server (additional x-road security server)
   htm-stunnelsec:
     container_name: htm-stunnelsec
     image: hub.wiseman.ee/htm/stunnel

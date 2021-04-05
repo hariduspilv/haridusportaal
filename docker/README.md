@@ -86,7 +86,7 @@
   2. docker-compose pull
   3. docker-compose down
   4. docker-compose up -d
-  5. docker image prune -f
+  5. docker image prune -a -f
 
 
 ## Docker compose
