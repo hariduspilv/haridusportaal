@@ -17,14 +17,12 @@
         <scrollableContent>
         <table htm-table>
           <ng-container *ngIf="key === 'studyProgrammeComparison'">
-            <thead>
-              <tr *ngIf="compareService.list">
-                <th scope="col" class="firstCell lastCell centered bold layoutCell" *ngFor="let item of compareService.list; let i = index;" id="studyProgramme{{i+1}}">
-                  <a [routerLink]="item.entityUrl.path" role="link">{{item.name | titlecase }}</a>
-                </th>
-              </tr>
-            </thead>
             <tbody>
+              <tr *ngIf="compareService.list">
+                <td class="firstCell lastCell centered bold layoutCell" *ngFor="let item of compareService.list; let i = index;" id="studyProgramme{{i+1}}">
+                  <a [routerLink]="item.entityUrl.path" role="link">{{item.name | titlecase }}</a>
+                </td>
+              </tr>
               <ng-container *ngIf="compareService.existingFields.includes('EducationalInstitution')">
                 <tr class="shade" *ngIf="compareService.list">
                   <th [attr.colspan]="compareService.list.length" class="dark center" id="school" headers="blank" >{{ 'studyProgramme.school' | translate | uppercase }}</th>
