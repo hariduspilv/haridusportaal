@@ -9,14 +9,16 @@
 @import 'materialize-css/sass/components/normalize';
 
 // Colors need to be called before variables
-@import 'materialize-css/sass/components/color';
+@import 'materialize-css/sass/components/color-variables';
+// Color classes
+@import 'materialize-css/sass/components/color-classes';
 // Color Schema 
 @import 'color_schema';
 
 // Variables;
 @import 'materialize-css/sass/components/variables';
 
-//This is your _settings.scss file where you can manage/replace specific variables outside material design framework. 
+//This is your _settings.scss file where you can manage/replace specific variables outside material design framework.
 @import 'settings';
 
 // material design components
@@ -35,9 +37,8 @@
 @import 'materialize-css/sass/components/toast';
 @import 'materialize-css/sass/components/cards';
 @import 'materialize-css/sass/components/transitions';
-@import 'materialize-css/sass/components/date_picker/default';
-@import 'materialize-css/sass/components/date_picker/default.date';
-@import 'materialize-css/sass/components/date_picker/default.time';
+@import 'materialize-css/sass/components/datepicker';
+@import 'materialize-css/sass/components/timepicker';
 @import 'materialize-css/sass/components/pulse';
 @import 'materialize-css/sass/components/chips';
 @import 'materialize-css/sass/components/icons-material-design';

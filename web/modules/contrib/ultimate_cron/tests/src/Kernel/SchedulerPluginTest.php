@@ -28,14 +28,14 @@ class SchedulerPluginTest extends KernelTestBase {
     $manager = \Drupal::service('plugin.manager.ultimate_cron.scheduler');
 
     $plugins = $manager->getDefinitions();
-    $this->assertEqual(count($plugins), 2);
+    $this->assertCount(2, $plugins);
 
     $simple = $manager->createInstance('simple');
     $this->assertTrue($simple instanceof Simple);
-    $this->assertEqual($simple->getPluginId(), 'simple');
+    $this->assertEquals('simple', $simple->getPluginId());
 
     $crontab = $manager->createInstance('crontab');
     $this->assertTrue($crontab instanceof Crontab);
-    $this->assertEqual($crontab->getPluginId(), 'crontab');
+    $this->assertEquals('crontab', $crontab->getPluginId());
   }
 }

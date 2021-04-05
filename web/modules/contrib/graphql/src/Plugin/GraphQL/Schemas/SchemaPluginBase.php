@@ -160,6 +160,8 @@ abstract class SchemaPluginBase extends PluginBase implements SchemaPluginInterf
    *   The current user.
    * @param \Psr\Log\LoggerInterface $logger
    *   The logger service.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   The language manager service.
    * @param array $parameters
    *   The service parameters.
    */
@@ -259,7 +261,8 @@ abstract class SchemaPluginBase extends PluginBase implements SchemaPluginInterf
       $context = new ResolveContext($globals, [
         'language' => $this->languageManager->getCurrentLanguage()->getId(),
       ]);
-      $context->addCacheTags(['graphql_response']);
+
+      $context->addCacheTags(['graphql']);
 
       // Always add the language_url cache context.
       $context->addCacheContexts([
@@ -268,15 +271,12 @@ abstract class SchemaPluginBase extends PluginBase implements SchemaPluginInterf
         'languages:language_content',
         'user.permissions',
       ]);
-      if ($this instanceof CacheableDependencyInterface) {
-        $context->addCacheableDependency($this);
-      }
 
       return $context;
     });
 
     $config->setValidationRules(function (OperationParams $params, DocumentNode $document, $operation) {
-      if (isset($params->queryId)) {
+      if (isset($params->queryId) && empty($params->getOriginalInput('query'))) {
         // Assume that pre-parsed documents are already validated. This allows
         // us to store pre-validated query documents e.g. for persisted queries
         // effectively improving performance by skipping run-time validation.

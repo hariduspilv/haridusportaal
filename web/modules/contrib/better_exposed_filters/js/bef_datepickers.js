@@ -1,5 +1,6 @@
 /**
- * @file bef_datepickers.js
+ * @file
+ * bef_datepickers.js
  *
  * Provides jQueryUI Datepicker integration with Better Exposed Filters.
  */
@@ -10,13 +11,13 @@
    */
 
   Drupal.behaviors.betterExposedFiltersDatePickers = {
-    attach: function(context, settings) {
+    attach: function (context, settings) {
 
-      // Check for and initialize datepickers
+      // Check for and initialize datepickers.
       var befSettings = drupalSettings.better_exposed_filters;
       if (befSettings && befSettings.datepicker && befSettings.datepicker_options && $.fn.datepicker) {
         var opt = [];
-        $.each(befSettings.datepicker_options, function(key, val) {
+        $.each(befSettings.datepicker_options, function (key, val) {
           if (key && val) {
             opt[key] = JSON.parse(val);
           }
@@ -26,4 +27,4 @@
 
     }
   };
-}) (jQuery, Drupal, drupalSettings);
+})(jQuery, Drupal, drupalSettings);

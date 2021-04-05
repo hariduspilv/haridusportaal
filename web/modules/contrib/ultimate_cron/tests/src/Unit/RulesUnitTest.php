@@ -49,40 +49,34 @@ class RulesUnitTest extends UnitTestCase {
 
   function testIntervals2MinuteRange() {
     $intervals = $this->getIntervals('10-11 12 * * *');
-    $this->assertEquals($intervals['minutes'], range(11, 10, -1), 'Expected minutes to be 10, 11');
+    $this->assertEquals(range(11, 10, -1), $intervals['minutes'], 'Expected minutes to be 10, 11');
     $intervals = $this->getIntervals('0-1 12 * * *');
-    $this->assertEquals($intervals['minutes'], range(1, 0, -1), 'Expected minutes to be 0, 1');
+    $this->assertEquals(range(1, 0, -1), $intervals['minutes'], 'Expected minutes to be 0, 1');
     $intervals = $this->getIntervals('58-59 12 * * *');
-    $this->assertEquals($intervals['minutes'], range(59, 58, -1), 'Expected minutes to be 58, 59');
+    $this->assertEquals(range(59, 58, -1), $intervals['minutes'], 'Expected minutes to be 58, 59');
   }
 
   function testIntervals2MinuteRangeWithOffset() {
     $intervals = $this->getIntervals('0-1+1 12 * * *');
-    $this->assertEquals($intervals['minutes'], range(2, 1, -1), 'Expected minutes to be 1, 2');
+    $this->assertEquals(range(2, 1, -1), $intervals['minutes'], 'Expected minutes to be 1, 2');
     $intervals = $this->getIntervals('10-11+1 12 * * *');
-    $this->assertEquals($intervals['minutes'], range(12, 11, -1), 'Expected minutes to be 11, 12');
+    $this->assertEquals(range(12, 11, -1), $intervals['minutes'], 'Expected minutes to be 11, 12');
     // Note, this test is testing for correct behaviour when the minutes wrap around
     // Previously, this test would generate 43, 0 due to a bug in expandRange/expandInterval
     $intervals = $this->getIntervals('42-43+1 12 * * *');
-    $this->assertEquals($intervals['minutes'], array(
-      44,
-      43
-    ), 'Expected minutes to be 43, 44');
+    $this->assertEquals(array(44, 43), $intervals['minutes'], 'Expected minutes to be 43, 44');
     // Note, this test is testing for correct behaviour when the minutes wrap around
     $intervals = $this->getIntervals('58-59+1 12 * * *');
-    $this->assertEquals($intervals['minutes'], array(
-      59,
-      0
-    ), 'Expected minutes to be 59, 0');
+    $this->assertEquals(array(59, 0), $intervals['minutes'], 'Expected minutes to be 59, 0');
   }
 
   function testIntervalsSpecificMinute() {
     $intervals = $this->getIntervals('0 12 * * *');
-    $this->assertEquals($intervals['minutes'], array(0), 'Expected minutes to be 0');
+    $this->assertEquals(array(0), $intervals['minutes'], 'Expected minutes to be 0');
     $intervals = $this->getIntervals('10 12 * * *');
-    $this->assertEquals($intervals['minutes'], array(10), 'Expected minutes to be 10');
+    $this->assertEquals(array(10), $intervals['minutes'], 'Expected minutes to be 10');
     $intervals = $this->getIntervals('59 12 * * *');
-    $this->assertEquals($intervals['minutes'], array(59), 'Expected minutes to be 59');
+    $this->assertEquals(array(59), $intervals['minutes'], 'Expected minutes to be 59');
   }
 
   function testRules() {

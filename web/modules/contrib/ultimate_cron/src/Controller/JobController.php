@@ -22,7 +22,11 @@ class JobController extends ControllerBase {
    */
   public function runCronJob(CronJob $ultimate_cron_job) {
     $ultimate_cron_job->run($this->t('Launched manually'));
-    drupal_set_message($this->t('Cron job @job_label (@module) was successfully run.', ['@job_label' => $ultimate_cron_job->label(), '@module' => $ultimate_cron_job->getModuleName()]));
+    $this->messenger()
+      ->addStatus($this->t('Cron job @job_label (@module) was successfully run.', [
+        '@job_label' => $ultimate_cron_job->label(),
+        '@module' => $ultimate_cron_job->getModuleName(),
+      ]));
     return $this->redirect('entity.ultimate_cron_job.collection');
   }
 
@@ -31,7 +35,8 @@ class JobController extends ControllerBase {
    */
   public function discoverJobs() {
     \Drupal::service('ultimate_cron.discovery')->discoverCronJobs();
-    drupal_set_message($this->t('Completed discovery for new cron jobs.'));
+    $this->messenger()
+      ->addStatus($this->t('Completed discovery for new cron jobs.'));
     return $this->redirect('entity.ultimate_cron_job.collection');
   }
 
@@ -80,4 +85,40 @@ class JobController extends ControllerBase {
 
   }
 
+  /**
+   * Unlocks a single cron job.
+   *
+   * @param \Drupal\ultimate_cron\Entity\CronJob $ultimate_cron_job
+   *   The cron job which will be unlocked.
+   *
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse
+   *   Redirects to the job listing after running a job.
+   */
+  public function unlockCronJob(CronJob $ultimate_cron_job) {
+    $lock_id = $ultimate_cron_job->isLocked();
+    $name = $ultimate_cron_job->label();
+
+    // Unlock the process.
+    if ($ultimate_cron_job->unlock($lock_id, TRUE)) {
+      $user = \Drupal::currentUser();
+      \Drupal::logger('ultimate_cron')->warning('@name manually unlocked by user @username (@uid)', array(
+        '@name' => $ultimate_cron_job->id(),
+        '@username' => $user->getDisplayName(),
+        '@uid' => $user->id(),
+      ));
+
+      $this->messenger()
+        ->addStatus($this->t('Cron job @name unlocked successfully.', [
+          '@name' => $name,
+        ]));
+    }
+    else {
+      $this->messenger()
+        ->addError($this->t('Could not unlock cron job @name', [
+          '@name' => $name,
+        ]));
+    }
+
+    return $this->redirect('entity.ultimate_cron_job.collection');
+  }
 }

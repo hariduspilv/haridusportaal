@@ -21,7 +21,7 @@
   {% for group in grouped_requirements %}
     <div class="col s12 m12">
       <h2 class="small-header" id="{{ group.type }}">{{ group.title }}</h3>
-      <ul class="system-status-report__entry collapsible" data-collapsible="accordion">
+      <ul class="system-status-report__entry collapsible">
       {% for requirement in group.items %}
           {%
             set summary_classes = [

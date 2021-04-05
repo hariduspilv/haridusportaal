@@ -23,13 +23,13 @@ class EnDisUnListInfoCase extends CommandUnishTestCase
         // Test that pm-list lists uninstalled modules.
         $this->drush('pm-list', [], ['no-core' => null, 'status' => 'disabled']);
         $out = $this->getOutput();
-        $this->assertContains('devel', $out);
+        $this->assertStringContainsString('drush_empty_module', $out);
 
         // Test pm-enable enables a module, and pm-list verifies that.
-        $this->drush('pm-enable', ['devel']);
+        $this->drush('pm-enable', ['drush_empty_module']);
         $this->drush('pm-list', [], ['status' => 'enabled']);
         $out = $this->getOutput();
-        $this->assertContains('devel', $out);
+        $this->assertStringContainsString('drush_empty_module', $out);
 
         $this->drush('core:status', [], ['field' => 'drupal-version']);
         $drupal_version = $this->getOutputRaw();
@@ -42,11 +42,11 @@ class EnDisUnListInfoCase extends CommandUnishTestCase
         if (Comparator::lessThan($drupal_version, '8.8')) {
             $active_theme = 'classy';
         }
-        $this->assertContains($active_theme, $out, 'Themes are in the pm-list');
+        $this->assertStringContainsString($active_theme, $out, 'Themes are in the pm-list');
 
         // Test cache was cleared after enabling a module.
         $table = 'router';
-        $path = '/admin/config/development/devel';
+        $path = '/admin/config/development/drush_empty_module';
         $this->drush('sql-query', ["SELECT path FROM $table WHERE path = '$path';"]);
         $list = $this->getOutputAsList();
         $this->assertTrue(in_array($path, $list), 'Cache was cleared after modules were enabled');
@@ -54,12 +54,12 @@ class EnDisUnListInfoCase extends CommandUnishTestCase
         // Test pm-list filtering.
         $this->drush('pm-list', [], ['package' => 'Core']);
         $out = $this->getOutput();
-        $this->assertNotContains('devel', $out, 'Devel is not part of core package');
+        $this->assertStringNotContainsString('drush_empty_module', $out, 'Drush Empty Module is not part of core package');
 
         // Test module uninstall.
-        $this->drush('pm-uninstall', ['devel']);
+        $this->drush('pm-uninstall', ['drush_empty_module']);
         $this->drush('pm-list', [], ['status' => 'disabled', 'type' => 'module']);
         $out = $this->getOutput();
-        $this->assertContains('devel', $out);
+        $this->assertStringContainsString('drush_empty_module', $out);
     }
 }

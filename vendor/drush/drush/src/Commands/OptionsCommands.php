@@ -13,7 +13,7 @@ class OptionsCommands
 
     /**
      * @hook option @optionset_proc_build
-     * @option ssh-options A string of extra options that will be passed to the ssh command (e.g. "-p 100")
+     * @option ssh-options A string of extra options that will be passed to the ssh command (e.g. <info>-p 100</info>)
      * @option tty Create a tty (e.g. to run an interactive program).
      */
     public function optionsetProcBuild($options = ['ssh-options' => self::REQ, 'tty' => false])
@@ -22,8 +22,8 @@ class OptionsCommands
 
     /**
      * @hook option @optionset_get_editor
-     * @option editor A string of bash which launches user's preferred text editor. Defaults to ${VISUAL-${EDITOR-vi}}.
-     * @option bg Run editor in the background. Does not work with editors such as `vi` that run in the terminal.
+     * @option editor A string of bash which launches user's preferred text editor. Defaults to <info>${VISUAL-${EDITOR-vi}}</info>.
+     * @option bg Launch editor in background process.
      */
     public function optionsetGetEditor($options = ['editor' => '', 'bg' => false])
     {
@@ -40,10 +40,11 @@ class OptionsCommands
     /**
      * @hook option @optionset_sql
      * @option database The DB connection key if using multiple connections in settings.php.
-     * @option db-url A Drupal 6 style database URL.
-     * @option target The name of a target within the specified database connection. Defaults to default
+     * @option db-url A Drupal 6 style database URL. For example <info>mysql://root:pass@localhost:port/dbname</info>
+     * @option target The name of a target within the specified database connection.
+     * @option show-passwords Show password on the CLI. Useful for debugging.
      */
-    public function optionsetSql($options = ['database' => 'default', 'target' => 'default', 'db-url' => self::REQ])
+    public function optionsetSql($options = ['database' => 'default', 'target' => 'default', 'db-url' => self::REQ, 'show-passwords' => false])
     {
     }
 

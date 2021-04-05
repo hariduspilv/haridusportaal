@@ -2,7 +2,8 @@
 
 namespace Drupal\ultimate_cron\Scheduler;
 
-use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Plugin\ConfigurableInterface;
+use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\ultimate_cron\Entity\CronJob;
@@ -10,7 +11,7 @@ use Drupal\ultimate_cron\Entity\CronJob;
 /**
  * Defines a scheduler method.
  */
-interface SchedulerInterface extends PluginInspectionInterface, ConfigurablePluginInterface, PluginFormInterface {
+interface SchedulerInterface extends PluginInspectionInterface, ConfigurableInterface, DependentPluginInterface, PluginFormInterface {
 
   /**
    * Returns the default configuration.
@@ -51,8 +52,8 @@ interface SchedulerInterface extends PluginInspectionInterface, ConfigurablePlug
    * @param \Drupal\ultimate_cron\Entity\CronJob $job
    *   The job to check schedule for.
    *
-   * @return bool
-   *   TRUE if job is behind its schedule.
+   * @return bool|int
+   *   FALSE if job is behind its schedule or number of seconds behind.
    */
   public function isBehind(CronJob $job);
 

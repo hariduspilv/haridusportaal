@@ -16,6 +16,17 @@ class MemcachedDriver extends DriverBase {
     $full_key = $this->key($key);
     $result = $this->memcache->set($full_key, $value, $exp);
 
+    // Something bad happened. Let's log the problem.
+    if (!$result && $this->settings->get('debug')) {
+      $result_code = $this->memcache->getResultCode();
+      $result_message = $this->memcache->getResultMessage();
+
+      $this->getLogger('memcache')->error(
+        'MemcachedDriver::set() error key=@key error=[@error_code]@error_msg',
+        ['@key' => $full_key, '@error_code' => $result_code, '@error_msg' => $result_message]
+      );
+    }
+
     if ($collect_stats) {
       $this->statsWrite('set', 'cache', [$full_key => (int) $result]);
     }
@@ -57,7 +68,7 @@ class MemcachedDriver extends DriverBase {
       }
     }
 
-    if (PHP_MAJOR_VERSION === 7) {
+    if (PHP_MAJOR_VERSION >= 7) {
       $results = $this->memcache->getMulti($full_keys, \Memcached::GET_PRESERVE_ORDER);
     }
     else {
