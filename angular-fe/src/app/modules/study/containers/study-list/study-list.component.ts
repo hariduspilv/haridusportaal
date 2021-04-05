@@ -13,9 +13,9 @@ import { StudyUtility } from '../../study-utility';
   styleUrls: ['./study-list.component.scss'],
 })
 export class StudyListComponent implements OnInit {
-  private studyList: MappedStudy[];
+  public studyList: MappedStudy[];
 
-  private studyListViewQueryParameters: StudyListViewQueryParameters = {
+  public studyListViewQueryParameters: StudyListViewQueryParameters = {
     titleValue: '%%',
     titleEnabled: false,
     publicationTypeEnabled: false,
