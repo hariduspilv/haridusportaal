@@ -30,7 +30,8 @@
     }
   }
   
-  .identification h1 {
+  .identification button {
+    @extend h1;
     color: $blue;
   }
   

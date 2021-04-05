@@ -28,6 +28,7 @@ const moment = _moment;
   selector: 'dashboard-view',
   templateUrl: 'dashboard.template.html',
   styleUrls: ['dashboard.styles.scss'],
+  providers: []
 })
 
 export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
