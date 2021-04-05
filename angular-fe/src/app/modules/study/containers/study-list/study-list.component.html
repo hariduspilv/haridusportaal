@@ -1,5 +1,8 @@
 <base-layout withMargins>
   <breadcrumbs path="/uuringud"></breadcrumbs>
+  <study-list-filter
+    [options]="studyListFilterOptions">
+  </study-list-filter>
   <block [titleBorder]="false" [loading]="!studyList">
     <block-title>UURINGUD</block-title>
     <block-content>

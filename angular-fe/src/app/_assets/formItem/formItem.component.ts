@@ -369,7 +369,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   public writeValue(value: any) {
     if (this.type === 'multi-select') {
-
       if (value) {
         this.field = value;
       }

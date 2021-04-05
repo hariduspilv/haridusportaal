@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SortDirection } from '@app/_core/models/enums/sort-direction.enum';
+import { ActivatedRoute } from '@angular/router';
 import { Language } from '@app/_core/models/interfaces/language.enum';
 import { MappedStudy } from '../../models/mapped-study';
+import { MappedStudyFilters } from '../../models/mapped-study-filters';
+import { StudyListViewFilterQueryResponse } from '../../models/study-list-view-filter-query-response';
 import { StudyListViewQueryParameters } from '../../models/study-list-view-query-parameters';
 import { StudyListViewQueryResponse } from '../../models/study-list-view-query-response';
 import { StudyApiService } from '../../study-api.service';
@@ -14,37 +16,30 @@ import { StudyUtility } from '../../study-utility';
 })
 export class StudyListComponent implements OnInit {
   public studyList: MappedStudy[];
+  public studyListFilterOptions: MappedStudyFilters;
 
-  public studyListViewQueryParameters: StudyListViewQueryParameters = {
-    titleValue: '%%',
-    titleEnabled: false,
-    publicationTypeEnabled: false,
-    publicationLanguageEnabled: false,
-    publisherEnabled: false,
-    studyLabelEnabled: false,
-    studyTopicEnabled: false,
-    dateToEnabled: false,
-    dateFromEnabled: false,
-    highlightedStudyEnabled: false,
-    sortField: 'created',
-    indicatorSort: false,
-    sortDirection: SortDirection.DESC,
-    nidEnabled: false,
-    limit: 24,
-    offset: 0,
-    lang: Language.et,
-  };
-
-  constructor(private api: StudyApiService) { }
+  constructor(
+    private api: StudyApiService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
-    this.studyListViewQuery();
+    this.getStudyFilterOptions();
+    this.route.queryParams.subscribe((params) => {
+      this.studyListViewQuery(params);
+    });
   }
 
-  private studyListViewQuery() {
-    this.api.studyListViewQuery(this.studyListViewQueryParameters).subscribe((response: StudyListViewQueryResponse) => {
+  private studyListViewQuery(params: StudyListViewQueryParameters) {
+    const requestParameters = StudyUtility.generateStudyListViewRequestParameters(params);
+    this.api.studyListViewQuery(requestParameters).subscribe((response: StudyListViewQueryResponse) => {
       this.studyList = StudyUtility.mapStudyListViewEntities(response.data.nodeQuery.entities);
-      console.log(this.studyList);
+    });
+  }
+
+  private getStudyFilterOptions() {
+    this.api.studyListViewFilterQuery(Language.et).subscribe((response: StudyListViewFilterQueryResponse) => {
+      this.studyListFilterOptions = StudyUtility.flattenStudyListFilterOptions(response);
     });
   }
 

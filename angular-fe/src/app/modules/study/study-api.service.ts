@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { SettingsService } from '@app/_services';
 import { Observable } from 'rxjs';
 import { StudyListViewFilterQueryResponse } from './models/study-list-view-filter-query-response';
-import { StudyListViewQueryParameters } from './models/study-list-view-query-parameters';
 import { StudyListViewQueryResponse } from './models/study-list-view-query-response';
+import { StudyListViewRequestParameters } from './models/study-list-view-request-parameters';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class StudyApiService {
     private http: HttpClient,
     private settingsService: SettingsService) {}
 
-  studyListViewQuery(parameters: StudyListViewQueryParameters): Observable<StudyListViewQueryResponse> {
+  studyListViewQuery(parameters: StudyListViewRequestParameters): Observable<StudyListViewQueryResponse> {
     const path = this.settingsService.query('studyListViewQuery', parameters);
     return this.http.get<StudyListViewQueryResponse>(path);
   }

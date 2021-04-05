@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AssetsModule } from '@app/_assets';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthInterceptor } from '@app/_interceptors';
 import { TranslateModule } from '@app/_modules/translate';
@@ -27,7 +27,7 @@ const routes: Routes = [
     AssetsModule,
     TranslateModule,
     RouterModule.forChild(routes),
-    ReactiveFormsModule,
+    FormsModule,
   ],
   exports: [],
   providers: [
