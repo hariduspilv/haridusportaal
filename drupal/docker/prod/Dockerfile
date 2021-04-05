@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.13
 MAINTAINER TWN
 
 ENV BUILD_VERSION=${BUILD_VERSION}
@@ -61,12 +61,14 @@ RUN	apk update && \
 	php7-pear \
 	php7-dev \
 	php7-soap \
-	libcrypto1.0 \
-	libssl1.0
+	php7-sockets \
+	php7-memcached \
+	libcrypto1.1 \
+	libssl1.1
 
 # redis
 RUN	apk update && \
-	apk add make g++ python autoconf php7-dev && \
+	apk add make g++ python2 autoconf php7-dev && \
 	pecl channel-update pecl.php.net && \
     printf "\n" | curl 'http://pecl.php.net/get/redis-4.1.1.tgz' -o redis-4.1.1.tgz && \
     pecl install redis-4.1.1.tgz && \
@@ -100,12 +102,15 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 	ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush && \
 	mkdir -p /app/drupal  && \
 	chown -R apache:apache /app/drupal && \
-	mkdir /run/apache2 && \
+	mkdir /run/apache2; exit 0 && \
 	sed -i 's#^DocumentRoot ".*#DocumentRoot "/app/drupal/web"#g' /etc/apache2/httpd.conf && \
 	sed -i 's#/var/www/localhost/htdocs#/app/drupal/web#' /etc/apache2/httpd.conf && \
 	sed -i 's#AllowOverride None#AllowOverride All#' /etc/apache2/httpd.conf && \
 	apk del ${BUILD_DEPS} php7-pear php7-dev && \
 	echo "Success"
+
+ADD httpd.conf /httpd.conf
+RUN mv httpd.conf /etc/apache2/httpd.conf
 
 ADD plumbr-agent-installer /plumbr-agent-installer
 
@@ -121,7 +126,7 @@ RUN mv auth.conf /etc/apache2/conf.d/auth.conf
 ADD crontab.txt /crontab.txt
 RUN /usr/bin/crontab /crontab.txt
 
-EXPOSE 80
+EXPOSE 8080
 
 WORKDIR /app/drupal
 

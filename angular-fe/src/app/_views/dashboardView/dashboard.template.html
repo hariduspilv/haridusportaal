@@ -9,7 +9,7 @@
 		<breadcrumbs [path]="breadcrumbs"></breadcrumbs>
 		<block [titleBorder]="false" tabStyle="middle">
 			<block-title>
-				{{ "frontpage.dashboard_label" | translate }}
+				<h1>{{ "frontpage.dashboard_label" | translate }}</h1>
 			</block-title>
 			<block-sub-title>
 				<div class="block__sub__title">
@@ -18,10 +18,9 @@
 							htm-button
 							theme="link"
 							*ngIf="currentRole === 'natural_person'"
-							attr.aria-label="{{ 'modal.modaler' | translate }}"
+							attr.aria-label="{{ 'button.open' | translate }} {{auth.user.firstname && auth.user.lastname}} {{ 'frontpage.dashboard_tabs_personal_label' | translate }}"
 							(click)="loadUserModal()"
 						>
-							<h1>
 								<ng-container *ngIf="auth.user.firstname && auth.user.lastname"
 									>{{ auth.user.firstname }} {{ auth.user.lastname
 									}}</ng-container
@@ -30,7 +29,6 @@
 									*ngIf="!auth.user.firstname && !auth.user.lastname"
 									>{{ auth.user.username }}</ng-container
 								>
-							</h1>
 						</button>
 						<h1 *ngIf="currentRole === 'juridical_person'">
 							{{ userData.role.current_role.data.nimi }}
@@ -64,6 +62,7 @@
 				tabLabel="Taotlused"
 				tabIcon="file-text"
 				tabLink="taotlused"
+				tabHeading="true"
 				[tabActive]="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
 				<applications
 					#applications
@@ -76,6 +75,7 @@
 				tabLabel="Tunnistused"
 				tabIcon="class"
 				tabLink="tunnistused"
+				tabHeading="true"
 				[tabActive]="breadcrumbs === '/töölaud/tunnistused'"
 			>
 				<certificates *ngIf="breadcrumbs === '/töölaud/tunnistused'"></certificates>
@@ -85,6 +85,7 @@
 				tabLabel="Õpingud"
 				tabIcon="local-library"
 				tabLink="õpingud"
+				tabHeading="true"
 				[tabActive]="breadcrumbs === '/töölaud/õpingud'"
 			>
 				<studies *ngIf="breadcrumbs === '/töölaud/õpingud'"></studies>
@@ -94,6 +95,7 @@
 				tabLabel="Õpetan"
 				tabIcon="school"
 				tabLink="õpetan"
+				tabHeading="true"
 				[tabActive]="breadcrumbs === '/töölaud/õpetan'"
 			>
 				<teachings *ngIf="breadcrumbs === '/töölaud/õpetan'"></teachings>
@@ -165,6 +167,7 @@
 								type="radio"
 								formControlName="roleSelection"
 								[options]="roleNaturalOptions"
+								[ariaLabel]="('frontpage.isikukood' | translate) + ' '  + this.userData.username.split('').join(' ')"
 							>
 							</formItem>
 						</td>

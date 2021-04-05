@@ -28,6 +28,10 @@
       font-size: $small;
       justify-content: space-between;
 
+      h1 {
+        all:unset;
+      }
+
       &--border {
         border-bottom: $gray 0.0625rem solid;
       }
@@ -158,7 +162,7 @@
             z-index: 2;
             pointer-events: none;
 
-            .title {
+            .title, h2 {
               font-weight: 300;
               font-size: .875rem;
               line-height: 1.71;

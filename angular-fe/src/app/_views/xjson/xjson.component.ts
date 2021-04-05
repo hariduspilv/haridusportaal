@@ -1038,8 +1038,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.alertsService.clear('upperAlert');
     this.data_messages.forEach((element) => {
       const message = this.data.messages[element];
-      if (message.message_text && message.message_type) {
-        this.alertsService[message.message_type === 'NOTICE' ? 'info' : message.message_type.toLowerCase()](message.message_text.et, 'upperAlert', false, true);
+      if ((message.message_code || message.message_text) && message.message_type) {
+        const messageText: string = message.message_code ? this.translate.get(`xjson.${message.message_code}`) : message.message_text?.et;
+        this.alertsService[message.message_type === 'NOTICE' ? 'info' : message.message_type.toLowerCase()](messageText, 'upperAlert', false, true);
       }
     });
   }

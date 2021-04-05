@@ -1,0 +1,138 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: db
+    image: hub.wiseman.ee/htm/db
+    networks:
+      - htm
+    restart: always
+    env_file:
+      - containers.env
+    volumes:
+      - /root/data/postgres:/var/lib/postgresql/data
+  redis:
+    container_name: redis
+    image: redis:3
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - db
+  htm-stunnel:
+    container_name: htm-stunnel
+    image: hub.wiseman.ee/htm/stunnel
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - redis
+    ports:
+      - "30088:80"
+    volumes:
+      - /root/data/stunnel:/etc/stunnel
+  htm-liides:
+    container_name: htm-liides
+    # image: hub.wiseman.ee/htm/liides
+    image: hub.wiseman.ee/htm/liides:develop
+    networks:
+      - htm
+    restart: always
+    env_file:
+      - containers.env
+    ports:
+      - "30080:8080"
+      - "30081:8081"
+      - "30082:8000"
+    volumes:
+      - /root/data/javaApp:/htmApp
+      - /root/data/javaApp/logs:/htmLogs
+  drupal:
+    container_name: drupal
+    # image: hub.wiseman.ee/htm/drupal:testing
+    # image: hub.wiseman.ee/htm/drupal:prod
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - htm-stunnel
+    env_file:
+      - containers.env
+    volumes:
+      - /root/data/web/sites:/app/drupal/web/sites
+  varnish:
+    container_name: varnish
+    image: hub.wiseman.ee/htm/varnish
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - drupal
+    env_file:
+      - containers.env
+    volumes:
+      - /root/data/varnish/default.vcl:/etc/varnish/default.vcl
+  elasticsearch:
+    container_name: elasticsearch
+    image: hub.wiseman.ee/htm/elasticsearch-live
+    # For drupal 9
+    # image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - varnish
+    env_file:
+      - containers.env
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - /root/data/elasticsearch:/usr/share/elasticsearch/data
+      # For drupal 9
+      # - /root/data/elasticsearch/hunspell:/usr/share/elasticsearch/config/hunspell
+  angular:
+    container_name: angular
+    # image: hub.wiseman.ee/htm/angular:prod
+    image: harbor.twn.zone/haridusportaal/angular:develop
+    networks:
+      - htm
+    restart: always
+    volumes:
+      - /root/data/logs/amp:/app/node/logs
+  swag:
+    container_name: swag
+    image: linuxserver/swag:version-1.13.0
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - htm
+    restart: unless-stopped
+    env_file:
+      - containers.env
+    depends_on:
+      - drupal
+      - angular
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /root/data/swag:/config
+      - /root/data/logs/logrotate/nginx:/etc/logrotate.d/nginx
+
+  # For DEVELOPMENT environment only (for additional x-road security server)
+  htm-stunnelsec:
+    container_name: htm-stunnelsec
+    image: hub.wiseman.ee/htm/stunnel
+    networks:
+      - htm
+    restart: always
+    depends_on:
+      - redis
+    ports:
+      - "30089:80"
+    volumes:
+      - /root/data/stunnelsec:/etc/stunnel
+
+networks:
+  htm:
