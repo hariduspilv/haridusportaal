@@ -46,7 +46,6 @@
               "src/auth.html",
               "src/manifest.webmanifest",
               "src/robots.txt",
-              "src/robots-dev.txt",
               "src/sitemap.xml",
               {
                 "input": "./node_modules/@google/markerclustererplus/images",
@@ -77,6 +76,40 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2.5mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "prelive": {
+              "index": {
+                "input": "src/index.prod.html",
+                "output": "index.html"
+              },
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prelive.ts"
+                },
+                {
+                  "replace": "src/robots.txt",
+                  "with": "src/robots-dev.txt"
                 }
               ],
               "optimization": true,
@@ -142,6 +175,9 @@
           "configurations": {
             "production": {
               "browserTarget": "haridusportaal-fe:build:production"
+            },
+            "prelive": {
+              "browserTarget": "haridusportaal-fe:build:prelive"
             },
             "dev": {
               "browserTarget": "haridusportaal-fe:build:dev"

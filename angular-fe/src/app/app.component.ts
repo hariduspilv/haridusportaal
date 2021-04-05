@@ -15,6 +15,7 @@ import { AmpService } from './_services/ampService';
 import { TranslateService } from './_modules/translate/translate.service';
 import { CookieService } from './_services/CookieService';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-root',
@@ -157,7 +158,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         });
       }
     });
-    if (this.settingsService.url.match(this.settingsService.urlTemplates.otherwise)) {
+    if (environment.GA_TRACKING) {
       this.gaPageTrack();
     }
 
