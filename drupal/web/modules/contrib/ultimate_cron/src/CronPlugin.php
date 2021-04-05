@@ -1,7 +1,8 @@
 <?php
 
 namespace Drupal\ultimate_cron;
-use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Plugin\ConfigurableInterface;
+use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\PluginBase;
@@ -13,7 +14,7 @@ use Drupal\Core\Plugin\PluginFormInterface;
  * This class handles all the load/save settings for a plugin as well as the
  * forms, etc.
  */
-class CronPlugin extends PluginBase implements PluginInspectionInterface, ConfigurablePluginInterface, PluginFormInterface {
+class CronPlugin extends PluginBase implements PluginInspectionInterface, ConfigurableInterface, DependentPluginInterface, PluginFormInterface {
   static public $multiple = FALSE;
   static public $instances = array();
   public $weight = 0;
@@ -29,7 +30,7 @@ class CronPlugin extends PluginBase implements PluginInspectionInterface, Config
 
   /**
    * Returns a list of plugin types.
-   * 
+   *
    * @return array
    */
   public static function getPluginTypes() {

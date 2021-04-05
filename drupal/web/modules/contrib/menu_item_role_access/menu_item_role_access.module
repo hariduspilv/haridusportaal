@@ -50,7 +50,7 @@ function menu_item_role_access_entity_base_field_info(EntityTypeInterface $entit
         'label' => 'hidden',
       ])
       ->setDisplayOptions('form', [
-        'type' => 'checkbox',
+        'type' => 'boolean_checkbox',
         'weight' => 4,
         'settings' => [
           'display_label' => TRUE,
@@ -83,11 +83,8 @@ function menu_item_role_access_form_menu_link_content_menu_link_content_form_alt
  * We want to make sure that fields aren't being edited by those who shouldn't.
  */
 function menu_item_role_access_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL) {
-  $messenger = \Drupal::messenger();
-
   if ($field_definition->getName() == 'menu_item_roles') {
     if ($operation == 'edit' and $account->hasPermission('edit menu_item_role_access')) {
-      $messenger->addMessage(t('User can edit the menu_item_role_acccess field.'));
       return AccessResult::allowed();
     }
     // Anything else on this field is forbidden.

@@ -2,6 +2,7 @@
   Themes Views' default multi-select element as a set of checkboxes.
 
   Available variables:
+    - wrapper_attributes: attributes for the wrapper element.
     - element: The collection of checkboxes.
     - children: An array of keys for the children of element.
     - is_nested: TRUE if this is to be rendered as a nested list.
@@ -9,19 +10,18 @@
       child_id => nesting_level which defines the depth a given element should
       appear in the nested list.
 #}
-{%
-  set classes = [
-    'form-checkboxes',
-    isNested ? 'bef-nested',
-    hasSelectAllNone ? 'bef-select-all-none',
-    hasSelectAllNoneNested ? 'bef-select-all-none-nested',
-  ]
-%}
-<div{{ attributes.addClass(classes) }}>
+{% set classes = [
+  'form-checkboxes',
+  is_nested ? 'bef-nested',
+  show_select_all_none ? 'bef-select-all-none',
+  show_select_all_none_nested ? 'bef-select-all-none-nested',
+  display_inline ? 'form--inline'
+] %}
+<div{{ wrapper_attributes.addClass(classes) }}>
   {% set current_nesting_level = 0 %}
   {% for child in children %}
     {% set item = attribute(element, child) %}
-    {% if isNested %}
+    {% if is_nested %}
       {% set new_nesting_level = attribute(depth, child) %}
       {% include '@better_exposed_filters/bef-nested-elements.html.twig' %}
       {% set current_nesting_level = new_nesting_level %}

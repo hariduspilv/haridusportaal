@@ -1,5 +1,7 @@
 <?php
+
 /**
+ * @file
  * Contains install and update functions for node_view_permissions.
  */
 
@@ -20,6 +22,6 @@ function node_view_permissions_uninstall() {
 /**
  * Implements hook_update_N().
  */
-function node_view_permissions_update_N() {
+function node_view_permissions_update_8001() {
   node_access_needs_rebuild(TRUE);
- }
+}

@@ -2,6 +2,7 @@
 namespace Drush\Commands\core;
 
 use Consolidation\Log\ConsoleLogLevel;
+use Drush\Drupal\DrupalUtil;
 use DrushBatchContext;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\OutputFormatters\StructuredData\UnstructuredListData;
@@ -114,7 +115,8 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
         }
 
         if ($options['cache-clear']) {
-            drush_drupal_cache_clear_all();
+            $process = $this->processManager()->drush($this->siteAliasManager()->getSelf(), 'cache-rebuild');
+            $process->mustrun();
         }
 
         $this->logger()->success(dt('Finished performing updates.'));
@@ -237,7 +239,10 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
             }
         } else {
             $ret['#abort'] = ['success' => false];
-            Drush::logger()->warning(dt('Update function @function not found', ['@function' => $function]));
+            Drush::logger()->warning(dt('Update function @function not found in file @filename', [
+                '@function' => $function,
+                '@filename' => "$module.install",
+            ]));
         }
 
         if (isset($context['sandbox']['#finished'])) {
@@ -267,7 +272,7 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
         }
 
         // Record the schema update if it was completed successfully.
-        if ($context['finished'] == 1 && empty($ret['#abort'])) {
+        if ($context['finished'] >= 1 && empty($ret['#abort'])) {
             drupal_set_installed_schema_version($module, $number);
             // Setting this value will output a success message.
             // @see \DrushBatchContext::offsetSet()
@@ -299,7 +304,8 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
         }
 
         list($module, $name) = explode('_post_update_', $function, 2);
-        module_load_include('php', $module, $module . '.post_update');
+        $filename = $module . '.post_update';
+        \Drupal::moduleHandler()->loadInclude($module, 'php', $filename);
         if (function_exists($function)) {
             if (empty($context['results'][$module][$name]['type'])) {
                 Drush::logger()->notice("Update started: $function");
@@ -326,8 +332,14 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
                     'query' => t('%type: @message in %function (line %line of %file).', $variables),
                 ];
             }
+        } else {
+            $ret['#abort'] = ['success' => false];
+            Drush::logger()->warning(dt('Post update function @function not found in file @filename', [
+                '@function' => $function,
+                '@filename' => "$filename.php",
+            ]));
         }
-
+        
         if (isset($context['sandbox']['#finished'])) {
             $context['finished'] = $context['sandbox']['#finished'];
             unset($context['sandbox']['#finished']);
@@ -362,12 +374,16 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
      * @param array $results
      * @param array $operations
      */
-    public static function updateFinished($success, $results, $operations)
+    public function updateFinished($success, $results, $operations)
     {
-        // No code needed but the batch result bookkeeping fails without a finished callback.
-        $noop = 1;
+        if ($this->cache_clear) {
+            // Flush all caches at the end of the batch operation. When Drupal
+            // core performs database updates it also clears the cache at the
+            // end. This ensures that we are compatible with updates that rely
+            // on this behavior.
+            drupal_flush_all_caches();
+        }
     }
-
 
     /**
      * Start the database update batch process.
@@ -442,7 +458,7 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
             'title' => 'Updating',
             'init_message' => 'Starting updates',
             'error_message' => 'An unrecoverable error has occurred. You can find the error message below. It is advised to copy it to the clipboard for reference.',
-            'finished' => '\Drush\Commands\core\UpdateDBCommands::updateFinished',
+            'finished' => [$this, 'updateFinished'],
             'file' => 'core/includes/update.inc',
         ];
         batch_set($batch);
@@ -513,7 +529,6 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
      * explicitly rebuilding the container as the container is rebuilt on the next
      * HTTP request of the batch.
      *
-     * @see drush_drupal_cache_clear_all()
      * @see \Drupal\system\Controller\DbUpdateController::triggerBatch()
      */
     public static function cacheRebuild()
@@ -656,9 +671,9 @@ class UpdateDBCommands extends DrushCommands implements SiteAliasManagerAwareInt
             }
             foreach ($requirements as $requirement) {
                 if (isset($requirement['severity']) && $requirement['severity'] != REQUIREMENT_OK) {
-                    $message = isset($requirement['description']) ? $requirement['description'] : '';
+                    $message = isset($requirement['description']) ? DrupalUtil::drushRender($requirement['description']) : '';
                     if (isset($requirement['value']) && $requirement['value']) {
-                        $message .= ' (Currently using '. $requirement['title'] .' '. $requirement['value'] .')';
+                        $message .= ' (Currently using '. $requirement['title'] .' '. DrupalUtil::drushRender($requirement['value']) .')';
                     }
                     $log_level = $requirement['severity'] === REQUIREMENT_ERROR ? LogLevel::ERROR : LogLevel::WARNING;
                     $this->logger()->log($log_level, $message);

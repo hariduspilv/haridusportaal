@@ -14,7 +14,12 @@ class MetatagGoogleCSETagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  private $tags = [
+  protected static $modules = ['metatag_google_cse'];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $tags = [
     'audience',
     'department',
     'doc_status',
@@ -23,17 +28,9 @@ class MetatagGoogleCSETagsTest extends MetatagTagsTestBase {
   ];
 
   /**
-   * {@inheritdoc}
-   */
-  protected function setUp() {
-    parent::$modules[] = 'metatag_google_cse';
-    parent::setUp();
-  }
-
-  /**
    * Implements {tag_name}TestTagName() for 'google_rating'.
    */
-  private function googleRatingTestTagName() {
+  protected function googleRatingTestTagName() {
     return 'rating';
   }
 

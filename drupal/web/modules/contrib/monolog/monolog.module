@@ -1,6 +1,29 @@
 <?php
 
 /**
+ * @file
+ * monolog.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function monolog_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the monolog module.
+    case 'help.page.monolog':
+      $readme = file_get_contents(__DIR__ . "/README.md");
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t("This module integrates Drupal with the fantastic Monolog library") . '</p>';
+      $output .= '<pre>' . $readme . '</pre>';
+      return $output;
+  }
+}
+
+/**
  * Implements hook_mail().
  */
 function monolog_mail($key, &$message, $params) {
