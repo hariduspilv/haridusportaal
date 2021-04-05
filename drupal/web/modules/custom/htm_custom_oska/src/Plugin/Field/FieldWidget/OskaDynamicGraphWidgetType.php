@@ -114,7 +114,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
       $graph_source = false;
     }
 
-    if ($graph_type && $graph_source) {
+    if ($graph_type) {
       $element['graph_options']['graph_title'] = [
         '#title' => $this->t('Graph title'),
         '#type' => 'textfield',
