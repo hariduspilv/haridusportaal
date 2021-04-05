@@ -495,6 +495,7 @@ public class OLTWorker extends Worker {
               .putArray("messages").add("Done");
           ((ObjectNode) jsonNode.get("messages")).putObject("Done")
               .put("message_type", "NOTICE")
+              .put("message_code", "grantsSubmitted")
               .putObject("message_text").put("et", "Taotlus Esitatud!");
 
           ((ObjectNode) jsonNode.get("header")).put("current_step", "step_response");
