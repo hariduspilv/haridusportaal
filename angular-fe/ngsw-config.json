@@ -31,7 +31,6 @@
       "urls": [
         "https://api.hp.edu.ee/*/**",
         "https://apitest.hp.edu.ee/*/**",
-        "https://htm.wiseman.ee/*/**",
         "https://api.haridusportaal.twn.zone/*/**"
       ],
       "cacheConfig": {
@@ -53,6 +52,6 @@
     "!/storybook",
     "!/storybook/**",
     "!/sitemap.xml",
-    "!/robots*.txt"
+    "!/robots.txt"
   ]
 }

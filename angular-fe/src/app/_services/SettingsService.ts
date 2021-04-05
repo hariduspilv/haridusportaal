@@ -1,53 +1,21 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DOCUMENT } from '@angular/common';
 import { Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
   constructor(
-    @Inject(DOCUMENT) private document,
     private http: HttpClient,
   ) {
-    if (this.urlTemplates[document.domain]) {
-      this.url = this.urlTemplates[document.domain];
-    } else {
-      this.url = this.urlTemplates.otherwise;
-    }
-    if (this.ehisUrlTemplates[document.domain]) {
-      this.ehisUrl = this.ehisUrlTemplates[document.domain];
-    } else {
-      this.ehisUrl = this.ehisUrlTemplates.otherwise;
-    }
+    this.url = environment.API_URL;
+    this.ehisUrl = environment.EHIS_URL;
   }
 
   public url: string = '';
   public ehisUrl: string = '';
-  public urlTemplates = {
-    '192.168.6.193': 'https://htm.wiseman.ee',
-    'edu.twn.ee': 'https://htm.wiseman.ee',
-    'edu.ee': 'https://api.hp.edu.ee',
-    'www.edu.ee': 'https://api.hp.edu.ee',
-    '10.0.2.2': 'https://htm.wiseman.ee',
-    '192.168.72.253': 'https://htm.wiseman.ee',
-    'test.edu.ee': 'https://apitest.hp.edu.ee',
-    'haridusportaal.twn.zone': 'https://api.haridusportaal.twn.zone',
-    localhost: 'https://htm.wiseman.ee',
-    otherwise: 'https://api.hp.edu.ee',
-  };
-
-  private ehisUrlTemplates = {
-    'edu.twn.ee': 'https://ehis2.twn.zone/api',
-    'test.edu.ee': 'https://tehis.edu.ee/api',
-    'haridusportaal.twn.zone': 'https://ehis2.twn.zone/api',
-    'edu.ee': 'https://ehis.edu.ee/api',
-    'www.edu.ee': 'https://ehis.edu.ee/api',
-    localhost: 'https://ehis2.twn.zone/api',
-    otherwise: 'https://ehis.edu.ee/api',
-  };
-
   public login = '/api/v1/token?_format=json';
   public mobileLogin = '/custom/login/mobile_id?_format=json';
   public error: boolean = false;
