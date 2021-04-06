@@ -1,48 +1,32 @@
 <?php
-
-declare(strict_types=1);
-
 namespace GraphQL\Language\AST;
 
-use ArrayAccess;
-use Countable;
 use GraphQL\Utils\AST;
-use InvalidArgumentException;
-use IteratorAggregate;
-use Traversable;
-use function array_merge;
-use function array_splice;
-use function count;
-use function is_array;
 
 /**
- * @template T of Node
- * @phpstan-implements ArrayAccess<int|string, T>
- * @phpstan-implements IteratorAggregate<T>
+ * Class NodeList
+ *
+ * @package GraphQL\Utils
  */
-class NodeList implements ArrayAccess, IteratorAggregate, Countable
+class NodeList implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
-     * @var Node[]
-     * @phpstan-var array<T>
+     * @var array
      */
     private $nodes;
 
     /**
-     * @param Node[] $nodes
-     *
-     * @phpstan-param array<T> $nodes
-     * @phpstan-return self<T>
+     * @param array $nodes
+     * @return static
      */
-    public static function create(array $nodes) : self
+    public static function create(array $nodes)
     {
         return new static($nodes);
     }
 
     /**
-     * @param Node[] $nodes
-     *
-     * @phpstan-param array<T> $nodes
+     * NodeList constructor.
+     * @param array $nodes
      */
     public function __construct(array $nodes)
     {
@@ -50,102 +34,87 @@ class NodeList implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * @param int|string $offset
+     * @param mixed $offset
+     * @return bool
      */
-    public function offsetExists($offset) : bool
+    public function offsetExists($offset)
     {
         return isset($this->nodes[$offset]);
     }
 
     /**
-     * TODO enable strict typing by changing how the Visitor deals with NodeList.
-     * Ideally, this function should always return a Node instance.
-     * However, the Visitor currently allows mutation of the NodeList
-     * and puts arbitrary values in the NodeList, such as strings.
-     * We will have to switch to using an array or a less strict
-     * type instead so we can enable strict typing in this class.
-     *
-     * @param int|string $offset
-     *
-     * @phpstan-return T
+     * @param mixed $offset
+     * @return mixed
      */
-    public function offsetGet($offset)// : Node
+    public function offsetGet($offset)
     {
         $item = $this->nodes[$offset];
 
         if (is_array($item) && isset($item['kind'])) {
-            /** @phpstan-var T $node */
-            $node                 = AST::fromArray($item);
-            $this->nodes[$offset] = $node;
+            $this->nodes[$offset] = $item = AST::fromArray($item);
         }
 
-        return $this->nodes[$offset];
+        return $item;
     }
 
     /**
-     * @param int|string|null $offset
-     * @param Node|mixed[]    $value
-     *
-     * @phpstan-param T|mixed[] $value
+     * @param mixed $offset
+     * @param mixed $value
      */
-    public function offsetSet($offset, $value) : void
+    public function offsetSet($offset, $value)
     {
-        if (is_array($value)) {
-            /** @phpstan-var T $value */
+        if (is_array($value) && isset($value['kind'])) {
             $value = AST::fromArray($value);
         }
-
-        // Happens when a Node is pushed via []=
-        if ($offset === null) {
-            $this->nodes[] = $value;
-
-            return;
-        }
-
         $this->nodes[$offset] = $value;
     }
 
     /**
-     * @param int|string $offset
+     * @param mixed $offset
      */
-    public function offsetUnset($offset) : void
+    public function offsetUnset($offset)
     {
         unset($this->nodes[$offset]);
     }
 
     /**
+     * @param int $offset
+     * @param int $length
      * @param mixed $replacement
-     *
-     * @phpstan-return NodeList<T>
+     * @return NodeList
      */
-    public function splice(int $offset, int $length, $replacement = null) : NodeList
+    public function splice($offset, $length, $replacement = null)
     {
         return new NodeList(array_splice($this->nodes, $offset, $length, $replacement));
     }
 
     /**
-     * @param NodeList|Node[] $list
-     *
-     * @phpstan-param NodeList<T>|array<T> $list
-     * @phpstan-return NodeList<T>
+     * @param $list
+     * @return NodeList
      */
-    public function merge($list) : NodeList
+    public function merge($list)
     {
-        if ($list instanceof self) {
+        if ($list instanceof NodeList) {
             $list = $list->nodes;
         }
-
         return new NodeList(array_merge($this->nodes, $list));
     }
 
-    public function getIterator() : Traversable
+    /**
+     * @return \Generator
+     */
+    public function getIterator()
     {
-        foreach ($this->nodes as $key => $_) {
-            yield $this->offsetGet($key);
+        $count = count($this->nodes);
+        for ($i = 0; $i < $count; $i++) {
+            yield $this->offsetGet($i);
         }
     }
 
-    public function count() : int
+    /**
+     * @return int
+     */
+    public function count()
     {
         return count($this->nodes);
     }
