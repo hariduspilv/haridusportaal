@@ -12,8 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { TooltipComponent } from '../tooltip';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'htm-header',
@@ -176,12 +175,7 @@ export class HeaderComponent implements OnInit {
 
   public getAuthMethods() {
     this.loading = true;
-    if (
-      this.settings.url === 'https://api.haridusportaal.twn.zone' ||
-      this.settings.url === 'https://htm.wiseman.ee' ||
-      this.settings.url === 'http://test-htm.wiseman.ee:30000' ||
-      this.settings.url === 'https://apitest.hp.edu.ee'
-    ) {
+    if (environment.DEV_AUTH) {
       this.authMethods.basic = true;
       this.authMethods.mobile_id = true;
     }

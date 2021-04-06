@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "build-prelive": "ng build --configuration=prelive",
     "build-dev": "ng build --configuration=dev",
     "test": "ng test",
     "lint": "ng lint",

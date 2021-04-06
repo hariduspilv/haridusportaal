@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.13
 MAINTAINER TWN
 
 ENV BUILD_VERSION=${BUILD_VERSION}
@@ -63,12 +63,12 @@ RUN	apk update && \
 	php7-soap \
 	php7-sockets \
 	php7-memcached \
-	libcrypto1.0 \
-	libssl1.0
+	libcrypto1.1 \
+	libssl1.1
 
 # redis
 RUN	apk update && \
-	apk add make g++ python autoconf php7-dev && \
+	apk add make g++ python2 autoconf php7-dev && \
 	pecl channel-update pecl.php.net && \
     printf "\n" | curl 'http://pecl.php.net/get/redis-4.1.1.tgz' -o redis-4.1.1.tgz && \
     pecl install redis-4.1.1.tgz && \
@@ -102,7 +102,7 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 	ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush && \
 	mkdir -p /app/drupal  && \
 	chown -R apache:apache /app/drupal && \
-	mkdir /run/apache2 && \
+	mkdir /run/apache2; exit 0 && \
 	sed -i 's#^DocumentRoot ".*#DocumentRoot "/app/drupal/web"#g' /etc/apache2/httpd.conf && \
 	sed -i 's#/var/www/localhost/htdocs#/app/drupal/web#' /etc/apache2/httpd.conf && \
 	sed -i 's#AllowOverride None#AllowOverride All#' /etc/apache2/httpd.conf && \

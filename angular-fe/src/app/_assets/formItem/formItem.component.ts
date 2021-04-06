@@ -186,6 +186,18 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   public focusField() {
     this.filledField = true;
     this.focused = true;
+
+    setTimeout(() => {
+      const datePickerContainer = document.querySelector('ngb-datepicker')
+
+      if(datePickerContainer) {
+        let headers:any = []
+        headers = datePickerContainer.querySelectorAll('[role="columnheader"]')
+        for(let item of headers) {
+          item.setAttribute('aria-hidden', true)
+        }
+      }
+    });
   }
 
   public removeComma() {
