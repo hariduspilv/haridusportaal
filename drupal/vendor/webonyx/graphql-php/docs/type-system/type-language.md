@@ -33,19 +33,20 @@ $contents = file_get_contents('schema.graphql');
 $schema = BuildSchema::build($contents);
 ```
 
-By default, such schema is created without any resolvers.
+By default, such schema is created without any resolvers. As a result, it doesn't support **Interfaces** and **Unions**
+because it is impossible to resolve actual implementations during execution.
 
-We have to rely on [default field resolver](../data-fetching.md#default-field-resolver) and **root value** in 
+Also, we have to rely on [default field resolver](../data-fetching.md#default-field-resolver) and **root value** in 
 order to execute a query against this schema.
 
 # Defining resolvers
 Since 0.10.0
 
-In order to enable **Interfaces**, **Unions** and custom field resolvers you can pass the second argument:
-**type config decorator** to schema builder.
+In order to enable **Interfaces**, **Unions** and custom field resolvers you can pass the second argument: 
+**type config decorator** to schema builder. 
 
-It accepts default type config produced by the builder and is expected to add missing options like
-[**resolveType**](interfaces.md#configuration-options) for interface types or
+It accepts default type config produced by the builder and is expected to add missing options like 
+[**resolveType**](interfaces.md#configuration-options) for interface types or 
 [**resolveField**](object-types.md#configuration-options) for object types.
 
 ```php
@@ -81,7 +82,7 @@ $cacheFilename = 'cached_schema.php';
 
 if (!file_exists($cacheFilename)) {
     $document = Parser::parse(file_get_contents('./schema.graphql'));
-    file_put_contents($cacheFilename, "<?php\nreturn " . var_export(AST::toArray($document), true) . ";\n");
+    file_put_contents($cacheFilename, "<?php\nreturn " . var_export(AST::toArray($document), true));
 } else {
     $document = AST::fromArray(require $cacheFilename); // fromArray() is a lazy operation as well
 }

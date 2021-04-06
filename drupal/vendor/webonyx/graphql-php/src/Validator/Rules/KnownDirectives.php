@@ -1,200 +1,109 @@
 <?php
-
-declare(strict_types=1);
-
 namespace GraphQL\Validator\Rules;
 
-use Exception;
 use GraphQL\Error\Error;
-use GraphQL\Language\AST\DirectiveDefinitionNode;
 use GraphQL\Language\AST\DirectiveNode;
-use GraphQL\Language\AST\EnumTypeDefinitionNode;
-use GraphQL\Language\AST\EnumTypeExtensionNode;
-use GraphQL\Language\AST\EnumValueDefinitionNode;
-use GraphQL\Language\AST\FieldDefinitionNode;
-use GraphQL\Language\AST\FieldNode;
-use GraphQL\Language\AST\FragmentDefinitionNode;
-use GraphQL\Language\AST\FragmentSpreadNode;
-use GraphQL\Language\AST\InlineFragmentNode;
 use GraphQL\Language\AST\InputObjectTypeDefinitionNode;
-use GraphQL\Language\AST\InputObjectTypeExtensionNode;
-use GraphQL\Language\AST\InputValueDefinitionNode;
-use GraphQL\Language\AST\InterfaceTypeDefinitionNode;
-use GraphQL\Language\AST\InterfaceTypeExtensionNode;
-use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\NodeKind;
-use GraphQL\Language\AST\NodeList;
-use GraphQL\Language\AST\ObjectTypeDefinitionNode;
-use GraphQL\Language\AST\ObjectTypeExtensionNode;
-use GraphQL\Language\AST\OperationDefinitionNode;
-use GraphQL\Language\AST\ScalarTypeDefinitionNode;
-use GraphQL\Language\AST\ScalarTypeExtensionNode;
-use GraphQL\Language\AST\SchemaDefinitionNode;
-use GraphQL\Language\AST\SchemaTypeExtensionNode;
-use GraphQL\Language\AST\UnionTypeDefinitionNode;
-use GraphQL\Language\AST\UnionTypeExtensionNode;
-use GraphQL\Language\AST\VariableDefinitionNode;
 use GraphQL\Language\DirectiveLocation;
-use GraphQL\Type\Definition\Directive;
-use GraphQL\Utils\Utils;
-use GraphQL\Validator\ASTValidationContext;
-use GraphQL\Validator\SDLValidationContext;
 use GraphQL\Validator\ValidationContext;
-use function array_map;
-use function count;
-use function get_class;
-use function in_array;
-use function sprintf;
 
-class KnownDirectives extends ValidationRule
+class KnownDirectives extends AbstractValidationRule
 {
+    static function unknownDirectiveMessage($directiveName)
+    {
+        return "Unknown directive \"$directiveName\".";
+    }
+
+    static function misplacedDirectiveMessage($directiveName, $location)
+    {
+        return "Directive \"$directiveName\" may not be used on \"$location\".";
+    }
+
     public function getVisitor(ValidationContext $context)
     {
-        return $this->getASTVisitor($context);
-    }
-
-    public function getSDLVisitor(SDLValidationContext $context)
-    {
-        return $this->getASTVisitor($context);
-    }
-
-    public function getASTVisitor(ASTValidationContext $context)
-    {
-        $locationsMap      = [];
-        $schema            = $context->getSchema();
-        $definedDirectives = $schema
-            ? $schema->getDirectives()
-            : Directive::getInternalDirectives();
-
-        foreach ($definedDirectives as $directive) {
-            $locationsMap[$directive->name] = $directive->locations;
-        }
-
-        $astDefinition = $context->getDocument()->definitions;
-
-        foreach ($astDefinition as $def) {
-            if (! ($def instanceof DirectiveDefinitionNode)) {
-                continue;
-            }
-
-            $locationsMap[$def->name->value] = Utils::map(
-                $def->locations,
-                static function ($name) : string {
-                    return $name->value;
-                }
-            );
-        }
-
         return [
-            NodeKind::DIRECTIVE => function (
-                DirectiveNode $node,
-                $key,
-                $parent,
-                $path,
-                $ancestors
-            ) use (
-                $context,
-                $locationsMap
-            ) : void {
-                $name      = $node->name->value;
-                $locations = $locationsMap[$name] ?? null;
+            NodeKind::DIRECTIVE => function (DirectiveNode $node, $key, $parent, $path, $ancestors) use ($context) {
+                $directiveDef = null;
+                foreach ($context->getSchema()->getDirectives() as $def) {
+                    if ($def->name === $node->name->value) {
+                        $directiveDef = $def;
+                        break;
+                    }
+                }
 
-                if (! $locations) {
+                if (!$directiveDef) {
                     $context->reportError(new Error(
-                        self::unknownDirectiveMessage($name),
+                        self::unknownDirectiveMessage($node->name->value),
                         [$node]
                     ));
-
                     return;
                 }
-
                 $candidateLocation = $this->getDirectiveLocationForASTPath($ancestors);
 
-                if (! $candidateLocation || in_array($candidateLocation, $locations, true)) {
-                    return;
-                }
-                $context->reportError(
-                    new Error(
-                        self::misplacedDirectiveMessage($name, $candidateLocation),
+                if (!$candidateLocation) {
+                    $context->reportError(new Error(
+                        self::misplacedDirectiveMessage($node->name->value, $node->type),
                         [$node]
-                    )
-                );
-            },
+                    ));
+                } else if (!in_array($candidateLocation, $directiveDef->locations)) {
+                    $context->reportError(new Error(
+                        self::misplacedDirectiveMessage($node->name->value, $candidateLocation),
+                        [ $node ]
+                    ));
+                }
+            }
         ];
     }
 
-    public static function unknownDirectiveMessage($directiveName)
-    {
-        return sprintf('Unknown directive "%s".', $directiveName);
-    }
-
-    /**
-     * @param Node[]|NodeList[] $ancestors The type is actually (Node|NodeList)[] but this PSR-5 syntax is so far not supported by most of the tools
-     *
-     * @return string
-     */
     private function getDirectiveLocationForASTPath(array $ancestors)
     {
         $appliedTo = $ancestors[count($ancestors) - 1];
-        switch (true) {
-            case $appliedTo instanceof OperationDefinitionNode:
+        switch ($appliedTo->kind) {
+            case NodeKind::OPERATION_DEFINITION:
                 switch ($appliedTo->operation) {
-                    case 'query':
-                        return DirectiveLocation::QUERY;
-                    case 'mutation':
-                        return DirectiveLocation::MUTATION;
-                    case 'subscription':
-                        return DirectiveLocation::SUBSCRIPTION;
+                    case 'query': return DirectiveLocation::QUERY;
+                    case 'mutation': return DirectiveLocation::MUTATION;
+                    case 'subscription': return DirectiveLocation::SUBSCRIPTION;
                 }
                 break;
-            case $appliedTo instanceof FieldNode:
+            case NodeKind::FIELD:
                 return DirectiveLocation::FIELD;
-            case $appliedTo instanceof FragmentSpreadNode:
+            case NodeKind::FRAGMENT_SPREAD:
                 return DirectiveLocation::FRAGMENT_SPREAD;
-            case $appliedTo instanceof InlineFragmentNode:
+            case NodeKind::INLINE_FRAGMENT:
                 return DirectiveLocation::INLINE_FRAGMENT;
-            case $appliedTo instanceof FragmentDefinitionNode:
+            case NodeKind::FRAGMENT_DEFINITION:
                 return DirectiveLocation::FRAGMENT_DEFINITION;
-            case $appliedTo instanceof VariableDefinitionNode:
-                return DirectiveLocation::VARIABLE_DEFINITION;
-            case $appliedTo instanceof SchemaDefinitionNode:
-            case $appliedTo instanceof SchemaTypeExtensionNode:
+            case NodeKind::SCHEMA_DEFINITION:
                 return DirectiveLocation::SCHEMA;
-            case $appliedTo instanceof ScalarTypeDefinitionNode:
-            case $appliedTo instanceof ScalarTypeExtensionNode:
+            case NodeKind::SCALAR_TYPE_DEFINITION:
+            case NodeKind::SCALAR_TYPE_EXTENSION:
                 return DirectiveLocation::SCALAR;
-            case $appliedTo instanceof ObjectTypeDefinitionNode:
-            case $appliedTo instanceof ObjectTypeExtensionNode:
+            case NodeKind::OBJECT_TYPE_DEFINITION:
+            case NodeKind::OBJECT_TYPE_EXTENSION:
                 return DirectiveLocation::OBJECT;
-            case $appliedTo instanceof FieldDefinitionNode:
+            case NodeKind::FIELD_DEFINITION:
                 return DirectiveLocation::FIELD_DEFINITION;
-            case $appliedTo instanceof InterfaceTypeDefinitionNode:
-            case $appliedTo instanceof InterfaceTypeExtensionNode:
+            case NodeKind::INTERFACE_TYPE_DEFINITION:
+            case NodeKind::INTERFACE_TYPE_EXTENSION:
                 return DirectiveLocation::IFACE;
-            case $appliedTo instanceof UnionTypeDefinitionNode:
-            case $appliedTo instanceof UnionTypeExtensionNode:
+            case NodeKind::UNION_TYPE_DEFINITION:
+            case NodeKind::UNION_TYPE_EXTENSION:
                 return DirectiveLocation::UNION;
-            case $appliedTo instanceof EnumTypeDefinitionNode:
-            case $appliedTo instanceof EnumTypeExtensionNode:
+            case NodeKind::ENUM_TYPE_DEFINITION:
+            case NodeKind::ENUM_TYPE_EXTENSION:
                 return DirectiveLocation::ENUM;
-            case $appliedTo instanceof EnumValueDefinitionNode:
+            case NodeKind::ENUM_VALUE_DEFINITION:
                 return DirectiveLocation::ENUM_VALUE;
-            case $appliedTo instanceof InputObjectTypeDefinitionNode:
-            case $appliedTo instanceof InputObjectTypeExtensionNode:
+            case NodeKind::INPUT_OBJECT_TYPE_DEFINITION:
+            case NodeKind::INPUT_OBJECT_TYPE_EXTENSION:
                 return DirectiveLocation::INPUT_OBJECT;
-            case $appliedTo instanceof InputValueDefinitionNode:
+            case NodeKind::INPUT_VALUE_DEFINITION:
                 $parentNode = $ancestors[count($ancestors) - 3];
-
                 return $parentNode instanceof InputObjectTypeDefinitionNode
                     ? DirectiveLocation::INPUT_FIELD_DEFINITION
                     : DirectiveLocation::ARGUMENT_DEFINITION;
         }
-
-        throw new Exception('Unknown directive location: ' . get_class($appliedTo));
-    }
-
-    public static function misplacedDirectiveMessage($directiveName, $location)
-    {
-        return sprintf('Directive "%s" may not be used on "%s".', $directiveName, $location);
     }
 }
