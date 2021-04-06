@@ -1,30 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
 namespace GraphQL\Language\AST;
 
 class InterfaceTypeDefinitionNode extends Node implements TypeDefinitionNode
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $kind = NodeKind::INTERFACE_TYPE_DEFINITION;
 
-    /**
-     * @var NameNode
-     */
+    /** @var NameNode */
     public $name;
 
-    /**
-     * @var DirectiveNode[]|null
-     */
+    /** @var NodeList<DirectiveNode> */
     public $directives;
 
-    /**
-     * @var FieldDefinitionNode[]|null
-     */
+    /** @var NodeList<NamedTypeNode> */
+    public $interfaces;
+
+    /** @var NodeList<FieldDefinitionNode> */
     public $fields;
 
-    /**
-     * @var StringValueNode|null
-     */
+    /** @var StringValueNode|null */
     public $description;
 }
