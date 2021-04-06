@@ -24,5 +24,10 @@ function menu_item_role_access_update_8001() {
  * @throws \Drupal\Core\Entity\EntityStorageException
  */
 function menu_item_role_access_update_8002() {
-  \Drupal::entityDefinitionUpdateManager()->applyUpdates();
+  $config = \Drupal::configFactory()
+    ->getEditable('menu_item_role_access.config');
+  $config->set('overwrite_internal_link_target_access',
+    $config->get('overwrite_internal_link_target_access') ?? FALSE)->save();
+  $config->set('inherit_parent_access',
+    $config->get('inherit_parent_access') ?? FALSE)->save();
 }

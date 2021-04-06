@@ -3,6 +3,7 @@
 namespace Drupal\Tests\ultimate_cron\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\ultimate_cron\Entity\CronJob;
 
 /**
  * Tests CRUD for cron jobs.
@@ -21,7 +22,6 @@ class CronJobKernelTest extends KernelTestBase {
   protected function setup() {
     parent::setUp();
 
-    $this->installSchema('system', 'router');
     $this->installSchema('ultimate_cron', [
       'ultimate_cron_log',
       'ultimate_cron_lock',
@@ -39,18 +39,18 @@ class CronJobKernelTest extends KernelTestBase {
     );
 
     /** @var \Drupal\ultimate_cron\Entity\CronJob $cron_job */
-    $cron_job = entity_create('ultimate_cron_job', $values);
+    $cron_job = CronJob::create($values);
     $cron_job->save();
 
-    $this->assertEqual($cron_job->id(), 'example');
-    $this->assertEqual($cron_job->label(), $values['title']);
+    $this->assertEquals('example', $cron_job->id());
+    $this->assertEquals($values['title'], $cron_job->label());
     $this->assertTrue($cron_job->status());
 
     $cron_job->disable();
     $cron_job->save();
 
-    $cron_job = \Drupal::entityManager()->getStorage('ultimate_cron_job')->load('example');
-    $this->assertEqual($cron_job->id(), 'example');
+    $cron_job = CronJob::load('example');
+    $this->assertEquals('example', $cron_job->id());
     $this->assertFalse($cron_job->status());
   }
 

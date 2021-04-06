@@ -234,6 +234,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "haridusportaal-fe"
+    }
+  },
+  "defaultProject": "haridusportaal-fe",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -36,23 +36,16 @@ class ConfigForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Overwrite internal link target access check'),
       '#description' => $this->t("When this option is checked, this module will ignore the access check of the menu target. For example: when a user does not have access to a node he will not see the menu item for this node. With this option checked the user will be able to see the menu item, but only if the user's role is allowed."),
-      '#default_value' => $config->get('overwrite_internal_link_target_access'),
+      '#default_value' => $config->get('overwrite_internal_link_target_access') ?? FALSE,
     ];
     $form['inherit_parent_access'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Allow parents to override children'),
       '#description' => $this->t('Allow children items to inherit the menu item access of their parents.'),
-      '#default_value' => $config->get('inherit_parent_access'),
+      '#default_value' => $config->get('inherit_parent_access') ?? FALSE,
     ];
 
     return parent::buildForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
   }
 
   /**

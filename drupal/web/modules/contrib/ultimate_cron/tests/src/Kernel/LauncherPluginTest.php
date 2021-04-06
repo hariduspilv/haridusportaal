@@ -27,10 +27,10 @@ class LauncherPluginTest extends KernelTestBase {
     $manager = \Drupal::service('plugin.manager.ultimate_cron.launcher');
 
     $plugins = $manager->getDefinitions();
-    $this->assertEqual(count($plugins), 1);
+    $this->assertCount(1, $plugins);
 
     $serial = $manager->createInstance('serial');
     $this->assertTrue($serial instanceof SerialLauncher);
-    $this->assertEqual($serial->getPluginId(), 'serial');
+    $this->assertEquals('serial', $serial->getPluginId());
   }
 }

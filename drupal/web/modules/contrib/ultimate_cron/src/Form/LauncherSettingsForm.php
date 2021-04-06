@@ -68,7 +68,7 @@ class LauncherSettingsForm extends ConfigFormBase {
     $form['launcher']['thread'] = [
       '#title' => t('Run in thread'),
       '#type' => 'select',
-      '#default_value' => $values->get('thread'),
+      '#default_value' => $values->get('launcher.thread'),
       '#options' => $options,
       '#description' => t('Which thread to run jobs in.') . '<br/>' .
         t('<strong>Any</strong>: Just use any available thread') . '<br/>' .
@@ -88,6 +88,7 @@ class LauncherSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('ultimate_cron.settings')
       ->set('launcher.lock_timeout', $form_state->getValue('lock_timeout'))
+      ->set('launcher.max_execution_time', $form_state->getValue('max_execution_time'))
       ->set('launcher.max_threads', $form_state->getValue('max_threads'))
       ->set('launcher.thread', $form_state->getValue('thread'))
       ->save();

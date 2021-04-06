@@ -7,7 +7,7 @@ configure: restui.list
 dependencies:
   - drupal:rest
 
-# Information added by Drupal.org packaging script on 2020-04-06
-version: '8.x-1.18'
+# Information added by Drupal.org packaging script on 2021-03-27
+version: '8.x-1.20'
 project: 'restui'
-datestamp: 1586170647
+datestamp: 1616839545

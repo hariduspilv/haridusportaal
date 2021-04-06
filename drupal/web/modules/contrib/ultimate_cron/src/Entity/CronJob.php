@@ -54,6 +54,7 @@ use Drupal\ultimate_cron\CronJobInterface;
  *     "disable" = "/admin/config/system/cron/jobs/manage/{ultimate_cron_job}/disable",
  *     "enable" = "/admin/config/system/cron/jobs/manage/{ultimate_cron_job}/enable",
  *     "logs" = "/admin/config/system/cron/jobs/logs/{ultimate_cron_job}",
+ *     "unlock" = "/admin/config/system/cron/jobs/{ultimate_cron_job}/unlock",
  *   }
  * )
  */
@@ -128,6 +129,13 @@ class CronJob extends ConfigEntityBase implements CronJobInterface {
   protected $classResolver;
 
   /**
+   * The module extension list service.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleExtensionList;
+
+  /**
    * CronJob constructor.
    *
    * @param array $values
@@ -136,6 +144,7 @@ class CronJob extends ConfigEntityBase implements CronJobInterface {
   public function __construct(array $values, $entity_type) {
     parent::__construct($values, $entity_type);
     $this->classResolver = \Drupal::service('class_resolver');
+    $this->moduleExtensionList = \Drupal::service('extension.list.module');
 
   }
 
@@ -352,7 +361,7 @@ class CronJob extends ConfigEntityBase implements CronJobInterface {
    */
   public function isScheduled() {
     \Drupal::moduleHandler()->invokeAll('cron_pre_schedule', array($this));
-    $result = empty($this->disabled) && !$this->isLocked() && $this->getPlugin('scheduler')
+    $result = $this->status() && !$this->isLocked() && $this->getPlugin('scheduler')
         ->isScheduled($this);
     \Drupal::moduleHandler()->invokeAll('cron_post_schedule', array($this));
     return $result;
@@ -360,6 +369,9 @@ class CronJob extends ConfigEntityBase implements CronJobInterface {
 
   /**
    * Check if job is behind its schedule.
+   *
+   * @return bool|int
+   *   FALSE if job is behind its schedule or number of seconds behind.
    */
   public function isBehindSchedule() {
     return $this->getPlugin('scheduler')->isBehind($this);
@@ -580,7 +592,7 @@ class CronJob extends ConfigEntityBase implements CronJobInterface {
   public function getModuleName() {
     static $names = array();
     if (!isset($names[$this->module])) {
-      $info = system_get_info('module', $this->module);
+      $info = $this->moduleExtensionList->getExtensionInfo($this->module);
       $names[$this->module] = $info && !empty($info['name']) ? $info['name'] : $this->module;
     }
     return $names[$this->module];
@@ -592,7 +604,7 @@ class CronJob extends ConfigEntityBase implements CronJobInterface {
   public function getModuleDescription() {
     static $descs = array();
     if (!isset($descs[$this->module])) {
-      $info = system_get_info('module', $this->module);
+      $info = $this->moduleExtensionList->getExtensionInfo($this->module);
       $descs[$this->module] = $info && !empty($info['description']) ? $info['description'] : '';
     }
     return $descs[$this->module];
