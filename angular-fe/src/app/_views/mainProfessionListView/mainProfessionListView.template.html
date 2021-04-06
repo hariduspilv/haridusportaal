@@ -25,7 +25,7 @@
 			</block-content>
 		</block>
 	</div><!--/inline-->
-	<form class="filter-wrapper" filters [outsideParameters]="activeTypeParameters" [eventTracker]="getGoogleAnalyticsObject()">
+	<form class="filter-wrapper" filters [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
 				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
@@ -60,23 +60,13 @@
 				<!--/row-->
 				<div class="row" *ngIf="filterFull">
 					<div class="col-4 sm-12">
-						<formItem type="multi-select" title="{{ 'oska.competition_by_professions' | translate }}" ariaLabel="{{ 'oska.competition_by_professions' | translate }}" name="fillingBar" [sortOptions]="false"
+						<formItem type="multi-select" title="Kui kerge/raske on leida tööd" ariaLabel="Kui kerge/raske on leida tööd" name="fillingBar" [sortOptions]="false"
 							[options]="competitionFilters">
 						</formItem>
 					</div>
 					<div class="col-5 sm-12">
-						<formItem type="select" title="{{ 'button.sort_professions' | translate }}" ariaLabel="{{ 'button.sort_professions' | translate }}" name="sort" [options]="sortedBy" [sortOptions]="false"
-							[(ngModel)]="sort" (onChange)="setSortDirection()">
-						</formItem>
-					</div>
-					<div class="hidden">
-						<formItem [outsideInitialization]="true" type="text" title="{{ 'button.sort' | translate }}" name="sortField"
-							[(ngModel)]="sortField">
-						</formItem>
-					</div>
-					<div class="hidden">
-						<formItem [outsideInitialization]="true" type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
-							[(ngModel)]="sortDirection">
+						<formItem type="select" title="Ametialad või ametid" ariaLabel="Ametialad või ametid" name="fieldProfession" [options]="sortedBy" [sortOptions]="false"
+							[(ngModel)]="fieldProfession">
 						</formItem>
 					</div>
 					<div class="col-3 align-end text-right sm-12 inline-flex">
@@ -98,26 +88,11 @@
 		<block titleBorder="true" tabStyle="default">
 			<block-title>{{ 'oska.professions_and_jobs' | translate }}</block-title>
 			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="/ametialad">
-				<ng-container *ngIf="searchResults && !jobLoading && (typeFilters[0].sum || typeFilters[1].sum)">
-					<div class="search__title__filter">{{ 'search.filter_results' | translate }}:</div>
-					<ng-container *ngFor="let filter of typeFilters; let i = index;">
-						<button tag
-							[ngbTooltip]="filter.tooltipText"
-							[placement]="tooltipPlacement"
-							[triggers]="tooltipTriggerType"
-							(click)="filterListByType(i)"
-							[active]="filter.active"
-							attr.aria-label="Filter: {{filter.name | translate}}, status: {{filter.active ? 'On': 'Off'}}, count: {{ filter.sum }}">
-							{{ filter.name }} <span *ngIf="filter?.sum !== null && filter?.sum >= 0">({{ filter.sum }})</span>
-						</button>
-					</ng-container>
-				</ng-container>
 				<mainProfessionsSearchResults
 					[filteredJobLoading]="jobLoading"
 					#searchResults
 					[filteredJob]="filteredJob"
 					(listEmitter)="selectArbitraryHighlightedJob($event)"
-					(filterEmitter)="setTypeFilterStates($event)"
 					limit="24">
 				</mainProfessionsSearchResults>
 			</block-content>

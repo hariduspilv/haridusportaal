@@ -118,6 +118,15 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
       tmpParams['sortField'] = '';
     }
 
+    if (tmpParams.fieldProfession != '') {
+      console.log(tmpParams.fieldProfession)
+      if (tmpParams.fieldProfession === 'true') {
+        tmpParams.fieldProfession = '1';
+      } else {
+        tmpParams.fieldProfession = '0';
+      }
+    }
+
     Object.keys(tmpParams).forEach((item) => {
       let tmpItem;
       if (searchResultKeys[item]) {
