@@ -27,8 +27,9 @@ services:
     restart: always
     depends_on:
       - redis
-    ports:
-      - "30088:80"
+    # For DEVELOPMENT server (for testing purposes)
+    # ports:
+    #   - "30088:80"
     volumes:
       - /root/data/stunnel:/etc/stunnel
   htm-liides:
@@ -41,10 +42,11 @@ services:
     restart: always
     env_file:
       - containers.env
-    ports:
-      - "30080:8080"
-      - "30081:8081"
-      - "30082:8000"
+    # For DEVELOPMENT server (for testing purposes)
+    # ports:
+    #   - "30080:8080"
+    #   - "30081:8081"
+    #   - "30082:8000"
     volumes:
       - /root/data/javaApp:/htmApp
       - /root/data/javaApp/logs:/htmLogs
@@ -84,9 +86,6 @@ services:
       - varnish
     env_file:
       - containers.env
-    ports:
-      - "9200:9200"
-      - "9300:9300"
     volumes:
       - /root/data/elasticsearch:/usr/share/elasticsearch/data
       # For drupal 9
