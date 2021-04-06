@@ -172,14 +172,14 @@ class LogEntry {
    * Format start time.
    */
   public function formatStartTime() {
-    return $this->start_time ? format_date((int) $this->start_time, 'custom', 'Y-m-d H:i:s') : t('Never');
+    return $this->start_time ? \Drupal::service('date.formatter')->format((int) $this->start_time, 'custom', 'Y-m-d H:i:s') : t('Never');
   }
 
   /**
    * Format end time.
    */
   public function formatEndTime() {
-    return $this->end_time ? format_date((int) $this->end_time, 'custom', 'Y-m-d H:i:s') : '';
+    return $this->end_time ? \Drupal::service('date.formatter')->format((int) $this->end_time, 'custom', 'Y-m-d H:i:s') : '';
   }
 
   /**
@@ -189,7 +189,7 @@ class LogEntry {
     $username = t('anonymous') . ' (0)';
     if ($this->uid) {
       $user = User::load($this->uid);
-      $username = $user ? new FormattableMarkup('@username (@uid)', array('@username' => $user->getUsername(), '@uid' => $user->id())) : t('N/A');
+      $username = $user ? new FormattableMarkup('@username (@uid)', array('@username' => $user->getDisplayName(), '@uid' => $user->id())) : t('N/A');
     }
     return $username;
   }
@@ -204,7 +204,7 @@ class LogEntry {
     else {
       $registered = variable_get('ultimate_cron_hooks_registered', array());
       return !empty($registered[$this->name]) ? t('Registered at @datetime', array(
-        '@datetime' => format_date($registered[$this->name], 'custom', 'Y-m-d H:i:s'),
+        '@datetime' => \Drupal::service('date.formatter')->format($registered[$this->name], 'custom', 'Y-m-d H:i:s'),
       )) : t('N/A');
     }
   }

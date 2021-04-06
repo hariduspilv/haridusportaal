@@ -26,6 +26,7 @@ use GraphQL\Utils\TypeInfo;
 use GraphQL\Utils\Utils;
 use GraphQL\Validator\Rules\AbstractValidationRule;
 use GraphQL\Validator\ValidationContext;
+use GraphQL\Validator\Rules\QueryComplexity;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 // TODO: Refactor this and clean it up.
@@ -172,7 +173,7 @@ class QueryProcessor {
   protected function executeOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, $batching = FALSE) {
     try {
       if (!$config->getSchema()) {
-        throw new \LogicException('Missing schema for query execution.');
+        throw new Error('Missing schema for query execution.');
       }
 
       if ($batching && !$config->getQueryBatching()) {
@@ -183,7 +184,8 @@ class QueryProcessor {
         return $adapter->createFulfilled(new QueryResult(NULL, $errors));
       }
 
-      $document = $params->queryId ? $this->loadPersistedQuery($config, $params) : $params->query;
+      $persisted = isset($params->queryId);
+      $document = $persisted ? $this->loadPersistedQuery($config, $params) : $params->query;
       if (!$document instanceof DocumentNode) {
         $document = Parser::parse($document);
       }
@@ -197,18 +199,12 @@ class QueryProcessor {
         throw new RequestError('GET requests are only supported for query operations.');
       }
 
-      // If one of the validation rules found any problems, do not resolve the
-      // query and bail out early instead.
-      if ($errors = $this->validateOperation($config, $params, $document)) {
-        return $adapter->createFulfilled(new QueryResult(NULL, $errors));
-      }
-
       // Only queries can be cached (mutations and subscriptions can't).
       if ($type === 'query') {
-        return $this->executeCacheableOperation($adapter, $config, $params, $document);
+        return $this->executeCacheableOperation($adapter, $config, $params, $document, !$persisted);
       }
 
-      return $this->executeUncachableOperation($adapter, $config, $params, $document);
+      return $this->executeUncachableOperation($adapter, $config, $params, $document, !$persisted);
     }
     catch (CacheableRequestError $exception) {
       return $adapter->createFulfilled(
@@ -228,10 +224,11 @@ class QueryProcessor {
    * @param \GraphQL\Server\ServerConfig $config
    * @param \GraphQL\Server\OperationParams $params
    * @param \GraphQL\Language\AST\DocumentNode $document
+   * @param bool $validate
    *
    * @return \GraphQL\Executor\Promise\Promise|mixed
    */
-  protected function executeCacheableOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document) {
+  protected function executeCacheableOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document, $validate = TRUE) {
     $contextCacheId = 'ccid:' . $this->cacheIdentifier($params, $document);
     if (!$config->getDebug() && $contextCache = $this->cacheBackend->get($contextCacheId)) {
       $contexts = $contextCache->data ?: [];
@@ -241,7 +238,7 @@ class QueryProcessor {
       }
     }
 
-    $result = $this->doExecuteOperation($adapter, $config, $params, $document);
+    $result = $this->doExecuteOperation($adapter, $config, $params, $document, $validate);
     return $result->then(function (QueryResult $result) use ($contextCacheId, $params, $document) {
       // Write this query into the cache if it is cacheable.
       if ($result->getCacheMaxAge() !== 0) {
@@ -262,11 +259,12 @@ class QueryProcessor {
    * @param \GraphQL\Server\ServerConfig $config
    * @param \GraphQL\Server\OperationParams $params
    * @param \GraphQL\Language\AST\DocumentNode $document
+   * @param bool $validate
    *
    * @return \GraphQL\Executor\Promise\Promise
    */
-  protected function executeUncachableOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document) {
-    $result = $this->doExecuteOperation($adapter, $config, $params, $document);
+  protected function executeUncachableOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document, $validate = TRUE) {
+    $result = $this->doExecuteOperation($adapter, $config, $params, $document, $validate);
     return $result->then(function (QueryResult $result) {
       // Mark the query result as uncacheable.
       $result->mergeCacheMaxAge(0);
@@ -279,10 +277,17 @@ class QueryProcessor {
    * @param \GraphQL\Server\ServerConfig $config
    * @param \GraphQL\Server\OperationParams $params
    * @param \GraphQL\Language\AST\DocumentNode $document
+   * @param bool $validate
    *
    * @return \GraphQL\Executor\Promise\Promise
    */
-  protected function doExecuteOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document) {
+  protected function doExecuteOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document, $validate = TRUE) {
+    // If one of the validation rules found any problems, do not resolve the
+    // query and bail out early instead.
+    if ($validate && $errors = $this->validateOperation($config, $params, $document)) {
+      return $adapter->createFulfilled(new QueryResult(NULL, $errors));
+    }
+
     $operation = $params->operation;
     $variables = $params->variables;
     $context = $this->resolveContextValue($config, $params, $document, $operation);
@@ -346,7 +351,12 @@ class QueryProcessor {
     $schema = $config->getSchema();
     $info = new TypeInfo($schema);
     $validation = new ValidationContext($schema, $document, $info);
-    $visitors = array_values(array_map(function (AbstractValidationRule $rule) use ($validation) {
+    $visitors = array_values(array_map(function (AbstractValidationRule $rule) use ($validation, $params) {
+      // Set current variable values for QueryComplexity validation rule case
+      // @see \GraphQL\GraphQL::promiseToExecute for equivalent
+      if ($rule instanceof QueryComplexity && !empty($params->variables)) {
+        $rule->setRawVariableValues($params->variables);
+      }
       return $rule($validation);
     }, $rules));
 
@@ -399,6 +409,7 @@ class QueryProcessor {
    * @param $operation
    *
    * @return array
+   * @throws \GraphQL\Server\RequestError
    */
   protected function resolveValidationRules(ServerConfig $config, OperationParams $params, DocumentNode $document, $operation) {
     // Allow customizing validation rules per operation:
@@ -406,7 +417,7 @@ class QueryProcessor {
     if (is_callable($rules)) {
       $rules = $rules($params, $document, $operation);
       if (!is_array($rules)) {
-        throw new \LogicException(sprintf("Expecting validation rules to be array or callable returning array, but got: %s", Utils::printSafe($rules)));
+        throw new RequestError(sprintf("Expecting validation rules to be array or callable returning array, but got: %s", Utils::printSafe($rules)));
       }
     }
 
@@ -427,7 +438,7 @@ class QueryProcessor {
 
     $source = $loader($params->queryId, $params);
     if (!is_string($source) && !$source instanceof DocumentNode) {
-      throw new \LogicException(sprintf('The persisted query loader must return query string or instance of %s but got: %s.', DocumentNode::class, Utils::printSafe($source)));
+      throw new RequestError(sprintf('The persisted query loader must return query string or instance of %s but got: %s.', DocumentNode::class, Utils::printSafe($source)));
     }
 
     return $source;

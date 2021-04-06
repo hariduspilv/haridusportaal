@@ -8,14 +8,21 @@ defaults: &defaults
     PHPUNIT_ARGS: ""
     PHP_SENDMAIL_PATH: /dev/null
 
+requires: &requires
+  requires:
+    - check_mergable
+    - code_style
+
 test_71_steps: &test71steps
   steps:
     - checkout
     - run: cp .docker/zz-php.ini /usr/local/etc/php/conf.d/
-    - run: composer install
-    - run: $HOME/drush/.circleci/patch.sh 8.7.x
+    - run: composer install -n
     - run: composer lint
+    - run: composer unit
     - run: composer functional
+    # @todo was getting missing key_value table failure when this comes before functional. See https://circleci.com/gh/drush-ops/drush/8828.
+    - run: composer integration
 
 version: 2.1
 jobs:
@@ -29,11 +36,11 @@ jobs:
     steps:
       - checkout
       - run: cp .docker/zz-php.ini /usr/local/etc/php/conf.d/
-      - run: composer install
+      - run: composer install -n
       - run: composer cs
 
   # Mergeable test:
-  #   FAIL if merging test branch with master produces conflicts
+  #   FAIL if merging test branch with 10.x produces conflicts
   #   PASS if the test branch is out of date, but mergeable without conflicts
   check_mergable:
     <<: *defaults
@@ -45,7 +52,7 @@ jobs:
 
   # PHP 7.1 test:
   #   Checks the most common configuration.
-  test_71_mysql:
+  test_71_drupal89_mysql:
     <<: *defaults
     docker:
       - image: wodby/php:7.1
@@ -55,8 +62,7 @@ jobs:
       - image: circleci/mysql:5.7.24
     <<: *test71steps
 
-  # See scheduled workflow
-  test_71_sqlite:
+  test_71_drupal89_sqlite:
     <<: *defaults
     docker:
       # We use a custom image here because wodby/php does not ship with sqlite3 program.
@@ -65,8 +71,7 @@ jobs:
           - UNISH_DB_URL=sqlite://sut/sites/dev/files/.ht.sqlite
     <<: *test71steps
 
-  # See scheduled workflow
-  test_71_postgres:
+  test_71_drupal89_postgres:
     <<: *defaults
     docker:
       - image: wodby/php:7.1
@@ -79,12 +84,11 @@ jobs:
           POSTGRES_USER: unish
     <<: *test71steps
 
-  # PHP 7.2 test with HIGHEST dependencies:
-  #   Determines whether a newer version of a dependency has broken Drush.
-  test_72_highest:
+  # Drupal 9.1.0 for Security test coverage for drupal/core
+  test_73_drupal91_security:
     <<: *defaults
     docker:
-      - image: wodby/php:7.2
+      - image: wodby/php:7.3
         environment:
           - MYSQL_HOST=127.0.0.1
           - UNISH_DB_URL=mysql://root:@127.0.0.1
@@ -92,70 +96,82 @@ jobs:
     steps:
       - checkout
       - run: cp .docker/zz-php.ini /usr/local/etc/php/conf.d/
-      - run: composer remove --dev webflo/drupal-core-strict --no-update
-      - run: composer require --dev drupal/core:8.7.x-dev --no-update
-      - run: composer require --dev webflo/drupal-core-require-dev:8.7.x-dev --no-update
-      - run: composer config platform.php 7.2
-      - run: composer update --no-scripts
-      - run: composer install
-      - run: composer lint
-      - run: composer functional
+      - run: composer require --dev drupal/core-recommended:9.1.0 --no-update
+      # Replace alinks with semver for D9.
+      - run: composer remove --dev drupal/alinks --no-update
+      - run: composer require --dev drupal/semver_example:2.2.0 --no-update
+      - run: php --version
+      - run: composer config platform.php 7.3.23
+      - run: composer update
+      - run: composer phpunit -- --testsuite integration --filter=testInsecureDrupalPackage --stop-on-skipped
 
-  # PHP 5.6 test with LOWEST dependencies:
-  #   Determines whether any code introduced in this branch uses language
-  #   features not available in PHP 5.6, or whether there are any API calls
-  #   to dependency features not available in the lowest version listed
-  #   for a dependency in our composer.json file.
-  test_56_lowest:
+  # PHP 7.3 test with Drupal 9.1.x
+  #   Determines whether a newer version of a dependency has broken Drush.
+  test_73_drupal91:
     <<: *defaults
     docker:
-      - image: wodby/php:5.6
+      - image: wodby/php:7.3
         environment:
           - MYSQL_HOST=127.0.0.1
           - UNISH_DB_URL=mysql://root:@127.0.0.1
-          - COMPOSER_MEMORY_LIMIT=-1
       - image: circleci/mysql:5.7.24
     steps:
       - checkout
       - run: cp .docker/zz-php.ini /usr/local/etc/php/conf.d/
-      - run: .scenarios.lock/install php5 lowest
-      - run: $HOME/drush/.circleci/patch.sh
+      - run: composer require --dev drupal/core-recommended:9.1.x-dev --no-update
+      # Replace alinks with semver for D9.
+      - run: composer remove --dev drupal/alinks --no-update
+      - run: composer require --dev drupal/semver_example:2.2.0 --no-update
+      - run: php --version
+      - run: composer config platform.php 7.3.23
+      - run: composer update
       - run: composer lint
+      - run: composer unit
       - run: composer functional
+      - run: composer integration
+
+
+  # PHP 8 test with Drupal tip
+  #   Determines whether a newer version of a dependency has broken Drush.
+  test_80_drupal92:
+    <<: *defaults
+    docker:
+      - image: wodby/php:8.0
+        environment:
+          - MYSQL_HOST=127.0.0.1
+          - UNISH_DB_URL=mysql://root:@127.0.0.1
+      - image: circleci/mysql:5.7.24
+    steps:
+      - checkout
+      - run: cp .docker/zz-php.ini /usr/local/etc/php/conf.d/
+      - run: composer require --dev drupal/core-recommended:9.2.x-dev --no-update
+      # Replace alinks with semver for D9.
+      - run: composer remove --dev drupal/alinks --no-update
+      - run: composer require --dev drupal/semver_example:2.2.0 --no-update
+      - run: php --version
+      - run: composer config platform.php 8.0.0
+      - run: composer update
+      - run: composer info composer/semver
+      - run: composer lint
+      - run: composer unit
+      - run: composer functional
+      - run: composer integration
 
 workflows:
   version: 2
-  # Drush test jobs:
-  #   - If the mergeable test fails, then skip all of the other tests
-  #     (except code style)
-  #   - If code style check fails, then run only the LOWEST test and skip
-  #     all of the others.
-  #   - If both the code style and mergeable checks pass, then run the
-  #     standard and LOWEST tests.
   drush:
     jobs:
       - code_style
       - check_mergable
-      - test_71_mysql:
-          requires:
-            - check_mergable
-            - code_style
-      - test_56_lowest:
-          requires:
-            - check_mergable
-  # Drush nightly scheduled jobs:
-  #   - Run the HIGHEST tests.
-  #   - Run functional tests under Sqlite and Postgres.
-  scheduled:
-    triggers:
-       - schedule:
-           # Uses UTC timezone.
-           cron: "33 0 * * *"
-           filters:
-             branches:
-               only:
-                 - master
-    jobs:
-      - test_72_highest
-      - test_71_sqlite
-      - test_71_postgres
+      - test_73_drupal91_security:
+          <<: *requires
+      - test_71_drupal89_mysql:
+          <<: *requires
+      - test_73_drupal91:
+          <<: *requires
+      - test_80_drupal92:
+          <<: *requires
+      - test_71_drupal89_sqlite:
+          <<: *requires
+      - test_71_drupal89_postgres:
+          <<: *requires

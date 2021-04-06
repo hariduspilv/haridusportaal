@@ -17,18 +17,18 @@ class UpdateDBTest extends CommandUnishTestCase
     public function testUpdateDBStatus()
     {
         $this->setUpDrupal(1, true);
-        $this->drush('pm:enable', ['devel']);
+        $this->drush('pm:enable', ['drush_empty_module']);
         $this->drush('updatedb:status');
         $err = $this->getErrorOutput();
-        $this->assertContains('[success] No database updates required.', $err);
+        $this->assertStringContainsString('[success] No database updates required.', $err);
 
         // Force a pending update.
         $this->drush('php-script', ['updatedb_script'], ['script-path' => __DIR__ . '/resources']);
 
         // Assert that pending hook_update_n appears
         $this->drush('updatedb:status', [], ['format' => 'json']);
-        $out = $this->getOutputFromJSON('devel_update_8002');
-        $this->assertContains('Add enforced dependencies to system.menu.devel', trim($out['description']));
+        $out = $this->getOutputFromJSON('drush_empty_module_update_8001');
+        $this->assertStringContainsString('Fake update hook', trim($out['description']));
 
         // Run hook_update_n
         $this->drush('updatedb', []);
@@ -36,14 +36,14 @@ class UpdateDBTest extends CommandUnishTestCase
         // Assert that we ran hook_update_n properly
         $this->drush('updatedb:status');
         $err = $this->getErrorOutput();
-        $this->assertContains('[success] No database updates required.', $err);
+        $this->assertStringContainsString('[success] No database updates required.', $err);
 
         // Assure that a pending post-update is reported.
-        $this->pathPostUpdate = Path::join($this->webroot(), 'modules/unish/devel/devel.post_update.php');
-        copy(__DIR__ . '/resources/devel.post_update.php', $this->pathPostUpdate);
+        $this->pathPostUpdate = Path::join($this->webroot(), 'modules/unish/drush_empty_module/drush_empty_module.post_update.php');
+        copy(__DIR__ . '/resources/drush_empty_module.post_update.php', $this->pathPostUpdate);
         $this->drush('updatedb:status', [], ['format' => 'json']);
-        $out = $this->getOutputFromJSON('devel-post-null_op');
-        $this->assertContains('This is a test of the emergency broadcast system.', trim($out['description']));
+        $out = $this->getOutputFromJSON('drush_empty_module-post-null_op');
+        $this->assertStringContainsString('This is a test of the emergency broadcast system.', trim($out['description']));
     }
 
     /**
@@ -79,10 +79,10 @@ class UpdateDBTest extends CommandUnishTestCase
         $this->drush('updatedb', [], $options, null, null, self::EXIT_ERROR);
 
         foreach ($expected_status_report as $needle) {
-            $this->assertContains($needle, $this->getOutput());
+            $this->assertStringContainsString($needle, $this->getOutput());
         }
         foreach ($expected_update_log_output as $needle) {
-            $this->assertContains($needle, $this->getErrorOutput());
+            $this->assertStringContainsString($needle, $this->getErrorOutput());
         }
     }
 
@@ -159,12 +159,12 @@ class UpdateDBTest extends CommandUnishTestCase
 
         // Run updates.
         $this->drush('updatedb', [], $options, null, null, self::EXIT_ERROR);
-        $this->assertContains('woot     a           post-update     Successful post-update.', $this->getOutput());
-        $this->assertContains('woot     failing     post-update     Failing post-update.', $this->getOutput());
-        $this->assertContains('This is the exception message thrown in woot_post_update_failing', $this->getErrorOutput());
-        $this->assertContains('Update failed: woot_post_update_failing', $this->getErrorOutput());
-        $this->assertContains('Update aborted by: woot_post_update_failing', $this->getErrorOutput());
-        $this->assertContains('Finished performing updates.', $this->getErrorOutput());
+        $this->assertStringContainsString('woot     a           post-update     Successful post-update.', $this->getOutput());
+        $this->assertStringContainsString('woot     failing     post-update     Failing post-update.', $this->getOutput());
+        $this->assertStringContainsString('This is the exception message thrown in woot_post_update_failing', $this->getErrorOutput());
+        $this->assertStringContainsString('Update failed: woot_post_update_failing', $this->getErrorOutput());
+        $this->assertStringContainsString('Update aborted by: woot_post_update_failing', $this->getErrorOutput());
+        $this->assertStringContainsString('Finished performing updates.', $this->getErrorOutput());
     }
 
     /**
@@ -200,8 +200,8 @@ class UpdateDBTest extends CommandUnishTestCase
         $this->setupModulesForTests(['woot'], Path::join(__DIR__, 'resources/modules/d8'));
         $this->drush('pm-enable', ['woot'], $options);
 
-        // Force re-run of the post-update woot_post_update_install_devel().
-        $this->forcePostUpdate('woot_post_update_install_devel', $options);
+        // Force re-run of the post-update woot_post_update_install_drush_empty_module().
+        $this->forcePostUpdate('woot_post_update_install_drush_empty_module', $options);
 
         // Force a flush of the dependency injection container, so that we can
         // test that the container can be correctly rebuilt even if new services
@@ -214,14 +214,14 @@ class UpdateDBTest extends CommandUnishTestCase
         $serviceDefinition = <<<YAML_FRAGMENT
   woot.depending_service:
     class: Drupal\woot\DependingService
-    arguments: ['@devel.dumper']
+    arguments: ['@drush_empty_module.service']
 YAML_FRAGMENT;
         file_put_contents($filename, $serviceDefinition, FILE_APPEND);
 
         $filename = Path::join($root, 'modules/unish/woot/woot.info.yml');
         $moduleDependency = <<<YAML_FRAGMENT
 dependencies:
-  - devel
+  - drush_empty_module
 YAML_FRAGMENT;
         file_put_contents($filename, $moduleDependency, FILE_APPEND);
 
@@ -231,7 +231,7 @@ YAML_FRAGMENT;
         // Assert that the updates were run correctly.
         $this->drush('updatedb:status');
         $err = $this->getErrorOutput();
-        $this->assertEquals('[success] No database updates required.', $err);
+        $this->assertStringContainsString('[success] No database updates required.', $err);
     }
 
     /**
@@ -256,13 +256,13 @@ YAML_FRAGMENT;
         // Run updates.
         $this->drush('updatedb', [], $options);
         // Check output.
-        $this->assertContains('woot 8104 hook_update_n Another good update.', $this->getSimplifiedOutput());
-        $this->assertContains('woot a post-update Successful post-update.', $this->getSimplifiedOutput());
-        $this->assertContains('woot render post-update Renders some content.', $this->getSimplifiedOutput());
+        $this->assertStringContainsString('woot 8104 hook_update_n Another good update.', $this->getSimplifiedOutput());
+        $this->assertStringContainsString('woot a post-update Successful post-update.', $this->getSimplifiedOutput());
+        $this->assertStringContainsString('woot render post-update Renders some content.', $this->getSimplifiedOutput());
         // Check error output.
-        $this->assertContains('Update started: woot_update_8104', $this->getErrorOutput());
-        $this->assertContains('Finished performing updates.', $this->getErrorOutput());
-        $this->assertNotContains('Failed', $this->getErrorOutput());
+        $this->assertStringContainsString('Update started: woot_update_8104', $this->getErrorOutput());
+        $this->assertStringContainsString('Finished performing updates.', $this->getErrorOutput());
+        $this->assertStringNotContainsString('Failed', $this->getErrorOutput());
     }
 
     /**
@@ -304,11 +304,63 @@ POST_UPDATE;
         // instead of LF (\n) as it is on *nix systems.
         $actual_output = str_replace("\r\n", "\n", $this->getErrorOutputRaw());
 
-        $this->assertContains($expected_update_output, $actual_output);
-        $this->assertContains($expected_post_update_output, $actual_output);
+        $this->assertStringContainsString($expected_update_output, $actual_output);
+        $this->assertStringContainsString($expected_post_update_output, $actual_output);
     }
 
-    public function tearDown()
+    /**
+     * Tests installing modules with entity type definitions via update hooks.
+     */
+    public function testEnableModuleViaUpdate()
+    {
+        $options = [
+            'yes' => null,
+        ];
+        $this->setUpDrupal(1, true);
+        $this->setupModulesForTests(['woot'], Path::join(__DIR__, 'resources/modules/d8'));
+        $this->drush('pm:enable', ['woot'], $options);
+
+        // Force re-run of woot_update_8106().
+        $this->drush('php:eval', ['drupal_set_installed_schema_version("woot", 8105)'], $options);
+
+        // Run updates.
+        $this->drush('updatedb', [], $options);
+
+        // Check that the post-update function returns the new entity type ID.
+        $this->assertStringContainsString('[notice] taxonomy_term', $this->getErrorOutputRaw());
+
+        // Check that the new entity type is installed.
+        $this->drush('php:eval', ['woot_get_taxonomy_term_entity_type_id();']);
+        $this->assertStringContainsString('taxonomy_term', $this->getOutputRaw());
+    }
+
+    /**
+     * Tests installing modules with entity type definitions via post-update hooks.
+     */
+    public function testEnableModuleViaPostUpdate()
+    {
+        $options = [
+            'yes' => null,
+        ];
+        $this->setUpDrupal(1, true);
+        $this->setupModulesForTests(['woot'], Path::join(__DIR__, 'resources/modules/d8'));
+        $this->drush('pm:enable', ['woot'], $options);
+
+        // Force re-run of woot_post_update_install_taxonomy().
+        $this->forcePostUpdate('woot_post_update_install_taxonomy', $options);
+
+        // Run updates.
+        $this->drush('updatedb', [], $options);
+
+        // Check that the post-update function returns the new entity type ID.
+        $this->assertStringContainsString('[notice] taxonomy_term', $this->getErrorOutputRaw());
+
+        // Check that the new entity type is installed.
+        $this->drush('php:eval', ['woot_get_taxonomy_term_entity_type_id();']);
+        $this->assertStringContainsString('taxonomy_term', $this->getOutputRaw());
+    }
+
+    public function tearDown(): void
     {
         $this->recursiveDelete($this->pathPostUpdate, true);
         parent::tearDown();

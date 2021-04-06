@@ -24,6 +24,17 @@ interface OpenIDConnectClientInterface extends ConfigurableInterface, DependentP
   public function getEndpoints();
 
   /**
+   * Gets an array of of scopes.
+   *
+   * This method allows a client to override the default minimum set of scopes
+   * assumed by OpenIDConnectClaims::getScopes();
+   *
+   * @return string[]|null
+   *   A space separated list of scopes.
+   */
+  public function getClientScopes();
+
+  /**
    * Redirects the user to the authorization endpoint.
    *
    * The authorization endpoint authenticates the user and returns them

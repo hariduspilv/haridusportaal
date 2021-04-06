@@ -3,7 +3,8 @@
 namespace Drupal\Tests\graphql_core\Kernel\Blocks;
 
 use Drupal\block_content\Entity\BlockContent;
-use Drupal\simpletest\BlockCreationTrait;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Tests\block\Traits\BlockCreationTrait;
 use Drupal\Tests\graphql_core\Kernel\GraphQLCoreTestBase;
 
 /**
@@ -25,6 +26,7 @@ class BlockTest extends GraphQLCoreTestBase {
     'filter',
     'editor',
     'ckeditor',
+    'path',
     'graphql_block_test',
   ];
 
@@ -39,6 +41,12 @@ class BlockTest extends GraphQLCoreTestBase {
     $themeInstaller->install(['stark']);
 
     $this->installEntitySchema('block_content');
+    try {
+      $this->installEntitySchema('path_alias');
+    } catch (PluginNotFoundException $exc) {
+      // Ignore if the path_alias entity doesn't exist. This means we are
+      // testing a Drupal version < 8.8 and aliases are not entities yet.
+    }
     $this->installConfig('block_content');
     $this->installConfig('graphql_block_test');
 
@@ -66,14 +74,10 @@ class BlockTest extends GraphQLCoreTestBase {
   public function testStaticBlocks() {
     $query = $this->getQueryFromFile('Blocks/blocks.gql');
     $metadata = $this->defaultCacheMetaData();
-
-    // TODO: Check cache metadata.
     $metadata->addCacheTags([
-      'config:block_list',
       'block_content:1',
+      // TODO: Check metatags. Is the config metatag required?
       'config:block.block.stark_powered',
-      'config:field.storage.block_content.body',
-      'entity_field_info',
     ]);
 
     $this->assertResults($query, [], [

@@ -20,7 +20,7 @@ class ConditionalFieldDeleteFormTab extends ConditionalFieldDeleteForm {
    */
   public function getCancelUrl() {
     return Url::fromRoute('conditional_fields.tab'. "." . $this->entity_type, [
-      'node_type' => $this->bundle,
+      "{$this->entity_type}_type" => $this->bundle,
     ]);
   }
 

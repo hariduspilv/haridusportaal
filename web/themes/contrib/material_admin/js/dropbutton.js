@@ -26,7 +26,7 @@
           $dropbutton.children('.material-icons').text('move_to_inbox');
         }
 
-        $dropbutton.attr('data-activates', $(this).attr('id'));
+        $dropbutton.attr('data-target', $(this).attr('id'));
 
         if (!$(this).hasClass('dropdown-content')) {
           $(this).addClass('dropdown-content');
@@ -37,11 +37,9 @@
         $dropbutton.dropdown({
           inDuration: 300,
           outDuration: 225,
-          gutter: 0,
           constrainWidth: false,
-          belowOrigin: false,
-          alignment: 'left',
-          stopPropagation: false
+          coverTrigger: false,
+          alignment: 'left'
         });
       });
     }
