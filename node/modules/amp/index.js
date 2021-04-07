@@ -9,21 +9,10 @@ log4js.configure({
   categories: { default: { appenders: ["amp"], level: "all" } }
 });
 
-module.exports.getPrefix = (server) => {
+module.exports.getPrefix = () => {
   return new Promise(async (resolve, reject) => {
-    const urlTemplates = {
-      "mock.hp.twn.zone": "https://apitest.hp.edu.ee",
-      "edu.ee": "https://api.hp.edu.ee",
-      "www.edu.ee": "https://api.hp.edu.ee",
-      "test.edu.ee": "https://apitest.hp.edu.ee",
-      "haridusportaal.twn.zone": "https://apitest.hp.edu.ee",
-      "htm.local": "https://apitest.hp.edu.ee",
-      "localhost": "https://apitest.hp.edu.ee",
-      "haridusportaal.edu.ee": "https://api.hp.edu.ee",
-      "fallback": "https://api.hp.edu.ee"
-    }
-    const prefix = urlTemplates[server] || urlTemplates.fallback;
-    resolve(prefix);
+    const fallback = "https://api.hp.edu.ee"
+    resolve(process.env.AMP_API || fallback);
   });
 }
 
@@ -127,11 +116,24 @@ module.exports.getFullPath = (req, absolute) => {
   });
 }
 
+// module.exports.pictoUrlReplacer = (url) => {
+//   if (!url) return url;
+//   let replacedUrl = '';
+//   if (url.includes('apitest.hp.edu.ee')) {
+//     replacedUrl = url.replace('apitest.hp.edu.ee', 'api.hp.edu.ee');
+//   }
+//   if (url.includes('api.hp.edu.ee')) {
+//     replacedUrl = url.replace('api.hp.edu.ee', 'apitest.hp.edu.ee');
+//   }
+//   console.log(url, replacedUrl);
+//   return replacedUrl || url;
+// }
+
 module.exports.serve = async (req, res) => {
   const logger = log4js.getLogger('amp');
   logger.debug(`Serving amp: ${req.get('host')} -> ${req.params[0]}`)
   const articlePath = req.params[0];
-  const apiPrefix = await this.getPrefix(req.get('host'));
+  const apiPrefix = await this.getPrefix();
   const requestOptions = await this.getRequestParams(articlePath, apiPrefix);
   let rawData = {};
   if (requestOptions.queryId) {
@@ -155,6 +157,7 @@ module.exports.serve = async (req, res) => {
     ? parsedData.fieldPictogram.entity.url : false;
 
   if (picto) {
+    // const replacedPictoUrl = this.pictoUrlReplacer(picto)
     picto = await this.getFullPath(req) + '/picto?url=' + picto;
     if (!picto) {
       logger.error(`Picto fetch failed: ${picto}`)
