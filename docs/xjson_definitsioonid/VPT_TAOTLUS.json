@@ -260,8 +260,11 @@
                 "title": {
                   "et": "Sünnikuupäev"
                 },
-                "min": "01.01.1900",
-                "max": "today",
+                "min_date": {
+                  "year": "1900",
+                  "month": "1",
+                  "day": "1"
+                },
                 "required": true
               },
               "personal_id": {
