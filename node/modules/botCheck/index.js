@@ -41,10 +41,10 @@ module.exports.isBot = (req) => {
 
 module.exports.redirect = (req, res, next, ) => {
   if (this.isBot(req)) {
-    logger.debug(`Bot detected, serving amp -> ${req}`);
+    logger.debug(`Bot detected, serving amp -> ${req.url}`);
     amp.serve(req,res);
   } else {
-    logger.debug(`No bot detected, redirecting -> ${req}`);
+    logger.debug(`No bot detected, redirecting -> ${req.url}`);
     return next();
   }
 
