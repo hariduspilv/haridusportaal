@@ -20,7 +20,7 @@ module.exports.getPrefix = (server) => {
       "htm.local": "https://apitest.hp.edu.ee",
       "localhost": "https://apitest.hp.edu.ee",
       "haridusportaal.edu.ee": "https://api.hp.edu.ee",
-      "fallback": "https://apitest.hp.edu.ee"
+      "fallback": "https://api.hp.edu.ee"
     }
     const prefix = urlTemplates[server] || urlTemplates.fallback;
     resolve(prefix);
