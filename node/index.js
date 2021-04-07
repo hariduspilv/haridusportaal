@@ -15,7 +15,7 @@ angularImporter();
 /* use gZip */
 app.use(compression());
 
-console.log(`Starting server at port ${port}`);
+console.log(`Starting server at port ${port} with AMP_API ${process.env.AMP_API || 'https://api.hp.edu.ee'}`);
 
 const setCustomCacheControl = (res, path) => {
   if (serveStatic.mime.lookup(path) === 'text/html') {
