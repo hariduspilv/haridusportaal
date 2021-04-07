@@ -119,7 +119,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
     }
 
     if (tmpParams.fieldProfession != '') {
-      console.log(tmpParams.fieldProfession)
       if (tmpParams.fieldProfession === 'true') {
         tmpParams.fieldProfession = '1';
       } else {

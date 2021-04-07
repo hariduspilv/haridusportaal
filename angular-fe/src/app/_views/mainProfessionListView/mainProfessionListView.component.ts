@@ -31,10 +31,6 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   searchTitle = '';
   showFilter = true;
   filterFull = false;
-  sortDirection = 'ASC';
-  sortField: any;
-  sort: any;
-  fieldProfession?: string;
   activatedFilters: boolean = false;
   competitionLabels = [
     'oska.simple_extended',
@@ -47,7 +43,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   public tooltipTriggerType = 'hover focus';
   public tooltipPlacement = 'right';
   sortedBy: object[] = [
-    { key: 'Kõik', value: 0 },
+    { key: 'Kõik', value: '' },
     { key: this.translateService.get('oskaProfessions.label'), value: 'false' },
     { key: this.translateService.get('oska.sample_jobs'), value: 'true' },
   ];
@@ -60,17 +56,6 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     private router: Router,
     private deviceService: DeviceDetectorService,
   ) {}
-
-  setSortDirection() {
-    if (this.sort) {
-      const directionHelper = this.sort.split('_');
-      this.sortDirection = (directionHelper.pop()).toUpperCase();
-      this.sortField = directionHelper.join('_');
-    } else {
-      this.sortField = '';
-      this.sortDirection = '';
-    }
-  }
 
   ngAfterViewInit() {
     setTimeout(
@@ -139,9 +124,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     }
   }
 
-  public selectArbitraryHighlightedJob({
-    list, highlight, professionCount, nonProfessionCount,
-  }): void {
+  public selectArbitraryHighlightedJob({list, highlight}): void {
     this.jobLoading = true;
     const filtersExist = Object.keys(this.route.snapshot.queryParams).length;
     if (list && list.length) {
