@@ -89,6 +89,10 @@ $grid-columns: 12;
           text-decoration: underline;
         }
       }
+      &__wrapper {
+        display: flex;
+        flex-direction: column;
+      }
       &__video {
         .aspect {
           padding-bottom: 56.25%;
@@ -211,6 +215,32 @@ $grid-columns: 12;
       }
       @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { 
         .flex { display: block; }
+      }
+      &--highlighted {
+        padding: 1.5rem !important;
+        border: 5px solid #FFE7C1 !important;
+        margin: 0 0 1.5rem 0 !important;
+        position: relative;
+        flex-direction: row !important;
+
+        labels {
+          position: absolute;
+          top: -1.25rem;
+        }
+
+        .list__item__wrapper {
+          flex-grow: 1;
+        }
+
+        .list__item__picto-wrapper {
+          margin-right: -3rem;
+          margin-top: -2rem;
+          height: 7rem;
+        }
+
+        &+ .list__item {
+          border-top: solid 0.0625rem $gray;
+        }
       }
     }
     .spinner-wrapper {
