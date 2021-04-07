@@ -14,7 +14,7 @@
     },
     "steps": {
       "step_0": {
-        "editable": true,
+        "editable": false,
         "sequence": 0,
         "title": {
           "et": "Taotlemise õiguse kontroll"
