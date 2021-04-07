@@ -1,5 +1,11 @@
 const path = require('path');
 const amp = require(path.resolve('./', 'modules/amp'));
+const log4js = require("log4js");
+log4js.configure({
+  appenders: { amp: { type: "file", filename: path.join(__dirname, '../../logs/amp.log') } },
+  categories: { default: { appenders: ["amp"], level: "all" } }
+});
+const logger = log4js.getLogger('amp');
 
 module.exports.isBot = (req) => {
   var isBotTest = false;
@@ -35,8 +41,10 @@ module.exports.isBot = (req) => {
 
 module.exports.redirect = (req, res, next, ) => {
   if (this.isBot(req)) {
+    logger.debug(`Bot detected, serving amp -> ${req}`);
     amp.serve(req,res);
   } else {
+    logger.debug(`No bot detected, redirecting -> ${req}`);
     return next();
   }
 

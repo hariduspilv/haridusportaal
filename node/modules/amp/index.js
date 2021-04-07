@@ -12,7 +12,7 @@ log4js.configure({
 module.exports.getPrefix = (server) => {
   return new Promise(async (resolve, reject) => {
     const urlTemplates = {
-      "edu.twn.ee": "https://htm.wiseman.ee",
+      "mock.hp.twn.zone": "https://apitest.hp.edu.ee",
       "edu.ee": "https://api.hp.edu.ee",
       "www.edu.ee": "https://api.hp.edu.ee",
       "test.edu.ee": "https://apitest.hp.edu.ee",
@@ -128,8 +128,9 @@ module.exports.getFullPath = (req, absolute) => {
 }
 
 module.exports.serve = async (req, res) => {
-  const articlePath = req.params[0];
   const logger = log4js.getLogger('amp');
+  logger.debug(`Serving amp: ${req.get('host')} -> ${req.params[0]}`)
+  const articlePath = req.params[0];
   const apiPrefix = await this.getPrefix(req.get('host'));
   const requestOptions = await this.getRequestParams(articlePath, apiPrefix);
   let rawData = {};
