@@ -50,9 +50,10 @@
   * after running the container, when its health status is at least *yellow*, visit https://${drupal-url}/admin/config/search/elasticsearch/reindex to reindex it - select everything and click rebuild, afterwards when all numbers match clear drupal cache.
   * mounts elasticsearch nodes to host
 
-### Angular
+### Angular / node
   * angular application with conditional storybook implementation (based on dockerfile chosen in angular-fe dir)
-  * includes node application that serves angular or custom amp pages based on request
+  * runs as a node application that serves angular or custom amp pages based on request (for SEO)
+  * takes 1 env variables (containers.env)
   * source image built from Dockerfile in /angular-fe directory
 
 ### Swag
