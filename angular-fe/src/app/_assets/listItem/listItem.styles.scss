@@ -231,9 +231,25 @@ $grid-columns: 12;
 
         .list__item__wrapper {
           flex-grow: 1;
+          min-width: 0;
+          .list__item__titlebox {
+            div {
+              width: 100%;
+            }
+            a {
+              max-width: 100%;
+              & > h1 {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+            }
+          }
         }
 
         .list__item__picto-wrapper {
+          display: flex;
+          justify-content: center;
           margin-right: -3rem;
           margin-top: -2rem;
           height: 7rem;
@@ -247,10 +263,11 @@ $grid-columns: 12;
           flex-direction: column !important;
 
           .list__item__picto-wrapper {
-            display: flex;
             margin-right: 0;
             margin-top: 0;
-            justify-content: center;
+          }
+          .list__item__titlebox a > h1 {
+            white-space: normal !important;
           }
         }
       }
