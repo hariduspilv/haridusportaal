@@ -45,8 +45,8 @@ query studyListViewQuery($nid: [String],
         {operator: LIKE, field: "field_content", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_introduction", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_accordion.entity.field_study_page_accordion_title", value: [$titleValue], language: $lang, enabled: $titleEnabled},
-        {operator: LIKE, field: "field_accordion.entity.field_study_accordion_intro", value: [$titleValue], language: $lang, enabled: $titleEnabled},
-        {operator: LIKE, field: "field_accordion.entity.field_study_accordion_content", value: [$titleValue], language: $lang, enabled: $titleEnabled}
+        {operator: LIKE, field: "field_accordion.entity.field_study_page_accordion_intro", value: [$titleValue], language: $lang, enabled: $titleEnabled},
+        {operator: LIKE, field: "field_accordion.entity.field_study_page_accordion_content", value: [$titleValue], language: $lang, enabled: $titleEnabled}
       ]}]
     }) {
     count
