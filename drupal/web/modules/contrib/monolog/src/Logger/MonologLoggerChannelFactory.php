@@ -19,7 +19,7 @@ class MonologLoggerChannelFactory implements LoggerChannelFactoryInterface, Cont
    *
    * @var \Drupal\Core\Logger\LoggerChannelInterface[]
    */
-  protected $channels = array();
+  protected $channels = [];
 
   /**
    * Array of enabled processors.
@@ -51,7 +51,8 @@ class MonologLoggerChannelFactory implements LoggerChannelFactoryInterface, Cont
    * {@inheritdoc}
    */
   public function addLogger(LoggerInterface $logger, $priority = 0) {
-    // No-op, we have handlers which are services and configured in the services.yml file.
+    // No-op, we have handlers which are services and configured in the
+    // services.yml file.
     // @see https://www.drupal.org/node/2411683
   }
 
@@ -62,6 +63,7 @@ class MonologLoggerChannelFactory implements LoggerChannelFactoryInterface, Cont
    *   The name the logging channel.
    *
    * @return \Psr\Log\LoggerInterface
+   *  Describes a logger instance.
    *
    * @throws \RuntimeException
    * @throws \InvalidArgumentException

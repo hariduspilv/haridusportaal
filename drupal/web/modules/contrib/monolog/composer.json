@@ -1,7 +1,7 @@
 {
     "name": "drupal/monolog",
     "type": "drupal-module",
-    "description": "A Framework and UI for integrating with the Monolog library.",
+    "description": "A Framework for integrating with the Monolog library.",
     "homepage": "http://drupal.org/project/monolog",
     "license": "GPL-2.0",
     "authors": [
@@ -20,7 +20,7 @@
         "issues": "http://drupal.org/project/issues/monolog"
     },
     "require": {
-        "monolog/monolog": ">=1.6.0,<2.0.0"
+        "monolog/monolog": "^2.0.0"
     },
     "autoload": {
         "psr-0": {

@@ -1,7 +1,8 @@
 name: Material Admin
 type: theme
 description: 'Material Design Admin Theme'
-# core: 8.x
+core: 8.x
+core_version_requirement: ^8 || ^9
 base theme: classy
 
 # Image appears on admin/appearance
@@ -12,7 +13,7 @@ libraries:
 
 
 # remove css sheets from the base themes rather than than override because
-# the SCSS is aleady including those files into a single file. 
+# the SCSS is aleady including those files into a single file.
 # See: scss/base/overrides directory
 stylesheets-remove:
   - '@classy/css/components/action-links.css'
@@ -60,8 +61,7 @@ regions:
 regions_hidden:
   - sidebar_first
 
-# Information added by Drupal.org packaging script on 2018-11-28
-version: '8.x-1.0-alpha7'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2021-01-06
+version: '2.0.3'
 project: 'material_admin'
-datestamp: 1543440189
+datestamp: 1609967733

@@ -1,8 +1,9 @@
-name: 
+name:
   'Elasticsearch Connector Views'
-description: 
+description:
   'Stand alone module for integration between Drupal Views and Elasticsearch indexes.'
-# core: 8.x
+core: 8.x
+core_version_requirement: ^8 || ^9
 package: Elasticsearch
 type: module
 dependencies:
@@ -10,8 +11,7 @@ dependencies:
  - elasticsearch_connector:elasticsearch_connector
 # version: VERSION
 
-# Information added by Drupal.org packaging script on 2018-10-06
-version: '8.x-5.0-alpha3'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-10-14
+version: '8.x-7.0-alpha3'
 project: 'elasticsearch_connector'
-datestamp: 1538850785
+datestamp: 1602658542

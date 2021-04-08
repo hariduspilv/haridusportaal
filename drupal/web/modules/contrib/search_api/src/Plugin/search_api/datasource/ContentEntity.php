@@ -18,6 +18,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\State\StateInterface;
@@ -27,9 +28,9 @@ use Drupal\Core\TypedData\TypedDataManagerInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\field\FieldStorageConfigInterface;
 use Drupal\search_api\Datasource\DatasourcePluginBase;
-use Drupal\search_api\Entity\Index;
-use Drupal\search_api\Plugin\PluginFormTrait;
 use Drupal\search_api\IndexInterface;
+use Drupal\search_api\LoggerTrait;
+use Drupal\search_api\Plugin\PluginFormTrait;
 use Drupal\search_api\Utility\Dependencies;
 use Drupal\search_api\Utility\FieldsHelperInterface;
 use Drupal\search_api\Utility\Utility;
@@ -45,6 +46,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ContentEntity extends DatasourcePluginBase implements PluginFormInterface {
 
+  use LoggerTrait;
   use PluginFormTrait;
 
   /**
@@ -158,6 +160,7 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
     $datasource->setFieldsHelper($container->get('search_api.fields_helper'));
     $datasource->setState($container->get('state'));
     $datasource->setEntityMemoryCache($container->get('entity.memory_cache'));
+    $datasource->setLogger($container->get('logger.channel.search_api'));
 
     return $datasource;
   }
@@ -1023,6 +1026,99 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function canContainEntityReferences(): bool {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAffectedItemsForEntityChange(EntityInterface $entity, array $foreign_entity_relationship_map, EntityInterface $original_entity = NULL): array {
+    if (!($entity instanceof ContentEntityInterface)) {
+      return [];
+    }
+
+    $ids_to_reindex = [];
+    $path_separator = IndexInterface::PROPERTY_PATH_SEPARATOR;
+    foreach ($foreign_entity_relationship_map as $relation_info) {
+      // Ignore relationships belonging to other datasources.
+      if (!empty($relation_info['datasource'])
+          && $relation_info['datasource'] !== $this->getPluginId()) {
+        continue;
+      }
+      // Check whether entity type and (if specified) bundles match the entity.
+      if ($relation_info['entity_type'] !== $entity->getEntityTypeId()) {
+        continue;
+      }
+      if (!empty($relation_info['bundles'])
+          && !in_array($entity->bundle(), $relation_info['bundles'])) {
+        continue;
+      }
+      // Maybe this entity belongs to a bundle that does not have this field
+      // attached. Hence we have this check to ensure the field is present on
+      // this particular entity.
+      if (!$entity->hasField($relation_info['field_name'])) {
+        continue;
+      }
+
+      $items = $entity->get($relation_info['field_name']);
+
+      // We trigger re-indexing if either it is a removed entity or the
+      // entity has changed its field value (in case it's an update).
+      if (!$original_entity || !$items->equals($original_entity->get($relation_info['field_name']))) {
+        $query = $this->entityTypeManager->getStorage($this->getEntityTypeId())
+          ->getQuery();
+        $query->accessCheck(FALSE);
+
+        // Luckily, to translate from property path to the entity query
+        // condition syntax, all we have to do is replace the property path
+        // separator with the entity query path separator (a dot) and that's it.
+        $property_path = $relation_info['property_path_to_foreign_entity'];
+        $property_path = str_replace($path_separator, '.', $property_path);
+        $query->condition($property_path, $entity->id());
+
+        try {
+          $entity_ids = array_values($query->execute());
+        }
+        // @todo Switch back to \Exception once Core bug #2893747 is fixed.
+        catch (\Throwable $e) {
+          // We don't want to catch all PHP \Error objects thrown, but just the
+          // ones caused by #2893747.
+          if (!($e instanceof \Exception)
+              && (get_class($e) !== \Error::class || $e->getMessage() !== 'Call to a member function getColumns() on bool')) {
+            throw $e;
+          }
+          $vars = [
+            '%index' => $this->index->label(),
+            '%entity_type' => $entity->getEntityType()->getLabel(),
+            '@entity_id' => $entity->id(),
+          ];
+          try {
+            $link = $entity->toLink($this->t('Go to changed %entity_type with ID "@entity_id"', $vars))
+              ->toString()->getGeneratedLink();
+          }
+          catch (\Throwable $e) {
+            // Ignore any errors here, it's not that important that the log
+            // message contains a link.
+            $link = NULL;
+          }
+          $this->logException($e, '%type while attempting to find indexed entities referencing changed %entity_type with ID "@entity_id" for index %index: @message in %function (line %line of %file).', $vars, RfcLogLevel::ERROR, $link);
+          continue;
+        }
+        foreach ($entity_ids as $entity_id) {
+          foreach ($this->getLanguages() as $language) {
+            $ids_to_reindex["$entity_id:{$language->getId()}"] = 1;
+          }
+        }
+      }
+    }
+
+    return array_keys($ids_to_reindex);
+  }
+
+  /**
    * Computes all dependencies of the given property path.
    *
    * @param string $property_path
@@ -1081,79 +1177,9 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
    * {@inheritdoc}
    */
   public static function getIndexesForEntity(ContentEntityInterface $entity) {
-    $datasource_id = 'entity:' . $entity->getEntityTypeId();
-    $entity_bundle = $entity->bundle();
-    $has_bundles = $entity->getEntityType()->hasKey('bundle');
-
-    // Needed for PhpStorm. See https://youtrack.jetbrains.com/issue/WI-23395.
-    /** @var \Drupal\search_api\IndexInterface[] $indexes */
-    $indexes = Index::loadMultiple();
-
-    foreach ($indexes as $index_id => $index) {
-      // Filter out indexes that don't contain the datasource in question.
-      if (!$index->isValidDatasource($datasource_id)) {
-        unset($indexes[$index_id]);
-      }
-      elseif ($has_bundles) {
-        // If the entity type supports bundles, we also have to filter out
-        // indexes that exclude the entity's bundle.
-        $config = $index->getDatasource($datasource_id)->getConfiguration();
-        if (!Utility::matches($entity_bundle, $config['bundles'])) {
-          unset($indexes[$index_id]);
-        }
-      }
-    }
-
-    return $indexes;
-  }
-
-  /**
-   * Filters a set of datasource-specific item IDs.
-   *
-   * Returns only those item IDs that are valid for the given datasource and
-   * index. This method only checks the item language, though – whether an
-   * entity with that ID actually exists, or whether it has a bundle included
-   * for that datasource, is not verified.
-   *
-   * @param \Drupal\search_api\IndexInterface $index
-   *   The index for which to validate.
-   * @param string $datasource_id
-   *   The ID of the datasource on the index for which to validate.
-   * @param string[] $item_ids
-   *   The item IDs to be validated.
-   *
-   * @return string[]
-   *   All given item IDs that are valid for that index and datasource.
-   */
-  public static function filterValidItemIds(IndexInterface $index, $datasource_id, array $item_ids) {
-    if (!$index->isValidDatasource($datasource_id)) {
-      return $item_ids;
-    }
-    $config = $index->getDatasource($datasource_id)->getConfiguration();
-    // If the entity type doesn't allow translations, we just accept all IDs.
-    // (If the entity type were translatable, the config key would have been set
-    // with the default configuration.)
-    if (!isset($config['languages']['selected'])) {
-      return $item_ids;
-    }
-    $always_valid = [
-      LanguageInterface::LANGCODE_NOT_SPECIFIED,
-      LanguageInterface::LANGCODE_NOT_APPLICABLE,
-    ];
-    $valid_ids = [];
-    foreach ($item_ids as $item_id) {
-      $pos = strrpos($item_id, ':');
-      // Item IDs without colons are always invalid.
-      if ($pos === FALSE) {
-        continue;
-      }
-      $langcode = substr($item_id, $pos + 1);
-      if (Utility::matches($langcode, $config['languages'])
-          || in_array($langcode, $always_valid)) {
-        $valid_ids[] = $item_id;
-      }
-    }
-    return $valid_ids;
+    return \Drupal::getContainer()
+      ->get('search_api.entity_datasource.tracking_manager')
+      ->getIndexesForEntity($entity);
   }
 
   /**

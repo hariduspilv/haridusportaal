@@ -2,7 +2,8 @@
 
 namespace Drupal\ultimate_cron\Launcher;
 
-use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Plugin\ConfigurableInterface;
+use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\ultimate_cron\CronJobInterface;
@@ -10,7 +11,7 @@ use Drupal\ultimate_cron\CronJobInterface;
 /**
  * Defines a launcher method.
  */
-interface LauncherInterface extends PluginInspectionInterface, ConfigurablePluginInterface, PluginFormInterface {
+interface LauncherInterface extends PluginInspectionInterface, ConfigurableInterface, DependentPluginInterface, PluginFormInterface {
 
   /**
    * Default settings.

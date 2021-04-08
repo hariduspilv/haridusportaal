@@ -80,10 +80,9 @@ hr {
 
 .v-top {
   vertical-align: top;
-}
 
-.v-top {
-  i,span {
+  i,
+  span {
     vertical-align: top;
   }
 }
@@ -382,7 +381,7 @@ details.form-wrapper summary {
 }
 
 
-// for the default drupal 'marker' add the badge styles 
+// for the default drupal 'marker' add the badge styles
 span.marker {
   @extend .badge;
 
@@ -413,7 +412,7 @@ span.marker {
 }
 
 
-//offset top tabs by removing the row margin to line the text up with the header 
+//offset top tabs by removing the row margin to line the text up with the header
 @media #{$medium-and-up} {
   .offset-tabs {
     margin-left: -20px;

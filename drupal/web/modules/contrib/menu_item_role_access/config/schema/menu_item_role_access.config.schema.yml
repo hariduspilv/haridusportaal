@@ -1,0 +1,10 @@
+menu_item_role_access.config:
+  type: config_object
+  label: 'Configuration for Menu Item Role Access module'
+  mapping:
+    overwrite_internal_link_target_access:
+      type: boolean
+      label: 'Overwrite internal link target access check'
+    inherit_parent_access:
+      type: boolean
+      label: 'Allow children items to inherit the menu item access of their parents.'

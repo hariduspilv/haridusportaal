@@ -15,18 +15,19 @@ class LoggerTest extends UnitTestCase {
 
   /**
    * Make sure that the level gets translated before sent to processors.
+   *
    * @covers ::addRecord
    * @dataProvider providerTestAddRecord
    */
   public function testAddRecord($log_level, $handler_log_level, $log_message) {
-    $mock = $this->getMock('Monolog\Handler\NullHandler');
+    $mock = $this->createMock('Monolog\Handler\NullHandler');
     $mock->expects($this->once())
       ->method('isHandling')
       ->will($this->returnValue(TRUE));
 
     $mock->expects($this->once())
       ->method('handle')
-      ->with($this->callback(function(array $record) use ($handler_log_level, $log_message) {
+      ->with($this->callback(function (array $record) use ($handler_log_level, $log_message) {
         return $record['level'] === $handler_log_level && $record['message'] === $log_message;
       }));
 

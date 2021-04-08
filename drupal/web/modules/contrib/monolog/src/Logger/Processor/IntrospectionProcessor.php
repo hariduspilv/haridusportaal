@@ -6,15 +6,17 @@ use Monolog\Logger;
 use Monolog\Processor\IntrospectionProcessor as MonologIntrospectionProcessor;
 
 /**
- * Class IntrospectionProcessor
+ * Class IntrospectionProcessor.
  */
 class IntrospectionProcessor extends MonologIntrospectionProcessor {
 
   /**
+   * Constructs a Default object.
+   *
    * @inheritDoc
    */
   public function __construct() {
-    parent::__construct( Logger::DEBUG, array('Drupal\\monolog\\Logger\\'), 0);
+    parent::__construct(Logger::DEBUG, ['Drupal\\monolog\\Logger\\'], 0);
   }
 
 }

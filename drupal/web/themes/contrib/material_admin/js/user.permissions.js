@@ -37,21 +37,6 @@
         }
         $table.detach();
 
-        // Create dummy checkboxes. We use dummy checkboxes instead of reusing
-        // the existing checkboxes here because new checkboxes don't alter the
-        // submitted form. If we'd automatically check existing checkboxes, the
-        // permission table would be polluted with redundant entries. This
-        // is deliberate, but desirable when we automatically check them.
-        var $dummy = $('<span class="dummy-checkbox js-dummy-checkbox" ><input type="checkbox" checked="checked" disabled="disabled" /><label class="visually-hidden">disabled</label></span>')
-          .attr('title', Drupal.t('This permission is inherited from the authenticated user role.'))
-          .hide();
-
-        $table
-          .find('input[type="checkbox"]')
-          .not('.js-rid-anonymous, .js-rid-authenticated')
-          .addClass('real-checkbox js-real-checkbox')
-          .before($dummy);
-
         // Initialize the authenticated user checkbox.
         $table.find('input[type=checkbox].js-rid-authenticated')
           .on('click.permissions', self.toggle)

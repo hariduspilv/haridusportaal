@@ -56,3 +56,16 @@ conditional_fields.settings:
     selector:
       type: string
       label: 'Custom jQuery selector'
+    inheritance:
+      type: mapping
+      label: 'Inheritance'
+      mapping:
+        propagate:
+          type: string
+          label: 'Propagate settings to fields contained within this one.'
+        apply_to_parent:
+          type: string
+          label: 'Apply these settings to the this (parent) field also.'
+        recurse:
+          type: string
+          label: 'Apply these settings to group fields contained within this one.'

@@ -1,4 +1,7 @@
 services:
-  sitemap.helper:
-    class: Drupal\sitemap\SitemapHelper
-    arguments: ['@config.factory', '@entity_type.manager', '@entity.repository', '@module_handler']
+  plugin.manager.sitemap:
+    class: Drupal\sitemap\SitemapManager
+    parent: default_plugin_manager
+  sitemap.menu.link_tree:
+    class: \Drupal\sitemap\Menu\SitemapMenuLinkTree
+    parent: menu.link_tree
