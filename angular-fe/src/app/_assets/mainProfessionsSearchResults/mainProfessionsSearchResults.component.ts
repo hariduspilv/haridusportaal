@@ -221,7 +221,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           this.dispatchListEmit(true,
                                 this.list,
                                 this.scrollRestorationValues[this.type].highlight);
-          this.selectArbitraryHighlightedJob();
           scrollSub.unsubscribe();
         } else {
           this.httpWatcher = this.http.get(path).subscribe(
@@ -238,9 +237,9 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
               this.list = [...this.list, ...listData];
             } else {
               this.list = listData;
+              this.selectArbitraryHighlightedJob();
             }
             this.canLoadMore = !!(this.listCount > this.list.length);
-            this.selectArbitraryHighlightedJob();
             this.dispatchListEmit(false, this.list);
             this.updateRestorationValues(values);
             if (this.deviceService.isMobile() && paramsExist(this.route)) {

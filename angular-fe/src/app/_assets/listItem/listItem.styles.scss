@@ -222,6 +222,7 @@ $grid-columns: 12;
         margin: 0 0 1.5rem 0 !important;
         position: relative;
         flex-direction: row !important;
+        flex-wrap: nowrap !important;
 
         labels {
           position: absolute;
@@ -240,6 +241,17 @@ $grid-columns: 12;
 
         &+ .list__item {
           border-top: solid 0.0625rem $gray;
+        }
+
+        @include break-on(xs, max) {
+          flex-direction: column !important;
+
+          .list__item__picto-wrapper {
+            display: flex;
+            margin-right: 0;
+            margin-top: 0;
+            justify-content: center;
+          }
         }
       }
     }
