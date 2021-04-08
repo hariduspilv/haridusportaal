@@ -26,7 +26,6 @@
     "@angular/platform-browser-dynamic": "^10.1.6",
     "@angular/pwa": "^0.1001.7",
     "@angular/router": "^10.1.6",
-    "@angular/service-worker": "^10.1.6",
     "@auth0/angular-jwt": "^5.0.2",
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "@ng-select/ng-select": "^3.7.3",
