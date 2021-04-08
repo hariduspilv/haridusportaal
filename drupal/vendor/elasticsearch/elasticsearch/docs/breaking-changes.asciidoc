@@ -1,21 +1,47 @@
-== Breaking changes from 2.x
+[[breaking_changes]]
+== Breaking changes from 6.x
 
-- Indices/Analyze Endpoint: `filters` and `char_filters` URI parameters have been renamed to `filter` and `char_filter` respectively
-- SearchExists endpoint has been removed (use `size=0` and `terminate_after=1` instead)
-- Warmers have been removed because they are no longer useful
-- Indices/Optimize Endpoint has been removed (use `_forcemerge` instead)
-- MoreLikeThis (MLT) endpoint has been removed
-- DeleteByQuery endpoint has been removed.
-- Tasks/List and Tasks/Get are now separate endpoints (see: link:http://github.com/elasticsearch/elasticsearch-php/commit/752d5a2[e0cc5f9])
-- Client requires PHP 5.6.6 or higher
+[discrete]
+=== E_USER_DEPRECATED notice when using deprecated parameters
 
-=== Deprecations
+Starting from elasticsearch-php 7.4.0, we generate a PHP 
+https://www.php.net/manual/en/errorfunc.constants.php[E_USER_DEPRECATED] notice 
+every time you use a deprecated parameters for {es}. We decided to add this 
+notice to facilitate the code refactoring with the new API specification of {es} 
+(for example the usage of typeless APIs, see below).
 
-- Percolator endpoints are deprecated and will be removed in Elasticsearch 6.0
+From 7.4.1, we mitigated the usage of E_USER_DEPRICATED warning by using the `@` 
+https://www.php.net/manual/en/language.operators.errorcontrol.php[operator]. The 
+operator suppresses the error message, however, it is still possible to catch it 
+by using a custom error handler:
 
-=== Internal BWC Breaks
+[source,php]
+----
+set_error_handler(function ($errno, $errstr) {
+    var_dump($errstr);
+}, E_USER_DEPRECATED);
 
-- Namespace injection has changed slightly.  If you use custom namespaces, you'll need to update your code (see: Add better ability to inject namespaces link:http://github.com/elasticsearch/elasticsearch-php/commit/b1a27b7[b1a27b7])
-- Endpoints no longer use the Transport directly.  If you use custom endpoints, you'll need to do some minor
-refactoring (see: Refactor to remove Transport dependence in endpoints link:http://github.com/elasticsearch/elasticsearch-php/commit/ecd454c[ecd454c])
-- To facilitate testing and other features, the `ConnectionInterface` has expanded to obtain some more methods (link:http://github.com/elasticsearch/elasticsearch-php/commit/8bcf1a8[getPath()], link:http://github.com/elasticsearch/elasticsearch-php/commit/586fbdb[getUserPass()], link:http://github.com/elasticsearch/elasticsearch-php/commit/445fdea[getHost()])
+@trigger_error('Deprecation message here', E_USER_DEPRECATED);
+----
+
+[discrete]
+=== Moving from types to typeless APIs in {es} 7.0
+
+{es} 7.0 deprecated APIs that accept types, introduced new typeless APIs, and 
+removed support for the _default_ mapping. Read 
+https://www.elastic.co/blog/moving-from-types-to-typeless-apis-in-elasticsearch-7-0[this]
+blog post for more information.
+
+[discrete]
+=== Type hint and return type
+
+Added type hints and return type declarations in all the code base where 
+possible. See PR https://github.com/elastic/elasticsearch-php/pull/897[#897].
+
+[discrete]
+=== PHP 7.1+ Requirement
+
+We require using PHP 7.1+ for elasticsearch-php. PHP 7.0 is not supported since
+1st Jan 2019. Refer 
+https://www.php.net/supported-versions.php[PHP supported version] for more 
+information.
