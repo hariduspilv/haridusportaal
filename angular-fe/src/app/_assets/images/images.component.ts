@@ -14,6 +14,7 @@ export class ImageComponent implements OnInit {
   @Input() image: {} = {};
   @Input() videos: {} = {};
   @Input() limit: number = 1;
+  @Input() prioritizeVideos = false;
   public images;
   public activeImage;
   public loadBounce = false;
@@ -47,9 +48,9 @@ export class ImageComponent implements OnInit {
 
   mergeVideosToList() {
     if (!Array.isArray(this.videos)) {
-      this.images.push(this.videos);
+      this.images = this.prioritizeVideos ? [this.videos, ...this.images] : [...this.images, this.videos];
     } else {
-      this.images = [...this.images, ...this.videos];
+      this.images = this.prioritizeVideos ? [...this.videos, ...this.images] : [...this.images, ...this.videos];
     }
   }
 
