@@ -62,6 +62,7 @@
 				tabLabel="Taotlused"
 				tabIcon="file-text"
 				tabLink="taotlused"
+				tabHeading="true"
 				[tabActive]="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
 				<applications
 					#applications
@@ -74,6 +75,7 @@
 				tabLabel="Tunnistused"
 				tabIcon="class"
 				tabLink="tunnistused"
+				tabHeading="true"
 				[tabActive]="breadcrumbs === '/töölaud/tunnistused'"
 			>
 				<certificates *ngIf="breadcrumbs === '/töölaud/tunnistused'"></certificates>
@@ -83,6 +85,7 @@
 				tabLabel="Õpingud"
 				tabIcon="local-library"
 				tabLink="õpingud"
+				tabHeading="true"
 				[tabActive]="breadcrumbs === '/töölaud/õpingud'"
 			>
 				<studies *ngIf="breadcrumbs === '/töölaud/õpingud'"></studies>
@@ -92,6 +95,7 @@
 				tabLabel="Õpetan"
 				tabIcon="school"
 				tabLink="õpetan"
+				tabHeading="true"
 				[tabActive]="breadcrumbs === '/töölaud/õpetan'"
 			>
 				<teachings *ngIf="breadcrumbs === '/töölaud/õpetan'"></teachings>
