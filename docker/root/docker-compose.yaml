@@ -99,6 +99,8 @@ services:
     networks:
       - htm
     restart: always
+    env_file:
+      - containers.env
     volumes:
       - /root/data/logs/amp:/app/node/logs
   swag:
