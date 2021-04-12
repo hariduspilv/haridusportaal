@@ -10,7 +10,7 @@
       "et": "Õpetajate lähtetoetuse taotlus"
     },
     "helpertext": {
-      "et": "Kui teil on küsimusi õpetajate lähtetoetuse kohta, kirjutage aadressil&nbsp;oppetoetused@rtk.ee.&nbsp;<a href=\"https://www.rtk.ee/vajadusp%C3%B5hine-%C3%B5ppetoetusneeds-based-study-allowance\" target=\"_blank\">Täpsem info.</a>"
+      "et": "olt.introduction_helpertext"
     },
     "steps": {
       "step_type_selection": {
@@ -298,6 +298,12 @@
               "jpg",
               "png"
             ]
+          },
+          "additional_terms_agreement": {
+            "type": "helpertext",
+            "title": {
+              "et": "olt.terms_agreement"
+            }
           }
         }
       },
