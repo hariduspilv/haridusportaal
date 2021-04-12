@@ -186,51 +186,6 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     });
   }
 
-  public selectArbitraryHighlightedJob({
-    list, highlight, professionCount, nonProfessionCount,
-  }): void {
-    this.jobLoading = true;
-    this.typeFilters[0].sum = nonProfessionCount;
-    this.typeFilters[1].sum = professionCount;
-    const filtersExist = Object.keys(this.route.snapshot.queryParams).length;
-    if (list && list.length) {
-      if (highlight) {
-        this.filteredJob = highlight;
-        this.jobLoading = false;
-      } else {
-        if (!this.filteredJob || (!filtersExist && !this.filteredJob)) {
-          const filteredList: Object[] = list.filter(elem =>
-            elem.fieldFillingBar === 1 || elem.fieldFillingBar === 2);
-          if (filteredList.length) {
-            const filteredItem: number = Math.floor(Math.random() * filteredList.length);
-            const initialFilteredJob = filteredList[filteredItem];
-            const initialFilteredJobPath = initialFilteredJob['entityUrl'] ? initialFilteredJob['entityUrl']['path']
-            : initialFilteredJob['url']['path'];
-            const jobSubscription = this.http.get(
-              this.settings.query(this.jobQuery, { path: initialFilteredJobPath })).subscribe(
-              (response) => {
-                this.filteredJob = response['data']['route']['entity'];
-                this.filteredJob['path'] = initialFilteredJobPath;
-                this.filteredJob['label'] =
-                  this.competitionLabels[initialFilteredJob['fieldFillingBar'] - 1];
-                this.jobLoading = false;
-                jobSubscription.unsubscribe();
-              },
-              () => {
-                this.jobLoading = false;
-              });
-          } else {
-            this.jobLoading = false;
-          }
-        } else {
-          this.jobLoading = false;
-        }
-      }
-    } else {
-      this.jobLoading = false;
-    }
-  }
-
   ngOnInit() {
     if (!this.deviceService.isDesktop()) {
       this.tooltipTriggerType = 'click';
