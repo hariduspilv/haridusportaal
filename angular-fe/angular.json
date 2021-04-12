@@ -129,10 +129,20 @@
               ]
             },
             "dev": {
-              "fileReplacements": [
+              "assets": [
+                "src/assets",
+                "src/favicon.ico",
+                "src/auth.html",
+                "src/manifest.webmanifest",
+                "src/sitemap.xml",
                 {
-                  "replace": "src/robots.txt",
-                  "with": "src/robots-dev.txt"
+                  "input": "./node_modules/@google/markerclustererplus/images",
+                  "glob": "*",
+                  "output": "/images"
+                },
+                { "glob": "robots.txt",
+                  "input": "src/environments/dev/",
+                  "output": "/"
                 }
               ],
               "index": {
