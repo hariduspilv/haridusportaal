@@ -3,7 +3,6 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ActivatedRoute, Router } from '@angular/router';
-// tslint:disable: radix
 
 @Component({
   selector: 'studyProgrammeList-view',

@@ -131,3 +131,11 @@ $sides: left, top, bottom, right;
 		}
 	}
 }
+
+@for $i from 1 to 4 {
+	@each $side in $sides {
+		.p-#{$side}-#{$i} {
+			padding-#{$side}: #{$i}rem !important;
+		}
+	}
+}

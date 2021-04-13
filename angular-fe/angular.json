@@ -103,10 +103,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prelive.ts"
-                },
-                {
-                  "replace": "src/robots.txt",
-                  "with": "src/robots-dev.txt"
                 }
               ],
               "optimization": true,
@@ -118,8 +114,6 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
@@ -214,15 +208,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },
