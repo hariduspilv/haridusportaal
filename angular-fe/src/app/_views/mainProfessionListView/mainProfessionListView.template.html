@@ -1,6 +1,29 @@
 <base-layout>
 	<div class="inline">
 		<breadcrumbs path="/ametialad"></breadcrumbs>
+		<block theme="transparent" class="highlighted__job" *ngIf="filteredJob">
+			<block-content>
+				<div class="highlighted__job__wrapper">
+					<div class="highlighted__job__main">
+						<a *ngIf="filteredJob.path" [routerLink]="filteredJob.path">
+							<h2>{{ filteredJob.entityLabel }}</h2>
+						</a>
+						<labels
+							[data]="[{ value: filteredJob.label }]"
+							type="orange">
+						</labels>
+						<div class="description" *ngIf="filteredJob.fieldIntroduction">
+							{{ filteredJob.fieldIntroduction }}
+						</div>
+						<a class="highlighted__job__footer__link" [class.extra-styles]="filteredJob.fieldIntroduction" *ngIf="filteredJob.path" [routerLink]="filteredJob.path">{{ 'home.view_more' | translate }}</a>
+					</div>
+					<picto tabindex="-1" aria-hidden="true" *ngIf="filteredJob?.fieldPictogram?.entity" [img]="filteredJob.fieldPictogram.entity.url"></picto>
+				</div>
+				<div class="highlighted__job__footer__mobile">
+					<a *ngIf="filteredJob.path" [routerLink]="filteredJob.path">{{ 'home.view_more' | translate }}</a>
+				</div>
+			</block-content>
+		</block>
 	</div><!--/inline-->
 	<form class="filter-wrapper" filters [outsideParameters]="activeTypeParameters" [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">
@@ -75,7 +98,7 @@
 		<block titleBorder="true" tabStyle="default">
 			<block-title>{{ 'oska.professions_and_jobs' | translate }}</block-title>
 			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="/ametialad">
-				<ng-container *ngIf="searchResults && (typeFilters[0].sum || typeFilters[1].sum)">
+				<ng-container *ngIf="searchResults && !jobLoading && (typeFilters[0].sum || typeFilters[1].sum)">
 					<div class="search__title__filter">{{ 'search.filter_results' | translate }}:</div>
 					<ng-container *ngFor="let filter of typeFilters; let i = index;">
 						<button tag
@@ -90,7 +113,10 @@
 					</ng-container>
 				</ng-container>
 				<mainProfessionsSearchResults
+					[filteredJobLoading]="jobLoading"
 					#searchResults
+					[filteredJob]="filteredJob"
+					(listEmitter)="selectArbitraryHighlightedJob($event)"
 					(filterEmitter)="setTypeFilterStates($event)"
 					limit="24">
 				</mainProfessionsSearchResults>

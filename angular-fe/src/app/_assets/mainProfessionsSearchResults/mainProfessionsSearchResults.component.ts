@@ -18,7 +18,6 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
-import FieldVaryService from '@app/_services/FieldVaryService';
 
 @Component({
   selector: 'mainProfessionsSearchResults',
@@ -28,6 +27,8 @@ import FieldVaryService from '@app/_services/FieldVaryService';
 
 export class MainProfessionsSearchResultsComponent implements OnDestroy {
   @Input() limit: number = 10;
+  @Input() filteredJob: Object;
+  @Input() filteredJobLoading: boolean = true;
   @Output() listEmitter = new EventEmitter<Object>(null);
   @Output() filterEmitter = new EventEmitter<Object>(null);
 
@@ -58,14 +59,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   public listItemCount: number;
   public searchWithParams: boolean = false;
 
-  competitionLabels = [
-    'oska.simple_extended',
-    'oska.quite_simple_extended',
-    'oska.medium_extended',
-    'oska.quite_difficult_extended',
-    'oska.difficult_extended',
-  ];
-
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -74,10 +67,11 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
     private deviceService: DeviceDetectorService,
   ) {}
 
-  private dispatchListEmit(update: boolean, list: Object) {
+  private dispatchListEmit(update: boolean, list: Object, highlight?: any) {
     this.listEmitter.emit({
       update,
       list,
+      highlight,
       listCount: this.listCount,
       nonProfessionCount: this.nonProfessionCount,
       professionCount: this.professionCount,
@@ -215,7 +209,9 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
               },         0);
             }
           });
-          this.dispatchListEmit(true, this.list);
+          this.dispatchListEmit(true,
+                                this.list,
+                                this.scrollRestorationValues[this.type].highlight);
           scrollSub.unsubscribe();
         } else {
           this.httpWatcher = this.http.get(path).subscribe(
@@ -232,7 +228,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
               this.list = [...this.list, ...listData];
             } else {
               this.list = listData;
-              this.selectArbitraryHighlightedJob();
             }
             this.canLoadMore = !!(this.listCount > this.list.length);
             this.dispatchListEmit(false, this.list);
@@ -273,39 +268,9 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         listItemCount: this.listCount,
         nonProfessionCount: this.nonProfessionCount,
         professionCount: this.professionCount,
+        highlight: this.filteredJob,
       },
     });
-  }
-
-  public selectArbitraryHighlightedJob(): void {
-    if (this.list && this.list.length && !this.searchWithParams) {
-      const filteredList: Object[] = this.list.filter(elem =>
-        elem.fieldFillingBar === 1 || elem.fieldFillingBar === 2);
-      if (filteredList.length) {
-        const filteredItem: number = Math.floor(Math.random() * filteredList.length);
-        const initialFilteredJob = filteredList[filteredItem];
-        const initialFilteredJobPath = initialFilteredJob['entityUrl'] ? initialFilteredJob['entityUrl']['path']
-            : initialFilteredJob['url']['path'];
-        // Remove selected from the list
-        this.list.splice(this.list.indexOf(initialFilteredJob), 1);
-        // TODO: GET RID OF THIS NIGHTMARE PLEASE!!!
-        // I need to create a request to get the pictogram field..
-        const jobSubscription = this.http.get(
-          this.settings.query('oskaMainProfessionDetailView', { path: initialFilteredJobPath })).subscribe(
-          (response) => {
-            const filteredJob = FieldVaryService(initialFilteredJob);
-            filteredJob['highlighted'] = true;
-            filteredJob['fixedLabel'] = {
-              entity: {
-                entityLabel: this.competitionLabels[filteredJob['fieldFillingBar'] - 1],
-              }
-            };
-            filteredJob['fieldPictogram'] = response['data']['route']['entity']['fieldPictogram'];
-            this.list.unshift(filteredJob);
-            jobSubscription.unsubscribe();
-          });
-      }
-    }
   }
 
   ngOnInit() {
