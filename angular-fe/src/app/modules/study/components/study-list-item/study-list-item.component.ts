@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import { MappedStudy } from '../../models/mapped-study';
 
 @Component({
@@ -9,5 +9,8 @@ import { MappedStudy } from '../../models/mapped-study';
 export class StudyListItemComponent {
   @Input() study: MappedStudy;
   @Input() highlighted: boolean;
-  @Input() noBorderBefore: boolean;
+
+  @HostBinding('class') get hostClasses(): string {
+    return this.highlighted ? 'highlighted' : '';
+  }
 }

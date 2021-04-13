@@ -1,8 +1,10 @@
 :host {
-  breadcrumbs {
-    margin: 0 1.5rem 1rem;
-  }
   block {
-    margin: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .no__results{
+    display: block;
+    text-align: center;
+    padding: 1.5rem;
   }
 }

@@ -6,7 +6,8 @@
   "overrides": [
     {
       "files": [
-        "*.ts"
+        "*.ts",
+        "**/**.ts"
       ],
       "parserOptions": {
         "project": [
@@ -20,6 +21,7 @@
       "extends": [
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on"
       ],
       "rules": {

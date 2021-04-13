@@ -1,15 +1,28 @@
-<base-layout withMargins>
-  <breadcrumbs path="/uuringud"></breadcrumbs>
+<base-layout>
+  <max-width-wrapper>
+    <breadcrumbs path="/uuringud"></breadcrumbs>
+  </max-width-wrapper>
   <study-list-filter
+    *ngIf="studyList"
     [options]="studyListFilterOptions">
   </study-list-filter>
-  <block [titleBorder]="false" [loading]="!studyList">
-    <block-title>UURINGUD</block-title>
-    <block-content>
-      <study-list-item
-        *ngFor="let study of studyList; let first = first;"
-        [study]="study">
-      </study-list-item>
-    </block-content>
-  </block>
+  <max-width-wrapper>
+    <block [titleBorder]="false" [loading]="loading">
+      <block-title>UURINGUD</block-title>
+      <block-content>
+        <study-list-item
+          *ngIf="studyList?.length"
+          [highlighted]="true"
+          [study]="studyList[0]">
+        </study-list-item>
+        <study-list-item
+          *ngFor="let study of studyList; let first = first;"
+          [study]="study">
+        </study-list-item>
+        <div class="no__results" *ngIf="!loading && studyList && !studyList?.length">
+          {{ 'news.no_results' | translate }}
+        </div>
+      </block-content>
+    </block>
+  </max-width-wrapper>
 </base-layout>

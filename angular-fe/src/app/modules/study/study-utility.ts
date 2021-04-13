@@ -8,6 +8,7 @@ import { Study } from './models/study';
 import { StudyListViewFilterQueryResponse } from './models/study-list-view-filter-query-response';
 import { StudyListViewQueryParameters } from './models/study-list-view-query-parameters';
 import { StudyListViewRequestParameters } from './models/study-list-view-request-parameters';
+import { YearOption } from './models/year-option';
 
 export class StudyUtility {
 
@@ -21,7 +22,7 @@ export class StudyUtility {
 
   private static extractYearFromDateString(date: string) {
     return date?.split('.').pop();
-  };
+  }
 
   private static gatherJoinedInlineFields(study: Study): string[] {
     const flattenedFieldPublicationTypes =
@@ -32,6 +33,16 @@ export class StudyUtility {
       this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy.entity.fieldYear),
       this.joinArrayToString(flattenedFieldPublicationTypes),
     ];
+  }
+
+  private static generateYearRangeOptions(): YearOption[] {
+    const emptyValue: YearOption = { key: '', value: 0 };
+    const yearValues: YearOption[] = [];
+    const currentYear: number = new Date().getFullYear();
+    for (let year = currentYear + 25; year >= currentYear - 25; year--) {
+      yearValues.push({ key: `${year}`, value: year });
+    }
+    return [...yearValues, emptyValue];
   }
 
   public static mapStudyListViewEntities(entities: Study[]): MappedStudy[] {
@@ -54,8 +65,9 @@ export class StudyUtility {
         filterResponse.data.studyLabelOptions.entities),
       studyTopicsOptions: this.mapOptionTypesToFormItemOptions(
         filterResponse.data.studyTopicsOptions.entities),
+      yearRange: this.generateYearRangeOptions(),
     };
-  };
+  }
 
   public static generateStudyListViewRequestParameters(parameters: StudyListViewQueryParameters):
     StudyListViewRequestParameters {
@@ -85,7 +97,7 @@ export class StudyUtility {
       offset: 0,
       lang: Language.et,
     };
-  };
+  }
 
 
 }
