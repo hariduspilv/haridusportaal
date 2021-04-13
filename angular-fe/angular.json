@@ -53,7 +53,6 @@
                 "output": "/images"
               }
             ],
-            "serviceWorker": true,
             "styles": [
               "src/styles.scss",
               "./node_modules/swiper/swiper-bundle.css"
@@ -87,8 +86,6 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
@@ -106,10 +103,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prelive.ts"
-                },
-                {
-                  "replace": "src/robots.txt",
-                  "with": "src/robots-dev.txt"
                 }
               ],
               "optimization": true,
@@ -121,8 +114,6 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
@@ -132,10 +123,20 @@
               ]
             },
             "dev": {
-              "fileReplacements": [
+              "assets": [
+                "src/assets",
+                "src/favicon.ico",
+                "src/auth.html",
+                "src/manifest.webmanifest",
+                "src/sitemap.xml",
                 {
-                  "replace": "src/robots.txt",
-                  "with": "src/robots-dev.txt"
+                  "input": "./node_modules/@google/markerclustererplus/images",
+                  "glob": "*",
+                  "output": "/images"
+                },
+                { "glob": "robots.txt",
+                  "input": "src/environments/dev/",
+                  "output": "/"
                 }
               ],
               "index": {
@@ -151,8 +152,6 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
@@ -232,5 +231,8 @@
       }
     }
   },
-  "defaultProject": "haridusportaal-fe"
+  "defaultProject": "haridusportaal-fe",
+  "cli": {
+    "analytics": false
+  }
 }
