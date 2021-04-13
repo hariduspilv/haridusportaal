@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\openid_connect\Plugin\OpenIDConnectClientInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -36,6 +37,13 @@ class OpenIDConnectClaims implements ContainerInjectionInterface {
    * @var array
    */
   protected static $claims;
+
+  /**
+   * The default OpenID Connect scopes.
+   *
+   * @var array
+   */
+  protected $defaultScopes = ['openid', 'email'];
 
   /**
    * The constructor.
@@ -101,17 +109,22 @@ class OpenIDConnectClaims implements ContainerInjectionInterface {
   /**
    * Returns scopes that have to be requested based on the configured claims.
    *
-   * @see http://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims
+   * @param \Drupal\openid_connect\Plugin\OpenIDConnectClientInterface|null $client
+   *   An optional client. If one is provided, it will be asked for scopes.
    *
    * @return string
    *   Space delimited case sensitive list of ASCII scope values.
+   *
+   * @see http://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims
    */
-  public function getScopes() {
+  public function getScopes(OpenIDConnectClientInterface $client = NULL) {
     $claims = $this->configFactory
       ->getEditable('openid_connect.settings')
       ->get('userinfo_mappings');
 
-    $scopes = ['openid', 'email'];
+    // If a client was provided, get the scopes from it.
+    $scopes = !empty($client) ? $client->getClientScopes() : $this->defaultScopes;
+
     $claims_info = $this->getClaims();
     foreach ($claims as $claim) {
       if (isset($claims_info[$claim]) &&

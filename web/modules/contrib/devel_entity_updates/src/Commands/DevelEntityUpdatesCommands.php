@@ -1,6 +1,8 @@
 <?php
 namespace Drupal\devel_entity_updates\Commands;
 
+use Consolidation\SiteAlias\SiteAliasManagerAwareInterface;
+use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface;
 use Drupal\devel_entity_updates\DevelEntityDefinitionUpdateManager;
@@ -11,7 +13,9 @@ use Drush\Exceptions\UserAbortException;
 /**
  * Drush9 commands definitions.
  */
-class DevelEntityUpdatesCommands extends DrushCommands {
+class DevelEntityUpdatesCommands extends DrushCommands implements SiteAliasManagerAwareInterface {
+
+  use SiteAliasManagerAwareTrait;
 
   /**
    * The class resolver.
@@ -63,7 +67,8 @@ class DevelEntityUpdatesCommands extends DrushCommands {
     }
 
     if (!empty($options['cache-clear'])) {
-      drush_drupal_cache_clear_all();
+      $process = Drush::drush($this->siteAliasManager()->getSelf(), 'cache-rebuild');
+      $process->mustrun();
     }
 
     $this->logger()->success(dt('Finished performing updates.'));

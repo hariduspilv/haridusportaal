@@ -64,9 +64,12 @@
       var $this = $(this);
 
       var $selectAllCheckbox = $('<input type="checkbox" class="form-checkbox" />').attr('title', strings.selectAll).uniqueId();
-      var $selectAllLabel = $('<label>').attr('for', $selectAllCheckbox.attr('id'));
+      // Place the checkbox and an empty span inside the label, so that
+      // MaterializeCSS will style it correctly. This markup structure mirrors
+      // that of a form element themed with the form_element__wrapped pattern.
+      var $selectAllLabel = $('<label>').attr('for', $selectAllCheckbox.attr('id')).append($selectAllCheckbox).append('<span></span>');
 
-      $this.prepend($selectAllCheckbox).append($selectAllLabel).on('click', function (event) {
+      $this.prepend($selectAllLabel).on('click', function (event) {
         if ($(event.target).is('input[type="checkbox"]')) {
           // Loop through all checkboxes and set their state to the select all
           // checkbox' state.

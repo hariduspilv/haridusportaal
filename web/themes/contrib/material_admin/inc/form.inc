@@ -108,13 +108,13 @@ function material_admin_form_node_form_alter(&$form, FormStateInterface $form_st
     'author' => array(
       '#type' => 'item',
       '#wrapper_attributes' => array('class' => array('entity-meta__author', 'container-inline')),
-      '#markup' => '<h4 class="label inline">' . t('Author') . '</h4> ' . $node->getOwner()->getUsername(),
+      '#markup' => '<h4 class="label inline">' . t('Author') . '</h4> ' . $node->getOwner()->getDisplayName(),
     ),
   );
   $form['revision_information']['#type'] = 'container';
   $form['revision_information']['#group'] = 'meta';
   $form['status']['#group'] = 'actions';
-  
+
   if (isset($form['moderation_state'])) {
     $form['moderation_wrapper'] = array(
       '#type' => 'container',

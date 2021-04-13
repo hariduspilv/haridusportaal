@@ -254,6 +254,10 @@ if ($memcache_exists || $memcached_exists) {
   ];
 }
 
+## Debugging ##
+By default debugging is off. To enable it add the following code in settings.php.
+$setting['memcache']['debug'] = TRUE;
+
 ## TROUBLESHOOTING ##
 
 PROBLEM:

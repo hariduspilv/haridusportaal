@@ -8,14 +8,14 @@ parameters:
   # Enabled processors.
   monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer', 'filter_backtrace']
   # Logger levels.
-  monolog.level.emergency: '600'
-  monolog.level.alert: '550'
-  monolog.level.critical: '500'
-  monolog.level.error: '400'
-  monolog.level.warning: '300'
-  monolog.level.notice: '250'
-  monolog.level.info: '200'
-  monolog.level.debug: '100'
+  monolog.level.emergency: 600
+  monolog.level.alert: 550
+  monolog.level.critical: 500
+  monolog.level.error: 400
+  monolog.level.warning: 300
+  monolog.level.notice: 250
+  monolog.level.info: 200
+  monolog.level.debug: 100
 
 services:
   # Monolog handlers.

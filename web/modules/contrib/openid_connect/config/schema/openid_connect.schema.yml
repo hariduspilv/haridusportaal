@@ -123,3 +123,23 @@ openid_connect.settings.linkedin:
         client_secret:
           type: string
           label: 'Client secret'
+
+openid_connect.settings.okta:
+  type: config_object
+  label: 'OpenID Connect Okta settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable client'
+    settings:
+      type: mapping
+      mapping:
+        client_id:
+          type: string
+          label: 'Client ID'
+        client_secret:
+          type: string
+          label: 'Client secret'
+        okta_domain:
+          type: string
+          label: 'Okta domain'

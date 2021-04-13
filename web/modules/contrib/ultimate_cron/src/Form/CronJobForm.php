@@ -165,8 +165,8 @@ class CronJobForm extends EntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     parent::save($form, $form_state);
-
-    drupal_set_message(t('job %label has been updated.', array('%label' => $this->entity->label())));
+    $this->messenger()
+      ->addStatus(t('job %label has been updated.', ['%label' => $this->entity->label()]));
     $form_state->setRedirect('entity.ultimate_cron_job.collection');
 
   }

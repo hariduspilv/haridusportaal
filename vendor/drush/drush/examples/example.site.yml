@@ -126,8 +126,8 @@
 # file. For example, ${env.PROJECT_SSH_USER} will be replaced by the value
 # of the PROJECT_SSH_USER environment value.
 #
-# SSH site aliases may no longer _set_ environment variables.
-# This is a planned feature.
+# SSH site aliases may set environment variables via the 'env-vars' key.
+# See below.
 
 # Additional Site Alias Options
 #
@@ -168,6 +168,8 @@
 #     - `drush sql-sync @live @stage`
 #   NOTE: Setting boolean options broke with Symfony 3. This will be fixed
 #     in a future release. See: https://github.com/drush-ops/drush/issues/2956
+# - 'env-vars': An array of key / value pairs that will be set as environment
+#   variables.
 #
 # Complex example:
 #
@@ -182,6 +184,9 @@
 #     options: '-p 100'
 #   paths:
 #     drush-script: '/path/to/drush'
+#   env-vars:
+#     PATH: /bin:/usr/bin:/home/www-admin/.composer/vendor/bin
+#     DRUPAL_ENV: live
 #   command:
 #     site:
 #       install:
@@ -284,5 +289,27 @@
 # dev:
 #   root: /path/to/docroot
 #   uri: https://dev.example.com
+# @endcode
+
+# Example of rsync with exclude-paths
+#
+# Note that most options typically passed to rsync via `drush rsync` are
+# "passthrough options", which is to say they appear after the `--` separator
+# on the command line. Passthrough options are actually arguments, and
+# it is not possible to set default arguments in an alias record. The
+# `drush rsync` command does support two options, `--mode` and `--exclude-paths`,
+# which are interpreted directly by Drush. Default values for these options
+# may be specified in an alias record, as shown below.
+#
+# @code
+# dev:
+#   root: /path/to/docroot
+#   uri: https://dev.example.com
+#   command:
+#     core:
+#       rsync:
+#         options:
+#           mode: rlptz
+#           exclude-paths: 'css:imagecache:ctools:js:tmp:php:styles'
 # @endcode
 
