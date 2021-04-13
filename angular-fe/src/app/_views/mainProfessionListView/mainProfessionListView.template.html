@@ -1,41 +1,21 @@
 <base-layout>
 	<div class="inline">
 		<breadcrumbs path="/ametialad"></breadcrumbs>
-		<block theme="transparent" class="highlighted__job" *ngIf="filteredJob">
-			<block-content>
-				<div class="highlighted__job__wrapper">
-					<div class="highlighted__job__main">
-						<a *ngIf="filteredJob.path" [routerLink]="filteredJob.path">
-							<h2>{{ filteredJob.entityLabel }}</h2>
-						</a>
-						<labels
-							[data]="[{ value: filteredJob.label }]"
-							type="orange">
-						</labels>
-						<div class="description" *ngIf="filteredJob.fieldIntroduction">
-							{{ filteredJob.fieldIntroduction }}
-						</div>
-						<a class="highlighted__job__footer__link" [class.extra-styles]="filteredJob.fieldIntroduction" *ngIf="filteredJob.path" [routerLink]="filteredJob.path">{{ 'home.view_more' | translate }}</a>
-					</div>
-					<picto tabindex="-1" aria-hidden="true" *ngIf="filteredJob?.fieldPictogram?.entity" [img]="filteredJob.fieldPictogram.entity.url"></picto>
-				</div>
-				<div class="highlighted__job__footer__mobile">
-					<a *ngIf="filteredJob.path" [routerLink]="filteredJob.path">{{ 'home.view_more' | translate }}</a>
-				</div>
-			</block-content>
-		</block>
 	</div><!--/inline-->
-	<form class="filter-wrapper" filters [outsideParameters]="activeTypeParameters" [eventTracker]="getGoogleAnalyticsObject()">
+	<form class="filter-wrapper" filters [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
 				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
-					<span *ngIf="!showFilter">{{ 'search.label' | translate }}</span>
+					<span *ngIf="!showFilter">{{ 'oska.search_professions' | translate }}</span>
 					<span *ngIf="showFilter">{{ 'button.close' | translate }}</span>
 				</a>
 			</div>
 			<ng-container *ngIf="showFilter">
 				<div class="row first">
-					<div class="col-4 sm-12">
+					<div class="col sm-12 search__title">{{ 'oska.search_professions' | translate }}</div>
+				</div>
+				<div class="row first">
+					<div class="col-5 sm-12">
 						<formItem type="text" title="{{ 'search.keyword' | translate }}"  ariaLabel="{{ 'search.keyword' | translate }}" name="title"
 						[(ngModel)]="searchTitle"></formItem>
 					</div>
@@ -43,49 +23,20 @@
 						<formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" ariaLabel="{{ 'oska.title_field' | translate }}" name="oskaField"
 							[options]="oskaFields"></formItem>
 					</div>
-
-					<div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
-						<div class="align-center filter-state sm-hide">
-							<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-								(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
-								<span>{{ 'button.search_detailed' | translate}}</span>
-							</a>
-						</div>
-						<div class="button-row">
-							<button htm-button>{{ 'button.search' | translate }}</button>
-						</div>
-					</div>
-
 				</div>
 				<!--/row-->
-				<div class="row" *ngIf="filterFull">
-					<div class="col-4 sm-12">
-						<formItem type="multi-select" title="{{ 'oska.competition_by_professions' | translate }}" ariaLabel="{{ 'oska.competition_by_professions' | translate }}" name="fillingBar" [sortOptions]="false"
-							[options]="competitionFilters">
+				<div class="row">
+					<div class="col-5 sm-12">
+						<formItem type="multi-select" title="{{ 'oska.competition_by_professions' | translate }}" ariaLabel="{{ 'oska.competition_by_professions' | translate }}" name="fillingBar"
+							[sortOptions]="false" [options]="competitionFilters">
 						</formItem>
 					</div>
 					<div class="col-5 sm-12">
-						<formItem type="select" title="{{ 'button.sort_professions' | translate }}" ariaLabel="{{ 'button.sort_professions' | translate }}" name="sort" [options]="sortedBy" [sortOptions]="false"
-							[(ngModel)]="sort" (onChange)="setSortDirection()">
+						<formItem type="select" title="{{ 'oska.professions_or_jobs' | translate }}" ariaLabel="{{ 'oska.professions_or_jobs' | translate }}" name="fieldProfession"
+						[sortOptions]="false" [options]="sortedBy">
 						</formItem>
 					</div>
-					<div class="hidden">
-						<formItem [outsideInitialization]="true" type="text" title="{{ 'button.sort' | translate }}" name="sortField"
-							[(ngModel)]="sortField">
-						</formItem>
-					</div>
-					<div class="hidden">
-						<formItem [outsideInitialization]="true" type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
-							[(ngModel)]="sortDirection">
-						</formItem>
-					</div>
-					<div class="col-3 align-end text-right sm-12 inline-flex">
-						<div class="align-center filter-state sm-hide">
-							<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-								(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
-								<span>{{ 'button.search_brief' | translate}}</span>
-							</a>
-						</div>
+					<div class="col-2 align-end text-right sm-12 inline-flex">
 						<div class="button-row">
 							<button htm-button>{{ 'button.search' | translate }}</button>
 						</div>
@@ -98,26 +49,8 @@
 		<block titleBorder="true" tabStyle="default">
 			<block-title>{{ 'oska.professions_and_jobs' | translate }}</block-title>
 			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="/ametialad">
-				<ng-container *ngIf="searchResults && !jobLoading && (typeFilters[0].sum || typeFilters[1].sum)">
-					<div class="search__title__filter">{{ 'search.filter_results' | translate }}:</div>
-					<ng-container *ngFor="let filter of typeFilters; let i = index;">
-						<button tag
-							[ngbTooltip]="filter.tooltipText"
-							[placement]="tooltipPlacement"
-							[triggers]="tooltipTriggerType"
-							(click)="filterListByType(i)"
-							[active]="filter.active"
-							attr.aria-label="Filter: {{filter.name | translate}}, status: {{filter.active ? 'On': 'Off'}}, count: {{ filter.sum }}">
-							{{ filter.name }} <span *ngIf="filter?.sum !== null && filter?.sum >= 0">({{ filter.sum }})</span>
-						</button>
-					</ng-container>
-				</ng-container>
 				<mainProfessionsSearchResults
-					[filteredJobLoading]="jobLoading"
 					#searchResults
-					[filteredJob]="filteredJob"
-					(listEmitter)="selectArbitraryHighlightedJob($event)"
-					(filterEmitter)="setTypeFilterStates($event)"
 					limit="24">
 				</mainProfessionsSearchResults>
 			</block-content>
