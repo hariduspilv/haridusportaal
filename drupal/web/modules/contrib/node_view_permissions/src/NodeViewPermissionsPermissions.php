@@ -2,7 +2,6 @@
 
 namespace Drupal\node_view_permissions;
 
-
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\Entity\NodeType;
 
@@ -25,7 +24,7 @@ class NodeViewPermissionsPermissions {
     $permissions = [];
     $nodeTypes = NodeType::loadMultiple();
     foreach ($nodeTypes as $nodeType) {
-       /** @var NodeType $nodeType */
+      /** @var \Drupal\node\Entity\NodeType $nodeType */
       $permission = 'view any ' . $nodeType->id() . ' content';
       $permissions[$permission] = [
         'title' => $this->t('<em>@type_label</em>: View any content', ['@type_label' => $nodeType->label()]),

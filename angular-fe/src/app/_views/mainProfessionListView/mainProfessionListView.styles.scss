@@ -137,6 +137,12 @@
       max-width: 275px !important;
     }
   }
+  .search__title {
+    padding: 0 0.5rem;
+    line-height: 2rem;
+    color: $dark_gray;
+    text-transform: uppercase;
+  }
   .search__title__filter {
     color: $black;
     font-weight: 500;

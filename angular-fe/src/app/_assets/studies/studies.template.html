@@ -24,15 +24,15 @@
   </table>
 </ng-container>
 
-<h2 class="middleTitle">
-  <span>{{ 'frontpage.studies_data' | translate }}</span>
+<h3 class="middleTitle">
+<span>{{ 'frontpage.studies_data' | translate }}</span>
   <ng-container *ngIf="content?.length">
     <a *ngIf="totalAccordions > activeAccordions"
       (click)="openAllAccordions();">{{ 'frontpage.studies.openAll' | translate }}</a>
     <a *ngIf="totalAccordions === activeAccordions"
       (click)="closeAllAccordions();">{{ 'frontpage.studies.closeAll' | translate }}</a>
   </ng-container>
-</h2>
+</h3>
 
 <loader *ngIf="loading && !error"></loader>
 <alerts id="studies" small="true"></alerts>

@@ -1,0 +1,17 @@
+uuid: 19baca6f-b979-4414-ae07-83938852ca91
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_file_logging
+title: 'Default cron handler'
+id: htm_custom_file_logging_cron
+weight: 0
+module: htm_custom_file_logging
+callback: htm_custom_file_logging_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

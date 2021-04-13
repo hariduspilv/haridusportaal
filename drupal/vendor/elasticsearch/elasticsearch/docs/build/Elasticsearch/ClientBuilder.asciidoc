@@ -1,11 +1,9 @@
 
-
+[discrete]
 [[Elasticsearch_ClientBuilder]]
 === Elasticsearch\ClientBuilder
 
 
-
-Class ClientBuilder
 
 
 *Methods*
@@ -13,11 +11,13 @@ Class ClientBuilder
 The class defines the following methods:
 
 * <<Elasticsearch_ClientBuildercreate_create,`create()`>>
+* <<Elasticsearch_ClientBuildergetTransport_getTransport,`getTransport()`>>
+* <<Elasticsearch_ClientBuildergetEndpoint_getEndpoint,`getEndpoint()`>>
+* <<Elasticsearch_ClientBuildergetRegisteredNamespacesBuilders_getRegisteredNamespacesBuilders,`getRegisteredNamespacesBuilders()`>>
 * <<Elasticsearch_ClientBuilderfromConfig_fromConfig,`fromConfig()`>>
 * <<Elasticsearch_ClientBuilderdefaultHandler_defaultHandler,`defaultHandler()`>>
 * <<Elasticsearch_ClientBuildermultiHandler_multiHandler,`multiHandler()`>>
 * <<Elasticsearch_ClientBuildersingleHandler_singleHandler,`singleHandler()`>>
-* <<Elasticsearch_ClientBuilderdefaultLogger_defaultLogger,`defaultLogger()`>>
 * <<Elasticsearch_ClientBuildersetConnectionFactory_setConnectionFactory,`setConnectionFactory()`>>
 * <<Elasticsearch_ClientBuildersetConnectionPool_setConnectionPool,`setConnectionPool()`>>
 * <<Elasticsearch_ClientBuildersetEndpoint_setEndpoint,`setEndpoint()`>>
@@ -28,13 +28,19 @@ The class defines the following methods:
 * <<Elasticsearch_ClientBuildersetTracer_setTracer,`setTracer()`>>
 * <<Elasticsearch_ClientBuildersetSerializer_setSerializer,`setSerializer()`>>
 * <<Elasticsearch_ClientBuildersetHosts_setHosts,`setHosts()`>>
+* <<Elasticsearch_ClientBuildersetApiKey_setApiKey,`setApiKey()`>>
+* <<Elasticsearch_ClientBuildersetBasicAuthentication_setBasicAuthentication,`setBasicAuthentication()`>>
+* <<Elasticsearch_ClientBuildersetElasticCloudId_setElasticCloudId,`setElasticCloudId()`>>
+* <<Elasticsearch_ClientBuildersetConnectionParams_setConnectionParams,`setConnectionParams()`>>
 * <<Elasticsearch_ClientBuildersetRetries_setRetries,`setRetries()`>>
 * <<Elasticsearch_ClientBuildersetSelector_setSelector,`setSelector()`>>
 * <<Elasticsearch_ClientBuildersetSniffOnStart_setSniffOnStart,`setSniffOnStart()`>>
 * <<Elasticsearch_ClientBuildersetSSLCert_setSSLCert,`setSSLCert()`>>
 * <<Elasticsearch_ClientBuildersetSSLKey_setSSLKey,`setSSLKey()`>>
 * <<Elasticsearch_ClientBuildersetSSLVerification_setSSLVerification,`setSSLVerification()`>>
+* <<Elasticsearch_ClientBuilderincludePortInHostHeader_includePortInHostHeader,`includePortInHostHeader()`>>
 * <<Elasticsearch_ClientBuilderbuild_build,`build()`>>
+* <<Elasticsearch_ClientBuilderinstantiate_instantiate,`instantiate()`>>
 
 
 
@@ -51,6 +57,48 @@ The class defines the following methods:
 
 
 
+[[Elasticsearch_ClientBuildergetTransport_getTransport]]
+.`getTransport()`
+****
+[source,php]
+----
+/*
+    Can supply first parm to Client::__construct() when invoking manually or with dependency injection
+*/
+
+----
+****
+
+
+
+[[Elasticsearch_ClientBuildergetEndpoint_getEndpoint]]
+.`getEndpoint()`
+****
+[source,php]
+----
+/*
+    Can supply second parm to Client::__construct() when invoking manually or with dependency injection
+*/
+
+----
+****
+
+
+
+[[Elasticsearch_ClientBuildergetRegisteredNamespacesBuilders_getRegisteredNamespacesBuilders]]
+.`getRegisteredNamespacesBuilders()`
+****
+[source,php]
+----
+/*
+    Can supply third parm to Client::__construct() when invoking manually or with dependency injection
+*/
+
+----
+****
+
+
+
 [[Elasticsearch_ClientBuilderfromConfig_fromConfig]]
 .`fromConfig()`
 ****
@@ -60,7 +108,6 @@ The class defines the following methods:
     Build a new client from the provided config.  Hash keys
 should correspond to the method name e.g. ['connectionPool']
 corresponds to setConnectionPool().
-    ['body']  = (array) Request body
 */
 
 ----
@@ -96,19 +143,6 @@ corresponds to setConnectionPool().
 
 [[Elasticsearch_ClientBuildersingleHandler_singleHandler]]
 .`singleHandler()`
-****
-[source,php]
-----
-/*
-*/
-
-----
-****
-
-
-
-[[Elasticsearch_ClientBuilderdefaultLogger_defaultLogger]]
-.`defaultLogger()`
 ****
 [source,php]
 ----
@@ -250,6 +284,61 @@ corresponds to setConnectionPool().
 
 
 
+[[Elasticsearch_ClientBuildersetApiKey_setApiKey]]
+.`setApiKey()`
+****
+[source,php]
+----
+/*
+    Set the APIKey Pair, consiting of the API Id and the ApiKey of the Response from /_security/api_key
+*/
+
+----
+****
+
+
+
+[[Elasticsearch_ClientBuildersetBasicAuthentication_setBasicAuthentication]]
+.`setBasicAuthentication()`
+****
+[source,php]
+----
+/*
+    Set the APIKey Pair, consiting of the API Id and the ApiKey of the Response from /_security/api_key
+*/
+
+----
+****
+
+
+
+[[Elasticsearch_ClientBuildersetElasticCloudId_setElasticCloudId]]
+.`setElasticCloudId()`
+****
+[source,php]
+----
+/*
+    Set Elastic Cloud ID to connect to Elastic Cloud
+*/
+
+----
+****
+
+
+
+[[Elasticsearch_ClientBuildersetConnectionParams_setConnectionParams]]
+.`setConnectionParams()`
+****
+[source,php]
+----
+/*
+*/
+
+----
+****
+
+
+
 [[Elasticsearch_ClientBuildersetRetries_setRetries]]
 .`setRetries()`
 ****
@@ -328,8 +417,35 @@ corresponds to setConnectionPool().
 
 
 
+[[Elasticsearch_ClientBuilderincludePortInHostHeader_includePortInHostHeader]]
+.`includePortInHostHeader()`
+****
+[source,php]
+----
+/*
+    Include the port in Host header
+*/
+
+----
+****
+
+
+
 [[Elasticsearch_ClientBuilderbuild_build]]
 .`build()`
+****
+[source,php]
+----
+/*
+*/
+
+----
+****
+
+
+
+[[Elasticsearch_ClientBuilderinstantiate_instantiate]]
+.`instantiate()`
 ****
 [source,php]
 ----

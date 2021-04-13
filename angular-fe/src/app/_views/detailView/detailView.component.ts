@@ -19,12 +19,8 @@ export class DetailViewComponent {
   @Input() path: string;
   @Input() data: any;
   @Input() origData: any;
-  @ViewChild('descriptionBlock', { static: false }) description: ElementRef;
 
   public feedbackNid: number;
-  public descriptionElement: HTMLElement;
-  public descriptionShown = false;
-  public descriptionLinks: NodeListOf<Element>;
   public loading: boolean = true;
   public sidebar: object;
   public title: string;
@@ -36,7 +32,6 @@ export class DetailViewComponent {
   private paramsWatcher: Subscription = new Subscription();
   public isPreview: boolean = false;
   public missingData: boolean = false;
-  public descriptionOverflown = false;
   @Input() storyPath: string;
   @Input() storyType: string;
 
@@ -166,22 +161,6 @@ export class DetailViewComponent {
       content.replace(/<[^>]*>/g, '');
   }
 
-  public changeDescriptionState(): void {
-    const initialScrollTop = document.querySelector('.app-content').scrollTop;
-    this.descriptionElement.removeAttribute('tabIndex');
-    this.descriptionShown = !this.descriptionShown;
-    this.descriptionLinks.forEach((link) => {
-      link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
-    });
-    setTimeout(() => {
-      if (this.descriptionShown) {
-        this.descriptionElement.tabIndex = 0;
-        this.descriptionElement.focus();
-        document.querySelector('.app-content').scrollTop = initialScrollTop;
-      }
-    });
-  }
-
   private getPreviewData(): void {
     this.loading = true;
 
@@ -253,16 +232,6 @@ export class DetailViewComponent {
     this.feedbackNid = this.data.nid;
 
     this.getSidebar();
-    if (this.type === 'profession') {
-      setTimeout(() => {
-        this.descriptionElement = document.querySelector('.description--clamped');
-        this.descriptionOverflown = (this.descriptionElement?.clientHeight || 0) > 110;
-        this.descriptionLinks = document.querySelectorAll('.description--clamped a');
-        this.descriptionLinks.forEach((link) => {
-          link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
-        });
-      });
-    }
   }
 
   private watchParams() {

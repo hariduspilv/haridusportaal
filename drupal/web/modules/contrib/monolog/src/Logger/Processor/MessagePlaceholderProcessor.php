@@ -17,6 +17,8 @@ class MessagePlaceholderProcessor {
   protected $parser;
 
   /**
+   * Construct default object.
+   * 
    * @param \Drupal\Core\Logger\LogMessageParserInterface $parser
    *   The parser to use when extracting message variables.
    */
@@ -25,9 +27,7 @@ class MessagePlaceholderProcessor {
   }
 
   /**
-   * @param array $record
-   *
-   * @return array
+   * {@inheritdoc}
    */
   public function __invoke(array $record) {
     // Populate the message placeholders and then replace them in the message.

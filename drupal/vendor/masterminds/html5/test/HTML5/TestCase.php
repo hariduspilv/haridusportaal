@@ -1,12 +1,11 @@
 <?php
-
 namespace Masterminds\HTML5\Tests;
 
 use Masterminds\HTML5;
-use PHPUnit\Framework\TestCase as BaseTestCase;
 
-class TestCase extends BaseTestCase
+class TestCase extends \PHPUnit_Framework_TestCase
 {
+
     const DOC_OPEN = '<!DOCTYPE html><html><head><title>test</title></head><body>';
 
     const DOC_CLOSE = '</body></html>';

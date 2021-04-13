@@ -3,14 +3,41 @@
 namespace Drupal\memcache;
 
 use Drupal\Component\Assertion\Inspector;
+use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\CacheTagsChecksumInterface;
+use Drupal\Core\DependencyInjection\ContainerNotInitializedException;
+use Drupal\Core\Logger\LoggerChannelTrait;
 use Drupal\memcache\Invalidator\TimestampInvalidatorInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
  * Defines a Memcache cache backend.
  */
 class MemcacheBackend implements CacheBackendInterface {
+
+  use LoggerChannelTrait;
+
+  /**
+   * The maximum size of an individual cache chunk.
+   *
+   * Memcached is about balance. With this area of functionality, we need to
+   * minimize the number of split items while also considering wasted memory.
+   * In Memcached, all slab "pages" contain 1MB of data, by default.  Therefore,
+   * when we split items, we want to do to in a manner that comes close to
+   * filling a slab page with as little remaining memory as possible, while
+   * taking item overhead into consideration.
+   *
+   * Our tests concluded that Memached slab 39 is a perfect slab to target.
+   * Slab 39 contains items roughly between 385-512KB in size.  We are targeting
+   * a chunk size of 493568 bytes (482kb) - which will give us enough storage
+   * for two split items, leaving as little overhead as possible.
+   *
+   * Note that the overhead not only includes metadata about each item, but
+   * also allows compression "backfiring" (under some circumstances, compression
+   * actually enlarges some data objects instead of shrinking them).   */
+
+  const MAX_CHUNK_SIZE = 470000;
 
   /**
    * The cache bin to use.
@@ -69,6 +96,27 @@ class MemcacheBackend implements CacheBackendInterface {
   }
 
   /**
+   * Check to see if debug is on. Wrap it in safety for early bootstraps.
+   * 
+   * @returns bool 
+   */
+  private function debug() :bool {
+    try {
+      $debug = \Drupal::service('memcache.settings')->get('debug');
+      if ($debug) {
+        return $debug;
+      }
+      return false;
+    }
+    catch (ServiceNotFoundException $e) {
+      return false;
+    }
+    catch (ContainerNotInitializedException $e) {
+      return false;
+    }
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function get($cid, $allow_invalid = FALSE) {
@@ -90,6 +138,19 @@ class MemcacheBackend implements CacheBackendInterface {
       }
 
       if ($this->valid($result->cid, $result) || $allow_invalid) {
+
+        // If the item is multipart, rebuild the original cache data by fetching
+        // children and combining them back into a single item.
+        if ($result->data instanceof MultipartItem) {
+          $childCIDs = $result->data->getCids();
+          $dataParts = $this->memcache->getMulti($childCIDs);
+          if (count($dataParts) !== count($childCIDs)) {
+            // We're missing a chunk of the original entry. It is not valid.
+            continue;
+          }
+          $result->data = $this->combineItems($dataParts);
+        }
+
         // Add it to the fetched items to diff later.
         $fetched[$result->cid] = $result;
       }
@@ -152,7 +213,85 @@ class MemcacheBackend implements CacheBackendInterface {
     $cache->checksum = $this->checksumProvider->getCurrentChecksum($tags);
 
     // Cache all items permanently. We handle expiration in our own logic.
+    if ($this->memcache->set($cid, $cache)) {
+      return TRUE;
+    }
+
+    // Assume that the item is too large.  We need to split it into multiple
+    // chunks with a parent entry referencing all the chunks.
+    $childKeys = [];
+    foreach ($this->splitItem($cache) as $part) {
+      // If a single chunk fails to be set, stop trying - we can't reconstitute
+      // a value with a missing chunk.
+      if (!$this->memcache->set($part->cid, $part)) {
+        return FALSE;
+      }
+      $childKeys[] = $part->cid;
+    }
+
+    // Create and write the parent entry referencing all chunks.
+    $cache->data = new MultipartItem($childKeys);
     return $this->memcache->set($cid, $cache);
+  }
+
+ /**
+   * Given a single cache item, split it into multiple child items.
+   *
+   * @param \stdClass $item
+   *   The original cache item, before the split.
+   *
+   * @return \stdClass[]
+   *   An array of child items.
+   */
+  private function splitItem(\stdClass $item) {
+    $data = serialize($item->data);
+    $pieces = str_split($data, static::MAX_CHUNK_SIZE);
+
+    // Add a unique identifier each time this function is invoked.  This
+    // prevents a race condition where two sets on the same multipart item can
+    // clobber each other's children.  With this seed, each time a multipart
+    // entry is created, they get a different CID.  The parent (multipart) entry
+    // does not inherit this unique identifier, so it is still addressable using
+    // the CID it was initially given.
+    $seed = Crypt::randomBytesBase64();
+
+    $children = [];
+
+    foreach ($pieces as $i => $chunk) {
+      // Child items do not need tags or expire, since that data is carried by
+      // the parent.
+      $chunkItem = new \stdClass();
+      // @TODO: mention why we added split and picked this order...
+      $chunkItem->cid = sprintf('split.%d.%s.%s', $i, $item->cid, $seed);
+      $chunkItem->data = $chunk;
+      $chunkItem->created = $item->created;
+      $children[] = $chunkItem;
+    }
+
+    if ($this->debug()) {
+      $this->getLogger('memcache')->debug(
+        'Split item @cid into @num pieces',
+        ['@cid' => $item->cid, '@num' => ($i+1)]
+      );
+    }
+
+    return $children;
+  }
+
+  /**
+   * Given an array of child cache items, recombine into a single value.
+   *
+   * @param \stdClass[] $items
+   *   An array of child cache items.
+   *
+   * @return mixed
+   *   The combined an unserialized value that was originally stored.
+   */
+  private function combineItems(array $items) {
+    $data = array_reduce($items, function($collected, $item) {
+      return $collected . $item->data;
+    }, '');
+    return unserialize($data);
   }
 
   /**
@@ -189,6 +328,13 @@ class MemcacheBackend implements CacheBackendInterface {
    * {@inheritdoc}
    */
   public function deleteAll() {
+    if ($this->debug()) {
+      $this->getLogger('memcache')->debug(
+        'Called deleteAll() on bin @bin',
+        ['@bin' => $this->bin]
+      );
+    }
+
     $this->lastBinDeletionTime = $this->timestampInvalidator->invalidateTimestamp($this->bin);
   }
 
@@ -226,6 +372,13 @@ class MemcacheBackend implements CacheBackendInterface {
    * {@inheritdoc}
    */
   public function invalidateAll() {
+    if ($this->debug()) {
+      $this->getLogger('memcache')->debug(
+        'Called invalidateAll() on bin @bin',
+        ['@bin' => $this->bin]
+      );
+    }
+
     $this->invalidateTags(["memcache:$this->bin"]);
   }
 
@@ -233,6 +386,13 @@ class MemcacheBackend implements CacheBackendInterface {
    * {@inheritdoc}
    */
   public function invalidateTags(array $tags) {
+    if ($this->debug()) {
+      $this->getLogger('memcache')->debug(
+        'Called invalidateTags() on tags @tags',
+        ['@tags' => implode(',', $tags)]
+      );
+    }
+
     $this->checksumProvider->invalidateTags($tags);
   }
 
@@ -240,6 +400,13 @@ class MemcacheBackend implements CacheBackendInterface {
    * {@inheritdoc}
    */
   public function removeBin() {
+    if ($this->debug()) {
+      $this->getLogger('memcache')->debug(
+        'Called removeBin() on bin @bin',
+        ['@bin' => $this->bin]
+      );
+    }
+
     $this->lastBinDeletionTime = $this->timestampInvalidator->invalidateTimestamp($this->bin);
   }
 

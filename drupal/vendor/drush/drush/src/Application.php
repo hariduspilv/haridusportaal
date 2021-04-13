@@ -223,7 +223,7 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
 
             $this->logger->log(LogLevel::DEBUG, 'Bootstrap further to find {command}', ['command' => $name]);
             $this->bootstrapManager->bootstrapMax();
-            $this->logger->log(LogLevel::DEBUG, 'Done with bootstrap max in Application::find(): trying to find {command} again.', ['command' => $name]);
+            $this->logger->log(LogLevel::DEBUG, 'Done with bootstrap max in Application::bootstrapAndFind(): trying to find {command} again.', ['command' => $name]);
 
             if (!$this->bootstrapManager()->hasBootstrapped(DRUSH_BOOTSTRAP_DRUPAL_ROOT)) {
                 // Unable to progress in the bootstrap. Give friendly error message.
@@ -378,5 +378,15 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
             ->setSearchLocations(['Commands', 'Hooks', 'Generators'])
             ->setSearchPattern('#.*(Command|Hook|Generator)s?.php$#');
         return $discovery;
+    }
+
+    /**
+     * Renders a caught exception. Omits the command docs at end.
+     */
+    public function renderException(\Exception $e, OutputInterface $output)
+    {
+        $output->writeln('', OutputInterface::VERBOSITY_QUIET);
+
+        $this->doRenderException($e, $output);
     }
 }

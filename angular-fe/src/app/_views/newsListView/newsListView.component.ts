@@ -14,6 +14,7 @@ export class NewsListViewComponent implements AfterViewInit {
   @Input() path: string;
   @ViewChild('filterToggle') filterToggle: ElementRef;
   @ViewChild('detailed') detailed: ElementRef;
+  @ViewChild('hiddenFormItem', {read: ElementRef}) hiddenFormItem: ElementRef;
 
   lang: any;
   params: any;
@@ -62,10 +63,12 @@ export class NewsListViewComponent implements AfterViewInit {
 
   expandFilters(): void {
     this.filterFull = !this.filterFull;
-
     setTimeout(() => {
       const detailedBtn = this.detailed?.nativeElement;
       if(detailedBtn) detailedBtn.focus();
+
+      const hiddenFormItem = this.hiddenFormItem?.nativeElement.querySelector('input[role="combobox"]');
+      if(hiddenFormItem) hiddenFormItem.focus();
      });
   }
   

@@ -14,34 +14,37 @@ class MetatagVerificationTagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  private $tags = [
-    'baidu',
-    'bing',
-    'google',
-    'norton_safe_web',
-    'pinterest',
-    'pocket',
-    'yandex',
-    'zoom_domain_verification'
+  protected static $modules = [
+    'metatag_verification',
   ];
 
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
-    parent::$modules[] = 'metatag_verification';
-    parent::setUp();
-  }
+  protected $tags = [
+    'baidu',
+    'bing',
+    'facebook_domain_verification',
+    'google',
+    'norton_safe_web',
+    'pinterest',
+    'pocket',
+    'yandex',
+    'zoom_domain_verification',
+  ];
 
   /**
    * Each of these meta tags has a different tag name vs its internal name.
    */
-  private function getTestTagName($tag_name) {
+  protected function getTestTagName($tag_name) {
     if ($tag_name == 'baidu') {
       $tag_name = 'baidu-site-verification';
     }
     elseif ($tag_name == 'bing') {
       $tag_name = 'msvalidate.01';
+    }
+    elseif ($tag_name == 'facebook_domain_verification') {
+      $tag_name = 'facebook-domain-verification';
     }
     elseif ($tag_name == 'google') {
       $tag_name = 'google-site-verification';

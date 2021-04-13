@@ -36,39 +36,12 @@
 						<p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 	
 						<!-- <htm-video *ngIf="data.video && data.processedImages?.length === 0" [videos]="data.video"></htm-video> -->
-						<images *ngIf="data.processedImages || data.video" [videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"></images>
+						<images *ngIf="data.processedImages || data.video" [prioritizeVideos]="type === 'field'" [videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"></images>
 	
-						<picto [class.shorterBottom]="type === 'profession' && descriptionOverflown" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
+						<picto [class.shorterBottom]="type === 'profession'" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
 	
-						<div class="description" *ngIf="type !== 'profession' && data?.description?.value" [innerHtml]="data.description.value"></div>
-	
-						<div class="description description--clamped"
-							*ngIf="data?.description?.value && type === 'profession'"
-							role="content"
-							[attr.aria-label]="!descriptionShown ? parseHTMLValue(data.description?.value || '') : ('messages.body' | translate)"
-							[ngClass]="{
-								'overflowExists': type === 'profession' && descriptionOverflown,
-								'shown': descriptionShown
-							}">
-								<div
-									class="description__content"
-									[attr.aria-hidden]="type === 'profession' && descriptionOverflown && !descriptionShown"
-									[innerHtml]="data.description.value">
-								</div>
-						</div>
-						<div *ngIf="type === 'profession' && descriptionOverflown && data.description?.value"
-							class="description__actions">
-							<button type="button"
-								theme="plain"
-								[attr.aria-label]="descriptionShown ? ('button.show_less' | translate) : ('button.read_on' | translate)"
-								[attr.aria-expanded]="descriptionShown"
-								htm-button
-								(click)="changeDescriptionState()">
-								<ng-container *ngIf="!descriptionShown">{{ 'button.read_on' | translate }}</ng-container>
-								<ng-container *ngIf="descriptionShown">{{ 'button.show_less' | translate }}</ng-container>
-							</button>
-						</div>
-	
+						<div class="description" *ngIf="data?.description?.value" [innerHtml]="data.description.value"></div>
+		
 						<links *ngIf="data.links" [data]="data.links"></links>
 	
 						<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
