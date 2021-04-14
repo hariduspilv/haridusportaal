@@ -124,7 +124,7 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
             this.documents, this.transcriptDocuments, this.generalEducationDocumentType);
           this.typeTranslation = CertificatesUtility.typeTitle(
             this.documents.certificate,
-            this.transcriptDocuments,
+            documentsWithClassifiers,
           );
           if (data.index.qualificationWithinCurrentFramework) {
             this.api.getQualificationFrameworks(

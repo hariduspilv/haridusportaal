@@ -61,6 +61,8 @@ RUN	apk update && \
 	php7-pear \
 	php7-dev \
 	php7-soap \
+	php7-sockets \
+	php7-memcached \
 	libcrypto1.0 \
 	libssl1.0
 
@@ -107,6 +109,9 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 	apk del ${BUILD_DEPS} php7-pear php7-dev && \
 	echo "Success"
 
+ADD httpd.conf /httpd.conf
+RUN mv httpd.conf /etc/apache2/httpd.conf
+
 ADD plumbr-agent-installer /plumbr-agent-installer
 
 ADD run.sh /run.sh
@@ -121,7 +126,7 @@ RUN mv auth.conf /etc/apache2/conf.d/auth.conf
 ADD crontab.txt /crontab.txt
 RUN /usr/bin/crontab /crontab.txt
 
-EXPOSE 80
+EXPOSE 8080
 
 WORKDIR /app/drupal
 

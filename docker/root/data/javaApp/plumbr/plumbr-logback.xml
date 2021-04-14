@@ -1,0 +1,58 @@
+<configuration>
+    <!--
+        Plumbr uses embedded Logback logging library for its logging. In order not to interfere with host JVM
+        we package Logback into our namespace, 'eu.plumbr.agent'. Whenever you want to provide your own
+        logging configuration for Plumbr, always prepend Logback classnames with 'eu.plumbr.agent' prefix.
+    -->
+
+    <!--
+        Main log file containing major information about Plumbr lifecycle and encountered problems.
+        Consult first this file.
+    -->
+    <appender name="SERVER_APPENDER" class="eu.plumbr.runtime.agent.probes.logs.AgentLogAppender" />
+
+    <appender name="MAIN" class="eu.plumbr.runtime.agent.ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${PLUMBR_HOME}/logs/plumbr.log</file>
+        <rollingPolicy class="eu.plumbr.runtime.agent.ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${PLUMBR_HOME}/logs/plumbr.log.%d{yyyyMMdd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %-5level [%thread] %logger{35} - %msg%n</pattern>
+        </encoder>
+        <!-- Irrespective of the configuration below, only log records of level INFO and up go to this file. -->
+        <filter class="eu.plumbr.runtime.agent.ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!--
+        Next comes the configuration of a separate debug log. This file is too verbose for general every day use,
+        but can provide invaluable information for Plumbr support in case of problems.
+    -->
+
+    <!-- This is the lowest log level to be reported to the separate debug file. -->
+    <property name="lowestLevel" value="DEBUG"/>
+
+    <appender name="DEBUG" class="eu.plumbr.runtime.agent.ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${PLUMBR_HOME}/logs/plumbr-debug.log</file>
+        <rollingPolicy class="eu.plumbr.runtime.agent.ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${PLUMBR_HOME}/logs/plumbr-debug.log.%d{yyyyMMdd}</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %-5level [%thread] %logger{35} - %msg%n</pattern>
+        </encoder>
+        <filter class="eu.plumbr.runtime.agent.ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${lowestLevel}</level>
+        </filter>
+    </appender>
+
+    <root level="${lowestLevel}">
+        <appender-ref ref="MAIN"/>
+        <appender-ref ref="DEBUG"/>
+        <appender-ref ref="SERVER_APPENDER"/>
+    </root>
+</configuration>

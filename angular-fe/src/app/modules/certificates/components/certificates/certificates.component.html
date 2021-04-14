@@ -22,7 +22,7 @@
 					<tbody>
 						<tr *ngFor="let certificate of graduationCertificates">
 							<td nowrap>
-								<a [routerLink]="'tunnistused/lõputunnistused/' + certificate.id">
+								<a [routerLink]="'tunnistused/lõputunnistused/' + certificate.id" attr.aria-label="{{ 'button.open' | translate }} {{ certificate.issuerName }} {{ certificate.typeName }}">
 									{{ 'button.open' | translate }}
 								</a>
 							</td>
@@ -58,6 +58,7 @@
 						<td>{{ certificate.valjaantud }}</td>
 						<td class="text-center">
 							<a [routerLink]="'tunnistused/' + certificate.registrinumber"
+								attr.aria-label="{{ 'button.view_more' | translate }} {{ certificate.nimi}}"
 								[state]="{certificate:certificate}">{{ 'button.view_more' | translate }}</a>
 						</td>
 					</tr>
@@ -91,6 +92,7 @@
 						<td>{{ session.oppeaasta }}</td>
 						<td class="text-center">
 							<a [routerLink]="'tunnistused/' + session.testsessioon_id"
+								attr.aria-label="{{ 'button.view_more' | translate }} {{ session.nimi}}"
 								[state]="{exams: session.oppeaasta}">{{ 'button.view_more' | translate }}</a>
 						</td>
 					</tr>
