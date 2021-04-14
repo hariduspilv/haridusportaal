@@ -1,21 +1,21 @@
 <!-- [eventTracker]="getGoogleAnalyticsObject()" -->
 <max-width-wrapper>
   <form class="filter-wrapper" filters *ngIf="options">
-    <block-title>OTSI UURINGUID</block-title>
+    <block-title>{{ 'study.search_studies' | translate }}</block-title>
     <div class="row">
       <div class="col-4 sm-12">
         <formItem
           type="text"
-          title="Tekstiotsing (pealkiri, autor, sisukokkuvõte)"
-          ariaLabel="Tekstiotsing (pealkiri, autor, sisukokkuvõte)"
+          title="{{ 'study.text_search' | translate }}"
+          ariaLabel="{{ 'study.text_search' | translate }}"
           name="tekstiOtsing">
         </formItem>
       </div>
       <div class="col-5 sm-12">						
         <formItem
           type="multi-select"
-          title="Teema"
-          ariaLabel="Teema"
+          title="{{ 'study.topic' | translate }}"
+          ariaLabel="{{ 'study.topic' | translate }}"
           name="teema"
           [options]="options.studyTopicsOptions">
         </formItem>
@@ -31,8 +31,8 @@
       <div class="col-4 sm-12">
         <formItem
           type="multi-select"
-          title="Publikatsiooni liik"
-          ariaLabel="Publikatsiooni liik"
+          title="{{ 'study.publication_type' | translate }}"
+          ariaLabel="{{ 'study.publication_type' | translate }}"
           name="publikatsiooniLiik"
           [options]="options.publicationTypeOptions">
         </formItem>
@@ -40,8 +40,8 @@
       <div class="col-5 sm-12">						
         <formItem
           type="text"
-          title="Väljaandja"
-          ariaLabel="Väljaandja"
+          title="{{ 'study.publisher' | translate }}"
+          ariaLabel="{{ 'study.publisher' | translate }}"
           name="valjaandja">
         </formItem>
       </div>
@@ -50,8 +50,8 @@
       <div class="col-4 sm-12">
         <formItem
           type="multi-select"
-          title="Publikatsiooni keel"
-          ariaLabel="Publikatsiooni keel"
+          title="{{ 'study.publication_language' | translate }}"
+          ariaLabel="{{ 'study.publication_language' | translate }}"
           name="publikatsiooniKeel"
           [options]="options.publicationLanguageOptions">
         </formItem>
@@ -59,8 +59,8 @@
       <div class="col-5 sm-12">						
         <formItem
           type="multi-select"
-          title="Sildid"
-          ariaLabel="Sildid"
+          title="{{ 'study.labels' | translate }}"
+          ariaLabel="{{ 'study.labels' | translate }}"
           name="sildid"
           [options]="options.studyLabelOptions">
         </formItem>
@@ -71,8 +71,8 @@
         <formItem
           type="select"
           [options]="options.yearRange"
-          ariaLabel="Aasta alates"
-          title="Aasta alates"
+          ariaLabel="{{ 'study.year_from' | translate }}"
+          title="{{ 'study.year_from' | translate }}"
           name="aastaAlates">
         </formItem>
       </div>
@@ -80,8 +80,8 @@
         <formItem
           type="select"
           [options]="options.yearRange"
-          ariaLabel="Aasta kuni"
-          title="Aasta kuni"
+          ariaLabel="{{ 'study.year_to' | translate }}"
+          title="{{ 'study.year_to' | translate }}"
           name="aastaKuni">
         </formItem>
       </div>
