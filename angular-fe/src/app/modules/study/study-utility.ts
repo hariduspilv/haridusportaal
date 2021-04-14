@@ -21,10 +21,11 @@ export class StudyUtility {
     return options.map(entity => ({ key: entity.entityLabel, value: entity.entityId }));
   }
 
-  private static extractYearFromDateString(date: string) {
-    return date?.split('.').pop();
-  }
-
+  /**
+   *
+   * @param study - a single study list item
+   * @returns a joined string of study entities
+   */
   private static gatherJoinedInlineFields(study: Study): string[] {
     const flattenedFieldPublicationTypes =
         study.fieldRightColumn.entity.fieldStudy.entity.fieldPublicationType
@@ -36,6 +37,10 @@ export class StudyUtility {
     ];
   }
 
+  /**
+   *
+   * @returns a year range of 25 years - current year + 25 years for year filters
+   */
   private static generateYearRangeOptions(): YearOption[] {
     const emptyValue: YearOption = { key: '', value: 0 };
     const yearValues: YearOption[] = [];
@@ -70,6 +75,12 @@ export class StudyUtility {
     };
   }
 
+  /**
+   *
+   * @param parameters - query parameters
+   * @param offsetParameters extra list parameters for request
+   * @returns formatted parameters for http request
+   */
   public static generateStudyListViewRequestParameters(
     parameters: StudyListViewQueryParameters, offsetParameters: ListOffsetParameters):
     StudyListViewRequestParameters {
@@ -86,9 +97,9 @@ export class StudyUtility {
       publicationLanguageEnabled: !!parameters.publikatsiooniKeel,
       studyLabelValue: parameters.sildid?.split(';'),
       studyLabelEnabled: !!parameters.sildid?.length,
-      dateFrom: this.extractYearFromDateString(parameters.aastaAlates),
+      dateFrom: parameters.aastaAlates,
       dateFromEnabled: !!parameters.aastaAlates,
-      dateTo: this.extractYearFromDateString(parameters.aastaKuni),
+      dateTo: parameters.aastaKuni,
       dateToEnabled: !!parameters.aastaKuni,
       highlightedStudyEnabled: false,
       sortField: 'created',
@@ -101,16 +112,13 @@ export class StudyUtility {
     };
   }
 
-  // public static generateStudyList(
-  //   list: MappedStudy[], studyListResponseEntities: Study[], loadMoreContent?: boolean):
-  //   { list: MappedStudy[]; highlight: MappedStudy } {
-  //     const joinedList = this.joinResponseWithPreviousValues(list, studyListResponseEntities, loadMoreContent);
-  //     const highlight = this.extractRandomHighlightedStudy(joinedList);
-  //     return {
-  //       highlight,
-  //       list: joinedList.filter(study => study !== highlight),
-  //     };
-  // }
+  /**
+   *
+   * @param list - current list
+   * @param studyListResponseEntities - new request entities from next offset
+   * @param loadMoreContent - list data received through loading more
+   * @returns offset list response joined with current list
+   */
   public static joinResponseWithPreviousValues(
     list: MappedStudy[], studyListResponseEntities: Study[], loadMoreContent?: boolean): MappedStudy[] {
     const mappedStudyListElements = StudyUtility.mapStudyListViewEntities(studyListResponseEntities);
@@ -119,8 +127,13 @@ export class StudyUtility {
       mappedStudyListElements;
   }
 
+  /**
+   *
+   * @param list
+   * @returns a random selection from studies list where fieldCustomBoolean (highlight status) is truthy
+   */
   public static extractRandomHighlightedStudy(list: MappedStudy[]): MappedStudy {
-    const highlightedStudies = list.filter(study => study.fieldStudyTag);
+    const highlightedStudies = list.filter(study => study.fieldCustomBoolean);
     const selection: number = Math.floor(Math.random() * highlightedStudies.length);
     return highlightedStudies?.length ? highlightedStudies[selection] : null;
   }
