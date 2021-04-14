@@ -1,26 +1,20 @@
 <?php
-/**
- * Elasticsearch PHP client
- *
- * @link      https://github.com/elastic/elasticsearch-php/
- * @copyright Copyright (c) Elasticsearch B.V (https://www.elastic.co)
- * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @license   https://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License, Version 2.1
- *
- * Licensed to Elasticsearch B.V under one or more agreements.
- * Elasticsearch B.V licenses this file to you under the Apache 2.0 License or
- * the GNU Lesser General Public License, Version 2.1, at your option.
- * See the LICENSE file in the project root for more information.
- */
-
-
-declare(strict_types = 1);
 
 namespace Elasticsearch\Helper\Iterators;
 
-use Elasticsearch\Client;
+use ElasticSearch\Client;
 use Iterator;
 
+/**
+ * Class SearchResponseIterator
+ *
+ * @category Elasticsearch
+ * @package  Elasticsearch\Helper\Iterators
+ * @author   Arturo Mejia <arturo.mejia@kreatetechnology.com>
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache2
+ * @link     http://elastic.co
+ * @see      Iterator
+ */
 class SearchResponseIterator implements Iterator
 {
 
@@ -37,7 +31,7 @@ class SearchResponseIterator implements Iterator
     /**
      * @var int
      */
-    private $current_key = 0;
+    private $current_key;
 
     /**
      * @var array
@@ -50,7 +44,7 @@ class SearchResponseIterator implements Iterator
     private $scroll_id;
 
     /**
-     * @var string duration
+     * @var duration
      */
     private $scroll_ttl;
 
@@ -58,7 +52,7 @@ class SearchResponseIterator implements Iterator
      * Constructor
      *
      * @param Client $client
-     * @param array  $search_params Associative array of parameters
+     * @param array  $params  Associative array of parameters
      * @see   Client::search()
      */
     public function __construct(Client $client, array $search_params)
@@ -85,7 +79,7 @@ class SearchResponseIterator implements Iterator
      * @param  string $time_to_live
      * @return $this
      */
-    public function setScrollTimeout(string $time_to_live): SearchResponseIterator
+    public function setScrollTimeout($time_to_live)
     {
         $this->scroll_ttl = $time_to_live;
         return $this;
@@ -96,7 +90,7 @@ class SearchResponseIterator implements Iterator
      *
      * @return void
      */
-    private function clearScroll(): void
+    private function clearScroll()
     {
         if (!empty($this->scroll_id)) {
             $this->client->clearScroll(
@@ -114,10 +108,11 @@ class SearchResponseIterator implements Iterator
     /**
      * Rewinds the iterator by performing the initial search.
      *
+     *
      * @return void
      * @see    Iterator::rewind()
      */
-    public function rewind(): void
+    public function rewind()
     {
         $this->clearScroll();
         $this->current_key = 0;
@@ -131,15 +126,17 @@ class SearchResponseIterator implements Iterator
      * @return void
      * @see    Iterator::next()
      */
-    public function next(): void
+    public function next()
     {
-        $this->current_scrolled_response = $this->client->scroll(
-            [
-            'scroll_id' => $this->scroll_id,
-            'scroll'    => $this->scroll_ttl
-            ]
-        );
-        $this->scroll_id = $this->current_scrolled_response['_scroll_id'];
+        if ($this->current_key !== 0) {
+            $this->current_scrolled_response = $this->client->scroll(
+                array(
+                    'scroll_id' => $this->scroll_id,
+                    'scroll'    => $this->scroll_ttl
+                )
+            );
+            $this->scroll_id = $this->current_scrolled_response['_scroll_id'];
+        }
         $this->current_key++;
     }
 
@@ -149,7 +146,7 @@ class SearchResponseIterator implements Iterator
      * @return bool
      * @see    Iterator::valid()
      */
-    public function valid(): bool
+    public function valid()
     {
         return isset($this->current_scrolled_response['hits']['hits'][0]);
     }
@@ -160,7 +157,7 @@ class SearchResponseIterator implements Iterator
      * @return array
      * @see    Iterator::current()
      */
-    public function current(): array
+    public function current()
     {
         return $this->current_scrolled_response;
     }
@@ -171,7 +168,7 @@ class SearchResponseIterator implements Iterator
      * @return int
      * @see    Iterator::key()
      */
-    public function key(): int
+    public function key()
     {
         return $this->current_key;
     }

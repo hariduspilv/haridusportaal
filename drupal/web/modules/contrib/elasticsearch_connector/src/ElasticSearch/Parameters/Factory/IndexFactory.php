@@ -5,9 +5,7 @@ namespace Drupal\elasticsearch_connector\ElasticSearch\Parameters\Factory;
 use Drupal\search_api\IndexInterface;
 use Drupal\elasticsearch_connector\Event\PrepareIndexEvent;
 use Drupal\elasticsearch_connector\Event\PrepareIndexMappingEvent;
-use Drupal\elasticsearch_connector\Event\BuildIndexParamsEvent;
 use Drupal\search_api_autocomplete\Suggester\SuggesterInterface;
-use Drupal\elasticsearch_connector\Entity\Cluster;
 
 /**
  * Create Elasticsearch Indices.
@@ -28,15 +26,22 @@ class IndexFactory {
    *
    * @param \Drupal\search_api\IndexInterface $index
    *   Index to create.
+   * @param bool $with_type
+   *   Should the index be created with a type.
    *
    * @return array
    *   Associative array with the following keys:
    *   - index: The name of the index on the Elasticsearch server.
    *   - type(optional): The name of the type to use for the given index.
    */
-  public static function index(IndexInterface $index) {
+  public static function index(IndexInterface $index, $with_type = FALSE) {
     $params = [];
-    $params['index'] = static::getIndexName($index);
+    $params['index'] = IndexFactory::getIndexName($index);
+
+    if ($with_type) {
+      $params['type'] = $index->id();
+    }
+
     return $params;
   }
 
@@ -49,7 +54,7 @@ class IndexFactory {
    * @return array
    */
    public static function create(IndexInterface $index) {
-     $indexName = static::getIndexName($index);
+     $indexName = IndexFactory::getIndexName($index);
      $indexConfig =  [
        'index' => $indexName,
        'body' => [
@@ -78,11 +83,12 @@ class IndexFactory {
    * @return array
    */
   public static function bulkDelete(IndexInterface $index, array $ids) {
-    $params = IndexFactory::index($index);
+    $params = IndexFactory::index($index, TRUE);
     foreach ($ids as $id) {
       $params['body'][] = [
         'delete' => [
           '_index' => $params['index'],
+          '_type' => $params['type'],
           '_id' => $id,
         ],
       ];
@@ -104,7 +110,7 @@ class IndexFactory {
    *   index.
    */
   public static function bulkIndex(IndexInterface $index, array $items) {
-    $params = static::index($index);
+    $params = IndexFactory::index($index, TRUE);
 
     foreach ($items as $id => $item) {
       $data = [
@@ -125,10 +131,6 @@ class IndexFactory {
                 $values[] = $value->toText();
                 break;
 
-              case 'boolean':
-                $values[] = (boolean) $value;
-                break;
-
               default:
                 $values[] = $value;
             }
@@ -139,13 +141,6 @@ class IndexFactory {
       $params['body'][] = ['index' => ['_id' => $id]];
       $params['body'][] = $data;
     }
-
-    // Allow other modules to alter index params before we send them.
-    $indexName = IndexFactory::getIndexName($index);
-    $dispatcher = \Drupal::service('event_dispatcher');
-    $buildIndexParamsEvent = new BuildIndexParamsEvent($params, $indexName);
-    $event = $dispatcher->dispatch(BuildIndexParamsEvent::BUILD_PARAMS, $buildIndexParamsEvent);
-    $params = $event->getElasticIndexParams();
 
     return $params;
   }
@@ -165,7 +160,7 @@ class IndexFactory {
    *   Parameters required to create an index mapping.
    */
   public static function mapping(IndexInterface $index) {
-    $params = static::index($index);
+    $params = IndexFactory::index($index, TRUE);
 
     $properties = [
       'id' => [
@@ -206,7 +201,7 @@ class IndexFactory {
       'type' => 'keyword',
     ];
 
-    $params['body']['properties'] = $properties;
+    $params['body'][$params['type']]['properties'] = $properties;
 
     // Allow other modules to alter index mapping before we create it.
     $dispatcher = \Drupal::service('event_dispatcher');
@@ -229,34 +224,15 @@ class IndexFactory {
    */
   public static function getIndexName(IndexInterface $index) {
 
-    // Get index machine name.
+    $options = \Drupal::database()->getConnectionOptions();
+    $site_database = $options['database'];
+
     $index_machine_name = is_string($index) ? $index : $index->id();
-
-    // Get prefix and suffix from the cluster if present.
-    $cluster_id = $index->getServerInstance()->getBackend()->getCluster();
-    $cluster_options = Cluster::load($cluster_id)->options;
-
-    $index_suffix = '';
-    if (!empty($cluster_options['rewrite']['rewrite_index'])) {
-      $index_prefix = isset($cluster_options['rewrite']['index']['prefix']) ? $cluster_options['rewrite']['index']['prefix'] : '';
-      if ($index_prefix && substr($index_prefix, -1) !== '_') {
-        $index_prefix .= '_';
-      }
-      $index_suffix = isset($cluster_options['rewrite']['index']['suffix']) ? $cluster_options['rewrite']['index']['suffix'] : '';
-      if ($index_suffix && $index_suffix[0] !== '_') {
-        $index_suffix = '_' . $index_suffix;
-      }
-    }
-    else {
-      // If a custom rewrite is not enabled, set prefix to db name by default.
-      $options = \Drupal::database()->getConnectionOptions();
-      $index_prefix = 'elasticsearch_index_' . $options['database'] . '_';
-    }
 
     return strtolower(preg_replace(
       '/[^A-Za-z0-9_]+/',
       '',
-      $index_prefix . $index_machine_name . $index_suffix
+      'elasticsearch_index_' . $site_database . '_' . $index_machine_name
     ));
   }
 

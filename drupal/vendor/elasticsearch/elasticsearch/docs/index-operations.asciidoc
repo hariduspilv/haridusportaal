@@ -1,16 +1,13 @@
-[[index_management]]
-== Index management operations
 
-Index management operations allow you to manage the indices in your {es} 
-cluster, such as creating, deleting and updating indices and their 
-mappings/settings.
+== Index Management Operations
 
-[discrete]
+Index management operations allow you to manage the indices in your Elasticsearch cluster, such as creating, deleting and
+updating indices and their mappings/settings.
+
 === Create an index
 
-The index operations are all contained under a distinct namespace, separated 
-from other methods that are on the root client object. As an example, let's 
-create a new index:
+The index operations are all contained under a distinct namespace, separated from other methods that are on the root
+client object.  As an example, let's create a new index:
 
 [source,php]
 ----
@@ -24,9 +21,8 @@ $response = $client->indices()->create($params);
 ----
 {zwsp} +
 
-You can specify any parameters that would normally be included in a new index 
-creation API. All parameters that would normally go in the request body are 
-located in the 'body' parameter:
+You can specify any parameters that would normally be included in a new index creation API.  All parameters that
+would normally go in the request body are located in the 'body' parameter:
 
 [source,php]
 ----
@@ -39,15 +35,18 @@ $params = [
             'number_of_replicas' => 2
         ],
         'mappings' => [
-            '_source' => [
-                'enabled' => true
-            ],
-            'properties' => [
-                'first_name' => [
-                    'type' => 'keyword'
+            'my_type' => [
+                '_source' => [
+                    'enabled' => true
                 ],
-                'age' => [
-                    'type' => 'integer'
+                'properties' => [
+                    'first_name' => [
+                        'type' => 'string',
+                        'analyzer' => 'standard'
+                    ],
+                    'age' => [
+                        'type' => 'integer'
+                    ]
                 ]
             ]
         ]
@@ -60,13 +59,11 @@ $response = $client->indices()->create($params);
 ----
 {zwsp} +
 
-[discrete]
 === Create an index (advanced example)
 
-This is a more complicated example of creating an index, showing how to define 
-analyzers, tokenizers, filters and index settings. Although essentially the same 
-as the previous example, the more complicated example can be helpful for "real 
-world" usage of the client since this particular syntax is easy to mess up.
+This is a more complicated example of creating an index, showing how to define analyzers, tokenizers, filters and
+index settings. Although essentially the same as the previous example, the more complicated example can be helpful
+for "real world" usage of the client, since this particular syntax is easy to mess up.
 
 [source,php]
 ----
@@ -104,26 +101,40 @@ $params = [
             ]
         ],
         'mappings' => [ <3>
-            'properties' => [
-                'title' => [
-                    'type' => 'text',
-                    'analyzer' => 'reuters',
-                    'copy_to' => 'combined'
-                ],
-                'body' => [
-                    'type' => 'text',
-                    'analyzer' => 'reuters',
-                    'copy_to' => 'combined'
-                ],
-                'combined' => [
-                    'type' => 'text',
-                    'analyzer' => 'reuters'
-                ],
-                'topics' => [
-                    'type' => 'keyword'
-                ],
-                'places' => [
-                    'type' => 'keyword'
+            '_default_' => [    <4>
+                'properties' => [
+                    'title' => [
+                        'type' => 'text',
+                        'analyzer' => 'reuters',
+                        'term_vector' => 'yes',
+                        'copy_to' => 'combined'
+                    ],
+                    'body' => [
+                        'type' => 'text',
+                        'analyzer' => 'reuters',
+                        'term_vector' => 'yes',
+                        'copy_to' => 'combined'
+                    ],
+                    'combined' => [
+                        'type' => 'text',
+                        'analyzer' => 'reuters',
+                        'term_vector' => 'yes'
+                    ],
+                    'topics' => [
+                        'type' => 'text',
+                        'index' => 'not_analyzed'
+                    ],
+                    'places' => [
+                        'type' => 'text',
+                        'index' => 'not_analyzed'
+                    ]
+                ]
+            ],
+            'my_type' => [  <5>
+                'properties' => [
+                    'my_field' => [
+                        'type' => 'text'
+                    ]
                 ]
             ]
         ]
@@ -131,14 +142,13 @@ $params = [
 ];
 $client->indices()->create($params);
 ----
-<1> The top level `settings` contains config about the index (# of shards, etc) 
-as well as analyzers.
-<2> `analysis` is nested inside of `settings`, and contains tokenizers, filters, 
-char filters and analyzers.
-<3> `mappings` is another element nested inside of `settings`, and contains the 
-mappings for various types.
+<1> The top level `settings` contains config about the index (# of shards, etc) as well as analyzers
+<2> `analysis` is nested inside of `settings`, and contains tokenizers, filters, char filters and analyzers
+<3> `mappings` is another element nested inside of `settings`, and contains the mappings for various types
+<4> The `_default_` type is a dynamic template that is applied to all fields that don't have an explicit mapping
+<5> The `my_type` type is an example of a user-defined type that holds a single field, `my_field`
 
-[discrete]
+
 === Delete an index
 
 Deleting an index is very simple:
@@ -150,10 +160,8 @@ $response = $client->indices()->delete($params);
 ----
 {zwsp} +
 
-[discrete]
-=== PUT Settings API
-
-The PUT Settings API allows you to modify any index setting that is dynamic:
+=== Put Settings API
+The Put Settings API allows you to modify any index setting that is dynamic:
 
 [source,php]
 ----
@@ -171,11 +179,9 @@ $response = $client->indices()->putSettings($params);
 ----
 {zwsp} +
 
-[discrete]
-=== GET Settings API
+=== Get Settings API
 
-The GET Settings API shows you the currently configured settings for one or more 
-indices:
+Get Settings API will show you the currently configured settings for one or more indexes:
 
 [source,php]
 ----
@@ -191,27 +197,29 @@ $response = $client->indices()->getSettings($params);
 ----
 {zwsp} +
 
-[discrete]
-=== PUT Mappings API
+=== Put Mappings API
 
-The PUT Mappings API allows you to modify or add to an existing index's mapping.
+The Put Mappings API allows you to modify or add to an existing index's mapping.
 
 [source,php]
 ----
 // Set the index and type
 $params = [
     'index' => 'my_index',
+    'type' => 'my_type2',
     'body' => [
-        '_source' => [
-            'enabled' => true
-        ],
-        'properties' => [
-            'first_name' => [
-                'type' => 'text',
-                'analyzer' => 'standard'
+        'my_type2' => [
+            '_source' => [
+                'enabled' => true
             ],
-            'age' => [
-                'type' => 'integer'
+            'properties' => [
+                'first_name' => [
+                    'type' => 'string',
+                    'analyzer' => 'standard'
+                ],
+                'age' => [
+                    'type' => 'integer'
+                ]
             ]
         ]
     ]
@@ -222,22 +230,31 @@ $client->indices()->putMapping($params);
 ----
 {zwsp} +
 
-[discrete]
-=== GET Mappings API
+=== Get Mappings API
 
-The GET Mappings API returns the mapping details about your indices. Depending 
-on the mappings that you wish to retrieve, you can specify one of more indices:
+The Get Mappings API will return the mapping details about your indexes and types.  Depending on the mappings that you wish to retrieve, you can specify a number of combinations of index and type:
 
 [source,php]
 ----
-// Get mappings for all indices
+// Get mappings for all indexes and types
 $response = $client->indices()->getMapping();
 
-// Get mappings in 'my_index'
+// Get mappings for all types in 'my_index'
 $params = ['index' => 'my_index'];
 $response = $client->indices()->getMapping($params);
 
-// Get mappings for two indices
+// Get mappings for all types of 'my_type', regardless of index
+$params = ['type' => 'my_type' ];
+$response = $client->indices()->getMapping($params);
+
+// Get mapping 'my_type' in 'my_index'
+$params = [
+    'index' => 'my_index'
+    'type' => 'my_type'
+];
+$response = $client->indices()->getMapping($params);
+
+// Get mappings for two indexes
 $params = [
     'index' => [ 'my_index', 'my_index2' ]
 ];
@@ -245,22 +262,13 @@ $response = $client->indices()->getMapping($params);
 ----
 {zwsp} +
 
-[discrete]
-=== Other APIs in the indices namespace
+=== Other APIs in the Indices Namespace
+There are a number of other APIs in the indices namespace that allow you to manage your elasticsearch indexes (add/remove templates, flush segments, close indexes, etc).
 
-There are a number of other APIs in the indices namespace that allow you to 
-manage your {es} indices (add/remove templates, flush segments, close indices, 
-etc).
-
-If you use an IDE with autocompletion, you should be able to easily explore the 
-indices namespace by typing:
+If you use an IDE with autocompletion, you should be able to easily explore the indices namespace by typing:
 
 [source,php]
 ----
 $client->indices()->
 ----
-
-And perusing the list of available methods. Alternatively, browsing the 
-`\Elasticsearch\Namespaces\Indices.php` file shows you the full list of 
-available method calls (as well as parameter lists in the comments for each 
-method).
+And perusing the list of available methods.  Alternatively, browsing the `\Elasticsearch\Namespaces\Indices.php` file will show you the full list of available method calls (as well as parameter lists in the comments for each method).

@@ -2,6 +2,7 @@
 
 namespace Drupal\elasticsearch_connector\Plugin\search_api\backend;
 
+use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -13,6 +14,7 @@ use Drupal\elasticsearch_connector\ClusterManager;
 use Drupal\elasticsearch_connector\ElasticSearch\ClientManagerInterface;
 use Drupal\elasticsearch_connector\ElasticSearch\Parameters\Factory\IndexFactory;
 use Drupal\elasticsearch_connector\ElasticSearch\Parameters\Factory\SearchFactory;
+use Drupal\elasticsearch_connector\Entity\Cluster;
 use Drupal\search_api\Backend\BackendPluginBase;
 use Drupal\search_api\IndexInterface;
 use Drupal\search_api\Query\QueryInterface;
@@ -42,7 +44,7 @@ use Drupal\search_api\Plugin\PluginFormTrait;
  *   description = @Translation("Index items using an Elasticsearch server.")
  * )
  */
-class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginFormInterface, SearchApiElasticsearchBackendInterface {
+class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginFormInterface {
 
   use PluginFormTrait;
 
@@ -165,8 +167,6 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * @param \Drupal\elasticsearch_connector\ElasticSearch\Parameters\Factory\IndexFactory $indexFactory
    *   Index factory.
    *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\search_api\SearchApiException
    */
   public function __construct(
@@ -213,10 +213,6 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
 
   /**
    * {@inheritdoc}
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   * @throws \Drupal\search_api\SearchApiException
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
@@ -331,17 +327,6 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
   /**
    * {@inheritdoc}
    */
-  public function getSupportedDataTypes() {
-    $data_types = ['object', 'location'];
-    // Allow other modules to intercept and define what types they want to
-    // support.
-    $this->moduleHandler->alter('elasticsearch_connector_supported_data_types', $data_types);
-    return $data_types;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function viewSettings() {
     $info = [];
 
@@ -401,18 +386,13 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * {@inheritdoc}
    */
   public function updateIndex(IndexInterface $index) {
-    // Do not update read-only indexes.
-    if ($index->isReadOnly()) {
-      return;
-    }
-
     try {
       if (!$this->client->indices()->exists($this->indexFactory->index($index))) {
         $response = $this->client->indices()->create(
           $this->indexFactory->create($index)
         );
         if (!$this->client->CheckResponseAck($response)) {
-          \Drupal::messenger()->addError($this->t('The elasticsearch client was not able to create index'));
+          drupal_set_message($this->t('The elasticsearch client was not able to create index'), 'error');
         }
       }
 
@@ -420,7 +400,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
       $this->fieldsUpdated($index);
     }
     catch (ElasticsearchException $e) {
-      \Drupal::messenger()->addError($e->getMessage());
+      drupal_set_message($e->getMessage(), 'error');
     }
   }
 
@@ -434,14 +414,25 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    *   TRUE on success, FALSE otherwise.
    */
   public function fieldsUpdated(IndexInterface $index) {
-    // Do not update read-only indexes.
-    if ($index->isReadOnly()) {
-      return FALSE;
-    }
+    $params = $this->indexFactory->index($index, TRUE);
 
     try {
-      if (!$this->client->indices()->exists($this->indexFactory->index($index))) {
-        $this->addIndex($index);
+      if ($this->client->indices()->existsType($params)) {
+        $current_mapping = $this->client->indices()->getMapping($params);
+        if (!empty($current_mapping)) {
+          try {
+            // If the mapping exits, delete it to be able to re-create it.
+            $this->client->indices()->deleteMapping($params);
+          }
+          catch (ElasticsearchException $e) {
+            // If the mapping exits, delete the index and recreate it.
+            // In Elasticsearch 2.3 it is not possible to delete a mapping,
+            // so don't use $this->client->indices()->deleteMapping as doing so
+            // will throw an exception.
+            $this->removeIndex($index);
+            $this->addIndex($index);
+          }
+        }
       }
 
       $response = $this->client->indices()->putMapping(
@@ -449,11 +440,11 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
       );
 
       if (!$this->client->CheckResponseAck($response)) {
-        \Drupal::messenger()->addError(t('Cannot create the mapping of the fields!'));
+        drupal_set_message(t('Cannot create the mapping of the fields!'), 'error');
       }
     }
-    catch (\Exception $e) {
-      \Drupal::messenger()->addError($e->getMessage());
+    catch (ElasticsearchException $e) {
+      drupal_set_message($e->getMessage(), 'error');
       return FALSE;
     }
 
@@ -464,15 +455,6 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * {@inheritdoc}
    */
   public function removeIndex($index) {
-    $index_entity = $index instanceof IndexInterface
-      ? $index
-      : $this->entityTypeManager->getStorage('search_api_index')->load($index);
-
-    // Do not remove read-only indexes.
-    if ($index_entity && $index_entity->isReadOnly()) {
-      return;
-    }
-
     $params = $this->indexFactory->index($index);
 
     try {
@@ -481,7 +463,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
       }
     }
     catch (ElasticsearchException $e) {
-      \Drupal::messenger()->addError($e->getMessage());
+      drupal_set_message($e->getMessage(), 'error');
     }
   }
 
@@ -489,8 +471,10 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * {@inheritdoc}
    */
   public function indexItems(IndexInterface $index, array $items) {
-    if (empty($items)) {
-      return [];
+    $elastic_type_exists = $this->doesTypeExists($index);
+
+    if (empty($elastic_type_exists) || empty($items)) {
+      return array();
     }
 
     try {
@@ -513,7 +497,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
       }
     }
     catch (ElasticsearchException $e) {
-      \Drupal::messenger()->addError($e->getMessage());
+      drupal_set_message($e->getMessage(), 'error');
     }
 
     return array_keys($items);
@@ -541,7 +525,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
       );
     }
     catch (ElasticsearchException $e) {
-      \Drupal::messenger()->addError($e->getMessage());
+      drupal_set_message($e->getMessage(), 'error');
     }
   }
 
@@ -550,18 +534,6 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    *
    * Note that the interface is not directly implemented to avoid a dependency
    * on search_api_autocomplete module.
-   *
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   *   The query interface parameter.
-   * @param \Drupal\search_api_autocomplete\SearchInterface $search
-   *   The search interface parameter.
-   * @param mixed $incomplete_key
-   *   The incomplete key parameter.
-   * @param string|null $user_input
-   *   The keywords input by the user so far.
-   *
-   * @return array
-   *   Returns autocomplete suggestion array.
    */
   public function getAutocompleteSuggestions(QueryInterface $query, SearchInterface $search, $incomplete_key, $user_input) {
     try {
@@ -572,7 +544,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
       $query->setOption('autocomplete', $incomplete_key);
       $query->setOption('autocomplete_field', reset($fields));
 
-      // Disable facets so it does not collide with auto-completion results.
+      // Disable facets so it does not collide with autocompletion results.
       $query->setOption('search_api_facets', FALSE);
 
       $result = $this->search($query);
@@ -594,7 +566,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
     }
     catch (\Exception $e) {
       $this->logger->error($e->getMessage());
-      return [];
+      return array();
     }
   }
 
@@ -608,10 +580,10 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
     // Get index.
     $index = $query->getIndex();
 
-    $params = $this->indexFactory->index($index);
+    $params = $this->indexFactory->index($index, TRUE);
 
     // Check Elasticsearch index.
-    if (!$this->client->indices()->exists($params)) {
+    if (!$this->client->indices()->existsType($params)) {
       return $search_result;
     }
 
@@ -623,7 +595,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
     // Build Elasticsearch query.
     $params = SearchFactory::search($query);
 
-    // Note that this requires field data option to be enabled.
+    // Note that this requires fielddata option to be enabled.
     // @see ::getAutocompleteSuggestions()
     // @see \Drupal\elasticsearch_connector\ElasticSearch\Parameters\Factory\IndexFactory::mapping()
     if ($incomplete_key = $query->getOption('autocomplete')) {
@@ -642,7 +614,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
     }
 
     try {
-      // Allow modules to alter the Elasticsearch query.
+      // Allow modules to alter the Elastic Search query.
       $this->preQuery($query);
 
       // Do search.
@@ -654,7 +626,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
         $this->parseFacets($results, $query);
       }
 
-      // Allow modules to alter the Elasticsearch Results.
+      // Allow modules to alter the Elastic Search Results.
       $this->postQuery($results, $query, $response);
 
       return $results;
@@ -762,6 +734,26 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
     }
 
     $results->setExtraData('search_api_facets', $attach);
+  }
+
+  /**
+   * Helper function, check if the given index and type exists.
+   *
+   * @param \Drupal\search_api\IndexInterface $index
+   *   Index object.
+   *
+   * @return bool
+   *   TRUE if the given index exists in Elasticsearch, otherwise FALSE.
+   */
+  protected function doesTypeExists(IndexInterface $index) {
+    $params = $this->indexFactory->index($index, TRUE);
+    try {
+      return $this->client->indices()->existsType($params);
+    }
+    catch (ElasticsearchException $e) {
+      drupal_set_message($e->getMessage(), 'error');
+      return FALSE;
+    }
   }
 
   /**
@@ -885,14 +877,10 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * Helper function that adds options and returns facet.
    *
    * @param array $facet
-   *   The facet array parameter.
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   *   The query interface parameter.
+   * @param QueryInterface $query
    * @param string $facet_info
-   *   The facet info parameter.
    *
    * @return array
-   *   Returns facet array.
    */
   protected function addFacetOptions(array &$facet, QueryInterface $query, $facet_info) {
     $facet_limit = $this->getFacetLimit($facet_info);
@@ -920,18 +908,15 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
   /**
    * Helper function return Facet filter.
    *
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   *   The query interface parameter.
+   * @param QueryInterface $query
    * @param array $facet_info
-   *   The facet info parameter.
    *
    * @return array|null|string
-   *   Returns facet filter.
    */
   protected function getFacetSearchFilter(QueryInterface $query, array $facet_info) {
     $index_fields = $this->getIndexFields($query);
 
-    if (isset($facet_info['operator']) && mb_strtolower($facet_info['operator']) == 'or') {
+    if (isset($facet_info['operator']) && Unicode::strtolower($facet_info['operator']) == 'or') {
       $facet_search_filter = $this->parseConditionGroup($query->getConditionGroup(), $index_fields, $facet_info['field']);
       if (!empty($facet_search_filter)) {
         $facet_search_filter = $facet_search_filter[0];
@@ -952,12 +937,9 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * Helper function create Facet for date field type.
    *
    * @param mixed $facet_id
-   *   The facet id parameter.
    * @param array $facet
-   *   The facet parameter.
    *
-   * @return array
-   *   Returns facet array.
+   * @return array.
    */
   protected function createDateFieldFacet($facet_id, array $facet) {
     $result = $facet[$facet_id];
@@ -977,10 +959,8 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * Helper function that return facet limits.
    *
    * @param array $facet_info
-   *   The facet info parameter.
    *
    * @return int|null
-   *   Returns facet limits.
    */
   protected function getFacetLimit(array $facet_info) {
     // If no limit (-1) is selected, use the server facet limit option.
@@ -995,10 +975,8 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * Helper function which add params to date facets.
    *
    * @param mixed $facet_id
-   *   The facet id parameter.
    *
    * @return string
-   *   Returns facet interval.
    */
   protected function getDateFacetInterval($facet_id) {
     // Active search corresponding to this index.
@@ -1038,12 +1016,9 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * Helper function to return date gap.
    *
    * @param $adapter
-   *   The adapter parameter.
-   * @param mixed $facet_id
-   *   The facet it parameter.
+   * @param $facet_id
    *
    * @return mixed|string
-   *   Returns date gap.
    */
   public function getDateGranularity($adapter, $facet_id) {
     // Date gaps.
@@ -1059,10 +1034,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
         foreach ($active_items as $active_item) {
           $value = $active_item['value'];
           if (strpos($value, ' TO ') > 0) {
-            [$date_min, $date_max] = explode(
-              ' TO ',
-              str_replace(['[', ']'], '', $value),
-              2);
+            list($date_min, $date_max) = explode(' TO ', str_replace(['[', ']'], '', $value), 2);
             $gap = self::getDateGap($date_min, $date_max, FALSE);
             if (isset($gap_weight[$gap])) {
               $gaps[] = $gap_weight[$gap];
@@ -1083,12 +1055,9 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * Helper function that parse facets.
    *
    * @param array $response
-   *   The response parameter.
-   * @param \Drupal\search_api\Query\QueryInterface $query
-   *   The query interface parameter.
+   * @param QueryInterface $query
    *
    * @return array
-   *   Returns parsed facet.
    */
   protected function parseSearchFacets(array $response, QueryInterface $query) {
 
@@ -1135,10 +1104,10 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
   }
 
   /**
-   * Allow custom changes before sending a search query to Elasticsearch.
+   * Allow custom changes before sending a search query to Elastic Search.
    *
    * This allows subclasses to apply custom changes before the query is sent to
-   * Elasticsearch.
+   * Solr.
    *
    * @param \Drupal\search_api\Query\QueryInterface $query
    *   The \Drupal\search_api\Query\Query object representing the executed
@@ -1156,7 +1125,7 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    *   The \Drupal\search_api\Query\Query object representing the executed
    *   search query.
    * @param object $response
-   *   The response object returned by Elasticsearch.
+   *   The response object returned by Elastic Search.
    */
   protected function postQuery(ResultSetInterface $results, QueryInterface $query, $response) {
   }
@@ -1167,17 +1136,16 @@ class SearchApiElasticsearchBackend extends BackendPluginBase implements PluginF
    * {@inheritdoc}
    */
   public function supportsDataType($type) {
-    $data_types = $this->getSupportedDataTypes();
-    return in_array($type, $data_types);
+    return in_array($type, ['object']);
   }
 
   /**
    * Implements __sleep()
    *
-   * Prevents closure serialization error on search_api server add form.
+   * Prevents closure serialization error on search_api server add form
    */
   public function __sleep() {
-    return [];
+    return array();
   }
 
 }

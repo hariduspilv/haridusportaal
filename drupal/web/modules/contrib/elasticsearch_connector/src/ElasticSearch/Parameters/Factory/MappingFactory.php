@@ -79,13 +79,7 @@ class MappingFactory {
 
       case 'object':
         $mappingConfig = [
-          'type' => 'nested',
-        ];
-        break;
-
-      case 'location':
-        $mappingConfig = [
-          'type' => 'geo_point',
+          'type' => 'nested'
         ];
         break;
     }

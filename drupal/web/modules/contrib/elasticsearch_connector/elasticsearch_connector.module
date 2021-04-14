@@ -450,7 +450,7 @@ function elasticsearch_connector_get_cluster_nodes_stat(Client $client) {
     return $client->nodes()->stats();
   }
   catch (\Exception $e) {
-    \Drupal::messenger()->addError($e->getMessage());
+    drupal_set_message($e->getMessage(), 'error');
   }
 
   return array();
@@ -498,7 +498,7 @@ function elasticsearch_connector_check_plugin_exists(Client $client, $plugin_nam
     return $result;
   }
   catch (\Exception $e) {
-    \Drupal::messenger()->addError($e->getMessage());
+    drupal_set_message($e->getMessage(), 'error');
     return FALSE;
   }
 }
@@ -533,8 +533,8 @@ function _elasticsearch_validate_ttl_field(array $element, array &$form_state, a
 /**
  * Returns a unique hash for the current site.
  *
- * This is used to identify documents from different sites within a single
- * Elasticsearch server.
+ * This is used to identify Solr documents from different sites within a single
+ * Solr server.
  *
  * @return string
  *   A unique site hash, containing only alphanumeric characters.

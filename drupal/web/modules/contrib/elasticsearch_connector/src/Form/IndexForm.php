@@ -2,14 +2,13 @@
 
 namespace Drupal\elasticsearch_connector\Form;
 
-use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
-use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\elasticsearch_connector\ClusterManager;
 use Drupal\elasticsearch_connector\ElasticSearch\ClientManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\elasticsearch_connector\Entity\Cluster;
 
 /**
  * Form controller for node type forms.
@@ -17,9 +16,7 @@ use Drupal\Core\Form\FormStateInterface;
 class IndexForm extends EntityForm {
 
   /**
-   * The client manager service.
-   *
-   * @var \Drupal\elasticsearch_connector\ElasticSearch\ClientManagerInterface
+   * @var ClientManagerInterface
    */
   private $clientManager;
 
@@ -29,7 +26,7 @@ class IndexForm extends EntityForm {
    * This object members must be set to anything other than private in order for
    * \Drupal\Core\DependencyInjection\DependencySerialization to be detected.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManager
    */
   protected $entityTypeManager;
 
@@ -43,12 +40,9 @@ class IndexForm extends EntityForm {
   /**
    * Constructs an IndexForm object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityManager|\Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
    *   The entity type manager.
-   * @param \Drupal\elasticsearch_connector\ElasticSearch\ClientManagerInterface $client_manager
-   *   The client manager.
-   * @param \Drupal\elasticsearch_connector\ClusterManager $cluster_manager
-   *   The cluster manager.
+   * @param ClientManagerInterface $client_manager
    */
   public function __construct(EntityTypeManagerInterface $entity_manager, ClientManagerInterface $client_manager, ClusterManager $cluster_manager) {
     // Setup object members.
@@ -58,10 +52,12 @@ class IndexForm extends EntityForm {
   }
 
   /**
-   * {@inheritdoc}
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *
+   * @return static
    */
-  public static function create(ContainerInterface $container) {
-    return new static(
+  static public function create(ContainerInterface $container) {
+    return new static (
       $container->get('entity_type.manager'),
       $container->get('elasticsearch_connector.client_manager'),
       $container->get('elasticsearch_connector.cluster_manager')
@@ -69,9 +65,9 @@ class IndexForm extends EntityForm {
   }
 
   /**
-   * Gets the entity manager.
+   * Get the entity manager.
    *
-   * @return \Drupal\Core\Entity\EntityTypeManagerInterface
+   * @return \Drupal\Core\Entity\EntityManager
    *   An instance of EntityManager.
    */
   protected function getEntityManager() {
@@ -79,45 +75,36 @@ class IndexForm extends EntityForm {
   }
 
   /**
-   * Gets the cluster storage controller.
+   * Get the cluster storage controller.
    *
    * @return \Drupal\Core\Entity\EntityStorageInterface
    *   An instance of EntityStorageInterface.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   protected function getClusterStorage() {
     return $this->getEntityManager()->getStorage('elasticsearch_cluster');
   }
 
   /**
-   * Gets the index storage controller.
+   * Get the index storage controller.
    *
    * @return \Drupal\Core\Entity\EntityStorageInterface
    *   An instance of EntityStorageInterface.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   protected function getIndexStorage() {
     return $this->getEntityManager()->getStorage('elasticsearch_index');
   }
 
   /**
-   * Gets all clusters.
+   * Get all clusters.
    *
    * @return array
    *   All clusters
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   protected function getAllClusters() {
-    $options = [];
+    $options = array();
     foreach (
       $this->getClusterStorage()
-        ->loadMultiple() as $cluster_machine_name
+           ->loadMultiple() as $cluster_machine_name
     ) {
       $options[$cluster_machine_name->cluster_id] = $cluster_machine_name;
     }
@@ -125,20 +112,17 @@ class IndexForm extends EntityForm {
   }
 
   /**
-   * Gets cluster field.
+   * Get cluster field.
    *
    * @param string $field
    *   Field name.
    *
    * @return array
    *   All clusters' fields.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   protected function getClusterField($field) {
     $clusters = $this->getAllClusters();
-    $options = [];
+    $options = array();
     foreach ($clusters as $cluster) {
       $options[$cluster->$field] = $cluster->$field;
     }
@@ -146,16 +130,13 @@ class IndexForm extends EntityForm {
   }
 
   /**
-   * Returns url of the selected cluster.
+   * Return url of the selected cluster.
    *
    * @param string $id
    *   Cluster id.
    *
    * @return string
    *   Cluster url.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   protected function getSelectedClusterUrl($id) {
     $result = NULL;
@@ -184,54 +165,46 @@ class IndexForm extends EntityForm {
   }
 
   /**
-   * Builds entity form.
-   *
-   * @param array $form
-   *   Form parameter.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   Form state parameter.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * {@inheritdoc}
    */
   public function buildEntityForm(array &$form, FormStateInterface $form_state) {
     // TODO: Provide check and support for other index modules settings.
     // TODO: Provide support for the rest of the dynamic settings.
     // TODO: Make sure that on edit the static settings cannot be changed.
     // @see https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html
-    $form['index'] = [
+    $form['index'] = array(
       '#type' => 'value',
       '#value' => $this->entity,
-    ];
+    );
 
-    $form['name'] = [
+    $form['name'] = array(
       '#type' => 'textfield',
       '#title' => t('Index name'),
       '#required' => TRUE,
       '#default_value' => '',
       '#description' => t('Enter the index name.'),
       '#weight' => 1,
-    ];
+    );
 
-    $form['index_id'] = [
+    $form['index_id'] = array(
       '#type' => 'machine_name',
       '#title' => t('Index id'),
       '#default_value' => '',
       '#maxlength' => 125,
       '#description' => t('Unique, machine-readable identifier for this Index'),
-      '#machine_name' => [
-        'exists' => [$this->getIndexStorage(), 'load'],
-        'source' => ['name'],
+      '#machine_name' => array(
+        'exists' => array($this->getIndexStorage(), 'load'),
+        'source' => array('name'),
         'replace_pattern' => '[^a-z0-9_]+',
         'replace' => '_',
-      ],
+      ),
       '#required' => TRUE,
       '#disabled' => !empty($this->entity->index_id),
       '#weight' => 2,
-    ];
+    );
 
     // Here server refers to the elasticsearch cluster.
-    $form['server'] = [
+    $form['server'] = array(
       '#type' => 'radios',
       '#title' => $this->t('Server'),
       '#default_value' => !empty($this->entity->server) ? $this->entity->server : $this->clusterManager->getDefaultCluster(),
@@ -239,36 +212,36 @@ class IndexForm extends EntityForm {
       '#options' => $this->getClusterField('cluster_id'),
       '#weight' => 9,
       '#required' => TRUE,
-    ];
+    );
 
-    $form['num_of_shards'] = [
+    $form['num_of_shards'] = array(
       '#type' => 'textfield',
       '#title' => t('Number of shards'),
       '#required' => TRUE,
       '#default_value' => 5,
       '#description' => t('Enter the number of shards for the index.'),
       '#weight' => 3,
-    ];
+    );
 
-    $form['num_of_replica'] = [
+    $form['num_of_replica'] = array(
       '#type' => 'textfield',
       '#title' => t('Number of replica'),
       '#default_value' => 1,
       '#description' => t('Enter the number of shards replicas.'),
       '#weight' => 4,
-    ];
+    );
 
-    $form['codec'] = [
+    $form['codec'] = array(
       '#type' => 'select',
       '#title' => t('Codec'),
       '#default_value' => (!empty($this->entity->codec) ? $this->entity->codec : 'default'),
       '#description' => t('Select compression for stored data. Defaults to: LZ4.'),
-      '#options' => [
+      '#options' => array(
         'default' => 'LZ4',
         'best_compression' => 'DEFLATE',
-      ],
+      ),
       '#weight' => 5,
-    ];
+    );
   }
 
   /**
@@ -294,13 +267,9 @@ class IndexForm extends EntityForm {
 
   /**
    * {@inheritdoc}
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $cluster = $this->entityTypeManager->getStorage('elasticsearch_cluster')
-      ->load($this->entity->server);
+    $cluster = $this->entityTypeManager->getStorage('elasticsearch_cluster')->load($this->entity->server);
     $client = $this->clientManager->getClientForCluster($cluster);
 
     $index_params['index'] = $this->entity->index_id;
@@ -311,36 +280,36 @@ class IndexForm extends EntityForm {
     try {
       $response = $client->indices()->create($index_params);
       if ($client->CheckResponseAck($response)) {
-        $this->messenger()->addMessage(
+        drupal_set_message(
           t(
             'The index %index having id %index_id has been successfully created.',
-            [
+            array(
               '%index' => $form_state->getValue('name'),
               '%index_id' => $form_state->getValue('index_id'),
-            ]
+            )
           )
         );
       }
       else {
-        $this->messenger()->addError(
+        drupal_set_message(
           t(
             'Fail to create the index %index having id @index_id',
-            [
+            array(
               '%index' => $form_state->getValue('name'),
               '@index_id' => $form_state->getValue('index_id'),
-            ]
-          )
+            )
+          ), 'error'
         );
       }
 
       parent::save($form, $form_state);
 
-      $this->messenger()->addMessage(t('Index %label has been added.', ['%label' => $this->entity->label()]));
+      drupal_set_message(t('Index %label has been added.', array('%label' => $this->entity->label())));
 
       $form_state->setRedirect('elasticsearch_connector.config_entity.list');
     }
     catch (\Exception $e) {
-      $this->messenger()->addError($e->getMessage());
+      drupal_set_message($e->getMessage(), 'error');
     }
   }
 

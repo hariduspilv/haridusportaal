@@ -3,11 +3,12 @@
 namespace Drupal\elasticsearch_connector\Form;
 
 use Drupal\Core\Entity\EntityConfirmFormBase;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\elasticsearch_connector\ClusterManager;
 use Drupal\elasticsearch_connector\ElasticSearch\ClientManagerInterface;
+use Drupal\elasticsearch_connector\Entity\Cluster;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -16,9 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ClusterDeleteForm extends EntityConfirmFormBase {
 
   /**
-   * The client manager interface.
-   *
-   * @var \Drupal\elasticsearch_connector\ElasticSearch\ClientManagerInterface
+   * @var ClientManagerInterface
    */
   private $clientManager;
 
@@ -28,7 +27,7 @@ class ClusterDeleteForm extends EntityConfirmFormBase {
    * This object members must be set to anything other than private in order for
    * \Drupal\Core\DependencyInjection\DependencySerialization to be detected.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityManager
    */
   protected $entityManager;
 
@@ -42,7 +41,7 @@ class ClusterDeleteForm extends EntityConfirmFormBase {
   /**
    * Constructs an IndexForm object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityManager|\Drupal\Core\Entity\EntityTypeManager $entity_manager
    *   The entity manager.
    * @param \Drupal\elasticsearch_connector\ElasticSearch\ClientManagerInterface $client_manager
    *   The client manager.
@@ -50,7 +49,7 @@ class ClusterDeleteForm extends EntityConfirmFormBase {
    *   The cluster manager.
    */
   public function __construct(
-    EntityTypeManagerInterface $entity_manager,
+    EntityTypeManager $entity_manager,
     ClientManagerInterface $client_manager,
     ClusterManager $cluster_manager
   ) {
@@ -60,10 +59,10 @@ class ClusterDeleteForm extends EntityConfirmFormBase {
   }
 
   /**
-   * {@inheritdoc}
+   *
    */
-  public static function create(ContainerInterface $container) {
-    return new static(
+  static public function create(ContainerInterface $container) {
+    return new static (
       $container->get('entity_type.manager'),
       $container->get('elasticsearch_connector.client_manager'),
       $container->get('elasticsearch_connector.cluster_manager')
@@ -91,10 +90,6 @@ class ClusterDeleteForm extends EntityConfirmFormBase {
 
   /**
    * {@inheritdoc}
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $storage = $this->entityManager->getStorage('elasticsearch_index');
@@ -104,26 +99,28 @@ class ClusterDeleteForm extends EntityConfirmFormBase {
 
     // TODO: handle indices linked to the cluster being deleted.
     if (count($indices)) {
-      $this->messenger()->addError(
+      drupal_set_message(
         $this->t(
           'The cluster %title cannot be deleted as it still has indices.',
           ['%title' => $this->entity->label()]
-        )
+        ),
+        'error'
       );
       return;
     }
 
     if ($this->entity->id() == $this->clusterManager->getDefaultCluster()) {
-      $this->messenger()->addError(
+      drupal_set_message(
         $this->t(
           'The cluster %title cannot be deleted as it is set as the default cluster.',
           ['%title' => $this->entity->label()]
-        )
+        ),
+        'error'
       );
     }
     else {
       $this->entity->delete();
-      $this->messenger()->addMessage(
+      drupal_set_message(
         $this->t(
           'The cluster %title has been deleted.',
           ['%title' => $this->entity->label()]

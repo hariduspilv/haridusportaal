@@ -7,9 +7,8 @@ use Drupal\Tests\UnitTestCase;
 use Drupal\elasticsearch_connector\ElasticSearch\Parameters\Factory\FilterFactory;
 
 /**
- * This test is long because it tests a long method.
- *
- * It just repeats the same pattern over and over where a condition is mocked to
+ * This test is long because it tests a long method. It just repeats
+ * the same pattern over and over where a condition is mocked to
  * test each of the ramifications.
  *
  * @coversDefaultClass \Drupal\elasticsearch_connector\ElasticSearch\Parameters\Factory\FilterFactory
@@ -44,7 +43,7 @@ class FilterFactoryTest extends UnitTestCase {
     ];
     $this->assertEquals($expected_filter, $filter);
 
-    // Test the = operator.
+    // Thest the = operator.
     /** @var \Prophecy\Prophecy\ObjectProphecy $condition */
     $condition = $this->prophesize(Condition::class);
 
@@ -80,7 +79,7 @@ class FilterFactoryTest extends UnitTestCase {
     $condition->getField()
       ->willReturn('foo');
 
-    $this->expectException(\Exception::class, 'Incorrect filter criteria');
+    $this->setExpectedException(\Exception::class, 'Incorrect filter criteria');
     FilterFactory::filterFromCondition($condition->reveal());
   }
 
@@ -88,7 +87,7 @@ class FilterFactoryTest extends UnitTestCase {
    * @covers ::filterFromCondition
    */
   public function testFilterFromConditionB() {
-    // Normal filters.
+    // Normal filters
     /** @var \Prophecy\Prophecy\ObjectProphecy $condition */
     $condition = $this->prophesize(Condition::class);
 
@@ -104,7 +103,7 @@ class FilterFactoryTest extends UnitTestCase {
     $filter = FilterFactory::filterFromCondition($condition->reveal());
     $expected_filter = [
       'term' => [
-        'foo' => 'bar',
+        'foo' => 'bar'
       ],
     ];
     $this->assertEquals($expected_filter, $filter);
@@ -144,7 +143,7 @@ class FilterFactoryTest extends UnitTestCase {
     $filter = FilterFactory::filterFromCondition($condition->reveal());
     $expected_filter = [
       'not' => [
-        'filter' => [
+        'filter' =>[
           'term' => ['foo' => 'bar'],
         ],
       ],
@@ -264,7 +263,7 @@ class FilterFactoryTest extends UnitTestCase {
     $condition->getField()
       ->willReturn('foo');
 
-    $this->expectException(\Exception::class, 'Incorrect filter criteria');
+    $this->setExpectedException(\Exception::class, 'Incorrect filter criteria');
     FilterFactory::filterFromCondition($condition->reveal());
   }
 

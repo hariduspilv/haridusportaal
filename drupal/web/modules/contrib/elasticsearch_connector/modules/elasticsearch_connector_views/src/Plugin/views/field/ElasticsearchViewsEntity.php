@@ -68,9 +68,7 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
   public function defineOptions() {
     $options = parent::defineOptions();
 
-    $options['display_methods'] = [
-      'default' => [],
-    ];
+    $options['display_methods'] = array('default' => array());
 
     return $options;
   }
@@ -82,10 +80,10 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
     parent::buildOptionsForm($form, $form_state);
 
     $entity_type_id = $this->getTargetEntityTypeId();
-    $view_modes = [];
-    $bundles = [];
+    $view_modes = array();
+    $bundles = array();
     if ($entity_type_id) {
-      $bundles = $this->getEntityFieldManager()->getBundleInfo($entity_type_id);
+      $bundles = $this->getEntityManager()->getBundleInfo($entity_type_id);
       // In case the field definition specifies the bundles to expect, restrict
       // the displayed bundles to those.
       $settings = $this->getFieldDefinition()->getSettings();
@@ -94,50 +92,50 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
       }
       foreach ($bundles as $bundle => $info) {
         $view_modes[$bundle] = $this->getEntityDisplayRepository()
-          ->getViewModeOptionsByBundle($entity_type_id, $bundle);
+                                    ->getViewModeOptionsByBundle($entity_type_id, $bundle);
       }
     }
 
     foreach ($bundles as $bundle => $info) {
       $args['@bundle'] = $info['label'];
-      $form['display_methods'][$bundle]['display_method'] = [
+      $form['display_methods'][$bundle]['display_method'] = array(
         '#type' => 'select',
         '#title' => $this->t('Display for "@bundle" bundle', $args),
-        '#options' => [
+        '#options' => array(
           '' => $this->t('Hide'),
           'id' => $this->t('Raw ID'),
           'label' => $this->t('Only label'),
-        ],
+        ),
         '#default_value' => 'label',
-      ];
+      );
       if (isset($this->options['display_methods'][$bundle]['display_method'])) {
         $form['display_methods'][$bundle]['display_method']['#default_value'] = $this->options['display_methods'][$bundle]['display_method'];
       }
       if (!empty($view_modes[$bundle])) {
         $form['display_methods'][$bundle]['display_method']['#options']['view_mode'] = $this->t('Entity view');
         if (count($view_modes[$bundle]) > 1) {
-          $form['display_methods'][$bundle]['view_mode'] = [
+          $form['display_methods'][$bundle]['view_mode'] = array(
             '#type' => 'select',
             '#title' => $this->t('View mode for "@bundle" bundle', $args),
             '#options' => $view_modes[$bundle],
-            '#states' => [
-              'visible' => [
-                ':input[name="options[display_methods][' . $bundle . '][display_method]"]' => [
+            '#states' => array(
+              'visible' => array(
+                ':input[name="options[display_methods][' . $bundle . '][display_method]"]' => array(
                   'value' => 'view_mode',
-                ],
-              ],
-            ],
-          ];
+                ),
+              ),
+            ),
+          );
           if (isset($this->options['display_methods'][$bundle]['view_mode'])) {
             $form['display_methods'][$bundle]['view_mode']['#default_value'] = $this->options['display_methods'][$bundle]['view_mode'];
           }
         }
         else {
           reset($view_modes[$bundle]);
-          $form['display_methods'][$bundle]['view_mode'] = [
+          $form['display_methods'][$bundle]['view_mode'] = array(
             '#type' => 'value',
             '#value' => key($view_modes[$bundle]),
-          ];
+          );
         }
       }
       if (count($bundles) == 1) {
@@ -186,7 +184,7 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
       if (!empty($row->{$property_path})) {
         foreach ((array) $row->{$property_path} as $j => $value) {
           if (is_scalar($value)) {
-            $to_load[$value][] = [$i, $j];
+            $to_load[$value][] = array($i, $j);
           }
         }
       }
@@ -196,12 +194,12 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
       return;
     }
 
-    $entities = $this->getEntityFieldManager()
-      ->getStorage($this->getTargetEntityTypeId())
-      ->loadMultiple(array_keys($to_load));
+    $entities = $this->getEntityManager()
+                     ->getStorage($this->getTargetEntityTypeId())
+                     ->loadMultiple(array_keys($to_load));
     $account = $this->getQuery()->getAccessAccount();
     foreach ($entities as $id => $entity) {
-      foreach ($to_load[$id] as [$i, $j]) {
+      foreach ($to_load[$id] as list($i, $j)) {
         if ($entity->access('view', $account)) {
           $values[$i]->{$property_path}[$j] = $entity;
         }
@@ -210,17 +208,7 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
   }
 
   /**
-   * Renders an item.
-   *
-   * @param $count
-   *   Count parameter.
-   * @param $item
-   *   Item parameter.
-   *
-   * @return \Drupal\Component\Render\MarkupInterface
-   *   Returns rendered item.
-   *
-   * @throws \Exception
+   * {@inheritdoc}
    */
   public function render_item($count, $item) {
     if (is_array($item['value'])) {
@@ -230,20 +218,12 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
   }
 
   /**
-   * Gets items.
-   *
-   * @param \Drupal\views\ResultRow $values
-   *   ResultRow parameter.
-   *
-   * @return array
-   *   Returns array of items.
-   *
-   * @throws \Drupal\Core\Entity\EntityMalformedException
+   * {@inheritdoc}
    */
   public function getItems(ResultRow $values) {
     $property_path = $this->getCombinedPropertyPath();
     if (!empty($values->{$property_path})) {
-      $items = [];
+      $items = array();
       foreach ((array) $values->{$property_path} as $value) {
         if ($value instanceof EntityInterface) {
           $item = $this->getItem($value);
@@ -254,7 +234,7 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
       }
       return $items;
     }
-    return [];
+    return array();
   }
 
   /**
@@ -267,8 +247,6 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
    *   NULL if the entity should not be displayed. Otherwise, an associative
    *   array with at least "value" set, to either a string or a render array,
    *   and possibly also additional alter options.
-   *
-   * @throws \Drupal\Core\Entity\EntityMalformedException
    */
   protected function getItem(EntityInterface $entity) {
     $bundle = $entity->bundle();
@@ -277,7 +255,7 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
     }
 
     $display_method = $this->options['display_methods'][$bundle]['display_method'];
-    if (in_array($display_method, ['id', 'label'])) {
+    if (in_array($display_method, array('id', 'label'))) {
       if ($display_method == 'label') {
         $item['value'] = $entity->label();
       }
@@ -294,12 +272,12 @@ class ElasticsearchViewsEntity extends ElasticsearchViewsStandard {
     }
 
     $view_mode = $this->options['display_methods'][$bundle]['view_mode'];
-    $build = $this->getEntityFieldManager()
-      ->getViewBuilder($entity->getEntityTypeId())
-      ->view($entity, $view_mode);
-    return [
+    $build = $this->getEntityManager()
+                  ->getViewBuilder($entity->getEntityTypeId())
+                  ->view($entity, $view_mode);
+    return array(
       'value' => $build,
-    ];
+    );
   }
 
 }

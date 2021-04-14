@@ -1,14 +1,14 @@
 type: module
-name: 'Elastic search Test'
+name: 'Elasticseach Test'
 description: 'Elasticsearch Search API backend tests'
 package: 'Search API'
 dependencies:
   - search_api_test_db
-core: 8.x
-core_version_requirement: ^8 || ^9
+# core: 8.x
 hidden: true
 
-# Information added by Drupal.org packaging script on 2020-10-14
-version: '8.x-7.0-alpha3'
+# Information added by Drupal.org packaging script on 2018-10-06
+version: '8.x-5.0-alpha3'
+core: '8.x'
 project: 'elasticsearch_connector'
-datestamp: 1602658542
+datestamp: 1538850785

@@ -7,12 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
-    '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     '320cde22f66dd4f5d3fd621d3e88b98f' => $vendorDir . '/symfony/polyfill-ctype/bootstrap.php',
     '023d27dca8066ef29e6739335ea73bad' => $vendorDir . '/symfony/polyfill-php70/bootstrap.php',
     'bd9634f2d41831496de0d3dfe4c94881' => $vendorDir . '/symfony/polyfill-php56/bootstrap.php',
     '25072dd6e2470089de65ae7bf11d3109' => $vendorDir . '/symfony/polyfill-php72/bootstrap.php',
-    '92c8763cd6170fce6fcfe7e26b4e8c10' => $vendorDir . '/symfony/phpunit-bridge/bootstrap.php',
     '7e9bd612cc444b3eed788ebbe46263a0' => $vendorDir . '/laminas/laminas-zendframework-bridge/src/autoload.php',
     'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
@@ -39,10 +37,8 @@ return array(
     '751a5a3f463e4be759be31748b61737c' => $vendorDir . '/laminas/laminas-diactoros/src/functions/parse_cookie_header.legacy.php',
     'def43f6c87e4f8dfd0c9e1b1bab14fe8' => $vendorDir . '/symfony/polyfill-iconv/bootstrap.php',
     'ad155f8f1cf0d418fe49e248db8c661b' => $vendorDir . '/react/promise/src/functions_include.php',
-    '8592c7b0947d8a0965a9e8c3d16f9c24' => $vendorDir . '/elasticsearch/elasticsearch/src/autoload.php',
     '801c31d8ed748cfa537fa45402288c95' => $vendorDir . '/psy/psysh/src/functions.php',
     '952683d815ff0a7bf322b93c0be7e4e4' => $vendorDir . '/chi-teck/drupal-code-generator/src/bootstrap.php',
-    '6e3fae29631ef280660b3cdad06f25a8' => $vendorDir . '/symfony/deprecation-contracts/function.php',
     '5a12a5271c58108e0aa33355e6ac54ea' => $vendorDir . '/drupal/console-core/src/functions.php',
     '3917c79c5052b270641b5a200963dbc2' => $vendorDir . '/kint-php/kint/init.php',
     '9e4824c5afbdc1482b6025ce3d4dfde8' => $vendorDir . '/league/csv/src/functions_include.php',

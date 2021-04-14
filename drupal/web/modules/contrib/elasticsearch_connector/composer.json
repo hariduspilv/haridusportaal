@@ -4,7 +4,7 @@
   "type": "drupal-module",
   "homepage": "https://www.drupal.org/project/elasticsearch_connector",
   "require": {
-    "nodespark/des-connector": "7.x-dev",
+    "nodespark/des-connector": "5.x-dev",
     "makinacorpus/php-lucene": "^1.0.2"
   },
   "repositories": {
@@ -29,6 +29,18 @@
       "email": "nignatov@nodespark.com",
       "homepage": "http://www.nodespark.com",
       "role": "Creator and Maintainer"
+    },
+    {
+      "name": "Prateek Sachan",
+      "email": "ps@prateeksachan.com",
+      "homepage": "http://prateek.sachan.co",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Lachezar Valchev",
+      "email": "lachezar.valchev@gmail.com",
+      "homepage": "https://drupal.org/u/lachezar.valchev",
+      "role": "Maintainer"
     },
     {
       "name": "See other contributors",
