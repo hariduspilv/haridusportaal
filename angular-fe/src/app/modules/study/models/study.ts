@@ -8,4 +8,5 @@ export interface Study {
   fieldLabel: EntityObject[];
   fieldRightColumn: StudyFieldRightColumn;
   fieldStudyTag: EntityObject;
+  fieldCustomBoolean: boolean;
 }
