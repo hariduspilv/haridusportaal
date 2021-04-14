@@ -183,7 +183,6 @@
         }
       }
     }
-
     .block__content {
       display: block;
       padding: $medium;
@@ -214,6 +213,10 @@
         clear: both;
         height: 0.0625rem;
       }
+    }
+
+    .no__padding__top .block__content {
+      padding: 0 $medium $medium;
     }
 
     @include break-on(xs, max) {

@@ -9,8 +9,9 @@ import { MappedStudy } from '../../models/mapped-study';
 export class StudyListItemComponent {
   @Input() study: MappedStudy;
   @Input() highlighted: boolean;
+  @Input() noBorderBefore: boolean;
 
   @HostBinding('class') get hostClasses(): string {
-    return this.highlighted ? 'highlighted' : '';
+    return `${this.highlighted ? 'highlighted' : ''} ${this.noBorderBefore ? 'no__border__before' : ''}`;
   }
 }

@@ -10,8 +10,8 @@ import { MappedStudyFilters } from '../../models/mapped-study-filters';
 export class StudyListFilterComponent implements OnInit {
   @Input() options: MappedStudyFilters;
   private filtersOfExpandedState: string[] = [
-    'alates',
-    'kuni',
+    'aastaAlates',
+    'aastaKuni',
     'publikatsiooniKeel',
     'publikatsiooniLiik',
     'sildid',

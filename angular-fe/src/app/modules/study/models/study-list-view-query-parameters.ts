@@ -5,6 +5,6 @@ export interface StudyListViewQueryParameters {
   valjaandja?: string;
   publikatsiooniKeel?: string;
   sildid?: string;
-  alates?: string;
-  kuni?: string;
+  aastaAlates?: string;
+  aastaKuni?: string;
 }

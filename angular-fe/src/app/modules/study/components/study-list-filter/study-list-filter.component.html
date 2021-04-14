@@ -11,7 +11,7 @@
           name="tekstiOtsing">
         </formItem>
       </div>
-      <div class="col-4 sm-12">						
+      <div class="col-5 sm-12">						
         <formItem
           type="multi-select"
           title="Teema"
@@ -20,7 +20,7 @@
           [options]="options.studyTopicsOptions">
         </formItem>
       </div>
-      <div class="col-4 align-end text-right sm-12" *ngIf="!expanded">
+      <div class="col-3 align-end text-right sm-12" *ngIf="!expanded">
         <div class="button-row">
           <button htm-button theme="plain" type="button" (click)="toggleExpanded()">{{ 'button.search_detailed' | translate }}</button>
           <button htm-button>{{ 'button.search' | translate }}</button>
@@ -37,7 +37,7 @@
           [options]="options.publicationTypeOptions">
         </formItem>
       </div>
-      <div class="col-4 sm-12">						
+      <div class="col-5 sm-12">						
         <formItem
           type="text"
           title="Väljaandja"
@@ -56,7 +56,7 @@
           [options]="options.publicationLanguageOptions">
         </formItem>
       </div>
-      <div class="col-4 sm-12">						
+      <div class="col-5 sm-12">						
         <formItem
           type="multi-select"
           title="Sildid"
@@ -73,19 +73,19 @@
           [options]="options.yearRange"
           ariaLabel="Aasta alates"
           title="Aasta alates"
-          name="alates">
+          name="aastaAlates">
         </formItem>
       </div>
-      <div class="col-4 sm-12">						
+      <div class="col-5 sm-12">						
         <formItem
           type="select"
           [options]="options.yearRange"
           ariaLabel="Aasta kuni"
           title="Aasta kuni"
-          name="kuni">
+          name="aastaKuni">
         </formItem>
       </div>
-      <div class="col-4 align-end text-right sm-12" *ngIf="expanded">
+      <div class="col-3 align-end text-right sm-12" *ngIf="expanded">
         <div class="button-row">
           <button htm-button theme="plain" type="button" (click)="toggleExpanded()">{{ 'button.search_brief' | translate }}</button>
           <button htm-button>{{ 'button.search' | translate }}</button>

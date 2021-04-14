@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Language } from '@app/_core/models/interfaces/language.enum';
+import { ListOffsetParameters } from '@app/_core/models/list-offset-parameters';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MappedStudy } from '../../models/mapped-study';
@@ -17,10 +18,19 @@ import { StudyUtility } from '../../study-utility';
   styleUrls: ['./study-list.component.scss'],
 })
 export class StudyListComponent implements OnInit, OnDestroy {
-  public loading = false;
   private componentDestroyed$ = new Subject();
-  public studyList: MappedStudy[];
-  public studyListFilterOptions: MappedStudyFilters;
+  public list: MappedStudy[];
+  public filterOptions: MappedStudyFilters;
+  public loading: Record<string, boolean> = {
+    list: true,
+    loadMore: false,
+  };
+  public offsetParameters: ListOffsetParameters = {
+    limit: 24,
+    offset: 0,
+    count: 0,
+  };
+  public highlight: MappedStudy;
 
   constructor(
     private api: StudyApiService,
@@ -31,8 +41,9 @@ export class StudyListComponent implements OnInit, OnDestroy {
     this.getStudyFilterOptions();
     this.route.queryParams
       .pipe(takeUntil(this.componentDestroyed$))
-      .subscribe((params) => {
-      this.studyListViewQuery(params);
+      .subscribe((parameters) => {
+      this.resetStudyListOffsetParameters();
+      this.studyListViewQuery(parameters);
     });
   }
 
@@ -41,24 +52,59 @@ export class StudyListComponent implements OnInit, OnDestroy {
     this.componentDestroyed$.complete();
   }
 
-  private studyListViewQuery(params: StudyListViewQueryParameters) {
-    this.loading = true;
-    const requestParameters = StudyUtility.generateStudyListViewRequestParameters(params);
+  loadMoreContent(): void {
+    this.offsetParameters.offset += 24;
+    this.studyListViewQuery(this.route.snapshot.queryParams, true);
+  }
+
+  private studyListViewQuery(parameters: StudyListViewQueryParameters, loadMoreContent?: boolean) {
+    this.loading = {
+      list: !loadMoreContent,
+      loadMore: loadMoreContent,
+    };
+    const requestParameters = StudyUtility.generateStudyListViewRequestParameters(
+      parameters, this.offsetParameters);
     this.api.studyListViewQuery(requestParameters)
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((response: StudyListViewQueryResponse) => {
-      this.studyList = StudyUtility.mapStudyListViewEntities(response.data.nodeQuery.entities);
-      this.loading = false;
+      const { entities, count } = response.data.nodeQuery;
+      this.offsetParameters.count = count;
+      this.list = StudyUtility.joinResponseWithPreviousValues(this.list, entities, loadMoreContent);
+      if (!loadMoreContent) {
+        this.unshiftHighlightToList();
+      }
+      this.resetLoading();
     }, () => {
-      this.loading = false;
+      this.resetLoading();
     });
+  }
+
+  private unshiftHighlightToList(): void {
+    this.highlight = StudyUtility.extractRandomHighlightedStudy(this.list);
+    this.list = this.highlight ? [this.highlight, ...this.list.filter(study => study !== this.highlight)] : this.list;
+    console.log(this.highlight, this.list);
+  }
+
+  private resetLoading(): void {
+    this.loading = {
+      list: false,
+      loadMore: false,
+    };
+  }
+
+  private resetStudyListOffsetParameters(): void {
+    this.offsetParameters = {
+      limit: 24,
+      offset: 0,
+      count: 0,
+    };
   }
 
   private getStudyFilterOptions() {
     this.api.studyListViewFilterQuery(Language.et)
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((response: StudyListViewFilterQueryResponse) => {
-      this.studyListFilterOptions = StudyUtility.flattenStudyListFilterOptions(response);
+      this.filterOptions = StudyUtility.flattenStudyListFilterOptions(response);
     });
   }
 

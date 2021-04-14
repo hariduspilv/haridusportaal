@@ -2,6 +2,7 @@ import { FormItemOption } from '@app/_assets/formItem';
 import { SortDirection } from '@app/_core/models/enums/sort-direction.enum';
 import { Language } from '@app/_core/models/interfaces/language.enum';
 import { Entity } from '@app/_core/models/interfaces/main';
+import { ListOffsetParameters } from '@app/_core/models/list-offset-parameters';
 import { MappedStudy } from './models/mapped-study';
 import { MappedStudyFilters } from './models/mapped-study-filters';
 import { Study } from './models/study';
@@ -69,7 +70,8 @@ export class StudyUtility {
     };
   }
 
-  public static generateStudyListViewRequestParameters(parameters: StudyListViewQueryParameters):
+  public static generateStudyListViewRequestParameters(
+    parameters: StudyListViewQueryParameters, offsetParameters: ListOffsetParameters):
     StudyListViewRequestParameters {
     return {
       titleValue: `%${parameters.tekstiOtsing}%`,
@@ -84,20 +86,43 @@ export class StudyUtility {
       publicationLanguageEnabled: !!parameters.publikatsiooniKeel,
       studyLabelValue: parameters.sildid?.split(';'),
       studyLabelEnabled: !!parameters.sildid?.length,
-      dateFrom: this.extractYearFromDateString(parameters.alates),
-      dateFromEnabled: !!parameters.alates,
-      dateTo: this.extractYearFromDateString(parameters.kuni),
-      dateToEnabled: !!parameters.kuni,
+      dateFrom: this.extractYearFromDateString(parameters.aastaAlates),
+      dateFromEnabled: !!parameters.aastaAlates,
+      dateTo: this.extractYearFromDateString(parameters.aastaKuni),
+      dateToEnabled: !!parameters.aastaKuni,
       highlightedStudyEnabled: false,
       sortField: 'created',
       indicatorSort: false,
       sortDirection: SortDirection.DESC,
       nidEnabled: false,
-      limit: 24,
-      offset: 0,
+      limit: offsetParameters?.limit,
+      offset: offsetParameters?.offset,
       lang: Language.et,
     };
   }
 
+  // public static generateStudyList(
+  //   list: MappedStudy[], studyListResponseEntities: Study[], loadMoreContent?: boolean):
+  //   { list: MappedStudy[]; highlight: MappedStudy } {
+  //     const joinedList = this.joinResponseWithPreviousValues(list, studyListResponseEntities, loadMoreContent);
+  //     const highlight = this.extractRandomHighlightedStudy(joinedList);
+  //     return {
+  //       highlight,
+  //       list: joinedList.filter(study => study !== highlight),
+  //     };
+  // }
+  public static joinResponseWithPreviousValues(
+    list: MappedStudy[], studyListResponseEntities: Study[], loadMoreContent?: boolean): MappedStudy[] {
+    const mappedStudyListElements = StudyUtility.mapStudyListViewEntities(studyListResponseEntities);
+    return loadMoreContent ?
+      [...list, ...mappedStudyListElements] :
+      mappedStudyListElements;
+  }
+
+  public static extractRandomHighlightedStudy(list: MappedStudy[]): MappedStudy {
+    const highlightedStudies = list.filter(study => study.fieldStudyTag);
+    const selection: number = Math.floor(Math.random() * highlightedStudies.length);
+    return highlightedStudies?.length ? highlightedStudies[selection] : null;
+  }
 
 }
