@@ -4979,3 +4979,65 @@ tab:
     translation_type: textarea
     et: aktiivne
     en: active
+'GRANT_STATUS:WITHDRAWN':
+  translation_type: textarea
+  et: 'Tagasi võetud'
+  en: 'Withdrawn'
+olt:
+  terms_agreement:
+    translation_type: text_format
+    et:
+      value: "<p>Kinnitan minu poolt esitatud andmete õigsust.</p>\r\n\r\n<p>Kinnitan, et olen tutvunud õpetaja lähtetoetust reguleerivate õigusaktidega (<a href=\"https://www.riigiteataja.ee/akt/dyn=102032018001&amp;id=122012018003!pr77lg6\" target=\"_blank\" title=\"põhikooli- ja gümnaasiumiseaduse\">põhikooli- ja gümnaasiumiseaduse</a> § 77 ja § 77¹, <a href=\"https://www.riigiteataja.ee/akt/122122013002?leiaKehtivhttps://www.riigiteataja.ee/akt/122122013002?leiaKehtiv\" target=\"_blank\">kutseõppeseaduse seaduse</a> § 41 ja haridus- ja teadusministri 2018. aasta 21. veebruari määrus nr 5 <a href=\"https://www.riigiteataja.ee/akt/102032018001\" target=\"_blank\">Õpetaja ja tugispetsialisti lähtetoetuse taotlemise, maksmise ja tagasinõudmise kord</a> ning olen teadlik lähtetoetuse saamisega kaasnevatest õigustest ja kohustustest.</p>\r\n\r\n<p>Ebakorrektsete andmete muutmiseks palun pöördu EHISe kooli administraatori poole.</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Kinnitan minu poolt esitatud andmete õigsust.</p>\r\n\r\n<p>Kinnitan, et olen tutvunud õpetaja lähtetoetust reguleerivate õigusaktidega (<a href=\"https://www.riigiteataja.ee/akt/dyn=102032018001&amp;id=122012018003!pr77lg6\" target=\"_blank\" title=\"põhikooli- ja gümnaasiumiseaduse\">põhikooli- ja gümnaasiumiseaduse</a> § 77 ja § 77¹, <a href=\"https://www.riigiteataja.ee/akt/122122013002?leiaKehtivhttps://www.riigiteataja.ee/akt/122122013002?leiaKehtiv\" target=\"_blank\">kutseõppeseaduse seaduse</a> § 41 ja haridus- ja teadusministri 2018. aasta 21. veebruari määrus nr 5 <a href=\"https://www.riigiteataja.ee/akt/102032018001\" target=\"_blank\">Õpetaja ja tugispetsialisti lähtetoetuse taotlemise, maksmise ja tagasinõudmise kord</a> ning olen teadlik lähtetoetuse saamisega kaasnevatest õigustest ja kohustustest.</p>\r\n\r\n<p>Ebakorrektsete andmete muutmiseks palun pöördu EHISe kooli administraatori poole.</p>\r\n"
+      format: custom_editor
+  introduction_helpertext:
+    translation_type: text_format
+    et:
+      value: "<p>Kui teil on küsimusi õpetajate lähtetoetuse taotluse kohta, kirjutage aadressil oppetoetused@rtk.ee.&nbsp;<a href=\"https://www.rtk.ee/\" target=\"_blank\" title=\"T\u00e4psem info\">T\u00e4psem info</a></p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Kui teil on küsimusi õpetajate lähtetoetuse taotluse kohta, kirjutage aadressil oppetoetused@rtk.ee.&nbsp;<a href=\"https://www.rtk.ee/\" target=\"_blank\" title=\"T\u00e4psem info\">T\u00e4psem info</a></p>\r\n"
+      format: custom_editor
+study:
+  topic:
+    translation_type: textarea
+    et: 'Teema'
+    en: 'Subject'
+  search_studies:
+    translation_type: textarea
+    et: 'Otsi uuringuid'
+    en: 'Search studies'
+  text_search:
+    translation_type: textarea
+    et: 'Tekstiotsing (pealkiri, autor, sisukokkuvõte)'
+    en: 'Text search'
+  publication_type:
+    translation_type: textarea
+    et: 'Publikatsiooni liik'
+    en: 'Publication type'
+  publisher:
+    translation_type: textarea
+    et: 'Väljaandja'
+    en: 'Publisher'
+  publication_language:
+    translation_type: textarea
+    et: 'Publikatsiooni keel'
+    en: 'Publication language'
+  labels:
+    translation_type: textarea
+    et: 'Sildid'
+    en: 'Labels'
+  year_from:
+    translation_type: textarea
+    et: 'Aasta alates'
+    en: 'Year from'
+  year_to:
+    translation_type: textarea
+    et: 'Aasta kuni'
+    en: 'Year to'
+  label:
+    translation_type: textarea
+    et: 'Uuringud'
+    en: 'Studies'
