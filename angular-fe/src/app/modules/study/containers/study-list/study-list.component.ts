@@ -82,7 +82,6 @@ export class StudyListComponent implements OnInit, OnDestroy {
   private unshiftHighlightToList(): void {
     this.highlight = StudyUtility.extractRandomHighlightedStudy(this.list);
     this.list = this.highlight ? [this.highlight, ...this.list.filter(study => study !== this.highlight)] : this.list;
-    console.log(this.highlight, this.list);
   }
 
   private resetLoading(): void {
