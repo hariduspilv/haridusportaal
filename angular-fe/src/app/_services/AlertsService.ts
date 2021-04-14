@@ -29,7 +29,7 @@ export class Alert {
 export class AlertsService {
 
   private subject:Subject<Alert> = new Subject<Alert>();
-  alertClosed = new Subject<any>();
+  alertClosed = new Subject<Alert>();
 
   /**
    * Retrieve single alert instance from alerts service
@@ -141,6 +141,6 @@ export class AlertsService {
   }
 
   close(alerts) {
-    this.alertClosed.next(alerts)
+    this.alertClosed.next(alerts);
   }
 }

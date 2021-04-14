@@ -17,7 +17,7 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
   private sessionStorageSubscription: any;
   public compare: any;
   public checked: boolean = false;
-  public selectedElement: any;
+  public selectedElement: HTMLInputElement;
   private subscription: Subscription;
   private viewLink: Object = {
     url: '/',
@@ -33,7 +33,7 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
 
   compareChange(id, $event) {
     this.compare = this.readFromLocalStorage(this.sessionStorageKey);
-    this.selectedElement = event.target; 
+    this.selectedElement = event.target as HTMLInputElement;
     const maximumItems = maxItems[this.sessionStorageKey]
       ? maxItems[this.sessionStorageKey] : maxItems.default;
     if ($event && !this.isChecked(id)) {
@@ -104,7 +104,7 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.selectedElement) {
         this.selectedElement.focus();
       }
-    })
+    });
   }
 
   ngAfterViewInit(): void {
