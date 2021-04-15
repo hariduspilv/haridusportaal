@@ -43,9 +43,9 @@
     "ngx-useful-swiper": "^10.0.1",
     "rxjs": "^6.6.3",
     "swiper": "^6.4.0",
+    "zone.js": "^0.10.3",
     "tslib": "^1.13.0",
-    "web-animations-js": "^2.3.2",
-    "zone.js": "^0.10.3"
+    "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
     "@agm/core": "^3.0.0-beta.0",
