@@ -5,7 +5,7 @@ query GoogleChartData(
   $graphVAxis: String!,
   $indicator: [String],
   $secondaryGraphIndicator: [String],
-  $fileName: String!,
+  $fileName: String = "oska_csv",
   $oskaField: [String],
   $oskaSubField: [String],
   $oskaMainProfession: [String],
