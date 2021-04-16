@@ -137,6 +137,7 @@ import { CertificateGradeSheetComponent } from '@app/modules/certificates/compon
 import { BaseLayoutModule } from './base-layout/base-layout.module';
 import { IconModule } from './icon/icon.module';
 import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
+import { SkipToContentComponent } from './skip-to-content';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -243,6 +244,7 @@ const declarations = [
   LabelCountComponent,
   MainProfessionsSearchResultsComponent,
   TagComponent,
+  SkipToContentComponent,
   ...certificatesModuleDeclarations,
 ];
 
