@@ -34,6 +34,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
   private initialSub = false;
+  private initialAutoOpen = false;
   private focusBounce: any;
   private visibilityBounce: any;
 
@@ -94,7 +95,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       if (value) {
         this.readerVisible = true;
         clearTimeout(this.focusBounce);
-        if (this.initialSub) {
+        if (this.initialSub && !this.initialAutoOpen) {
           this.focusBounce = setTimeout(() => this.closeBtn.nativeElement.focus(), 100);
         }
       } else {
@@ -102,6 +103,9 @@ export class MenuComponent implements OnInit, OnDestroy {
       }
       // Ignore the initial state
       this.initialSub = true;
+      if (this.initialAutoOpen) {
+        this.initialAutoOpen = false;
+      }
     });
   }
 
@@ -190,6 +194,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       // is not already visible and 3. the page is not in the list of pages not to open on
       if (!this.sidemenuService.isMobileView && !this.isVisible && !this.wasClosed &&
         this.sidemenuService.ignoreAutoOpen.indexOf(path) === -1) {
+        this.initialAutoOpen = true;
         this.sidemenuService.toggle();
       }
     } else {
