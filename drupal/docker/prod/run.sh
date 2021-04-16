@@ -67,6 +67,9 @@ drush cr
 
 drush php-eval "htm_custom_translations_new_import_translations()"
 
+composer install --no-dev
+drush cr
+
 chown apache.apache -R /app/drupal/web/sites/default/files
 
 if [ -d /plumbr-agent-installer ] && [[ $ENVIRONMENT == "Live" ]]; then
