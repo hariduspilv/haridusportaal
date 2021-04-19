@@ -93,10 +93,12 @@
         "kint-php/kint": "^3.3",
         "league/csv": "^9.0",
         "ralouphie/mimey": "^2.0",
+        "ruflin/elastica": "dev-master",
         "swaggest/json-schema": "^0.12.7",
         "symfony/dom-crawler": "v3.4.9",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
+        "webonyx/graphql-php": "^0.12.5",
         "webmozart/path-util": "^2.3"
     },
     "require-dev": {
