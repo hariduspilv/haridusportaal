@@ -25,6 +25,7 @@ export class BlockContentComponent {
   @Input() tabLabel: string;
   @Input() tabLink: string;
   @Input() tabIcon: string;
+  @Input() tabHeading: boolean = false;
   @Input() tabActive: boolean;
   @Input() active: boolean = false;
   @Input() tabVisible: boolean = true;

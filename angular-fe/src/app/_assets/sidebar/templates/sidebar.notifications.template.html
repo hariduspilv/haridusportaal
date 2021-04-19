@@ -12,6 +12,6 @@
     {{ 'frontpage.dashboard_no_notifications' | translate }}
   </li>
 </ul>
-<div class="bottom" *ngIf="data.list.length > 0">
+<div class="bottom" [hidden]="data.list.length === 0">
   <a routerLink="/töölaud/teavitused">{{ 'frontpage.dashboard_view_all_notifications' | translate }}</a>
 </div>

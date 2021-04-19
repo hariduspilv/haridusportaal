@@ -26,7 +26,7 @@
 								[id]="data.nid"
 								[state]="data.isFavorite">
 							</favourite>
-							<share [title]="title"></share>
+							<share [pageTitle]="title"></share>
 							<compare *ngIf="compareKey" [id]="data.nid" [sessionStorageKey]="compareKey"></compare>
 							<labels *ngIf="data.fixedLabel" [data]="[data.fixedLabel.entity]" type="orange"></labels>
 						</div><!--/toolbar-->
@@ -36,7 +36,7 @@
 						<p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 	
 						<!-- <htm-video *ngIf="data.video && data.processedImages?.length === 0" [videos]="data.video"></htm-video> -->
-						<images *ngIf="data.processedImages || data.video" [videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"></images>
+						<images *ngIf="data.processedImages || data.video" [prioritizeVideos]="type === 'field'" [videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"></images>
 	
 						<picto [class.shorterBottom]="type === 'profession' && descriptionOverflown" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
 	
