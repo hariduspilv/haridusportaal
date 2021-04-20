@@ -11,7 +11,6 @@ import { AssetsModule } from './_assets';
 import { RoutesModule } from './app.routes';
 import { AuthInterceptor } from './_interceptors';
 import { AmpService } from './_services/ampService';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { BlobErrorHttpInterceptor } from './_interceptors/blob-error-interceptor';
 import { TitleService } from './_services/TitleService';
@@ -35,7 +34,6 @@ registerLocaleData(localeEt);
     HttpClientJsonpModule,
     TranslateModule.forRoot(),
     DeviceDetectorModule.forRoot(),
-    ServiceWorkerModule.register('/ngsw-worker.js'),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'et-EE' },
