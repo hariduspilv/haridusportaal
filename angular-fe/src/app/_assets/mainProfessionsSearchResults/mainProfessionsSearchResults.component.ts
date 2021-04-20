@@ -296,8 +296,8 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         const exists = this.list.findIndex((elem: any) => {
           return elem.nid === this.highlighted.nid;
         });
-        // If it is, remove it from the list and put it in front
         if (exists > -1) {
+          // If it is, remove it from the list and put it in front
           this.list.splice(exists, 1);
           this.list.unshift(this.highlighted);
           return;
