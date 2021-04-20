@@ -18,6 +18,11 @@
     thead tr td {
       background: $white;
     }
+
+    th {
+      text-align: center;
+    }
+    
     tr {
       &.shade {
         background: $light-gray;
