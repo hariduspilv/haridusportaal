@@ -103,10 +103,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prelive.ts"
-                },
-                {
-                  "replace": "src/robots.txt",
-                  "with": "src/robots-dev.txt"
                 }
               ],
               "optimization": true,
