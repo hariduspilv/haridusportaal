@@ -15,6 +15,7 @@ import { AmpService } from './_services/ampService';
 import { TranslateService } from './_modules/translate/translate.service';
 import { CookieService } from './_services/CookieService';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-root',
@@ -139,7 +140,20 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // this.cookieAlert();
     this.initCookies();
+    this.unregisterServiceWorker();
   }
+
+  /**
+   * Temporary function run on initial load to unregister dangling service workers
+   */
+  private unregisterServiceWorker(): void {
+    if (window.navigator && navigator.serviceWorker) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach((registration) => registration.unregister);
+      });
+    }
+  }
+
   ngOnInit() {
     this.sidemenuService.isVisibleSubscription.subscribe((val) => {
       this.sidemenuIsVisible = val;
@@ -162,7 +176,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         });
       }
     });
-    if (this.settingsService.url.match(this.settingsService.urlTemplates.otherwise)) {
+    if (environment.GA_TRACKING) {
       this.gaPageTrack();
     }
 

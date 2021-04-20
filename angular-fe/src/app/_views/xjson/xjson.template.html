@@ -34,7 +34,7 @@
             </ul>
 
             <div *ngIf="data.body?.helpertext" class="upper-infotext">
-              <div tabindex="-1" [innerHtml]="selectLanguage(data.body.helpertext)"></div>
+              <div tabindex="-1" [innerHtml]="selectLanguage(data.body.helpertext) | translate"></div>
               <hr aria-hidden="true" class="divider">
             </div>
 
@@ -72,9 +72,9 @@
 
                       <ng-container *ngIf="data_elements[element].type == 'helpertext'">
                         <p tabindex="-1" role="text"
-                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ data_elements[element].helpertext ? selectLanguage(data_elements[element].helpertext) : ''}}"
-                          *ngIf="data_elements[element].title">
-                          {{ selectLanguage(data_elements[element].title) }}
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ data_elements[element].helpertext ? (selectLanguage(data_elements[element].helpertext) | translate) : ''}}"
+                          *ngIf="data_elements[element].title"
+                          innerHtml="{{ selectLanguage(data_elements[element].title) | translate }}">
                         </p>
                       </ng-container> <!-- /HELPERTEXT (heading) -->
 
