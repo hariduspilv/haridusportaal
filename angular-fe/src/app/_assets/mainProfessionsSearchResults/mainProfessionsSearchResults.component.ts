@@ -284,13 +284,13 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         listItemCount: this.listCount,
         nonProfessionCount: this.nonProfessionCount,
         professionCount: this.professionCount,
-        highlight: this.highlighted
+        highlight: this.highlighted,
       },
     });
   }
 
   public selectArbitraryHighlightedJob(): void {
-    if (this.list && this.list.length) {
+    if (this.list && this.list.length && !this.searchWithParams) {
       // If there already was a selected highlight, check to see if its in the resulting list
       if (this.highlighted) {
         const exists = this.list.findIndex((elem: any) => {
@@ -301,13 +301,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           this.list.splice(exists, 1);
           this.list.unshift(this.highlighted);
           return;
-        // If the highlight is not in the search results, do not choose a new one
-        } else if (this.searchWithParams) {
-          return;
         }
-      // If there is no highlight previously selected but the user is searching, do not get a new highlight
-      } else if (!this.highlighted && this.searchWithParams) {
-        return;
       }
 
       const filteredList: Object[] = this.list.filter(elem =>
@@ -330,7 +324,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
               filteredJob['fixedLabel'] = {
                 entity: {
                   entityLabel: this.competitionLabels[filteredJob['fieldFillingBar'] - 1],
-                }
+                },
               };
             }
             filteredJob['fieldPictogram'] = response['data']['route']['entity']['fieldPictogram'];
