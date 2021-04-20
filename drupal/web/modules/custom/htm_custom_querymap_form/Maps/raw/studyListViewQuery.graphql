@@ -95,6 +95,7 @@ query studyListViewQuery($nid: [String],
             }
           }
         }
+        fieldCustomBoolean
         __typename
       }
       __typename

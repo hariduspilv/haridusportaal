@@ -143,7 +143,6 @@ export const searchResultKeys = {
 
 export const requiredFields = {
   news: ['tag', 'title', 'minDate', 'maxDate'],
-  // tslint:disable-next-line: max-line-length
   studyprogramme: [
     'title',
     'school',

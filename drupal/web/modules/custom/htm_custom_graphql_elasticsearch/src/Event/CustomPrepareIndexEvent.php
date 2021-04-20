@@ -25,9 +25,6 @@ class CustomPrepareIndexEvent extends PrepareIndexEvent {
           ]
       ];
 
-      kint('jou');
-      die();
-
       function my_module_search_page_submit($form, FormStateInterface $form_state) {
           $form_values = $form_state->getValues();
       }

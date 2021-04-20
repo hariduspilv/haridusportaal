@@ -3,6 +3,7 @@
 namespace Drupal\Tests\metatag_dc_advanced\Functional;
 
 use Drupal\Tests\metatag\Functional\MetatagTagsTestBase;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Tests that each of the Dublin Core Advanced tags work correctly.
@@ -14,7 +15,12 @@ class MetatagDublinCoreAdvancedTagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  private $tags = [
+  protected static $modules = ['metatag_dc_advanced'];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $tags = [
     'dcterms_abstract',
     'dcterms_access_rights',
     'dcterms_accrual_method',
@@ -58,21 +64,12 @@ class MetatagDublinCoreAdvancedTagsTest extends MetatagTagsTestBase {
   ];
 
   /**
-   * {@inheritdoc}
+   * Each of these meta tags has a different tag name vs its internal name.
    */
-  private $testTag = 'meta';
-
-  /**
-   * {@inheritdoc}
-   */
-  private $testNameAttribute = 'property';
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function setUp() {
-    parent::$modules[] = 'metatag_dc_advanced';
-    parent::setUp();
+  protected function getTestTagName($tag_name) {
+    $tag_name = str_replace('dcterms_', '', $tag_name);
+    $tag_name = lcfirst(Container::camelize($tag_name));
+    return 'dcterms.' . $tag_name;
   }
 
 }

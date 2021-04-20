@@ -77,6 +77,10 @@
           display: none;
         }
       }
+      labels {
+        display: block;
+        margin-bottom: .5rem;
+      }
     }
     picto {
       margin-right: -3rem;
@@ -132,6 +136,12 @@
     ::ng-deep ngb-tooltip-window {
       max-width: 275px !important;
     }
+  }
+  .search__title {
+    padding: 0 0.5rem;
+    line-height: 2rem;
+    color: $dark_gray;
+    text-transform: uppercase;
   }
   .search__title__filter {
     color: $black;

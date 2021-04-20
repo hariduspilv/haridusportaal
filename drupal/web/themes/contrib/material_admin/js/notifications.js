@@ -4,7 +4,7 @@
  *
  */
 
-(function ($, Drupal, Materialize) {
+(function ($, Drupal, M) {
 
   // Max message length to show in the notification prompt
   // @ToDo make this default configurable in theme settings
@@ -43,7 +43,11 @@
           if (thisMessageSize <= messageMax) {
             var thisItem = $(this).closest($('.messages'));
             var itemContent = $(this).text();
-            Materialize.toast(itemContent, 5000, statusType);
+            M.toast({
+              html: itemContent,
+              displayLength: 5000,
+              classes: statusType,
+            });
             messageInbox(statusType, thisItem);
           }
           if (thisMessageSize >= messageMax) {
@@ -54,7 +58,11 @@
             messageInbox(statusType, thisItem);
             // only display if message prompt setting is 0.
             if (drupalSettings.material_admin.material_admin_message_prompt) {
-             Materialize.toast(messageNotice, 5000, statusType);
+              M.toast({
+                html: messageNotice,
+                displayLength: 5000,
+                classes: statusType,
+              });
            }
           }
         });
@@ -79,4 +87,4 @@
     }
   }
 
-}(jQuery, Drupal, Materialize));
+}(jQuery, Drupal, M));

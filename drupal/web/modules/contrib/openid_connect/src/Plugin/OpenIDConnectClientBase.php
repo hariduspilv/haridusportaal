@@ -14,9 +14,9 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
-use Drupal\openid_connect\OpenIDConnectStateToken;
-use Exception;
+use Drupal\openid_connect\OpenIDConnectStateTokenInterface;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Component\Datetime\TimeInterface;
@@ -40,6 +40,15 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
    * @var \GuzzleHttp\ClientInterface
    */
   protected $httpClient;
+
+  /**
+   * The minimum set of scopes for this client.
+   *
+   * @var string[]|null
+   *
+   * @see \Drupal\openid_connect\OpenIDConnectClaims::getScopes()
+   */
+  protected $clientScopes = ['openid', 'email'];
 
   /**
    * The logger factory used for logging.
@@ -70,6 +79,13 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
   protected $languageManager;
 
   /**
+   * The OpenID state token service.
+   *
+   * @var \Drupal\openid_connect\OpenIDConnectStateTokenInterface
+   */
+  protected $stateToken;
+
+  /**
    * The constructor.
    *
    * @param array $configuration
@@ -90,6 +106,8 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
    *   Policy evaluating to static::DENY when the kill switch was triggered.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
+   * @param \Drupal\openid_connect\OpenIDConnectStateTokenInterface $state_token
+   *   The OpenID state token service.
    */
   public function __construct(
       array $configuration,
@@ -98,15 +116,13 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
       RequestStack $request_stack,
       ClientInterface $http_client,
       LoggerChannelFactoryInterface $logger_factory,
+      // @todo Remove the NULLs in version 2.0 of the module.
       TimeInterface $datetime_time = NULL,
       KillSwitch $page_cache_kill_switch = NULL,
-      LanguageManagerInterface $language_manager = NULL
+      LanguageManagerInterface $language_manager = NULL,
+      OpenIDConnectStateTokenInterface $state_token = NULL
   ) {
-    parent::__construct(
-      $configuration,
-      $plugin_id,
-      $plugin_definition
-    );
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->requestStack = $request_stack;
     $this->httpClient = $http_client;
@@ -114,6 +130,7 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
     $this->dateTime = $datetime_time ?: \Drupal::time();
     $this->pageCacheKillSwitch = $page_cache_kill_switch ?: \Drupal::service('page_cache_kill_switch');
     $this->languageManager = $language_manager ?: \Drupal::languageManager();
+    $this->stateToken = $state_token ?: \Drupal::service('openid_connect.state_token');
     $this->setConfiguration($configuration);
   }
 
@@ -135,7 +152,8 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
       $container->get('logger.factory'),
       $container->get('datetime.time'),
       $container->get('page_cache_kill_switch'),
-      $container->get('language_manager')
+      $container->get('language_manager'),
+      $container->get('openid_connect.state_token')
     );
   }
 
@@ -194,6 +212,13 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
       '#default_value' => $this->configuration['client_secret'],
     ];
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getClientScopes() {
+    return $this->clientScopes;
   }
 
   /**
@@ -265,20 +290,24 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
         'response_type' => 'code',
         'scope' => $scope,
         'redirect_uri' => $redirect_uri->getGeneratedUrl(),
-        'state' => OpenIDConnectStateToken::create(),
+        'state' => $this->stateToken->create(),
       ],
     ];
   }
 
   /**
-   * {@inheritdoc}
+   * Helper function for request options.
+   *
+   * @param string $authorization_code
+   *   Authorization code received as a result of the the authorization request.
+   * @param string $redirect_uri
+   *   URI to redirect for authorization.
+   *
+   * @return array
+   *   Array with request options.
    */
-  public function retrieveTokens($authorization_code) {
-    // Exchange `code` for access token and ID token.
-    $redirect_uri = $this->getRedirectUrl()->toString();
-    $endpoints = $this->getEndpoints();
-
-    $request_options = [
+  protected function getRequestOptions($authorization_code, $redirect_uri) {
+    return [
       'form_params' => [
         'code' => $authorization_code,
         'client_id' => $this->configuration['client_id'],
@@ -290,6 +319,16 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
         'Accept' => 'application/json',
       ],
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function retrieveTokens($authorization_code) {
+    // Exchange `code` for access token and ID token.
+    $redirect_uri = $this->getRedirectUrl()->toString();
+    $endpoints = $this->getEndpoints();
+    $request_options = $this->getRequestOptions($authorization_code, $redirect_uri);
 
     $client = $this->httpClient;
     try {
@@ -309,11 +348,17 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
       }
       return $tokens;
     }
-    catch (Exception $e) {
+    catch (\Exception $e) {
       $variables = [
         '@message' => 'Could not retrieve tokens',
         '@error_message' => $e->getMessage(),
       ];
+
+      if ($e instanceof RequestException && $e->hasResponse()) {
+        $response_body = $e->getResponse()->getBody()->getContents();
+        $variables['@error_message'] .= ' Response: ' . $response_body;
+      }
+
       $this->loggerFactory->get('openid_connect_' . $this->pluginId)
         ->error('@message. Details: @error_message', $variables);
       return FALSE;
@@ -349,11 +394,17 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
 
       return json_decode($response_data, TRUE);
     }
-    catch (Exception $e) {
+    catch (\Exception $e) {
       $variables = [
         '@message' => 'Could not retrieve user profile information',
         '@error_message' => $e->getMessage(),
       ];
+
+      if ($e instanceof RequestException && $e->hasResponse()) {
+        $response_body = $e->getResponse()->getBody()->getContents();
+        $variables['@error_message'] .= ' Response: ' . $response_body;
+      }
+
       $this->loggerFactory->get('openid_connect_' . $this->pluginId)
         ->error('@message. Details: @error_message', $variables);
       return FALSE;

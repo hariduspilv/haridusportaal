@@ -55,7 +55,7 @@ class MenuTest extends GraphQLCoreTestBase {
     /** @var \Drupal\Core\Menu\MenuTreeStorageInterface $menuStorage */
     $menuStorage = $this->container->get('entity_type.manager')->getStorage('menu');
     $menu = $menuStorage->load('test');
-    $this->assertTrue($menu);
+    $this->assertIsObject($menu);
 
     /** @var \Drupal\Core\Menu\MenuLinkTreeInterface $menuTree */
     $menuTree = $this->container->get('menu.link_tree');
@@ -72,11 +72,8 @@ class MenuTest extends GraphQLCoreTestBase {
    * Test menu tree data retrieval.
    */
   public function testMenuTree() {
-    // TODO: Check cache metadata.
     $metadata = $this->defaultCacheMetaData();
-    $metadata->addCacheTags([
-      'config:system.menu.test',
-    ]);
+    $metadata->addCacheTags(['config:system.menu.test']);
 
     $this->assertResults(
       $this->getQueryFromFile('menu.gql'),
@@ -115,15 +112,6 @@ class MenuTest extends GraphQLCoreTestBase {
               ],
             ],
             1 => [
-              'label' => 'Inaccessible',
-              'route' => [
-                'path' => '/',
-                'routed' => TRUE,
-              ],
-              'attribute' => NULL,
-              'links' => [],
-            ],
-            2 => [
               'label' => 'Drupal',
               'route' => [
                 'path' => 'http://www.drupal.org',

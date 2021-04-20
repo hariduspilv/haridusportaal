@@ -46,7 +46,6 @@
               "src/auth.html",
               "src/manifest.webmanifest",
               "src/robots.txt",
-              "src/robots-dev.txt",
               "src/sitemap.xml",
               {
                 "input": "./node_modules/@google/markerclustererplus/images",
@@ -95,11 +94,49 @@
                 }
               ]
             },
-            "dev": {
+            "prelive": {
+              "index": {
+                "input": "src/index.prod.html",
+                "output": "index.html"
+              },
               "fileReplacements": [
                 {
-                  "replace": "src/robots.txt",
-                  "with": "src/robots-dev.txt"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prelive.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2.5mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "dev": {
+              "assets": [
+                "src/assets",
+                "src/favicon.ico",
+                "src/auth.html",
+                "src/manifest.webmanifest",
+                "src/sitemap.xml",
+                {
+                  "input": "./node_modules/@google/markerclustererplus/images",
+                  "glob": "*",
+                  "output": "/images"
+                },
+                { "glob": "robots.txt",
+                  "input": "src/environments/dev/",
+                  "output": "/"
                 }
               ],
               "index": {
@@ -138,6 +175,9 @@
             "production": {
               "browserTarget": "haridusportaal-fe:build:production"
             },
+            "prelive": {
+              "browserTarget": "haridusportaal-fe:build:prelive"
+            },
             "dev": {
               "browserTarget": "haridusportaal-fe:build:dev"
             }
@@ -168,15 +208,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },
@@ -193,6 +229,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "haridusportaal-fe"
+    }
+  },
+  "defaultProject": "haridusportaal-fe",
+  "cli": {
+    "analytics": false
+  }
 }

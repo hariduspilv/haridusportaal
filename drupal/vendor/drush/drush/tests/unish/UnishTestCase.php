@@ -2,9 +2,10 @@
 
 namespace Unish;
 
+use Composer\Semver\Comparator;
 use Consolidation\SiteAlias\SiteAlias;
 use Consolidation\SiteProcess\SiteProcess;
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Symfony\Component\Yaml\Yaml;
 use Webmozart\PathUtil\Path;
 use Consolidation\SiteProcess\ProcessManager;
@@ -14,6 +15,7 @@ abstract class UnishTestCase extends TestCase
     // Unix exit codes.
     const EXIT_SUCCESS  = 0;
     const EXIT_ERROR = 1;
+    const EXIT_ERROR_WITH_CLARITY = 3;
     const UNISH_EXITCODE_USER_ABORT = 75; // Same as DRUSH_EXITCODE_USER_ABORT
     const INTEGRATION_TEST_ENV = 'default';
 
@@ -41,8 +43,6 @@ abstract class UnishTestCase extends TestCase
     private static $db_url;
 
     private static $usergroup = null;
-
-    private static $backendOutputDelimiter = 'DRUSH_BACKEND_OUTPUT_START>>>%s<<<DRUSH_BACKEND_OUTPUT_END';
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
@@ -187,18 +187,10 @@ abstract class UnishTestCase extends TestCase
     }
 
     /**
-     * @return string
-     */
-    public static function getBackendOutputDelimiter()
-    {
-        return self::$backendOutputDelimiter;
-    }
-
-    /**
      * We used to assure that each class starts with an empty sandbox directory and
      * a clean environment except for the SUT. History: http://drupal.org/node/1103568.
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::cleanDirs();
 
@@ -219,7 +211,7 @@ abstract class UnishTestCase extends TestCase
     /**
      * Runs after all tests in a class are run.
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::cleanDirs();
         self::$sites = [];
@@ -533,7 +525,7 @@ abstract class UnishTestCase extends TestCase
      * @param array $sites key=site_subdir value=array of extra alias data
      * @param string $aliasGroup Write aliases into a file named group.alias.yml
      */
-    public function setUpSettings(array $sites, $aliasGroup = 'fixture')
+    public function setupSettings(array $sites, $aliasGroup = 'fixture')
     {
         foreach ($sites as $subdir => $extra) {
             $this->createSettings($subdir);
@@ -573,7 +565,7 @@ EOT;
      *
      * It is no longer supported to pass alternative versions of Drupal or an alternative install_profile.
      */
-    public function setUpDrupal($num_sites = 1, $install = false, $options = [])
+    public function setupDrupal($num_sites = 1, $install = false, $options = [])
     {
         $sites_subdirs_all = ['dev', 'stage', 'prod'];
         $sites_subdirs = array_slice($sites_subdirs_all, 0, $num_sites);
@@ -595,6 +587,17 @@ EOT;
             self::$sites[$key] = $data;
         }
         return self::$sites;
+    }
+
+    /**
+     * Test if current Drupal is >= a target version.
+     *
+     * @param string $version2
+     * @return bool
+     */
+    public function isDrupalGreaterThanOrEqualTo($version2)
+    {
+        return Comparator::greaterThanOrEqualTo(\Drupal::VERSION, $version2);
     }
 
     public function aliasFileData($sites_subdirs)
@@ -689,7 +692,8 @@ EOT;
             'db-url' => $this->dbUrl($uri),
             'sites-subdir' => $uri,
             'yes' => true,
-            'quiet' => true,
+            // quiet suppresses error reporting as well.
+            // 'quiet' => true,
         ];
         if ($level = $this->logLevel()) {
             $options[$level] = true;

@@ -39,6 +39,12 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 	 */
 	protected $entityTypeManager;
 
+  /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
 
 	/**
 	 * @inheritDoc
@@ -50,22 +56,36 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 				$pluginId,
 				$pluginDefinition,
 				$container->get('entity_type.manager'),
-				$container->get('current_user')
+				$container->get('current_user'),
+        $container->get('renderer')
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+  /**
+   * DeleteEntityBase constructor.
+   *
+   * @param array $configuration
+   *   The plugin configuration array.
+   * @param string $pluginId
+   *   The plugin id.
+   * @param mixed $pluginDefinition
+   *   The plugin definition array.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager service.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer service.
+   */
 	public function __construct(
 			array $configuration,
 			$pluginId,
 			$pluginDefinition,
 			EntityTypeManagerInterface $entityTypeManager,
-			AccountInterface $currentUser)
+			AccountInterface $currentUser,
+      RendererInterface $renderer)
 	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
+		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager, $renderer);
 		$this->currentUser = $currentUser;
+    $this->renderer = $renderer;
 	}
 
 

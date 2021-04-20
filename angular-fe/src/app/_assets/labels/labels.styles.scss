@@ -1,9 +1,11 @@
 @import "typography.scss";
+@import "breakpoints.scss";
 
 :host {
 	ul {
 		margin: 0;
 		padding: 0;
+		line-height: 0;
 		list-style-type: none;
 	}
 	li {
@@ -14,7 +16,7 @@
 		min-height: 1.5rem;
 		font-weight: 400;
 		padding: .25rem .75rem;
-		margin: 0 .5rem .5rem 0;
+		margin: 0 .5rem 0 0;
 		white-space: nowrap;
     text-overflow: ellipsis;
 		overflow: hidden;
@@ -22,6 +24,9 @@
 		font-style: normal;
 		&:last-child {
 			margin-right: 0;
+		}
+		@include break-on(sm, max) {
+			margin: 0 .5rem .5rem 0;
 		}
 	}
 	&.default li {

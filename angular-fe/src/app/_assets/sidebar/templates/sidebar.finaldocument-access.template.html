@@ -1,5 +1,8 @@
 <div class="text-center">
-	<button style="width: 100%" (click)="openNewAccessModal()" htm-button>
+	<button style="width: 100%"
+		[disabled]="data.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID'"
+		(click)="openNewAccessModal()"
+		htm-button>
 		{{'finaldocuments.add_access' | translate}}
 	</button>
 </div>

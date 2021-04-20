@@ -4,7 +4,6 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { AppComponent } from '@app/app.component';
 import { HTTP_INTERCEPTORS, HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@app/_modules/translate';
-// tslint:disable-next-line: import-name
 import localeEt from '@angular/common/locales/et';
 import { Location, registerLocaleData } from '@angular/common';
 import { AssetsModule } from './_assets';

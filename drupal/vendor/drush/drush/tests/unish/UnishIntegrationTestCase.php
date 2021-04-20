@@ -93,14 +93,9 @@ abstract class UnishIntegrationTestCase extends UnishTestCase
         chdir($this->webroot());
         $this->log("Executing: " . implode(' ', $cmd), 'verbose');
         $return = $application->run($input, $output);
-        $this->assertEquals($expected_return, $return, "Command failed: \n\n" . $this->getErrorOutput());
-
         $this->stdout = $output->fetch();
         $this->stderr = $output->getErrorOutput()->fetch();
-
-        // Empty Drush's legacy context system
-        $cache = &drush_get_context();
-        $cache = [];
+        $this->assertEquals($expected_return, $return, "Command failed: \n\n" . $this->getErrorOutput());
 
         return $return;
     }
@@ -114,7 +109,7 @@ abstract class UnishIntegrationTestCase extends UnishTestCase
 
     protected function buildCommandLine($command, $args, $options)
     {
-        $global_option_list = ['simulate', 'root', 'uri', 'include', 'config', 'alias-path', 'ssh-options', 'backend', 'cd'];
+        $global_option_list = ['simulate', 'root', 'uri', 'include', 'config', 'alias-path', 'ssh-options', 'cd'];
         $options += ['root' => $this->webroot(), 'uri' => self::INTEGRATION_TEST_ENV]; // Default value.
         $cmd = [self::getDrush()];
 
@@ -207,6 +202,6 @@ abstract class UnishIntegrationTestCase extends UnishTestCase
         if (!empty($filter)) {
             $output = preg_replace($filter, '', $output);
         }
-        $this->assertContains($expected, $output);
+        $this->assertStringContainsString($expected, $output);
     }
 }
