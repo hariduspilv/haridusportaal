@@ -5,7 +5,8 @@ query GoogleChartData(
   $graphVAxis: String!,
   $indicator: [String],
   $secondaryGraphIndicator: [String],
-  $fileName: String = "oska_csv",
+  # default file name set below for displaying older infographs that initially had no file name selection functionality
+  $fileName: String = "Kõikne",
   $oskaField: [String],
   $oskaSubField: [String],
   $oskaMainProfession: [String],
