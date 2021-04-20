@@ -214,12 +214,12 @@ $grid-columns: 12;
       p:last-child {
         margin-bottom: 0;
       }
-      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { 
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
         .flex { display: block; }
       }
       &--highlighted {
         padding: 1.5rem !important;
-        border: 5px solid #FFE7C1 !important;
+        border: 3px solid $light-orange;
         margin: 0 0 1.5rem 0 !important;
         position: relative;
         flex-direction: row !important;
