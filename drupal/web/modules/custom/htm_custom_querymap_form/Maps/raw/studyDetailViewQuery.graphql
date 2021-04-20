@@ -39,7 +39,7 @@ query studyDetailViewQuery($path: String!) {
             value
           }
           fieldAdditionalImages {
-            derivative(style: CROP_LARGE) {
+            derivative(style: CROPLARGE) {
               url
             }
             alt
