@@ -452,6 +452,9 @@
       height: 2.25rem;
       text-align: center;
       font-size:0.8125rem;
+      &.hidden {
+        visibility: none;
+      }
       &:hover{
         .btn-light{
           background:rgba(0,0,0,.04);

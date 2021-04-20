@@ -16,6 +16,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 export class EventsViewComponent implements OnDestroy, OnInit{
   @ViewChild('filterToggle') filterToggle: ElementRef;
   @ViewChild('detailed') detailed: ElementRef;
+  @ViewChild('hiddenFormItem', {read: ElementRef}) hiddenFormItem: ElementRef;
   public breadcrumbsPath: string = '/sündmused';
   public eventsTypes;
   public eventsTags;
@@ -105,6 +106,9 @@ export class EventsViewComponent implements OnDestroy, OnInit{
     setTimeout(() => {
       const detailedBtn = this.detailed?.nativeElement;
       if(detailedBtn) detailedBtn.focus();
+
+      const hiddenFormItem = this.hiddenFormItem?.nativeElement.querySelector('input[role="combobox"]');
+      if(hiddenFormItem) hiddenFormItem.focus();
      });
   }
 
