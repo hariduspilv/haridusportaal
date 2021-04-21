@@ -3,6 +3,7 @@
 namespace Drupal\ultimate_cron;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
 use Drupal\ultimate_cron\Entity\CronJob;
@@ -28,17 +29,27 @@ class CronJobDiscovery {
   protected $configFactory;
 
   /**
+   * The module extension list service.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleExtensionList;
+
+  /**
    * CronJobDiscovery constructor.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
    * @param \Drupal\Core\Queue\QueueWorkerManagerInterface $queue_manager
    *   The queue manager.
+   * @param \Drupal\Core\Extension\ModuleExtensionList $module_extension_list
+   *   The module extension list service.
    */
-  public function __construct(ModuleHandlerInterface $module_handler, QueueWorkerManagerInterface $queue_manager, ConfigFactoryInterface $config_factory) {
+  public function __construct(ModuleHandlerInterface $module_handler, QueueWorkerManagerInterface $queue_manager, ConfigFactoryInterface $config_factory, ModuleExtensionList $module_extension_list) {
     $this->moduleHandler = $module_handler;
     $this->queueManager = $queue_manager;
     $this->configFactory = $config_factory;
+    $this->moduleExtensionList = $module_extension_list;
   }
 
   /**
@@ -127,7 +138,7 @@ class CronJobDiscovery {
     $titles['search_cron'] = t('Updates indexable active search pages');
     $titles['system_cron'] = t('Cleanup (caches, batch, flood, temp-files, etc.)');
     $titles['update_cron'] = t('Update indexes');
-    $titles['node_cron'] = t('Mark old nodes as read');
+    $titles['node_cron'] = t('Updates search rankings for nodes');
     $titles['aggregator_cron'] = t('Refresh feeds');
     $titles['ultimate_cron_cron'] = t('Runs internal cleanup operations');
     $titles['statistics_cron'] = t('Reset counts and clean up');
@@ -170,7 +181,7 @@ class CronJobDiscovery {
 
     // Add hook_cron() if applicable.
     if ($this->moduleHandler->implementsHook($module, 'cron')) {
-      $info = system_get_info('module', $module);
+      $info = $this->moduleExtensionList->getExtensionInfo($module);
       $callback = "{$module}_cron";
       $items[$callback] = array(
         'module' => $module,

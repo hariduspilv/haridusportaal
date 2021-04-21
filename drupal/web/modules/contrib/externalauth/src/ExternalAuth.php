@@ -121,7 +121,7 @@ class ExternalAuth implements ExternalAuthInterface {
         'name' => $authmap_event->getUsername(),
         'init' => $provider . '_' . $authmap_event->getAuthname(),
         'status' => 1,
-        'access' => (int) $_SERVER['REQUEST_TIME'],
+        'access' => 0,
       ],
       $account_data
     );
@@ -173,8 +173,7 @@ class ExternalAuth implements ExternalAuthInterface {
     // If a mapping (for the same provider) to this account already exists, we
     // silently skip saving this auth mapping.
     if (!$this->authmap->get($account->id(), $provider)) {
-      $username = $provider . '_' . $authname;
-      $authmap_event = $this->eventDispatcher->dispatch(ExternalAuthEvents::AUTHMAP_ALTER, new ExternalAuthAuthmapAlterEvent($provider, $authname, $username, NULL));
+      $authmap_event = $this->eventDispatcher->dispatch(ExternalAuthEvents::AUTHMAP_ALTER, new ExternalAuthAuthmapAlterEvent($provider, $authname, $account->getAccountName(), NULL));
       $this->authmap->save($account, $provider, $authmap_event->getAuthname(), $authmap_event->getData());
     }
   }

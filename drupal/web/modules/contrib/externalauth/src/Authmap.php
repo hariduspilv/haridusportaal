@@ -122,10 +122,15 @@ class Authmap implements AuthmapInterface {
   /**
    * {@inheritdoc}
    */
-  public function delete($uid) {
-    $this->connection->delete('authmap')
-      ->condition('uid', $uid)
-      ->execute();
+  public function delete($uid, $provider = NULL) {
+    $query = $this->connection->delete('authmap')
+      ->condition('uid', $uid);
+
+    if ($provider) {
+      $query->condition('provider', $provider);
+    }
+
+    $query->execute();
   }
 
   /**

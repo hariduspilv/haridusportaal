@@ -289,7 +289,6 @@ export class DigitalSignViewComponent implements OnInit {
       const slice = byteCharacters.slice(offset, offset + sliceSize);
 
       const byteNumbers = Array(slice.length);
-      // tslint:disable-next-line: no-increment-decrement
       for (let i = 0; i < slice.length; i++) {
         byteNumbers[i] = slice.charCodeAt(i);
       }

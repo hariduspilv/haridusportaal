@@ -5,7 +5,9 @@ namespace Drupal\elasticsearch_connector\ElasticSearch\Parameters\Factory;
 use Drupal\search_api\IndexInterface;
 use Drupal\elasticsearch_connector\Event\PrepareIndexEvent;
 use Drupal\elasticsearch_connector\Event\PrepareIndexMappingEvent;
+use Drupal\elasticsearch_connector\Event\BuildIndexParamsEvent;
 use Drupal\search_api_autocomplete\Suggester\SuggesterInterface;
+use Drupal\elasticsearch_connector\Entity\Cluster;
 
 /**
  * Create Elasticsearch Indices.
@@ -26,22 +28,15 @@ class IndexFactory {
    *
    * @param \Drupal\search_api\IndexInterface $index
    *   Index to create.
-   * @param bool $with_type
-   *   Should the index be created with a type.
    *
    * @return array
    *   Associative array with the following keys:
    *   - index: The name of the index on the Elasticsearch server.
    *   - type(optional): The name of the type to use for the given index.
    */
-  public static function index(IndexInterface $index, $with_type = FALSE) {
+  public static function index(IndexInterface $index) {
     $params = [];
-    $params['index'] = IndexFactory::getIndexName($index);
-
-    if ($with_type) {
-      $params['type'] = $index->id();
-    }
-
+    $params['index'] = static::getIndexName($index);
     return $params;
   }
 
@@ -54,7 +49,7 @@ class IndexFactory {
    * @return array
    */
    public static function create(IndexInterface $index) {
-     $indexName = IndexFactory::getIndexName($index);
+     $indexName = static::getIndexName($index);
      $indexConfig =  [
        'index' => $indexName,
        'body' => [
@@ -71,20 +66,6 @@ class IndexFactory {
      $event = $dispatcher->dispatch(PrepareIndexEvent::PREPARE_INDEX, $prepareIndexEvent);
      $indexConfig = $event->getIndexConfig();
 
-     $indexConfig['body']['settings']['analysis']['analyzer']['default'] = [
-         'tokenizer' => 'standard',
-         'filter' => [
-             'lowercase',
-             "et_EE"
-         ]
-     ];
-
-     $indexConfig['body']['settings']['analysis']['filter']['et_EE'] = [
-         'type' => 'hunspell',
-         'locale' => 'et_EE',
-         'dedup' => True
-     ];
-
      return $indexConfig;
    }
 
@@ -97,12 +78,11 @@ class IndexFactory {
    * @return array
    */
   public static function bulkDelete(IndexInterface $index, array $ids) {
-    $params = IndexFactory::index($index, TRUE);
+    $params = IndexFactory::index($index);
     foreach ($ids as $id) {
       $params['body'][] = [
         'delete' => [
           '_index' => $params['index'],
-          '_type' => $params['type'],
           '_id' => $id,
         ],
       ];
@@ -124,7 +104,7 @@ class IndexFactory {
    *   index.
    */
   public static function bulkIndex(IndexInterface $index, array $items) {
-    $params = IndexFactory::index($index, TRUE);
+    $params = static::index($index);
 
     foreach ($items as $id => $item) {
       $data = [
@@ -145,6 +125,10 @@ class IndexFactory {
                 $values[] = $value->toText();
                 break;
 
+              case 'boolean':
+                $values[] = (boolean) $value;
+                break;
+
               default:
                 $values[] = $value;
             }
@@ -155,6 +139,13 @@ class IndexFactory {
       $params['body'][] = ['index' => ['_id' => $id]];
       $params['body'][] = $data;
     }
+
+    // Allow other modules to alter index params before we send them.
+    $indexName = IndexFactory::getIndexName($index);
+    $dispatcher = \Drupal::service('event_dispatcher');
+    $buildIndexParamsEvent = new BuildIndexParamsEvent($params, $indexName);
+    $event = $dispatcher->dispatch(BuildIndexParamsEvent::BUILD_PARAMS, $buildIndexParamsEvent);
+    $params = $event->getElasticIndexParams();
 
     return $params;
   }
@@ -174,7 +165,7 @@ class IndexFactory {
    *   Parameters required to create an index mapping.
    */
   public static function mapping(IndexInterface $index) {
-    $params = IndexFactory::index($index, TRUE);
+    $params = static::index($index);
 
     $properties = [
       'id' => [
@@ -215,7 +206,7 @@ class IndexFactory {
       'type' => 'keyword',
     ];
 
-    $params['body'][$params['type']]['properties'] = $properties;
+    $params['body']['properties'] = $properties;
 
     // Allow other modules to alter index mapping before we create it.
     $dispatcher = \Drupal::service('event_dispatcher');
@@ -238,15 +229,34 @@ class IndexFactory {
    */
   public static function getIndexName(IndexInterface $index) {
 
-    $options = \Drupal::database()->getConnectionOptions();
-    $site_database = $options['database'];
-
+    // Get index machine name.
     $index_machine_name = is_string($index) ? $index : $index->id();
+
+    // Get prefix and suffix from the cluster if present.
+    $cluster_id = $index->getServerInstance()->getBackend()->getCluster();
+    $cluster_options = Cluster::load($cluster_id)->options;
+
+    $index_suffix = '';
+    if (!empty($cluster_options['rewrite']['rewrite_index'])) {
+      $index_prefix = isset($cluster_options['rewrite']['index']['prefix']) ? $cluster_options['rewrite']['index']['prefix'] : '';
+      if ($index_prefix && substr($index_prefix, -1) !== '_') {
+        $index_prefix .= '_';
+      }
+      $index_suffix = isset($cluster_options['rewrite']['index']['suffix']) ? $cluster_options['rewrite']['index']['suffix'] : '';
+      if ($index_suffix && $index_suffix[0] !== '_') {
+        $index_suffix = '_' . $index_suffix;
+      }
+    }
+    else {
+      // If a custom rewrite is not enabled, set prefix to db name by default.
+      $options = \Drupal::database()->getConnectionOptions();
+      $index_prefix = 'elasticsearch_index_' . $options['database'] . '_';
+    }
 
     return strtolower(preg_replace(
       '/[^A-Za-z0-9_]+/',
       '',
-      'elasticsearch_index_' . $site_database . '_' . $index_machine_name
+      $index_prefix . $index_machine_name . $index_suffix
     ));
   }
 

@@ -39,8 +39,6 @@ class RunserverCommands extends DrushCommands
      *   Start runserver on localhost (using rDNS to determine binding IP), port 8888, and open /user in browser.
      * @usage drush rs /
      *  Start runserver on default IP/port (127.0.0.1, port 8888), and open / in browser.
-     * @usage drush rs --default-server=127.0.0.1:8080/ -
-     *   Use a default (would be specified in your drushrc) that starts runserver on port 8080, and opens a browser to the front page. Set path to a single hyphen path in argument to prevent opening browser for this session.
      * @usage drush rs :9000/admin
      *   Start runserver on 127.0.0.1, port 9000, and open /admin in browser. Note that you need a colon when you specify port and path, but no IP.
      * @usage drush --quiet rs
@@ -67,7 +65,7 @@ class RunserverCommands extends DrushCommands
         _drush_delete_registered_files();
 
         $link = Url::fromUserInput('/' . $path, ['absolute' => true])->toString();
-        $this->logger()->notice(dt('HTTP server listening on !addr, port !port (see http://!hostname:!port/!path), serving site, !site', ['!addr' => $addr, '!hostname' => $hostname, '!port' => $uri['port'], '!path' => $path, '!site' => Drush::bootstrap()->confPath()]));
+        $this->logger()->notice(dt('HTTP server listening on !addr, port !port (see http://!hostname:!port/!path), serving site, !site', ['!addr' => $addr, '!hostname' => $hostname, '!port' => $uri['port'], '!path' => $path, '!site' => \Drupal::service('kernel')->getSitePath()]));
         // Start php built-in server.
         if (!empty($path)) {
             // Start a browser if desired. Include a 2 second delay to allow the server to come up.

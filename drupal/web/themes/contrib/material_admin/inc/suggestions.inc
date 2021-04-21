@@ -38,12 +38,15 @@ function material_admin_theme_suggestions_form_element_alter(array &$suggestions
   if ( $variables['element']['#type'] === 'select') {
     $suggestions[] = $hook . '__select';
   }
+
+  if ( $variables['element']['#type'] === 'radio' || $variables['element']['#type'] === 'checkbox' ) {
+    $suggestions[] = 'form_element__wrapped';
+  }
 }
 
 /**
  * Implements hook_theme().
  */
-
 function material_admin_theme() {
   $path = drupal_get_path('theme', 'material_admin');
   return [

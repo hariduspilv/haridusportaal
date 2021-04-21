@@ -60,15 +60,12 @@ textarea.materialize-textarea {
     transition: none;
   }
   .caret {
-    visibility: hidden;
-    &::after {
-      @extend .material-icons;
+    @extend .material-icons;
 
-      right: 0;
-      visibility: visible;
-      font-size: 2.5em;
-      content: 'arrow_drop_down';
-    }
+    right: 0;
+    visibility: visible;
+    font-size: 2.5em;
+    content: 'arrow_drop_down';
   }
   .input.select-dropdown {
     max-width: inherit;
@@ -227,7 +224,7 @@ abbr[title] {
   border-bottom: 0;
 }
 
-//input form field handling 
+//input form field handling
 input:not([type]),
 input[type='text'],
 input[type='password'],
@@ -512,7 +509,7 @@ i.waves-input-wrapper {
   }
 }
 
-//tablesaw fixes for form elements 
+//tablesaw fixes for form elements
 .tablesaw-cell-content .form-item {
   margin: 0;
 }
@@ -708,7 +705,7 @@ fieldset.fieldgroup.form-wrapper {
   }
 }
 
-// textarea override format wrapper 
+// textarea override format wrapper
 .text-format-wrapper {
   .form-item.form-type-select.form-has-label {
     display: inline-block;

@@ -5,7 +5,7 @@
       <div #content class="col-3 md-4 xs-6 sectors--col">
         <div class="sector__wrapper" (click)="modalOpen(i)" [class.active]="i == modal.index" [id]="'block_'+i">
           <span class="sector__wrapper--pic">
-            <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.derivative && elem.fieldOskaFieldPicture.derivative.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url" />
+            <img *ngIf="elem.fieldOskaFieldPicture?.derivative?.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url" />
             <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" *ngIf="!elem.fieldOskaFieldPicture" src="../../assets/img/1208x680.png">
             <span class="overlay"></span>
           </span>
@@ -15,12 +15,12 @@
         </div>
       </div>
       <div class="col-12" *ngIf="modal && modal.position == i">
-        <div class="modal" id="modal" role="alert" attr.aria-label="{{ 'oskaProfessions.card_opened' | translate }}" >
+        <div class="modal" id="modal" attr.aria-label="{{ 'oskaProfessions.card_opened' | translate }}" >
           <div class="modal__header">
             <div class="modal__header__col">
-              <h2 role="heading">
+              <h1>
                 <a  id="modalTitle" [routerLink]="modal.entityUrl.path" role="link" attr.aria-label="{{ modal.title }}" >{{ modal.title }}</a>
-              </h2>
+              </h1>
             </div><!--/modal__header__col-->
             <div class="modal__header__col">
               <button htm-button theme="icon" attr.aria-label="{{ 'oskaProfessions.card_close' | translate }}" (click)="modalClose()"><icon glyph="x" size="medium"></icon></button>
@@ -29,7 +29,7 @@
           <div class="modal__content">
             <div class="row">
               <div class="col-8 xs-12">
-                <p role="heading"><b>{{ 'oskaProfessions.general_info' | translate }}</b></p>
+                <h2>{{ 'oskaProfessions.general_info' | translate }}</h2>
                 <p *ngIf="modal.fieldIntroduction" role="text">{{ modal.fieldIntroduction }}</p>
                 <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfession.view_field_info' | translate }}">{{ 'button.read_on' | translate }}</a>
               </div><!--/col-->
@@ -46,7 +46,7 @@
                     </div><!--/modal__image-->
                   </ng-container>
                   
-                  <ng-container *ngIf="modal.fieldOskaFieldPicture && !modal.videoUrl">
+                  <ng-container *ngIf="modal?.fieldOskaFieldPicture?.derivative?.url && !modal.videoUrl">
                     <div class="modal__image" [ngStyle]="{'background-image': 'url(' + modal.fieldOskaFieldPicture.derivative.url + ')'}">
                       <img [src]="modal.fieldOskaFieldPicture.derivative.url" [alt]="modal.fieldOskaFieldPicture.alt" [title]="modal.fieldOskaFieldPicture.title" />
                     </div><!--/modal__image-->
@@ -54,7 +54,7 @@
 
                   <ng-container *ngIf="modal.videoUrl">
                     <div class="modal__video">
-                      <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}" [src]="modal.videoUrl | iframe" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                      <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}" title="{{ 'generic.youtube_video' | translate }}" [src]="modal.videoUrl | iframe" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div><!--/modal__video-->
                   </ng-container>
                 </div><!--/modal__padding-->
@@ -62,7 +62,7 @@
             </div>
             <hr aria-hidden="true" />
 
-            <p *ngIf="modal.list && modal.list.length > 0"><b>{{ 'oska.professions_and_jobs' | translate }}</b></p>
+            <h2 *ngIf="modal.list && modal.list.length > 0">{{ 'oska.professions_and_jobs' | translate }}</h2>
             <ul>
               <li *ngFor="let item of modal.list">
                 <a *ngIf="item?.entityLabel" 

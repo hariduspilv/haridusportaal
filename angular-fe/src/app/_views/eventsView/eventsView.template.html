@@ -42,7 +42,7 @@
 
         <div class="row" *ngIf="filterFull && showFilter">
           <div class="col-9 sm-12">
-            <formItem type="multi-select" ariaLabel="{{ 'event.filter_types' | translate }}" title="{{ 'event.filter_types' | translate }}" name="types"
+            <formItem #hiddenFormItem type="multi-select" ariaLabel="{{ 'event.filter_types' | translate }}" title="{{ 'event.filter_types' | translate }}" name="types"
               [options]="eventsTypes">
             </formItem>
           </div>

@@ -43,8 +43,8 @@ class CronJobEnableForm extends EntityConfirmFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->entity->enable()->save();
-    drupal_set_message($this->t('Enabled cron job %cronjob.', array('%cronjob' => $this->entity->label())));
-
+    $this->messenger()
+      ->addStatus($this->t('Enabled cron job %cronjob.', ['%cronjob' => $this->entity->label()]));
     $form_state->setRedirectUrl($this->getCancelUrl());
   }
   

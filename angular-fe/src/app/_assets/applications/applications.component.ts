@@ -150,7 +150,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
     function compareDate(a: any, b: any) {
       if (!a['document_date'] || !b['document_date']) return -1;
-      // tslint:disable-next-line: max-line-length
       return Number(new Date(b.document_date.replace(regex, '$3/$2/$1'))) - Number(new Date(a.document_date.replace(regex, '$3/$2/$1')));
     }
 
@@ -261,7 +260,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                     this.loading.initial = false;
                   }
                 } else {
-                  // tslint:disable-next-line: max-line-length
                   if (response['educationalInstitutions'] && response['educationalInstitutions'] !== null) {
                     const responseData = response['educationalInstitutions'].map((elem) => {
                       elem.documents = this.sortList(elem.documents, 'date');
@@ -316,13 +314,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
   institutionInfoFieldSum(school) {
     let counter = 0;
-    // tslint:disable-next-line: max-line-length
     if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail) counter += 1;
-    // tslint:disable-next-line: max-line-length
     if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone) counter += 1;
-    // tslint:disable-next-line: max-line-length
     if (school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress) counter += 1;
-    // tslint:disable-next-line: max-line-length
     if (school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable) counter += 1;
     return counter;
   }
@@ -548,7 +542,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const subscription = this.http.jsonp(path, 'callback').subscribe((response: any) => {
       if (this.cdr && !(this.cdr as ViewRef).destroyed) {
         try {
-          // tslint:disable-next-line: max-line-length
           school.institutionInfo.address.addressHumanReadable = this.address.inAdsFormatValue(response.addresses[0]).addressHumanReadable;
         } catch (err) {
         }

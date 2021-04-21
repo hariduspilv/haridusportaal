@@ -1,0 +1,19 @@
+uuid: d8ae1c33-1b06-4c5a-89f1-c9872eaaa6ee
+langcode: et
+status: true
+dependencies:
+  module:
+    - media
+name: test
+format: test
+weight: 0
+filters:
+  media_embed:
+    id: media_embed
+    provider: media
+    status: false
+    weight: 100
+    settings:
+      default_view_mode: default
+      allowed_media_types: {  }
+      allowed_view_modes: {  }

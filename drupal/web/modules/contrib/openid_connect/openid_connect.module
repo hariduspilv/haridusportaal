@@ -32,7 +32,7 @@ function openid_connect_help($route_name, RouteMatchInterface $route_match) {
       $output .= '<dt>' . t('Login to Drupal using OpenID Connect/OAuth2 providers') . '</dt>';
       $output .= '<dd>' . t('Drupal users can use external OpenID Connect authentication providers to register and login to the Drupal site.') . '</dd>';
       $output .= '<dt>' . t('Default providers') . '</dt>';
-      $output .= '<dd>' . t('The default clients provided by the module for Google, Facebook, Github and LinkedIn can be used out-of-the box.') . '</dd>';
+      $output .= '<dd>' . t('The default clients provided by the module for Google, Facebook, Github, LinkedIn and Okta can be used out-of-the box.') . '</dd>';
       $output .= '<dt>' . t('Custom OpenID Connect/OAuth2 providers') . '</dt>';
       $output .= '<dd>' . t('Easily add an own provider by using the provided Generic client, or use a custom provider client plugin.') . '</dd>';
       $output .= '<dt>' . t('Synchronize user properties/fields with OpenID Connect claims') . '</dt>';
@@ -162,9 +162,10 @@ function openid_connect_form_user_login_form_alter(&$form, FormStateInterface $f
         // Do nothing in case the query contains the 'showcore' parameter.
         $query = \Drupal::request()->query;
         if (!$query->has('showcore')) {
-          // Replace the user login form with the google domain login button.
+          // Replace the user login form with the IDP login button.
           $form = $openid_form;
         }
+        $form['#cache']['contexts'][] = 'url.query_args:showcore';
         break;
     }
   }

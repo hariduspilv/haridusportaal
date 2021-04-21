@@ -42,9 +42,9 @@ export class HomeSearchListViewComponent {
       { name: 'oska.future_job_opportunities', sumLabel: 'Oska', value: false, sum: 0 },
     ],
   };
-  // tslint:disable-next-line: prefer-array-literal
+
   public oskaTypes: Array<string> = ['oska_survey_page', 'oska_main_profession_page', 'oska_field_page'];
-  // tslint:disable-next-line: prefer-array-literal
+
   public types: Array<any>;
   public typeArr: any = [];
 
@@ -166,7 +166,6 @@ export class HomeSearchListViewComponent {
   }
 
   loadMore() {
-    // tslint:disable-next-line: no-this-assignment
     const { listLimit, listLength, listStep } = this;
     const newFocusIndex = listLimit;
     this.listLimit = listLimit + listStep < listLength ? listLimit + listStep : listLength;

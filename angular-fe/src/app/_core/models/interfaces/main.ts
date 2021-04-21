@@ -23,3 +23,15 @@ export interface EntityLink {
   title?: string;
   url: EntityUrl;
 }
+
+export interface QueryError {
+  message: string;
+  category: string;
+  locations: ErrorLocation[];
+  path?: string[];
+}
+
+export interface ErrorLocation {
+  line: number;
+  column: number;
+};

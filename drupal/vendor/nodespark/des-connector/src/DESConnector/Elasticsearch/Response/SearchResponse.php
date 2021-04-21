@@ -117,7 +117,7 @@ class SearchResponse implements SearchResponseInterface
      */
     public function getTotalResultsNumber()
     {
-        return $this->response['hits']['total'];
+        return $this->response['hits']['total']['value'];
     }
 
     /**

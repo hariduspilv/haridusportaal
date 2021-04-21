@@ -99,7 +99,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       window['__lc'].license = 10834647;
       (function () {
         const lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = false;
-        // tslint:disable-next-line: max-line-length
         lc.src = `${('https:' === document.location.protocol ? 'https://' : 'http://')}cdn.livechatinc.com/tracking.js`;
         const s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
       })();
@@ -145,12 +144,20 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   /**
    * Temporary function run on initial load to unregister dangling service workers
+   * Also remove service worker cache
    */
   private unregisterServiceWorker(): void {
     if (window.navigator && navigator.serviceWorker) {
       navigator.serviceWorker.getRegistrations().then((registrations) => {
         registrations.forEach((registration) => registration.unregister);
       });
+    }
+    if ('caches' in window) {
+      caches?.keys().then((keyList) => {
+        return Promise.all(keyList.map((key) => {
+          return caches.delete(key);
+        }));
+      })
     }
   }
 

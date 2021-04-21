@@ -194,7 +194,7 @@
         width: 1.125rem;
         min-width: 1.125rem;
         height: 1.125rem;
-        display: inline-block;
+        display: inline-flex;
         line-height:1.125rem;
         background: $white;
         flex-shrink: 0;
@@ -452,6 +452,9 @@
       height: 2.25rem;
       text-align: center;
       font-size:0.8125rem;
+      &.hidden {
+        visibility: hidden;
+      }
       &:hover{
         .btn-light{
           background:rgba(0,0,0,.04);

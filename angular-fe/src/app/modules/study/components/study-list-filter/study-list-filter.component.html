@@ -1,0 +1,96 @@
+<!-- [eventTracker]="getGoogleAnalyticsObject()" -->
+<max-width-wrapper>
+  <form class="filter-wrapper" filters *ngIf="options">
+    <block-title>{{ 'study.search_studies' | translate }}</block-title>
+    <div class="row">
+      <div class="col-4 sm-12">
+        <formItem
+          type="text"
+          title="{{ 'study.text_search' | translate }}"
+          ariaLabel="{{ 'study.text_search' | translate }}"
+          name="tekstiOtsing">
+        </formItem>
+      </div>
+      <div class="col-5 sm-12">						
+        <formItem
+          type="multi-select"
+          title="{{ 'study.topic' | translate }}"
+          ariaLabel="{{ 'study.topic' | translate }}"
+          name="teema"
+          [options]="options.studyTopicsOptions">
+        </formItem>
+      </div>
+      <div class="col-3 align-end text-right sm-12" *ngIf="!expanded">
+        <div class="button-row">
+          <button htm-button theme="plain" type="button" (click)="toggleExpanded()">{{ 'button.search_detailed' | translate }}</button>
+          <button htm-button>{{ 'button.search' | translate }}</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="expanded">
+      <div class="col-4 sm-12">
+        <formItem
+          type="multi-select"
+          title="{{ 'study.publication_type' | translate }}"
+          ariaLabel="{{ 'study.publication_type' | translate }}"
+          name="publikatsiooniLiik"
+          [options]="options.publicationTypeOptions">
+        </formItem>
+      </div>
+      <div class="col-5 sm-12">						
+        <formItem
+          type="text"
+          title="{{ 'study.publisher' | translate }}"
+          ariaLabel="{{ 'study.publisher' | translate }}"
+          name="valjaandja">
+        </formItem>
+      </div>
+    </div>
+    <div class="row" *ngIf="expanded">
+      <div class="col-4 sm-12">
+        <formItem
+          type="multi-select"
+          title="{{ 'study.publication_language' | translate }}"
+          ariaLabel="{{ 'study.publication_language' | translate }}"
+          name="publikatsiooniKeel"
+          [options]="options.publicationLanguageOptions">
+        </formItem>
+      </div>
+      <div class="col-5 sm-12">						
+        <formItem
+          type="multi-select"
+          title="{{ 'study.labels' | translate }}"
+          ariaLabel="{{ 'study.labels' | translate }}"
+          name="sildid"
+          [options]="options.studyLabelOptions">
+        </formItem>
+      </div>
+    </div>
+    <div class="row" *ngIf="expanded">
+      <div class="col-4 sm-12">
+        <formItem
+          type="select"
+          [options]="options.yearRange"
+          ariaLabel="{{ 'study.year_from' | translate }}"
+          title="{{ 'study.year_from' | translate }}"
+          name="aastaAlates">
+        </formItem>
+      </div>
+      <div class="col-5 sm-12">						
+        <formItem
+          type="select"
+          [options]="options.yearRange"
+          ariaLabel="{{ 'study.year_to' | translate }}"
+          title="{{ 'study.year_to' | translate }}"
+          name="aastaKuni">
+        </formItem>
+      </div>
+      <div class="col-3 align-end text-right sm-12" *ngIf="expanded">
+        <div class="button-row">
+          <button htm-button theme="plain" type="button" (click)="toggleExpanded()">{{ 'button.search_brief' | translate }}</button>
+          <button htm-button>{{ 'button.search' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</max-width-wrapper>

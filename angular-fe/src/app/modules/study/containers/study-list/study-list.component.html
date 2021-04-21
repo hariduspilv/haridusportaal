@@ -1,0 +1,38 @@
+<base-layout>
+  <max-width-wrapper>
+    <breadcrumbs path="/uuringud"></breadcrumbs>
+  </max-width-wrapper>
+  <study-list-filter
+    *ngIf="list"
+    [options]="filterOptions">
+  </study-list-filter>
+  <max-width-wrapper>
+    <block [titleBorder]="false" [loading]="loading?.list">
+      <block-title>{{ 'study.label' | translate }}</block-title>
+      <block-content [noPaddingTop]="true">
+        <label-count
+          *ngIf="list?.length && offsetParameters.count"
+          [count]="offsetParameters.count">
+          {{ 'search.results_of' | translate }}:
+        </label-count>
+        <study-list-item
+          *ngFor="let study of list; let first = first;"
+          [highlighted]="this.highlight && first"
+          [noBorderBefore]="!this.highlight && first"
+          [study]="study">
+        </study-list-item>
+        <p class="flex flex-justify-center p-top-1 p-bottom-1"
+          *ngIf="!loading?.list && list && !list?.length">
+          {{ 'news.no_results' | translate }}
+        </p>
+      </block-content>
+    </block>
+    <loader class="loading__more" *ngIf="loading?.loadMore"></loader>
+    <div class="flex flex-justify-center">
+      <button htm-button (click)="loadMoreContent()" *ngIf="!loading?.loadMore && list?.length && offsetParameters.count > list.length">
+        <span>{{ 'button.load_more' | translate }}</span>
+        <span> ({{ offsetParameters.count - list.length }})</span>
+      </button>
+    </div>
+  </max-width-wrapper>
+</base-layout>
