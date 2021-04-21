@@ -63,12 +63,22 @@ fi
 
 cd /app/drupal
 drush entup -y
+
+echo "composer install"
+# Copy the files required for composer install & run composer install
+# Copy the installed files required for scripts & run scripts
+# (https://www.sentinelstand.com/article/composer-install-in-dockerfile-without-breaking-cache)
+cp composer.json ./
+cp composer.lock ./
+composer install --no-scripts --no-autoloader --no-dev
+cp . ./
+composer dump-autoload --optimize && \
+	composer run-script post-install-cmd
+
 drush cr
 
+echo "importing translations"
 drush php-eval "htm_custom_translations_new_import_translations()"
-
-composer install --no-dev
-drush cr
 
 chown apache.apache -R /app/drupal/web/sites/default/files
 
