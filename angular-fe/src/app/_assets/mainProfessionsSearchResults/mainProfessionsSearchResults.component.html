@@ -1,4 +1,4 @@
-<div class="noResults" *ngIf="!list?.length && !loading && !filteredJobLoading">
+<div class="noResults" *ngIf="!list?.length && !loading">
   {{ noResultStringByType | translate }}
 </div>
 <label-count *ngIf="searchWithParams && listCount && list?.length" [count]="listCount">{{ 'search.results_of' | translate }}: </label-count>
