@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   VERSION: require('../../package.json').version,
+  // API_URL: "https://htm.wiseman.ee", // vana backend
   API_URL: "https://api.haridusportaal.twn.zone",
   EHIS_URL: "https://ehis2.twn.zone/api",
   DEV_AUTH: true,

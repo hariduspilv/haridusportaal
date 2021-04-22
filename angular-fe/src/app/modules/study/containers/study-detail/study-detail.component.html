@@ -1,1 +1,56 @@
-<p>study-detail works!</p>
+<article-layout>
+
+	<max-width-wrapper>
+		<breadcrumbs [path]="studyPath"></breadcrumbs>
+		<loader *ngIf="loading"></loader>
+		<block [titleBorder]="false" *ngIf="study$ | async as study">
+			<block-title>{{ 'study.label' | translate }}</block-title>
+			<block-content [noPaddingTop]="true">
+
+				<h1>{{study.title}}</h1>
+				<share [pageTitle]="study?.title"></share>
+
+				<labels
+					*ngIf="study.fieldCustomBoolean"
+					class="study__list__item__labels"
+					type="orange"
+					[data]="[study.fieldStudyTag]">
+				</labels>
+
+				<p>
+					<strong>{{study.fieldIntroduction.substring(0, 300)}}</strong>
+				</p>
+				<p>
+					{{study.fieldContent.value.substring(0, 300)}}
+				</p>
+
+				<!--				TODO button -->
+				<button>Loe edasi - näita vähem</button>
+
+				<images
+					*ngIf="study.fieldAdditionalImages"
+					[image]="study?.fieldAdditionalImages ? study.fieldAdditionalImages : []"
+				></images>
+
+				<p style="font-weight: 500">{{ 'study.reference_title' | translate }}:</p>
+				<links *ngIf="study.fieldStudyText" [data]="[study.fieldStudyText]"></links>
+
+				<labels
+					class="study__detail__labels"
+					*ngIf="study.fieldLabel?.length"
+					[data]="study.fieldLabel">
+				</labels>
+
+				<accordion [collapsible]="false" *ngIf="study.fieldAccordion">
+					<accordion-item [title]="study.fieldAccordion.entity.fieldStudyPageAccordionTitle">
+						<ng-template>
+							<strong><p [innerHTML]="study.fieldAccordion.entity.fieldStudyAccordionIntro"></p></strong>
+							<p [innerHTML]="study.fieldAccordion.entity.fieldStudyAccordionContent"></p>
+						</ng-template>
+					</accordion-item>
+				</accordion>
+
+			</block-content>
+		</block>
+	</max-width-wrapper>
+</article-layout>

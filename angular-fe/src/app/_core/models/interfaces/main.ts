@@ -14,6 +14,10 @@ export interface EntityObject {
   entity: Entity;
 }
 
+export interface FullTextUrl {
+	url: EntityUrl;
+}
+
 export interface EntityUrl {
   path: string;
   routed?: boolean;
@@ -34,4 +38,20 @@ export interface QueryError {
 export interface ErrorLocation {
   line: number;
   column: number;
-};
+}
+
+export interface Content {
+	value: string;
+}
+
+export interface StudyImages {
+	title: string;
+	alt: string;
+	derivative: ImageUrl;
+}
+
+export interface ImageUrl {
+	url: string;
+}
+
+
