@@ -60,7 +60,7 @@ module.exports.getRequestParams = (articlePath, api) => {
     const logger = log4js.getLogger('amp');
     request.get(`${api}/variables?_format=json&lang=et`, (err, response) => {
       if (err) {
-        logger.error(`Variables request failed: ${url} -> ${err}`);
+        logger.error(`Variables request failed: ${err}`);
       }
       const splitValues = articlePath.split('/') || [];
       const values = splitValues[0] === '' ? splitValues[1] : splitValues[0];
