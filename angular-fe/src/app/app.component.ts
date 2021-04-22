@@ -145,12 +145,20 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   /**
    * Temporary function run on initial load to unregister dangling service workers
+   * Also remove service worker cache
    */
   private unregisterServiceWorker(): void {
     if (window.navigator && navigator.serviceWorker) {
       navigator.serviceWorker.getRegistrations().then((registrations) => {
         registrations.forEach((registration) => registration.unregister);
       });
+    }
+    if ('caches' in window) {
+      caches?.keys().then((keyList) => {
+        return Promise.all(keyList.map((key) => {
+          return caches.delete(key);
+        }));
+      })
     }
   }
 
