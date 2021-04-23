@@ -20,12 +20,10 @@
 				<p>
 					<strong>{{study.fieldIntroduction.substring(0, 300)}}</strong>
 				</p>
-				<p>
-					{{study.fieldContent.value.substring(0, 300)}}
-				</p>
 
-				<!--				TODO button -->
-				<button>Loe edasi - näita vähem</button>
+				<p *ngIf="study?.fieldContent?.value">
+					<text-truncate-toggler [input]="study.fieldContent.value" [limit]="400"></text-truncate-toggler>
+				</p>
 
 				<images
 					*ngIf="study.fieldAdditionalImages"

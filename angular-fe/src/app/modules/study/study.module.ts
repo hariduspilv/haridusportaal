@@ -13,6 +13,7 @@ import {
 } from './components/study-list-item-inline-elements/study-list-item-inline-elements.component';
 import {StudyListFilterComponent} from './components/study-list-filter/study-list-filter.component';
 import {StudyDetailComponent} from './containers/study-detail/study-detail.component';
+import {RouteUndefinedInterceptor} from '@app/_interceptors/detail-route-undefined.interceptor';
 
 const routes: Routes = [
 	{
@@ -43,6 +44,7 @@ const routes: Routes = [
 	exports: [],
 	providers: [
 		{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+		{provide: HTTP_INTERCEPTORS, useClass: RouteUndefinedInterceptor, multi: true},
 	],
 })
 export class StudyModule {
