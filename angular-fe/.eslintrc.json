@@ -16,8 +16,7 @@
           "tsconfig.app.json"
         ],
         "createDefaultProgram": true,
-				"tsconfigRootDir": "../angular-fe"
-//				"tsconfigRootDir": "angular-fe"
+				"tsconfigRootDir": "angular-fe"
       },
       "extends": [
         "plugin:@angular-eslint/recommended",

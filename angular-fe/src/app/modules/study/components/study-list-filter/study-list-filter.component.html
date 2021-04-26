@@ -1,6 +1,5 @@
-<!-- [eventTracker]="getGoogleAnalyticsObject()" -->
-<max-width-wrapper>
-  <form class="filter-wrapper" filters *ngIf="options">
+<max-width-wrapper *ngIf="options">
+  <form class="filter-wrapper" filters>
     <block-title>{{ 'study.search_studies' | translate }}</block-title>
     <div class="row">
       <div class="col-4 sm-12">

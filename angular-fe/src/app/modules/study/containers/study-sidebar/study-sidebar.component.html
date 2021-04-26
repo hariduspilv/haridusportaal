@@ -1,0 +1,8 @@
+<study-sidebar-study-data
+  *ngIf="showStudyDataSidebar"
+  [data]="mappedSidebar?.fieldStudy">
+</study-sidebar-study-data>
+<study-sidebar-additional-links
+  *ngIf="mappedSidebar?.fieldLinks?.length"
+  [data]="mappedSidebar?.fieldLinks">
+</study-sidebar-additional-links>
