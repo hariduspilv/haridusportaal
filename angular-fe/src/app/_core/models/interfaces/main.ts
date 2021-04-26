@@ -44,7 +44,7 @@ export interface Content {
 	value: string;
 }
 
-export interface StudyImages {
+export interface ImageEntity {
 	title: string;
 	alt: string;
 	derivative: ImageUrl;

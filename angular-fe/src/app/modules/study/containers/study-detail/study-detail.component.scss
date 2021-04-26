@@ -1,27 +1,22 @@
 @import "typography.scss";
 
 :host {
-	color: $black;
+  color: $black;
 }
 
 h1 {
-	margin-bottom: 1rem;
-}
-
-.study__detail__labels {
-	display: block;
-	margin-top: 1rem;
-	&--highlight {
-		position: absolute;
-		top: -1rem;
-		margin-top: 0;
-	}
+  margin-bottom: 1rem;
 }
 
 links {
-	margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 labels {
-	margin-bottom: 1rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.bold {
+  font-weight: 500;
 }
