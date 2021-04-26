@@ -1,4 +1,4 @@
-query studyDetailViewQuery($path: String!) {
+  query studyDetailViewQuery($path: String!) {
   route(path: $path) {
     ... on EntityCanonicalUrl {
       languageSwitchLinks {
