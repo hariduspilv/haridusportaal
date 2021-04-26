@@ -1,6 +1,6 @@
-<div class="modal" role="dialog" aria-modal="true">
+<div class="modal" >
   <div class="modal__backdrop">
-    <div *ngIf="blockModal" class="modal__block" cdkTrapFocus #modalContent attr.id="modal-{{id}}">
+    <div *ngIf="blockModal" class="modal__block" cdkTrapFocus #modalContent attr.id="modal-{{id}}" tabindex="0"  role="dialog" aria-modal="true">
       <ng-container *ngIf="opened">
         <div class="modal__header" *ngIf="titleExists || topAction" [ngClass]="{ 'justify-end': !titleExists }">
           <h2 tabindex="-1" aria-label='' *ngIf="titleExists">{{ modalTitle }}</h2>
@@ -21,7 +21,7 @@
         </div>
       </ng-container>
     </div>
-    <div *ngIf="!blockModal" class="modal__regular" cdkTrapFocus #modalContent attr.id="modal-{{id}}">
+    <div *ngIf="!blockModal" class="modal__regular" cdkTrapFocus #modalContent attr.id="modal-{{id}}" tabindex="0" role="dialog" aria-modal="true">
       <div class="modal__header" *ngIf="topAction" [ngClass]="{ 'justify-end': topAction }" >
         <button *ngIf="topAction" class="white" attr.aria-label="{{ 'button.close' | translate }}" htm-button theme="icon"
           (click)="modalService.close(id)">
