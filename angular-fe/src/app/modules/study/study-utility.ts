@@ -1,15 +1,20 @@
-import {FormItemOption} from '@app/_assets/formItem';
-import {SortDirection} from '@app/_core/models/enums/sort-direction.enum';
-import {Language} from '@app/_core/models/interfaces/language.enum';
-import {Entity} from '@app/_core/models/interfaces/main';
-import {ListOffsetParameters} from '@app/_core/models/list-offset-parameters';
-import {MappedStudy} from './models/mapped-study';
-import {MappedStudyFilters} from './models/mapped-study-filters';
-import {Study} from './models/study';
-import {StudyListViewFilterQueryResponse} from './models/study-list-view-filter-query-response';
-import {StudyListViewQueryParameters} from './models/study-list-view-query-parameters';
-import {StudyListViewRequestParameters} from './models/study-list-view-request-parameters';
-import {YearOption} from './models/year-option';
+import { FormItemOption } from '@app/_assets/formItem';
+import { SortDirection } from '@app/_core/models/enums/sort-direction.enum';
+import { Language } from '@app/_core/models/interfaces/language.enum';
+import { Entity } from '@app/_core/models/interfaces/main';
+import { ListOffsetParameters } from '@app/_core/models/list-offset-parameters';
+import { MappedStudy } from './models/mapped-study';
+import { MappedStudyFilters } from './models/mapped-study-filters';
+import { MappedStudyPageFieldRightColumn } from './models/mapped-study-page-field-right-column';
+import { MappedStudyPageFieldRightColumnStudyData } from './models/mapped-study-page-field-right-column-study-data';
+import { Study } from './models/study';
+import { StudyListMappedData } from './models/study-list-mapped-data';
+import { StudyListViewFilterQueryResponse } from './models/study-list-view-filter-query-response';
+import { StudyListViewQueryParameters } from './models/study-list-view-query-parameters';
+import { StudyListViewRequestParameters } from './models/study-list-view-request-parameters';
+import { StudyPageFieldRightColumn } from './models/study-page-field-right-column';
+import { StudyPageFieldRightColumnDataEntity } from './models/study-page-field-right-column-data-entity';
+import { YearOption } from './models/year-option';
 
 export class StudyUtility {
 
@@ -28,13 +33,29 @@ export class StudyUtility {
 	 */
 	private static gatherJoinedInlineFields(study: Study): string[] {
 		const flattenedFieldPublicationTypes =
-			study.fieldRightColumn.entity.fieldStudy.entity.fieldPublicationType
+			study.fieldRightColumn.entity.fieldStudy?.entity?.fieldPublicationType
 				.map(publication => publication.entity.entityLabel);
 		return [
-			this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy.entity.fieldAuthor),
-			this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy.entity.fieldYear),
+			this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy?.entity?.fieldAuthor),
+			this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy?.entity?.fieldYear),
 			this.joinArrayToString(flattenedFieldPublicationTypes),
 		];
+	}
+
+	private static gatherJoinedRightColumnDataFields(studyData: StudyPageFieldRightColumnDataEntity):
+		MappedStudyPageFieldRightColumnStudyData {
+		const flattenedFieldPublicationTypes = studyData.fieldPublicationType.map(type => type.entity.entityLabel);
+		const flattenedFieldPublicationLanguages =
+			studyData.fieldPublicationLang.map(publication => publication.entity.entityLabel);
+		return {
+			fieldAuthor: this.joinArrayToString(studyData?.fieldAuthor || []),
+			fieldAuthorInstitution: this.joinArrayToString(studyData?.fieldAuthorInstitution || []),
+			fieldPublicationLang: this.joinArrayToString(flattenedFieldPublicationLanguages || []),
+			fieldYear: this.joinArrayToString(studyData?.fieldYear || []),
+			fieldOrderer: this.joinArrayToString(studyData?.fieldOrderer || []),
+			fieldPublisher: this.joinArrayToString(studyData?.fieldPublisher || []),
+			fieldPublicationType: this.joinArrayToString(flattenedFieldPublicationTypes || []),
+		};
 	}
 
 	/**
@@ -127,15 +148,36 @@ export class StudyUtility {
 			mappedStudyListElements;
 	}
 
-	/**
-	 *
-	 * @param list
-	 * @returns a random selection from studies list where fieldCustomBoolean (highlight status) is truthy
-	 */
-	public static extractRandomHighlightedStudy(list: MappedStudy[]): MappedStudy {
-		const highlightedStudies = list.filter(study => study.fieldCustomBoolean);
-		const selection: number = Math.floor(Math.random() * highlightedStudies.length);
-		return highlightedStudies?.length ? highlightedStudies[selection] : null;
-	}
+  public static studyListMappedData(
+    list: MappedStudy[], studyListResponseEntities: Study[], loadMoreContent?: boolean): StudyListMappedData {
+      return this.listWithHighlight(
+        this.joinResponseWithPreviousValues(list, studyListResponseEntities, loadMoreContent));
+  }
+
+  private static listWithHighlight(list: MappedStudy[]): StudyListMappedData {
+    const highlight = this.extractRandomHighlightedStudy(list);
+    return {
+      highlight,
+      list: highlight ? [highlight, ...list.filter(study => study !== highlight)] : list,
+    };
+  }
+
+  public static mapStudySidebarBlockData(sidebarData: StudyPageFieldRightColumn): MappedStudyPageFieldRightColumn {
+    return {
+      fieldLinks: sidebarData?.entity?.fieldAdditionalLinks?.entity?.fieldLinks,
+      fieldStudy: this.gatherJoinedRightColumnDataFields(sidebarData?.entity?.fieldStudy?.entity),
+    };
+  }
+
+  /**
+   *
+   * @param list
+   * @returns a random selection from studies list where fieldCustomBoolean (highlight status) is truthy
+   */
+  private static extractRandomHighlightedStudy(list: MappedStudy[]): MappedStudy {
+    const highlightedStudies = list.filter(study => study.fieldCustomBoolean);
+    const selection: number = Math.floor(Math.random() * highlightedStudies.length);
+    return highlightedStudies?.length ? highlightedStudies[selection] : null;
+  }
 
 }

@@ -14,6 +14,14 @@ import {
 import {StudyListFilterComponent} from './components/study-list-filter/study-list-filter.component';
 import {StudyDetailComponent} from './containers/study-detail/study-detail.component';
 import {RouteUndefinedInterceptor} from '@app/_interceptors/detail-route-undefined.interceptor';
+import { StudySidebarComponent } from './containers/study-sidebar/study-sidebar.component';
+import {
+  StudySidebarAdditionalLinksComponent,
+} from './components/study-sidebar-additional-links/study-sidebar-additional-links.component';
+import { StudySidebarStudyDataComponent } from './components/study-sidebar-study-data/study-sidebar-study-data.component';
+import {
+	StudySidebarStudyDataListItemComponent,
+} from './components/study-sidebar-study-data-list-item/study-sidebar-study-data-list-item.component';
 
 const routes: Routes = [
 	{
@@ -33,6 +41,10 @@ const routes: Routes = [
 		StudyListItemInlineElementsComponent,
 		StudyListFilterComponent,
 		StudyDetailComponent,
+    StudySidebarComponent,
+    StudySidebarStudyDataComponent,
+    StudySidebarAdditionalLinksComponent,
+    StudySidebarStudyDataListItemComponent,
 	],
 	imports: [
 		CommonModule,
@@ -43,8 +55,8 @@ const routes: Routes = [
 	],
 	exports: [],
 	providers: [
-		{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
 		{provide: HTTP_INTERCEPTORS, useClass: RouteUndefinedInterceptor, multi: true},
+		{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
 	],
 })
 export class StudyModule {

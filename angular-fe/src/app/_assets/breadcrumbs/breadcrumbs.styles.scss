@@ -6,6 +6,7 @@
 	font-size: .875rem;
 	line-height: 1rem;
 	margin-bottom: 1rem;
+	min-height: 1rem;
 	@include break-on(sm, max) {
 		display: none;
 	}
