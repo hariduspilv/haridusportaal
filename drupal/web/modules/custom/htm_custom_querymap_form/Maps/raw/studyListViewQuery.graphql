@@ -25,7 +25,7 @@ query studyListViewQuery($nid: [String],
   $highlightedStudy: [String],
   $highlightedStudyEnabled: Boolean
   ) {
-  nodeQuery(offset: $offset, limit: $limit, sort: {field: $sortField, direc`tion: $sortDirection, language: $lang},
+  nodeQuery(offset: $offset, limit: $limit, sort: {field: $sortField, direction: $sortDirection, language: $lang},
     filter: {conjunction: AND, conditions: [
       {operator: EQUAL, field: "status", value : "1", language: $lang},
       {operator: GREATER_THAN, field: $sortField, value: "0", enabled: $indicatorSort},
