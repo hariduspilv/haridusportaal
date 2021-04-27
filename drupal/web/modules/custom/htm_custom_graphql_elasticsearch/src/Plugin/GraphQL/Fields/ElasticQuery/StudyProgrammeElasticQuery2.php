@@ -303,9 +303,7 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
         foreach($conditiongroups as $conditiongroup){
             $conditions[] = array(
                 'bool' => array(
-                    'must' => array(
-                        $conditiongroup
-                    )
+                    'must' => $conditiongroup
                 )
             );
         }
