@@ -11,11 +11,12 @@
       ],
       "parserOptions": {
         "project": [
-          "angular-fe/tsconfig.json",
-          "angular-fe/e2e/tsconfig.json",
-          "angular-fe/tsconfig.app.json"
+          "tsconfig.json",
+          "e2e/tsconfig.json",
+          "tsconfig.app.json"
         ],
-        "createDefaultProgram": true
+        "createDefaultProgram": true,
+				"tsconfigRootDir": "angular-fe"
       },
       "extends": [
         "plugin:@angular-eslint/recommended",

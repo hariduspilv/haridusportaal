@@ -31,6 +31,8 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   @Output() listEmitter = new EventEmitter<Object>(null);
   @Output() filterEmitter = new EventEmitter<Object>(null);
 
+  public highlighted?: any;
+
   public type: string = 'mainProfession';
   public parsedType: string = 'mainprofession';
   public queryName: string = 'oskaMainProfessionListView';
@@ -216,6 +218,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           this.professionCount = this.scrollRestorationValues[this.type].professionCount;
           this.listCount = this.scrollRestorationValues[this.type].listItemCount;
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
+          this.highlighted = this.scrollRestorationValues[this.type].highlight;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             if (position) {
               setTimeout(() => {
@@ -281,12 +284,26 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         listItemCount: this.listCount,
         nonProfessionCount: this.nonProfessionCount,
         professionCount: this.professionCount,
+        highlight: this.highlighted,
       },
     });
   }
 
   public selectArbitraryHighlightedJob(): void {
     if (this.list && this.list.length && !this.searchWithParams) {
+      // If there already was a selected highlight, check to see if its in the resulting list
+      if (this.highlighted) {
+        const exists = this.list.findIndex((elem: any) => {
+          return elem.nid === this.highlighted.nid;
+        });
+        if (exists > -1) {
+          // If it is, remove it from the list and put it in front
+          this.list.splice(exists, 1);
+          this.list.unshift(this.highlighted);
+          return;
+        }
+      }
+
       const filteredList: Object[] = this.list.filter(elem =>
         elem.fieldFillingBar === 1 || elem.fieldFillingBar === 2);
       if (filteredList.length) {
@@ -303,12 +320,15 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           (response) => {
             const filteredJob = FieldVaryService(initialFilteredJob);
             filteredJob['highlighted'] = true;
-            filteredJob['fixedLabel'] = {
-              entity: {
-                entityLabel: this.competitionLabels[filteredJob['fieldFillingBar'] - 1],
-              }
-            };
+            if (!filteredJob['fixedLabel']) {
+              filteredJob['fixedLabel'] = {
+                entity: {
+                  entityLabel: this.competitionLabels[filteredJob['fieldFillingBar'] - 1],
+                },
+              };
+            }
             filteredJob['fieldPictogram'] = response['data']['route']['entity']['fieldPictogram'];
+            this.highlighted = filteredJob;
             this.list.unshift(filteredJob);
             jobSubscription.unsubscribe();
           });

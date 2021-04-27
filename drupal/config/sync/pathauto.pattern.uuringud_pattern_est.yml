@@ -1,0 +1,33 @@
+uuid: a367ce1d-9510-46c5-a211-2ece49d7d46f
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: uuringud_pattern_est
+label: 'Uuringud pattern EST'
+type: 'canonical_entities:node'
+pattern: 'uuringud/[node:title]'
+selection_criteria:
+  69a8c03b-a380-4449-8ce4-791f3ed5b657:
+    id: node_type
+    bundles:
+      studypage: studypage
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 69a8c03b-a380-4449-8ce4-791f3ed5b657
+  1b6e5ba6-396e-4099-bc14-9621f9210ddc:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 1b6e5ba6-396e-4099-bc14-9621f9210ddc
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

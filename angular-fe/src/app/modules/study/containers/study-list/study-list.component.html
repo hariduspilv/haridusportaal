@@ -3,8 +3,8 @@
     <breadcrumbs path="/uuringud"></breadcrumbs>
   </max-width-wrapper>
   <study-list-filter
-    *ngIf="list"
-    [options]="filterOptions">
+    *ngIf="filterOptions$ | async as options"
+    [options]="options">
   </study-list-filter>
   <max-width-wrapper>
     <block [titleBorder]="false" [loading]="loading?.list">
@@ -19,7 +19,8 @@
           *ngFor="let study of list; let first = first;"
           [highlighted]="this.highlight && first"
           [noBorderBefore]="!this.highlight && first"
-          [study]="study">
+          [study]="study"
+				>
         </study-list-item>
         <p class="flex flex-justify-center p-top-1 p-bottom-1"
           *ngIf="!loading?.list && list && !list?.length">

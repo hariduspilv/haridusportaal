@@ -28,7 +28,23 @@
           </div>
         </form>
         <loader *ngIf="loading"></loader>
-        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator">
+        <table class="sr-only" *ngIf="this.polygonData">
+          <caption>
+            <span *ngIf="filterFormItems.OSKAField">{{this.polygonData.county[0].OSKAField}} </span>
+            <span>{{this.polygonData.county[0].mapIndicator}}</span>
+          </caption>
+          <tbody>
+            <tr>
+              <th scope="col">{{ 'oska.county' | translate }}</th>
+              <th scope="col">{{ 'oska.occupied' | translate }}</th>
+            </tr>
+            <tr *ngFor="let item of this.polygonData.county">
+              <td>{{item.county}}</td>
+              <td>{{item.value}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator" aria-hidden="true">
         </map>
         <!--/map-wrapper-->
       </block-content>

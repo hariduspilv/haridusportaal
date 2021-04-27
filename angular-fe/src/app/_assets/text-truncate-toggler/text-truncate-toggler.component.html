@@ -1,0 +1,8 @@
+<div [innerHtml]="expanded ? input : (input | ellipsis: limit)"></div>
+<button
+  *ngIf="toggleButton"
+  htm-button
+  theme="plain"
+  (click)="toggle()">
+  {{ expanded ? ('button.show_less' | translate) : ('button.read_more' | translate) }}
+</button>

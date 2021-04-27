@@ -2,25 +2,25 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Language } from '@app/_core/models/interfaces/language.enum';
 import { ListOffsetParameters } from '@app/_core/models/list-offset-parameters';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { MappedStudy } from '../../models/mapped-study';
 import { MappedStudyFilters } from '../../models/mapped-study-filters';
-import { StudyListViewFilterQueryResponse } from '../../models/study-list-view-filter-query-response';
 import { StudyListViewQueryParameters } from '../../models/study-list-view-query-parameters';
 import { StudyListViewQueryResponse } from '../../models/study-list-view-query-response';
 import { StudyApiService } from '../../study-api.service';
 import { StudyUtility } from '../../study-utility';
 
 @Component({
-  selector: 'study-list',
-  templateUrl: './study-list.component.html',
-  styleUrls: ['./study-list.component.scss'],
+	selector: 'study-list',
+	templateUrl: './study-list.component.html',
+	styleUrls: ['./study-list.component.scss'],
 })
 export class StudyListComponent implements OnInit, OnDestroy {
   private componentDestroyed$ = new Subject();
+  public filterOptions$: Observable<MappedStudyFilters> = this.filterOptionsAsObservable();
   public list: MappedStudy[];
-  public filterOptions: MappedStudyFilters;
+  public highlight: MappedStudy;
   public loading: Record<string, boolean> = {
     list: true,
     loadMore: false,
@@ -30,15 +30,14 @@ export class StudyListComponent implements OnInit, OnDestroy {
     offset: 0,
     count: 0,
   };
-  public highlight: MappedStudy;
 
-  constructor(
-    private api: StudyApiService,
-    private route: ActivatedRoute,
-  ) { }
+	constructor(
+		private api: StudyApiService,
+		private route: ActivatedRoute,
+	) {
+	}
 
   ngOnInit(): void {
-    this.getStudyFilterOptions();
     this.route.queryParams
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((parameters) => {
@@ -47,15 +46,15 @@ export class StudyListComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.componentDestroyed$.next();
-    this.componentDestroyed$.complete();
-  }
+	ngOnDestroy(): void {
+		this.componentDestroyed$.next();
+		this.componentDestroyed$.complete();
+	}
 
-  loadMoreContent(): void {
-    this.offsetParameters.offset += 24;
-    this.studyListViewQuery(this.route.snapshot.queryParams, true);
-  }
+	loadMoreContent(): void {
+		this.offsetParameters.offset += 24;
+		this.studyListViewQuery(this.route.snapshot.queryParams, true);
+	}
 
   private studyListViewQuery(parameters: StudyListViewQueryParameters, loadMoreContent?: boolean) {
     this.loading = {
@@ -68,20 +67,14 @@ export class StudyListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((response: StudyListViewQueryResponse) => {
       const { entities, count } = response.data.nodeQuery;
+      const { list, highlight } = StudyUtility.studyListMappedData(this.list, entities, loadMoreContent);
       this.offsetParameters.count = count;
-      this.list = StudyUtility.joinResponseWithPreviousValues(this.list, entities, loadMoreContent);
-      if (!loadMoreContent) {
-        this.unshiftHighlightToList();
-      }
+      this.list = list;
+      this.highlight = highlight;
       this.resetLoading();
     }, () => {
       this.resetLoading();
     });
-  }
-
-  private unshiftHighlightToList(): void {
-    this.highlight = StudyUtility.extractRandomHighlightedStudy(this.list);
-    this.list = this.highlight ? [this.highlight, ...this.list.filter(study => study !== this.highlight)] : this.list;
   }
 
   private resetLoading(): void {
@@ -91,20 +84,17 @@ export class StudyListComponent implements OnInit, OnDestroy {
     };
   }
 
-  private resetStudyListOffsetParameters(): void {
-    this.offsetParameters = {
-      limit: 24,
-      offset: 0,
-      count: 0,
-    };
-  }
+	private resetStudyListOffsetParameters(): void {
+		this.offsetParameters = {
+			limit: 24,
+			offset: 0,
+			count: 0,
+		};
+	}
 
-  private getStudyFilterOptions() {
-    this.api.studyListViewFilterQuery(Language.et)
-      .pipe(takeUntil(this.componentDestroyed$))
-      .subscribe((response: StudyListViewFilterQueryResponse) => {
-      this.filterOptions = StudyUtility.flattenStudyListFilterOptions(response);
-    });
+  private filterOptionsAsObservable() {
+    return this.api.studyListViewFilterQuery(Language.et)
+      .pipe(map(response => StudyUtility.flattenStudyListFilterOptions(response)));
   }
 
 }
