@@ -30,8 +30,8 @@
         "drupal/console": "~1.0",
         "drupal/console-extend-plugin": "^0.9.5",
         "drupal/content_sync": "^2.1",
+        "drupal/core": "^8.9",
         "drupal/core-composer-scaffold": "^8.9",
-        "drupal/core-recommended": "8.9.14",
         "drupal/devel": "^4.1",
         "drupal/devel_entity_updates": "^3.0",
         "drupal/editor_advanced_link": "^1.4",
@@ -98,8 +98,8 @@
         "symfony/dom-crawler": "v3.4.9",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
-        "webonyx/graphql-php": "^0.12.5",
-        "webmozart/path-util": "^2.3"
+        "webmozart/path-util": "^2.3",
+        "webonyx/graphql-php": "^0.12.5"
     },
     "require-dev": {
         "drupal/core-dev": "^8.9"
@@ -148,6 +148,10 @@
             "drupal-scaffold": {
                 "locations": {
                     "web-root": "./app/drupal/web"
+                },
+                "initial": {
+                    ".editorconfig": "../.editorconfig",
+                    ".gitattributes": "../.gitattributes"
                 }
             }
         }
