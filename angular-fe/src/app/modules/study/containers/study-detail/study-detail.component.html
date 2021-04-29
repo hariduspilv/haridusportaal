@@ -7,13 +7,18 @@
             <block-content [noPaddingTop]="true">
 
                 <h1>{{study.title}}</h1>
-                <share [pageTitle]="study?.title"></share>
+
+                <div class="author">
+                    {{study.fieldStudyAuthors}}
+                </div>
 
                 <labels
                         *ngIf="study.fieldCustomBoolean"
                         type="orange"
                         [data]="[study.fieldStudyTag]">
                 </labels>
+
+                <share [pageTitle]="study?.title"></share>
 
                 <p class="bold">
                     {{study.fieldIntroduction}}
