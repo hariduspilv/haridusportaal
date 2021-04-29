@@ -166,7 +166,6 @@ export class StudyUtility {
   static mapStudyDetailData(studyDetails: MappedStudyPage): MappedStudyPage {
     return {
       ...studyDetails,
-      fieldStudyAuthors: this.joinArrayToString(studyDetails.fieldRightColumn.entity.fieldStudy.entity.fieldAuthor),
     };
   }
 

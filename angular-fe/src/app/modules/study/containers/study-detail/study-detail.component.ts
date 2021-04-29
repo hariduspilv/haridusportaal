@@ -20,7 +20,6 @@ export class StudyDetailComponent {
     .pipe(
       tap(() => this.loading = false, error => console.log('Error: ', error)),
       map((response: StudyDetailViewQuery) => StudyUtility.mapStudyDetailData(response?.data?.route?.entity))
-      // map((response: StudyDetailViewQuery) => response?.data?.route?.entity)
     );
 
   constructor(
