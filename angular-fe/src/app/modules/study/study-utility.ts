@@ -165,17 +165,8 @@ export class StudyUtility {
 
   static mapStudyDetailData(studyDetails: MappedStudyPage): MappedStudyPage {
     return {
-      title: studyDetails.title,
+      ...studyDetails,
       fieldStudyAuthors: this.joinArrayToString(studyDetails.fieldRightColumn.entity.fieldStudy.entity.fieldAuthor),
-      fieldCustomBoolean: studyDetails.fieldCustomBoolean,
-      fieldStudyTag: studyDetails.fieldStudyTag,
-      fieldIntroduction: studyDetails.fieldIntroduction,
-      fieldContent: studyDetails.fieldContent,
-      fieldAdditionalImages: studyDetails.fieldAdditionalImages,
-      fieldStudyText: studyDetails.fieldStudyText,
-      fieldAccordion: studyDetails.fieldAccordion,
-      fieldLabel: studyDetails.fieldLabel,
-      fieldRightColumn: studyDetails.fieldRightColumn
     };
   }
 

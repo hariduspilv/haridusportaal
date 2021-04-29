@@ -8,7 +8,7 @@
 
                 <h1>{{study.title}}</h1>
 
-                <div class="author">
+                <div *ngIf="study.fieldStudyAuthors" class="author">
                     {{study.fieldStudyAuthors}}
                 </div>
 
