@@ -4,6 +4,7 @@ import { StudyPageFieldRightColumn } from './study-page-field-right-column';
 
 export interface MappedStudyPage {
 	title: string;
+	fieldStudyAuthors: string;
 	fieldCustomBoolean: boolean;
 	fieldStudyTag: EntityObject;
 	fieldIntroduction: string;
