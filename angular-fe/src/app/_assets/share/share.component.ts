@@ -75,7 +75,6 @@ export class ShareComponent {
         shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     }
 
-    // tslint:disable-next-line: max-line-length
     const shareWindow = 'toolbar=0,location=0,status=0,menubar=0,scrollbars=1,resizable=1,width=560,height=460';
 
     return window.open(shareLink, 'targetWindow', shareWindow);

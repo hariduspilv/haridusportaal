@@ -58,7 +58,7 @@ export class SessionExpirationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // tslint:disable-next-line: radix
+
     this.countDownTime = parseInt(this.translate.get('session.timeout')) || 100;
     this.watchLogin();
 

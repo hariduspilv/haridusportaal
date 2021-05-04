@@ -302,7 +302,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         if (this.type === 'multi-select' && !this.field) {
           this.field = [];
         }
-        this.filledField = this.field.length > 0;
+        this.filledField = this.field?.length > 0;
 
         if (typeof this.field === 'number') {
           this.filledField = true;
@@ -313,7 +313,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         }
 
       } else {
-        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object')
+        this.filledField = this.field && (this.field?.length > 0 || typeof this.field === 'object')
           || (typeof this.field === 'number' && (this.field || this.field === 0));
       }
 
@@ -381,7 +381,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   public writeValue(value: any) {
     if (this.type === 'multi-select') {
-
       if (value) {
         this.field = value;
       }

@@ -52,7 +52,6 @@ export class UploadService {
     let headers = this.createAuthorizationHeader();
     headers = headers.append('Accept', 'application/json');
     headers = headers.append('Content-Type', 'application/octet-stream');
-    // tslint:disable-next-line: max-line-length
     headers = headers.append('Content-Disposition', 'file; filename="'.concat(encodeURIComponent(filename), '"'));
     return this.http.post(url, data, {
       headers,
