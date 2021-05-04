@@ -10,10 +10,10 @@ use Consolidation\SiteAlias\SiteAliasInterface;
 use Consolidation\SiteAlias\SiteAliasManager;
 use Consolidation\SiteProcess\ProcessBase;
 use Consolidation\SiteProcess\SiteProcess;
-use Drush\Style\DrushStyle;
 use League\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -40,14 +40,6 @@ use Symfony\Component\Process\Process;
  * than a few non-reusable lines, it is recommended to instantiate an object
  * implementing the actual logic.
  *
- * @code
- *   // Legacy procedural code.
- *   $object = drush_get_context('DRUSH_CLASS_LABEL');
- *
- * Better:
- *   $object = Drush::service('label');
- *
- * @endcode
  */
 class Drush
 {
@@ -147,7 +139,6 @@ class Drush
     public static function getContainer()
     {
         if (!\Robo\Robo::hasContainer()) {
-            debug_print_backtrace();
             throw new \RuntimeException('Drush::$container is not initialized yet. \Drush::setContainer() must be called with a real container.');
         }
         return \Robo\Robo::getContainer();
@@ -415,16 +406,6 @@ class Drush
     }
 
     /**
-     * Return the path to this Drush.
-     *
-     * @deprecated Inject configuration and use $this->getConfig()->drushScript().
-     */
-    public static function drushScript()
-    {
-        return \Drush\Drush::config()->drushScript();
-    }
-
-    /**
      * Return 'true' if we are in simulated mode
      *
      * @deprecated Inject configuration and use $this->getConfig()->simulate().
@@ -435,16 +416,6 @@ class Drush
     }
 
     /**
-     * Return 'true' if we are in backend mode
-     *
-     * @deprecated Inject configuration and use $this->getConfig()->backend().
-     */
-    public static function backend()
-    {
-        return \Drush\Drush::config()->backend();
-    }
-
-    /**
      * Return 'true' if we are in affirmative mode
      */
     public static function affirmative()
@@ -452,7 +423,7 @@ class Drush
         if (!self::hasService('input')) {
             throw new \Exception('No input service available.');
         }
-        return Drush::input()->getOption('yes') || (Drush::backend() && !Drush::negative());
+        return Drush::input()->getOption('yes');
     }
 
     /**
@@ -511,12 +482,22 @@ class Drush
     public static function redispatchOptions($input = null)
     {
         $input = $input ?: self::input();
+        $command_name = $input->getFirstArgument();
 
         // $input->getOptions() returns an associative array of option => value
         $options = $input->getOptions();
 
         // The 'runtime.options' config contains a list of option names on th cli
         $optionNamesFromCommandline = self::config()->get('runtime.options');
+
+        // Attempt to normalize option names.
+        foreach ($optionNamesFromCommandline as $key => $name) {
+            try {
+                $optionNamesFromCommandline[$key] = Drush::getApplication()->get($command_name)->getDefinition()->shortcutToName($name);
+            } catch (InvalidArgumentException $e) {
+                // Do nothing. It's expected.
+            }
+        }
 
         // Remove anything in $options that was not on the cli
         $options = array_intersect_key($options, array_flip($optionNamesFromCommandline));

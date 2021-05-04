@@ -242,6 +242,35 @@ class AuthmapTest extends UnitTestCase {
   }
 
   /**
+   * Test delete() method, when passing in $provider.
+   *
+   * @covers ::delete
+   * @covers ::__construct
+   */
+  public function testDeleteWithProvider() {
+    // Create a Mock Delete object and set expectations.
+    $this->delete = $this->getMockBuilder('Drupal\Core\Database\Query\Delete')
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    $this->delete->expects($this->exactly(2))
+      ->method('condition')
+      ->will($this->returnSelf());
+
+    $this->delete->expects($this->any())
+      ->method('execute')
+      ->will($this->returnValue($this->statement));
+
+    $this->connection->expects($this->once())
+      ->method('delete')
+      ->with($this->equalTo('authmap'))
+      ->will($this->returnValue($this->delete));
+
+    $authmap = new Authmap($this->connection);
+    $authmap->delete(2, 'some_provider');
+  }
+
+  /**
    * Test deleteProviders() method.
    *
    * @covers ::deleteProvider
@@ -254,7 +283,7 @@ class AuthmapTest extends UnitTestCase {
       ->will($this->returnValue($this->delete));
 
     $authmap = new Authmap($this->connection);
-    $authmap->delete("test_provider");
+    $authmap->deleteProvider("test_provider");
   }
 
 }

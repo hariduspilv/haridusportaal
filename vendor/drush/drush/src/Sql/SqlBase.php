@@ -111,10 +111,12 @@ class SqlBase implements ConfigAwareInterface
     {
         $driver = $db_spec['driver'];
         $class_name = 'Drush\Sql\Sql'. ucfirst($driver);
-        $instance = new $class_name($db_spec, $options);
-        // Inject config
-        $instance->setConfig(Drush::config());
-        return $instance;
+        if (class_exists($class_name)) {
+            $instance = new $class_name($db_spec, $options);
+            // Inject config
+            $instance->setConfig(Drush::config());
+            return $instance;
+        }
     }
 
     /*
@@ -307,7 +309,7 @@ class SqlBase implements ConfigAwareInterface
     public function alwaysQuery($query, $input_file = null, $result_file = '')
     {
         $input_file_original = $input_file;
-        if ($input_file && drush_file_is_tarball($input_file)) {
+        if ($input_file && FsUtils::isTarball($input_file)) {
             $process = Drush::process(['gzip', '-df', $input_file]);
             $process->setSimulated(false);
             $process->run();
@@ -327,14 +329,7 @@ class SqlBase implements ConfigAwareInterface
             $input_file = drush_save_data_to_temp_file($query);
         }
 
-        $parts = [
-            $this->command(),
-            $this->creds(),
-            $this->silent(), // This removes column header and various helpful things in mysql.
-            $this->getOption('extra', $this->queryExtra),
-            $this->queryFile,
-            Escape::shellArg($input_file),
-        ];
+        $parts = $this->alwaysQueryCommand($input_file);
         $exec = implode(' ', $parts);
 
         if ($result_file) {
@@ -458,7 +453,7 @@ class SqlBase implements ConfigAwareInterface
     public function dropOrCreate()
     {
         if ($this->dbExists()) {
-            return $this->drop($this->listTables());
+            return $this->drop($this->listTablesQuoted());
         } else {
             return $this->createdb();
         }
@@ -470,10 +465,6 @@ class SqlBase implements ConfigAwareInterface
      * @return bool
      */
     public function dbExists()
-    {
-    }
-
-    public function delete()
     {
     }
 
@@ -508,6 +499,18 @@ class SqlBase implements ConfigAwareInterface
     {
     }
 
+    /**
+     * Extract the name of all existing tables in the given database.
+     *
+     * @return array|null
+     *   An array of table names which exist in the current database,
+     *   appropriately quoted for the RDMS.
+     */
+    public function listTablesQuoted()
+    {
+        return $this->listTables();
+    }
+
     /*
      * Helper method to turn associative array into options with values.
      *
@@ -520,7 +523,7 @@ class SqlBase implements ConfigAwareInterface
         $parameter_strings = [];
         foreach ($parameters as $key => $value) {
             // Only escape the values, not the keys or the rest of the string.
-            $value = drush_escapeshellarg($value);
+            $value = Escape::shellArg($value);
             $parameter_strings[] = "--$key=$value";
         }
 
@@ -530,9 +533,6 @@ class SqlBase implements ConfigAwareInterface
 
     /**
      * Adjust DB connection with superuser credentials if provided.
-     *
-     * The options 'db-su' and 'db-su-pw' will be retrieved from the
-     * specified site alias record.
      *
      * @return null
      */
@@ -628,5 +628,25 @@ class SqlBase implements ConfigAwareInterface
         }
 
         return $db_spec;
+    }
+
+    /**
+     * Start building the command to run a query.
+     *
+     * @param $input_file
+     *
+     * @return array
+     */
+    public function alwaysQueryCommand($input_file): array
+    {
+        return [
+            $this->command(),
+            $this->creds(!$this->getOption('show-passwords')),
+            $this->silent(),
+            // This removes column header and various helpful things in mysql.
+            $this->getOption('extra', $this->queryExtra),
+            $this->queryFile,
+            Escape::shellArg($input_file),
+        ];
     }
 }

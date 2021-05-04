@@ -592,20 +592,20 @@ class ResponseTest extends ResponseTestCase
 
         $options = ['etag' => '"whatever"'];
         $response->setCache($options);
-        $this->assertEquals('"whatever"', $response->getEtag());
+        $this->assertEquals($response->getEtag(), '"whatever"');
 
         $now = $this->createDateTimeNow();
         $options = ['last_modified' => $now];
         $response->setCache($options);
-        $this->assertEquals($now->getTimestamp(), $response->getLastModified()->getTimestamp());
+        $this->assertEquals($response->getLastModified()->getTimestamp(), $now->getTimestamp());
 
         $options = ['max_age' => 100];
         $response->setCache($options);
-        $this->assertEquals(100, $response->getMaxAge());
+        $this->assertEquals($response->getMaxAge(), 100);
 
         $options = ['s_maxage' => 200];
         $response->setCache($options);
-        $this->assertEquals(200, $response->getMaxAge());
+        $this->assertEquals($response->getMaxAge(), 200);
 
         $this->assertTrue($response->headers->hasCacheControlDirective('public'));
         $this->assertFalse($response->headers->hasCacheControlDirective('private'));

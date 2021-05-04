@@ -2,28 +2,35 @@
 
 namespace Drupal\sitemap\Tests;
 
-use Drupal\simpletest\WebTestBase;
+use \Drupal\node\NodeInterface;
 
 /**
  * Test the display of books based on sitemap settings.
  *
  * @group sitemap
  */
-class SitemapBookTest extends WebTestBase {
+class SitemapBookTest extends SitemapBrowserTestBase {
+
+  use SitemapTestTrait;
 
   /**
-   * Modules to enable.
-   *
-   * @var array
+   * {@inheritdoc}
    */
-  public static $modules = array('sitemap', 'book');
+  public static $modules = ['sitemap', 'book'];
 
   /**
-   * A book node.
+   * The parent book node.
    *
-   * @var object
+   * @var NodeInterface
    */
   protected $book;
+
+  /**
+   * Nodes that make up the content of the book.
+   *
+   * @var NodeInterface[]
+   */
+  protected $nodes;
 
   /**
    * {@inheritdoc}
@@ -32,14 +39,16 @@ class SitemapBookTest extends WebTestBase {
     parent::setUp();
 
     // Create user then login.
-    $this->user = $this->drupalCreateUser(array(
+    $this->user = $this->drupalCreateUser([
       'administer sitemap',
       'access sitemap',
       'create book content',
       'create new books',
       'administer book outlines',
-    ));
+    ]);
     $this->drupalLogin($this->user);
+
+    $this->nodes = $this->createBook();
   }
 
   /**
@@ -48,43 +57,54 @@ class SitemapBookTest extends WebTestBase {
   public function testBooks() {
     // Assert that books are not included in the sitemap by default.
     $this->drupalGet('/sitemap');
-    $elements = $this->cssSelect(".sitemap-box h2:contains('Books')");
-    $this->assertEqual(count($elements), 0, 'Books are not included.');
-
-    // Create new book.
-    $nodes = $this->createBook();
-    $book = $this->book;
+    $elements = $this->cssSelect(".sitemap-plugin--book");
+    $this->assertEquals(count($elements), 0, 'Books are not included.');
 
     // Configure sitemap to show the test book.
-    $bid = $book->id();
-    $edit = array(
-      'show_books[' . $bid . ']' => $bid,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $bid = $this->book->id();
+    $nodes = $this->nodes;
+    $edit = [
+      'plugins[book:' . $bid . '][enabled]' => TRUE,
+    ];
+    $this->saveSitemapForm($edit);
 
     // Assert that all book links are displayed by default.
     $this->drupalGet('/sitemap');
-    $this->assertLink($this->book->getTitle());
+    $this->assertSession()->linkExists($this->book->getTitle());
     foreach ($nodes as $node) {
-      $this->assertLink($node->getTitle());
+      $this->assertSession()->linkExists($node->getTitle());
     }
 
     // Configure sitemap to not expand books.
-    $edit = array(
-      'books_expanded' => FALSE,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $edit = [
+      'plugins[book:' . $bid . '][settings][show_expanded]' => FALSE,
+    ];
+    $this->saveSitemapForm($edit);
 
     // Assert that the top-level book link is displayed, but that the others are
     // not.
     $this->drupalGet('/sitemap');
-    $this->assertLink($this->book->getTitle());
+    $this->assertSession()->linkExists($this->book->getTitle());
     foreach ($nodes as $node) {
-      $this->assertNoLink($node->getTitle());
+      $this->assertSession()->linkNotExists($node->getTitle());
     }
 
   }
 
+  /**
+   * Tests a custom title setting for books.
+   */
+  public function testBooksCustomTitle() {
+    $bid = $this->book->id();
+
+    // Configure sitemap to show the test book.
+    $this->saveSitemapForm(['plugins[book:' . $bid . '][enabled]' => TRUE]);
+
+    $this->titleTest($this->book->label(), 'book', $bid,  TRUE);
+  }
+
+  // @TODO: test book crud
+  // @TODO: test multiple books
 
   /**
    * Creates a new book with a page hierarchy. Adapted from BookTest.
@@ -102,7 +122,7 @@ class SitemapBookTest extends WebTestBase {
      *  |- Node 04
      *  |- Node 05
      */
-    $nodes = array();
+    $nodes = [];
     $nodes[] = $this->createBookNode($book->id());
     $nodes[] = $this->createBookNode($book->id(), $nodes[0]->book['nid']);
     $nodes[] = $this->createBookNode($book->id(), $nodes[0]->book['nid']);
@@ -112,7 +132,6 @@ class SitemapBookTest extends WebTestBase {
     return $nodes;
   }
 
-
   /**
    * Creates a book node. From BookTest.
    *
@@ -121,19 +140,16 @@ class SitemapBookTest extends WebTestBase {
    * @param int|null $parent
    *   (optional) Parent book reference ID. Defaults to NULL.
    *
-   * @return object
+   * @return NodeInterface
    *   Returns object
+   *
+   * @throws \Exception
    */
-  protected function createBookNode($book_nid, $parent = NULL) {
-    // $number does not use drupal_static as it should not be reset
-    // since it uniquely identifies each call to createBookNode().
-    // Used to ensure that when sorted nodes stay in same order.
-    static $number = 0;
-
-    $edit = array();
-    $edit['title[0][value]'] = str_pad($number, 2, '0', STR_PAD_LEFT) . ' - SimpleTest test node ' . $this->randomMachineName(10);
-    $edit['body[0][value]'] = 'SimpleTest test body ' . $this->randomMachineName(32) . ' ' . $this->randomMachineName(32);
-    $edit['book[bid]'] = $book_nid;
+  protected function createBookNode($bid, $parent = NULL) {
+    $edit = [
+      'title[0][value]' => $this->randomMachineName(10),
+      'book[bid]' => $bid
+    ];
 
     if ($parent !== NULL) {
       $this->drupalPostForm('node/add/book', $edit, t('Change book (update list of parents)'));
@@ -145,10 +161,7 @@ class SitemapBookTest extends WebTestBase {
       $this->drupalPostForm('node/add/book', $edit, t('Save'));
     }
 
-    $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
-    $number++;
-
-    return $node;
+    return $this->drupalGetNodeByTitle($edit['title[0][value]']);
   }
 
 }

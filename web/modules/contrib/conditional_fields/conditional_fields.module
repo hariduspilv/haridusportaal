@@ -12,6 +12,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\WidgetInterface;
 use Drupal\Core\Url;
 use Drupal\conditional_fields\ConditionalFieldsFormHelper;
+use Drupal\conditional_fields\DependencyHelper;
 
 /**
  * Implements hook_help().
@@ -71,6 +72,28 @@ function conditional_fields_element_info_alter(array &$types) {
   foreach ($types as $type => $info) {
     $types[$type]['#after_build'][] = 'conditional_fields_element_after_build';
   }
+}
+
+/**
+ * Implements hook_conditional_fields().
+ *
+ * We implement this on behalf of the core Field module.
+ */
+function conditional_fields_conditional_fields($entity_type, $bundle_name) {
+  $fields = [];
+  $instances = \Drupal::getContainer()->get("entity_field.manager")
+    ->getFieldDefinitions($entity_type, $bundle_name);
+  foreach ($instances as $field) {
+    $fields[$field->getName()] = $field->getLabel();
+  }
+  return $fields;
+}
+
+/**
+ * Implements hook_conditional_fields_alter().
+ */
+function conditional_fields_conditional_fields_alter(&$fields, $entity_type, $bundle_name) {
+  asort($fields);
 }
 
 /**
@@ -151,56 +174,14 @@ function conditional_fields_element_after_build($element, FormStateInterface &$f
 }
 
 /**
- * Loads all dependencies from the database.
- *
- * The result can be filtered by providing an entity type and a bundle name.
+ * Loads all dependencies from the database for a given bundle.
  */
 function conditional_fields_load_dependencies($entity_type, $bundle) {
-  // Use the advanced drupal_static() pattern.
-  static $dependencies;
-
-  if (!isset($dependencies[$entity_type][$bundle])) {
-    if (!empty($entity_type) && !empty($bundle)) {
-      $dependencies[$entity_type][$bundle] = [];
-    }
-
-    /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $entity */
-    $entity = \Drupal::entityTypeManager()
-      ->getStorage('entity_form_display')
-      ->load($entity_type . '.' . $bundle . '.default');
-
-    if (!$entity) {
-      return $dependencies;
-    }
-
-    $fields = $entity->getComponents();
-    foreach ($fields as $field_name => $field) {
-      if (empty($field['third_party_settings']['conditional_fields'])) {
-        continue;
-      }
-      foreach ($field['third_party_settings']['conditional_fields'] as $uuid => $conditional_field) {
-        $dependencies[$entity_type][$bundle]['dependents'][$field_name][$uuid] = [
-          'dependee' => $conditional_field['dependee'],
-          'options' => $conditional_field['settings'],
-        ];
-
-        $dependencies[$entity_type][$bundle]['dependees'][$conditional_field['dependee']][$uuid] = [
-          'dependent' => $field_name,
-          'options' => $conditional_field['settings'],
-        ];
-      }
-    }
+  static $dependency_helper;
+  if (!isset($dependency_helper)) {
+    $dependency_helper = new DependencyHelper($entity_type, $bundle);
   }
-
-  if ($entity_type && isset($dependencies[$entity_type])) {
-    if ($bundle && isset($dependencies[$entity_type][$bundle])) {
-      return $dependencies[$entity_type][$bundle];
-    }
-
-    return $dependencies[$entity_type];
-  }
-
-  return $dependencies;
+  return $dependency_helper->getBundleDependencies();
 }
 
 /**

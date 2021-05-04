@@ -42,12 +42,19 @@ class QueueUIBatch {
     $queue_worker = $queue_manager->createInstance($queue_name);
     $queue = $queue_factory->get($queue_name);
 
+    $num_of_items = $queue->numberOfItems();
+    if (!array_key_exists('num_of_total_items', $context['sandbox'])
+      || $context['sandbox']['num_of_total_items'] < $num_of_items
+    ) {
+      $context['sandbox']['num_of_total_items'] = $num_of_items;
+    }
+
     $context['finished'] = 0;
     $context['results']['queue_name'] = $info['title'];
 
     $title = t('Processing queue %name: %count items remaining', [
       '%name' => $info['title'],
-      '%count' => $queue->numberOfItems(),
+      '%count' => $num_of_items,
     ]);
 
     try {
@@ -61,8 +68,11 @@ class QueueUIBatch {
         $queue_worker->processItem($item->data);
         $queue->deleteItem($item);
 
+        $num_of_items = $queue->numberOfItems();
+
         // Update context
         $context['results']['processed'][] = $item->item_id;
+        $context['finished'] = ($context['sandbox']['num_of_total_items'] - $num_of_items) / $context['sandbox']['num_of_total_items'];
       }
       else {
         // If we cannot claim an item we must be done processing this queue.

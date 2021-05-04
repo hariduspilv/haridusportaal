@@ -99,6 +99,7 @@ class BackendTest extends BackendTestBase {
    */
   protected function checkBackendSpecificFeatures() {
     $this->checkMultiValuedInfo();
+    $this->searchWithRandom();
     $this->setServerMatchMode();
     $this->searchSuccessPartial();
     $this->setServerMatchMode('prefix');
@@ -122,6 +123,7 @@ class BackendTest extends BackendTestBase {
     $this->regressionTest2925464();
     $this->regressionTest2994022();
     $this->regressionTest2916534();
+    $this->regressionTest2873023();
   }
 
   /**
@@ -256,6 +258,36 @@ class BackendTest extends BackendTestBase {
     $server->setBackendConfig($backend_config);
     $this->assertTrue((bool) $server->save(), 'The server was successfully edited.');
     $this->resetEntityCache();
+  }
+
+  /**
+   * Tests whether random searches work.
+   */
+  protected function searchWithRandom() {
+    // Run the query 5 times, using random sorting as the first sort and verify
+    // that the results are not always the same.
+    $first_result = NULL;
+    $second_result = NULL;
+    for ($i = 1; $i <= 5; $i++) {
+      $results = $this->buildSearch('foo', [], NULL, FALSE)
+        ->sort('search_api_random')
+        ->sort('id')
+        ->execute();
+
+      $result_ids = array_keys($results->getResultItems());
+      if ($first_result === NULL) {
+        $first_result = $second_result = $result_ids;
+      }
+      elseif ($result_ids !== $first_result) {
+        $second_result = $result_ids;
+      }
+
+      // Make sure the search still returned the expected items.
+      $this->assertCount(4, $result_ids);
+      sort($result_ids);
+      $this->assertEquals($this->getItemIds([1, 2, 4, 5]), $result_ids);
+    }
+    $this->assertNotEquals($first_result, $second_result);
   }
 
   /**
@@ -725,8 +757,6 @@ class BackendTest extends BackendTestBase {
   /**
    * Tests edge cases for partial matching.
    *
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   *
    * @see https://www.drupal.org/node/2916534
    */
   protected function regressionTest2916534() {
@@ -745,6 +775,50 @@ class BackendTest extends BackendTestBase {
 
     $entity->delete();
     $this->setServerMatchMode($old);
+  }
+
+  /**
+   * Tests whether keywords with special characters work correctly.
+   *
+   * @see https://www.drupal.org/node/2873023
+   */
+  protected function regressionTest2873023() {
+    $keyword = 'regression@test@2873023';
+
+    $entity_id = count($this->entities) + 1;
+    $entity = $this->addTestEntity($entity_id, [
+      'name' => $keyword,
+      'type' => 'article',
+    ]);
+
+    $index = $this->getIndex();
+    $this->assertFalse($index->isValidProcessor('tokenizer'));
+    $this->indexItems($this->indexId);
+    $results = $this->buildSearch($keyword, [], ['name'])->execute();
+    $this->assertResults([$entity_id], $results, 'Keywords with special characters (Tokenizer disabled)');
+
+    $processor = \Drupal::getContainer()->get('search_api.plugin_helper')
+      ->createProcessorPlugin($index, 'tokenizer');
+    $index->addProcessor($processor);
+    $index->save();
+    $this->assertTrue($index->isValidProcessor('tokenizer'));
+    $this->indexItems($this->indexId);
+    $results = $this->buildSearch($keyword, [], ['name'])->execute();
+    $this->assertResults([$entity_id], $results, 'Keywords with special characters (Tokenizer enabled)');
+
+    $index->getProcessor('tokenizer')->setConfiguration([
+      'spaces' => '\s',
+    ]);
+    $index->save();
+    $this->indexItems($this->indexId);
+    $results = $this->buildSearch($keyword, [], ['name'])->execute();
+    $this->assertResults([$entity_id], $results, 'Keywords with special characters (Tokenizer with special config)');
+
+    $index->removeProcessor('tokenizer');
+    $index->save();
+    $this->assertFalse($index->isValidProcessor('tokenizer'));
+
+    $entity->delete();
   }
 
   /**

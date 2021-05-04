@@ -46,10 +46,10 @@ class UltimateCronQueueTest extends CronQueueTest {
     // Run cron; the worker for this queue should throw an exception and handle
     // it.
     $this->cron->run();
-    $this->assertEqual(\Drupal::state()->get('cron_queue_test_exception'), 1);
+    $this->assertEquals(1, \Drupal::state()->get('cron_queue_test_exception'));
 
     // The item should be left in the queue.
-    $this->assertEqual($queue->numberOfItems(), 1, 'Failing item still in the queue after throwing an exception.');
+    $this->assertEquals(1, $queue->numberOfItems(), 'Failing item still in the queue after throwing an exception.');
 
     // Expire the queue item manually. system_cron() relies in REQUEST_TIME to
     // find queue items whose expire field needs to be reset to 0. This is a
@@ -65,9 +65,9 @@ class UltimateCronQueueTest extends CronQueueTest {
     system_cron();
 
     $this->cron->run();
-    $this->assertEqual(\Drupal::state()->get('cron_queue_test_exception'), 2);
+    $this->assertEquals(2, \Drupal::state()->get('cron_queue_test_exception'));
 
-    $this->assertEqual($queue->numberOfItems(), 0, 'Item was processed and removed from the queue.');
+    $this->assertEquals(0, $queue->numberOfItems(), 'Item was processed and removed from the queue.');
     // Get the queue to test the specific SuspendQueueException.
     $queue = $this->container->get('queue')->get('cron_queue_test_broken_queue');
 
@@ -81,22 +81,22 @@ class UltimateCronQueueTest extends CronQueueTest {
     $this->cron->run();
 
     // Only one item should have been processed.
-    $this->assertEqual($queue->numberOfItems(), 2, 'Failing queue stopped processing at the failing item.');
+    $this->assertEquals(2, $queue->numberOfItems(), 'Failing queue stopped processing at the failing item.');
 
     // Check the items remaining in the queue. The item that throws the
     // exception gets released by cron, so we can claim it again to check it.
     $item = $queue->claimItem();
-    $this->assertEqual($item->data, 'crash', 'Failing item remains in the queue.');
+    $this->assertEquals('crash', $item->data, 'Failing item remains in the queue.');
     $item = $queue->claimItem();
-    $this->assertEqual($item->data, 'ignored', 'Item beyond the failing item remains in the queue.');
+    $this->assertEquals('ignored', $item->data, 'Item beyond the failing item remains in the queue.');
 
     // Test the requeueing functionality.
     $queue = $this->container->get('queue')->get('cron_queue_test_requeue_exception');
     $queue->createItem([]);
     $this->cron->run();
 
-    $this->assertEqual(\Drupal::state()->get('cron_queue_test_requeue_exception'), 2);
-    $this->assertFalse($queue->numberOfItems());
+    $this->assertEquals(2, \Drupal::state()->get('cron_queue_test_requeue_exception'));
+    $this->assertEquals(0, $queue->numberOfItems());
   }
 
 
@@ -124,11 +124,11 @@ class UltimateCronQueueTest extends CronQueueTest {
     $queue->createItem('process');
     $queue->createItem('process');
     $queue->createItem('process');
-    $this->assertEqual(3, $queue->numberOfItems());
+    $this->assertEquals(3, $queue->numberOfItems());
 
     // Run the job, this should process them.
     $job->run(t('Test launch'));
-    $this->assertEqual(0, $queue->numberOfItems());
+    $this->assertEquals(0, $queue->numberOfItems());
 
     // Check item delay feature.
     $this->config('ultimate_cron.settings')
@@ -138,7 +138,7 @@ class UltimateCronQueueTest extends CronQueueTest {
     $queue->createItem('process');
     $queue->createItem('process');
     $queue->createItem('process');
-    $this->assertEqual(3, $queue->numberOfItems());
+    $this->assertEquals(3, $queue->numberOfItems());
 
     // There are 3 items, the implementation doesn't wait for the first, that
     // means this should between 1 and 1.5 seconds.
@@ -146,7 +146,7 @@ class UltimateCronQueueTest extends CronQueueTest {
     $job->run(t('Test launch'));
     $after = microtime(TRUE);
 
-    $this->assertEqual(0, $queue->numberOfItems());
+    $this->assertEquals(0, $queue->numberOfItems());
     $this->assertTrue($after - $before > 1);
     $this->assertTrue($after - $after < 1.5);
 

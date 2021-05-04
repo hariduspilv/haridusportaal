@@ -4,7 +4,6 @@ namespace Drupal\sitemap\Plugin\Block;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 
@@ -23,12 +22,12 @@ class SitemapSyndicateBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return array(
-      'cache' => array(
+    return [
+      'cache' => [
         // No caching.
         'max_age' => 0,
-      ),
-    );
+      ],
+    ];
   }
 
   /**
@@ -46,9 +45,9 @@ class SitemapSyndicateBlock extends BlockBase {
     $route_name = \Drupal::routeMatch()->getRouteName();
 
     if ($route_name == 'blog.user_rss') {
-      $feedurl = Url::fromRoute('blog.user_rss', array(
+      $feedurl = Url::fromRoute('blog.user_rss', [
         'user' => \Drupal::routeMatch()->getParameter('user'),
-      ));
+      ]);
     }
     elseif ($route_name == 'blog.blog_rss') {
       $feedurl = Url::fromRoute('blog.blog_rss');
@@ -57,24 +56,24 @@ class SitemapSyndicateBlock extends BlockBase {
       $feedurl = $config->get('rss_front');
     }
 
-    $feed_icon = array(
+    $feed_icon = [
       '#theme' => 'feed_icon',
       '#url' => $feedurl,
       '#title' => t('Syndicate'),
-    );
+    ];
     $output = \Drupal::service('renderer')->render($feed_icon);
     // Re-use drupal core's render element.
-    $more_link = array(
+    $more_link = [
       '#type' => 'more_link',
       '#url' => Url::fromRoute('sitemap.page'),
-      '#attributes' => array('title' => t('View the sitemap to see more RSS feeds.')),
-    );
+      '#attributes' => ['title' => t('View the sitemap to see more RSS feeds.')],
+    ];
     $output .= \Drupal::service('renderer')->render($more_link);
 
-    return array(
+    return [
       '#type' => 'markup',
       '#markup' => $output,
-    );
+    ];
   }
 
 }

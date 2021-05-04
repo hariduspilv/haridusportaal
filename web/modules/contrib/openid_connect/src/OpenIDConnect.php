@@ -617,6 +617,7 @@ class OpenIDConnect {
             switch ($property_type) {
               case 'string':
               case 'string_long':
+              case 'list_string':
               case 'datetime':
                 $account->set($property_name, $claim_value);
                 break;

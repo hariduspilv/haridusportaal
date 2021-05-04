@@ -64,7 +64,7 @@ query oskaFrontPageQuery($lang: LanguageId!) {
                 path
               }
               fieldOskaFieldPicture {
-                derivative(style: CROP_LARGE) {
+                derivative(style: CROPLARGE) {
                   url
                 }
                 targetId
@@ -80,7 +80,7 @@ query oskaFrontPageQuery($lang: LanguageId!) {
                 path
               }
               fieldResultPagePicture {
-                derivative(style: CROP_LARGE) {
+                derivative(style: CROPLARGE) {
                   url
                 }
                 targetId
@@ -96,7 +96,7 @@ query oskaFrontPageQuery($lang: LanguageId!) {
                 path
               }
               fieldSurveyPagePicture {
-                derivative(style: CROP_LARGE) {
+                derivative(style: CROPLARGE) {
                   url
                 }
                 targetId
@@ -112,7 +112,7 @@ query oskaFrontPageQuery($lang: LanguageId!) {
                 path
               }
               fieldMainProfessionPicture {
-                derivative(style: CROP_LARGE) {
+                derivative(style: CROPLARGE) {
                   url
                 }
                 targetId

@@ -111,13 +111,6 @@ class RestUIController implements ContainerInjectionInterface {
       uasort($available_resources['disabled'], $sort_resources);
     }
 
-    // Heading.
-    $list['resources_title'] = [
-      '#markup' => '<h2>' . $this->t('REST resources') . '</h2>',
-    ];
-    $list['resources_help'] = [
-      '#markup' => '<p>' . $this->t('Here you can enable and disable available resources. Once a resource has been enabled, you can restrict its formats and authentication by clicking on its "Edit" link.') . '</p>',
-    ];
     $list['enabled']['heading']['#markup'] = '<h2>' . $this->t('Enabled') . '</h2>';
     $list['disabled']['heading']['#markup'] = '<h2>' . $this->t('Disabled') . '</h2>';
 
@@ -195,6 +188,9 @@ class RestUIController implements ContainerInjectionInterface {
               return "<del>$method</del>";
             }, $disabled_methods)
           );
+          if (!in_array('POST', $enabled_methods)) {
+            $create_uri_path = FALSE;
+          }
         }
         else {
           $configured_methods = $available_methods;
