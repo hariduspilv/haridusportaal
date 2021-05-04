@@ -1,5 +1,8 @@
 @import "typography.scss";
 :host {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: $dark-gray;
   .item {
     font-weight: 500;
     font-size: 0.875rem;

@@ -7,8 +7,11 @@
   border-top: .0625rem solid $gray;
   &.highlighted {
     border: 3px solid $light-orange;
-    margin: -.5rem 0 1.5rem;
+    margin: 1.5rem 0 1.5rem;
     position: relative;
+  }
+  &.no__border__before {
+    border-top: 1px solid transparent;
   }
   study-list-item-inline-elements {
     display: block;

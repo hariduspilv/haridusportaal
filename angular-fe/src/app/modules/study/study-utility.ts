@@ -2,6 +2,7 @@ import { FormItemOption } from '@app/_assets/formItem';
 import { SortDirection } from '@app/_core/models/enums/sort-direction.enum';
 import { Language } from '@app/_core/models/interfaces/language.enum';
 import { Entity } from '@app/_core/models/interfaces/main';
+import { ListOffsetParameters } from '@app/_core/models/list-offset-parameters';
 import { MappedStudy } from './models/mapped-study';
 import { MappedStudyFilters } from './models/mapped-study-filters';
 import { Study } from './models/study';
@@ -20,10 +21,11 @@ export class StudyUtility {
     return options.map(entity => ({ key: entity.entityLabel, value: entity.entityId }));
   }
 
-  private static extractYearFromDateString(date: string) {
-    return date?.split('.').pop();
-  }
-
+  /**
+   *
+   * @param study - a single study list item
+   * @returns a joined string of study entities
+   */
   private static gatherJoinedInlineFields(study: Study): string[] {
     const flattenedFieldPublicationTypes =
         study.fieldRightColumn.entity.fieldStudy.entity.fieldPublicationType
@@ -35,6 +37,10 @@ export class StudyUtility {
     ];
   }
 
+  /**
+   *
+   * @returns a year range of 25 years - current year + 25 years for year filters
+   */
   private static generateYearRangeOptions(): YearOption[] {
     const emptyValue: YearOption = { key: '', value: 0 };
     const yearValues: YearOption[] = [];
@@ -69,7 +75,14 @@ export class StudyUtility {
     };
   }
 
-  public static generateStudyListViewRequestParameters(parameters: StudyListViewQueryParameters):
+  /**
+   *
+   * @param parameters - query parameters
+   * @param offsetParameters extra list parameters for request
+   * @returns formatted parameters for http request
+   */
+  public static generateStudyListViewRequestParameters(
+    parameters: StudyListViewQueryParameters, offsetParameters: ListOffsetParameters):
     StudyListViewRequestParameters {
     return {
       titleValue: `%${parameters.tekstiOtsing}%`,
@@ -84,20 +97,45 @@ export class StudyUtility {
       publicationLanguageEnabled: !!parameters.publikatsiooniKeel,
       studyLabelValue: parameters.sildid?.split(';'),
       studyLabelEnabled: !!parameters.sildid?.length,
-      dateFrom: this.extractYearFromDateString(parameters.alates),
-      dateFromEnabled: !!parameters.alates,
-      dateTo: this.extractYearFromDateString(parameters.kuni),
-      dateToEnabled: !!parameters.kuni,
+      dateFrom: parameters.aastaAlates,
+      dateFromEnabled: !!parameters.aastaAlates,
+      dateTo: parameters.aastaKuni,
+      dateToEnabled: !!parameters.aastaKuni,
       highlightedStudyEnabled: false,
       sortField: 'created',
       indicatorSort: false,
       sortDirection: SortDirection.DESC,
       nidEnabled: false,
-      limit: 24,
-      offset: 0,
+      limit: offsetParameters?.limit,
+      offset: offsetParameters?.offset,
       lang: Language.et,
     };
   }
 
+  /**
+   *
+   * @param list - current list
+   * @param studyListResponseEntities - new request entities from next offset
+   * @param loadMoreContent - list data received through loading more
+   * @returns offset list response joined with current list
+   */
+  public static joinResponseWithPreviousValues(
+    list: MappedStudy[], studyListResponseEntities: Study[], loadMoreContent?: boolean): MappedStudy[] {
+    const mappedStudyListElements = StudyUtility.mapStudyListViewEntities(studyListResponseEntities);
+    return loadMoreContent ?
+      [...list, ...mappedStudyListElements] :
+      mappedStudyListElements;
+  }
+
+  /**
+   *
+   * @param list
+   * @returns a random selection from studies list where fieldCustomBoolean (highlight status) is truthy
+   */
+  public static extractRandomHighlightedStudy(list: MappedStudy[]): MappedStudy {
+    const highlightedStudies = list.filter(study => study.fieldCustomBoolean);
+    const selection: number = Math.floor(Math.random() * highlightedStudies.length);
+    return highlightedStudies?.length ? highlightedStudies[selection] : null;
+  }
 
 }
