@@ -2,12 +2,12 @@ name: Node view permissions
 description: Enables permissions "View own content" and "View any content" for each content type.
 package: Access control
 type: module
-# core: 8.x
+core: 8.x
+core_version_requirement: ^8 || ^9
 dependencies:
-- node
+- drupal:node
 
-# Information added by Drupal.org packaging script on 2017-12-26
-version: '8.x-1.2'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-10-19
+version: '8.x-1.4'
 project: 'node_view_permissions'
-datestamp: 1514257990
+datestamp: 1603096042

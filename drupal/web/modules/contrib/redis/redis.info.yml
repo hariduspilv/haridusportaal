@@ -4,8 +4,9 @@ package: Performance
 type: module
 core_version_requirement: ^8.8 || ^9
 configure: redis.admin_display
+php: 7.1.0
 
-# Information added by Drupal.org packaging script on 2020-02-12
-version: '8.x-1.4'
+# Information added by Drupal.org packaging script on 2021-01-06
+version: '8.x-1.5'
 project: 'redis'
-datestamp: 1581504949
+datestamp: 1609972491

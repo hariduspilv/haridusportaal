@@ -150,6 +150,7 @@ class ConditionalFieldsFormHelper {
         'effects' => $this->effects,
       ];
     }
+
     return $this;
   }
 

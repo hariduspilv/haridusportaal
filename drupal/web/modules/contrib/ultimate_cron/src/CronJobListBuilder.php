@@ -93,13 +93,24 @@ class CronJobListBuilder extends DraggableListBuilder {
   public function getDefaultOperations(EntityInterface $entity) {
     $operations = parent::getDefaultOperations($entity);
     if ($entity->status() && $entity->isValid()) {
-      $operations += [
-        'run' => [
-          'title' => t('Run'),
-          'weight' => 9,
-          'url' => $entity->toUrl('run'),
-        ]
-      ];
+      if (!$entity->isLocked()) {
+        $operations += [
+          'run' => [
+            'title' => t('Run'),
+            'weight' => 9,
+            'url' => $entity->toUrl('run'),
+          ]
+        ];
+      }
+      else {
+        $operations += [
+          'unlock' => [
+            'title' => t('Unlock'),
+            'weight' => 9,
+            'url' => $entity->toUrl('unlock'),
+          ]
+        ];
+      }
     }
 
     $operations += [

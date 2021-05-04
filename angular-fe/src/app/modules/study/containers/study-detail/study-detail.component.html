@@ -1,9 +1,8 @@
-<article-layout>
-
-    <max-width-wrapper>
+<max-width-wrapper>
+    <loader *ngIf="loading"></loader>
+    <article-layout *ngIf="study$ | async as study">
         <breadcrumbs [path]="studyPath"></breadcrumbs>
-        <loader *ngIf="loading"></loader>
-        <block [titleBorder]="false" *ngIf="study$ | async as study">
+        <block [titleBorder]="false" *ngIf="study">
             <block-title>{{ 'study.label' | translate }}</block-title>
             <block-content [noPaddingTop]="true">
 
@@ -17,7 +16,7 @@
                 </labels>
 
                 <p class="bold">
-                    {{study.fieldIntroduction.substring(0, 300)}}
+                    {{study.fieldIntroduction}}
                 </p>
 
                 <p *ngIf="study?.fieldContent?.value">
@@ -29,24 +28,25 @@
                         [image]="study?.fieldAdditionalImages ? study.fieldAdditionalImages : []"
                 ></images>
 
-                <p class="bold">{{ 'study.reference_title' | translate }}:</p>
-                <links *ngIf="study.fieldStudyText" [data]="[study.fieldStudyText]"></links>
+                <p *ngIf="study?.fieldStudyText" class="bold">{{ 'study.reference_title' | translate }}:</p>
+                <links *ngIf="study?.fieldStudyText" [data]="[study.fieldStudyText]"></links>
 
                 <labels
                         *ngIf="study.fieldLabel?.length"
                         [data]="study.fieldLabel">
                 </labels>
 
-                <accordion [collapsible]="false" *ngIf="study.fieldAccordion">
-                    <accordion-item [title]="study.fieldAccordion.entity.fieldStudyPageAccordionTitle">
+                <accordion [collapsible]="false" *ngIf="study?.fieldAccordion?.entity?.fieldStudyPageAccordionTitle">
+                    <accordion-item [title]="study?.fieldAccordion?.entity?.fieldStudyPageAccordionTitle">
                         <ng-template>
-                            <p class="bold" [innerHTML]="study.fieldAccordion.entity.fieldStudyAccordionIntro"></p>
-                            <p [innerHTML]="study.fieldAccordion.entity.fieldStudyAccordionContent"></p>
+                            <p class="bold" [innerHTML]="study?.fieldAccordion?.entity?.fieldStudyAccordionIntro"></p>
+                            <p [innerHTML]="study?.fieldAccordion?.entity?.fieldStudyAccordionContent"></p>
                         </ng-template>
                     </accordion-item>
                 </accordion>
 
             </block-content>
         </block>
-    </max-width-wrapper>
-</article-layout>
+        <study-sidebar *ngIf="study" sidebar [data]="study"></study-sidebar>
+    </article-layout>
+</max-width-wrapper>

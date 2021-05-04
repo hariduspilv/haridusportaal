@@ -60,6 +60,16 @@ function ultimate_cron_drush_command() {
     'aliases' => array('crun'),
   );
 
+  $items['cron-is-running'] = array(
+    'description' => 'Tell whether cron is running. Exit status is set in concordance with the cron running status.',
+    'examples' => array(
+      'drush cron-is-running' => 'Check if cron is running.',
+      'drush cron-is-running --quiet' => 'Check if cron is running and don\'t show an informative message.',
+      'while `drush cron-is-running --quiet`; do echo "Waiting cron to finish"; sleep 1; done' => 'Bash loop to wait until cron finishes.',
+    ),
+    'aliases' => array('cir'),
+  );
+
   $items['cron-enable'] = array(
     'description' => 'Enable cron job',
     'arguments' => array(
@@ -347,6 +357,30 @@ function drush_ultimate_cron_cron_run($name = NULL) {
       $job->run(t('Launched by drush'));
     }
   }
+}
+
+/**
+ * Tell whether cron is running.
+ */
+function drush_ultimate_cron_cron_is_running() {
+  $locked = FALSE;
+  foreach (CronJob::loadMultiple() as $name => $job) {
+    if ($job->isLocked()) {
+      $locked = TRUE;
+      break;
+    }
+  }
+
+  if ($locked) {
+    $msg = dt('Cron is running.');
+    drush_set_context('DRUSH_EXIT_CODE', 0);
+  }
+  else {
+    $msg = dt('Cron is not running.');
+    drush_set_context('DRUSH_EXIT_CODE', 1);
+  }
+
+  return $msg;
 }
 
 /**

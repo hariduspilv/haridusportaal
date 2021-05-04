@@ -1,36 +1,39 @@
 /**
- * @file bef_sliders.js
+ * @file
+ * bef_sliders.js
  *
- * Adds jQuery Slider functionality to an exposed filter.
+ * Adds jQuery UI Slider functionality to an exposed filter.
  */
+
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.better_exposed_filters_slider = {
-    attach: function(context, settings) {
+    attach: function (context, settings) {
       if (drupalSettings.better_exposed_filters.slider) {
         $.each(drupalSettings.better_exposed_filters.slider_options, function (i, sliderOptions) {
-          var id = "input#edit-" + sliderOptions.id;
+          var data_selector = 'edit-' + sliderOptions.dataSelector;
 
           // Collect all possible input fields for this filter.
-          var $inputs = $(id + ", " + id + "-max, " + id + "-min", context).once('slider-filter');
+          var $inputs = $("input[data-drupal-selector=" + data_selector + "], input[data-drupal-selector=" + data_selector + "-max], input[data-drupal-selector=" + data_selector + "-min]", context).once('slider-filter');
 
-          if ($inputs.length == 1) {
+          // This is a single-value filter.
+          if ($inputs.length === 1) {
             // This is a single-value filter.
             var $input = $($inputs[0]);
 
             // Get the default value. We use slider min if there is no default.
-            var default_value = parseFloat(($input.val() == '') ? sliderOptions.min : $input.val(), 10);
+            var defaultValue = parseFloat(($input.val() === '') ? sliderOptions.min : $input.val());
 
             // Set the element value in case we are using the slider min.
-            $input.val(default_value);
+            $input.val(defaultValue);
 
             // Build the HTML and settings for the slider.
             var slider = $('<div class="bef-slider"></div>').slider({
-              min: parseFloat(sliderOptions.min, 10),
-              max: parseFloat(sliderOptions.max, 10),
-              step: parseFloat(sliderOptions.step, 10),
+              min: parseFloat(sliderOptions.min),
+              max: parseFloat(sliderOptions.max),
+              step: parseFloat(sliderOptions.step),
               animate: sliderOptions.animate ? sliderOptions.animate : false,
               orientation: sliderOptions.orientation,
-              value: default_value,
+              value: defaultValue,
               slide: function (event, ui) {
                 $input.val(ui.value);
               },
@@ -45,9 +48,9 @@
               // Attach stop listeners.
               stop: function (event, ui) {
                 // Click the auto submit button.
-                $(this).parents('form').find('.ctools-auto-submit-click').click();
+                $(this).parents('form').find('[data-bef-auto-submit-click]').click();
               }
-            })
+            });
 
             $input.after(slider);
 
@@ -56,32 +59,29 @@
               befUpdateSlider($(this), null, sliderOptions);
             });
           }
-          else if ($inputs.length == 2) {
+          else if ($inputs.length === 2) {
             // This is an in-between or not-in-between filter. Use a range
             // filter and tie the min and max into the two input elements.
             var $min = $($inputs[0]),
                 $max = $($inputs[1]),
-                default_min,
-                default_max;
-
-            // Get the default values. We use slider min & max if there are
-            // no defaults.
-            default_min = parseFloat(($min.val() == '') ? sliderOptions.min : $min.val(), 10);
-            default_max = parseFloat(($max.val() == '') ? sliderOptions.max : $max.val(), 10);
+                // Get the default values. We use slider min & max if there are
+                // no defaults.
+                defaultMin = parseFloat(($min.val() == '') ? sliderOptions.min : $min.val()),
+                defaultMax = parseFloat(($max.val() == '') ? sliderOptions.max : $max.val());
 
             // Set the element value in case we are using the slider min & max.
-            $min.val(default_min);
-            $max.val(default_max);
+            $min.val(defaultMin);
+            $max.val(defaultMax);
 
             var slider = $('<div class="bef-slider"></div>').slider({
               range: true,
-              min: parseFloat(sliderOptions.min, 10),
-              max: parseFloat(sliderOptions.max, 10),
-              step: parseFloat(sliderOptions.step, 10),
+              min: parseFloat(sliderOptions.min),
+              max: parseFloat(sliderOptions.max),
+              step: parseFloat(sliderOptions.step),
               animate: sliderOptions.animate ? sliderOptions.animate : false,
               orientation: sliderOptions.orientation,
-              values: [default_min, default_max],
-              // Update the textfields as the sliders are moved
+              values: [defaultMin, defaultMax],
+              // Update the textfields as the sliders are moved.
               slide: function (event, ui) {
                 $min.val(ui.values[0]);
                 $max.val(ui.values[1]);
@@ -97,7 +97,7 @@
                 $max.val(ui.values[1]);
               },
               // Attach stop listeners.
-              stop: function(event, ui) {
+              stop: function (event, ui) {
                 // Click the auto submit button.
                 $(this).parents('form').find('.ctools-auto-submit-click').click();
               }
@@ -106,10 +106,10 @@
             $min.after(slider);
 
             // Update the slider when the fields are updated.
-            $min.blur(function() {
+            $min.blur(function () {
               befUpdateSlider($(this), 0, sliderOptions);
             });
-            $max.blur(function() {
+            $max.blur(function () {
               befUpdateSlider($(this), 1, sliderOptions);
             });
           }
@@ -139,17 +139,18 @@
    *   The options for the current slider.
    */
   function befUpdateSlider($el, valIndex, sliderOptions) {
-    var val = parseFloat($el.val(), 10),
+    var val = parseFloat($el.val()),
         currentMin = $el.parents('div.views-widget').next('.bef-slider').slider('values', 0),
         currentMax = $el.parents('div.views-widget').next('.bef-slider').slider('values', 1);
+
     // If we have a range slider.
     if (valIndex != null) {
       // Make sure the min is not more than the current max value.
-      if (valIndex == 0 && val > currentMax) {
+      if (valIndex === 0 && val > currentMax) {
         val = currentMax;
       }
       // Make sure the max is not more than the current max value.
-      if (valIndex == 1 && val < currentMin) {
+      if (valIndex === 1 && val < currentMin) {
         val = currentMin;
       }
       // If the number is invalid, go back to the last value.
@@ -176,4 +177,4 @@
     }
   }
 
-}) (jQuery, Drupal, drupalSettings);
+})(jQuery, Drupal, drupalSettings);

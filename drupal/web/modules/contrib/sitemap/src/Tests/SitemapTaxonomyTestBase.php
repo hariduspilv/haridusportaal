@@ -2,21 +2,28 @@
 
 namespace Drupal\sitemap\Tests;
 
-use Drupal\taxonomy\Tests\TaxonomyTestBase;
+use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
+use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
 
 /**
  * Base class for some Sitemap test cases.
  */
-abstract class SitemapTaxonomyTestBase extends TaxonomyTestBase {
+abstract class SitemapTaxonomyTestBase extends SitemapBrowserTestBase {
+
+  use TaxonomyTestTrait;
+  use EntityReferenceTestTrait;
+
+  protected $defaultTheme = 'stark';
 
   /**
    * Modules to enable.
    *
    * @var array
    */
-  public static $modules = array('sitemap', 'node', 'taxonomy');
+  public static $modules = ['sitemap', 'node', 'taxonomy', 'views'];
 
   /**
    * A vocabulary entity.
@@ -30,7 +37,7 @@ abstract class SitemapTaxonomyTestBase extends TaxonomyTestBase {
    *
    * @var string
    */
-  protected $field_tags_name;
+  protected $fieldTagsName;
 
   /**
    * An array of taxonomy terms.
@@ -40,30 +47,39 @@ abstract class SitemapTaxonomyTestBase extends TaxonomyTestBase {
   protected $terms;
 
   /**
+   * A user account to test with.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  public $user;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
     parent::setUp();
 
+    // Ensure the Article node type.
+    if ($this->profile != 'standard') {
+      $this->drupalCreateContentType(['type' => 'article', 'name' => 'Article']);
+    }
+
     // Create a vocabulary.
     $this->vocabulary = $this->createVocabulary();
 
     // Create user, then login.
-    $this->user = $this->drupalCreateUser(array(
+    $this->user = $this->drupalCreateUser([
       'administer sitemap',
       'access sitemap',
       'administer nodes',
       'create article content',
       'administer taxonomy',
-    ));
+    ]);
     $this->drupalLogin($this->user);
 
     // Configure the sitemap to display the vocabulary.
     $vid = $this->vocabulary->id();
-    $edit = array(
-      "show_vocabularies[$vid]" => $vid,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][enabled]" => TRUE]);
   }
 
   /**
@@ -74,47 +90,43 @@ abstract class SitemapTaxonomyTestBase extends TaxonomyTestBase {
    *
    * @return array
    *   List of tags.
+   *
+   * @throws \Exception
    */
-  protected function createTerms($vocabulary) {
-    $terms = array(
-      $this->createTerm($vocabulary),
-      $this->createTerm($vocabulary),
-      $this->createTerm($vocabulary),
-    );
-    $this->terms = $terms;
+  protected function createTerms(Vocabulary $vocabulary) {
+    $term0 = $this->createTerm($vocabulary);
+    $term1 = $this->createTerm($vocabulary);
+    $term2 = $this->createTerm($vocabulary);
+    return [$term0, $term1, $term2];
+  }
 
-    // Make term 2 child of term 1, term 3 child of term 2.
-    $edit = array(
-      // Term 1.
-      'terms[tid:' . $terms[0]->id() . ':0][term][tid]' => $terms[0]->id(),
-      'terms[tid:' . $terms[0]->id() . ':0][term][parent]' => 0,
-      'terms[tid:' . $terms[0]->id() . ':0][term][depth]' => 0,
-      'terms[tid:' . $terms[0]->id() . ':0][weight]' => 0,
-
-      // Term 2.
-      'terms[tid:' . $terms[1]->id() . ':0][term][tid]' => $terms[1]->id(),
-      'terms[tid:' . $terms[1]->id() . ':0][term][parent]' => $terms[0]->id(),
-      'terms[tid:' . $terms[1]->id() . ':0][term][depth]' => 1,
-      'terms[tid:' . $terms[1]->id() . ':0][weight]' => 0,
-
-      // Term 3.
-      'terms[tid:' . $terms[2]->id() . ':0][term][tid]' => $terms[2]->id(),
-      'terms[tid:' . $terms[2]->id() . ':0][term][parent]' => $terms[1]->id(),
-      'terms[tid:' . $terms[2]->id() . ':0][term][depth]' => 2,
-      'terms[tid:' . $terms[2]->id() . ':0][weight]' => 0,
-    );
-    $this->drupalPostForm('admin/structure/taxonomy/manage/' . $vocabulary->get('vid') . '/overview', $edit, t('Save'));
-
-    return $terms;
+  /**
+   * Create taxonomy terms.
+   *
+   * @param \Drupal\taxonomy\Entity\Vocabulary $vocabulary
+   *   Taxonomy vocabulary.
+   *
+   * @return array
+   *   List of tags.
+   *
+   * @throws \Exception
+   */
+  protected function createNestedTerms(Vocabulary $vocabulary) {
+    $term0 = $this->createTerm($vocabulary);
+    $term1 = $this->createTerm($vocabulary, ['parent' => $term0->id()]);
+    $term2 = $this->createTerm($vocabulary, ['parent' => $term1->id()]);
+    return [$term0, $term1, $term2];
   }
 
   /**
    * Create node and assign tags to it.
    *
-   * @param $terms array
+   * @param array $terms
    *   An array of taxonomy terms to apply to the node.
+   *
+   * @throws \Exception
    */
-  protected function createNodeWithTerms($terms = array()) {
+  protected function createNodeWithTerms(array $terms = []) {
     if (empty($terms)) {
       $this->terms = $this->createTerms($this->vocabulary);
     }
@@ -127,34 +139,34 @@ abstract class SitemapTaxonomyTestBase extends TaxonomyTestBase {
       $values[] = $term->getName();
     }
     $title = $this->randomString();
-    $edit = array(
+    $edit = [
       'title[0][value]' => $title,
-      $this->field_tags_name . '[target_id]' => implode(',', $values),
-    );
+      $this->fieldTagsName . '[target_id]' => implode(',', $values),
+    ];
     $this->drupalPostForm('node/add/article', $edit, t('Save'));
   }
 
   /**
-   * Add an entityreference field to tag nodes
+   * Add an entityreference field to tag nodes.
    */
-   protected function addEntityreferenceField() {
-     $this->field_tags_name = 'field_' . $this->vocabulary->id();
+  protected function addEntityreferenceField() {
+    $this->fieldTagsName = 'field_' . $this->vocabulary->id();
 
-     $handler_settings = array(
-       'target_bundles' => array(
-         $this->vocabulary->id() => $this->vocabulary->id(),
-       ),
-       'auto_create' => TRUE,
-     );
+    $handler_settings = [
+      'target_bundles' => [
+        $this->vocabulary->id() => $this->vocabulary->id(),
+      ],
+      'auto_create' => TRUE,
+    ];
 
-     // Create the entity reference field for terms.
-     $this->createEntityReferenceField('node', 'article', $this->field_tags_name, 'Tags', 'taxonomy_term', 'default', $handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
-     // Configure for autocomplete display.
-     EntityFormDisplay::load('node.article.default')
-       ->setComponent($this->field_tags_name, array(
-         'type' => 'entity_reference_autocomplete_tags',
-       ))
-       ->save();
-   }
+    // Create the entity reference field for terms.
+    $this->createEntityReferenceField('node', 'article', $this->fieldTagsName, 'Tags', 'taxonomy_term', 'default', $handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
+    // Configure for autocomplete display.
+    EntityFormDisplay::load('node.article.default')
+      ->setComponent($this->fieldTagsName, [
+        'type' => 'entity_reference_autocomplete_tags',
+      ])
+      ->save();
+  }
 
 }

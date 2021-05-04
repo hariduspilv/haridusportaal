@@ -1,0 +1,42 @@
+<block theme="sidebar">
+	<block-title>
+    <h1>{{ 'study.study_data' | translate }}</h1>
+  </block-title>
+  <block-content>
+    <study-sidebar-study-data-list-item
+      *ngIf="data?.fieldAuthor">
+      <h2>{{ 'study.authors' | translate }}</h2>
+      <p>{{ data?.fieldAuthor }}</p>
+    </study-sidebar-study-data-list-item>
+    <study-sidebar-study-data-list-item
+      *ngIf="data?.fieldAuthorInstitution">
+      <h2>{{ 'study.author_institution' | translate }}</h2>
+      <p>{{ data?.fieldAuthorInstitution }}</p>
+    </study-sidebar-study-data-list-item>
+    <study-sidebar-study-data-list-item
+      *ngIf="data?.fieldPublicationLang">
+      <h2>{{ 'study.publication_language' | translate }}</h2>
+      <p>{{ data?.fieldPublicationLang }}</p>
+    </study-sidebar-study-data-list-item>
+    <study-sidebar-study-data-list-item
+      *ngIf="data?.fieldOrderer">
+      <h2>{{ 'study.orderer' | translate }}</h2>
+      <p>{{ data?.fieldOrderer }}</p>
+    </study-sidebar-study-data-list-item>
+    <study-sidebar-study-data-list-item
+      *ngIf="data?.fieldPublisher">
+      <h2>{{ 'study.publisher' | translate }}</h2>
+      <p>{{ data?.fieldPublisher }}</p>
+    </study-sidebar-study-data-list-item>
+    <study-sidebar-study-data-list-item
+      *ngIf="data?.fieldYear">
+      <h2>{{ 'study.year' | translate }}</h2>
+      <p>{{ data?.fieldYear }}</p>
+    </study-sidebar-study-data-list-item>
+    <study-sidebar-study-data-list-item
+      *ngIf="data?.fieldPublicationType">
+      <h2>{{ 'study.publication_type' | translate }}</h2>
+      <p>{{ data?.fieldPublicationType }}</p>
+    </study-sidebar-study-data-list-item>
+  </block-content>
+</block>

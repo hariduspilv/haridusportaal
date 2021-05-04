@@ -3,6 +3,7 @@
 namespace Drupal\memcache\Driver;
 
 use Drupal\Component\Utility\Timer;
+use Drupal\Core\Logger\LoggerChannelTrait;
 use Drupal\memcache\MemcacheSettings;
 use Drupal\memcache\DrupalMemcacheInterface;
 
@@ -10,6 +11,8 @@ use Drupal\memcache\DrupalMemcacheInterface;
  * Class DriverBase.
  */
 abstract class DriverBase implements DrupalMemcacheInterface {
+
+  use LoggerChannelTrait;
 
   /**
    * The memcache config object.

@@ -5,7 +5,6 @@ namespace Drupal\openid_connect\Plugin;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Traversable;
 
 /**
  * Provides the OpenID Connect client plugin manager.
@@ -24,7 +23,7 @@ class OpenIDConnectClientManager extends DefaultPluginManager {
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(
-      Traversable $namespaces,
+      \Traversable $namespaces,
       CacheBackendInterface $cache_backend,
       ModuleHandlerInterface $module_handler
   ) {

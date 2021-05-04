@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\ResolveInfo;
  *   secure = true,
  *   id = "metatag_value",
  *   name = "value",
- *   type = "String",
+ *   type = "MapArray",
  *   parents = {"Metatag"}
  * )
  */
@@ -21,12 +21,28 @@ class Value extends FieldPluginBase {
    * {@inheritdoc}
    */
   protected function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
-    if (isset($value['#tag']) && $value['#tag'] === 'meta') {
-      yield $value['#attributes']['content'];
+    if (isset($value['#tag'])) {
+      if ($value['#tag'] === 'meta') {
+        yield $value['#attributes']['content'];
+      }
+      elseif ($value['#tag'] === 'link') {
+        if (isset($value['#attributes']['hreflang']) && $this->isModuleExternalHreflangActive()) {
+          yield $value['#attributes'];
+        }
+        else {
+          yield $value['#attributes']['href'];
+        }
+      }
     }
-    else if (isset($value['#tag']) && $value['#tag'] === 'link') {
-      yield $value['#attributes']['href'];
-    }
+  }
+
+  /**
+   * Chec if module EXTERNAL_HREFLANG_MODULE_NAME is active.
+   *
+   * @return bool
+   */
+  private function isModuleExternalHreflangActive(): bool {
+    return \Drupal::moduleHandler()->moduleExists(EXTERNAL_HREFLANG_MODULE_NAME);
   }
 
 }

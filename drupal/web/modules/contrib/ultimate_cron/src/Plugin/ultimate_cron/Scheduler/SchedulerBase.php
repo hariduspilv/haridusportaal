@@ -39,8 +39,8 @@ abstract class SchedulerBase extends CronPlugin implements SchedulerInterface {
    * @param \Drupal\ultimate_cron\Entity\CronJob $job
    *   The job to check schedule for.
    *
-   * @return boolean
-   *   TRUE if job is behind its schedule.
+   * @return bool|int
+   *   FALSE if job is behind its schedule or number of seconds behind.
    */
   abstract public function isBehind(CronJob $job);
 }

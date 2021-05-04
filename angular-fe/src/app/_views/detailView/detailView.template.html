@@ -38,8 +38,10 @@
 						<!-- <htm-video *ngIf="data.video && data.processedImages?.length === 0" [videos]="data.video"></htm-video> -->
 						<images *ngIf="data.processedImages || data.video" [prioritizeVideos]="type === 'field'" [videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"></images>
 	
-						<picto [class.shorterBottom]="type === 'profession'" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
-	
+						<div class="picto__wrapper">
+							<picto [insideText]="true" [class.shorterBottom]="type === 'profession'" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
+						</div>
+
 						<div class="description" *ngIf="data?.description?.value" [innerHtml]="data.description.value"></div>
 		
 						<links *ngIf="data.links" [data]="data.links"></links>

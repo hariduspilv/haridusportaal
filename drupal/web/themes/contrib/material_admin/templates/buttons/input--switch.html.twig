@@ -25,7 +25,7 @@
 {% if attributes.disabled == 'disabled' %}
 	{% set tooltip_text = tooltip_text | default('Disabled') %}
 	{% set tooltip_delay =  tooltip_delay | default('50') %}
-	{% set switch_label = switch_label.setAttribute('data-delay', tooltip_delay).setAttribute('data-tooltip', tooltip_text).setAttribute('data-html', 'true') %}
+	{% set switch_label = switch_label.setAttribute('data-enter-delay', tooltip_delay).setAttribute('data-tooltip', tooltip_text) %}
   <div class="switch">
     <label{{ switch_label }}>
       <i class="material-icons">lock</i>

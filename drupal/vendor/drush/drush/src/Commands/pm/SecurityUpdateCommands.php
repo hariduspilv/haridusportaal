@@ -4,8 +4,10 @@ namespace Drush\Commands\pm;
 use Composer\Semver\Semver;
 use Consolidation\AnnotatedCommand\CommandResult;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+use Consolidation\OutputFormatters\StructuredData\UnstructuredData;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
+use Enlightn\SecurityChecker\SecurityChecker;
 use Exception;
 use Webmozart\PathUtil\Path;
 
@@ -14,16 +16,37 @@ use Webmozart\PathUtil\Path;
  */
 class SecurityUpdateCommands extends DrushCommands
 {
+
+    /**
+     * Return path to composer.lock
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public static function composerLockPath(): string
+    {
+        $composer_root = Drush::bootstrapManager()->getComposerRoot();
+        $composer_lock_file_name = getenv('COMPOSER') ? str_replace('.json', '', getenv('COMPOSER')) : 'composer';
+        $composer_lock_file_name .= '.lock';
+        $composer_lock_file_path = Path::join($composer_root, $composer_lock_file_name);
+        if (!file_exists($composer_lock_file_path)) {
+            throw new Exception("Cannot find $composer_lock_file_path!");
+        }
+        return $composer_lock_file_path;
+    }
+
     /**
      * Check Drupal Composer packages for pending security updates.
      *
-     * This uses the Drupal security advisories package to determine if updates
-     * are available.
-     *
-     * @see https://github.com/drupal-composer/drupal-security-advisories
+     * This uses the [Drupal security advisories package](https://github.com/drupal-composer/drupal-security-advisories) to determine if updates
+     * are available. An exit code of 3 indicates that the check completed, and insecure packages were found.
      *
      * @command pm:security
      * @aliases sec,pm-security
+     * @usage drush pm:security --format=json
+     *   Get security data in JSON format.
+     * @usage HTTP_PROXY=tcp://localhost:8125 pm:security
+     *   Proxy Guzzle requests through an http proxy.
      * @bootstrap none
      * @table-style default
      * @field-labels
@@ -43,7 +66,7 @@ class SecurityUpdateCommands extends DrushCommands
         $updates = $this->calculateSecurityUpdates($composer_lock_data, $security_advisories_composer_json);
         if ($updates) {
             $this->suggestComposerCommand($updates);
-            return CommandResult::dataWithExitCode(new RowsOfFields($updates), self::EXIT_FAILURE);
+            return CommandResult::dataWithExitCode(new RowsOfFields($updates), self::EXIT_FAILURE_WITH_CLARITY);
         } else {
             $this->logger()->success("<info>There are no outstanding security updates for Drupal projects.</info>");
         }
@@ -73,16 +96,10 @@ class SecurityUpdateCommands extends DrushCommands
      */
     protected function fetchAdvisoryComposerJson()
     {
-        try {
-            // We use the v2 branch for now, as per https://github.com/drupal-composer/drupal-security-advisories/pull/11.
-            $response_body = file_get_contents('https://raw.githubusercontent.com/drupal-composer/drupal-security-advisories/8.x-v2/composer.json');
-            if ($response_body === false) {
-                throw new Exception("Unable to fetch drupal-security-advisories information.");
-            }
-        } catch (Exception $e) {
-            throw new Exception("Unable to fetch drupal-security-advisories information.");
-        }
-        $security_advisories_composer_json = json_decode($response_body, true);
+        // We use the v2 branch for now, as per https://github.com/drupal-composer/drupal-security-advisories/pull/11.
+        $client = new \GuzzleHttp\Client(['handler' => $this->getStack()]);
+        $response = $client->get('https://raw.githubusercontent.com/drupal-composer/drupal-security-advisories/8.x-v2/composer.json');
+        $security_advisories_composer_json = json_decode($response->getBody(), true);
         return $security_advisories_composer_json;
     }
 
@@ -95,20 +112,7 @@ class SecurityUpdateCommands extends DrushCommands
      */
     protected function loadSiteComposerLock()
     {
-        $composer_root = Drush::bootstrapManager()->getComposerRoot();
-        $composer_lock_file_name = getenv('COMPOSER') ? str_replace(
-            '.json',
-            '',
-            getenv('COMPOSER')
-        ) : 'composer';
-        $composer_lock_file_name .= '.lock';
-        $composer_lock_file_path = Path::join(
-            $composer_root,
-            $composer_lock_file_name
-        );
-        if (!file_exists($composer_lock_file_path)) {
-            throw new Exception("Cannot find $composer_lock_file_path!");
-        }
+        $composer_lock_file_path = self::composerLockPath();
         $composer_lock_contents = file_get_contents($composer_lock_file_path);
         $composer_lock_data = json_decode($composer_lock_contents, true);
         if (!array_key_exists('packages', $composer_lock_data)) {
@@ -118,7 +122,7 @@ class SecurityUpdateCommands extends DrushCommands
     }
 
     /**
-     * Return  available security updates.
+     * Return available security updates.
      *
      * @param array $composer_lock_data
      *   The contents of the local Drupal application's composer.lock file.
@@ -142,5 +146,37 @@ class SecurityUpdateCommands extends DrushCommands
             }
         }
         return $updates;
+    }
+
+    /**
+     * Check non-Drupal PHP packages for pending security updates.
+     *
+     * Packages are discovered via composer.lock file. An exit code of 3
+     * indicates that the check completed, and insecure packages were found.
+     *
+     * @param array $options
+     *
+     * @return UnstructuredData
+     * @throws \Exception
+     * @command pm:security-php
+     * @validate-php-extension zip,json
+     * @aliases sec-php,pm-security-php
+     * @bootstrap none
+     *
+     * @usage drush pm:security-php --format=json
+     *   Get security data in JSON format.
+     * @usage HTTP_PROXY=tcp://localhost:8125 pm:security
+     *   Proxy Guzzle requests through an http proxy.
+     */
+    public function securityPhp($options = ['format' => 'yaml'])
+    {
+        $result = (new SecurityChecker())->check(self::composerLockPath());
+        if ($result) {
+            $suggested_command = "composer why " . implode(' && composer why ', array_keys($result));
+            $this->logger()->warning('One or more of your dependencies has an outstanding security update.');
+            $this->logger()->notice("Run <comment>$suggested_command</comment> to learn what module requires the package.");
+            return CommandResult::dataWithExitCode(new UnstructuredData($result), self::EXIT_FAILURE_WITH_CLARITY);
+        }
+        $this->logger()->success("There are no outstanding security updates for your dependencies.");
     }
 }

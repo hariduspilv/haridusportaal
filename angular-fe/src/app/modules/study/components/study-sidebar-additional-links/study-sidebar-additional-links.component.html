@@ -1,0 +1,34 @@
+<block theme="sidebar" *ngIf="data">
+  <block-title>
+    <h1>{{ 'study.view_more' | translate }}</h1>
+  </block-title>
+  <block-content>
+    <ul>
+      <li *ngFor="let item of data">
+        <ng-container *ngIf="item.title">
+          <a *ngIf="item.url?.routed"
+            [routerLink]="item.url.path"
+            [attr.target]="item.url?.target || '_self'"
+            [queryParams]="item.url.params || false">
+            <icon
+              size="medium"
+              [attr.aria-hidden]="true"
+              [glyph]="item.icon ? item.icon : 'link-2'">
+            </icon>
+            <span role="text">{{ item.title }}</span>
+          </a>
+          <a *ngIf="!item.url?.routed"
+            [href]="item.url.path || item.url"
+            [attr.target]="item.url?.target || '_self'">
+            <icon
+              size="medium"
+              [attr.aria-hidden]="true"
+              [glyph]="item.icon ? item.icon : 'external-link'">
+            </icon>
+            <span role="text">{{ item.title }}</span>
+          </a>
+        </ng-container>
+      </li>
+    </ul>
+  </block-content>
+</block>

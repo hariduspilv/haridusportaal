@@ -65,18 +65,18 @@ class ElasticFieldDeriver extends DeriverBase {
         if($client->ping() == FALSE){
             return [];
         }else{
-            $elasticindexes = $client->indices()->getAliases();
+            $elasticindexes = $client->indices()->getAlias();
             $elasticmapping = $client->indices()->getMapping();
 
             foreach($elasticindexes as $elasticindex => $indexval){
-                if(substr($elasticindex, 0, 1) !== "."){
-                    $fieldsitem = reset($elasticmapping[$elasticindex]['mappings']);
-                    if(isset($fieldsitem['properties'])){
-                        foreach($fieldsitem['properties'] as $field => $type){
-                            $fields[] = $field;
-                        }
-                    }
+              if(substr($elasticindex, 0, 1) !== "."){
+                $fieldsitem = $elasticmapping[$elasticindex]['mappings'];
+                if(isset($fieldsitem['properties'])){
+                  foreach($fieldsitem['properties'] as $field => $type){
+                    $fields[] = $field;
+                  }
                 }
+              }
             }
             return array_unique($fields);
         }
