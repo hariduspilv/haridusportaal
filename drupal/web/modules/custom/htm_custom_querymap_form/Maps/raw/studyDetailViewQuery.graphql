@@ -1,4 +1,4 @@
-query studyDetailViewQuery($path: String!) {
+  query studyDetailViewQuery($path: String!) {
   route(path: $path) {
     ... on EntityCanonicalUrl {
       languageSwitchLinks {
@@ -39,7 +39,7 @@ query studyDetailViewQuery($path: String!) {
             value
           }
           fieldAdditionalImages {
-            derivative(style: CROP_LARGE) {
+            derivative(style: CROPLARGE) {
               url
             }
             alt

@@ -14,10 +14,10 @@
 		</block>
 		<article>
 			<block [loading]="loading" [titleBorder]="true" *ngIf="data">
-	
+
 				<block-title>{{ title | translate }}</block-title>
 				<block-secondary-title>{{ data.title }}</block-secondary-title>
-	
+
 				<block-content>
 					<ng-container>
 						<div class="author" *ngIf="data.author">{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}</div>
@@ -30,11 +30,11 @@
 							<compare *ngIf="compareKey" [id]="data.nid" [sessionStorageKey]="compareKey"></compare>
 							<labels *ngIf="data.fixedLabel" [data]="[data.fixedLabel.entity]" type="orange"></labels>
 						</div><!--/toolbar-->
-	
+
 						<p *ngIf="data.introductionText" class="short">{{data.introductionText}}</p>
-	
+
 						<p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
-	
+
 						<!-- <htm-video *ngIf="data.video && data.processedImages?.length === 0" [videos]="data.video"></htm-video> -->
 						<images *ngIf="data.processedImages || data.video" [prioritizeVideos]="type === 'field'" [videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"></images>
 	
@@ -43,11 +43,11 @@
 						<div class="description" *ngIf="data?.description?.value" [innerHtml]="data.description.value"></div>
 		
 						<links *ngIf="data.links" [data]="data.links"></links>
-	
+
 						<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
-	
+
 						<!-- <htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video> -->
-	
+
 						<accordion [collapsible]="true" *ngIf="data.accordion">
 							<accordion-item [active]="ind === 0 && type === 'profession'" *ngFor="let item of data.accordion; let ind = index" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
 								<ng-template>
@@ -62,26 +62,26 @@
 							</ng-template>
 							</accordion-item>
 						</accordion>
-	
+
 						<chart *ngIf="data.graph" [data]='data.graph' type='filter'></chart>
-	
+
 						<infograph *ngIf="data.infograph" [data]='data.infograph' type='filter'></infograph>
-	
+
 						<school-table *ngIf="type === 'school'" [data]="data"></school-table>
-	
+
 						<studyProgramme-table *ngIf="type === 'studyProgramme'" [data]="origData"></studyProgramme-table>
-	
+
 						<labels [data]="data.tags" *ngIf="data.tags"></labels>
-	
+
 						<div *ngIf="type === 'resultPage'" class="resultsNavigation">
 							<a htm-button routerLink="/oska-tulemused/ettepanekute-elluviimine">{{ 'oska.see_proposals' | translate }}</a>
 						</div>
-	
+
 						<ng-container *ngIf="data.fieldFurtherInfo?.value">
 							<h3>{{ 'oska.fieldFurtherInfo.label' | translate }}</h3>
 							<div class="furtherInfo" [innerHtml]="data.fieldFurtherInfo?.value"></div>
 						</ng-container>
-	
+
 						<feedback [nid]="data.nid"></feedback>
 					</ng-container>
 				</block-content>
