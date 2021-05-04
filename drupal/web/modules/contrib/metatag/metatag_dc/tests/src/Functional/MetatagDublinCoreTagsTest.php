@@ -14,7 +14,12 @@ class MetatagDublinCoreTagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  private $tags = [
+  protected static $modules = ['metatag_dc'];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $tags = [
     'dcterms_contributor',
     'dcterms_coverage',
     'dcterms_creator',
@@ -33,17 +38,9 @@ class MetatagDublinCoreTagsTest extends MetatagTagsTestBase {
   ];
 
   /**
-   * {@inheritdoc}
-   */
-  protected function setUp() {
-    parent::$modules[] = 'metatag_dc';
-    parent::setUp();
-  }
-
-  /**
    * Each of these meta tags has a different tag name vs its internal name.
    */
-  private function getTestTagName($tag_name) {
+  protected function getTestTagName($tag_name) {
     return str_replace('_', '.', $tag_name);
   }
 

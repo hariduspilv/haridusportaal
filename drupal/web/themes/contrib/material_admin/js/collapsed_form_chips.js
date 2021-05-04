@@ -9,7 +9,7 @@
   Drupal.behaviors.materialAdminCollapsedFormChips = {
     attach: function (context, settings) {
       var $exposed = $('.exposed-form-collapsible');
-      $exposed.collapsible();
+      $exposed.collapsible().addClass('collapsible-initialized');
       var $chips = $exposed.find('.exposed-form-chips');
       $chips.empty();
       $exposed.find('input[name]:not([type="submit"]),select[name]').each(function () {

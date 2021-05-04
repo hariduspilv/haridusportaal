@@ -2,8 +2,7 @@
 
 namespace Drupal\sitemap\Tests;
 
-use Drupal\Core\Entity\Entity\EntityFormDisplay;
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\sitemap\Plugin\Sitemap\Vocabulary;
 
 /**
  * Tests the display of taxonomies based on sitemap settings.
@@ -13,73 +12,44 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 class SitemapTaxonomyTermsTest extends SitemapTaxonomyTestBase {
 
   /**
-   * {@inheritdoc}
-   */
-  protected function setUp() {
-    parent::setUp();
-
-    // Create terms
-    $this->terms = $this->createTerms($this->vocabulary);
-
-  }
-
-  /**
-   * Tests the term_threshold setting
+   * Tests the term_threshold setting.
    */
   public function testTermThreshold() {
+    // Create terms.
+    $this->terms = $this->createTerms($this->vocabulary);
+
+    // The vocabulary is already configured to display in parent ::setUp().
+    $vocab = $this->vocabulary;
+    $vid = $vocab->id();
+
     // Get term names from terms.
-    $names = array();
+    $names = [];
     foreach ($this->terms as $term) {
       $names[] = $term->label();
     }
 
-    // Confirm that terms without content are not displayed by default.
-    $this->drupalGet('sitemap');
+    // Confirm that terms without content are displayed by default.
+    $this->drupalGet('/sitemap');
     foreach ($names as $term_name) {
-      $this->assertNoText($term_name);
-    }
-
-    // Show all taxonomy terms, even if they are not assigned to any nodes.
-    $edit = array(
-      'term_threshold' => -1,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
-
-    // Assert that terms without nodes are now displayed on the sitemap.
-    $this->drupalGet('sitemap');
-    foreach ($names as $term_name) {
-      $this->assertText($term_name);
-      $this->assertNoLink($term_name);
+      $this->assertSession()->pageTextContains($term_name);
     }
 
     // Create test node with terms.
     $this->createNodeWithTerms($this->terms);
+    // @TODO: Figure out proper cache tags.
     drupal_flush_all_caches();
 
-    // Assert that terms with content are displayed on the sitemap as links when
-    // term_threshold is set to -1.
-    $this->drupalGet('sitemap');
-    foreach ($names as $term_name) {
-      $this->assertLink($term_name);
-    }
-
     // Require at least one node for taxonomy terms to show up.
-    $edit = array(
-      'term_threshold' => 0,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_count_threshold]" => 1]);
 
     // Assert that terms with content are displayed on the sitemap as links.
     $this->drupalGet('sitemap');
     foreach ($names as $term_name) {
-      $this->assertLink($term_name);
+      $this->assertSession()->linkExists($term_name);
     }
 
     // Require at least two nodes for taxonomy terms to show up.
-    $edit = array(
-      'term_threshold' => 1,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_count_threshold]" => 2]);
 
     $terms = $this->terms;
     unset($terms[0]);
@@ -88,149 +58,193 @@ class SitemapTaxonomyTermsTest extends SitemapTaxonomyTestBase {
     $this->createNodeWithTerms($terms);
 
     $this->drupalGet('sitemap');
-    $this->assertNoLink($this->terms[0]->label());
-    $this->assertLink($this->terms[1]->label());
-    $this->assertLink($this->terms[2]->label());
+    $this->assertSession()->linkNotExists($this->terms[0]->label());
+    $this->assertSession()->linkExists($this->terms[1]->label());
+    $this->assertSession()->linkExists($this->terms[2]->label());
+
+
+    // TODO: Check for empty <li>s as well.
   }
 
   /**
    * Tests appearance of node counts.
    */
   public function testNodeCounts() {
+    $this->terms = $this->createTerms($this->vocabulary);
+
+    // The vocabulary is already configured to display in parent ::setUp().
+    $vocab = $this->vocabulary;
+    $vid = $vocab->id();
 
     // Create test node with terms.
     $this->createNodeWithTerms($this->terms);
 
-    // Assert that node counts are included in the sitemap by default.
+    // Assert that node counts are not included in the sitemap by default.
     $this->drupalGet('/sitemap');
-    $this->assertEqual(substr_count($this->getTextContent(), '(1)'), 3, 'Node counts are included');
+    $elements = $this->cssSelect(".sitemap-plugin--vocabulary .count:contains('(1)')");
+    $this->assertEquals(count($elements), 0, 'Node counts not included.');
 
-    // Configure module to hide node counts.
-    $edit = array(
-      'show_count' => FALSE,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    // Configure module to display node counts.
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][show_count]" => TRUE]);
 
-    // Assert that node counts are not included in the sitemap.
+    // Assert that node counts are included in the sitemap.
     $this->drupalGet('sitemap');
-    $this->assertEqual(substr_count($this->getTextContent(), '(1)'), 0, 'Node counts are not included');
+    $elements = $this->cssSelect(".sitemap-plugin--vocabulary .count:contains('(1)')");
+    $this->assertEquals(count($elements), 3, 'Node counts included.');
+
+    // TODO: Add another node and check counts.
+    //@TODO: Test count display when parent term does not meet threshold.
+
   }
 
   /**
    * Tests vocabulary depth settings.
    */
   public function testVocabularyDepth() {
+    // Create terms.
+    $this->terms = $this->createNestedTerms($this->vocabulary);
 
-    // Set to show all taxonomy terms, even if they are not assigned to any
-    // nodes.
-    $edit = array(
-      'term_threshold' => -1,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    // Set to show all taxonomy terms, even if they are not assigned to content.
+    $vid = $this->vocabulary->id();
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_count_threshold]" => Vocabulary::THRESHOLD_DISABLED]);
 
-    // Get tags from terms.
-    $tags = array();
-    foreach ($this->terms as $term) {
-      $tags[] = $term->label();
-    }
-
-    // Change vocabulary depth to -1.
-    $edit = array(
-      'vocabulary_depth' => -1,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    // Change vocabulary depth to its maximum (9).
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_depth]" => Vocabulary::DEPTH_MAX]);
 
     // Assert that all tags are listed in the sitemap.
-    $this->drupalGet('sitemap');
-    foreach ($tags as $tag) {
-      $this->assertText($tag);
+    $this->drupalGet('/sitemap');
+    foreach ($this->terms as $term) {
+      $this->assertSession()->pageTextContains($term->label());
     }
 
     // Change vocabulary depth to 0.
-    $edit = array(
-      'vocabulary_depth' => 0,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_depth]" => Vocabulary::DEPTH_DISABLED]);
 
     // Assert that no tags are listed in the sitemap.
-    $this->drupalGet('sitemap');
-    foreach ($tags as $tag) {
-      $this->assertNoText($tag);
+    $this->drupalGet('/sitemap');
+    foreach ($this->terms as $term) {
+      $this->assertSession()->pageTextNotContains($term->label());
     }
 
     // Change vocabulary depth to 1.
-    $edit = array(
-      'vocabulary_depth' => 1,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_depth]" => 1]);
 
     // Assert that only tag 1 is listed in the sitemap.
-    $this->drupalGet('sitemap');
-    $this->assertText($tags[0]);
-    $this->assertNoText($tags[1]);
-    $this->assertNoText($tags[2]);
+    $this->drupalGet('/sitemap');
+    $this->assertSession()->pageTextContains($this->terms[0]->label());
+    $this->assertSession()->pageTextNotContains($this->terms[1]->label());
+    $this->assertSession()->pageTextNotContains($this->terms[2]->label());
 
     // Change vocabulary depth to 2.
-    $edit = array(
-      'vocabulary_depth' => 2,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_depth]" => 2]);
 
     // Assert that tag 1 and tag 2 are listed in the sitemap.
-    $this->drupalGet('sitemap');
-    $this->assertText($tags[0]);
-    $this->assertText($tags[1]);
-    $this->assertNoText($tags[2]);
+    $this->drupalGet('/sitemap');
+    $this->assertSession()->pageTextContains($this->terms[0]->label());
+    $this->assertSession()->pageTextContains($this->terms[1]->label());
+    $this->assertSession()->pageTextNotContains($this->terms[2]->label());
 
     // Change vocabulary depth to 3.
-    $edit = array(
-      'vocabulary_depth' => 3,
-    );
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_depth]" => 3]);
 
     // Assert that all tags are listed in the sitemap.
-    $this->drupalGet('sitemap');
-    foreach ($tags as $tag) {
-      $this->assertText($tag);
+    $this->drupalGet('/sitemap');
+    foreach ($this->terms as $term) {
+      $this->assertSession()->pageTextContains($term->label());
+    }
+
+    // Test display when parent term does not meet threshold.
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_count_threshold]" => 1]);
+    $childTerms = $this->terms;
+    array_shift($childTerms);
+    $this->createNodeWithTerms($childTerms);
+    $this->drupalGet('/sitemap');
+    foreach ($this->terms as $term) {
+      $this->assertSession()->pageTextContains($term->label());
+    }
+    // TODO: Check for empty <li>s as well.
+
+    // Test show_count when parent term does not meet threshold.
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][show_count]" => TRUE]);
+    $this->drupalGet('/sitemap');
+    $elements = $this->cssSelect(".sitemap-plugin--vocabulary .count:contains('(1)')");
+    $this->assertEquals(count($elements), 2, 'Node counts included.');
+  }
+
+  /**
+   * Tests the term link settings.
+   */
+  public function testTermLinks() {
+    $this->terms = $this->createTerms($this->vocabulary);
+    $this->linkSettingsTest();
+  }
+
+  /**
+   * Tests the nested term link settings.
+   */
+  public function testNestedTermLinks() {
+    // Create terms.
+    $this->terms = $this->createNestedTerms($this->vocabulary);
+    $this->linkSettingsTest();
+
+    // Test link when parent term does not meet threshold.
+    $vid = $this->vocabulary->id();
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_count_threshold]" => 2]);
+    $childTerms = $this->terms;
+    array_shift($childTerms);
+    $this->createNodeWithTerms($childTerms);
+    $this->drupalGet('/sitemap');
+    $this->assertSession()->linkNotExists($this->terms[0]->label());
+    foreach ($childTerms as $term) {
+      $this->assertSession()->linkExists($term->label());
+    }
+
+    // Test 'always display links'.
+    $vid = $this->vocabulary->id();
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][always_link]" => TRUE]);
+    $this->drupalGet('/sitemap');
+    foreach ($this->terms as $term) {
+      $this->assertSession()->linkExists($term->label());
     }
   }
 
   /**
-   * Tests vocabulary show link settings.
+   * @TODO: Tests customized term links.
+   *//*
+  public function testTermCustomLinks() {
+  }*/
+
+  /**
+   * Helper function for testing link settings.
    */
-  public function testVocabularyShowLinks() {
-    // Set to show all taxonomy terms, even if they are not assigned to any
-    // nodes. Also change the vocabulary depth to -1.
-    $edit = [
-      'term_threshold' => -1,
-      'vocabulary_depth' => -1,
-    ];
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
-
-    // Get tags from terms.
-    $tags = array();
+  protected function linkSettingsTest() {
+    // Confirm that terms without content are not linked by default.
+    $this->drupalGet('/sitemap');
     foreach ($this->terms as $term) {
-      $tags[] = $term->label();
+      $this->assertSession()->linkNotExists($term->label());
     }
 
-    // Assert that all tags are listed in the sitemap and do not link.
-    $this->drupalGet('sitemap');
-    foreach ($tags as $tag) {
-      $this->assertText($tag);
-      $this->assertNoLink($tag);
+    // Test 'always display links'.
+    $vid = $this->vocabulary->id();
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][always_link]" => TRUE]);
+    $this->drupalGet('/sitemap');
+    foreach ($this->terms as $term) {
+      $this->assertSession()->linkExists($term->label());
     }
 
-    // Configure to show all links.
-    $edit = [
-      'vocabulary_show_links' => TRUE,
-    ];
-    $this->drupalPostForm('admin/config/search/sitemap', $edit, t('Save configuration'));
-
-    // Now assert that all terms have links on them.
-    $this->drupalGet('sitemap');
-    foreach ($tags as $tag) {
-      $this->assertLink($tag);
+    // Test that terms with content are linked...
+    $this->createNodeWithTerms($this->terms);
+    $this->drupalGet('/sitemap');
+    foreach ($this->terms as $term) {
+      $this->assertSession()->linkExists($term->label());
     }
+
+    // ... even when always_link is disabled.
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][always_link]" => FALSE]);
+    $this->drupalGet('/sitemap');
+    foreach ($this->terms as $term) {
+      $this->assertSession()->linkExists($term->label());
+    }
+
   }
-
 }

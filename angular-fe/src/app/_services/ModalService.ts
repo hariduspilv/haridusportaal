@@ -44,7 +44,9 @@ export class ModalService {
       if (modal.id === id && !this.modalOpened[id]) {
         modal.stateChange(true);
         modal.contents.changes.pipe(take(1)).subscribe((val) => {
-          val.first.nativeElement.querySelector('.modal__header h2').focus();
+          setTimeout(() => {            
+            val.first.nativeElement.querySelector('.modal__header h2').focus();
+          });
         });
       } else {
         modal.contents.first.nativeElement.removeAttribute('tabIndex');

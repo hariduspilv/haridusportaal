@@ -43,6 +43,13 @@
         }
       }
     }
+    @include break-on(xs, max) {
+      .picto__wrapper {
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+      }
+    }
     .description__actions {
       text-align: center;
       margin-top: 1rem;

@@ -54,6 +54,7 @@ $grid-columns: 12;
     color: $black;
     margin-top: 0.25rem;
     margin-bottom: 1rem;
+    display: block;
     &.orange > div {
       margin-bottom: 0;
     }
@@ -250,9 +251,9 @@ $grid-columns: 12;
         .list__item__picto-wrapper {
           display: flex;
           justify-content: center;
-          margin-right: -3rem;
-          margin-top: -2rem;
-          height: 7rem;
+          @include break-on(xs, max) {
+            margin-top: 1rem;
+          }
         }
 
         &+ .list__item {
@@ -261,11 +262,6 @@ $grid-columns: 12;
 
         @include break-on(xs, max) {
           flex-direction: column !important;
-
-          .list__item__picto-wrapper {
-            margin-right: 0;
-            margin-top: 0;
-          }
           .list__item__titlebox a > h1 {
             white-space: normal !important;
           }

@@ -67,7 +67,7 @@ services:
 
   graphql.query_routes:
     class: Drupal\graphql\Routing\QueryRoutes
-    arguments: ['@plugin.manager.graphql.schema']
+    arguments: ['@plugin.manager.graphql.schema', '@authentication_collector']
     tags:
       - { name: 'event_subscriber' }
 
@@ -266,7 +266,7 @@ services:
 
   graphql.language_context:
     class: Drupal\graphql\GraphQLLanguageContext
-    arguments: ['@language_manager']
+    arguments: ['@language_manager', '@string_translation']
 
   graphql.config_factory_override:
     class: Drupal\graphql\Config\GraphQLConfigOverrides

@@ -29,10 +29,14 @@ export class BlockContentComponent {
   @Input() tabActive: boolean;
   @Input() active: boolean = false;
   @Input() tabVisible: boolean = true;
+  @Input() noPaddingTop = false;
   @Input() queryParams: any = {};
   @ContentChildren(forwardRef(() => ScrollableContentComponent), { descendants: true })
   scrollable: QueryList<ScrollableContentComponent>;
 
+  @HostBinding('class') get hostClasses(): string {
+    return this.noPaddingTop ? 'no__padding__top' : '';
+  }
   constructor(
     private cdr: ChangeDetectorRef,
   ) {

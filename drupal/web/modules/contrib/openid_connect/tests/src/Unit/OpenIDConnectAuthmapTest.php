@@ -80,21 +80,45 @@ class OpenIDConnectAuthmapTest extends UnitTestCase {
    * Test the createAssociation method.
    */
   public function testCreateAssociationMethod(): void {
+    $client_name = 'generic';
+    $sub = 'subject';
 
-    $expectdFieldsArray = [
-      'uid' => self::USER_ID,
-      'client_name' => 'generic',
-      'sub' => 'subject',
-    ];
-
-    $this->account->expects($this->once())
+    $this->account->expects($this->exactly(2))
       ->method('id')
       ->willReturn(self::USER_ID);
+
+    $selectInterface = $this->createMock(SelectInterface::class);
+    $selectInterface->expects($this->once())
+      ->method('fields')
+      ->with('a', ['client_name', 'sub'])
+      ->willReturnSelf();
+
+    $selectInterface->expects($this->at(1))
+      ->method('condition')
+      ->with('uid', self::USER_ID)
+      ->willReturnSelf();
+
+    $selectInterface->expects($this->at(2))
+      ->method('condition')
+      ->with('client_name', $client_name)
+      ->willReturnSelf();
+
+    $selectInterface->expects($this->once())
+      ->method('execute')
+      ->willReturn([]);
+
+    $this->connection->expects($this->once())
+      ->method('select')
+      ->willReturn($selectInterface);
 
     $queryInsert = $this->createMock(Insert::class);
     $queryInsert->expects($this->once())
       ->method('fields')
-      ->with($expectdFieldsArray)
+      ->with([
+        'uid' => self::USER_ID,
+        'client_name' => $client_name,
+        'sub' => $sub,
+      ])
       ->willReturnSelf();
 
     $queryInsert->expects($this->once())

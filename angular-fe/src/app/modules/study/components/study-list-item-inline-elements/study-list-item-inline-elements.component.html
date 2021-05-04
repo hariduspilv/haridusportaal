@@ -1,0 +1,4 @@
+<ng-container *ngFor="let field of inlineFields; let first = first;">
+  <span aria-hidden="true" class="bar" *ngIf="!first">|</span>
+  <span class="item">{{ field }}</span>
+</ng-container>

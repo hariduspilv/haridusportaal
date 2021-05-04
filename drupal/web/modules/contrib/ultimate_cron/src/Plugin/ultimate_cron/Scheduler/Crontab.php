@@ -55,7 +55,7 @@ class Crontab extends SchedulerBase {
       }
     }
     $parsed .= t('Next scheduled run at @datetime', array(
-      '@datetime' => format_date($next_schedule, 'custom', 'Y-m-d H:i:s')
+      '@datetime' => \Drupal::service('date.formatter')->format($next_schedule, 'custom', 'Y-m-d H:i:s')
     ));
     return $parsed;
   }

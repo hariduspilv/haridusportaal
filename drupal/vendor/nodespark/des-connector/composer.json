@@ -4,7 +4,8 @@
   "type": "library",
   "homepage": "https://github.com/nodespark/des-connector",
   "require": {
-    "elasticsearch/elasticsearch": "~5.0"
+    "php": "^7.0",
+    "ruflin/Elastica": "dev-master"
   },
   "license": "LGPL-2.1",
   "authors": [

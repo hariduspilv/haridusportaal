@@ -3,7 +3,7 @@
  * Generic functions DF Admin
  *
  */
-(function ($, Drupal) {
+(function ($, Drupal, M) {
   Drupal.behaviors.material_checkbox = {
     attach: function (context) {
       // limitation of drupal placing <label> before checkbox, which is bad idea and doesnt work with materialize checkboxes
@@ -34,22 +34,12 @@
       })
      }
   };
-  //If form API checkbox or radio has no label, add one so we can use materializecss styling
-  Drupal.behaviors.material_checkbox_no_label = {
-    attach: function (context) {
-      $(context).find('.form-no-label input[type=checkbox]:not(.item-switch), .form-no-label input[type=radio]').once('material_checkbox_no_label').each(function() {
-        if(this.nextSibling.nodeName != 'label') {
-          $(this).after('<label for="'+this.id+'"></label>')
-        }
-      })
-    }
-  };
   //trigger select boxes to be replaced with li for better styling
   // (not intended for cardinality select boxes)
   Drupal.behaviors.material_select_box = {
     attach: function (context) {
       $('select:not(.field-parent)', context).once('material_select_box').each(function () {
-        $(this).material_select();
+        $(this).formSelect();
         $(this).parent('.select-wrapper').removeClass(function (index, className) {
           return (className.match(/\S+delta-order/) || []).join(' ');
         });
@@ -62,22 +52,71 @@
       $(document).ready(function () {
         var $textWrapper = $('.form-textarea-wrapper textarea');
         $(context).find($textWrapper).once('material_textarea').each(function () {
-          $(this).trigger('autoresize');
+          M.textareaAutoResize($(this));
         })
       })
     }
   };
   Drupal.behaviors.material_tooltip = {
     attach: function (context) {
-      var $tooltipped = $('.tooltipped');
-      $(context).find($tooltipped).once('material_tooltip').tooltip({ delay: 150, html: true });
-      $(document).once('material_tooltip')
-        .on('mouseenter', '.material-tooltip', function() {
-          $('[data-tooltip-id="' + this.id + '"]').trigger('mouseenter');
-        })
-        .on('mouseleave', '.material-tooltip', function() {
-          $('[data-tooltip-id="' + this.id + '"]').trigger('mouseleave');
+      $(context).find('.tooltipped').each(function() {
+        var $this = $(this);
+        var tooltip_enter_delay = $this.data('enter-delay');
+        tooltip_enter_delay = tooltip_enter_delay || 150;
+        var instance = M.Tooltip.init(this, { enterDelay: tooltip_enter_delay });
+        // Create link between tooltip trigger and tooltip (MaterializeCSS no
+        // longer does this).
+        var tooltip_id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        $(instance.tooltipEl).attr('id', tooltip_id);
+        $this.attr('data-tooltip-id', tooltip_id);
+        // Ensure that tooltips are fully hidden after dismissal (the default is
+        // "visibility: visible; opacity: 0;", which causes unseen tooltips to
+        // obscure other elements after their first appearance).
+        $this.on('mouseleave', function() {
+          var tooltip_id = $(this).data('tooltip-id');
+          if (tooltip_id) {
+            // Delay the explicit hiding (a) to support mouse movement from
+            // trigger to tooltip and (b) to retain some exit animation.
+            setTimeout(function(tooltip_id) {
+              var $tooltip = $('#' + tooltip_id);
+              // Do not hide the tooltip yet if the mouse is currently hovering
+              // over the tooltip (see below).
+              if (!$tooltip.data('tooltip-hover-active')) {
+                $tooltip.css('visibility', 'hidden');
+              }
+            }, 250, tooltip_id);
+          }
         });
+      });
+      // Allow users to hover over open tooltips and click on any links therein.
+      var $tooltips = $(context).find('.material-tooltip');
+      $tooltips.on('mouseenter', function() {
+        // Register the mouse's presence to prevent unwanted hiding of tooltip
+        // while user is hovering over it (see above).
+        $(this).data('tooltip-hover-active', true);
+        var $triggering_el = $('[data-tooltip-id="' + this.id + '"]');
+        if ($triggering_el.length > 0) {
+          var tooltip_instance = M.Tooltip.getInstance($triggering_el);
+          // Properly open the tooltip, triggering internal handlers.
+          tooltip_instance.open();
+        }
+      });
+      $tooltips.on('mouseleave', function() {
+        var $this = $(this);
+        var $triggering_el = $('[data-tooltip-id="' + this.id + '"]');
+        if ($triggering_el.length > 0) {
+          var tooltip_instance = M.Tooltip.getInstance($triggering_el);
+          // Properly close the tooltip, triggering internal handlers.
+          tooltip_instance.close();
+        }
+        // Register the mouse's absence (see above).
+        $this.data('tooltip-hover-active', false);
+        // Explicitly hide the tooltip, but insert a delay to retain some exit
+        // animation.
+        setTimeout(function($this) {
+          $this.css('visibility', 'hidden');
+        }, 250, $this);
+      });
     }
   };
   Drupal.behaviors.material_textfields = {
@@ -88,7 +127,7 @@
           if ($(this).find(' > span.field-prefix').length) {
             $(this).find(' > label').addClass('inline-label');
           }
-          Materialize.updateTextFields();
+          M.updateTextFields();
           removeInitialContent(context);
         });
       });
@@ -165,6 +204,36 @@
     }
   };
 
+  Drupal.behaviors.material_admin_initialize_floating_action_buttons = {
+    attach: function () {
+      $('.fixed-action-btn:not(.fab-initialized)').each(function() {
+        var fab_direction = $(this).data('fab-direction');
+        fab_direction = fab_direction || 'left';
+        // @todo: Consider supporting data attributes for other options (hoverEnabled and toolbarEnabled).
+        M.FloatingActionButton.init(this, {
+          direction: fab_direction
+        });
+        $(this).addClass('fab-initialized');
+      });
+    }
+  };
+
+  Drupal.behaviors.material_admin_initialize_collapsible = {
+    attach: function () {
+      $('.collapsible:not(.collapsible-initialized)').each(function() {
+        var accordion = true;
+        var collapsible_style = $(this).data('collapsible');
+        if (collapsible_style == 'expandable') {
+          accordion = false;
+        }
+        M.Collapsible.init(this, {
+          accordion: accordion
+        });
+        $(this).addClass('collapsible-initialized');
+      });
+    }
+  };
+
   Drupal.behaviors.material_admin_views_ui_add_button = {
     attach: function (context) {
       setTimeout(function () {
@@ -180,7 +249,7 @@
       });
     }
   };
- 
+
   //jqueryUI dialog enhancments: disallow background page scroll when modal is open. allow clicking away from dialog to close modal.
   Drupal.behaviors.material_admin_jqueryui_dialog_enhancements = {
     attach: function (settings) {
@@ -237,4 +306,4 @@
       }
     }
   }, 100);
-}(jQuery, Drupal));
+}(jQuery, Drupal, M));

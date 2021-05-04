@@ -3,14 +3,12 @@
 namespace Drupal\monolog\Logger\Processor;
 
 /**
- * Class IpProcessor
+ * Class IpProcessor.
  */
 class IpProcessor extends AbstractRequestProcessor {
 
   /**
-   * @param array $record
-   *
-   * @return array
+   * {@inheritdoc}
    */
   public function __invoke(array $record) {
     if ($request = $this->getRequest()) {
