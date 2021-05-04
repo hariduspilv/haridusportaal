@@ -1,0 +1,66 @@
+@import "breakpoints.scss";
+@import "typography.scss";
+
+:host {
+  color: $black;
+  display: block;
+  position: relative;
+  padding: 4.125rem 0 12.5rem 0;
+  background: $white;
+  @include break-on(sm, max) {
+    padding-bottom: 7rem;
+  }
+  @include break-on(xxs, max) {
+    padding: 6rem 0 6rem 0;
+  }
+  ::ng-deep homepage-line svg .st0 {
+    fill: #fff;
+  }
+  .inner .title {
+    text-align: center;
+    h2 {
+      color: #642BB0;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      text-transform: uppercase;
+      margin: 0;
+      font-weight: normal;
+    }
+    p {
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.25rem;
+      margin: 25px 0;
+    }
+  }
+  .map-container {
+    position: relative;
+    &__overflow {
+      border-radius: 20px;
+      overflow: hidden;
+      map {
+        margin: 0;
+      }
+    }
+    &::before, &::after {
+      content: "";
+      position: absolute;
+      z-index: 10;
+      pointer-events: none;
+    }
+    &::before {
+      background: url('/assets/img/homepage-teachers-leaf-1.svg');
+      width: 131px;
+      height: 95px;
+      top: -65px;
+      left: -76px;
+    }
+    &::after {
+      background: url('/assets/img/homepage-teachers-leaf-2.svg');
+      width: 82px;
+      height: 106px;
+      bottom: -30px;
+      right: 25px;
+    }
+  }
+}
