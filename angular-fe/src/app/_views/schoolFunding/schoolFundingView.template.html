@@ -13,14 +13,35 @@
 			<ng-container *ngIf="showFilter">
 				<div class="row first">
 					<div class="col-3 sm-12">
-						<formItem type="select" title="{{ 'school.institution_ownership' | translate }}"  [options]="institutionOwnershipItems" [(ngModel)]="institutionOwnership" name="institutionOwnership"></formItem>
+						<formItem
+                                type="select"
+                                title="{{ 'school.institution_ownership' | translate }}"
+                                [options]="institutionOwnershipItems"
+                                [(ngModel)]="institutionOwnership"
+                                name="institutionOwnership"
+                                attr.aria-label="{{ 'school.institution_ownership' | translate }}"
+                        ></formItem>
 					</div>
 					<div class="col-5 sm-12">
-						<formItem type="select" title="{{ 'school.investment_measure' | translate }}" [options]="investmentMeasureItems" [(ngModel)]="investmentMeasure" name="investmentMeasure"></formItem>
+						<formItem
+                                type="select"
+                                title="{{ 'school.investment_measure' | translate }}"
+                                [options]="investmentMeasureItems"
+                                [(ngModel)]="investmentMeasure"
+                                name="investmentMeasure"
+                                attr.aria-label="{{ 'school.investment_measure' | translate }}"
+                        ></formItem>
           </div>
           <div class="col-4 sm-12 flex">
-            <formItem type="select" title="{{ 'school.investment_deadline_year' | translate }}" [options]="investmentDeadlineYearItems" [(ngModel)]="investmentDeadlineYear"  name="investmentDeadlineYear"></formItem>
-            <button role="button" htm-button>{{ 'button.search' | translate }}</button>
+            <formItem
+                    type="select"
+                    title="{{ 'school.investment_deadline_year' | translate }}"
+                    [options]="investmentDeadlineYearItems"
+                    [(ngModel)]="investmentDeadlineYear"
+                    name="investmentDeadlineYear"
+                    attr.aria-label="{{ 'school.investment_measure' | translate }}"
+            ></formItem>
+            <button role="button" htm-button>{{ 'school.investment_deadline_year' | translate }}</button>
           </div><!--/col-4-->
 				</div>
 			</ng-container>
