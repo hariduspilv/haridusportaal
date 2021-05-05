@@ -15,12 +15,21 @@
 			<ng-container *ngIf="showFilter">
 				<div class="row">
 					<div class="col-4 sm-12">
-						<formItem type="text" title="{{ 'school.name' | translate }}" name="title"
-						[(ngModel)]="searchTitle"></formItem>
+						<formItem type="text"
+                                  title="{{ 'school.name' | translate }}"
+                                  name="title"
+                                  [(ngModel)]="searchTitle"
+                                  ariaLabel="{{ 'school.name' | translate }}"
+                        ></formItem>
+
 					</div>
 					<!--/col-4-->
 					<div class="col-5 sm-12">
-						<formItem type="text" title="{{ 'school.location' | translate }}" name="location"></formItem>
+						<formItem type="text"
+                                  title="{{ 'school.location' | translate }}"
+                                  ariaLabel="{{ 'school.location' | translate }}"
+                                  name="location"
+                        ></formItem>
 					</div>
 					<!--/col-3-->
 
