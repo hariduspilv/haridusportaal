@@ -19,7 +19,6 @@
 						<formItem
                                 type="text"
                                 title="{{ 'search.keyword' | translate }}"
-                                attr.aria-label="{{ 'search.keyword' | translate }}"
                                 ariaLabel="{{ 'search.keyword' | translate }}"
                                 name="title"
 						        [(ngModel)]="searchTitle"></formItem>
@@ -28,7 +27,6 @@
 						<formItem
                                 type="multi-select"
                                 title="{{ 'oska.title_field' | translate }}"
-                                attr.aria-label="{{ 'oska.title_field' | translate }}"
                                 ariaLabel="{{ 'oska.title_field' | translate }}"
                                 name="oskaField"
 							    [options]="oskaFields"
@@ -41,7 +39,6 @@
 						<formItem
                                 type="multi-select"
                                 title="{{ 'oska.competition_by_professions' | translate }}"
-                                attr.aria-label="{{ 'oska.competition_by_professions' | translate }}"
                                 ariaLabel="{{ 'oska.competition_by_professions' | translate }}"
                                 name="fillingBar"
 							    [sortOptions]="false"
@@ -52,7 +49,6 @@
 						<formItem
                                 type="select"
                                 title="{{ 'oska.professions_or_jobs' | translate }}"
-                                attr.aria-label="{{ 'oska.professions_or_jobs' | translate }}"
                                 ariaLabel="{{ 'oska.professions_or_jobs' | translate }}"
                                 name="fieldProfession"
 						        [sortOptions]="false"

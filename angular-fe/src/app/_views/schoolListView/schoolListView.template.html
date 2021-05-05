@@ -50,14 +50,30 @@
 				<div class="row" *ngIf="filterFull">
 
 					<div class="col-4 sm-12">
-						<formItem type="multi-select" [(ngModel)]="selectedPrimaryTypes" sortOptions="true"
-							title="{{ 'school.institution_type' | translate }}" name="primaryTypes" [options]="primaryTypes" (onChange)="setSecondaryTypes()">
+						<formItem
+                                type="multi-select"
+                                [(ngModel)]="selectedPrimaryTypes"
+                                sortOptions="true"
+                                title="{{ 'school.institution_type' | translate }}"
+                                name="primaryTypes"
+                                [options]="primaryTypes"
+                                (onChange)="setSecondaryTypes()"
+                                ariaLabel="{{ 'school.institution_type' | translate }}"
+                        >
 						</formItem>
 					</div>
 					<div class="col-5 sm-12" [class.disabled]="secondaryFilteredTypes.length > 0 ? false : true">
-						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"  sortOptions="true"
-							[disabled]="secondaryFilteredTypes.length > 0 ? false : true"
-							[title]="subPlaceholder" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
+						<formItem
+                                type="multi-select"
+                                [(ngModel)]="selectedSecondaryTypes"
+                                sortOptions="true"
+							    [disabled]="secondaryFilteredTypes.length > 0 ? false : true"
+							    [title]="subPlaceholder"
+                                name="secondaryTypes"
+                                [options]="secondaryFilteredTypes"
+                                (onChange)="setTypeValue()"
+                                ariaLabel="{{subPlaceholder}}"
+                        >
 						</formItem>
 					</div>
 
@@ -67,12 +83,28 @@
 						</formItem>
 					</div> -->
 					<div class="col-4 sm-12" [class.disabled]="isLanguageDisabled">
-						<formItem type="multi-select" [disabled]="isLanguageDisabled" title="{{ 'school.language' | translate }}" name="language" [(ngModel)]="selectedLanguage" [options]="languageFilters"  sortOptions="true">
-						</formItem>
+						<formItem
+                                type="multi-select"
+                                [disabled]="isLanguageDisabled"
+                                title="{{ 'school.language' | translate }}"
+                                name="language"
+                                [(ngModel)]="selectedLanguage"
+                                [options]="languageFilters"
+                                sortOptions="true"
+                                ariaLabel="{{ 'school.language' | translate }}"
+                        ></formItem>
 					</div>
 
 					<div class="col-5 sm-12">
-						<formItem type="multi-select" title="{{ 'school.ownership' | translate }}" name="ownership" [(ngModel)]="selectedOwnership" [options]="ownershipFilters"  sortOptions="true">
+						<formItem
+                                type="multi-select"
+                                title="{{ 'school.ownership' | translate }}"
+                                name="ownership"
+                                [(ngModel)]="selectedOwnership"
+                                [options]="ownershipFilters"
+                                sortOptions="true"
+                                ariaLabel="{{ 'school.ownership' | translate }}"
+                        >
 						</formItem>
 					</div>
 

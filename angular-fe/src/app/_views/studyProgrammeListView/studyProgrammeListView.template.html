@@ -18,7 +18,6 @@
                                 title="{{ 'studyProgramme.filter_title' | translate }}"
                                 name="title"
                                 [(ngModel)]="searchTitle"
-                                attr.aria-label="{{ 'studyProgramme.filter_title' | translate }}"
                                 ariaLabel="{{ 'studyProgramme.filter_title' | translate }}"
                         ></formItem>
                     </div>
@@ -30,7 +29,6 @@
                                 name="type"
                                 [options]="typeFilters"
                                 [(ngModel)]="selectedTypes"
-                                attr.aria-label="{{ 'studyProgramme.filter_type' | translate }}"
                                 ariaLabel="{{ 'studyProgramme.filter_type' | translate }}"
                         ></formItem>
                     </div>
@@ -56,7 +54,6 @@
                         <formItem type="multi-select" [(ngModel)]="selectedLevels"
                                   title="{{ 'studyProgramme.level' | translate }}" name="level"
                                   [options]="levelFilters"
-                                  attr.aria-label="{{ 'studyProgramme.level' | translate }}"
                                   ariaLabel="{{ 'studyProgramme.level' | translate }}"
                         >
                         </formItem>
@@ -69,17 +66,17 @@
                                   title="{{ 'studyProgramme.filter_iscedf_broad' | translate }}"
                                   name="iscedf_broad"
                                   [options]="iscedfBroadFilters"
-                                  attr.aria-label="{{ 'studyProgramme.filter_iscedf_broad' | translate }}"
                                   ariaLabel="{{ 'studyProgramme.filter_iscedf_broad' | translate }}"
                         >
                         </formItem>
                     </div>
 
                     <div class="col-4 sm-12">
-                        <formItem type="multi-select" [(ngModel)]="selectedLanguages"
-                                  title="{{ 'studyProgramme.filter_language' | translate }}" name="language"
+                        <formItem type="multi-select"
+                                  [(ngModel)]="selectedLanguages"
+                                  title="{{ 'studyProgramme.filter_language' | translate }}"
+                                  name="language"
                                   [options]="languageFilters"
-                                  attr.aria-label="{{ 'studyProgramme.filter_language' | translate }}"
                                   ariaLabel="{{ 'studyProgramme.filter_language' | translate }}"
                         >
                         </formItem>
@@ -94,7 +91,6 @@
                                   title="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}"
                                   name="iscedf_narrow"
                                   [options]="iscedfNarrowFilters"
-                                  attr.aria-label="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}"
                                   ariaLabel="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}"
                         >
                         </formItem>
@@ -105,7 +101,6 @@
                                 type="text"
                                 title="{{ 'studyProgramme.filter_school' | translate }}"
                                 name="school"
-                                attr.aria-label="{{ 'studyProgramme.filter_school' | translate }}"
                                 ariaLabel="{{ 'studyProgramme.filter_school' | translate }}"
                         >
                         </formItem>
@@ -119,7 +114,6 @@
                                   title="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}"
                                   name="iscedf_detailed"
                                   [options]="iscedfDetailedFilters"
-                                  attr.aria-label="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}"
                                   ariaLabel="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}"
                         >
                         </formItem>
@@ -129,35 +123,35 @@
                         <formItem type="text"
                                   title="{{ 'studyProgramme.filter_location' | translate }}"
                                   name="location"
-                                  attr.aria-label="{{ 'studyProgramme.filter_location' | translate }}"
                                   ariaLabel="{{ 'studyProgramme.filter_location' | translate }}"
                         >
                         </formItem>
                     </div>
 
                     <div class="col-5 sm-12">
-                        <formItem type="select" title="{{ 'button.sort' | translate }}" name="sort"
+                        <formItem type="select"
+                                  title="{{ 'button.sort' | translate }}"
+                                  name="sort"
                                   [options]="sortOptions"
                                   [(ngModel)]="sort" (onChange)="setSortDirection()"
-                                  attr.aria-label="{{ 'button.sort' | translate }}"
                                   ariaLabel="{{ 'button.sort' | translate }}"
                         >
                         </formItem>
                     </div>
 
                     <div class="hidden">
-                        <formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
+                        <formItem type="text" title="{{ 'button.sort' | translate }}"
+                                  name="sortField"
                                   [excludeFromSearch]="true"
                                   [(ngModel)]="sortField"
-                                  attr.aria-label="{{ 'button.sort' | translate }}"
                                   ariaLabel="{{ 'button.sort' | translate }}"
                         >
                         </formItem>
                     </div>
                     <div class="hidden">
-                        <formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
+                        <formItem type="text" title="{{ 'button.sort' | translate }}"
+                                  name="sortDirection"
                                   [(ngModel)]="sortDirection" [excludeFromSearch]="true"
-                                  attr.aria-label="{{ 'button.sort' | translate }}"
                                   ariaLabel="{{ 'button.sort' | translate }}"
                         >
                         </formItem>
@@ -167,7 +161,6 @@
                         <formItem type="checkbox" [(ngModel)]="openAdmission"
                                   label="{{ 'studyProgramme.filter_open_admission' | translate }}"
                                   name="onlyOpenAdmission"
-                                  attr.aria-label="{{ 'studyProgramme.filter_open_admission' | translate }}"
                                   ariaLabel="{{ 'studyProgramme.filter_open_admission' | translate }}"
                         >
                         </formItem>
