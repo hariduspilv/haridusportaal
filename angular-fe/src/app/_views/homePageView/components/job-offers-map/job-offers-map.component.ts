@@ -68,8 +68,8 @@ export class JobOffersMapComponent implements OnInit {
         const index = parseInt(i, 10);
         const item = items[i];
         const angle = 360.0 / items.length;
-        item.Lat = item.Lat + -.00004 * Math.cos((+angle * index) / 180 * Math.PI);
-        item.Lon = item.Lon + -.00004 * Math.sin((+angle * index) / 180 * Math.PI);
+        item.Lat += -.00004 * Math.cos((+angle * index) / 180 * Math.PI);
+        item.Lon += -.00004 * Math.sin((+angle * index) / 180 * Math.PI);
       }
     }
 
