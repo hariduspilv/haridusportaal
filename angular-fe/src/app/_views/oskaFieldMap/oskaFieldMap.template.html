@@ -44,7 +44,7 @@
             </tr>
           </tbody>
         </table>
-        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator" aria-hidden="true">
+        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator" aria-hidden="true" (mapLoaded)="mapLoaded()">
         </map>
         <!--/map-wrapper-->
       </block-content>

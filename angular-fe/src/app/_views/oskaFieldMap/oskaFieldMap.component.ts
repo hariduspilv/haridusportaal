@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -68,6 +68,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     private deviceService: DeviceDetectorService,
     private settings: SettingsService,
     private mapService: MapService,
+    private el:ElementRef,
   ) {
     super(null, null);
   }
@@ -186,6 +187,16 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     });
     this.filterData['OSKAField'] = field;
     this.filterData['mapIndicator'] = indicator;
+  }
+
+  mapLoaded() {
+    setTimeout(() => {
+      const focusableElements = this.el.nativeElement.querySelectorAll('[tabindex], agm-map a');
+      Array.from(focusableElements).forEach((element:HTMLElement) => {
+        element.setAttribute('tabindex', '-1');
+      });
+    },
+    3000);
   }
 
   fieldPlaceholder() {
