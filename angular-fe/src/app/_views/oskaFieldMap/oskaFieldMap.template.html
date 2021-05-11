@@ -28,7 +28,7 @@
           </div>
         </form>
         <loader *ngIf="loading"></loader>
-        <table class="sr-only" *ngIf="this.polygonData">
+        <table class="sr-only" *ngIf="this.polygonData?.county">
           <caption>
             <span *ngIf="filterFormItems.OSKAField">{{this.polygonData.county[0].OSKAField}} </span>
             <span>{{this.polygonData.county[0].mapIndicator}}</span>
