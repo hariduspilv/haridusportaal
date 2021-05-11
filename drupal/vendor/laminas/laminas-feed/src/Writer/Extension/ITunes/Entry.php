@@ -67,8 +67,11 @@ class Entry
     /**
      * Set a block value of "yes" or "no". You may also set an empty string.
      *
-     * @param  string
+     * @param string
+     *
      * @throws Writer\Exception\InvalidArgumentException
+     *
+     * @return void
      */
     public function setItunesBlock($value)
     {

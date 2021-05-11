@@ -17,7 +17,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 /**
  * @GraphQLField(
  *   id = "entity_query",
- *   secure = true,
+ *   secure = false,
  *   type = "EntityQueryResult",
  *   arguments = {
  *     "filter" = "EntityQueryFilterInput",
@@ -37,6 +37,10 @@ use GraphQL\Type\Definition\ResolveInfo;
  *   },
  *   deriver = "Drupal\graphql_core\Plugin\Deriver\Fields\EntityQueryDeriver"
  * )
+ *
+ * This field is marked as not secure because it does not enforce entity field
+ * access over a chain of filters. For example node.uid.pass could be used as
+ * filter input which would disclose information about Drupal's password hashes.
  */
 class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInterface {
   use DependencySerializationTrait;
@@ -255,7 +259,8 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
     if (!empty($sort) && is_array($sort)) {
       foreach ($sort as $item) {
         $direction = !empty($item['direction']) ? $item['direction'] : 'DESC';
-        $query->sort($item['field'], $direction);
+        $language = !empty($item['language']) ? $item['language'] : null;
+        $query->sort($item['field'], $direction, $language);
       }
     }
 
@@ -282,7 +287,7 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
       $filterConditions = $this->buildFilterConditions($query, $filter);
       if (count($filterConditions->conditions())) {
         $query->condition($filterConditions);
-      }      
+      }
     }
 
     return $query;
@@ -313,7 +318,7 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
       if (isset($condition['enabled']) && empty($condition['enabled'])) {
         continue;
       }
-      
+
       $field = $condition['field'];
       $value = !empty($condition['value']) ? $condition['value'] : NULL;
       $operator = !empty($condition['operator']) ? $condition['operator'] : NULL;
@@ -364,7 +369,7 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
       $filterConditions = $this->buildFilterConditions($query, $args);
       if (count($filterConditions->conditions())) {
         $group->condition($filterConditions);
-      }      
+      }
     }
 
     return $group;

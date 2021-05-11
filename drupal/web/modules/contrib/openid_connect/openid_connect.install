@@ -121,12 +121,28 @@ function openid_connect_update_8105() {
   $database = \Drupal::database();
   // Get the IDs for the duplicate entries.
   $query = $database->select('openid_connect_authmap', 'a1')->fields('a1', ['aid']);
-  $query->innerJoin('openid_connect_authmap', 'a2');
-  $query->where("a1.aid > a2.aid AND a1.uid = a2.uid AND a1.client_name = a2.client_name AND a1.sub = a2.sub");
+  $query->innerJoin('openid_connect_authmap', 'a2', 'a1.uid = a2.uid AND a1.client_name = a2.client_name AND a1.sub = a2.sub');
+  $query->where('a1.aid > a2.aid');
   $aids = $query->distinct()->execute()->fetchAllAssoc('aid');
 
   if (!empty($aids)) {
     // If duplicates exist, delete them.
     $database->delete('openid_connect_authmap')->condition('aid', array_keys($aids), 'IN')->execute();
   }
+}
+
+/**
+ * Add default config for Okta provider.
+ */
+function openid_connect_update_8106() {
+  $config_factory = \Drupal::configFactory();
+
+  $config = $config_factory->getEditable('openid_connect.settings.okta');
+  $config->set('enabled', FALSE);
+  $config->set('settings', [
+    'client_id' => '',
+    'client_secret' => '',
+    'okta_domain' => '',
+  ]);
+  $config->save(TRUE);
 }

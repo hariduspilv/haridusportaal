@@ -1,0 +1,7 @@
+enabled: true
+settings:
+  redirect_url: ''
+  client_id: haridusportaal_arendus
+  client_secret: zn16frsUBSCui9GgUnzkI7yr
+  authorization_endpoint: 'https://tara-test.ria.ee/oidc/authorize'
+  token_endpoint: 'https://tara-test.ria.ee/oidc/token'

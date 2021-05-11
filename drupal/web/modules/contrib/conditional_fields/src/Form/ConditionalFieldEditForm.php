@@ -2,19 +2,20 @@
 
 namespace Drupal\conditional_fields\Form;
 
-use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\Entity\EntityFormDisplay;
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormState;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\conditional_fields\ConditionalFieldsInterface;
-use Drupal\Core\Render\Element;
 use Drupal\conditional_fields\Conditions;
+use Drupal\conditional_fields\DependencyHelper;
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Form\FormState;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Form\FormBuilderInterface;
 
 /**
  * Class ConditionalFieldEditForm.
@@ -251,6 +252,27 @@ class ConditionalFieldEditForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    if ($this->fieldSupportsInheritance($entity_type, $bundle, $field_name)) {
+      $form['inheritance'] = [
+        '#type' => 'checkboxes',
+        '#title' => $this->t('Inheritance'),
+        '#description' => $this->t('This element contains other fields. Apply the settings in this form to the contained fields instead of this one.'),
+        '#options' => [
+          'propagate' => $this->t('Propagate settings to fields contained within this one.'),
+          'apply_to_parent' => $this->t('Apply these settings to the this (parent) field also. Requires the "Propagate" setting, above.'),
+          'recurse' => $this->t('Apply these settings to group fields contained within this one. Requires the "Propagate" setting, above.'),
+        ],
+        '#default_value' => array_key_exists('inheritance', $settings) ? $settings['inheritance'] : [],
+      ];
+      $form['inheritance']['apply_to_parent'] = [
+        '#states' => [
+          'disabled' => [
+            ':input[name="inheritance[propagate]"]' => ['checked' => FALSE],
+          ],
+        ],
+      ];
+      $form['inheritance']['recurse']['#states'] = $form['inheritance']['apply_to_parent']['#states'];
+    }
     $form['entity_edit'] = [
       '#type' => 'details',
       '#title' => $this->t('Edit context settings'),
@@ -559,6 +581,14 @@ class ConditionalFieldEditForm extends FormBase {
         $this->setFieldProperty($field[$element], $property, $value);
       }
     }
+  }
+
+  /**
+   * Determine whether a field supports inheritance.
+   */
+  protected function fieldSupportsInheritance($entity_type, $bundle, $field_name) {
+    $dependency_helper = new DependencyHelper($entity_type, $bundle);
+    return $dependency_helper->fieldHasChildren($field_name);
   }
 
 }

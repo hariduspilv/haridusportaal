@@ -1,5 +1,4 @@
 
-// tslint:disable
 export const collection = {
   'nodeQuery': 'articles',
   'newsQuery': 'news',

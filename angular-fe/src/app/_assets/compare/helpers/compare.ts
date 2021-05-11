@@ -1,4 +1,4 @@
-// tslint:disable
+
 export const viewOptions = {
   studyProgrammeComparison: '/erialad/võrdlus',
   oskaProfessionsComparison: '/ametialad/võrdlus',

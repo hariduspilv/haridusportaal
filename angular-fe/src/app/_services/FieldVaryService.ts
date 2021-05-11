@@ -1,4 +1,3 @@
-// tslint:disable
 const requestMap = {
   nid: ['entityId'],
   alert: ['fieldAlert'],
@@ -55,7 +54,7 @@ const requestMap = {
   link: ['fieldLearningCarouselLink', 'fieldServiceLink', 'fieldInternalLink'],
 };
 
-// tslint:enable
+
 export default(data) => {
   const tmp = {};
   Object.keys(data).forEach((item) => {

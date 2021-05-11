@@ -1,7 +1,5 @@
 <?php
-
 namespace Drupal\htm_custom_graphql_elasticsearch\Plugin\GraphQL\Fields\ElasticQuery;
-
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
@@ -12,8 +10,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Elasticsearch\ClientBuilder;
 use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
 use Drupal\graphql\Utility\StringHelper;
-
-
 /**
  * @GraphQLField(
  *   id = "custom_elasticsearch_query",
@@ -35,14 +31,12 @@ use Drupal\graphql\Utility\StringHelper;
 class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInterface
 {
   use DependencySerializationTrait;
-
   /**
    * The sub-request buffer service.
    *
    * @var \Drupal\graphql\GraphQL\Buffers\SubRequestBuffer
    */
   protected $subRequestBuffer;
-
   /**
    * {@inheritdoc}
    */
@@ -55,7 +49,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       $container->get('graphql.buffer.subrequest')
     );
   }
-
   /**
    * Metatags constructor.
    *
@@ -76,18 +69,15 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->subRequestBuffer = $subRequestBuffer;
   }
-
   /**
    * {@inheritdoc}
    */
   public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info)
   {
     $responsevalues = [];
-
     $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
     $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
     $elasticsearch_pass = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['password'];
-
     $hosts = [
       [
         'host' => parse_url($elasticsearch_path)['host'],
@@ -95,25 +85,21 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         'pass' => $elasticsearch_pass
       ]
     ];
-
     $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
+
     if (isset($args['sort'])) $args = $this->parseElasticSort($args, $client);
     $params = $this->getElasticQuery($args);
     // add sort if set
-
     if($params == NULL){
       return NULL;
     }else{
       $response = $client->search($params);
       if($args['offset'] == null && $args['limit'] == null){
         while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
-
           $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
-
           // When done, get the new scroll_id
           // You must always refresh your _scroll_id!  It can change sometimes
           $scroll_id = $response['_scroll_id'];
-
           // Execute a Scroll request and repeat
           $response = $client->scroll([
               "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
@@ -124,11 +110,9 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       }else{
         $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
       }
-
       yield ['count'=> $response['hits']['total'], 'values' => $responsevalues];
     }
   }
-
   protected function getContentTypeLabels($responsevalues)
   {
     $response = [];
@@ -145,7 +129,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     }
     return $response;
   }
-
   protected function getElasticQuery($args)
   {
     if (is_null($args['offset']) && is_null($args['limit'])) {
@@ -161,7 +144,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         'index' => $args['elasticsearch_index']
       ];
     }
-
     if ($args['filter']['conjunction'] == 'AND') {
       foreach ($args['filter']['conditions'] as $condition) {
         if (isset($condition['enabled']) && $condition['enabled'] == true || !isset($condition['enabled'])) {
@@ -210,9 +192,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         }
       }
     }
-
     $functions = [];
-
     if (isset($args['score'])) {
       $searchvalues = explode(" ", $args['score']['search_value']);
       foreach ($args['score']['conditions'] as $condition) {
@@ -229,7 +209,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           }
         }
       }
-
       $query = array(
         'query' => array(
           'function_score' => array(
@@ -253,9 +232,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       $query = array(
         'query' => array(
           'bool' => array(
-            'must' => array(
-              $elastic_must_filters
-            )
+            'must' => $elastic_must_filters
           )
         ),
       );
@@ -264,25 +241,21 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       }
     }
     #dump($query);
-
     $params['body'] = $query;
     return $params;
   }
-
   protected function parseElasticSort($args, Client $client)
   {
     $index = reset($args['elasticsearch_index']);
     $sort_params = $args['sort'];
     $params = ['index' => $index];
-
     foreach ($sort_params as $param) {
-      $params['field'][] = $param['field'];
+//      $params['field'][] = $param['field'];
+      $params['fields'][] = $param['field'];
     }
-
     $mapping = $client->indices()->getFieldMapping($params);
     $mapping_arr = reset($mapping[$index]['mappings']);
     $changed = false;
-
     $parsed_params = [];
     foreach ($sort_params as &$sort_param) {
       if (isset($mapping_arr[$sort_param['field']])) {
@@ -297,8 +270,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       }
     }
     $args['sort'] = ($changed) ? $parsed_params : [];
-
     return $args;
   }
-
 }

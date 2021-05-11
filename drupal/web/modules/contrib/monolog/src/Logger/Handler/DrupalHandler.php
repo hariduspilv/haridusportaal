@@ -26,6 +26,8 @@ class DrupalHandler extends AbstractProcessingHandler {
   ];
 
   /**
+   * Constructs a Default object.
+   * 
    * @param \Psr\Log\LoggerInterface $wrapped
    *   The wrapped Drupal logger.
    * @param bool|int $level
@@ -41,19 +43,19 @@ class DrupalHandler extends AbstractProcessingHandler {
   /**
    * {@inheritdoc}
    */
-  public function write(array $record) {
+  public function write(array $record): void {
     // Set up context with the data Drupal loggers expect.
     // @see Drupal\Core\Logger\LoggerChannel::log()
     $context = $record['context'] + [
-        'channel' => $record['channel'],
-        'link' => '',
-        'user' => isset($record['extra']['user']) ? $record['extra']['user'] : NULL,
-        'uid' => isset($record['extra']['uid']) ? $record['extra']['uid'] : 0,
-        'request_uri' => isset($record['extra']['request_uri']) ? $record['extra']['request_uri'] : '',
-        'referer' => isset($record['extra']['referer']) ? $record['extra']['referer'] : '',
-        'ip' => isset($record['extra']['ip']) ? $record['extra']['ip'] : 0,
-        'timestamp' => $record['datetime']->format('U'),
-      ];
+      'channel' => $record['channel'],
+      'link' => '',
+      'user' => isset($record['extra']['user']) ? $record['extra']['user'] : NULL,
+      'uid' => isset($record['extra']['uid']) ? $record['extra']['uid'] : 0,
+      'request_uri' => isset($record['extra']['request_uri']) ? $record['extra']['request_uri'] : '',
+      'referer' => isset($record['extra']['referer']) ? $record['extra']['referer'] : '',
+      'ip' => isset($record['extra']['ip']) ? $record['extra']['ip'] : 0,
+      'timestamp' => $record['datetime']->format('U'),
+    ];
     $level = static::$levels[$record['level']];
     $this->logger->log($level, $record['message'], $context);
   }

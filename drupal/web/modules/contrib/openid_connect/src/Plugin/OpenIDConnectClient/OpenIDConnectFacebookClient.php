@@ -4,7 +4,6 @@ namespace Drupal\openid_connect\Plugin\OpenIDConnectClient;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientBase;
-use Exception;
 
 /**
  * Facebook OpenID Connect client.
@@ -126,7 +125,7 @@ class OpenIDConnectFacebookClient extends OpenIDConnectClientBase {
 
       return $userinfo;
     }
-    catch (Exception $e) {
+    catch (\Exception $e) {
       $variables = [
         '@message' => 'Could not retrieve user profile information',
         '@error_message' => $e->getMessage(),

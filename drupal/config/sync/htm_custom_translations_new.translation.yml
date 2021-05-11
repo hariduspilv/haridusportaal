@@ -501,7 +501,7 @@ frontpage:
     en: 'Main content start area'
   skip:
     translation_type: textarea
-    et: 'Otse põhisisu juurde'
+    et: 'Liigu edasi põhisisu juurde'
     en: 'Skip to main content'
   dashboard_tabs_certificate:
     translation_type: textarea
@@ -904,6 +904,22 @@ frontpage:
     translation_type: textarea
     et: 'Õppekava või lisaeriala nimetus'
     en: 'Õppekava või lisaeriala nimetus'
+  job_offers:
+    translation_type: textarea
+    et: Tööpakkumised
+    en: Tööpakkumised
+  job_offers_description:
+    translation_type: textarea
+    et: 'Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale'
+    en: 'Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale'
+  cooperation_offers:
+    translation_type: textarea
+    et: Koostööpakkumised
+    en: Koostööpakkumised
+  cooperation_offers_intro:
+    translation_type: textarea
+    et: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
+    en: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1479,7 +1495,7 @@ xjson:
     en: ''
   grantsSubmitted:
     translation_type: textarea
-    et: 'Taotlus esitatud!'
+    et: 'Taotlus esitatud'
     en: ''
 article:
   label:
@@ -1994,6 +2010,10 @@ school:
     translation_type: textarea
     et: 'Õppeasutuse nimi'
     en: 'Institution name'
+  view_institutions:
+    translation_type: textarea
+    et: "Vaata õppeasutuste nimekirja\r\n"
+    en: "View educational institutions list\r\n"
 studyProgramme:
   label:
     translation_type: textarea
@@ -3422,8 +3442,8 @@ oska:
     en: 'Kõik ametialad ja ametid'
   competition_by_professions:
     translation_type: textarea
-    et: 'Konkurents tööturul ametialade järgi'
-    en: 'Konkurents tööturul ametialade järgi'
+    et: 'Kui kerge/raske on tööd leida'
+    en: 'Kui kerge/raske on tööd leida'
   professions_data:
     translation_type: textarea
     et: 'Ametialade andmed'
@@ -3445,6 +3465,22 @@ oska:
     translation_type: textarea
     et: Allikas
     en: Source
+  professions_or_jobs:
+    translation_type: textarea
+    et: 'Ametialad või ametid'
+    en: 'Ametialad või ametid'
+  search_professions:
+    translation_type: textarea
+    et: 'Otsi ametialasid ja ameteid'
+    en: 'Otsi ametialasid ja ameteid'
+  county:
+    translation_type: textarea
+    et: Maakond
+    en: County
+  occupied:
+    translation_type: textarea
+    et: 'Hõivatute arv'
+    en: 'Occupied by'
 oskaProfession:
   view_field_info:
     translation_type: textarea
@@ -4979,3 +5015,126 @@ tab:
     translation_type: textarea
     et: aktiivne
     en: active
+olt:
+  introduction_helpertext:
+    translation_type: text_format
+    et:
+      value: "<p>Kui teil on küsimusi õpetajate lähtetoetuse kohta, kirjutage aadressil oppetoetused@rtk.ee. <a href=\"https://www.rtk.ee/\">Täpsem info</a></p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  footer_helpertext:
+    translation_type: text_format
+    et:
+      value: "<p>Kinnitan minu poolt esitatud andmete õigsust.<br />\r\nKinnitan, et olen tutvunud õpetaja lähtetoetust reguleerivate õigusaktidega (põhikooli- ja<br />\r\ngümnaasiumiseaduse § 77 ja § 77¹ , kutseõppeseaduse seaduse § 41 ja haridus- ja<br />\r\nteadusministri 2018. aasta 21. veebruari määrus nr 5 Õpetaja ja tugispetsialisti<br />\r\nlähtetoetuse taotlemise, maksmise ja tagasinõudmise kord ning olen teadlik lähtetoetuse<br />\r\nsaamisega kaasnevatest õigustest ja kohustustest.</p>\r\n\r\n<p>Ebakorrektsete andmete muutmiseks palun pöördu EHISe kooli administraatori poole.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  terms_agreement:
+    translation_type: text_format
+    et:
+      value: "<p>Kinnitan minu poolt esitatud andmete õigsust.</p>\r\n\r\n<p>Kinnitan, et olen tutvunud õpetaja lähtetoetust reguleerivate õigusaktidega (<a href=\"https://www.riigiteataja.ee/akt/dyn=102032018001&amp;id=122012018003!pr77lg6\" target=\"_blank\" title=\"põhikooli- ja gümnaasiumiseaduse\">põhikooli- ja gümnaasiumiseaduse</a> § 77 ja § 77¹ , <a href=\"https://www.riigiteataja.ee/akt/122122013002?leiaKehtivhttps://www.riigiteataja.ee/akt/122122013002?leiaKehtiv\" target=\"_blank\">kutseõppeseaduse seaduse</a> § 41 ja haridus- ja teadusministri 2018. aasta 21. veebruari määrus nr 5 <a href=\"https://www.riigiteataja.ee/akt/102032018001\" target=\"_blank\">Õpetaja ja tugispetsialisti lähtetoetuse taotlemise, maksmise ja tagasinõudmise kord</a> ning olen teadlik lähtetoetuse saamisega kaasnevatest õigustest ja kohustustest.</p>\r\n\r\n<p>Ebakorrektsete andmete muutmiseks palun pöördu EHISe kooli administraatori poole.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+'GRANT_STATUS:WITHDRAWN':
+  translation_type: textarea
+  et: 'Tagasi võetud'
+  en: ''
+study:
+  search_studies:
+    translation_type: textarea
+    et: 'Otsi uuringuid'
+    en: ''
+  topic:
+    translation_type: textarea
+    et: Teema
+    en: ''
+  text_search:
+    translation_type: textarea
+    et: 'Tekstiotsing (pealkiri, autor, sisukokkuvõte)'
+    en: ''
+  publication_type:
+    translation_type: textarea
+    et: 'Publikatsiooni liik'
+    en: ''
+  publisher:
+    translation_type: textarea
+    et: Väljaandja
+    en: Publisher
+  publication_language:
+    translation_type: textarea
+    et: 'Publikatsiooni keel'
+    en: 'Publication language'
+  labels:
+    translation_type: textarea
+    et: Sildid
+    en: Labels
+  year_from:
+    translation_type: textarea
+    et: 'Aasta alates'
+    en: ''
+  year_to:
+    translation_type: textarea
+    et: 'Aasta kuni'
+    en: ''
+  label:
+    translation_type: textarea
+    et: Uuringud
+    en: Studies
+  reference_title:
+    translation_type: textarea
+    et: 'Tutvu täistekstiga'
+    en: 'Full text'
+  view_more:
+    translation_type: textarea
+    et: 'Vaata lisaks'
+    en: ''
+  study_data:
+    translation_type: textarea
+    et: 'Uuringu andmed'
+    en: ''
+  authors:
+    translation_type: textarea
+    et: Autor(id)
+    en: ''
+  author_institution:
+    translation_type: textarea
+    et: 'Autori institutsionaalne kuuluvus'
+    en: ''
+  orderer:
+    translation_type: textarea
+    et: Tellija/rahastaja
+    en: ''
+  year:
+    translation_type: textarea
+    et: Aasta
+    en: ''
+jobOffer:
+  full_time:
+    translation_type: textarea
+    et: Täistööaeg
+    en: Täistööaeg
+  part_time:
+    translation_type: textarea
+    et: Osaline
+    en: Osaline
+  with_shifts:
+    translation_type: textarea
+    et: Vahetustega
+    en: Vahetustega
+  at_night:
+    translation_type: textarea
+    et: Öösiti
+    en: Öösiti
+  offered_by:
+    translation_type: textarea
+    et: Tööpakkuja
+    en: Tööpakkuja
+  job_expiry:
+    translation_type: textarea
+    et: Tähtaeg
+    en: Tähtaeg

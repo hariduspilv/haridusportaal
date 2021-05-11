@@ -38,7 +38,8 @@ class OpenIDConnectLinkedinClient extends OpenIDConnectClientBase {
     return [
       'authorization' => 'https://www.linkedin.com/oauth/v2/authorization',
       'token' => 'https://www.linkedin.com/oauth/v2/accessToken',
-      'userinfo' => 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)?format=json',
+      'userinfo' => 'https://api.linkedin.com/v2/me?projection=(id,localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))',
+      'useremail' => 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))',
     ];
   }
 
@@ -47,7 +48,7 @@ class OpenIDConnectLinkedinClient extends OpenIDConnectClientBase {
    */
   public function authorize($scope = 'openid email') {
     // Use LinkedIn specific authorisations.
-    return parent::authorize('r_basicprofile r_emailaddress');
+    return parent::authorize('r_liteprofile r_emailaddress');
   }
 
   /**
@@ -61,17 +62,81 @@ class OpenIDConnectLinkedinClient extends OpenIDConnectClientBase {
    * {@inheritdoc}
    */
   public function retrieveUserInfo($access_token) {
-    $userinfo = parent::retrieveUserInfo($access_token);
+    $userinfo = [];
+    $info = parent::retrieveUserInfo($access_token);
 
-    if ($userinfo) {
-      $userinfo['email'] = $userinfo['emailAddress'];
-      $userinfo['sub'] = $userinfo['id'];
-      $userinfo['picture'] = $userinfo['pictureUrl'];
+    if ($info) {
+      $userinfo['sub'] = isset($info['id']) ? $info['id'] : '';
+      $userinfo['first_name'] = isset($info['localizedFirstName']) ? $info['localizedFirstName'] : '';
+      $userinfo['last_name'] = isset($info['localizedLastName']) ? $info['localizedLastName'] : '';
+      $userinfo['name'] = $userinfo['first_name'] . ' ' . $userinfo['last_name'];
 
-      unset($userinfo['emailAddress'], $userinfo['id'], $userinfo['pictureUrl']);
+      if (isset($info['profilePicture']['displayImage~']['elements'])) {
+        // The picture was provided.
+        $pictures = $info['profilePicture']['displayImage~']['elements'];
+        // The last picture should have the largest picture of size 800x800 px.
+        $last_picture = end($pictures);
+
+        if (isset($last_picture['identifiers'][0]['identifier'])) {
+          $userinfo['picture'] = $last_picture['identifiers'][0]['identifier'];
+        }
+      }
+      else {
+        // The picture was not provided.
+        $userinfo['picture'] = '';
+      }
+    }
+
+    // Get the email. It should always be provided.
+    if ($email = $this->retrieveUserEmail($access_token)) {
+      $userinfo['email'] = $email;
     }
 
     return $userinfo;
+  }
+
+  /**
+   * Get user email.
+   *
+   * @param string $access_token
+   *   An access token string.
+   *
+   * @return string|bool
+   *   An email or false.
+   */
+  protected function retrieveUserEmail($access_token) {
+    $request_options = [
+      'headers' => [
+        'Authorization' => 'Bearer ' . $access_token,
+        'Accept' => 'application/json',
+      ],
+    ];
+    $endpoints = $this->getEndpoints();
+
+    try {
+      $response = $this->httpClient->get($endpoints['useremail'], $request_options);
+      $object = json_decode((string) $response->getBody(), TRUE);
+
+      if (isset($object['elements'])) {
+        foreach ($object['elements'] as $element) {
+          if (isset($element['handle~']['emailAddress'])) {
+            // The email address was found.
+            return $element['handle~']['emailAddress'];
+          }
+        }
+      }
+    }
+    catch (\Exception $e) {
+      $variables = [
+        '@message' => 'Could not retrieve user email information',
+        '@error_message' => $e->getMessage(),
+      ];
+      $this->loggerFactory->get('openid_connect_' . $this->pluginId)
+        ->error('@message. Details: @error_message', $variables);
+    }
+
+    // No email address was provided.
+    return FALSE;
   }
 
 }

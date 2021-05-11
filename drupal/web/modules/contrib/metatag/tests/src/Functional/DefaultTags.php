@@ -17,7 +17,7 @@ class DefaultTags extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     // Modules for core functionality.
     'node',
     'taxonomy',
@@ -39,6 +39,11 @@ class DefaultTags extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
+  protected $defaultTheme = 'stark';
+
+  /**
+   * {@inheritdoc}
+   */
   protected function setUp() {
     parent::setUp();
 
@@ -55,10 +60,10 @@ class DefaultTags extends BrowserTestBase {
    */
   public function testFrontpage() {
     $this->drupalGet('<front>');
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
     $xpath = $this->xpath("//link[@rel='canonical']");
     $this_page_url = $this->buildUrl('<front>');
-    $this->assertEqual((string) $xpath[0]->getAttribute('href'), $this_page_url);
+    self::assertEquals((string) $xpath[0]->getAttribute('href'), $this_page_url);
   }
 
   /**
@@ -66,13 +71,13 @@ class DefaultTags extends BrowserTestBase {
    */
   public function testCustomRoute() {
     $this->drupalGet('metatag_test_custom_route');
-    $this->assertResponse(200);
-    $this->assertText('Hello world!');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains('Hello world!');
 
     // Check the meta tags.
     $xpath = $this->xpath("//link[@rel='canonical']");
     $this_page_url = $this->buildUrl('/metatag_test_custom_route');
-    $this->assertEqual((string) $xpath[0]->getAttribute('href'), $this_page_url);
+    self::assertEquals((string) $xpath[0]->getAttribute('href'), $this_page_url);
   }
 
   /**
@@ -84,11 +89,11 @@ class DefaultTags extends BrowserTestBase {
 
     // Load the node's entity page.
     $this->drupalGet($this_page_url);
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
 
     // Check the meta tags.
     $xpath = $this->xpath("//link[@rel='canonical']");
-    $this->assertEqual((string) $xpath[0]->getAttribute('href'), $this_page_url);
+    self::assertEquals((string) $xpath[0]->getAttribute('href'), $this_page_url);
   }
 
   /**
@@ -99,11 +104,11 @@ class DefaultTags extends BrowserTestBase {
     $term = $this->createTerm(['vid' => $vocab->id()]);
     $this_page_url = $term->toUrl('canonical', ['absolute' => TRUE])->toString();
     $this->drupalGet($this_page_url);
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
 
     // Check the meta tags.
     $xpath = $this->xpath("//link[@rel='canonical']");
-    $this->assertEqual((string) $xpath[0]->getAttribute('href'), $this_page_url);
+    self::assertEquals((string) $xpath[0]->getAttribute('href'), $this_page_url);
   }
 
   /**
@@ -116,11 +121,11 @@ class DefaultTags extends BrowserTestBase {
 
     // Load the user's entity page.
     $this->drupalGet($this_page_url);
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
 
     // Check the meta tags.
     $xpath = $this->xpath("//link[@rel='canonical']");
-    $this->assertEqual((string) $xpath[0]->getAttribute('href'), $this_page_url);
+    self::assertEquals((string) $xpath[0]->getAttribute('href'), $this_page_url);
     $this->drupalLogout();
   }
 
@@ -140,16 +145,16 @@ class DefaultTags extends BrowserTestBase {
     foreach ($routes as $route) {
       // Identify the path to load.
       $this_page_url = $this->buildUrl($route, ['absolute' => TRUE]);
-      $this->assertTrue(!empty($this_page_url));
+      $this->assertNotEmpty($this_page_url);
 
       // Load the path.
       $this->drupalGet($this_page_url);
-      $this->assertResponse(200);
+      $this->assertSession()->statusCodeEquals(200);
 
       // Check the meta tags.
       $xpath = $this->xpath("//link[@rel='canonical']");
-      $this->assertNotEqual((string) $xpath[0]->getAttribute('href'), $front_url);
-      $this->assertEqual((string) $xpath[0]->getAttribute('href'), $this_page_url);
+      $this->assertNotEquals((string) $xpath[0]->getAttribute('href'), $front_url);
+      self::assertEquals((string) $xpath[0]->getAttribute('href'), $this_page_url);
     }
   }
 

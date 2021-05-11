@@ -3,5 +3,6 @@
   <div class="content"><ng-content></ng-content></div>
   <aside>
     <sidebar *ngIf="sidebar && sidebar.entity" [feedbackNid]="feedbackNid" [data]="sidebar.entity"></sidebar>
+    <ng-content select="[sidebar]"></ng-content>
   </aside>
 </main>

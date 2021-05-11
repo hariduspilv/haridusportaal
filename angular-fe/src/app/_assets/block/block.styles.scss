@@ -187,7 +187,6 @@
         }
       }
     }
-
     .block__content {
       display: block;
       padding: $medium;
@@ -218,6 +217,10 @@
         clear: both;
         height: 0.0625rem;
       }
+    }
+
+    .no__padding__top .block__content {
+      padding: 0 $medium $medium;
     }
 
     @include break-on(xs, max) {
@@ -284,6 +287,15 @@
   }
 
   &.block--sidebar {
+    padding: 1rem 1.5rem 1.5rem;
+    border-top: $orange 0.625rem solid;
+    h1 {
+      color: $black;
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1.33;
+    }
+
     .block__title--border {
       border: 0;
     }

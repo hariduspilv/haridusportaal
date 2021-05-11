@@ -42,14 +42,14 @@
 				<!--/row-->
 				<div class="row" *ngIf="filterFull">
 					<div class="col-9 sm-12">
-						<formItem type="multi-select" ariaLabel="{{ 'news.filter_tag' | translate }}" title="{{ 'news.filter_tag' | translate }}" name="tag"
+						<formItem #hiddenFormItem type="multi-select" ariaLabel="{{ 'news.filter_tag' | translate }}" title="{{ 'news.filter_tag' | translate }}" name="tag"
 							[options]="tags" [(ngModel)]="selectedTag">
 						</formItem>
 					</div>
 
 					<div class="col-3 align-end text-right sm-12 inline-flex">
 						<div class="align-center filter-state sm-hide">
-							<a role="button" class="pointer" (keyup.enter)="expandFilters()"
+							<a  role="button" class="pointer" (keyup.enter)="expandFilters()"
 								(click)="expandFilters()" tabindex="0" aria-expanded="false">
 								<span>{{ 'button.search_brief' | translate}}</span>
 							</a>

@@ -6,7 +6,7 @@ query ($lang: LanguageId!, $nid: String!) {
                 created
                 fieldAuthor
                 fieldIntroductionImage {
-                    derivative(style: CROP_SMALL) {
+                    derivative(style: CROPSMALL) {
                         url
                     }
                     title

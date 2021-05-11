@@ -1,0 +1,53 @@
+<max-width-wrapper>
+    <loader *ngIf="loading"></loader>
+    <article-layout *ngIf="study$ | async as study">
+        <breadcrumbs [path]="studyPath"></breadcrumbs>
+        <block [titleBorder]="false" *ngIf="study">
+            <block-title>{{ 'study.label' | translate }}</block-title>
+            <block-content [noPaddingTop]="true">
+
+                <h1>{{study.title}}</h1>
+
+                <labels
+                        *ngIf="study.fieldCustomBoolean"
+                        type="orange"
+                        [data]="[study.fieldStudyTag]">
+                </labels>
+
+                <share [pageTitle]="study?.title"></share>
+
+                <p class="bold">
+                    {{study.fieldIntroduction}}
+                </p>
+
+                <p *ngIf="study?.fieldContent?.value">
+                    <text-truncate-toggler [input]="study.fieldContent.value" [limit]="400"></text-truncate-toggler>
+                </p>
+
+                <images
+                        *ngIf="study.fieldAdditionalImages"
+                        [image]="study?.fieldAdditionalImages ? study.fieldAdditionalImages : []"
+                ></images>
+
+                <p *ngIf="study?.fieldStudyText" class="bold">{{ 'study.reference_title' | translate }}:</p>
+                <links *ngIf="study?.fieldStudyText" [data]="[study.fieldStudyText]"></links>
+
+                <labels
+                        *ngIf="study.fieldLabel?.length"
+                        [data]="study.fieldLabel">
+                </labels>
+
+                <accordion [collapsible]="false" *ngIf="study?.fieldAccordion?.entity?.fieldStudyPageAccordionTitle">
+                    <accordion-item [title]="study?.fieldAccordion?.entity?.fieldStudyPageAccordionTitle">
+                        <ng-template>
+                            <p class="bold" [innerHTML]="study?.fieldAccordion?.entity?.fieldStudyAccordionIntro"></p>
+                            <p [innerHTML]="study?.fieldAccordion?.entity?.fieldStudyAccordionContent"></p>
+                        </ng-template>
+                    </accordion-item>
+                </accordion>
+
+            </block-content>
+        </block>
+        <study-sidebar *ngIf="study" sidebar [data]="study"></study-sidebar>
+    </article-layout>
+</max-width-wrapper>

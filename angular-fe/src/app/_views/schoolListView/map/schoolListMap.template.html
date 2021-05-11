@@ -87,7 +87,8 @@
 			<block-content tabLabel="Nimekiri" tabLink="/kool" [queryParams]="params" tabIcon="list"></block-content>
 			<block-content tabLabel="Kaart" tabLink="/kool/kaart" [tabActive]="true" tabIcon="map-pin">
 				<loader *ngIf="!markers"></loader>
-				<map *ngIf="markers" [loading]="loading" type="markers" [markers]="markers" [options]="options"></map>
+				<a class="sr-only" routerLink="/kool" attr.aria-label="{{ 'school.view_institutions' | translate }}"></a>
+				<map *ngIf="markers" [loading]="loading" type="markers" [markers]="markers" [options]="options" role="application" ariaLabel="{{'home.topics_institutions' | translate}}" aria-hidden="true"  (mapLoaded)="mapLoaded()"></map>
 			</block-content>
 		</block>
 	</div><!--/inline-->
