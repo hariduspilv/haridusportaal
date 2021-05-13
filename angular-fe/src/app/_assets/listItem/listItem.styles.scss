@@ -85,6 +85,9 @@ $grid-columns: 12;
       &:last-child {
         border-bottom: 0;
       }
+      &.overflow-hidden {
+        overflow: hidden;
+      }
       &:hover {
         .list__item__title {
           text-decoration: underline;
