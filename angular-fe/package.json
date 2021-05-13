@@ -12,7 +12,8 @@
     "e2e": "ng e2e",
     "storybook": "start-storybook -p 4300",
     "build-storybook": "build-storybook --quiet -c .storybook -o dist/storybook",
-    "build-app-with-storybook": "npm run build && npm run build-storybook"
+    "build-app-with-storybook": "npm run build && npm run build-storybook",
+    "postinstall": "patch-package"
   },
   "private": true,
   "dependencies": {
@@ -40,11 +41,12 @@
     "ngx-device-detector": "^1.4.5",
     "ngx-pipes": "^2.6.0",
     "ngx-useful-swiper": "^10.0.1",
+    "patch-package": "^6.4.7",
     "rxjs": "^6.6.3",
     "swiper": "^6.4.0",
-    "zone.js": "^0.10.3",
     "tslib": "^1.13.0",
-    "web-animations-js": "^2.3.2"
+    "web-animations-js": "^2.3.2",
+    "zone.js": "^0.10.3"
   },
   "devDependencies": {
     "@agm/core": "^3.0.0-beta.0",
