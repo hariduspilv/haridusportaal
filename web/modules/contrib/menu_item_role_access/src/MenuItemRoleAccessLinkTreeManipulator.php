@@ -78,7 +78,7 @@ class MenuItemRoleAccessLinkTreeManipulator extends DefaultMenuLinkTreeManipulat
         // Load the entity of the menu item so we can get the roles.
         $menu_link_item = MenuLinkContent::load($metadata['entity_id']);
         // Now make sure the module has been enabled and installed correctly.
-        if ($menu_link_item->hasField('menu_item_roles')) {
+        if (!empty($menu_link_item) && $menu_link_item->hasField('menu_item_roles')) {
           $menu_link_item = $this->getOverridingParent($menu_link_item);
 
           $allowed_roles = $menu_link_item->get('menu_item_roles')->getValue();
