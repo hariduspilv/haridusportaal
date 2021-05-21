@@ -5,6 +5,11 @@ const sharp = require('sharp');
 const path = require('path');
 const botCheck = require('../botCheck');
 const cheerio = require('cheerio');
+const log4js = require("log4js");
+log4js.configure({
+  appenders: { amp: { type: "file", filename: path.join(__dirname, '../../logs/amp.log') } },
+  categories: { default: { appenders: ["amp"], level: "all" } }
+});
 
 const imageSize = 756;
 
@@ -32,9 +37,17 @@ const checkFileExistance = async (url, req) => {
 }
 
 const getSvgFile = async(url) => {
+  const logger = log4js.getLogger('amp');
   return new Promise(async (resolve, reject) => {
-    if (!url){resolve(false);}
+    if (!url) {
+      logger.error(`Picto request failed: url -> ${url}`);
+      resolve(false);
+    }
     const file = request.get(url, async (err, file) => {
+      console.log(url, err, file);
+      if (err) {
+        logger.error(`Picto request failed: ${url} -> ${err}`);
+      }
       const body = file.body.replace(/#.+?;/igm, '#2e3374;');
       const $ = cheerio.load(body);
       $('svg').attr({
@@ -43,21 +56,33 @@ const getSvgFile = async(url) => {
       });
       const buffer = Buffer.from($('body').html());
       const svg = await sharp(buffer).toBuffer();
-
+      if (!svg) {
+        logger.error(`Picto buffer failed: ${url}`);
+      }
       const img = await Jimp.read(svg);
+      if (!img) {
+        logger.error(`Picto convert from buffer failed: ${url}`);
+      }
       resolve(img);
     });
   });
 }
 
 const compileImage = async (svg, url, req) => {
+  const logger = log4js.getLogger('amp');
   return new Promise(async (resolve, reject) => {
     const fileName = getCachedName(url, req);
     const backgroundCount = 5;
     const imageNumber = rand(1, backgroundCount);
     const backgroundPath = path.resolve('./pictos/backgrounds/', `picto-${imageNumber}.png`);
     let png = await Jimp.read(backgroundPath);
+    if (!png) {
+      logger.error(`Picto background convert from buffer failed: ${url}`);
+    }
     png = await png.composite(svg, 0, 0);
+    if (!png) {
+      logger.error(`Picto svg compose failed: ${url}`);
+    }
 
     if (botCheck.isBot(req)) {
       const extraHeight = imageSize;
