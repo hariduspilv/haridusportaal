@@ -29,7 +29,7 @@ app.use('/', express.static(`${__dirname}/dist`, {
 }));
 
 app.get('/amp/*', amp.serve);
-app.get('/picto', picto.serve);
+app.get('/picto*', picto.serve);
 app.get('/stats', stats);
 app.get('/storybook', storybookServer);
 

@@ -1,5 +1,5 @@
 const Jimp = require('jimp');
-const fs = require('fs');
+// const fs = require('fs');
 const request = require('request');
 const sharp = require('sharp');
 const path = require('path');
@@ -13,30 +13,31 @@ log4js.configure({
 
 const imageSize = 756;
 
-const hashCode = s => s.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0)
+// const hashCode = s => s.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0)
 const rand = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-const getCachedName = (url, req) => {
-  const hash = hashCode(url);
-  const fileTitle = url.split('/')[url.split('/').length - 1].replace('.svg', '');
-  if (botCheck.isBot(req)) {
-    return `${fileTitle}-${hash}-bot.png`;
-  };
-  return `${fileTitle}-${hash}.png`;
-}
+// module.exports.getCachedName = (url, req) => {
+//   const hash = hashCode(url);
+//   const fileTitle = url.split('/')[url.split('/').length - 1].replace('.svg', '');
+//   if (botCheck.isBot(req)) {
+//     return `${fileTitle}-${hash}-bot.png`;
+//   };
+//   return `${fileTitle}-${hash}.png`;
+// }
 
-const checkFileExistance = async (url, req) => {
-  return new Promise(async (resolve, reject) => {
-    if (!url) { resolve(false); }
-    const fileName = getCachedName(url, req);
-    const exists = await fs.existsSync(path.resolve('./pictos/cache', fileName));
-    resolve(exists);
-  });
-}
+// const checkFileExistance = async (url, req) => {
+//   return new Promise(async (resolve, reject) => {
+//     if (!url) { resolve(false); }
+//     const fileName = this.getCachedName(url, req);
+//     const exists = await fs.existsSync(path.resolve('./pictos/cache', fileName));
+//     resolve(exists);
+//   });
+// }
 
-const getSvgFile = async(url) => {
+module.exports.getSvgFile = async(url) => {
+  console.log('in GetSvgFile')
   const logger = log4js.getLogger('amp');
   return new Promise(async (resolve, reject) => {
     if (!url) {
@@ -68,10 +69,11 @@ const getSvgFile = async(url) => {
   });
 }
 
-const compileImage = async (svg, url, req) => {
+module.exports.compileImage = async (svg, url, req) => {
+  console.log('in CompileImage');
   const logger = log4js.getLogger('amp');
   return new Promise(async (resolve, reject) => {
-    const fileName = getCachedName(url, req);
+    // const fileName = this.getCachedName(url, req);
     const backgroundCount = 5;
     const imageNumber = rand(1, backgroundCount);
     const backgroundPath = path.resolve('./pictos/backgrounds/', `picto-${imageNumber}.png`);
@@ -90,31 +92,34 @@ const compileImage = async (svg, url, req) => {
       png = await artboard.composite(png, extraHeight / 2, 0);
     }
 
-    (await png).write(path.resolve('./pictos/cache', fileName));
+    // (await png).write(path.resolve('./pictos/cache', fileName));
     const buffer = await png.getBufferAsync(Jimp.MIME_PNG);
     resolve(buffer);
   });
 }
 
-const servePNG = async (req, res) => {
-  let fileName = getCachedName(req.query.url, req);
-  const filePath = path.resolve('./pictos/cache', fileName);
-  const png = await fs.readFileSync(filePath);
-  res.set('Content-Type', 'image/png');
-  res.send(png);
-}
+// module.exports.servePNG = async (req, res) => {
+//   let fileName = getCachedName(req.query.url, req);
+//   const filePath = path.resolve('./pictos/cache', fileName);
+//   const png = await fs.readFileSync(filePath);
+//   res.set('Content-Type', 'image/png');
+//   res.send(png);
+// }
 
-const generatePNG = async (req, res) => {
-  const svg = await getSvgFile(req.query.url);
-  const png = await compileImage(svg, req.query.url, req);
+module.exports.generatePNG = async (req, res) => {
+  console.log('in GeneratePng')
+  const svg = await this.getSvgFile(req.query.url);
+  const png = await this.compileImage(svg, req.query.url, req);
   res.set('Content-Type', 'image/png');
   res.send(png);
 }
 
 module.exports.serve = async (req, res) => {
-  const exists = await checkFileExistance(req.query.url, req);
+  // const exists = await checkFileExistance(req.query.url, req);
   //generatePNG(req,res,);
-  exists ? servePNG(req, res) : generatePNG(req, res);
+  console.log('in Serve');
+  // exists ? await servePNG(req, res) : await generatePNG(req, res);
+  await this.generatePNG(req, res);
 }
 
 /*
