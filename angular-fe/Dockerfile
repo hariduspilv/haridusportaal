@@ -6,7 +6,7 @@
 #     storybook
 #     angular
 
-FROM node:14-alpine
+FROM node:current-alpine
 
 COPY ./angular-fe /app/angular-fe
 WORKDIR /app/angular-fe
