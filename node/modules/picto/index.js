@@ -61,8 +61,7 @@ module.exports.getSvgFile = async(url) => {
         width: imageSize,
         height: imageSize,
       });
-      console.log($('body').html());
-      console.log(Buffer.from($('body').html()));
+      console.log($);
       const buffer = Buffer.from($('body').html());
       const svg = await sharp(buffer).toBuffer();
       console.log(svg);
