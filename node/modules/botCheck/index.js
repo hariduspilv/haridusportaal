@@ -27,8 +27,9 @@ module.exports.isBot = (req) => {
 
   } else {
       var userAgent = req.get('User-Agent');
+      console.log(userAgent, req.get('User-Agent'), req);
       for (var i in knownBots){
-        if (userAgent.search(knownBots[i]) != -1){
+        if (userAgent && userAgent.search(knownBots[i]) != -1){
           isBotTest = true;
           botReq=urlRequest;
           botID=knownBots[i];
