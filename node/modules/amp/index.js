@@ -137,6 +137,7 @@ module.exports.serve = async (req, res) => {
   const apiPrefix = await this.getPrefix();
   const staticPathMatch = staticRoutes.find(static => static.path === articlePath);
   const requestOptions = await this.getRequestParams(articlePath, apiPrefix);
+  console.log(articlePath, staticPathMatch)
   let rawData = {};
   if (requestOptions.queryId) {
      rawData = await this.getData(requestOptions);

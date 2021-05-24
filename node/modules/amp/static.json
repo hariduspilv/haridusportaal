@@ -12,7 +12,7 @@
     "shortDescription": "Haridusportaal koondab noortevaldkonna, hariduse, õppe- ja karjäärinõustamise ning tööturgu õppega seostavate valdkondade info, teenused ja statistika."
   },
   {
-    "path": "",
+    "path": "õppimine",
     "title": "Õppimine | Haridusportaal edu.ee",
     "image": {
         "derivative": {
@@ -24,7 +24,31 @@
     "shortDescription": "Õppimine teeb õnnelikuks, uudishimu viib edasi!"
   },
   {
-    "path": "õppimine",
+    "path": "%C3%B5ppimine",
+    "title": "Õppimine | Haridusportaal edu.ee",
+    "image": {
+        "derivative": {
+          "url": "https://haridusportaal.twn.zone/assets/img/homePage-navBlock-learning.svg"
+        },
+        "alt": "Illustratsioon",
+        "title": "Illustratsioon"
+    },
+    "shortDescription": "Õppimine teeb õnnelikuks, uudishimu viib edasi!"
+  },
+  {
+    "path": "/%C3%B5ppimine",
+    "title": "Õppimine | Haridusportaal edu.ee",
+    "image": {
+        "derivative": {
+          "url": "https://haridusportaal.twn.zone/assets/img/homePage-navBlock-learning.svg"
+        },
+        "alt": "Illustratsioon",
+        "title": "Illustratsioon"
+    },
+    "shortDescription": "Õppimine teeb õnnelikuks, uudishimu viib edasi!"
+  },
+  {
+    "path": "/õppimine",
     "title": "Õppimine | Haridusportaal edu.ee",
     "image": {
         "derivative": {
