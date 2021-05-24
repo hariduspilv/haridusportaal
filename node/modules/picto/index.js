@@ -45,27 +45,36 @@ module.exports.getSvgFile = async(url) => {
       resolve(false);
     }
     const file = request.get(url, async (err, file) => {
-      console.log(url, err);
+      // console.log(url, err);
       if (err) {
         logger.error(`Picto request failed: ${url} -> ${err}`);
       }
       const body = file.body.replace(/#.+?;/igm, '#2e3374;');
-      console.log(body);
+      // console.log(body);
+      /**
+       * last successful log
+       * test without replace on previous line
+       * add more logs below...
+       */
       const $ = cheerio.load(body);
       $('svg').attr({
         width: imageSize,
         height: imageSize,
       });
+      console.log($);
       const buffer = Buffer.from($('body').html());
       const svg = await sharp(buffer).toBuffer();
+      console.log(svg);
       if (!svg) {
+        console.error('SVG MISSING')
         logger.error(`Picto buffer failed: ${url}`);
       }
       const img = await Jimp.read(svg);
       if (!img) {
+        console.error('IMG MISSING')
         logger.error(`Picto convert from buffer failed: ${url}`);
       }
-      console.log(img);
+      // console.log(img);
       resolve(img);
     });
   });
