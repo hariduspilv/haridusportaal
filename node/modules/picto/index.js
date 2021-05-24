@@ -61,10 +61,11 @@ module.exports.getSvgFile = async(url) => {
         width: imageSize,
         height: imageSize,
       });
+      console.log($('body').html());
+      console.log(Buffer.from($('body').html()));
       const buffer = Buffer.from($('body').html());
-      console.log('BUFFER', buffer);
-      console.log(sharp(buffer))
-      const svg = await sharp(buffer).toBuffer({ resolveWithObject: false });
+      const svg = await sharp(buffer).toBuffer();
+      console.log(svg);
       if (!svg) {
         console.error('SVG MISSING')
         logger.error(`Picto buffer failed: ${url}`);
