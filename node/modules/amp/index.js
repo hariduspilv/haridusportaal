@@ -54,6 +54,10 @@ module.exports.getRequestParams = (articlePath, api) => {
       "queryKey": "getArticle",
       "pageTitle": "Artikkel"
     },
+    "uuringud": {
+      "queryKey": "studyDetailViewQuery",
+      "pageTitle": "Uuringud"
+    },
   };
 
   return new Promise(async (resolve, reject) => {

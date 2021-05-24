@@ -7,7 +7,7 @@ const requestMap = {
   introductionText: ['fieldIntroductionText', 'fieldResultPageIntroduction', 'fieldSurveyPageIntroduction'],
   content: ['fieldContentText'],
   image: ['fieldIntroductionImage', 'fieldLogo', 'fieldPicture', 'fieldMainProfessionPicture', 'fieldOskaFieldPicture', 'fieldSurveyPagePicture', 'fieldImage', 'fieldResultPagePicture'],
-  description: ['fieldNewsDescription', 'fieldDescription', 'body', 'fieldBody'],
+  description: ['fieldNewsDescription', 'fieldDescription', 'body', 'fieldBody', 'fieldContent'],
   duration: ['fieldDuration', 'FieldDuration'],
   title: ['entityLabel', 'FieldSchoolName'],
   head: ['fieldStudyProgrammeLevel', 'FieldStudyProgrammeLevel', 'FieldEducationalInstitutionTy', 'contentType'],
