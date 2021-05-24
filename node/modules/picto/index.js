@@ -45,12 +45,11 @@ module.exports.getSvgFile = async(url) => {
       resolve(false);
     }
     const file = request.get(url, async (err, file) => {
-      console.log(url, err);
+      console.log(url, err, file);
       if (err) {
         logger.error(`Picto request failed: ${url} -> ${err}`);
       }
       const body = file.body.replace(/#.+?;/igm, '#2e3374;');
-      console.log(body);
       const $ = cheerio.load(body);
       $('svg').attr({
         width: imageSize,
@@ -65,7 +64,6 @@ module.exports.getSvgFile = async(url) => {
       if (!img) {
         logger.error(`Picto convert from buffer failed: ${url}`);
       }
-      console.log(img);
       resolve(img);
     });
   });
@@ -111,7 +109,6 @@ module.exports.compileImage = async (svg, url, req) => {
 module.exports.generatePNG = async (req, res) => {
   console.log('in GeneratePng')
   const svg = await this.getSvgFile(req.query.url);
-  console.log(svg);
   const png = await this.compileImage(svg, req.query.url, req);
   res.set('Content-Type', 'image/png');
   res.send(png);
