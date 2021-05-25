@@ -139,7 +139,9 @@ module.exports.serve = async (req, res) => {
   logger.debug(`Serving amp: ${req.get('host')} -> ${req.params[0]}`)
   const articlePath = req.params[0];
   const apiPrefix = await this.getPrefix();
-  const staticPathMatch = staticRoutes.find(static => static.path === articlePath);
+  const staticPathMatch = staticRoutes.find((static) =>
+    static.path === articlePath || static.slug === articlePath
+  );
   const requestOptions = await this.getRequestParams(articlePath, apiPrefix);
   let rawData = {};
   if (requestOptions.queryId) {
