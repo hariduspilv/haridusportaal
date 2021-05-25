@@ -74,6 +74,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
       if (event instanceof NavigationEnd) {
+        if (!event.url.endsWith('#content') && this.initialSub) {
+          this.sidemenuService.resetPageFocus();
+        }
         this.makeActive();
       }
     });
