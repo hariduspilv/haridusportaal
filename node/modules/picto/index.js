@@ -43,7 +43,6 @@ const getSvgFile = async(url) => {
       logger.error(`Picto request failed: url -> ${url}`);
       resolve(false);
     }
-    console.log(url);
     const file = request.get(url, async (err, file) => {
       if (err) {
         logger.error(`Picto request failed: ${url} -> ${err}`);

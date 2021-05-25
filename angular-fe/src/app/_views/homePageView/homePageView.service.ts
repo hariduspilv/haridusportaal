@@ -131,12 +131,6 @@ export class HomePageService {
         label: 'Logo - Eesti töötukassa',
       },
     ],
-    learning: [
-      {
-        src: '/assets/img/homepage-footer-learning-1.svg',
-        label: 'Logo - Innove',
-      },
-    ],
     youth: [
       {
         src: '/assets/img/haridus-ja-noorteamet-logo.svg',
