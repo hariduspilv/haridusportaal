@@ -118,7 +118,9 @@
                         <ng-container *ngIf="data_elements[element].multiple; else singleSelect">
                           <formItem type="multi-select" [disabled]="isFieldDisabled(data_elements[element].readonly)" appendTo="body"
                             title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                            [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"
+                            [(ngModel)]="data_elements[element].value"
+                            [options]="data_elements[element].options"
+                            [sortOptions]="false"
                             [name]="element" [error]="error[element] ? true : false"
                             [errorMessage]="error[element] ? error[element].message : ''">
                           </formItem>
@@ -126,7 +128,9 @@
                         <ng-template #singleSelect>
                           <formItem type="select" [disabled]="isFieldDisabled(data_elements[element].readonly)" appendTo="body"
                             title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                            [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"
+                            [(ngModel)]="data_elements[element].value"
+                            [options]="data_elements[element].options"
+                            [sortOptions]="false"
                             [name]="element" [error]="error[element] ? true : false"
                             [errorMessage]="error[element] ? error[element].message : ''">
                           </formItem>
