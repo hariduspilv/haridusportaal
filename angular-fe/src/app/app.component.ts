@@ -16,6 +16,7 @@ import {TranslateService} from './_modules/translate/translate.service';
 import {CookieService} from './_services/CookieService';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {environment} from '@env/environment';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-root',
@@ -24,8 +25,9 @@ import {environment} from '@env/environment';
 })
 
 export class AppComponent implements OnInit, AfterViewInit {
-
 	public sidemenuIsVisible: boolean = false;
+	translationsLoaded$: Observable<boolean> = this.translate.translationsLoaded$;
+	loaderMessage = 'Ei saa serveriga ühendust, proovi mõne minuti pärast uuesti!';
 
 	constructor(
 		public sidemenuService: SidemenuService,
