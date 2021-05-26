@@ -1,0 +1,163 @@
+uuid: 7520af54-5ed2-4547-9fea-1e412cb3815d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_collaboration_offers
+    - node.type.teaching_home_page
+    - paragraphs.paragraphs_type.collaboration
+  module:
+    - entity_reference_revisions
+id: node.teaching_home_page.field_collaboration_offers
+field_name: field_collaboration_offers
+entity_type: node
+bundle: teaching_home_page
+label: Koostööpakkumised
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      collaboration: collaboration
+    target_bundles_drag_drop:
+      accordion:
+        weight: 46
+        enabled: false
+      additional_links:
+        weight: 47
+        enabled: false
+      additional_section:
+        weight: 48
+        enabled: false
+      block:
+        weight: 49
+        enabled: false
+      career_contact:
+        weight: 50
+        enabled: false
+      collaboration:
+        enabled: true
+        weight: 51
+      contact_section:
+        weight: 52
+        enabled: false
+      content_page_link:
+        weight: 53
+        enabled: false
+      ehis_icon_link:
+        weight: 54
+        enabled: false
+      ehis_links:
+        weight: 55
+        enabled: false
+      event_date:
+        weight: 56
+        enabled: false
+      favorite_item:
+        weight: 57
+        enabled: false
+      file_mandatory_description:
+        weight: 58
+        enabled: false
+      frontpage_service_image:
+        weight: 59
+        enabled: false
+      frontpage_services:
+        weight: 60
+        enabled: false
+      homepage_reference:
+        weight: 61
+        enabled: false
+      homepage_topics:
+        weight: 62
+        enabled: false
+      homepage_topics_new:
+        weight: 63
+        enabled: false
+      information_system_accordion:
+        weight: 64
+        enabled: false
+      information_system_lower:
+        weight: 65
+        enabled: false
+      information_system_sidebar:
+        weight: 66
+        enabled: false
+      infosystem_support:
+        weight: 67
+        enabled: false
+      iscedf_search:
+        weight: 68
+        enabled: false
+      job:
+        weight: 69
+        enabled: false
+      learning_carousel:
+        weight: 70
+        enabled: false
+      learning_to_teach:
+        weight: 71
+        enabled: false
+      link:
+        weight: 72
+        enabled: false
+      location:
+        weight: 73
+        enabled: false
+      main_profession_accordion:
+        weight: 74
+        enabled: false
+      main_profession_sidebar:
+        weight: 75
+        enabled: false
+      oska_field_sidebar:
+        weight: 76
+        enabled: false
+      registration_period:
+        weight: 77
+        enabled: false
+      right_sidebar_section_info:
+        weight: 78
+        enabled: false
+      school_location:
+        weight: 79
+        enabled: false
+      study:
+        weight: 80
+        enabled: false
+      study_page_accordion:
+        weight: 81
+        enabled: false
+      studypage_right_column:
+        weight: 82
+        enabled: false
+      supernews:
+        weight: 83
+        enabled: false
+      survey_page_accordion:
+        weight: 84
+        enabled: false
+      teaching_themes:
+        weight: 85
+        enabled: false
+      toolbox:
+        weight: 86
+        enabled: false
+      working_time:
+        weight: 87
+        enabled: false
+      yoth_content_page_link_type_2:
+        weight: 88
+        enabled: false
+      youth_content_page_link:
+        weight: 89
+        enabled: false
+      youth_subject_links:
+        weight: 90
+        enabled: false
+field_type: entity_reference_revisions
