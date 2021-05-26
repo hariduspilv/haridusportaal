@@ -1,0 +1,23 @@
+uuid: 953b7a03-fae6-48af-91f1-31a424b23e04
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_offer_link
+    - paragraphs.paragraphs_type.collaboration
+  module:
+    - link
+id: paragraph.collaboration.field_offer_link
+field_name: field_offer_link
+entity_type: paragraph
+bundle: collaboration
+label: Link
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_import_job_offers.module.
+ */
+
+use Drupal\htm_custom_import_job_offers\Controller\JobOffersImportController;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
+
+/**
+ * Implements hook_cron().
+ */
+
+function htm_custom_import_job_offers_cron()
+{
+  $import_controller = new JobOffersImportController();
+
+  /** @var QueueFactory $queue_factory */
+  $queue_factory = \Drupal::service('queue');
+  /** @var QueueInterface $queue */
+
+  // Queue for new Töötukassa API 'Haridus' job offers
+  $queue = $queue_factory->get('cron_htm_custom_import_job_offers');
+  $offers_education = $import_controller->get_adrid_data();
+  foreach($offers_education as $single_offer) {
+    $queue->createItem($single_offer);
+  }
+  // Queue for exiting job offers with expired date
+  $queue = $queue_factory->get('cron_htm_custom_import_job_offers_delete');
+  $old_nodeids = $import_controller->get_old_offers();
+  foreach($old_nodeids as $nodeid) {
+    $queue->createItem($nodeid);
+  }
+}
