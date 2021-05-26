@@ -73,7 +73,7 @@ class DependencyHelper {
     if (!isset($this->dependencies[$this->entity_type][$this->bundle])) {
       $this->resolveBundleDependencies($this->getBundleDependentFields());
     }
-    return $this->dependencies[$this->entity_type][$this->bundle];
+    return $this->dependencies ? $this->dependencies[$this->entity_type][$this->bundle] : NULL;
   }
 
   /**

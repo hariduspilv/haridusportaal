@@ -904,6 +904,22 @@ frontpage:
     translation_type: textarea
     et: 'Õppekava või lisaeriala nimetus'
     en: 'Õppekava või lisaeriala nimetus'
+  job_offers:
+    translation_type: textarea
+    et: Tööpakkumised
+    en: Tööpakkumised
+  job_offers_description:
+    translation_type: textarea
+    et: 'Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale'
+    en: 'Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale'
+  cooperation_offers:
+    translation_type: textarea
+    et: Koostööpakkumised
+    en: Koostööpakkumised
+  cooperation_offers_intro:
+    translation_type: textarea
+    et: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
+    en: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1480,6 +1496,22 @@ xjson:
   grantsSubmitted:
     translation_type: textarea
     et: 'Taotlus esitatud'
+    en: ''
+  postGrantStatusForbidden:
+    translation_type: textarea
+    et: 'Staatuse muutmine ei ole lubatud.'
+    en: ''
+  postGrantStatusBadValue:
+    translation_type: textarea
+    et: 'Staatuse väärtus on vigane.'
+    en: ''
+  postGrantStatusNotFound:
+    translation_type: textarea
+    et: 'Taotlust ei leitud.'
+    en: ''
+  postGrantStatusBadCurrentStatus:
+    translation_type: textarea
+    et: 'Staatuse muutmine ei ole lubatud.'
     en: ''
 article:
   label:
@@ -5097,3 +5129,28 @@ study:
     translation_type: textarea
     et: Aasta
     en: ''
+jobOffer:
+  full_time:
+    translation_type: textarea
+    et: Täistööaeg
+    en: Täistööaeg
+  part_time:
+    translation_type: textarea
+    et: Osaline
+    en: Osaline
+  with_shifts:
+    translation_type: textarea
+    et: Vahetustega
+    en: Vahetustega
+  at_night:
+    translation_type: textarea
+    et: Öösiti
+    en: Öösiti
+  offered_by:
+    translation_type: textarea
+    et: Tööpakkuja
+    en: Tööpakkuja
+  job_expiry:
+    translation_type: textarea
+    et: Tähtaeg
+    en: Tähtaeg
