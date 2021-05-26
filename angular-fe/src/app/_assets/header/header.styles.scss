@@ -104,6 +104,9 @@
 					display: none;
 				}
 			}
+			button {
+				text-decoration: initial !important;
+			}
 			.toggle {
 				width: 1.25rem;
 				display: flex;
