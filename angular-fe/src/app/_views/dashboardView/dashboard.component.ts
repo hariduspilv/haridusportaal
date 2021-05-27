@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.routerSub = this.router.events.subscribe((event: any) => {
 
       if (event instanceof NavigationEnd) {
-        this.breadcrumbs = decodeURI(event.url);
+        this.breadcrumbs = decodeURI(event.url).replace('#content', '');
         try {
 
           let partial = this.breadcrumbs.split('/')[2] || 'intro';
