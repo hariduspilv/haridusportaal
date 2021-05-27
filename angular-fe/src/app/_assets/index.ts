@@ -140,6 +140,7 @@ import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 import { SkipToContentComponent } from './skip-to-content';
 import { MaxWidthWrapperComponent } from './max-width-wrapper/max-width-wrapper.component';
 import { TextTruncateTogglerComponent } from './text-truncate-toggler/text-truncate-toggler.component';
+import { SkipToContentComponent } from './skip-to-content';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -248,6 +249,7 @@ const declarations = [
   TagComponent,
   SkipToContentComponent,
   MaxWidthWrapperComponent,
+  SkipToContentComponent,
   ...certificatesModuleDeclarations,
   TextTruncateTogglerComponent,
 ];
