@@ -105,6 +105,8 @@
 				}
 			}
 			button {
+				// This "!important" is required here because the focus style doesn't work properly in Safari.
+				// Possibly a Safari bug.
 				text-decoration: initial !important;
 			}
 			.toggle {
