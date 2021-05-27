@@ -161,8 +161,8 @@ module.exports.serve = async (req, res) => {
     ? parsedData.fieldPictogram.entity.url : false;
 
   if (picto) {
-    // const replacedPictoUrl = this.pictoUrlReplacer(picto)
-    picto = await this.getFullPath(req) + '/picto?url=' + picto;
+    const encodedPicto = encodeURI(picto);
+    picto = await this.getFullPath(req) + '/picto?url=' + encodedPicto;
     if (!picto) {
       logger.error(`Picto fetch failed: ${picto}`)
     } 
