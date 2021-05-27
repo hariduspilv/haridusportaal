@@ -137,7 +137,6 @@ import { CertificateGradeSheetComponent } from '@app/modules/certificates/compon
 import { BaseLayoutModule } from './base-layout/base-layout.module';
 import { IconModule } from './icon/icon.module';
 import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
-import { SkipToContentComponent } from './skip-to-content';
 import { MaxWidthWrapperComponent } from './max-width-wrapper/max-width-wrapper.component';
 import { TextTruncateTogglerComponent } from './text-truncate-toggler/text-truncate-toggler.component';
 import { SkipToContentComponent } from './skip-to-content';
@@ -249,7 +248,6 @@ const declarations = [
   TagComponent,
   SkipToContentComponent,
   MaxWidthWrapperComponent,
-  SkipToContentComponent,
   ...certificatesModuleDeclarations,
   TextTruncateTogglerComponent,
 ];
