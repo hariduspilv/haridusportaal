@@ -1,0 +1,41 @@
+uuid: 8633bd0d-2628-45a5-98f4-3a210192ad7e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.collaboration.field_link_name
+    - field.field.paragraph.collaboration.field_offer_link
+    - paragraphs.paragraphs_type.collaboration
+  module:
+    - link
+    - maxlength
+id: paragraph.collaboration.default
+targetEntityType: paragraph
+bundle: collaboration
+mode: default
+content:
+  field_link_name:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_offer_link:
+    weight: 1
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: link_default
+    region: content
+hidden:
+  created: true
+  status: true
