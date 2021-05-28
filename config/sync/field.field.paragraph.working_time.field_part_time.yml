@@ -1,0 +1,23 @@
+uuid: 2582897d-8df0-4c3a-bd69-194800fbfa29
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_part_time
+    - paragraphs.paragraphs_type.working_time
+id: paragraph.working_time.field_part_time
+field_name: field_part_time
+entity_type: paragraph
+bundle: working_time
+label: Osakohaga
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

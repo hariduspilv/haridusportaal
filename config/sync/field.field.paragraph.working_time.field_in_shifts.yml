@@ -1,0 +1,23 @@
+uuid: 4f2a16ae-c5d7-4a87-8093-57682f0ef6f4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_in_shifts
+    - paragraphs.paragraphs_type.working_time
+id: paragraph.working_time.field_in_shifts
+field_name: field_in_shifts
+entity_type: paragraph
+bundle: working_time
+label: Vahetustega
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean
