@@ -10,10 +10,11 @@ weight: 0
 module: htm_custom_import_job_offers
 callback: htm_custom_import_job_offers_cron
 scheduler:
-  id: simple
+  id: crontab
   configuration:
     rules:
-      - '0+@ 0 * * *'
+      - '0 1 * * *'
+    catch_up: 0
 launcher:
   id: serial
   configuration:
