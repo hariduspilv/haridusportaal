@@ -207,7 +207,7 @@ class ProcessOskaStudiesData {
       $message = t('An error occurred while processing %error_operation with arguments: @arguments', array('%error_operation' => $error_operation[0], '@arguments' => print_r($error_operation[1], TRUE)));
       \Drupal::messenger()->addError($message);
     }
-    \Drupal::messenger()->addStatus($message[0], $message[1]);
+    \Drupal::messenger()->addMessage($message[0], $message[1]);
   }
 
   public static function checkEntityReference($entity_type, $properties){
