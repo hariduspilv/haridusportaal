@@ -80,8 +80,8 @@ drush cr
 echo "importing translations"
 drush php-eval "htm_custom_translations_new_import_translations()"
 
-chown apache.apache -R /app/drupal/web/sites/default/files
-chmod -R 644 /app/drupal/web/sites/default/files/php
+chown -R apache:apache /app/drupal/web/sites/default/files
+chmod -R 664 /app/drupal/web/sites/default/files/php
 
 if [ -d /plumbr-agent-installer ] && [[ $ENVIRONMENT == "Live" ]]; then
   /plumbr-agent-installer/PlumbrAgentInstaller --unpack-only --cluster-id="Drupal-${ENVIRONMENT}"
