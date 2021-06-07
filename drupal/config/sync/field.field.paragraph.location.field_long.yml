@@ -1,0 +1,19 @@
+uuid: 30aa61ba-4957-43f0-9790-dc4d5338fa55
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_long
+    - paragraphs.paragraphs_type.location
+id: paragraph.location.field_long
+field_name: field_long
+entity_type: paragraph
+bundle: location
+label: Longitude
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

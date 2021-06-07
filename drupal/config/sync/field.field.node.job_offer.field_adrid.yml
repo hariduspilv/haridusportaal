@@ -1,0 +1,19 @@
+uuid: 7a10acb4-8468-4a32-b7e2-87640b5cceae
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_adrid
+    - node.type.job_offer
+id: node.job_offer.field_adrid
+field_name: field_adrid
+entity_type: node
+bundle: job_offer
+label: 'Aadress ID'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

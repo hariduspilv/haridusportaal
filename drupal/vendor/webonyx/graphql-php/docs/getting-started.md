@@ -4,7 +4,7 @@ first learn about GraphQL on [the official website](http://graphql.org/learn/).
 
 # Installation
 
-Using [composer](https://getcomposer.org/doc/00-intro.md), run:
+Using [composer](https://getcomposer.org/doc/00-intro.md), simply run:
 
 ```sh
 composer require webonyx/graphql-php
@@ -54,8 +54,8 @@ $queryType = new ObjectType([
             'args' => [
                 'message' => Type::nonNull(Type::string()),
             ],
-            'resolve' => function ($rootValue, $args) {
-                return $rootValue['prefix'] . $args['message'];
+            'resolve' => function ($root, $args) {
+                return $root['prefix'] . $args['message'];
             }
         ],
     ],
