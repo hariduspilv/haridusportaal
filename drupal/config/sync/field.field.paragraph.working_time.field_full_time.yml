@@ -1,0 +1,23 @@
+uuid: e539da14-71b3-4b0c-aa06-14d9fc5a022e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_full_time
+    - paragraphs.paragraphs_type.working_time
+id: paragraph.working_time.field_full_time
+field_name: field_full_time
+entity_type: paragraph
+bundle: working_time
+label: Täiskohaga
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean
