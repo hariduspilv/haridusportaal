@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { TootukassaJobOffer } from "./job-offers-map.models";
-import { JobOffersMapService } from "./job-offers-map.service";
+import { Component, OnInit } from '@angular/core';
+import { TootukassaJobOffer } from '../job-offers-map.models';
+import { JobOffersMapService } from '../job-offers-map.service';
 
 @Component({
   selector: 'job-offers-map',
