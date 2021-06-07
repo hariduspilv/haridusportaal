@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace GraphQL\Language;
 
 /**
@@ -10,29 +7,27 @@ namespace GraphQL\Language;
 class DirectiveLocation
 {
     // Request Definitions
-    const QUERY               = 'QUERY';
-    const MUTATION            = 'MUTATION';
-    const SUBSCRIPTION        = 'SUBSCRIPTION';
-    const FIELD               = 'FIELD';
+    const QUERY = 'QUERY';
+    const MUTATION = 'MUTATION';
+    const SUBSCRIPTION = 'SUBSCRIPTION';
+    const FIELD = 'FIELD';
     const FRAGMENT_DEFINITION = 'FRAGMENT_DEFINITION';
-    const FRAGMENT_SPREAD     = 'FRAGMENT_SPREAD';
-    const INLINE_FRAGMENT     = 'INLINE_FRAGMENT';
-    const VARIABLE_DEFINITION = 'VARIABLE_DEFINITION';
+    const FRAGMENT_SPREAD = 'FRAGMENT_SPREAD';
+    const INLINE_FRAGMENT = 'INLINE_FRAGMENT';
 
     // Type System Definitions
-    const SCHEMA                 = 'SCHEMA';
-    const SCALAR                 = 'SCALAR';
-    const OBJECT                 = 'OBJECT';
-    const FIELD_DEFINITION       = 'FIELD_DEFINITION';
-    const ARGUMENT_DEFINITION    = 'ARGUMENT_DEFINITION';
-    const IFACE                  = 'INTERFACE';
-    const UNION                  = 'UNION';
-    const ENUM                   = 'ENUM';
-    const ENUM_VALUE             = 'ENUM_VALUE';
-    const INPUT_OBJECT           = 'INPUT_OBJECT';
+    const SCHEMA = 'SCHEMA';
+    const SCALAR = 'SCALAR';
+    const OBJECT = 'OBJECT';
+    const FIELD_DEFINITION = 'FIELD_DEFINITION';
+    const ARGUMENT_DEFINITION = 'ARGUMENT_DEFINITION';
+    const IFACE = 'INTERFACE';
+    const UNION = 'UNION';
+    const ENUM = 'ENUM';
+    const ENUM_VALUE = 'ENUM_VALUE';
+    const INPUT_OBJECT = 'INPUT_OBJECT';
     const INPUT_FIELD_DEFINITION = 'INPUT_FIELD_DEFINITION';
 
-    /** @var string[] */
     private static $locations = [
         self::QUERY => self::QUERY,
         self::MUTATION => self::MUTATION,
@@ -54,7 +49,11 @@ class DirectiveLocation
         self::INPUT_FIELD_DEFINITION => self::INPUT_FIELD_DEFINITION,
     ];
 
-    public static function has(string $name) : bool
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public static function has($name)
     {
         return isset(self::$locations[$name]);
     }

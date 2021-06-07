@@ -1,0 +1,8 @@
+
+htm_custom_import_job_offers.job_offers_import_controller_import:
+  path: '/htm_custom_import_job_offers/Controller'
+  defaults:
+    _controller: '\Drupal\htm_custom_import_job_offers\Controller\JobOffersImportController::import_offers'
+    _title: 'import'
+  requirements:
+    _permission: 'access content'

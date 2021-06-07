@@ -35,18 +35,18 @@ class PubSubHubbub
     /**
      * Singleton instance if required of the HTTP client
      *
-     * @var Http\Client
+     * @var null|Http\Client
      */
     protected static $httpClient;
 
     /**
      * Simple utility function which imports any feed URL and
      * determines the existence of Hub Server endpoints. This works
-     * best if directly given an instance of Laminas\Feed\Reader\Atom|Rss
+     * best if directly given an instance of Laminas\Feed\Reader\Atom|Laminas\Feed\Reader\Rss
      * to leverage off.
      *
      * @param  string|Reader\Feed\AbstractFeed $source
-     * @return array
+     * @return array<array-key, mixed>|null
      * @throws Exception\InvalidArgumentException
      */
     public static function detectHubs($source)
@@ -108,6 +108,8 @@ class PubSubHubbub
      * Set the Escaper instance
      *
      * If null, resets the instance
+     *
+     * @return void
      */
     public static function setEscaper(Escaper $escaper = null)
     {
