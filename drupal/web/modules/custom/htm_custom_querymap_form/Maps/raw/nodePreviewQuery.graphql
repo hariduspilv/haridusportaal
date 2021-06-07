@@ -23,7 +23,7 @@ fragment oskaResult on NodeOskaResultPage {
         value
     }
     fieldResultPagePicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
             __typename
         }
@@ -131,7 +131,7 @@ fragment oskaSurveyPage on NodeOskaSurveyPage {
     entityLabel
     fieldSurveyPageIntroduction
     fieldSurveyPagePicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
             __typename
         }
@@ -253,7 +253,7 @@ fragment oskaMainProfession on NodeOskaMainProfessionPage {
     fieldFixedLabel
     fieldIntroduction
     fieldMainProfessionPicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
             __typename
         }
@@ -568,7 +568,7 @@ fragment oskaDetail on NodeOskaFieldPage {
     entityLabel
     fieldIntroduction
     fieldOskaFieldPicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
             __typename
         }
@@ -698,7 +698,7 @@ fragment event on NodeEvent {
     RegistrationCount
     fieldMaxNumberOfParticipants
     fieldPicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
         }
         width
@@ -824,14 +824,14 @@ fragment news on NodeNews {
     }
     fieldShortDescription
     fieldIntroductionImage {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
         }
         alt
         title
     }
     fieldAdditionalImages {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
         }
         alt
@@ -876,7 +876,7 @@ fragment article on NodeArticle {
     }
     fieldBodySummary
     fieldImage {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
         }
         targetId
@@ -948,7 +948,7 @@ fragment infoSystemPage on NodeInformationSystemPage{
             title
           fieldSubtitle
           fieldLogo {
-            derivative(style: CROP_LARGE) {
+            derivative(style: CROPLARGE) {
               url
             }
             targetId

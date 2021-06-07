@@ -75,7 +75,6 @@ export class FrontpageViewComponent implements OnInit {
   getEvents() {
 
     const date = new Date();
-    // tslint:disable-next-line: max-line-length
     const formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? `0${(date.getMonth() + 1)}` : (date.getMonth() + 1)}-${date.getDate() <= 9 ? `0${date.getDate()}` : date.getDate()}`;
     const variables = {
       lang: 'ET',
@@ -145,11 +144,8 @@ export class FrontpageViewComponent implements OnInit {
 
   superNewsValid(identifier: any) {
     const valid = true;
-    // tslint:disable-next-line: max-line-length
     const superNewsPublished = this.generalData[0].fieldSupernews && this.generalData[0].fieldSupernews[identifier] && (this.generalData[0].fieldSupernews[identifier].entity.fieldPublishDate.unix * 1000);
-    // tslint:disable-next-line: max-line-length
     const superNewsUnPublished = this.generalData[0].fieldSupernews && this.generalData[0].fieldSupernews[identifier] && this.generalData[0].fieldSupernews[identifier].entity.fieldUnpublishDate.unix && (this.generalData[0].fieldSupernews[identifier].entity.fieldUnpublishDate.unix * 1000);
-    // tslint:disable-next-line: max-line-length
     const superNewsState = this.generalData[0].fieldSupernews && this.generalData[0].fieldSupernews[identifier] && this.generalData[0].fieldSupernews[identifier].entity.fieldSupernewsNode.entity.entityPublished;
     if (!superNewsState) { return false; }
     const dateNow = new Date();

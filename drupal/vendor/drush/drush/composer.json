@@ -30,43 +30,43 @@
     }
   },
   "require": {
-    "php": ">=5.6.0",
+    "php": ">=7.1.3",
     "ext-dom": "*",
-    "chi-teck/drupal-code-generator": "^1.28.1",
-    "composer/semver": "^1.4",
-    "consolidation/annotated-command": "^2.12",
+    "chi-teck/drupal-code-generator": "^1.32.1",
+    "composer/semver": "^1.4 || ^3",
     "consolidation/config": "^1.2",
     "consolidation/filter-via-dot-access-data": "^1",
-    "consolidation/output-formatters": "^3.3.1",
-    "consolidation/robo": "^1.4.6",
+    "consolidation/robo": "^1.4.11 || ^2",
     "consolidation/site-alias": "^3.0.0@stable",
-    "consolidation/site-process": "^2.0.3",
+    "consolidation/site-process": "^2.1 || ^4",
+    "enlightn/security-checker": "^1",
     "grasmash/yaml-expander": "^1.1.1",
+    "guzzlehttp/guzzle": "^6.3 || ^7.0",
     "league/container": "~2",
     "psr/log": "~1.0",
     "psy/psysh": "~0.6",
-    "symfony/console": "^3.4",
     "symfony/event-dispatcher": "^3.4 || ^4.0",
-    "symfony/finder": "^3.4 || ^4.0",
-    "symfony/process": "^3.4",
-    "symfony/var-dumper": "^3.4 || ^4.0",
-    "symfony/yaml": "^3.4",
-    "webflo/drupal-finder": "^1.1",
+    "symfony/finder": "^3.4 || ^4.0 || ^5",
+    "symfony/var-dumper": "^3.4 || ^4.0 || ^5.0",
+    "symfony/yaml": "^3.4 || ^4.0",
+    "webflo/drupal-finder": "^1.2",
     "webmozart/path-util": "^2.1.0"
   },
   "require-dev": {
-    "lox/xhprof": "dev-master",
-    "g1a/composer-test-scenarios": "^3",
-    "phpunit/phpunit": "^4.8.36 || ^6.1",
-    "squizlabs/php_codesniffer": "^2.7 || ^3",
-    "composer/installers": "^1.2",
+    "composer/installers": "^1.7",
     "cweagans/composer-patches": "~1.0",
-    "webflo/drupal-core-strict": "8.7.x-dev",
-    "webflo/drupal-core-require-dev": "8.7.x-dev",
-    "drupal/empty_theme": "1.0",
-    "drupal/devel": "^2",
+    "david-garcia/phpwhois": "4.3.0",
+    "drupal/core-recommended": "^8.8",
     "drupal/alinks": "1.0.0",
+    "lox/xhprof": "dev-master",
+    "phpunit/phpunit": ">=7.5.20",
+    "yoast/phpunit-polyfills": "^0.2.0",
+    "squizlabs/php_codesniffer": "^2.7 || ^3",
     "vlucas/phpdotenv": "^2.4"
+  },
+  "conflict": {
+    "drupal/migrate_run": "*",
+    "drupal/migrate_tools": "<= 5"
   },
   "autoload": {
     "psr-4": {
@@ -78,6 +78,9 @@
     "psr-4": {
       "Unish\\": "tests/unish"
     },
+    "classmap": [
+        "sut/core/modules/migrate/src"
+    ],
     "files": ["tests/load.environment.php"]
   },
   "config": {
@@ -86,7 +89,7 @@
     "sort-packages": true,
     "process-timeout": 9600,
     "platform": {
-      "php": "7.0.11"
+      "php": "7.1.3"
     }
   },
   "scripts": {
@@ -102,10 +105,11 @@
       "@phpunit",
       "@cs"
     ],
-    "api": "PATH=$HOME/bin:$PATH sami.phar --ansi update sami-config.php",
-    "sami-install": "mkdir -p $HOME/bin && curl --output $HOME/bin/sami.phar http://get.sensiolabs.org/sami.phar && chmod +x $HOME/bin/sami.phar",
+    "api": "php $HOME/bin/doctum.phar --ansi --ignore-parse-errors update doctum-config.php",
+    "doctum-install": "mkdir -p $HOME/bin && curl --output $HOME/bin/doctum.phar https://doctum.long-term.support/releases/latest/doctum.phar && chmod +x $HOME/bin/doctum.phar",
+    "mk:docs": "./drush --uri=dev -v mk:docs --destination=commands",
     "sut": "./drush --uri=dev",
-    "sut:si": "./drush site:install testing --uri=dev --sites-subdir=dev --db-url=${UNISH_DB_URL:-mysql://root:password@mariadb}/unish_dev -v",
+    "sut:si": "./drush --uri=dev site:install testing --sites-subdir=dev --db-url=${UNISH_DB_URL:-mysql://root:password@mariadb}/unish_dev -v",
     "phpunit": "php -d sendmail_path='true' vendor/bin/phpunit --colors=always --configuration tests",
     "unit": "composer phpunit -- --testsuite unit",
     "integration": "composer phpunit -- --testsuite integration",
@@ -121,22 +125,6 @@
       "sut/profiles/contrib/{$name}": ["type:drupal-profile"],
       "sut/themes/contrib/{$name}": ["type:drupal-theme"],
       "sut/drush/contrib/{$name}": ["type:drupal-drush"]
-    },
-    "scenarios": {
-      "php5": {
-        "config": {
-          "platform": {
-            "php": "5.6.38"
-          }
-        },
-        "require-dev": {
-          "webflo/drupal-core-strict": "8.6.x-dev",
-          "webflo/drupal-core-require-dev": "8.6.x-dev"
-        }
-      }
-    },
-    "branch-alias": {
-        "dev-master": "9.x-dev"
     }
   }
 }

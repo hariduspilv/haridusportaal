@@ -103,7 +103,7 @@ $(document).bind('state:visible-fade', function(e) {
       var fields_supporting_required = $(e.target).find('input, textarea');
       var labels = $(e.target).find(':not(.form-item--editor-format, .form-type-radio)>label');
       if (e.value) {
-        fields_supporting_required.attr('required', 'required');
+        fields_supporting_required.filter(`[name*="[0]"]`).attr('required', 'required');
         labels.addClass("form-required");
       } else {
         fields_supporting_required.removeAttr('required');

@@ -2,11 +2,10 @@ name: 'Memcache test'
 type: module
 description: 'Support module for memcache testing.'
 package: Testing
-core: 8.x
 dependencies:
-  - memcache
+  - memcache:memcache
 
-# Information added by Drupal.org packaging script on 2020-05-27
-version: '8.x-2.1'
+# Information added by Drupal.org packaging script on 2021-03-03
+version: '8.x-2.3'
 project: 'memcache'
-datestamp: 1590610776
+datestamp: 1614802367

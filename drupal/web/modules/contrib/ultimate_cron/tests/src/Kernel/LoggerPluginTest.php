@@ -30,15 +30,15 @@ class LoggerPluginTest extends KernelTestBase {
     $manager = \Drupal::service('plugin.manager.ultimate_cron.logger');
 
     $plugins = $manager->getDefinitions();
-    $this->assertEquals(count($plugins), 2);
+    $this->assertCount(2, $plugins);
 
     $cache = $manager->createInstance('cache');
     $this->assertTrue($cache instanceof CacheLogger);
-    $this->assertEquals($cache->getPluginId(), 'cache');
+    $this->assertEquals('cache', $cache->getPluginId());
 
     $database = $manager->createInstance('database');
     $this->assertTrue($database instanceof DatabaseLogger);
-    $this->assertEquals($database->getPluginId(), 'database');
+    $this->assertEquals('database', $database->getPluginId());
   }
 
   /**
@@ -63,14 +63,14 @@ class LoggerPluginTest extends KernelTestBase {
 
     // There are 12 run log entries and one from the modified job.
     $log_entries = $job->getLogEntries(ULTIMATE_CRON_LOG_TYPE_ALL, 15);
-    $this->assertEquals(13, count($log_entries));
+    $this->assertCount(13, $log_entries);
 
     // Run cleanup.
     ultimate_cron_cron();
 
     // There should be exactly 10 log entries now.
     $log_entries = $job->getLogEntries(ULTIMATE_CRON_LOG_TYPE_ALL, 15);
-    $this->assertEquals(10, count($log_entries));
+    $this->assertCount(10, $log_entries);
 
     // Switch to expire-based cleanup.
     $job->setConfiguration('logger', [
@@ -82,7 +82,7 @@ class LoggerPluginTest extends KernelTestBase {
     $ids = array_slice(array_keys($log_entries), 5);
 
     // Date back 5 log entries.
-    db_update('ultimate_cron_log')
+      \Drupal::database()->update('ultimate_cron_log')
       ->expression('start_time', 'start_time - 65')
       ->condition('lid', $ids, 'IN')
       ->execute();
@@ -93,7 +93,7 @@ class LoggerPluginTest extends KernelTestBase {
     // There should be exactly 6 log entries now, as saving caused another
     // modified entry to be saved.
     $log_entries = $job->getLogEntries(ULTIMATE_CRON_LOG_TYPE_ALL, 15);
-    $this->assertEquals(6, count($log_entries));
+    $this->assertCount(6, $log_entries);
   }
 
   /**
@@ -115,7 +115,7 @@ class LoggerPluginTest extends KernelTestBase {
 
     // There is only one log entry.
     $log_entries = $job->getLogEntries(ULTIMATE_CRON_LOG_TYPE_ALL, 3);
-    $this->assertEquals(1, count($log_entries));
+    $this->assertCount(1, $log_entries);
 
     $log_entry = reset($log_entries);
     $this->assertTrue($log_entry instanceof LogEntry);

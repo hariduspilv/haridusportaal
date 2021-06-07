@@ -49,6 +49,13 @@ class CreateFavoriteItem extends CreateEntityBase{
 	 */
 	protected $entityTypeManager;
 
+  /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
 	/**
 	 * The Custom Language Negotiator.
 	 *
@@ -68,12 +75,25 @@ class CreateFavoriteItem extends CreateEntityBase{
 				$container->get('entity_type.manager'),
 				$container->get('htm_custom_graphql_functions.language_negotiator'),
 				$container->get('current_user'),
-				$container->get('language_manager'));
+				$container->get('language_manager'),
+        $container->get('renderer')
+    );
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+  /**
+   * CreateEntityBase constructor.
+   *
+   * @param array $configuration
+   *   The plugin configuration array.
+   * @param string $pluginId
+   *   The plugin id.
+   * @param mixed $pluginDefinition
+   *   The plugin definition array.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager service.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer service.
+   */
 	public function __construct(
 			array $configuration,
 			$pluginId,
@@ -81,12 +101,15 @@ class CreateFavoriteItem extends CreateEntityBase{
 			EntityTypeManagerInterface $entityTypeManager,
 			CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
 			AccountInterface $currentUser,
-			LanguageManager $languageManager)
+			LanguageManager $languageManager,
+      RendererInterface $renderer
+  )
 	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
+		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager, $renderer);
 		$this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
 		$this->languageManager = $languageManager;
 		$this->currentUser = $currentUser;
+    $this->renderer = $renderer;
 	}
 
 

@@ -5,7 +5,7 @@
       <div #content class="col-3 md-4 xs-6 sectors--col">
         <div class="sector__wrapper" (click)="modalOpen(i)" [class.active]="i == modal.index" [id]="'block_'+i">
           <span class="sector__wrapper--pic">
-            <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.derivative && elem.fieldOskaFieldPicture.derivative.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url" />
+            <img *ngIf="elem.fieldOskaFieldPicture?.derivative?.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url" />
             <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" *ngIf="!elem.fieldOskaFieldPicture" src="../../assets/img/1208x680.png">
             <span class="overlay"></span>
           </span>
@@ -46,7 +46,7 @@
                     </div><!--/modal__image-->
                   </ng-container>
                   
-                  <ng-container *ngIf="modal.fieldOskaFieldPicture && !modal.videoUrl">
+                  <ng-container *ngIf="modal?.fieldOskaFieldPicture?.derivative?.url && !modal.videoUrl">
                     <div class="modal__image" [ngStyle]="{'background-image': 'url(' + modal.fieldOskaFieldPicture.derivative.url + ')'}">
                       <img [src]="modal.fieldOskaFieldPicture.derivative.url" [alt]="modal.fieldOskaFieldPicture.alt" [title]="modal.fieldOskaFieldPicture.title" />
                     </div><!--/modal__image-->

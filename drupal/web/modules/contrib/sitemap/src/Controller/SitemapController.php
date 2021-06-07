@@ -2,9 +2,10 @@
 
 namespace Drupal\sitemap\Controller;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\sitemap\SitemapManager;
 
 /**
  * Controller routines for update routes.
@@ -12,20 +13,30 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SitemapController implements ContainerInjectionInterface {
 
   /**
-   * Module handler service.
+   * The configuration factory.
    *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
-  protected $moduleHandler;
+  protected $configFactory;
+
+  /**
+   * The SitemapMap plugin manager.
+   *
+   * @var \Drupal\sitemap\SitemapManager
+   */
+  protected $sitemapManager;
 
   /**
    * Constructs update status data.
    *
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
-   *   Module Handler Service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The configuration factory.
+   * @param \Drupal\sitemap\SitemapManager $sitemap_manager
+   *   The SitemapMap plugin manager.
    */
-  public function __construct(ModuleHandlerInterface $module_handler) {
-    $this->moduleHandler = $module_handler;
+  public function __construct(ConfigFactoryInterface $config_factory, SitemapManager $sitemap_manager) {
+    $this->configFactory = $config_factory;
+    $this->sitemapManager = $sitemap_manager;
   }
 
   /**
@@ -33,7 +44,8 @@ class SitemapController implements ContainerInjectionInterface {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('module_handler')
+      $container->get('config.factory'),
+      $container->get('plugin.manager.sitemap')
     );
   }
 
@@ -41,19 +53,47 @@ class SitemapController implements ContainerInjectionInterface {
    * Controller for /sitemap.
    *
    * @return array
-   *   Renderable string.
+   *   Renderable array.
    */
-  public function buildPage() {
-    $sitemap = array(
+  public function buildSitemap() {
+    $config = $this->configFactory->get('sitemap.settings');
+
+    // Build the Sitemap message.
+    $message = '';
+    if (!empty($config->get('message')) && !empty($config->get('message')['value'])) {
+      $message = check_markup($config->get('message')['value'], $config->get('message')['format']);
+    }
+
+    // Build the plugin content.
+    $plugins_config = $config->get('plugins');
+    $plugins = [];
+    $plugin_config = [];
+    $definitions = $this->sitemapManager->getDefinitions();
+    foreach ($definitions as $id => $definition) {
+      if ($this->sitemapManager->hasDefinition($id)) {
+        if (!empty($plugins_config[$id])) {
+          $plugin_config = $plugins_config[$id];
+        }
+        $instance = $this->sitemapManager->createInstance($id, $plugin_config);
+        if ($instance->enabled) {
+          $plugins[] = $instance->view() + ['#weight' => $instance->weight];
+        }
+      }
+    }
+    uasort($plugins, ['Drupal\Component\Utility\SortArray', 'sortByWeightProperty']);
+
+    // Build the render array.
+    $sitemap = [
       '#theme' => 'sitemap',
-    );
+      '#message' => $message,
+      '#sitemap_items' => $plugins,
+    ];
 
     // Check whether to include the default CSS.
-    $config = \Drupal::config('sitemap.settings');
-    if ($config->get('css') == 1) {
-      $sitemap['#attached']['library'] = array(
+    if ($config->get('include_css') == 1) {
+      $sitemap['#attached']['library'] = [
         'sitemap/sitemap.theme',
-      );
+      ];
     }
 
     return $sitemap;
@@ -66,7 +106,7 @@ class SitemapController implements ContainerInjectionInterface {
    *   Sitemap page title.
    */
   public function getTitle() {
-    $config = \Drupal::config('sitemap.settings');
+    $config = $this->configFactory->get('sitemap.settings');
     return $config->get('page_title');
   }
 

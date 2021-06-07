@@ -90,7 +90,7 @@ class LoggerSettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => t('Log entry expiration'),
       '#description' => t('Remove log entries older than X seconds.'),
-      '#default_value' => $config->get('logger.database.expire'),
+      '#default_value' => $config->get('logger.database.method_expire.expire'),
       '#fallback' => TRUE,
       '#required' => TRUE,
     ) + $states['expire'];
@@ -103,7 +103,7 @@ class LoggerSettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => t('Retain logs'),
       '#description' => t('Retain X amount of log entries.'),
-      '#default_value' => $config->get('logger.database.retain'),
+      '#default_value' => $config->get('logger.database.method_retain.retain'),
       '#fallback' => TRUE,
       '#required' => TRUE,
     ) + $states['retain'];
