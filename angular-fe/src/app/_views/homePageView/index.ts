@@ -24,8 +24,7 @@ import { HomePageTeachingViewComponent } from './views/homePageView.teaching.com
 import { HomePageCareerViewComponent } from './views/homePageView.career.component';
 import { HomePageLearningViewComponent } from './views/homePageView.learning.component';
 import { HomePageYouthViewComponent } from './views/homePageView.youth.component';
-import { JobOffersMapComponent } from './components/job-offers-map/job-offers-map.component';
-import { JobOffersMapService } from './components/job-offers-map/job-offers-map.service';
+import { JobOffersMapModule } from './components/job-offers-map/job-offers-map.module';
 
 const routes: Routes = [
   {
@@ -83,7 +82,6 @@ const routes: Routes = [
     HomePageFooterComponent,
     HomePageEventsComponent,
     HomePageCareerDevelopmentComponent,
-    JobOffersMapComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -93,11 +91,11 @@ const routes: Routes = [
     AppPipes,
     ReactiveFormsModule,
     NgPipesModule,
+    JobOffersMapModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     HomePageService,
-    JobOffersMapService,
   ],
   bootstrap: [],
 })

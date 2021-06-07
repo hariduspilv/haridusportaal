@@ -9,6 +9,7 @@ import {
   IEvent,
   IFooterData,
   IGraph,
+  IGraphCollaborationOffers,
   IGraphContacts,
   IGraphExternalLinks,
   IGraphLearningToTeach,
@@ -456,6 +457,19 @@ export class HomePageService {
           };
         }),
       };
+    } else if (theme === 'teachers') {
+      study = {
+        title: this.translate.get('frontpage.cooperation_offers'),
+        intro: this.translate.get('frontpage.cooperation_offers_intro'),
+        data: data.fieldCollaborationOffers.map(({ entity }: IGraphCollaborationOffers, index: number) => ({
+          title: entity.fieldLinkName,
+          image: `/assets/img/homepage-teachers-${index + 1}.svg`,
+          url: {
+            routed: false,
+            ...entity.fieldOfferLink.url,
+          }
+        }))
+      }
     }
     return study;
   }

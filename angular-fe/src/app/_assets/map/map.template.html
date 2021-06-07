@@ -76,7 +76,7 @@
 
                 <p *ngIf="marker.FieldOfferedBy" class="no-margin">{{ 'jobOffer.offered_by' | translate }}: <b>{{ marker.FieldOfferedBy }}</b></p>
                 <p *ngIf="marker.FieldAddress" class="no-margin">{{ 'event.aadress' | translate }}: <b>{{ marker.FieldAddress }}</b></p>
-                <p *ngIf="marker.FieldDate"  class="no-margin end-item">{{ 'jobOffer.job_expiry' | translate }}: <b>{{ marker.FieldDate }}</b></p>
+                <p *ngIf="marker.FieldDate"  class="no-margin end-item">{{ 'jobOffer.job_expiry' | translate }}: <b>{{ marker.FieldDate * 1000 | date:"dd.MM.yyyy" }}</b></p>
                 <a href="{{ marker.FieldURL | url }}" target="_blank" class="button">
                   <icon glyph="external-link" size="medium"></icon>
                   <span>{{ 'button.view_more' | translate }}</span>
