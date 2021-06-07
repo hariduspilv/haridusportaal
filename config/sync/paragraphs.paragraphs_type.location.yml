@@ -1,0 +1,10 @@
+uuid: 01a00dc9-3e2a-4992-83bb-0975ea946fc5
+langcode: et
+status: true
+dependencies: {  }
+id: location
+label: 'Asukoha andmed'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -1,45 +1,73 @@
 <?php
-
-declare(strict_types=1);
-
 namespace GraphQL\Type\Definition;
 
-use GraphQL\Type\Schema;
+use GraphQL\Error\InvariantViolation;
+use GraphQL\Utils\Utils;
 
+/**
+ * Class NonNull
+ * @package GraphQL\Type\Definition
+ */
 class NonNull extends Type implements WrappingType, OutputType, InputType
 {
-    /** @var callable():(NullableType&Type)|(NullableType&Type) */
+    /**
+     * @param mixed $type
+     * @return self
+     */
+    public static function assertNullType($type)
+    {
+        Utils::invariant(
+            $type instanceof self,
+            'Expected ' . Utils::printSafe($type) . ' to be a GraphQL Non-Null type.'
+        );
+
+        return $type;
+    }
+
+    /**
+     * @param mixed $type
+     * @return ObjectType|InterfaceType|UnionType|ScalarType|InputObjectType|EnumType|ListOfType
+     */
+    public static function assertNullableType($type)
+    {
+        Utils::invariant(
+            Type::isType($type) && !$type instanceof self,
+            'Expected ' . Utils::printSafe($type) . ' to be a GraphQL nullable type.'
+        );
+
+        return $type;
+    }
+
+    /**
+     * @var ObjectType|InterfaceType|UnionType|ScalarType|InputObjectType|EnumType|ListOfType
+     */
     private $ofType;
 
     /**
-     * code sniffer doesn't understand this syntax. Pr with a fix here: waiting on https://github.com/squizlabs/PHP_CodeSniffer/pull/2919
-     * phpcs:disable Squiz.Commenting.FunctionComment.SpacingAfterParamType
-     * @param callable():(NullableType&Type)|(NullableType&Type) $type
+     * @param callable|Type $type
+     * @throws \Exception
      */
     public function __construct($type)
     {
-        $this->ofType = $type;
-    }
-
-    public function toString() : string
-    {
-        return $this->getWrappedType()->toString() . '!';
-    }
-
-    public function getOfType()
-    {
-        return Schema::resolveType($this->ofType);
+        $this->ofType = self::assertNullableType($type);
     }
 
     /**
-     * @return (NullableType&Type)
+     * @param bool $recurse
+     * @return ObjectType|InterfaceType|UnionType|ScalarType|InputObjectType|EnumType|ListOfType
+     * @throws InvariantViolation
      */
-    public function getWrappedType(bool $recurse = false) : Type
+    public function getWrappedType($recurse = false)
     {
-        $type = $this->getOfType();
+        $type = $this->ofType;
+        return ($recurse && $type instanceof WrappingType) ? $type->getWrappedType($recurse) : $type;
+    }
 
-        return $recurse && $type instanceof WrappingType
-            ? $type->getWrappedType($recurse)
-            : $type;
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->getWrappedType()->toString() . '!';
     }
 }

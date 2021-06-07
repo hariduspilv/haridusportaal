@@ -29,6 +29,18 @@ query teachingPage($lang: LanguageId!) {
             }
           }
         }
+        fieldCollaborationOffers {
+          entity {
+            ... on ParagraphCollaboration {
+              fieldLinkName
+              fieldOfferLink {
+                url {
+                  path
+                }
+              }
+            }
+          }
+        }
         fieldToolbox {
           entity {
             ... on ParagraphToolbox {
