@@ -123,6 +123,8 @@ class Tara extends OpenIDConnectClientBase {
 		$client = $this->httpClient;
 		try {
 			$response = $client->post($endpoints['token'], $request_options);
+			dump($response);
+			exit();
 			$response_data = json_decode((string) $response->getBody(), TRUE);
 
 			// Expected result.
