@@ -108,8 +108,8 @@ class Tara extends OpenIDConnectClientBase {
 		$request_options = [
 			'form_params' => [
 				'code' => $authorization_code,
-				'client_id' => $this->configuration['client_id'],
-				'client_secret' => $this->configuration['client_secret'],
+//				'client_id' => $this->configuration['client_id'],
+//				'client_secret' => $this->configuration['client_secret'],
 				'redirect_uri' => $redirect_uri,
 				'grant_type' => 'authorization_code',
 			],
@@ -123,8 +123,6 @@ class Tara extends OpenIDConnectClientBase {
 		$client = $this->httpClient;
 		try {
 			$response = $client->post($endpoints['token'], $request_options);
-			dump($response);
-			exit();
 			$response_data = json_decode((string) $response->getBody(), TRUE);
 
 			// Expected result.
