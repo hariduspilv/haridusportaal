@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input, HostBinding } from '@angular/core';
-import { ITopic } from '../homePageView.model';
-import { HomePageService } from '../homePageView.service';
+import { ITopic } from '../../homePageView.model';
+import { HomePageService } from '../../homePageView.service';
 
 @Component({
   selector: 'homepage-articles',

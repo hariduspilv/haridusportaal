@@ -1,5 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { ITopic } from '../homePageView.model';
+import { ITopic } from '../../homePageView.model';
 
 @Component({
   selector: 'homepage-navblock',

@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService, AlertsService, ModalService } from '@app/_services';
 import { Subscription } from 'rxjs';
-import { IFooterData } from '../homePageView.model';
+import { IFooterData } from '../../homePageView.model';
 
 @Component({
   selector: 'homepage-footer',

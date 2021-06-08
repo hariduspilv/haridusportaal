@@ -1,0 +1,16 @@
+:host {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  padding-bottom: 4%;
+  transform: translateY(-100%);
+  margin-top: 1px;
+  overflow: hidden;
+  svg {
+    display: block;
+    width: 100%;
+  }
+}
