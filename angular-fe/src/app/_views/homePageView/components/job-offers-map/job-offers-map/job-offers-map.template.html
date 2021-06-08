@@ -2,7 +2,7 @@
 <div class="inner">
   <div class="title">
     <h2>{{ 'frontpage.job_offers' | translate }}</h2>
-    <p>{{ 'frontpage.job_offers_description' | translate }}</p>
+    <p [innerHTML]="'frontpage.job_offers_description' | translate"></p>
   </div>
   <div class="map-container">
     <div class="map-container__overflow">
