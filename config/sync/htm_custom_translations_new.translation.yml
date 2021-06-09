@@ -1497,6 +1497,22 @@ xjson:
     translation_type: textarea
     et: 'Taotlus esitatud'
     en: ''
+  postGrantStatusForbidden:
+    translation_type: textarea
+    et: 'Staatuse muutmine ei ole lubatud.'
+    en: ''
+  postGrantStatusBadValue:
+    translation_type: textarea
+    et: 'Staatuse väärtus on vigane.'
+    en: ''
+  postGrantStatusNotFound:
+    translation_type: textarea
+    et: 'Taotlust ei leitud.'
+    en: ''
+  postGrantStatusBadCurrentStatus:
+    translation_type: textarea
+    et: 'Staatuse muutmine ei ole lubatud.'
+    en: ''
 article:
   label:
     translation_type: textarea
