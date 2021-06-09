@@ -21,7 +21,6 @@
 							title="{{ 'oska.title_field' | translate }}"
 							[(ngModel)]="filterFormItems.field"
 							[options]="filterItemValues.field"
-                            attr.aria-label="{{ 'oska.title_field' | translate }}"
                             ariaLabel="{{ 'oska.title_field' | translate }}"
 						></formItem>
 					</div>
@@ -33,7 +32,6 @@
 							[(ngModel)]="filterFormItems.responsible"
 							[options]="filterItemValues.responsible"
 							*ngIf="filterItemValues.responsible.length"
-                            attr.aria-label="{{ 'oska.table_responsible_person' | translate }}"
                             ariaLabel="{{ 'oska.table_responsible_person' | translate }}"
 						></formItem>
 						<div class="round-input__wrapper"></div>
