@@ -4658,6 +4658,57 @@
             }
         },
         {
+            "name": "drupal/field_defaults",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/field_defaults.git",
+                "reference": "8.x-1.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/field_defaults-8.x-1.3.zip",
+                "reference": "8.x-1.3",
+                "shasum": "22a6b0344adc0c25a026cdc1d911e19c48796522"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.3",
+                    "datestamp": "1611268147",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "b_sharpe",
+                    "homepage": "https://www.drupal.org/user/2512258"
+                }
+            ],
+            "description": "Field Defaults allows batch updating of default field values to existing content.",
+            "homepage": "https://www.drupal.org/project/field_defaults",
+            "keywords": [
+                "Content",
+                "Content Construction Kit (CCK)",
+                "Drupal",
+                "Fields"
+            ],
+            "support": {
+                "source": "https://drupal.org/project/field_defaults",
+                "issues": "https://drupal.org/project/issues/field_defaults"
+            }
+        },
+        {
             "name": "drupal/filelog",
             "version": "1.2.0",
             "source": {
