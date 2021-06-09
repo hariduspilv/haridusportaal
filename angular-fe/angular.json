@@ -95,6 +95,22 @@
               ]
             },
             "prelive": {
+              "assets": [
+                "src/assets",
+                "src/favicon.ico",
+                "src/auth.html",
+                "src/manifest.webmanifest",
+                "src/sitemap.xml",
+                {
+                  "input": "./node_modules/@google/markerclustererplus/images",
+                  "glob": "*",
+                  "output": "/images"
+                },
+                { "glob": "robots.txt",
+                  "input": "src/environments/prelive/",
+                  "output": "/"
+                }
+              ],
               "index": {
                 "input": "src/index.prod.html",
                 "output": "index.html"

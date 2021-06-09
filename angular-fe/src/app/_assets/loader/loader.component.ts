@@ -9,6 +9,7 @@ import { SettingsService } from '@app/_services';
 
 export class LoaderComponent implements OnInit{
   public slowNetwork: boolean = false;
+  @Input() message: string;
 
   constructor(
     private settings: SettingsService,

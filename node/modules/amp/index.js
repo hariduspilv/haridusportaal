@@ -54,6 +54,10 @@ module.exports.getRequestParams = (articlePath, api) => {
       "queryKey": "getArticle",
       "pageTitle": "Artikkel"
     },
+    "uuringud": {
+      "queryKey": "studyDetailViewQuery",
+      "pageTitle": "Uuringud"
+    },
   };
 
   return new Promise(async (resolve, reject) => {
@@ -157,8 +161,8 @@ module.exports.serve = async (req, res) => {
     ? parsedData.fieldPictogram.entity.url : false;
 
   if (picto) {
-    // const replacedPictoUrl = this.pictoUrlReplacer(picto)
-    picto = await this.getFullPath(req) + '/picto?url=' + picto;
+    const encodedPicto = encodeURI(picto);
+    picto = await this.getFullPath(req) + '/picto?url=' + encodedPicto;
     if (!picto) {
       logger.error(`Picto fetch failed: ${picto}`)
     } 

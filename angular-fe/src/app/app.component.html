@@ -1,16 +1,20 @@
+<skip-to-content></skip-to-content>
 <div class="app-wrapper">
-  <sidemenu></sidemenu>
-
-  <div class="app-flex-main">
-    <htm-header></htm-header>
-
-    <div class="app-content" (click)="closeSidemenu($event)">
-      <router-outlet (activate)="onActivate()"></router-outlet>
-    </div><!--/app-content-->
-  </div><!--/app-flex-main-->
-
-  <alerts global></alerts>
-  <alerts global id="cookie"></alerts>
-
-  <sessionExpiration></sessionExpiration>
+  <loader [message]="loaderMessage" *ngIf="(translationsLoaded$ | async) === false"></loader>
+  <ng-container *ngIf="(translationsLoaded$ | async)">
+    <sidemenu></sidemenu>
+    
+    <div class="app-flex-main">
+      <htm-header></htm-header>
+      
+      <div class="app-content" (click)="closeSidemenu($event)">
+        <router-outlet (activate)="onActivate()"></router-outlet>
+      </div><!--/app-content-->
+    </div><!--/app-flex-main-->
+    
+    <alerts global></alerts>
+    <alerts global id="cookie"></alerts>
+    
+    <sessionExpiration></sessionExpiration>
+  </ng-container>
 </div><!--/app-wrapper-->
