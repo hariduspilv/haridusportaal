@@ -1,7 +1,7 @@
 query studyListViewFilterQuery($lang: LanguageId!)
 {
   publicationTypeOptions:taxonomyTermQuery(filter:
-  {conditions: [{operator: EQUAL, field: "vid", value: ["publicationtype"], language: $lang}]}) {
+  {conditions: [{operator: EQUAL, field: "vid", value: ["publicationtype"], language: $lang}]}, limit: -1) {
     entities(language: $lang) {
       ... on TaxonomyTermPublicationtype {
         entityId
@@ -10,7 +10,7 @@ query studyListViewFilterQuery($lang: LanguageId!)
     }
   }
   publicationLanguageOptions:taxonomyTermQuery(filter:
-  {conditions: [{operator: EQUAL, field: "vid", value: ["publicationlanguage"], language: $lang}]}) {
+  {conditions: [{operator: EQUAL, field: "vid", value: ["publicationlanguage"], language: $lang}]}, limit: -1) {
     entities(language: $lang) {
       ... on TaxonomyTermPublicationlanguage {
         entityId
@@ -19,7 +19,7 @@ query studyListViewFilterQuery($lang: LanguageId!)
     }
   }
   studyLabelOptions:taxonomyTermQuery(filter:
-  {conditions: [{operator: EQUAL, field: "vid", value: ["studylabel"], language: $lang}]}) {
+  {conditions: [{operator: EQUAL, field: "vid", value: ["studylabel"], language: $lang}]}, limit: -1) {
     entities(language: $lang) {
       ... on TaxonomyTermStudylabel {
         entityId
@@ -28,7 +28,7 @@ query studyListViewFilterQuery($lang: LanguageId!)
     }
   }
   studyTopicsOptions:taxonomyTermQuery(filter:
-  {conditions: [{operator: EQUAL, field: "vid", value: ["studytopic"], language: $lang}]}) {
+  {conditions: [{operator: EQUAL, field: "vid", value: ["studytopic"], language: $lang}]}, limit: -1) {
     entities(language: $lang) {
       ... on TaxonomyTermStudytopic {
         entityId
