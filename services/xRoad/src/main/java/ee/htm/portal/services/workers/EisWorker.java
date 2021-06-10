@@ -9,6 +9,7 @@ import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKehtivusResponseD
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKehtivusVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodResponseDocument.ETunnistusKodResponse;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodVastus;
+import ee.htm.portal.services.types.eu.x_road.eis.v4.TKehtiv;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TeisAndmedVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodJadaItem;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodVastus;
@@ -186,7 +187,7 @@ public class EisWorker extends Worker {
             ((ArrayNode) responseNode.get("value").get("tunnistus_jada")).addObject()
                 .put("nbr", "".equals(item.getNbr()) ? null : item.getNbr())
                 .put("kpv", "".equals(item.getKpv()) ? null : item.getKpv())
-                .put("kehtiv", item.getKehtiv().toString())
+                .put("kehtiv", item.getKehtiv().equals(TKehtiv.X_1) ? "Kehtiv" : "Kehtetu")
                 .put("tunnistus_id", item.getTunnistusId())
         );
       }
