@@ -9,6 +9,7 @@ import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKehtivusResponseD
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKehtivusVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodResponseDocument.ETunnistusKodResponse;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodVastus;
+import ee.htm.portal.services.types.eu.x_road.eis.v4.TeisAndmedVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodJadaItem;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestsessioonidKodVastus;
@@ -139,6 +140,91 @@ public class EisWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "testidKod_" + testSessionId, responseNode);
+    redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
+
+    return responseNode;
+  }
+
+  public ObjectNode getTeisAndmedKod(String personalCode, Long timestamp) {
+    ObjectNode responseNode = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EIS - teis_andmed_kod.v1");
+    logForDrupal.setSeverity("notice");
+
+    responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
+        .put("key", "teisAndmedKod");
+
+    try {
+      TeisAndmedVastus response = eisXRoadService.teisAndmedKod("EE" + personalCode);
+
+      ObjectNode valueNode = responseNode.putObject("value");
+
+      valueNode.put("teade", "".equals(response.getTeade()) ? null : response.getTeade())
+          .put("nimi", "".equals(response.getNimi()) ? null: response.getNimi());
+
+      valueNode.putArray("eksamitulemus_jada");
+      valueNode.putArray("tunnistus_jada");
+      valueNode.putArray("reg_staatus_jada");
+      valueNode.putArray("kohateade_jada");
+
+      if (response.getEksamitulemusJada() != null
+          && !response.getEksamitulemusJada().getItemList().isEmpty()) {
+        response.getEksamitulemusJada().getItemList().forEach(item ->
+            ((ArrayNode) responseNode.get("value").get("eksamitulemus_jada")).addObject()
+                .put("tase", "".equals(item.getTase()) ? null : item.getTase())
+                .put("aeg", "".equals(item.getAeg()) ? null : item.getAeg())
+                .put("staatus", "".equals(item.getStaatus()) ? null : item.getStaatus())
+                .put("tulemus", "".equals(item.getTulemus()) ? null : item.getTulemus())
+        );
+      }
+
+      if (response.getTunnistusJada() != null
+          && !response.getTunnistusJada().getItemList().isEmpty()) {
+        response.getTunnistusJada().getItemList().forEach(item ->
+            ((ArrayNode) responseNode.get("value").get("tunnistus_jada")).addObject()
+                .put("nbr", "".equals(item.getNbr()) ? null : item.getNbr())
+                .put("kpv", "".equals(item.getKpv()) ? null : item.getKpv())
+                .put("kehtiv", item.getKehtiv().toString())
+                .put("tunnistus_id", item.getTunnistusId())
+        );
+      }
+
+      if (response.getRegStaatusJada() != null
+          && !response.getRegStaatusJada().getItemList().isEmpty()) {
+        response.getRegStaatusJada().getItemList().forEach(item ->
+            ((ArrayNode) responseNode.get("value").get("reg_staatus_jada")).addObject()
+                .put("kpv", "".equals(item.getKpv()) ? null : item.getKpv())
+                .put("koht", "".equals(item.getKoht()) ? null : item.getKoht())
+                .put("staatus", "".equals(item.getStaatus()) ? null : item.getStaatus())
+                .put("dele", "".equals(item.getDele()) ? null : item.getDele())
+                .put("id", "".equals(item.getId()) ? null : item.getId())
+        );
+      }
+
+
+      if (response.getKohateadeJada() != null
+          && !response.getKohateadeJada().getItemList().isEmpty()) {
+        response.getKohateadeJada().getItemList().forEach(item ->
+            ((ArrayNode) responseNode.get("value").get("kohateade_jada")).addObject()
+                .put("eksam", "".equals(item.getEksam()) ? null : item.getEksam())
+                .put("aeg", "".equals(item.getAeg()) ? null : item.getAeg())
+                .put("koht", "".equals(item.getKoht()) ? null : item.getKoht())
+        );
+      }
+
+      logForDrupal.setMessage("EIS - teis_andmed_kod.v1 teenuselt andmete pärimine õnnestus.");
+    } catch (Exception e) {
+      setError(log, responseNode, e);
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    log.info(logForDrupal.toString());
+
+    responseNode.put("response_timestamp", System.currentTimeMillis());
+
+    redisTemplate.opsForHash().put(personalCode, "teisAndmedKod", responseNode);
     redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
 
     return responseNode;
