@@ -14,16 +14,28 @@
         </div>
         <div class="row" *ngIf="showFilter">
           <div class="col-4 sm-12" [class.col-9]="hasCalendar">
-            <formItem type="text" title="{{ 'news.filter_name' | translate }}" name="title"
-             [(ngModel)]="searchTitle" [ariaLabel]="'news.filter_name' | translate"></formItem>
+            <formItem type="text"
+                      title="{{ 'news.filter_name' | translate }}"
+                      name="title"
+                      [(ngModel)]="searchTitle"
+                      [ariaLabel]="'news.filter_name' | translate"
+            ></formItem>
           </div>
           <!--/col-4-->
           <div class="col-25 sm-12" *ngIf="!hasCalendar">
-            <formItem type="date" ariaLabel="{{ 'time.date_period_from' | translate }}" title="{{ 'time.date_period_from' | translate }}" name="dateFrom"></formItem>
+            <formItem type="date"
+                      ariaLabel="{{ 'time.date_period_from' | translate }}"
+                      title="{{ 'time.date_period_from' | translate }}"
+                      name="dateFrom"
+            ></formItem>
           </div>
           <!--/col-3-->
           <div class="col-25 sm-12" *ngIf="!hasCalendar">
-            <formItem type="date" ariaLabel="{{ 'time.date_period_to' | translate }}" title="{{ 'time.date_period_to' | translate }}" name="dateTo"></formItem>
+            <formItem type="date"
+                      ariaLabel="{{ 'time.date_period_to' | translate }}"
+                      title="{{ 'time.date_period_to' | translate }}"
+                      name="dateTo"
+            ></formItem>
           </div>
 
           <div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
@@ -42,14 +54,21 @@
 
         <div class="row" *ngIf="filterFull && showFilter">
           <div class="col-9 sm-12">
-            <formItem #hiddenFormItem type="multi-select" ariaLabel="{{ 'event.filter_types' | translate }}" title="{{ 'event.filter_types' | translate }}" name="types"
-              [options]="eventsTypes">
-            </formItem>
+            <formItem #hiddenFormItem
+                      type="multi-select"
+                      ariaLabel="{{ 'event.filter_types' | translate }}"
+                      title="{{ 'event.filter_types' | translate }}"
+                      name="types"
+                      [options]="eventsTypes"
+            ></formItem>
           </div>
           <div class="col-9 sm-12">
-            <formItem type="multi-select" ariaLabel="{{ 'event.filter_tags' | translate }}" title="{{ 'event.filter_tags' | translate }}" name="tags"
-              [options]="eventsTags">
-            </formItem>
+            <formItem type="multi-select"
+                      ariaLabel="{{ 'event.filter_tags' | translate }}"
+                      title="{{ 'event.filter_tags' | translate }}"
+                      name="tags"
+                      [options]="eventsTags"
+            ></formItem>
           </div>
 
           <div class="col-3 align-end text-right sm-12 inline-flex brief">

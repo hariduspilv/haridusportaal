@@ -13,17 +13,28 @@
 			<ng-container *ngIf="showFilter">
 				<div class="row">
 					<div class="col-4 sm-12">
-						<formItem type="text" ariaLabel="{{ 'news.filter_name' | translate }}" title="{{ 'news.filter_name' | translate }}" name="title"
-						[(ngModel)]="searchTitle"></formItem>
+						<formItem type="text"
+                                  ariaLabel="{{ 'news.filter_name' | translate }}"
+                                  title="{{ 'news.filter_name' | translate }}"
+                                  name="title"
+                                  [(ngModel)]="searchTitle"
+                        ></formItem>
 					</div>
 					<!--/col-4-->
 					<div class="col-25 sm-12">
-						<formItem type="date" ariaLabel="{{ 'time.date_period_from' | translate }}" title="{{ 'time.date_period_from' | translate }}" name="minDate">
-						</formItem>
+						<formItem type="date"
+                                  ariaLabel="{{ 'time.date_period_from' | translate }}"
+                                  title="{{ 'time.date_period_from' | translate }}"
+                                  name="minDate"
+                        ></formItem>
 					</div>
 					<!--/col-3-->
 					<div class="col-25 sm-12">
-						<formItem type="date" ariaLabel="{{ 'time.date_period_to' | translate }}" title="{{ 'time.date_period_to' | translate }}" name="maxDate"></formItem>
+						<formItem type="date"
+                                  ariaLabel="{{ 'time.date_period_to' | translate }}"
+                                  title="{{ 'time.date_period_to' | translate }}"
+                                  name="maxDate"
+                        ></formItem>
 					</div>
 
 					<div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
@@ -42,9 +53,13 @@
 				<!--/row-->
 				<div class="row" *ngIf="filterFull">
 					<div class="col-9 sm-12">
-						<formItem #hiddenFormItem type="multi-select" ariaLabel="{{ 'news.filter_tag' | translate }}" title="{{ 'news.filter_tag' | translate }}" name="tag"
-							[options]="tags" [(ngModel)]="selectedTag">
-						</formItem>
+						<formItem #hiddenFormItem
+                                  type="multi-select"
+                                  ariaLabel="{{ 'news.filter_tag' | translate }}"
+                                  title="{{ 'news.filter_tag' | translate }}"
+                                  name="tag"
+                                  [options]="tags" [(ngModel)]="selectedTag"
+                        ></formItem>
 					</div>
 
 					<div class="col-3 align-end text-right sm-12 inline-flex">
