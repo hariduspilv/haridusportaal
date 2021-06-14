@@ -111,11 +111,37 @@ class CustomVideoWidgetType extends WidgetBase {
 	 */
 	public function validateInput(&$element, FormStateInterface &$form_state, $form)
   {
-    // Validate URL.
-    // Has capability to validate specifically only youtube video URLs but it is currently turned off (youtube_get_video_id())
-    $video_url = $element['#value'];
-    if (!UrlHelper::isValid($video_url, TRUE)) {
-      $form_state->setErrorByName('video', $this->t("The video url '%url' is invalid.", array('%url' => $video_url)));
+    $input = $element['#value'];
+
+    // validate URL for content types that allow only youtube videos
+    $video_id = youtube_get_video_id($input);
+
+    // Get current content type
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $typeName = $node->bundle();
+
+    // If the content type is news then allow any video URL
+    if($typeName === 'news') {
+      if (!UrlHelper::isValid($input, TRUE)) {
+        $form_state->setErrorByName('video', $this->t("The video url '%url' is invalid.", array('%url' => $input)));
+      }
+      // Else allow only youtube videos
+    } else {
+      if ($video_id && strlen($video_id[1]) <= 20) {
+        $video_id_element = array(
+          '#parents' => $element['#parents'],
+        );
+        array_pop($video_id_element['#parents']);
+        $video_id_element['#parents'][] = 'video_id';
+        $form_state->setValueForElement($video_id_element, $video_id[1]);
+
+        array_pop($video_id_element['#parents']);
+        $video_id_element['#parents'][] = 'video_domain';
+        $form_state->setValueForElement($video_id_element, $video_id[0]);
+      }
+      elseif (!empty($input)) {
+        $form_state->setError($element, t('Please provide a valid YouTube URL.'));
+      }
     }
   }
 }
