@@ -1,5 +1,18 @@
-<div class="formItem__title" [class.formItem__title--top]="filledField || focused" [class.focused]="focused" *ngIf="!titleDisabled && title !== '' && type !== 'radio'"><span>{{ title | titleCase }}</span></div>
-<div class="formItem__staticTitle" *ngIf="type == 'radio' && title !== ''">{{ title | titleCase }}</div>
+<div class="formItem__title"
+  [class.formItem__title--top]="filledField || focused"
+  [class.focused]="focused"
+  *ngIf="!titleDisabled && title !== '' && type !== 'radio'">
+  <span *ngIf="type !== 'select' && type !== 'multi-select'">{{ title | titleCase }}</span>
+  <span role="text" [attr.aria-label]="ariaLabel + ' list box, click to open list of options'"
+    *ngIf="type === 'select' || type === 'multi-select'">
+    {{ title | titleCase }}
+  </span> 
+</div>
+
+<div class="formItem__staticTitle" *ngIf="type == 'radio' && title !== ''">
+  {{ title | titleCase }}
+</div>
+
 <div class="formItem__wrapper"
   [class.showPlaceholder]="(type == 'select' || type == 'multi-select') && placeholder && (field == '' || field == null)"
   [class.title--top]="filledField || focused"
