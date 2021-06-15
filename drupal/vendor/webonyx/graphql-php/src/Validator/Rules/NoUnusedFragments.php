@@ -1,44 +1,39 @@
 <?php
-
-declare(strict_types=1);
-
 namespace GraphQL\Validator\Rules;
 
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\FragmentDefinitionNode;
 use GraphQL\Language\AST\NodeKind;
-use GraphQL\Language\AST\OperationDefinitionNode;
 use GraphQL\Language\Visitor;
-use GraphQL\Language\VisitorOperation;
 use GraphQL\Validator\ValidationContext;
-use function sprintf;
 
-class NoUnusedFragments extends ValidationRule
+class NoUnusedFragments extends AbstractValidationRule
 {
-    /** @var OperationDefinitionNode[] */
+    static function unusedFragMessage($fragName)
+    {
+        return "Fragment \"$fragName\" is never used.";
+    }
+
     public $operationDefs;
 
-    /** @var FragmentDefinitionNode[] */
     public $fragmentDefs;
 
     public function getVisitor(ValidationContext $context)
     {
         $this->operationDefs = [];
-        $this->fragmentDefs  = [];
+        $this->fragmentDefs = [];
 
         return [
-            NodeKind::OPERATION_DEFINITION => function ($node) : VisitorOperation {
+            NodeKind::OPERATION_DEFINITION => function($node) {
                 $this->operationDefs[] = $node;
-
                 return Visitor::skipNode();
             },
-            NodeKind::FRAGMENT_DEFINITION  => function (FragmentDefinitionNode $def) : VisitorOperation {
+            NodeKind::FRAGMENT_DEFINITION => function(FragmentDefinitionNode $def) {
                 $this->fragmentDefs[] = $def;
-
                 return Visitor::skipNode();
             },
-            NodeKind::DOCUMENT             => [
-                'leave' => function () use ($context) : void {
+            NodeKind::DOCUMENT => [
+                'leave' => function() use ($context) {
                     $fragmentNameUsed = [];
 
                     foreach ($this->operationDefs as $operation) {
@@ -49,22 +44,15 @@ class NoUnusedFragments extends ValidationRule
 
                     foreach ($this->fragmentDefs as $fragmentDef) {
                         $fragName = $fragmentDef->name->value;
-                        if ($fragmentNameUsed[$fragName] ?? false) {
-                            continue;
+                        if (empty($fragmentNameUsed[$fragName])) {
+                            $context->reportError(new Error(
+                                self::unusedFragMessage($fragName),
+                                [ $fragmentDef ]
+                            ));
                         }
-
-                        $context->reportError(new Error(
-                            self::unusedFragMessage($fragName),
-                            [$fragmentDef]
-                        ));
                     }
-                },
-            ],
+                }
+            ]
         ];
-    }
-
-    public static function unusedFragMessage($fragName)
-    {
-        return sprintf('Fragment "%s" is never used.', $fragName);
     }
 }

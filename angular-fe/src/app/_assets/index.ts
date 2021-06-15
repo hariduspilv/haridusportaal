@@ -246,8 +246,8 @@ const declarations = [
   LabelCountComponent,
   MainProfessionsSearchResultsComponent,
   TagComponent,
-  MaxWidthWrapperComponent,
   SkipToContentComponent,
+  MaxWidthWrapperComponent,
   ...certificatesModuleDeclarations,
   TextTruncateTogglerComponent,
 ];

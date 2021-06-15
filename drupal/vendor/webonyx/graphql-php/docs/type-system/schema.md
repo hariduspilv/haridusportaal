@@ -62,7 +62,7 @@ $mutationType = new ObjectType([
                 'episode' => $episodeEnum,
                 'review' => $reviewInputObject
             ],
-            'resolve' => function($rootValue, $args) {
+            'resolve' => function($val, $args) {
                 // TODOC
             }
         ]

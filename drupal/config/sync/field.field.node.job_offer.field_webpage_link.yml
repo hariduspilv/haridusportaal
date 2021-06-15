@@ -1,0 +1,23 @@
+uuid: 31536d4b-4878-486b-b922-aa39218d283d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_webpage_link
+    - node.type.job_offer
+  module:
+    - link
+id: node.job_offer.field_webpage_link
+field_name: field_webpage_link
+entity_type: node
+bundle: job_offer
+label: 'Tööpakkumise link (url)'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link
