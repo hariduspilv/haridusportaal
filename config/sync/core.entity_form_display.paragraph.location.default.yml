@@ -1,0 +1,41 @@
+uuid: f85a6b48-c96f-4c0a-8759-98ebbb9c7eb5
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.location.field_address
+    - field.field.paragraph.location.field_lat
+    - field.field.paragraph.location.field_long
+    - paragraphs.paragraphs_type.location
+id: paragraph.location.default
+targetEntityType: paragraph
+bundle: location
+mode: default
+content:
+  field_address:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_lat:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_long:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

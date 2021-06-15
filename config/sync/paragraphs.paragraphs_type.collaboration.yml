@@ -1,0 +1,10 @@
+uuid: 01a5b858-b2ec-4d96-a5ce-4d2dde77dfa4
+langcode: et
+status: true
+dependencies: {  }
+id: collaboration
+label: Koostööpakkumine
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
