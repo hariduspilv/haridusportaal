@@ -10,6 +10,8 @@ import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKehtivusResponseD
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodDocument.ETunnistusKod;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodParing;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodResponseDocument.ETunnistusKodResponse;
+import ee.htm.portal.services.types.eu.x_road.eis.v4.TeisAndmedKodDocument.TeisAndmedKod;
+import ee.htm.portal.services.types.eu.x_road.eis.v4.TeisAndmedVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodDocument.TestidKod;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodParing;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodVastus;
@@ -42,6 +44,14 @@ public class EisXRoadServiceImpl extends EisXRoadDatabaseImpl implements EisXRoa
     }
 
     return testidKodV1(request, userId).getResponse();
+  }
+
+  public TeisAndmedVastus teisAndmedKod(String userId) throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return teisAndmedKodV1(TeisAndmedKod.Factory.newInstance()).getResponse();
+    }
+
+    return teisAndmedKodV1(TeisAndmedKod.Factory.newInstance(), userId).getResponse();
   }
 
   public XRoadMessage<ETunnistusKodResponse> eTunnistusKod(BigInteger tunnistusId, String userId)
