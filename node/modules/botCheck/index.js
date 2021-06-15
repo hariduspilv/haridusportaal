@@ -11,7 +11,7 @@ module.exports.isBot = (req) => {
   var isBotTest = false;
   var botReq = "";
   var botID= ""; //Just so we know why we think it is a bot
-  var knownBots = ["baiduspider", "facebookexternalhit", "twitterbot", "rogerbot", "linkedinbot","embedly|quora\ link\ preview","howyoubot","outbrain","pinterest","slackbot","vkShare"];
+  var knownBots = ["baiduspider", "facebookexternalhit", "twitterbot", "rogerbot", "linkedinbot","embedly|quora\ link\ preview","howyoubot","outbrain","pinterest","slackbot","vkShare", "Googlebot"];
   var urlRequest=req.url
   var pos= urlRequest.search("\\?_escaped_fragment_=")
 
@@ -28,7 +28,7 @@ module.exports.isBot = (req) => {
   } else {
       var userAgent = req.get('User-Agent');
       for (var i in knownBots){
-        if (userAgent.search(knownBots[i]) != -1){
+        if (userAgent && userAgent.search(knownBots[i]) != -1){
           isBotTest = true;
           botReq=urlRequest;
           botID=knownBots[i];
