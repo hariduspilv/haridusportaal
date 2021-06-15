@@ -1,33 +1,21 @@
 <?php
-
-declare(strict_types=1);
-
 namespace GraphQL\Type\Definition;
 
-use Exception;
 use GraphQL\Error\Error;
-use GraphQL\Language\AST\BooleanValueNode;
-use GraphQL\Language\AST\FloatValueNode;
-use GraphQL\Language\AST\IntValueNode;
-use GraphQL\Language\AST\Node;
-use GraphQL\Language\AST\NullValueNode;
-use GraphQL\Language\AST\StringValueNode;
+use \GraphQL\Language\AST\Node;
 
 /*
 export type GraphQLLeafType =
 GraphQLScalarType |
 GraphQLEnumType;
 */
-
 interface LeafType
 {
     /**
      * Serializes an internal value to include in a response.
      *
      * @param mixed $value
-     *
      * @return mixed
-     *
      * @throws Error
      */
     public function serialize($value);
@@ -38,9 +26,7 @@ interface LeafType
      * In the case of an invalid value this method must throw an Exception
      *
      * @param mixed $value
-     *
      * @return mixed
-     *
      * @throws Error
      */
     public function parseValue($value);
@@ -50,12 +36,10 @@ interface LeafType
      *
      * In the case of an invalid node or value this method must throw an Exception
      *
-     * @param IntValueNode|FloatValueNode|StringValueNode|BooleanValueNode|NullValueNode $valueNode
-     * @param mixed[]|null                                                               $variables
-     *
+     * @param Node $valueNode
+     * @param array|null $variables
      * @return mixed
-     *
-     * @throws Exception
+     * @throws \Exception
      */
-    public function parseLiteral(Node $valueNode, ?array $variables = null);
+    public function parseLiteral($valueNode, array $variables = null);
 }

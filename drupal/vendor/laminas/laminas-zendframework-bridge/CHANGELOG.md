@@ -2,6 +2,77 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.2.0 - 2021-02-25
+
+
+-----
+
+### Release Notes for [1.2.0](https://github.com/laminas/laminas-zendframework-bridge/milestone/7)
+
+Feature release (minor)
+
+## Added
+
+- Added Psalm support
+
+## Removed
+
+- Dropped support for PHP prior 7.3
+
+### 1.2.0
+
+- Total issues resolved: **1**
+- Total pull requests resolved: **2**
+- Total contributors: **3**
+
+#### Enhancement
+
+ - [78: GitHub Actions &amp; Psalm](https://github.com/laminas/laminas-zendframework-bridge/pull/78) thanks to @gsteel and @boesing
+
+#### Bug
+
+ - [72: Merge release 1.1.1 into 1.2.x](https://github.com/laminas/laminas-zendframework-bridge/pull/72) thanks to @github-actions[bot]
+
+## 1.1.1 - 2020-09-14
+
+### Fixed
+
+- [#71](https://github.com/laminas/laminas-zendframework-bridge/pull/71) fixes detection of the vendor directory when the `COMPOSER_VENDOR_DIR` env variable is missing or empty. Previously, this could lead to scenarios where a non-existent path was used for finding the bridge autoloader.
+
+-----
+
+### Release Notes for [1.1.1](https://github.com/laminas/laminas-zendframework-bridge/milestone/5)
+
+- Total issues resolved: **0**
+- Total pull requests resolved: **1**
+- Total contributors: **1**
+
+#### Bug
+
+ - [71: Verify `COMPOSER&#95;VENDOR&#95;DIR` in conditional](https://github.com/laminas/laminas-zendframework-bridge/pull/71) thanks to @aaronbushnell
+
+## 1.1.0 - 2020-08-18
+
+### Added
+
+- [#68](https://github.com/laminas/laminas-zendframework-bridge/pull/68) adds support for the upcoming PHP 8.0 release.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#67](https://github.com/laminas/laminas-zendframework-bridge/pull/67) fixes how the Composer autoload file is found, looking first in the `COMPOSER_VENDOR_DIR` before trying to resolve relative to where the package is installed.
+
 ## 1.0.4 - 2020-05-20
 
 ### Added

@@ -335,6 +335,7 @@
 			font-family: Rubik,sans-serif!important;
 			font-weight: 500;
 			padding-left: 24px;
+			padding-right: 48px;
 			padding-bottom: 0;
 			margin: 0 -24px 16px;
 			&.with--border {
@@ -352,11 +353,17 @@
 			border-top: 1px solid #c7c7c9;
 			font-size: 16px;
 		}
-		p:not(.title) {
+		p:not(.title):not(.no-margin) {
 			margin-top: 10px;
 			margin-bottom: 10px;
 			&:last-child {
 				margin-bottom: 0;
+			}
+		}
+		p.no-margin {
+			margin: 0;
+			&.end-item {
+				margin-bottom: 10px;
 			}
 		}
 	}

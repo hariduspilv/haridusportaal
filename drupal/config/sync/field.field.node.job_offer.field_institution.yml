@@ -1,0 +1,19 @@
+uuid: 18c350c3-3793-4141-b308-afe9b337316a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_institution
+    - node.type.job_offer
+id: node.job_offer.field_institution
+field_name: field_institution
+entity_type: node
+bundle: job_offer
+label: Tööpakkuja
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

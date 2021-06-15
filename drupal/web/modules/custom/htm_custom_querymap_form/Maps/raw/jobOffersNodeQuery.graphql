@@ -1,0 +1,36 @@
+query jobOffersNodeQuery($count: Int) {
+  nodeQuery(limit: $count, filter: {conditions: {field: "type", value: "job_offer", operator: EQUAL}}) {
+    count
+    entities{
+      ... on NodeJobOffer{
+        title
+        fieldInstitution
+        fieldDate
+        fieldWebpageLink {
+          uri
+        }
+        fieldIdNumber
+        fieldAdrid
+        fieldLocation {
+          entity {
+            ... on ParagraphLocation {
+              fieldAddress
+              fieldLat
+              fieldLong
+            }
+          }
+        }
+        fieldTime {
+          entity {
+            ... on ParagraphWorkingTime {
+              fieldFullTime
+              fieldPartTime
+              fieldInShifts
+              fieldAtNight
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -60,6 +60,8 @@ class Writer
      * Set plugin loader for use with Extensions
      *
      * @param ExtensionManagerInterface
+     *
+     * @return void
      */
     public static function setExtensionManager(ExtensionManagerInterface $extensionManager)
     {
@@ -196,6 +198,21 @@ class Writer
                     . ' %1$s\Extension\GooglePlayPodcast\Feed,'
                     . ' %1$s\Extension\GooglePlayPodcast\Renderer\Entry,'
                     . ' and %1$s\Extension\GooglePlayPodcast\Renderer\Feed.',
+                    __NAMESPACE__
+                ),
+                \E_USER_NOTICE
+            );
+
+        // Added in development; check for it conditionally
+        static::hasExtension('PodcastIndex')
+            ? static::registerExtension('PodcastIndex')
+            : trigger_error(
+                sprintf(
+                    'Please update your %1$s\ExtensionManagerInterface implementation to add entries for'
+                    . ' %1$s\Extension\PodcastIndex\Entry,'
+                    . ' %1$s\Extension\PodcastIndex\Feed,'
+                    . ' %1$s\Extension\PodcastIndex\Renderer\Entry,'
+                    . ' and %1$s\Extension\PodcastIndex\Renderer\Feed.',
                     __NAMESPACE__
                 ),
                 \E_USER_NOTICE
