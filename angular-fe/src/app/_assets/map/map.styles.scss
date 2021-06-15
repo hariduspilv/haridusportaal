@@ -352,11 +352,17 @@
 			border-top: 1px solid #c7c7c9;
 			font-size: 16px;
 		}
-		p:not(.title) {
+		p:not(.title):not(.no-margin) {
 			margin-top: 10px;
 			margin-bottom: 10px;
 			&:last-child {
 				margin-bottom: 0;
+			}
+		}
+		p.no-margin {
+			margin: 0;
+			&.end-item {
+				margin-bottom: 10px;
 			}
 		}
 	}

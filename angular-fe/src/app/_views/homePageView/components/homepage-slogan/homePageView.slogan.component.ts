@@ -1,5 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { ISlogan } from '../homePageView.model';
+import { ISlogan } from '../../homePageView.model';
 
 @Component({
   selector: 'homepage-slogan',

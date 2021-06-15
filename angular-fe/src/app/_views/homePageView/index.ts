@@ -10,20 +10,22 @@ import { AuthInterceptor } from '@app/_interceptors';
 import { NgPipesModule } from 'ngx-pipes';
 import { HomePageService } from './homePageView.service';
 import { HomePageViewComponent } from './homePageView.component';
-import { HomePageArticlesComponent } from './blocks/homePageView.articles.component';
-import { HomePageCareerDevelopmentComponent } from './blocks/homePageView.careerDevelopment.component';
-import { HomePageEventsComponent } from './blocks/homePageView.events.component';
-import { HomePageFooterComponent } from './blocks/homePageView.footer.component';
-import { HomePageLineComponent } from './blocks/homePageView.line.component';
-import { HomePageNavBlockComponent } from './blocks/homePageView.navblock.component';
-import { HomePageSlidesComponent } from './blocks/homePageView.slides.component';
-import { HomePageSloganComponent } from './blocks/homePageView.slogan.component';
-import { HomePageStudyComponent } from './blocks/homePageView.study.component';
-import { HomePageTopicalComponent } from './blocks/homePageView.topical.component';
+import { HomePageArticlesComponent } from './components/homepage-articles/homePageView.articles.component';
+import { HomePageCareerDevelopmentComponent } from './components/homepage-career-development/homePageView.careerDevelopment.component';
+import { HomePageEventsComponent } from './components/homepage-events/homePageView.events.component';
+import { HomePageFooterComponent } from './components/homepage-footer/homePageView.footer.component';
+import { HomePageLineComponent } from './components/homepage-line/homePageView.line.component';
+import { HomePageNavBlockComponent } from './components/homepage-navblock/homePageView.navblock.component';
+import { HomePageSlidesComponent } from './components/homepage-slides/homePageView.slides.component';
+import { HomePageSloganComponent } from './components/homepage-slogan/homePageView.slogan.component';
+import { HomePageStudyComponent } from './components/homepage-study/homePageView.study.component';
+import { HomePageTopicalComponent } from './components/homepage-topical/homePageView.topical.component';
 import { HomePageTeachingViewComponent } from './views/homePageView.teaching.component';
 import { HomePageCareerViewComponent } from './views/homePageView.career.component';
 import { HomePageLearningViewComponent } from './views/homePageView.learning.component';
 import { HomePageYouthViewComponent } from './views/homePageView.youth.component';
+import { JobOffersMapComponent } from './components/job-offers-map/job-offers-map.component';
+import { JobOffersMapService } from './components/job-offers-map/job-offers-map.service';
 
 const routes: Routes = [
   {
@@ -81,6 +83,7 @@ const routes: Routes = [
     HomePageFooterComponent,
     HomePageEventsComponent,
     HomePageCareerDevelopmentComponent,
+    JobOffersMapComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -94,6 +97,7 @@ const routes: Routes = [
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     HomePageService,
+    JobOffersMapService,
   ],
   bootstrap: [],
 })
