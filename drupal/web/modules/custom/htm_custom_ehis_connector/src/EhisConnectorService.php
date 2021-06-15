@@ -517,7 +517,8 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
 
     if($this->useReg()) $params['hash'] = 'mtsys';
-    if(!$this->useReg()) $params['hash'] = ['OLT', 'vpTaotlus'];
+    // Add 'OLT' to the following array to include olt in dashboard applications 
+    if(!$this->useReg()) $params['hash'] = ['vpTaotlus'];
 
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
