@@ -908,10 +908,6 @@ frontpage:
     translation_type: textarea
     et: Tööpakkumised
     en: Tööpakkumised
-  job_offers_description:
-    translation_type: textarea
-    et: 'Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale'
-    en: 'Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale'
   cooperation_offers:
     translation_type: textarea
     et: Koostööpakkumised
@@ -920,6 +916,22 @@ frontpage:
     translation_type: textarea
     et: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
     en: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
+  job_offers_description:
+    translation_type: text_format
+    et:
+      value: "<p>Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale või vaata tööpakkumisi <a href=\"https://www.tootukassa.ee/toopakkumised?valdkonnad%5B%5D=EDU\" target=\"_blank\">Töötukassa kodulehelt</a>.</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale või vaata tööpakkumisi <a href=\"https://www.tootukassa.ee/toopakkumised?valdkonnad%5B%5D=EDU\" target=\"_blank\">Töötukassa kodulehelt</a>.</p>\r\n"
+      format: custom_editor
+  job_offers_description_screen_reader:
+    translation_type: text_format
+    et:
+      value: "<p><a href=\"https://www.tootukassa.ee/toopakkumised?valdkonnad%5B%5D=EDU\" target=\"_blank\">Vaata haridusvaldkonna tööpakkumisi Töötukassa kodulehelt (avaneb uues aknas)</a></p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p><a href=\"https://www.tootukassa.ee/toopakkumised?valdkonnad%5B%5D=EDU\" target=\"_blank\" tabindex=\"-1\">Vaata haridusvaldkonna tööpakkumisi Töötukassa kodulehelt (avaneb uues aknas)</a></p>\r\n"
+      format: full_html
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -4767,8 +4779,8 @@ finaldocuments:
     en: Number
   date_of:
     translation_type: textarea
-    et: 'Väljaandmise kuupäev'
-    en: 'Väljaandmise kuupäev'
+    et: 'Lõpetamise kuupäev'
+    en: 'Lõpetamise kuupäev'
   duplicate_number:
     translation_type: textarea
     et: 'Duplikaadi algdokumendi number'
