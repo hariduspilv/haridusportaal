@@ -109,27 +109,30 @@ class CustomVideoWidgetType extends WidgetBase {
 	/**
 	 * Validate video URL.
 	 */
-	public function validateInput(&$element, FormStateInterface &$form_state, $form) {
-		$input = $element['#value'];
-		$video_id = youtube_get_video_id($input);
-		//dump($video_id);
-		//die();
-		//dump($element);
-		if ($video_id && strlen($video_id[1]) <= 20) {
-			$video_id_element = array(
-				'#parents' => $element['#parents'],
-			);
-			array_pop($video_id_element['#parents']);
-			$video_id_element['#parents'][] = 'video_id';
-			$form_state->setValueForElement($video_id_element, $video_id[1]);
+  public function validateInput(&$element, FormStateInterface &$form_state, $form) {
 
-			array_pop($video_id_element['#parents']);
-			$video_id_element['#parents'][] = 'video_domain';
-			$form_state->setValueForElement($video_id_element, $video_id[0]);
-		}
-		elseif (!empty($input)) {
-			$form_state->setError($element, t('Please provide a valid YouTube URL.'));
-		}
-	}
+    $input = $element['#value'];
+    if ($form['#form_id'] === 'node_news_form' || $form['#form_id'] === 'node_news_edit_form') {
+      dump('SUCCESS');
+      die();
+    } else {
+      $video_id = youtube_get_video_id($input);
+      if ($video_id && strlen($video_id[1]) <= 20) {
+        $video_id_element = array(
+          '#parents' => $element['#parents'],
+        );
+        array_pop($video_id_element['#parents']);
+        $video_id_element['#parents'][] = 'video_id';
+        $form_state->setValueForElement($video_id_element, $video_id[1]);
+
+        array_pop($video_id_element['#parents']);
+        $video_id_element['#parents'][] = 'video_domain';
+        $form_state->setValueForElement($video_id_element, $video_id[0]);
+      }
+      elseif (!empty($input)) {
+        $form_state->setError($element, t('Please provide a valid YouTube URL.'));
+      }
+    }
+  }
 
 }
