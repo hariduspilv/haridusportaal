@@ -112,9 +112,7 @@ export interface IGraphExternalLinks {
   entity: {
     fieldLinkName: string;
     fieldWebpageLink: {
-      url: {
-        path: string;
-      },
+      url: IURL
     }
   };
 }
@@ -130,6 +128,15 @@ export interface IGraphLearningToTeach {
     fieldLearningToTeachTitle: string;
     fieldLearningToTeachSitelink: IGraphURLEntity;
   };
+}
+
+export interface IGraphCollaborationOffers {
+  entity: {
+    fieldLinkName: string;
+    fieldOfferLink: {
+      url: IURL
+    }
+  }
 }
 
 export interface IGraphTopic {
@@ -189,6 +196,7 @@ export interface IGraphResponse {
   fieldYouthContentPage?: IGraphTopic;
   fieldYouthForegroundContent?: IGraphTopic;
   fieldFrontpageReferences?: IGraphReference[];
+  fieldCollaborationOffers?: IGraphCollaborationOffers[];
   news?: IGraphURLEntity;
   topics?: IGraphTopic | IGraphTopic[];
   services?: IGraphService[];

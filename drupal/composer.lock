@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d3029a34c60f0d4407100e2b8c70dcb",
+    "content-hash": "13e1c1fec2f512f5d8362935a200e034",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4658,6 +4658,57 @@
             }
         },
         {
+            "name": "drupal/field_defaults",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/field_defaults.git",
+                "reference": "8.x-1.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/field_defaults-8.x-1.3.zip",
+                "reference": "8.x-1.3",
+                "shasum": "22a6b0344adc0c25a026cdc1d911e19c48796522"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.3",
+                    "datestamp": "1611268147",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "b_sharpe",
+                    "homepage": "https://www.drupal.org/user/2512258"
+                }
+            ],
+            "description": "Field Defaults allows batch updating of default field values to existing content.",
+            "homepage": "https://www.drupal.org/project/field_defaults",
+            "keywords": [
+                "Content",
+                "Content Construction Kit (CCK)",
+                "Drupal",
+                "Fields"
+            ],
+            "support": {
+                "source": "https://drupal.org/project/field_defaults",
+                "issues": "https://drupal.org/project/issues/field_defaults"
+            }
+        },
+        {
             "name": "drupal/filelog",
             "version": "1.2.0",
             "source": {
@@ -6169,17 +6220,17 @@
         },
         {
             "name": "drupal/openid_connect",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/openid_connect.git",
-                "reference": "8.x-1.0"
+                "reference": "8.x-1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/openid_connect-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "62127d6f81950124c41a76f921678ab6f0a651e3"
+                "url": "https://ftp.drupal.org/files/projects/openid_connect-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "9153c4ecbadd1ea11b2dff41de30b8c90103ea9b"
             },
             "require": {
                 "drupal/core": "^8.8 || ^9",
@@ -6188,8 +6239,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1608316550",
+                    "version": "8.x-1.1",
+                    "datestamp": "1622902228",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -13143,16 +13194,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.4.22",
+            "version": "v4.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "c194bcedde6295f3ec3e9eba1f5d484ea97c41a7"
+                "reference": "31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c194bcedde6295f3ec3e9eba1f5d484ea97c41a7",
-                "reference": "c194bcedde6295f3ec3e9eba1f5d484ea97c41a7",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0",
+                "reference": "31ea689a8e7d2410016b0d25fc15a1ba05a6e2e0",
                 "shasum": ""
             },
             "require": {
@@ -13212,7 +13263,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v4.4.22"
+                "source": "https://github.com/symfony/var-dumper/tree/v4.4.25"
             },
             "funding": [
                 {
@@ -13228,7 +13279,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-19T13:36:17+00:00"
+            "time": "2021-05-27T09:48:32+00:00"
         },
         {
             "name": "symfony/yaml",

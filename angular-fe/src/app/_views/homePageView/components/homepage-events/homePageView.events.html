@@ -1,0 +1,36 @@
+<homepage-line [type]="line"></homepage-line>
+<div class="inner">
+  <div class="events__head">
+    <h2>{{ title }}</h2>
+    <p [innerHTML]="description"></p>
+  </div><!--/events__head-->
+  <div class="events__list">
+    <ng-container *ngFor="let item of data; let i = index;">
+      <div class="events__elem"  [routerLink]="item.link.url.path">
+        <div class="events__elem__image" *ngIf="i % 2 == 1">
+          <div class="events__elem__image__inner" [ngStyle]="{'background-image': 'url('+ item.image +')'}">
+            <img [src]="item.image" [alt]="item?.title" />
+          </div><!--/events__elem__image__inner-->
+        </div><!--/events__elem__image-->
+
+        <div class="events__elem__body">
+          <div class="events__elem__date">
+            {{ item.created * 1000 | date:"dd.MM.yyyy"}}
+            <ng-container *ngIf="item.location">
+              | {{ item.location }}
+            </ng-container>
+          </div>
+          <h3 class="events__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
+          <p class="events__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content | ellipsis:150 }}</p>
+          <button class="events__elem__link" [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</button>
+        </div><!--/events__elem__body-->
+
+        <div class="events__elem__image" *ngIf="i % 2 !== 1">
+          <div class="events__elem__image__inner" [ngStyle]="{'background-image': 'url('+ item.image +')'}">
+            <img [src]="item.image" [alt]="item?.title" />
+          </div><!--/events__elem__image__inner-->
+        </div><!--/events__elem__image-->
+      </div><!--/events__elem-->
+    </ng-container>
+  </div><!--/events__list-->
+</div><!--/inner-->

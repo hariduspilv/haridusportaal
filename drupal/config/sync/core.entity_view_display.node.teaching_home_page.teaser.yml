@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.teaching_home_page.field_collaboration_offers
     - field.field.node.teaching_home_page.field_contact
     - field.field.node.teaching_home_page.field_external
     - field.field.node.teaching_home_page.field_quote_author
@@ -26,6 +27,7 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_collaboration_offers: true
   field_contact: true
   field_external: true
   field_quote_author: true

@@ -88,7 +88,7 @@
 			<block-content tabLabel="Kaart" tabLink="/kool/kaart" [tabActive]="true" tabIcon="map-pin">
 				<loader *ngIf="!markers"></loader>
 				<a class="sr-only" routerLink="/kool" attr.aria-label="{{ 'school.view_institutions' | translate }}"></a>
-				<map *ngIf="markers" [loading]="loading" type="markers" [markers]="markers" [options]="options" role="application" tabindex="0" ariaLabel="{{'home.topics_institutions' | translate}}" aria-hidden="true"></map>
+				<map *ngIf="markers" [loading]="loading" type="markers" [markers]="markers" [options]="options" role="application" ariaLabel="{{'home.topics_institutions' | translate}}" aria-hidden="true"  (mapLoaded)="mapLoaded()"></map>
 			</block-content>
 		</block>
 	</div><!--/inline-->

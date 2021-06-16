@@ -342,6 +342,19 @@ public class HPortalRestController {
         eisWorker.getTestidKod(personalCode, testSessionId, timestamp), HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/teisAndmedKod/{personalCode}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getTeisAndmedKod(
+      @PathVariable("personalCode") String personalCode,
+      @PathVariable("requestTimestamp") Long timestamp) {
+    EisWorker eisWorker = new EisWorker(eisXRoadService, redisTemplate, redisExpire,
+        redisFileExpire, redisKlfExpire);
+    return new ResponseEntity<>(
+        eisWorker.getTeisAndmedKod(personalCode, timestamp), HttpStatus.OK);
+
+  }
+
   @RequestMapping(value = "/eTunnistusKod/{personalCode}/{tunnistusId}/{requestTimestamp}",
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")
