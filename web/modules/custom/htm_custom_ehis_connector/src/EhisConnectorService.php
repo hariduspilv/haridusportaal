@@ -270,6 +270,17 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  public function getTeisKod(array $params = []){
+    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
+    $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
+    $params['hash'] = 'teisAndmedKod';
+    return $this->invokeWithRedis('teisAndmedKod', $params, FALSE);
+  }
+
+  /**
+   * @param array $params
+   * @return array|mixed|\Psr\Http\Message\ResponseInterface
+   */
   public function gettestidKod(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['session_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
