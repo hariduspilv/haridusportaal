@@ -1,0 +1,19 @@
+uuid: 2baa20b3-3468-4238-9a98-ead59e3d962a
+langcode: et
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_offer_link
+field_name: field_offer_link
+entity_type: paragraph
+type: link
+settings: { }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: { }
+persist_with_no_fields: false
+custom_storage: false

@@ -33,6 +33,7 @@ module:
   entity_embed: 0
   entity_reference_revisions: 0
   field: 0
+  field_defaults: 0
   field_ui: 0
   file: 0
   filter: 0
@@ -57,6 +58,7 @@ module:
   htm_custom_file_logging: 0
   htm_custom_graphql_elasticsearch: 0
   htm_custom_graphql_functions: 0
+  htm_custom_import_job_offers: 0
   htm_custom_infograph: 0
   htm_custom_iscedf_import: 0
   htm_custom_oska: 0
