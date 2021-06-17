@@ -1187,6 +1187,15 @@
         color: #58730c;
       }
     }
+    &.theme--teachers {
+      background: $light-gray;
+      .st0 {
+        fill: $light-gray;
+      }
+      .study__category {
+        color: #642BB0;
+      }
+    }
   }
 
   homepage-slogan {
@@ -1603,23 +1612,6 @@
           width: initial;
         }
       }
-    }
-  }
-
-  homepage-line {
-    position: absolute;
-    display: block;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    padding-bottom: 4%;
-    transform: translateY(-100%);
-    margin-top: 1px;
-    overflow: hidden;
-    svg {
-      display: block;
-      width: 100%;
     }
   }
 }

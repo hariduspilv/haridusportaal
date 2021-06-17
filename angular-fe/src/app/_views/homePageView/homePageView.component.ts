@@ -47,10 +47,10 @@ export class HomePageViewComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private route: ActivatedRoute,
-    private service: HomePageService,
-    private translate: TranslateService,
-    private titleService: TitleService,
+    protected route: ActivatedRoute,
+    protected service: HomePageService,
+    protected translate: TranslateService,
+    protected titleService: TitleService,
   ) {}
 
   ngOnInit() {

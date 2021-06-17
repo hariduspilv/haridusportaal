@@ -1,0 +1,46 @@
+uuid: a9329359-1aad-4a50-bb15-e3cd4deb8e64
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.working_time.field_at_night
+    - field.field.paragraph.working_time.field_full_time
+    - field.field.paragraph.working_time.field_in_shifts
+    - field.field.paragraph.working_time.field_part_time
+    - paragraphs.paragraphs_type.working_time
+id: paragraph.working_time.default
+targetEntityType: paragraph
+bundle: working_time
+mode: default
+content:
+  field_at_night:
+    weight: 4
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_full_time:
+    weight: 2
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_in_shifts:
+    weight: 3
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_part_time:
+    weight: 1
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+hidden:
+  created: true
+  status: true

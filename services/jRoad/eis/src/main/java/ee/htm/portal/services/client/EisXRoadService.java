@@ -5,6 +5,7 @@ import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import com.nortal.jroad.model.XRoadMessage;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKehtivusResponseDocument.ETunnistusKehtivusResponse;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodResponseDocument.ETunnistusKodResponse;
+import ee.htm.portal.services.types.eu.x_road.eis.v4.TeisAndmedVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestsessioonidKodVastus;
 import java.math.BigInteger;
@@ -20,6 +21,9 @@ public interface EisXRoadService {
       throws XRoadServiceConsumptionException;
 
   TestidKodVastus testidKod(BigInteger testSessioonId, String userId)
+      throws XRoadServiceConsumptionException;
+
+  TeisAndmedVastus teisAndmedKod(String userId)
       throws XRoadServiceConsumptionException;
 
   XRoadMessage<ETunnistusKodResponse> eTunnistusKod(BigInteger tunnistusId, String userId)

@@ -1,0 +1,11 @@
+uuid: 330e8e6a-5270-4bde-b019-07ea5da0d5c8
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer
+target_entity_type_id: node
+target_bundle: job_offer
+default_langcode: site_default
+language_alterable: false
