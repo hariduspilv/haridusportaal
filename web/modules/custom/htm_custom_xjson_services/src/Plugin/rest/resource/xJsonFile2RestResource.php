@@ -148,13 +148,14 @@ class xJsonFile2RestResource extends ResourceBase {
       }
       $file_obj = $this->ehisService->getDocumentFile($docParams);
     }
-    \Drupal::logger('xjson_debug')->notice('<pre><code>$file_obj: ' . print_r($file_obj , TRUE) . '</code></pre>' );
-    if($file_obj && ($file_obj['fileName'] && $file_obj['value'])){
+
+    if($file_obj && ( ($file_obj['fileName'] || $file_name) && $file_obj['value'])){
+      $final_file_name = $file_obj['fileName'] ?? $file_name;
       $sym_file = new Base64EncodedFile($file_obj['value']);
       $response = new BinaryFileResponse($sym_file->getRealPath());
       $response->setContentDisposition(
         ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-        $file_obj['fileName']
+        $final_file_name
       );
       return $response;
     }
