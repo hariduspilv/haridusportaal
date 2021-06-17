@@ -1,0 +1,10 @@
+uuid: c0c414b7-f42c-4e01-bb92-e6fb16e45f7e
+langcode: et
+status: true
+dependencies: {  }
+id: working_time
+label: Tööaeg
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
