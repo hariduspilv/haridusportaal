@@ -17,6 +17,7 @@ export class CertificateGradeSheetComponent implements OnInit {
   public hasResultantExaminations = false;
   public toimetulekuOpe = false;
   public isGeneralEducation = false;
+  public resultColspan = 1;
 
   public ngOnInit(): void {
 
@@ -48,5 +49,7 @@ export class CertificateGradeSheetComponent implements OnInit {
     );
 
     this.isGeneralEducation = this.document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES';
+    this.resultColspan = (!this.hasGradedExaminations || (this.hasGradedExaminations && !this.hasResultantExaminations))
+      && this.isGeneralEducation ? 2 : 1;
   }
 }

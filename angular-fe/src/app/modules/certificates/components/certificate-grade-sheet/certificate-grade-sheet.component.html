@@ -75,14 +75,22 @@
               <td *ngIf="!isGeneralEducation && hasGradedExaminations && hasResultantExaminations"></td>
               <td>
                 <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
-                <ng-container *ngIf="!subject.resultNumeric && !subject.resultInWords && subject.studyProgrammeType !== 'individuaalne õppekava'">{{subject.studyProgrammeType}}</ng-container>
+                <ng-container *ngIf="!subject.resultNumeric && !subject.resultInWords && subject.studyProgrammeType !== 'individuaalne õppekava'">
+                  {{subject.studyProgrammeType}}
+                </ng-container>
               </td>
             </tr>
   
             <tr *ngIf="document?.content?.graduationStudy" class="last-cell">
-              <td [attr.colspan]="isGeneralEducation ? 2 : null">{{ document.content.graduationStudy.type }}: {{ document.content.graduationStudy.subject }}</td>
-              <td *ngIf="!isGeneralEducation && hasGradedExaminations && hasResultantExaminations"></td>
-              <td><span *ngIf="document.content.graduationStudy.resultNumeric != null" class="numeric-grade">{{document.content.graduationStudy.resultNumeric}}</span>{{document.content.graduationStudy.resultInWords}}</td>
+              <td [attr.colspan]="isGeneralEducation || (!isGeneralEducation && hasGradedExaminations && hasResultantExaminations) ? 2 : null">
+                {{ document.content.graduationStudy.type }}: {{ document.content.graduationStudy.subject }}
+              </td>
+              <td>
+                <span *ngIf="document.content.graduationStudy.resultNumeric != null" class="numeric-grade">
+                  {{document.content.graduationStudy.resultNumeric}}
+                </span>
+                {{document.content.graduationStudy.resultInWords}}
+              </td>
             </tr>
   
             <tr class="highlight" *ngIf="electives?.length > 0">
@@ -103,16 +111,18 @@
               <td *ngIf="!isGeneralEducation && hasGradedExaminations && hasResultantExaminations"></td>
               <td>
                 <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
-                <ng-container *ngIf="!subject.resultNumeric && !subject.resultInWords && subject.studyProgrammeType !== 'individuaalne õppekava'">{{subject.studyProgrammeType}}</ng-container>
+                <ng-container *ngIf="!subject.resultNumeric && !subject.resultInWords && subject.studyProgrammeType !== 'individuaalne õppekava'">
+                  {{subject.studyProgrammeType}}
+                </ng-container>
               </td>
             </tr>
             <tr class="highlight">
-              <td [attr.colspan]="(!hasGradedExaminations || (hasGradedExaminations && !hasResultantExaminations)) && isGeneralEducation ? 2 : null">Lõpueksamid</td>
+              <td [attr.colspan]="resultColspan">Lõpueksamid</td>
               <td *ngIf="hasResultantExaminations || !hasGradedExaminations">Tulemus</td>
               <td *ngIf="hasGradedExaminations">Hinne</td>
             </tr>
             <tr *ngFor="let subject of document?.content?.graduationExaminations; let last = last" [class.last-cell]="last">
-              <td [attr.colspan]="(!hasGradedExaminations || (hasGradedExaminations && !hasResultantExaminations)) && isGeneralEducation ? 2 : null">
+              <td [attr.colspan]="resultColspan">
                 {{subject.subject}}
                 <ng-container *ngIf="subject.type === 'koolieksam'">*</ng-container>
               </td>
