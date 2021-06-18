@@ -13,9 +13,12 @@ export class CertificateGradeSheetComponent implements OnInit {
   public electives = [];
   public hasSchoolExam = false;
   public hasIndividualProgramme = false;
+  public hasGradedExaminations = false;
+  public hasResultantExaminations = false;
   public toimetulekuOpe = false;
+  public isGeneralEducation = false;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
 
     if (this.document.content?.studies?.curriculumCode === 'OPPEKAVA:1010109'
     || this.document.content?.studies?.curriculumCode === 'OPPEKAVA:1010107') {
@@ -23,21 +26,27 @@ export class CertificateGradeSheetComponent implements OnInit {
     }
 
     this.mandatorySubjects =
-      this.document.content?.studySubjects?.filter((subject) => {
-        return subject.type === 'kohustuslik';
-      });
+      this.document.content?.studySubjects?.filter((subject) => subject.type === 'kohustuslik');
 
     this.electives =
-      this.document.content?.studySubjects?.filter((subject) => {
-        return subject.type === 'valikaine';
-      });
+      this.document.content?.studySubjects?.filter((subject) => subject.type === 'valikaine');
 
-    this.hasIndividualProgramme = this.document.content?.studySubjects?.some((subject) => {
-      return subject.studyProgrammeType === 'individuaalne õppekava';
-    });
+    this.hasIndividualProgramme = this.document.content?.studySubjects?.some(
+      (subject) => subject.studyProgrammeType === 'individuaalne õppekava',
+    );
 
-    this.hasSchoolExam = this.document.content?.graduationExaminations?.some((exam) => {
-      return exam.type === 'koolieksam';
-    });
+    this.hasSchoolExam = this.document.content?.graduationExaminations?.some(
+      (exam) => exam.type === 'koolieksam',
+    );
+
+    this.hasGradedExaminations = this.document.content?.graduationExaminations?.some(
+      (exam) => exam.resultNumeric != null,
+    );
+
+    this.hasResultantExaminations = this.document.content?.graduationExaminations?.some(
+      (exam) => exam.resultProcent != null,
+    );
+
+    this.isGeneralEducation = this.document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES';
   }
 }
