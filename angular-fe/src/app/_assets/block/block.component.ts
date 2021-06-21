@@ -62,7 +62,7 @@ export class BlockContentComponent {
 
 @Component({
   selector: 'block-title',
-  template: '<ng-content></ng-content>',
+  template: '<h1><ng-content></ng-content></h1>',
 })
 
 export class BlockTitleComponent {

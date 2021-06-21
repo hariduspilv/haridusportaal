@@ -129,8 +129,9 @@ $grid-columns: 12;
         // @include break-on(sm, min) {
         //   padding-bottom: 0.23rem;
         // }
-        h1 {
+        h1, h2 {
           color: $blue;
+          font-size: $medium;
         }
       }
       &__titleWrapper{
