@@ -127,7 +127,7 @@
                 <ng-container *ngIf="subject.type === 'koolieksam'">*</ng-container>
               </td>
               <td *ngIf="hasResultantExaminations || !hasGradedExaminations">
-                <span *ngIf="subject.resultProcent">{{subject.resultProcent}}%</span>
+                <span *ngIf="subject.resultPercent">{{subject.resultPercent}}%</span>
               </td>
               <td *ngIf="hasGradedExaminations">
                 <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
