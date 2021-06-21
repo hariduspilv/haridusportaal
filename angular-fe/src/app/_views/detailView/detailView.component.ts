@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { AuthService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'detail-view',
@@ -42,6 +43,7 @@ export class DetailViewComponent {
     private http: HttpClient,
     private route: ActivatedRoute,
     private location: Location,
+    private sanitizer: DomSanitizer,
     public auth: AuthService,
     private translate: TranslateService,
   ) { }
@@ -191,6 +193,9 @@ export class DetailViewComponent {
 
   private parseData(data) {
     this.data = FieldVaryService(data);
+    if (this.data?.description?.value) {
+      this.data.description.value = this.sanitizer.bypassSecurityTrustHtml(this.data.description.value);
+    }
 
 /*     if (Array.isArray(this.data.video) && this.data.video.length > 1) {
       this.data.additionalVideos = this.data.video.slice(1, 10);
