@@ -1,0 +1,10 @@
+@import "typography.scss";
+:host {
+  display: block;
+  padding: 1rem 0;
+  border-bottom: 1px solid $light-gray;
+  &:last-of-type {
+    padding: 1rem 0 .5rem;
+    border-bottom: 1px solid transparent;
+  }
+}

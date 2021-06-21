@@ -213,6 +213,11 @@ const routes: Routes = [
     .then(m => m.FinalDocumentsDashboardDetailModule),
   },
   {
+    path: 'uuringud',
+    loadChildren: () => import('./modules/study/study.module')
+      .then(module => module.StudyModule),
+  },
+  {
     path: 'preview',
     loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {

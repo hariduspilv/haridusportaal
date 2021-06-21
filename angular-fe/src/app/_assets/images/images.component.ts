@@ -30,7 +30,9 @@ export class ImageComponent implements OnInit {
     } else {
       this.images = this.image;
     }
-    this.mergeVideosToList();
+    if (Array.isArray(this.videos) || Object.keys(this.videos).length) {
+      this.mergeVideosToList();
+    }
     if (this.images.length > 0) {
       this.initGalleryImages();
       // Hide the gallery button unless the first image has already loaded
