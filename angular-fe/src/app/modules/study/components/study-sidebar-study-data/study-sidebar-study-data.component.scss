@@ -1,11 +1,18 @@
+@import 'typography.scss';
+
 :host {
-  h2 {
-    margin-bottom: .5rem;
-  }
+  //h2 {
+  //  margin-bottom: .5rem;
+  //}
   p {
     margin-top: .5rem;
     font-size: .875rem;
     line-height: 1.125rem;
     font-weight: 400;
   }
+}
+
+h2, h3 {
+  font-size: $small + $half-gutter;
+  margin: 0 0 0.5rem;
 }
