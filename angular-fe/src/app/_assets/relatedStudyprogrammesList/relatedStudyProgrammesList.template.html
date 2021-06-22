@@ -2,7 +2,7 @@
   <loader *ngIf="loading"></loader>
   <ng-container *ngIf="!loading && list.length">
     <block>
-      <block-title>{{ title | translate | uppercase }}</block-title>
+      <block-title><h1>{{ title | translate | uppercase }}</h1></block-title>
       <block-content>
         <listItems [list]="list" type="studyProgramme" compare="studyProgrammeComparison"></listItems>
         <div class="text-center" *ngIf="!loading && !list.length">
@@ -24,7 +24,7 @@
       (click)="showListItems()">{{ 'studyProgramme.view_similar' | translate }}</button>
   </div><!--/text-center-->
   <block *ngIf="showList">
-    <block-title>{{ title | translate | uppercase }}</block-title>
+    <block-title><h1>{{ title | translate | uppercase }}</h1></block-title>
     <block-content>
 
       <form [formGroup]="relatedProgrammesForm" class="filter-wrapper" (submit)="getRelatedStudyprogrammes(nid)" filters>

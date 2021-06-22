@@ -238,7 +238,14 @@
     .popup.holdRight .popupcontent{left:100%;}
     .popup.holdLeft .popupcontent{left:auto; right:100%;}
     .navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
-      .month {h1{color: $black;}}
+      .month {
+        h1 {
+          color: $black;
+        }
+        h2 {
+          font-size: $medium;
+        }
+      }
       .icon-wrapper { padding: 0 $small; height: 1.5rem; width: 1.5rem;
         .htm-icon {
           &:hover { background: $light-gray; border-radius: 3.125rem; }

@@ -74,7 +74,7 @@
                 <ng-container *ngIf="type === 'news'">
                     <div class="xs-show col-12 resp-fields">
                         <a [routerLink]="item.url.path ? item.url.path : item.url" class="mb-0">
-                            <h1 class="title">{{ item.title }}</h1>
+                            <h3 class="title">{{ item.title }}</h3>
                         </a>
                         <div class="author">{{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                     </div>

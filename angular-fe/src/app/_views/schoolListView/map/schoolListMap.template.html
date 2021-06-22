@@ -83,7 +83,7 @@
 	</form>
 	<div class="inline">
 		<block titleBorder="true">
-			<block-title>{{ 'school.label' | translate }}</block-title>
+            <block-title><h1>{{ 'school.label' | translate }}</h1></block-title>
 			<block-content tabLabel="Nimekiri" tabLink="/kool" [queryParams]="params" tabIcon="list"></block-content>
 			<block-content tabLabel="Kaart" tabLink="/kool/kaart" [tabActive]="true" tabIcon="map-pin">
 				<loader *ngIf="!markers"></loader>
