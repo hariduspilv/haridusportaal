@@ -45,7 +45,7 @@ export class CertificateGradeSheetComponent implements OnInit {
     );
 
     this.hasResultantExaminations = this.document.content?.graduationExaminations?.some(
-      (exam) => exam.resultProcent != null,
+      (exam) => exam.resultPercent != null,
     );
 
     this.isGeneralEducation = this.document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES';
