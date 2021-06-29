@@ -125,11 +125,9 @@ class CustomVideoWidgetType extends WidgetBase {
       $video_id_element['#parents'][] = 'video_domain';
       $form_state->setValueForElement($video_id_element, $video_id[0]);
 
-      /* TODO video thumbnail update */
-
-//      array_pop($video_id_element['#parents']);
-//      $video_id_element['#parents'][] = 'video_thumbnail';
-//      $form_state->setValueForElement($video_id_element, $video_id[2]);
+      array_pop($video_id_element['#parents']);
+      $video_id_element['#parents'][] = 'video_thumbnail';
+      $form_state->setValueForElement($video_id_element, $video_id[2]);
     }
     elseif (!empty($input)) {
       $form_state->setError($element, t('Please provide a valid video URL.'));
