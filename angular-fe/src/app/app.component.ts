@@ -1,13 +1,13 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {
-	AuthService,
-	SidemenuService,
-	AlertsService,
-	SettingsService,
-	Alert,
-	AlertType,
-	ModalService,
-	AnalyticsService,
+  Alert,
+  AlertsService,
+  AlertType,
+  AnalyticsService,
+  AuthService,
+  ModalService,
+  SettingsService,
+  SidemenuService,
 } from './_services';
 import {Router, NavigationEnd} from '@angular/router';
 import {Location} from '@angular/common';

@@ -26,8 +26,9 @@
       margin-top: 0;
     }
   }
-  h1 {
+  h1, h2 {
     color: $blue;
+    font-size: $medium;
   }
   a {
     text-decoration: none;

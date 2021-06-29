@@ -8,7 +8,7 @@
             
             <div class="entry" [routerLink]="[item.url.path]">
               <span class="entry__date" *ngIf="item.fieldEventMainDate">{{ 'time.' + (item.fieldEventMainDate.unix*1000 | weekday: "unix") | translate }}, {{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
-              <h1 class="entry__title">{{ item.title }}</h1>
+              <h2 class="entry__title">{{ item.title }}</h2>
               <span class="entry__author" *ngIf="item.person" tabindex="0" attr.aria-label="{{'author.author' | translate}} {{ item.person }}">{{ item.person }}</span>
             </div>
           </div><!--/col-6-->

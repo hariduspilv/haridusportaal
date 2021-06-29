@@ -5,7 +5,7 @@
   [data]="[study?.fieldStudyTag]">
 </labels>
 <a [routerLink]="study.entityUrl?.path">
-  <h1>{{ study.title }}</h1>
+  <h2>{{ study.title }}</h2>
 </a>
 <study-list-item-inline-elements
   *ngIf="study?.mappedInlineFields.length"

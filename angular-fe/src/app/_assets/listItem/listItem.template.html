@@ -13,7 +13,7 @@
                             {{ returnEntityString(item.head) }}</div>
                         <div class="flex flex-center flex-wrap list__item__titleWrapper">
                             <a [routerLink]="item?.url?.path ? item.url.path : item.url" attr.id="listItem-{{ i }}"class="list__item__title">
-                                <h1>{{ item.title }}</h1>
+                                <h2>{{ item.title }}</h2>
                             </a>
                             <span
                                 *ngIf="type === 'studyProgramme' && item.admissionStatus !== 'avatud' && item.admissionStatus !== 'Avatud'">
@@ -78,7 +78,7 @@
                 <ng-container *ngIf="type === 'news'">
                     <div class="xs-show col-12 resp-fields">
                         <a [routerLink]="item.url.path ? item.url.path : item.url" class="mb-0">
-                            <h1 class="title">{{ item.title }}</h1>
+                            <h3 class="title">{{ item.title }}</h3>
                         </a>
                         <div class="author">{{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                     </div>
