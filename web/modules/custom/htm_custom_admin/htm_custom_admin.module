@@ -63,6 +63,7 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
 
   if ($form_id === 'node_news_form' || $form_id === 'node_news_edit_form') {
     array_unshift($form['actions']['submit']['#submit'], 'submit_news_form');
+    $form['field_news_description']['widget']['0']['#format'] = 'full_html';
   }
 
   if ($form_id === 'node_school_form' || $form_id === 'node_school_edit_form'){
@@ -72,6 +73,8 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
   if($form_id === 'system_performance_settings'){
     $form['caching']['page_cache_maximum_age']['#options']['2592000'] = t('1 month');
   }
+
+
 }
 
 /**
