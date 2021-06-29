@@ -1,0 +1,21 @@
+uuid: a3452f73-b883-450f-9742-0e3147ac02ba
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date
+    - node.type.job_offer
+id: node.job_offer.field_date
+field_name: field_date
+entity_type: node
+bundle: job_offer
+label: Tähtaeg
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1621004015
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

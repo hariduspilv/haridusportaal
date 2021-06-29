@@ -60,7 +60,7 @@
         "drupal/monolog": "^2.0.0-beta2",
         "drupal/nginx_cache_clear": "1.x-dev",
         "drupal/node_view_permissions": "^1.2",
-        "drupal/openid_connect": "1.0",
+        "drupal/openid_connect": "^1.0",
         "drupal/paragraphs": "^1.2",
         "drupal/pathauto": "^1.1",
         "drupal/purge_cache_warmer": "^1.0",

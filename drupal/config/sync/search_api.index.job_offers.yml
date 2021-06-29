@@ -1,0 +1,254 @@
+uuid: 856993ea-e73a-4133-93e1-871e7ba7bff6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_location
+    - field.storage.paragraph.field_address
+    - field.storage.node.field_adrid
+    - field.storage.node.field_time
+    - field.storage.paragraph.field_at_night
+    - field.storage.node.field_date
+    - field.storage.paragraph.field_full_time
+    - field.storage.node.field_id_number
+    - field.storage.paragraph.field_in_shifts
+    - field.storage.node.field_institution
+    - field.storage.paragraph.field_lat
+    - field.storage.paragraph.field_long
+    - field.storage.paragraph.field_part_time
+    - field.storage.node.field_webpage_link
+    - search_api.server.elasticsearch_server
+  module:
+    - paragraphs
+    - node
+    - search_api
+id: job_offers
+name: 'Job offers'
+description: ''
+read_only: false
+field_settings:
+  field_address:
+    label: 'Asukoha andmed » Paragraph » Aadress'
+    datasource_id: 'entity:node'
+    property_path: 'field_location:entity:field_address'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_location
+        - field.storage.paragraph.field_address
+      module:
+        - paragraphs
+  field_adrid:
+    label: 'Aadress ID'
+    datasource_id: 'entity:node'
+    property_path: field_adrid
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_adrid
+  field_at_night:
+    label: 'Tööaeg » Paragraph » Öösiti'
+    datasource_id: 'entity:node'
+    property_path: 'field_time:entity:field_at_night'
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_time
+        - field.storage.paragraph.field_at_night
+      module:
+        - paragraphs
+  field_date:
+    label: Tähtaeg
+    datasource_id: 'entity:node'
+    property_path: field_date
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_date
+  field_full_time:
+    label: 'Tööaeg » Paragraph » Täiskohaga'
+    datasource_id: 'entity:node'
+    property_path: 'field_time:entity:field_full_time'
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_time
+        - field.storage.paragraph.field_full_time
+      module:
+        - paragraphs
+  field_id_number:
+    label: 'Tööpakkumise number'
+    datasource_id: 'entity:node'
+    property_path: field_id_number
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_id_number
+  field_in_shifts:
+    label: 'Tööaeg » Paragraph » Vahetustega'
+    datasource_id: 'entity:node'
+    property_path: 'field_time:entity:field_in_shifts'
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_time
+        - field.storage.paragraph.field_in_shifts
+      module:
+        - paragraphs
+  field_institution:
+    label: Tööpakkuja
+    datasource_id: 'entity:node'
+    property_path: field_institution
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_institution
+  field_lat:
+    label: 'Asukoha andmed » Paragraph » Latitude'
+    datasource_id: 'entity:node'
+    property_path: 'field_location:entity:field_lat'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_location
+        - field.storage.paragraph.field_lat
+      module:
+        - paragraphs
+  field_location:
+    label: 'Asukoha andmed'
+    datasource_id: 'entity:node'
+    property_path: field_location
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_location
+  field_long:
+    label: 'Asukoha andmed » Paragraph » Longitude'
+    datasource_id: 'entity:node'
+    property_path: 'field_location:entity:field_long'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_location
+        - field.storage.paragraph.field_long
+      module:
+        - paragraphs
+  field_part_time:
+    label: 'Tööaeg » Paragraph » Osakohaga'
+    datasource_id: 'entity:node'
+    property_path: 'field_time:entity:field_part_time'
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_time
+        - field.storage.paragraph.field_part_time
+      module:
+        - paragraphs
+  field_time:
+    label: Tööaeg
+    datasource_id: 'entity:node'
+    property_path: field_time
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_time
+  field_webpage_link:
+    label: 'Tööpakkumise link (url)'
+    datasource_id: 'entity:node'
+    property_path: field_webpage_link
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_webpage_link
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: string
+    dependencies:
+      module:
+        - node
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  status:
+    label: Avaldatud
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    dependencies:
+      module:
+        - node
+  target_revision_id:
+    label: 'Tööaeg » Paragraph revision ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_time:target_revision_id'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_time
+  target_revision_id_1:
+    label: 'Asukoha andmed » Paragraph revision ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_location:target_revision_id'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_location
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: string
+    dependencies:
+      module:
+        - node
+  title_1:
+    label: 'Tööpakkumise link (url) » Lingi tekst'
+    datasource_id: 'entity:node'
+    property_path: 'field_webpage_link:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_webpage_link
+  type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  url:
+    label: URI
+    property_path: search_api_url
+    type: string
+    configuration:
+      absolute: false
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - job_offer
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  entity_status: {  }
+  language_with_fallback: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

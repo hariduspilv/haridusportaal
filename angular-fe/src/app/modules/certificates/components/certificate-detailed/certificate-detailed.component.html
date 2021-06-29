@@ -112,44 +112,9 @@
       <td>{{ 'finaldocuments.qualification_within_framework' | translate }}:</td>
       <td>{{ documents.certificate.content.qualificationWithinCurrentFramework }}</td>
     </tr>
-    <tr *ngIf="documents.supplement?.content?.levelOfQualification?.levelOfEducation">
-      <td>{{ 'finaldocuments.level_of_qualification' | translate }}:</td>
-      <td>{{ documents.supplement.content.levelOfQualification.levelOfEducation }}</td>
-    </tr>
-    <tr *ngIf="documents.supplement?.content?.levelOfQualification?.estonianQualificationFrameworkLevel">
-      <td>{{ 'finaldocuments.estonian_qualification_level' | translate }}:</td>
-      <td>{{ documents.supplement.content.levelOfQualification.estonianQualificationFrameworkLevel }}</td>
-    </tr>
     <tr *ngIf="documents.supplement?.content?.levelOfQualification?.europeanQualificationFrameworkLevel">
       <td>{{ 'finaldocuments.european_qualification_level' | translate }}:</td>
       <td>{{ documents.supplement.content.levelOfQualification.europeanQualificationFrameworkLevel }}</td>
     </tr>
   </table>
-  <ng-container *ngIf="
-      documents.certificate.content.registerOfOccupationalQualifications?.length ||
-      documents.certificate.content.partialQualifications?.length">
-    <h2>{{ 'finaldocuments.occupational_qualifications' | translate }}</h2>
-    <table *ngFor="let item of documents.certificate.content.registerOfOccupationalQualifications">
-      <tr>
-        <td>{{ 'finaldocuments.occupational_qualification' | translate }}:</td>
-        <td>{{ item.specializationName }}</td>
-      </tr>
-      <tr>
-        <td>{{ 'finaldocuments.occupational_qualification_number' | translate }}:</td>
-        <td>{{ item.registrationNumber }}</td>
-      </tr>
-    </table>
-    <ng-container *ngIf="documents.certificate.content.partialQualifications">
-      <table *ngFor="let item of documents.certificate.content.partialQualifications">
-        <tr>
-          <td>{{ 'finaldocuments.partial_occupational_qualification' | translate }}:</td>
-          <td>{{ item.qualificationName }}</td>
-        </tr>
-        <tr>
-          <td>{{ 'finaldocuments.partial_occupational_qualification_number' | translate }}:</td>
-          <td>{{ item.registrationNumber }}</td>
-        </tr>
-      </table>
-    </ng-container>
-  </ng-container>
 </div>

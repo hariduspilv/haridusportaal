@@ -1,0 +1,80 @@
+[
+  {
+    "path": "/",
+    "slug": "",
+    "title": "Avaleht | Haridusportaal edu.ee",
+    "image": {
+        "derivative": {
+          "url": "https://haridusportaal.twn.zone/assets/img/homePage-navBlock.svg"
+        },
+        "alt": "Illustratsioon",
+        "title": "Illustratsioon"
+    },
+    "shortDescription": "Haridusportaal koondab noortevaldkonna, hariduse, õppe- ja karjäärinõustamise ning tööturgu õppega seostavate valdkondade info, teenused ja statistika."
+  },
+  {
+    "path": "/õppimine",
+    "slug": "õppimine",
+    "title": "Õppimine | Haridusportaal edu.ee",
+    "image": {
+        "derivative": {
+          "url": "https://haridusportaal.twn.zone/assets/img/homePage-navBlock-learning.svg"
+        },
+        "alt": "Illustratsioon",
+        "title": "Illustratsioon"
+    },
+    "shortDescription": "Õppimine teeb õnnelikuks, uudishimu viib edasi! Inimene õpib läbi elu. Oled Sa õpilane või lähemalt, millised on erinevad haridustasemed, kus ja mida saab õppida ning kuidas õpivalikuid teha."
+  },
+  {
+    "path": "/õpetaja",
+    "slug": "õpetaja",
+    "title": "Õpetamine | Haridusportaal edu.ee",
+    "image": {
+        "derivative": {
+          "url": "https://haridusportaal.twn.zone/assets/img/homePage-navBlock-teachers.svg"
+        },
+        "alt": "Illustratsioon",
+        "title": "Illustratsioon"
+    },
+    "shortDescription": "Õpetajad loovad homse Eesti!"
+  },
+  {
+    "path": "/karjäär",
+    "slug": "karjäär",
+    "title": "Karjäär | Haridusportaal edu.ee",
+    "image": {
+        "derivative": {
+          "url": "https://haridusportaal.twn.zone/assets/img/homePage-navBlock-career.svg"
+        },
+        "alt": "Illustratsioon",
+        "title": "Illustratsioon"
+    },
+    "shortDescription": "Sinu teekond unistuste tööni! Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta."
+  },
+  {
+    "path": "/sündmused",
+    "slug": "sündmused",
+    "title": "Sündmused | Haridusportaal edu.ee",
+    "image": {
+        "derivative": {
+          "url": "https://haridusportaal.twn.zone/assets/img/homepage-topical-teachers.svg"
+        },
+        "alt": "Illustratsioon",
+        "title": "Illustratsioon"
+    },
+    "shortDescription": "Sündmuste kalender"
+  },
+  {
+    "path": "/uudised",
+    "slug": "uudised",
+    "title": "Uudised | Haridusportaal edu.ee",
+    "image": {
+        "derivative": {
+          "url": "https://haridusportaal.twn.zone/assets/img/homepage-topical-1.svg"
+        },
+        "alt": "Illustratsioon",
+        "title": "Illustratsioon"
+    },
+    "shortDescription": "Päevakajalised teemad haridusmaastikul."
+  }
+]

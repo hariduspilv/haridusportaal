@@ -1,0 +1,19 @@
+uuid: 86769cb5-1c0b-4856-a2ee-e54eab16ffb7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_link_name
+    - paragraphs.paragraphs_type.collaboration
+id: paragraph.collaboration.field_link_name
+field_name: field_link_name
+entity_type: paragraph
+bundle: collaboration
+label: 'Lingi pealkiri'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

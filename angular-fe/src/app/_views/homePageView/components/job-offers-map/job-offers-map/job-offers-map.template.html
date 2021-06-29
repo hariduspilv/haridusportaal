@@ -1,0 +1,15 @@
+<ng-content></ng-content>
+<div class="inner">
+  <div class="title">
+    <h2>{{ 'frontpage.job_offers' | translate }}</h2>
+    <p [innerHTML]="'frontpage.job_offers_description' | translate" aria-hidden="true"></p>
+    <p [innerHTML]="'frontpage.job_offers_description_screen_reader' | translate" class="sr-only">
+    </p>
+  </div>
+  <div class="map-container">
+    <div class="map-container__overflow">
+      <map type="markers" [loading]="loading" [markers]="markers"
+        [options]="options" aria-hidden="true"></map>
+    </div>
+  </div>
+</div>
