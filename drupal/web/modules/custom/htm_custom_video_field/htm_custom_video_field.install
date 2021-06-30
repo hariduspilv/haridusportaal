@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Add 'video_thumbnail' field to 'htm_custom_video_field_type' field.
+ * Add 'video_thumbnail' column to 'htm_custom_video_field_type' field.
  */
-function htm_custom_video_field_type_update_8002() {
+function htm_custom_video_field_update_8004() {
   $field_type = 'custom_video_field_type';
   $field_name = 'video_thumbnail';
   $field_spec = [

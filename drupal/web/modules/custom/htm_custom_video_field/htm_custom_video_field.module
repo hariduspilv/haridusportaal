@@ -78,16 +78,18 @@ function get_video_data($input) {
     }
   }
 
-/* TODO Biteable video humbnail */
+  if($domain === "biteable") {
+    preg_match("/^(?:(?:https?:)?\/\/)?(?:www\.)?biteable\.com\/watch\/([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?\/([0-9]+([a-zA-Z]+[0-9]+)+)/",$input, $matches);
+    $video_id = $matches[1];
+  }
 
-//  if($domain === "biteable") {
-//    preg_match("//",$input, $matches);
-//    $video_id =$matches[1];
-//  }
-
-  // Return video id, domain and thumbnail (if there is one)
-  if (!empty($video_id)) {
+  // If video image thumbnail is requested, return video id, domain and thumbnail
+  if (!empty($video_id) && !empty($video_thumbnail)) {
     return [$domain, $video_id, $video_thumbnail];
+  }
+  // If video image thumbnail is not requested, return video id and domain
+  if (!empty($video_id) && empty($video_thumbnail)) {
+    return [$domain, $video_id];
   }
   return FALSE;
 }

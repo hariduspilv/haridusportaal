@@ -83,9 +83,7 @@ class CustomVideoWidgetType extends WidgetBase {
 		];
 
 		#if ($element['input']['#description'] == '') {
-			$element['input']['#description'] = t('Enter the YouTube URL. Valid URL
-      formats include: http://www.youtube.com/watch?v=1SqBdS0XkV4 and
-      http://youtu.be/1SqBdS0XkV4');
+			$element['input']['#description'] = t('Enter a valid YouTube, Facebook, Vimeo or Biteable video URL');
 		#}
 
 		$element['video_description'] = [
@@ -112,22 +110,25 @@ class CustomVideoWidgetType extends WidgetBase {
   public function validateInput(&$element, FormStateInterface &$form_state, $form) {
 
     $input = $element['#value'];
-    $video_id = get_video_data($input);
-    if ($video_id && strlen($video_id[1]) <= 20) {
-      $video_id_element = array(
+    $video_data = get_video_data($input);
+    if ($video_data && strlen($video_data[1]) <= 20) {
+      $video_data_element = array(
         '#parents' => $element['#parents'],
       );
-      array_pop($video_id_element['#parents']);
-      $video_id_element['#parents'][] = 'video_id';
-      $form_state->setValueForElement($video_id_element, $video_id[1]);
+      array_pop($video_data_element['#parents']);
+      $video_data_element['#parents'][] = 'video_id';
+      $form_state->setValueForElement($video_data_element, $video_data[1]);
 
-      array_pop($video_id_element['#parents']);
-      $video_id_element['#parents'][] = 'video_domain';
-      $form_state->setValueForElement($video_id_element, $video_id[0]);
+      array_pop($video_data_element['#parents']);
+      $video_data_element['#parents'][] = 'video_domain';
+      $form_state->setValueForElement($video_data_element, $video_data[0]);
 
-      array_pop($video_id_element['#parents']);
-      $video_id_element['#parents'][] = 'video_thumbnail';
-      $form_state->setValueForElement($video_id_element, $video_id[2]);
+      // If there is a video thumbnail
+      if (isset($video_data[2])) {
+        array_pop($video_data_element['#parents']);
+        $video_data_element['#parents'][] = 'video_thumbnail';
+        $form_state->setValueForElement($video_data_element, $video_data[2]);
+      }
     }
     elseif (!empty($input)) {
       $form_state->setError($element, t('Please provide a valid video URL.'));
