@@ -263,7 +263,7 @@ class EhisConnectorService {
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'testsessioonidKod';
-    \Drupal::logger('xjson')->notice('<pre><code>EIS response: '. print_r($params['value'], TRUE). '</code></pre>' );
+    \Drupal::logger('xjson')->notice('<pre><code>EIS response: '. print_r($params, TRUE). '</code></pre>' );
 
     return $this->invokeWithRedis('testsessioonidKod', $params, FALSE);
 
