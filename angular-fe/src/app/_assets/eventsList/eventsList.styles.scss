@@ -86,6 +86,7 @@
       h1, h2 {
         color: $black;
         font-size: $medium;
+        line-height: 1.33;
       }
     }
       &__header {display: flex;margin-bottom:-$gutter; margin-right:-1.5rem; position: relative;
@@ -244,6 +245,7 @@
         }
         h2 {
           font-size: $medium;
+          line-height: 1.33;
         }
       }
       .icon-wrapper { padding: 0 $small; height: 1.5rem; width: 1.5rem;

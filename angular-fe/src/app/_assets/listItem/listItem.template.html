@@ -43,7 +43,7 @@
                             <div *ngIf="item.videoThumb && item.videoThumb.derivative.url"
                                 class="list__item__video__thumbnail">
                                 <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" alt=""/>
-                                <i class="icon youtube-play" 
+                                <i class="icon youtube-play"
                                     attr.aria-label="{{ 'generic.youtube_video' | translate }}: {{ item.video.videoDescription || item.videoThumb.alt }}"
                                     role="button"></i>
                                 <div class="triangle" aria-hidden="true"></div>
