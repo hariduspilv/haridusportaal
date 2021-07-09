@@ -85,9 +85,6 @@ $grid-columns: 12;
       &:last-child {
         border-bottom: 0;
       }
-      &.overflow-hidden {
-        overflow: hidden;
-      }
       &:hover {
         .list__item__title {
           text-decoration: underline;
@@ -133,8 +130,10 @@ $grid-columns: 12;
         // @include break-on(sm, min) {
         //   padding-bottom: 0.23rem;
         // }
-        h1 {
+        h1, h2 {
           color: $blue;
+          font-size: $medium;
+          line-height: 1.33;
         }
       }
       &__titleWrapper{
@@ -254,9 +253,9 @@ $grid-columns: 12;
         .list__item__picto-wrapper {
           display: flex;
           justify-content: center;
-          @include break-on(xs, max) {
-            margin-top: 1rem;
-          }
+          margin-right: -3rem;
+          margin-top: -2rem;
+          height: 7rem;
         }
 
         &+ .list__item {
@@ -265,6 +264,11 @@ $grid-columns: 12;
 
         @include break-on(xs, max) {
           flex-direction: column !important;
+
+          .list__item__picto-wrapper {
+            margin-right: 0;
+            margin-top: 0;
+          }
           .list__item__titlebox a > h1 {
             white-space: normal !important;
           }

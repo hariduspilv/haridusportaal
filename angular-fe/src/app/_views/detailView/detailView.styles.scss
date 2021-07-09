@@ -43,13 +43,6 @@
         }
       }
     }
-    @include break-on(xs, max) {
-      .picto__wrapper {
-        display: flex;
-        justify-content: center;
-        margin: 1rem 0;
-      }
-    }
     .description__actions {
       text-align: center;
       margin-top: 1rem;
@@ -117,6 +110,10 @@
 
     h1{
       color: $black;
+    }
+    h2 {
+      font-size: $medium;
+      line-height: 1.33;
     }
     b{
       font-weight: 500;

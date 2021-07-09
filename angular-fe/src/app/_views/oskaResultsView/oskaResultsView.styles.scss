@@ -77,7 +77,7 @@
 
   h1 {
     color: $dark-gray;
-    font-size: 1rem;
+    font-size: $small;
     line-height: 1.33;
     margin: 0;
     padding-bottom: 0.5rem;
@@ -85,7 +85,7 @@
 
   h2 {
     color: $black;
-    font-size: 1.5rem;
+    font-size: $medium;
     line-height: 1.33;
     margin: 0;
     padding-bottom: 0.5rem;
