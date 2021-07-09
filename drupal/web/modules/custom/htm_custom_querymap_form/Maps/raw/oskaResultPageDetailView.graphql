@@ -73,6 +73,7 @@ query oskaResultPageDetailView($path: String!) {
             videoDomain
             videoDescription
             videoId
+            videoThumbnail
           }
           fieldResultPageLinks {
             url {

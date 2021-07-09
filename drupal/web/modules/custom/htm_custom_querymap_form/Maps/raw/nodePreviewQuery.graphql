@@ -75,6 +75,7 @@ fragment oskaResult on NodeOskaResultPage {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     fieldResultPageLinks {
         url {
@@ -146,6 +147,7 @@ fragment oskaSurveyPage on NodeOskaSurveyPage {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     body {
         value
@@ -268,6 +270,7 @@ fragment oskaMainProfession on NodeOskaMainProfessionPage {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     body {
         value
@@ -583,6 +586,7 @@ fragment oskaDetail on NodeOskaFieldPage {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     body {
         value
@@ -853,6 +857,7 @@ fragment news on NodeNews {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     entityUrl {
         ... on EntityCanonicalUrl {
@@ -888,6 +893,7 @@ fragment article on NodeArticle {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     fieldAccordionSection {
         entity {

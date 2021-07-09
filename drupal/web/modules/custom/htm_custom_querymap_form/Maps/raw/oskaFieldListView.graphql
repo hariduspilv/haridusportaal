@@ -25,6 +25,7 @@ query oskaFieldListView($nid: [String], $nidEnabled: Boolean, $lang: LanguageId!
           videoDomain
           videoDescription
           videoId
+          videoThumbnail
         }
         fieldIntroduction
         reverseFieldOskaFieldParagraph(limit: 1000) {

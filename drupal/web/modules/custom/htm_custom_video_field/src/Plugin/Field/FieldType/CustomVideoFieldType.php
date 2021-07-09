@@ -56,6 +56,12 @@ class CustomVideoFieldType extends FieldItemBase {
 					'length' => 20,
 					'not null' => FALSE,
 				),
+        'video_thumbnail' => array(
+          'description' => 'Video Thumbnail.',
+          'type' => 'varchar',
+          'length' => 100,
+          'not null' => FALSE,
+        ),
 			),
 		);
 	}
@@ -75,6 +81,9 @@ class CustomVideoFieldType extends FieldItemBase {
 
 		$properties['video_id'] = DataDefinition::create('string')
 			->setLabel(t('Video id'));
+
+    $properties['video_thumbnail'] = DataDefinition::create('string')
+      ->setLabel(t('Video thumbnail'));
 
 		return $properties;
 	}

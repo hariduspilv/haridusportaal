@@ -57,6 +57,7 @@ query oskaMainProfessionDetailView($path: String!) {
             videoDomain
             videoDescription
             videoId
+            videoThumbnail
           }
           body {
             value
