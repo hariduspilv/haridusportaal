@@ -18,7 +18,11 @@ class WriteService {
 
     private function createLogFile($type){
         $logpath = '/app/drupal/web/sites/default/files/logs/'.date('Y').'/'.date('m');
-        if(!file_exists($logpath)) mkdir($logpath, 0744, true);
+        if(!file_exists($logpath)) {
+          mkdir($logpath, 0744, true);
+          chown($logpath, 'apache');
+          chgrp($logpath, 'apache');
+        }
         $logpath .= '/'.$type.'.log';
         fopen($logpath, 'a');
 
