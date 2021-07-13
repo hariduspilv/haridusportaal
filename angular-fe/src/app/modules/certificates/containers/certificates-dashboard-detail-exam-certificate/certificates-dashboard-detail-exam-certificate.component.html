@@ -1,0 +1,72 @@
+<div class="inline">
+  <article-layout [sidebar]="sidebar">
+    <breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+    <block>
+      <block-title>
+        <h1>{{ 'frontpage.exam_certificate' | translate | uppercase }}</h1>
+      </block-title>
+      <block-content>
+        <h2>Tunnistus nr 000-000000-0</h2>
+        <div class="certificate">
+          <section id="government">
+            <p>EESTI VABARIIK</p>
+            <img src="/assets/img/vapp_small.svg" alt="Riigivapp">
+            <p>EESTI KEELE TASEMETUNNISTUS</p>
+            <p>NR 000-000000-0</p>
+          </section>
+          
+          <section id="person" class="mb-1">
+            <p class="big">MARI MAASIKAS</p>
+            <p class="small mb-1">(ees- ja perekonnanimi)</p>
+            <p class="big">32705019556</p>
+            <p class="small mb-1">(isikukood või sünniaeg)</p>
+            <b>on sooritanud eesti keele B1-taseme eksami.</b>
+          </section>
+          
+          <section id="results">
+            <p>Tema keeleoskust hinnati järgmiselt:</p>
+            <div class="grading__flex">
+              <div class="grading__grade">
+                <span>kirjutamine</span>
+                <span>ei vasta taseme nõuetele</span>
+                <span>(1-49%)</span>
+              </div>
+              <div class="grading__grade">
+                <span>kuulamine</span>
+                <span>hea</span>
+                <span>(76-90%)</span>
+              </div>
+              <div class="grading__grade">
+                <span>lugemine</span>
+                <span>nõrk</span>
+                <span>(50-59%)</span>
+              </div>
+              <div class="grading__grade">
+                <span>rääkimine</span>
+                <span>rahuldav</span>
+                <span>(60-75%)</span>
+              </div>
+            </div>
+          </section>
+
+          <section id="description">
+            <p class="small-title">Keeleoskustaseme iseloomustus</p>
+            <p class="description">
+              B1-tasemel keelekasutaja mõistab kõike olulist endale tuttaval teemal, nagu töö, kool, vaba aeg või muu,
+              saab enamasti hakkama välisriigis, kus vastavat keelt räägitakse, oskab koostada lihtsat teksti tuttaval või
+              enda jaoks huvipakkuval teemal, oskab kirjeldada kogemusi, sündmusi, unistusi ja eesmärke ning lühidalt
+              põhjendada-selgitada oma seisukohti ja plaane.
+            </p>
+            <p class="slightly-bigger">
+              Eksam on sooritatud Narvas 17.02.2019, eksamiprotokollid 3242-K-I-433-00, 4324-S-I-321-32.
+            </p>
+          </section>
+
+          <section id="signature">
+            <p>Haridus- ja Noorteamet</p>
+            <p>ALLKIRJASTATUD DIGITAALSELT</p>
+          </section>
+        </div>
+      </block-content>
+    </block>
+  </article-layout></div>
