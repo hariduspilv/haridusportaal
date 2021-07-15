@@ -285,18 +285,6 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
-  // Get Estonian language exams information
-  public function getTeisKod(array $params = []){
-    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
-    $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
-    $params['hash'] = 'teisAndmedKod';
-    return $this->invokeWithRedis('teisAndmedKod', $params, FALSE);
-  }
-
-  /**
-   * @param array $params
-   * @return array|mixed|\Psr\Http\Message\ResponseInterface
-   */
   // Get detailed information about a specific exam and pass it an extra variable if it is EST language exam
   public function gettestidKod(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['session_id'], time()];
