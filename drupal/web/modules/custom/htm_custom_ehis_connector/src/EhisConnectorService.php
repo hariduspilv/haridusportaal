@@ -270,11 +270,30 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  public function getTeisKod(array $params = []){
+    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
+    $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
+    $params['hash'] = 'teisAndmedKod';
+    return $this->invokeWithRedis('teisAndmedKod', $params, FALSE);
+  }
+
+  /**
+   * @param array $params
+   * @return array|mixed|\Psr\Http\Message\ResponseInterface
+   */
   public function gettestidKod(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['session_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'testidKod_'.$params['session_id'];
-    return $this->invokeWithRedis('testidKod', $params, FALSE);
+    $testid_request = $this->invokeWithRedis('testidKod', $params, FALSE);
+    $exam_cert_id = $testid_request['value']['tunnistus_id'];
+    $lang_ex_cert_id = $this->getTeisKod()['value']['tunnistus_jada'];
+    foreach($lang_ex_cert_id as $jada){
+      if($exam_cert_id === $jada['tunnistus_id']) {
+        $testid_request['lang_cert_nr'] = $jada['nbr'];
+      }
+    }
+    return $testid_request;
   }
 
   /**
