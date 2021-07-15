@@ -259,6 +259,7 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Get the main test information
   public function getTestSessions(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
@@ -270,6 +271,7 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Get Estonian language exams information
   public function getTeisKod(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
@@ -281,6 +283,7 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Get information about a specific exam and pass it an extra variable if it is EST language exam
   public function gettestidKod(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['session_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
@@ -288,9 +291,9 @@ class EhisConnectorService {
     $testid_request = $this->invokeWithRedis('testidKod', $params, FALSE);
     $exam_cert_id = $testid_request['value']['tunnistus_id'];
     $lang_ex_cert_id = $this->getTeisKod()['value']['tunnistus_jada'];
-    foreach($lang_ex_cert_id as $jada){
-      if($exam_cert_id === $jada['tunnistus_id']) {
-        $testid_request['lang_cert_nr'] = $jada['nbr'];
+    foreach($lang_ex_cert_id as $sequence){
+      if($exam_cert_id === $sequence['tunnistus_id']) {
+        $testid_request['lang_cert_nr'] = $sequence['nbr'];
       }
     }
     return $testid_request;
@@ -311,6 +314,7 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Download a certificate
   public function getCertificate(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['certificate_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
