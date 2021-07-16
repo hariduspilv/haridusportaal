@@ -58,11 +58,6 @@ const routes: Routes = [
     loadChildren: () => import('../../modules/certificates/containers/certificates-dashboard-detail/certificates-dashboard-detail.module')
       .then(m => m.CertificatesDashboardDetailModule),
   },
-  {
-    path: 'eksamitunnistus/:id',
-    loadChildren: () => import('../../modules/certificates/containers/certificates-dashboard-detail-exam-certificate/certificates-dashboard-detail-exam-certificate.module')
-      .then(m => m.CertificatesDashboardDetailExamCertificateModule),
-  },
 
 ];
 

@@ -38,6 +38,7 @@ export const collection = {
   'finalDocumentAccess': 'finalDocumentAccess',
   'finalDocumentHistory': 'finalDocumentHistory',
   'finalDocumentDownload': 'finalDocumentDownload',
+  'downloadFile': 'downloadFile',
 }
 
 export const uniformTypes = {

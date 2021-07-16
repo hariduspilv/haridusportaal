@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services';
 import { Location } from '@angular/common';
+import { CertificateFileDownloadSidebar } from '../../models/interfaces/certificate-file-download-sidebar';
+import { ExamDocumentResponse, ExamDocumentValue } from '../../models/interfaces/exam-document';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'certificates-dashboard-detail',
@@ -13,10 +17,11 @@ import { Location } from '@angular/common';
 export class CertificatesDashboardDetailComponent implements OnInit {
 
   public certificate: any;
-  public examResults: any;
-  public dashboardLink: string = '/töölaud/tunnistused';
+  public examResults: ExamDocumentValue;
+  public dashboardLink = '/töölaud/tunnistused';
   public examinationYear: string;
   public labels: any = [];
+  public sidebar: CertificateFileDownloadSidebar | null = null;
   public breadcrumbs = [
     {
       title: 'Avaleht',
@@ -43,12 +48,13 @@ export class CertificatesDashboardDetailComponent implements OnInit {
     public http: HttpClient,
   ) {}
 
-  createAccordionTitle(item) {
-    const string = `${item.test_nimi}`;
-    if (item.tulemus) { return `${string} | ${item.tulemus}`; }
-    return string;
+  createAccordionTitle(item: { test_nimi: string; tulemus: string }): string {
+    const str = `${item.test_nimi}`;
+    if (item.tulemus) { return `${str} | ${item.tulemus}`; }
+    return str;
   }
-  ngOnInit() {
+
+  ngOnInit(): void {
     const currentRoute = decodeURI(this.location.path()).split('/')[3];
     this.breadcrumbs[this.breadcrumbs.length - 1].title
       = currentRoute[0].toUpperCase() + currentRoute.slice(1);
@@ -64,7 +70,7 @@ export class CertificatesDashboardDetailComponent implements OnInit {
     this.router.navigateByUrl('/töölaud');
   }
 
-  certificateInit() {
+  certificateInit(): void {
     this.certificate = window.history.state.certificate;
     if (this.certificate.kehtetu) {
       this.labels = [...this.labels, { value: 'Kehtetu' }];
@@ -74,15 +80,23 @@ export class CertificatesDashboardDetailComponent implements OnInit {
     }
   }
 
-  examInit() {
-    this.http
-      .get(`${this.settings.url}/state-exams/${this.route.snapshot.params.id}?_format=json`)
-        .subscribe((res) => {
-          this.examResults = res['value'];
-        });
+  examInit(): void {
+    this.http.get<ExamDocumentResponse>(`${this.settings.url}/state-exams/${this.route.snapshot.params.id}?_format=json`)
+      .subscribe((examResults) => {
+        if (examResults?.lang_cert_nr) {
+          this.createSidebar(examResults);
+        }
+        this.examResults = {
+          ...examResults.value,
+          testid_kod_jada: examResults.value.testid_kod_jada.map((test) => ({
+            ...test,
+            accordion: this.createAccordionTitle(test),
+          })),
+        };
+      });
   }
 
-  parseTypeTranslation(type) {
+  parseTypeTranslation(type: string): string {
     const translation = this.translate.get(`frontpage.${type}`).toString();
     if (translation.includes(`frontpage.${type}`)) {
       return type;
@@ -90,4 +104,14 @@ export class CertificatesDashboardDetailComponent implements OnInit {
     return translation;
   }
 
+  private createSidebar(examResults: ExamDocumentResponse): void {
+    this.sidebar = {
+      entity: {
+        downloadFile: {
+          url: `${environment.API_URL}/certificate-download/${examResults.value.tunnistus_id}`,
+          filename: `tasemeeksam-${this.examinationYear}-${examResults.lang_cert_nr}.asice`,
+        },
+      },
+    };
+  }
 }

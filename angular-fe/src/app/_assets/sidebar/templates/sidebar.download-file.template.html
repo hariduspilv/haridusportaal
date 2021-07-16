@@ -1,0 +1,12 @@
+<ul>
+	<li>
+		<button
+			[disabled]="data.invalid || downloading"
+			(click)="startDownload()"
+			htm-button
+			class="text-center"
+		>
+			{{'downloadFile' | translate}}
+		</button>
+	</li>
+</ul>
