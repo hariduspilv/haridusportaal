@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { slugifyTitle } from '@app/_core/utility';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services';
-import { forkJoin } from 'rxjs';
 import { CertificatesUtility } from '../../certificates.utility';
 import { CertificateAccordionSection } from '../../models/interfaces/certificate-accordion-section';
 
