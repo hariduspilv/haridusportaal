@@ -28,9 +28,8 @@ public class EeIsikukaartWorker extends Worker {
     this.ehisXRoadService = ehisXRoadService;
   }
 
-  public ObjectNode getEeIsikukaart(String personalCode, Long timestamp) {
+  public ObjectNode getEeIsikukaart(String personalCode, Long timestamp, String redisKey, String[] andmeplokk) {
     ObjectNode responseNode = nodeFactory.objectNode();
-    ObjectNode gdprNode = nodeFactory.objectNode();
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
@@ -38,22 +37,11 @@ public class EeIsikukaartWorker extends Worker {
     logForDrupal.setSeverity("notice");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
-        .put("key", "eeIsikukaart");
-    gdprNode.put("request_timestamp", System.currentTimeMillis()).put("response_timestamp", "")
-        .put("key", "eeIsikukaartGDPR");
+        .put("key", redisKey);
 
     try {
       EeIsikukaartResponse response = ehisXRoadService.eeIsikukaart(personalCode, "xml",
-          personalCode, null, null, new String[]{"WITH_ID"}).getContent();
-
-      ArrayNode gdprArrayNode = gdprNode.putObject("value").putArray("GDPR");
-      response.getIsikukaart().getGdprlogList().forEach(item ->
-          gdprArrayNode.addObject().put("id", item.getId())
-              .put("personCode", item.getPersoncode())
-              .put("logTime", ehisDateTimeFormat(item.getLogtime()))
-              .put("action", item.getAction())
-              .put("sender", item.getSender())
-              .put("receiver", item.getReceiver()));
+          personalCode, andmeplokk, null, new String[]{"WITH_ID"}).getContent();
 
       ObjectNode valueNode = responseNode.putObject("value");
 
@@ -373,17 +361,14 @@ public class EeIsikukaartWorker extends Worker {
       logForDrupal.setMessage("EHIS - eeIsikukaart.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
       checkExeption(responseNode, e);
-      gdprNode.remove("value");
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
     log.info(logForDrupal.toString());
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
-    gdprNode.put("response_timestamp", System.currentTimeMillis());
 
-    redisTemplate.opsForHash().put(personalCode, "eeIsikukaartGDPR", gdprNode);
-    redisTemplate.opsForHash().put(personalCode, "eeIsikukaart", responseNode);
+    redisTemplate.opsForHash().put(personalCode, redisKey, responseNode);
     redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
 
     return responseNode;
