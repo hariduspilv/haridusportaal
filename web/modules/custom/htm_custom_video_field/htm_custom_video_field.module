@@ -43,7 +43,7 @@ function get_video_data($input) {
     if (strpos($input, 'vimeo') > 0) {
       return 'vimeo';
     }
-    if (strpos($input, 'facebook') > 0) {
+    if (strpos($input, 'facebook') > 0 || strpos($input, 'fb.watch') > 0) {
       return 'facebook';
     }
     if (strpos($input, 'biteable') > 0) {
@@ -68,9 +68,10 @@ function get_video_data($input) {
   }
 
   if($domain === "facebook") {
-    preg_match("/^(?:(?:https?:)?\/\/)?(?:www\.)?facebook\.com\/[a-zA-Z0-9\.]+\/videos\/(?:[a-zA-Z0-9\.]+\/)?([0-9]+)/",$input, $matches);
-    $video_id = $matches[1];
-    // facebook needs access token to get the video thumbnail url
+    preg_match("/^(?:(?:https?:)?\/\/)?(?:www\.)?(?:facebook\.com\/(?:[a-zA-Z0-9\.]+\/videos\/(?:[a-zA-Z0-9\.]+\/)?([0-9]+)|watch\/\?v=(\d+))\/?|fb\.watch(?:\/v)?\/([^\/ ]*)\/?)/",$input, $matches);
+    $video_id = end($matches);
+
+    // facebook needs access token to get the video thumbnail url (NB! works only for domain facebook.com)
     $data = `curl -s -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' -L 'https://www.facebook.com/$video_id'`;
     if (preg_match('#<video [^>]+></video>\s*<div [^>]+><img [^>]+src="([^"]+)#s',$data,$img_matches)) {
       $image = $img_matches[1];
