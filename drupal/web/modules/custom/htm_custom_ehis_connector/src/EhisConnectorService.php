@@ -352,6 +352,9 @@ class EhisConnectorService {
         $keys = ['OPPIMINE_ALUS', 'OPPIMINE_HUVI', 'OPPIMINE_POHI', 'OPPIMINE_KUTSE', 'OPPIMINE_KORG', 'OPPELAENUOIGUSLIK',
           'TOOTAMINE_HUVI', 'TOOTAMINE_ALUS', 'TOOTAMINE_POHI', 'TOOTAMINE_KUTSE', 'TOOTAMINE_KORG', 'TAIENDKOOLITUS', 'TASEMEKOOLITUS', 'KVALIFIKATSIOON'];
         break;
+      case 'eeIsikukaartGDPR':
+        $keys = ['ANDMETE_KASUTUS'];
+        break;
       default:
         $keys = [];
         break;
