@@ -364,18 +364,38 @@ class EhisConnectorService {
    * @param array $params
    * @return mixed
    */
+  // Get Isikukaart data from EHIS and forward it to front-end according to the tab that is open
   public function getPersonalCard(array $params = []){
-    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
+    $tab = $params['tab'];
+    switch ($tab){
+      case 'studies':
+        $keys = ['OPPIMINE_ALUS', 'OPPIMINE_HUVI', 'OPPIMINE_POHI', 'OPPIMINE_KUTSE', 'OPPIMINE_KORG', 'OPPELAENUOIGUSLIK'];
+        break;
+      case 'teachings':
+        $keys = ['TOOTAMINE_HUVI', 'TOOTAMINE_ALUS', 'TOOTAMINE_POHI', 'TOOTAMINE_KUTSE', 'TOOTAMINE_KORG', 'TAIENDKOOLITUS', 'TASEMEKOOLITUS', 'KVALIFIKATSIOON'];
+        break;
+      case 'personal_data':
+        $keys = ['ELUKOHAANDMED'];
+        break;
+      case 'digital_sign_data':
+        $keys = ['OPPIMINE_ALUS', 'OPPIMINE_HUVI', 'OPPIMINE_POHI', 'OPPIMINE_KUTSE', 'OPPIMINE_KORG', 'OPPELAENUOIGUSLIK',
+          'TOOTAMINE_HUVI', 'TOOTAMINE_ALUS', 'TOOTAMINE_POHI', 'TOOTAMINE_KUTSE', 'TOOTAMINE_KORG', 'TAIENDKOOLITUS', 'TASEMEKOOLITUS', 'KVALIFIKATSIOON'];
+        break;
+      case 'eeIsikukaartGDPR':
+        $keys = ['ANDMETE_KASUTUS'];
+        break;
+      default:
+        $keys = [];
+        break;
+    }
+
+    $andmeblokk = implode(',', array_values($keys));
+    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time(), $tab, $andmeblokk];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'eeIsikukaart';
     $response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
     \Drupal::logger('xjson')->notice('<pre><code>Personal card response: '. print_r($response, TRUE). '</code></pre>' );
-    if($params['tab'] !== 'eeIsikukaartGDPR') {
-      return $this->filterPersonalCard($response, $params['tab']);
-    } else {
-      $params['hash'] = 'eeIsikukaartGDPR';
-      return $this->invokeWithRedis('', $params, TRUE);
-    }
+    return $response;
   }
 
   /**
@@ -615,38 +635,6 @@ class EhisConnectorService {
   private function getAllClassificators(array $params = []){
     $params['key'] = 'klassifikaator';
     return json_decode($this->client->hGet($params['key'], $params['hash']), TRUE);
-  }
-
-  /**
-   * @param $input
-   * @param $tab
-   * @return mixed
-   */
-  private function filterPersonalCard($input, $tab){
-    switch ($tab){
-      case 'studies':
-        $keys = ['oping', 'isikuandmed', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
-        break;
-      case 'teachings':
-        $keys = ['tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon'];
-        break;
-      case 'personal_data':
-        $keys = ['isikuandmed'];
-        break;
-      case 'digital_sign_data':
-        $keys = ['oping', 'tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
-        break;
-      default:
-        $keys = [];
-        break;
-    }
-    if(isset($input['value'])){
-      foreach($input['value'] as $key => $value){
-        if(!in_array($key, $keys)) unset($input['value'][$key]);
-      }
-    }
-
-    return $input;
   }
 
   /**
