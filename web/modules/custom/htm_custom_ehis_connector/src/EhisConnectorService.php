@@ -335,6 +335,7 @@ class EhisConnectorService {
    * @param array $params
    * @return mixed
    */
+  // Get Isikukaart data from EHIS and forward it to front-end according to the tab that is open
   public function getPersonalCard(array $params = []){
     $tab = $params['tab'];
     switch ($tab){
@@ -348,7 +349,8 @@ class EhisConnectorService {
         $keys = ['ELUKOHAANDMED'];
         break;
       case 'digital_sign_data':
-        $keys = ['oping', 'tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
+        $keys = ['OPPIMINE_ALUS', 'OPPIMINE_HUVI', 'OPPIMINE_POHI', 'OPPIMINE_KUTSE', 'OPPIMINE_KORG', 'OPPELAENUOIGUSLIK',
+          'TOOTAMINE_HUVI', 'TOOTAMINE_ALUS', 'TOOTAMINE_POHI', 'TOOTAMINE_KUTSE', 'TOOTAMINE_KORG', 'TAIENDKOOLITUS', 'TASEMEKOOLITUS', 'KVALIFIKATSIOON'];
         break;
       default:
         $keys = [];
@@ -601,38 +603,6 @@ class EhisConnectorService {
   private function getAllClassificators(array $params = []){
     $params['key'] = 'klassifikaator';
     return json_decode($this->client->hGet($params['key'], $params['hash']), TRUE);
-  }
-
-  /**
-   * @param $input
-   * @param $tab
-   * @return mixed
-   */
-  private function filterPersonalCard($input, $tab){
-
-    switch ($tab){
-      case 'studies':
-        $keys = ['oping', 'isikuandmed', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
-        break;
-      case 'teachings':
-        $keys = ['tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon'];
-        break;
-      case 'personal_data':
-        $keys = ['isikuandmed'];
-        break;
-      case 'digital_sign_data':
-        $keys = ['oping', 'tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
-        break;
-      default:
-        $keys = [];
-        break;
-    }
-    if(isset($input['value'])){
-      foreach($input['value'] as $key => $value){
-        if(!in_array($key, $keys)) unset($input['value'][$key]);
-      }
-    }
-    return $input;
   }
 
   /**
