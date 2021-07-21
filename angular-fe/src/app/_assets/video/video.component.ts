@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { VideoEmbedService } from '@app/_services/VideoEmbedService';
 
 export interface VideoItem {
   input: string;
@@ -28,6 +29,7 @@ export class VideoComponent implements OnInit, OnChanges {
 
   constructor(
     private sanitizer: DomSanitizer,
+    private videoService: VideoEmbedService,
   ) {}
 
   ngOnChanges(): void {
@@ -35,7 +37,9 @@ export class VideoComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.videoArray = (Array.isArray(this.videos) ? this.videos : [this.videos])
+    this.videoArray = (this.videoService.mapVideoList(
+      Array.isArray(this.videos) ? this.videos : [this.videos],
+    ) as unknown as VideoItem[])
     .map((vid) => {
       const url = vid.videoEmbed || `${window.location.protocol}//www.youtube.com/embed/${vid.videoId}?hl=et`;
       vid.finalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);

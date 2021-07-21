@@ -44,9 +44,9 @@
 
                     <ng-container *ngIf="item.video && item.video.videoId">
                         <div *ngIf="!clickedVideos[i]" class="col-4 xs-12 pointer" (click)="clickedVideos[i] = true">
-                            <div *ngIf="item.video.videoThumbnail"
-                                class="list__item__video__thumbnail">
-                                <img [class.lastImg]="last" src="{{ item.video.videoThumbnail }}" width="100%" alt=""/>
+                            <div class="list__item__video__thumbnail">
+                                <img *ngIf="item.video.videoThumbnail"
+                                    [class.lastImg]="last" src="{{ item.video.videoThumbnail }}" width="100%" alt=""/>
                                 <i class="icon youtube-play" 
                                     attr.aria-label="{{ 'generic.youtube_video' | translate }}: {{ item.video.videoDescription }}"
                                     role="button"></i>

@@ -13,6 +13,7 @@ interface ResponseImage {
 
 interface ResponseVideo {
   input?: string;
+  videoThumbnail?: string;
 }
 
 interface ResolvedList extends ResponseVideo, ResponseImage {}
@@ -26,6 +27,7 @@ interface ResolvedList extends ResponseVideo, ResponseImage {}
 export class ImageComponent implements OnInit {
   @Input() image: ResponseImage | ResponseImage[];
   @Input() videos: ResponseVideo | ResponseVideo[];
+  @Input() videoThumb: string;
   @Input() limit = 1;
   @Input() prioritizeVideos = false;
   @HostBinding('class') className = 'image';
@@ -37,8 +39,7 @@ export class ImageComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
-    private embedService: VideoEmbedService,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.images = Array.isArray(this.image) ? this.image : [this.image];
@@ -62,7 +63,10 @@ export class ImageComponent implements OnInit {
 
   mergeVideosToList(): void {
     const videoArray = Array.isArray(this.videos) ? this.videos : [this.videos];
-    const videos = this.embedService.mapVideoList(videoArray) as ResponseVideo[];
+    const videos = videoArray.map((video) => ({
+      ...video,
+      videoThumbnail: video.videoThumbnail || this.videoThumb,
+    })) as ResponseVideo[];
     this.images = this.prioritizeVideos ? [...videos, ...this.images] : [...this.images, ...videos];
   }
 
