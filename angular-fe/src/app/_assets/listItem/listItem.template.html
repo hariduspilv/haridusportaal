@@ -44,19 +44,10 @@
 
                     <ng-container *ngIf="item.video && item.video.videoId">
                         <div *ngIf="!clickedVideos[i]" class="col-4 xs-12 pointer" (click)="clickedVideos[i] = true">
-                            <div *ngIf="item.videoThumb && item.videoThumb.derivative.url"
+                            <div *ngIf="item.video.videoThumbnail"
                                 class="list__item__video__thumbnail">
-                                <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" alt=""/>
+                                <img [class.lastImg]="last" src="{{ item.video.videoThumbnail }}" width="100%" alt=""/>
                                 <i class="icon youtube-play" 
-                                    attr.aria-label="{{ 'generic.youtube_video' | translate }}: {{ item.video.videoDescription || item.videoThumb.alt }}"
-                                    role="button"></i>
-                                <div class="triangle" aria-hidden="true"></div>
-                            </div>
-                            <div *ngIf="!item.videoThumb" class="list__item__video__thumbnail">
-                                <img [class.lastImg]="last"
-                                    [src]="'https://img.youtube.com/vi/' + item.video.videoId + '/hqdefault.jpg'"
-                                    width="100%" alt="" />
-                                <i class="icon youtube-play"
                                     attr.aria-label="{{ 'generic.youtube_video' | translate }}: {{ item.video.videoDescription }}"
                                     role="button"></i>
                                 <div class="triangle" aria-hidden="true"></div>
@@ -66,7 +57,7 @@
                         <div *ngIf="clickedVideos[i]" class="col-4 xs-12 list__item__video">
                             <div class="aspect">
                                 <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}"
-                                    [src]="'https://www.youtube.com/embed/' + item.video.videoId +'?autoplay=1&mute=1' | iframe "
+                                    [src]="item.video.videoEmbed +'?autoplay=1&mute=1' | iframe "
                                     frameborder="0"
                                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                     allowfullscreen></iframe>

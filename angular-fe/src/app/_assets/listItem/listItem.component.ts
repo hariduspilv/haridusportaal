@@ -5,6 +5,7 @@ import {
     OnChanges,
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
+import { VideoEmbedService } from '@app/_services/VideoEmbedService';
 import { translationsPerType } from '../compare/helpers/compare';
 @Component({
   selector: 'listItems',
@@ -52,6 +53,8 @@ export class ListItemComponent implements OnInit, OnChanges{
     'oska.difficult_extended',
   ];
 
+  constructor(public videoEmbedService: VideoEmbedService) {}
+
   sortByKey(array, key) {
     return array.sort((a, b) => {
       const x = a[key]; const y = b[key];
@@ -59,7 +62,7 @@ export class ListItemComponent implements OnInit, OnChanges{
     });
   }
 
-  parseList():void {
+  parseList(): void {
     this.list.forEach((element, index) => {
       this.list[index] = FieldVaryService(element);
     });
@@ -67,6 +70,13 @@ export class ListItemComponent implements OnInit, OnChanges{
     if (this.orderBy) {
       this.list = this.sortByKey(this.list, 'title');
     }
+
+    this.list = this.list.map((listItem: any) => ({
+      ...listItem,
+      video: listItem.video ? this.videoEmbedService.mapVideo(listItem.video) : undefined,
+    }));
+
+    console.log(this.list);
   }
   ngOnInit() {
     this.parseList();
