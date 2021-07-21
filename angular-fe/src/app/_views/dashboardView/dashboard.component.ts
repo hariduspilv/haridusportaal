@@ -168,7 +168,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((response: any) => {
         if (response.error) {
           this.alertsService.error(
-            response['error']['message_text']['et'],
+            'errors.personal_data_missing',
             'personalData', 'personalData', false, false,
           );
           this.error = true;
