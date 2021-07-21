@@ -40,6 +40,7 @@ import { FileFormat } from '@app/_core/models/enums/file-format.enum';
 import { CertificateTranscriptTemplateType } from '@app/modules/certificates/models/enums/certificate-transcript-template-type.enum';
 import { Certificate } from '@app/modules/certificates/models/interfaces/certificate';
 import { TitleCasePipe } from '@angular/common';
+import { FileDownloadSidebar } from './models/file-download-sidebar';
 
 interface SidebarType {
   [key: string]: string;
@@ -96,7 +97,8 @@ const sidebarOrder = {
     'events',
     'finalDocumentDownload',
     'finalDocumentAccess',
-    'finalDocumentHistory'
+    'finalDocumentHistory',
+    'downloadFile',
   ]
 };
 
@@ -1393,6 +1395,30 @@ export class SidebarFinalDocumentDownloadComponent {
       if (document.isMainDocument) {
         this.documentsForm.controls[document.id].disable();
       }
+    });
+  }
+}
+
+@Component({
+  selector: 'sidebar-download-file',
+  templateUrl: './templates/sidebar.download-file.template.html',
+})
+export class SidebarDownloadFileComponent {
+  @Input() public data: FileDownloadSidebar;
+  public downloading = false;
+
+  constructor(
+    private http: HttpClient,
+  ) {
+  }
+
+  public startDownload(): void {
+    this.downloading = true;
+    this.http.get(this.data.url, { responseType: 'blob' }).subscribe((response: Blob) => {
+      saveAs(response, this.data.filename);
+      this.downloading = false;
+    }, () => {
+      this.downloading = false;
     });
   }
 }

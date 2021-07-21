@@ -119,10 +119,12 @@ export class DigitalSignViewComponent implements OnInit {
       this.formGroup.addControl(key, this.formBuilder.control(''));
       defaultValue[key] = this.defaultChecked;
       const block: any = val;
-      block.map((blockVal) => {
-        this.formGroup.addControl(blockVal.id, this.formBuilder.control(''));
-        defaultValue[blockVal.id] = this.defaultChecked;
-      });
+      if (Array.isArray(block)) {
+        block.map((blockVal) => {
+          this.formGroup.addControl(blockVal.id, this.formBuilder.control(''));
+          defaultValue[blockVal.id] = this.defaultChecked;
+        });
+      }
     });
     this.formGroup.setValue(defaultValue);
     this.formGroup.updateValueAndValidity();
@@ -134,7 +136,7 @@ export class DigitalSignViewComponent implements OnInit {
         return [
           ...value.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(dateSortFn),
           ...value.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort((a, b) => dateSortFn(a, b, 'oppLopp')),
-        ]
+        ];
       case 'tootamine':
         return value.sort((a, b) => {
           const obj = this.convertDates(a.ametikohtAlgus, b.ametikohtAlgus);
@@ -180,14 +182,15 @@ export class DigitalSignViewComponent implements OnInit {
   }
   /**
    * Get the title for the accordion according to the item
+   *
    * @param item Study or External Qualification
    */
   public getAccordionTitle(item: Studies | ExternalQualifications): string {
     const test1 = item as Studies;
     if (test1.oppeasutus) {
       return test1.oppeasutus
-        + (test1.staatus ? ', ' + this.parseTypeTranslation(test1.staatus) : '')
-        + (test1.oppLopp ? ' ' + test1.oppLopp : '');
+        + (test1.staatus ? `, ${this.parseTypeTranslation(test1.staatus)}` : '')
+        + (test1.oppLopp ? ` ${test1.oppLopp }` : '');
     }
     const test2 = item as ExternalQualifications;
     return (test2.oppeasutuseNimi
@@ -195,7 +198,7 @@ export class DigitalSignViewComponent implements OnInit {
         || test2.oppeasutuseNimiMuusKeeles
         || '').trim()
       + (test2.valjaandmKp
-        ? ', ' + this.parseTypeTranslation('LOPETANUD') + ' ' + test2.valjaandmKp
+        ? `, ${this.parseTypeTranslation('LOPETANUD')} ${test2.valjaandmKp}`
         : '');
   }
   parseTypeTranslation(type) {
@@ -299,7 +302,7 @@ export class DigitalSignViewComponent implements OnInit {
 
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
-  }
+  };
   ngOnInit() {
     this.fetchData();
   }
