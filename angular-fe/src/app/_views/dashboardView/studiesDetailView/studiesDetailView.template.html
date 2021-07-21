@@ -64,21 +64,6 @@
 										</td>
 										<td class="normal" colspan="2">{{ data.ametikoht }}</td>
 									</tr>
-									<tr *ngIf="data.tooleping && !data.ametikohtLopp">
-										<td class="normal" colspan="3">
-											{{ 'frontpage.tooleping' | translate }}
-										</td>
-										<td class="normal" colspan="2">{{ data.tooleping }}</td>
-									</tr>
-									<tr
-										*ngIf="data.taitmiseViis && data.liik === 'YLIKOOL'
-                    && (!data.ametikohtLopp || !isDateInPast(data.ametikohtLopp))"
-									>
-										<td class="normal" colspan="3">
-											{{ 'frontpage.taitmiseViis' | translate }}
-										</td>
-										<td class="normal" colspan="2">{{ data.taitmiseViis }}</td>
-									</tr>
 									<tr *ngIf="data.ametikohtAlgus">
 										<td class="normal" colspan="3">
 											{{ 'frontpage.ametikohtAlgus' | translate }}
@@ -109,6 +94,27 @@
 											{{ data.ametikohtKvalVastavus }}
 										</td>
 									</tr>
+									<tr *ngIf="data.tooleping && !data.ametikohtLopp">
+										<td class="normal" colspan="3">
+											{{ 'frontpage.tooleping' | translate }}
+										</td>
+										<td class="normal" colspan="2">{{ data.tooleping }}</td>
+									</tr>
+									<tr *ngIf="data.ametijark && !data.ametikohtLopp">
+										<td class="normal" colspan="3">
+											{{ 'frontpage.ametijark' | translate }}
+										</td>
+										<td class="normal" colspan="2">{{ data.ametijark }}</td>
+									</tr>
+									<tr
+										*ngIf="data.taitmiseViis && data.liik === 'YLIKOOL'
+                    && (!data.ametikohtLopp || !isDateInPast(data.ametikohtLopp))"
+									>
+										<td class="normal" colspan="3">
+											{{ 'frontpage.taitmiseViis' | translate }}
+										</td>
+										<td class="normal" colspan="2">{{ data.taitmiseViis }}</td>
+									</tr>
 									<tr *ngIf="data.lapsehooldusPuhkus && !data.ametikohtLopp">
 										<td class="normal" colspan="3">
 											{{ 'frontpage.lapsehooldusPuhkus' | translate }}
@@ -116,12 +122,6 @@
 										<td class="normal" colspan="2">
 											{{ data.lapsehooldusPuhkus }}
 										</td>
-									</tr>
-									<tr *ngIf="data.ametijark && !data.ametikohtLopp">
-										<td class="normal" colspan="3">
-											{{ 'frontpage.ametijark' | translate }}
-										</td>
-										<td class="normal" colspan="2">{{ data.ametijark }}</td>
 									</tr>
 								</ng-container>
 								<!-- Hidden for now -->
