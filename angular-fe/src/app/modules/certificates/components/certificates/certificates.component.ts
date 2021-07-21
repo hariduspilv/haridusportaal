@@ -133,14 +133,18 @@ export class CertificatesComponent implements OnInit {
   }
 
   getExamResults(selectedSection: CertificateAccordionSection): void {
-
     selectedSection.loading = true;
 
     if (!selectedSection.loaded) {
-      const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getTestSessions?_format=json`).subscribe(
+      const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getTestSessions?_format=json`)
+      .subscribe(
         (response) => {
-          if ((response['value'] && response['value']['teade']) || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et']) || response['value']['testsessioonid_kod_jada'] === []) {
-            const message = (response['error'] && response['error']['message_text']) ? response['error']['message_text']['et'] : response['value']['teade'];
+          if ((response['value'] && response['value']['teade'])
+            || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et'])
+            || response['value']['testsessioonid_kod_jada'] === []) {
+            const message = (response['error'] && response['error']['message_text'])
+              ? response['error']['message_text']['et']
+              : response['value']['teade'];
             this.examResultsErr = message;
           } else {
             this.examResults = response['value']['testsessioonid_kod_jada']
