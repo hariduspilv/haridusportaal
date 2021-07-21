@@ -259,6 +259,7 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Get the main test information
   public function getTestSessions(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
@@ -281,11 +282,24 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Get detailed information about a specific exam and pass it an extra variable if it is EST language exam
   public function gettestidKod(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['session_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'testidKod_'.$params['session_id'];
-    return $this->invokeWithRedis('testidKod', $params, FALSE);
+    // get detailed information about any exam
+    $testid_request = $this->invokeWithRedis('testidKod', $params, FALSE);
+    // get exam's certificate id
+    $exam_cert_id = $testid_request['value']['tunnistus_id'];
+    // get language exam's certificate id-s and check if they match with $testid_request id
+    $lang_ex_cert_id = $this->getTeisKod()['value']['tunnistus_jada'];
+    foreach($lang_ex_cert_id as $sequence){
+      if($exam_cert_id === $sequence['tunnistus_id']) {
+        // if it is an EST language exam, pass it an extra variable
+        $testid_request['lang_cert_nr'] = $sequence['nbr'];
+      }
+    }
+    return $testid_request;
   }
 
   /**
@@ -303,6 +317,7 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Download a certificate
   public function getCertificate(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['certificate_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
