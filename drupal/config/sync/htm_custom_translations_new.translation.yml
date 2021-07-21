@@ -69,8 +69,8 @@ frontpage:
     en: 'Professional certificates'
   dashboard_tabs_certificates_examinations:
     translation_type: textarea
-    et: Riigieksamid
-    en: 'State examinations'
+    et: Eksamid
+    en: Examinations
   dashboard_tabs_certificates_number:
     translation_type: textarea
     et: 'Tunnistuse number'
@@ -932,6 +932,10 @@ frontpage:
     en:
       value: "<p><a href=\"https://www.tootukassa.ee/toopakkumised?valdkonnad%5B%5D=EDU\" target=\"_blank\" tabindex=\"-1\">Vaata haridusvaldkonna tööpakkumisi Töötukassa kodulehelt (avaneb uues aknas)</a></p>\r\n"
       format: full_html
+  exam_certificate:
+    translation_type: textarea
+    et: Eksamitunnistus
+    en: 'Exam certificate'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -2832,10 +2836,10 @@ errors:
   studies_data_request:
     translation_type: textarea
     et: 'Vabandame. Eesti Hariduse Infosüsteemist õpingute andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.'
-    en: 'Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.'
+    en: 'Vabandame. Eesti Hariduse Infosüsteemist õpingute andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.'
   personal_data_missing:
     translation_type: textarea
-    et: 'Eesti Hariduse Infosüsteemis isikuandmed puuduvad.'
+    et: 'Isikuandmed Eesti Hariduse Infosüsteemis puuduvad.'
     en: 'Relevant data missing from the Estonian Education Infosystem.'
   studies_data_missing:
     translation_type: textarea
@@ -5166,3 +5170,7 @@ jobOffer:
     translation_type: textarea
     et: Tähtaeg
     en: Tähtaeg
+downloadFile:
+  translation_type: textarea
+  et: 'Laadi fail alla'
+  en: 'Download file'
