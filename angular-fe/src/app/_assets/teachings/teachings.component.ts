@@ -59,7 +59,7 @@ export class TeachingsComponent implements OnInit {
               const currentLang = 'et';
               this.alertsService
                 .info(
-                  this.translate.get(response.error.message_text[currentLang]),
+                  'errors.teachings_data_missing',
                   'teachings',
                   'teachings',
                   false,
