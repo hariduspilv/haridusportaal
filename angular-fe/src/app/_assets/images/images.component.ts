@@ -39,6 +39,7 @@ export class ImageComponent implements OnInit {
 
   constructor(
     private modalService: ModalService,
+    private videoService: VideoEmbedService,
   ) { }
 
   ngOnInit(): void {
@@ -63,10 +64,7 @@ export class ImageComponent implements OnInit {
 
   mergeVideosToList(): void {
     const videoArray = Array.isArray(this.videos) ? this.videos : [this.videos];
-    const videos = videoArray.map((video) => ({
-      ...video,
-      videoThumbnail: video.videoThumbnail || this.videoThumb,
-    })) as ResponseVideo[];
+    const videos = this.videoService.mapVideoList(videoArray, this.videoThumb) as ResponseVideo[];
     this.images = this.prioritizeVideos ? [...videos, ...this.images] : [...this.images, ...videos];
   }
 
