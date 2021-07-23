@@ -37,7 +37,7 @@ function get_video_data($input) {
 
   // Check & get the video domain
   function videoType($input) {
-    if (strpos($input, 'youtube') > 0) {
+    if (strpos($input, 'youtube') > 0 || strpos($input, 'youtu.be') > 0) {
       return 'youtube';
     }
     if (strpos($input, 'vimeo') > 0) {
