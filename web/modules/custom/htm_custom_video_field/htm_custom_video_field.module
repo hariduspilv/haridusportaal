@@ -33,24 +33,25 @@ function htm_custom_video_field_help($route_name, RouteMatchInterface $route_mat
  *   Returns the domain and video_id if available, or FALSE if not.
  */
 
+// Check & get the video domain
+function videoType($input) {
+  if (strpos($input, 'youtube') > 0 || strpos($input, 'youtu.be') > 0) {
+    return 'youtube';
+  }
+  if (strpos($input, 'vimeo') > 0) {
+    return 'vimeo';
+  }
+  if (strpos($input, 'facebook') > 0 || strpos($input, 'fb.watch') > 0) {
+    return 'facebook';
+  }
+  if (strpos($input, 'biteable') > 0) {
+    return 'biteable';
+  }
+  return FALSE;
+}
+
 function get_video_data($input) {
 
-  // Check & get the video domain
-  function videoType($input) {
-    if (strpos($input, 'youtube') > 0 || strpos($input, 'youtu.be') > 0) {
-      return 'youtube';
-    }
-    if (strpos($input, 'vimeo') > 0) {
-      return 'vimeo';
-    }
-    if (strpos($input, 'facebook') > 0 || strpos($input, 'fb.watch') > 0) {
-      return 'facebook';
-    }
-    if (strpos($input, 'biteable') > 0) {
-      return 'biteable';
-    }
-    return FALSE;
-  }
   $domain = videoType($input);
 
   // The following regexes will extract the video id and thumbnails (if applicable) from url
