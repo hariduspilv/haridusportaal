@@ -71,7 +71,7 @@
                 fieldStudyPageAccordionTitle
                 fieldStudyAccordionIntro
                 fieldStudyAccordionContent
-                fieldStudyAccordionBody {
+                fieldBody {
                   value
                 }
               }
