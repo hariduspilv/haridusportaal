@@ -1,6 +1,6 @@
 import {Content, EntityObject, FullTextUrl, ImageEntity} from '@app/_core/models/interfaces/main';
 import {MappedStudyAccordion} from '@app/modules/study/models/mapped-study-accordion';
-import { StudyPageFieldRightColumn } from './study-page-field-right-column';
+import {StudyPageFieldRightColumn} from './study-page-field-right-column';
 import { StudyAddFile } from './study-page-add-file';
 
 export interface MappedStudyPage {
