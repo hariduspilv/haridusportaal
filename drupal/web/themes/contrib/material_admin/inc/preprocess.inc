@@ -54,7 +54,7 @@ function material_admin_preprocess_page(&$variables) {
 function material_admin_preprocess_breadcrumb(&$variables) {
   $placeholder_title = [
     '#lazy_builder' => [
-      '_material_admin_breadcrumb_title_placeholder',
+      '\Drupal\material_admin\BreadcrumbTitlePlaceholder::render',
       ['page_title']
     ],
     '#create_placeholder' => TRUE,
@@ -84,9 +84,12 @@ function material_admin_preprocess_menu_local_task(&$variables) {
  */
 function material_admin_preprocess_input(&$variables) {
   $element = $variables['element'];
-
-  if (isset($variables['attributes']['placeholder']) && $variables['attributes']['placeholder'] != NULL && is_array($variables['attributes']['placeholder']) && empty(implode($variables['attributes']['placeholder']))) {
-     unset($variables['attributes']['placeholder']);
+  if (isset($variables['attributes']['placeholder'])) {
+     if (is_array($variables['attributes']['placeholder']) && empty(implode($variables['attributes']['placeholder']))){
+      unset($variables['attributes']['placeholder']);
+    } elseif (is_string($variables['attributes']['placeholder']) && empty($variables['attributes']['placeholder'])) {
+      unset($variables['attributes']['placeholder']);
+    }
   }
   $variables['children'] = $element['#children'];
 }
@@ -244,4 +247,13 @@ function material_admin_preprocess_select(&$variables) {
 
 function material_admin_preprocess_form_element(&$variables) {
   $variables['select_default'] = theme_get_setting('material_admin_select_default');
+}
+
+/**
+ * Implements hook_preprocess_form_element__wrapped().
+ */
+function material_admin_preprocess_form_element__wrapped(&$variables) {
+  if (isset($variables['element']['#title'])) {
+    $variables['title'] = $variables['element']['#title'];
+  }
 }

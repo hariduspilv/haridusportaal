@@ -210,7 +210,7 @@ class OpenIDConnectAccountsForm extends FormBase implements ContainerInjectionIn
       $client_name,
       $configuration
     );
-    $scopes = $this->claims->getScopes();
+    $scopes = $this->claims->getScopes($client);
     $_SESSION['openid_connect_op'] = $op;
     $_SESSION['openid_connect_connect_uid'] = $this->currentUser->id();
     $response = $client->authorize($scopes, $form_state);

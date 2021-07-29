@@ -27,7 +27,7 @@ class ContextKeyFilterProcessor implements ProcessorInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function __invoke(array $record) {
     foreach ($this->contextKeys as $key) {

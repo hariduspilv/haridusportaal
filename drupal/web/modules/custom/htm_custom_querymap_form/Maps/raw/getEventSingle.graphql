@@ -28,9 +28,10 @@ query getEventSingle(
           videoDomain
           videoDescription
           videoId
+          videoThumbnail
         }
           fieldPicture {
-            derivative(style:CROP_LARGE){
+            derivative(style:CROPLARGE){
               url
             }
             width

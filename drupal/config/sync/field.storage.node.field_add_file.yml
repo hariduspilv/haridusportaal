@@ -1,0 +1,23 @@
+uuid: 79f9ecfc-a28a-49d6-aa36-5c79bb8a29c8
+langcode: et
+status: true
+dependencies:
+  module:
+    - file
+    - node
+id: node.field_add_file
+field_name: field_add_file
+entity_type: node
+type: file
+settings:
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  target_type: file
+module: file
+locked: false
+cardinality: 10
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

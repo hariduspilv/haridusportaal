@@ -26,14 +26,14 @@ query ($path: String!) {
                     }
                     fieldShortDescription
                     fieldIntroductionImage {
-                        derivative(style: CROP_LARGE) {
+                        derivative(style: CROPLARGE) {
                             url
                         }
                         alt
                         title
                     }
                     fieldAdditionalImages {
-                        derivative(style: CROP_LARGE) {
+                        derivative(style: CROPLARGE) {
                             url
                         }
                         alt
@@ -56,9 +56,10 @@ query ($path: String!) {
                         videoDomain
                         videoDescription
                         videoId
+                        videoThumbnail
                     }
                     fieldVideoThumbnail {
-                        derivative(style: CROP_LARGE) {
+                        derivative(style: CROPLARGE) {
                             url
                         }
                     }

@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
+import { BehaviorSubject } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TranslateService {
 
   constructor(
@@ -12,6 +15,7 @@ export class TranslateService {
 
   error: boolean = false;
   data: Object;
+  translationsLoaded$ = new BehaviorSubject<boolean>(false);
 
   findObj(obj, path) {
     return path
@@ -37,6 +41,7 @@ export class TranslateService {
       const httpResponse = (response) => {
         /* Timeout for testing purposes. ToDO: Remove it ofc.. */
         this.data = response;
+        this.translationsLoaded$.next(true);
         resolve(true);
       };
 

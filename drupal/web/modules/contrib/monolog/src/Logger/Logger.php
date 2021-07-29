@@ -24,7 +24,7 @@ class Logger extends BaseLogger implements LoggerChannelInterface {
    *
    * @var array
    */
-  protected $levelTranslation = array(
+  protected $levelTranslation = [
     RfcLogLevel::EMERGENCY => MonologLogLevel::EMERGENCY,
     RfcLogLevel::ALERT => MonologLogLevel::ALERT,
     RfcLogLevel::CRITICAL => MonologLogLevel::CRITICAL,
@@ -33,17 +33,17 @@ class Logger extends BaseLogger implements LoggerChannelInterface {
     RfcLogLevel::NOTICE => MonologLogLevel::NOTICE,
     RfcLogLevel::INFO => MonologLogLevel::INFO,
     RfcLogLevel::DEBUG => MonologLogLevel::DEBUG,
-  );
+  ];
 
   /**
    * {@inheritdoc}
    */
-  public function addRecord($level, $message, array $context = array()) {
+  public function addRecord($level, $message, array $context = []): bool {
     if (array_key_exists($level, $this->levelTranslation)) {
       $level = $this->levelTranslation[$level];
     }
 
-    parent::addRecord($level, $message, $context);
+    return parent::addRecord($level, $message, $context);
   }
 
   /**

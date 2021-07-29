@@ -274,16 +274,19 @@ public class HPortalRestController {
         HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/eeIsikukaart/{personalCode}/{requestTimestamp}",
+  @RequestMapping(value = {"/eeIsikukaart/{personalCode}/{requestTimestamp}",
+      "/eeIsikukaart/{personalCode}/{requestTimestamp}/{redisKey}/{andmeplokk}"},
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getEeIsikukaart(
       @PathVariable("personalCode") String personalcode,
-      @PathVariable("requestTimestamp") Long timestamp) {
+      @PathVariable("requestTimestamp") Long timestamp,
+      @PathVariable(value = "redisKey", required = false) String redisKey,
+      @PathVariable(value = "andmeplokk", required = false) String[] andmeplokk) {
     EeIsikukaartWorker eeIsikukaartWorker = new EeIsikukaartWorker(ehisXRoadService, redisTemplate,
         redisExpire, redisFileExpire, redisKlfExpire);
-    return new ResponseEntity<>(
-        eeIsikukaartWorker.getEeIsikukaart(personalcode, timestamp), HttpStatus.OK);
+    return new ResponseEntity<>(eeIsikukaartWorker.getEeIsikukaart(personalcode, timestamp,
+        redisKey == null ? "eeIsikukaart" : redisKey, andmeplokk), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/GDPRLog/{personalCode}",
@@ -340,6 +343,19 @@ public class HPortalRestController {
         redisFileExpire, redisKlfExpire);
     return new ResponseEntity<>(
         eisWorker.getTestidKod(personalCode, testSessionId, timestamp), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/teisAndmedKod/{personalCode}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getTeisAndmedKod(
+      @PathVariable("personalCode") String personalCode,
+      @PathVariable("requestTimestamp") Long timestamp) {
+    EisWorker eisWorker = new EisWorker(eisXRoadService, redisTemplate, redisExpire,
+        redisFileExpire, redisKlfExpire);
+    return new ResponseEntity<>(
+        eisWorker.getTeisAndmedKod(personalCode, timestamp), HttpStatus.OK);
+
   }
 
   @RequestMapping(value = "/eTunnistusKod/{personalCode}/{tunnistusId}/{requestTimestamp}",

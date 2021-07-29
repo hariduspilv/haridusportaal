@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const Mustache = require('mustache');
 const log4js = require("log4js");
+const staticRoutes = require('./static.json');
 log4js.configure({
   appenders: { amp: { type: "file", filename: path.join(__dirname, '../../logs/amp.log') } },
   categories: { default: { appenders: ["amp"], level: "all" } }
@@ -53,6 +54,10 @@ module.exports.getRequestParams = (articlePath, api) => {
     "artiklid": {
       "queryKey": "getArticle",
       "pageTitle": "Artikkel"
+    },
+    "uuringud": {
+      "queryKey": "studyDetailViewQuery",
+      "pageTitle": "Uuringud"
     },
   };
 
@@ -134,6 +139,9 @@ module.exports.serve = async (req, res) => {
   logger.debug(`Serving amp: ${req.get('host')} -> ${req.params[0]}`)
   const articlePath = req.params[0];
   const apiPrefix = await this.getPrefix();
+  const staticPathMatch = staticRoutes.find((static) =>
+    static.path === articlePath || static.slug === articlePath
+  );
   const requestOptions = await this.getRequestParams(articlePath, apiPrefix);
   let rawData = {};
   if (requestOptions.queryId) {
@@ -143,6 +151,8 @@ module.exports.serve = async (req, res) => {
      } else {
       logger.error(`Data fetch failed: ${requestOptions.api} -> ${requestOptions.path}`)
      }
+  } else if (staticPathMatch) {
+    rawData.entity = staticPathMatch;
   } else {
     logger.error(`QueryId missing: ${requestOptions.api} -> ${requestOptions.path}`);
   }
@@ -157,8 +167,8 @@ module.exports.serve = async (req, res) => {
     ? parsedData.fieldPictogram.entity.url : false;
 
   if (picto) {
-    // const replacedPictoUrl = this.pictoUrlReplacer(picto)
-    picto = await this.getFullPath(req) + '/picto?url=' + picto;
+    const encodedPicto = encodeURI(picto);
+    picto = await this.getFullPath(req) + '/picto?url=' + encodedPicto;
     if (!picto) {
       logger.error(`Picto fetch failed: ${picto}`)
     } 

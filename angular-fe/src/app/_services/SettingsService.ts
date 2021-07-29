@@ -7,12 +7,12 @@ import {environment} from '../../environments/environment';
 	providedIn: 'root',
 })
 export class SettingsService {
-  constructor(
-    private http: HttpClient,
-  ) {
-    this.url = environment.API_URL;
-    this.ehisUrl = environment.EHIS_URL;
-  }
+	constructor(
+		private http: HttpClient,
+	) {
+		this.url = environment.API_URL;
+		this.ehisUrl = environment.EHIS_URL;
+	}
 
   public url: string = '';
   public ehisUrl: string = '';

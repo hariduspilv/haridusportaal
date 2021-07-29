@@ -4,12 +4,14 @@ namespace Drupal\menu_item_role_access;
 
 use Drupal\Core\Access\AccessManagerInterface;
 use Drupal\Core\Config\ConfigManagerInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Menu\DefaultMenuLinkTreeManipulators;
 use Drupal\Core\Menu\MenuLinkInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 
 /**
@@ -71,15 +73,12 @@ class MenuItemRoleAccessLinkTreeManipulator extends DefaultMenuLinkTreeManipulat
       $metadata = $instance->getMetaData();
       // When no route name is specified, this must be an external link.
       $config = $this->configManager->get('menu_item_role_access.config');
-      $check_internal = $config->get('overwrite_internal_link_target_access');
       // If we want to check this URL or not.
-      $check_url = $check_internal == TRUE ? TRUE : !$url->isRouted();
-
-      if ($check_url && isset($metadata['entity_id'])) {
+      if ($this->checkUrl($config, $url) && isset($metadata['entity_id'])) {
         // Load the entity of the menu item so we can get the roles.
         $menu_link_item = MenuLinkContent::load($metadata['entity_id']);
         // Now make sure the module has been enabled and installed correctly.
-        if ($menu_link_item->hasField('menu_item_roles')) {
+        if (!empty($menu_link_item) && $menu_link_item->hasField('menu_item_roles')) {
           $menu_link_item = $this->getOverridingParent($menu_link_item);
 
           $allowed_roles = $menu_link_item->get('menu_item_roles')->getValue();
@@ -192,6 +191,35 @@ class MenuItemRoleAccessLinkTreeManipulator extends DefaultMenuLinkTreeManipulat
       return $this->entityRepository->loadEntityByUuid($uuid_fragments[0], $uuid_fragments[1]);
     }
     return FALSE;
+  }
+
+  /**
+   * Check if we need check the access for this item.
+   *
+   * @param \Drupal\Core\Config\ImmutableConfig $config
+   *   The config from the menu_item_role_access module.
+   * @param \Drupal\Core\Url $url
+   *   The current Url object for the menu item.
+   *
+   * @return bool
+   *   Returns TRUE if we need to check access otherwise FALSE.
+   */
+  private function checkUrl(ImmutableConfig $config, Url $url) {
+    $check_internal = $config->get('overwrite_internal_link_target_access');
+    // If we want to check this URL or not.
+    $check_url = $check_internal == TRUE ? TRUE : !$url->isRouted();
+
+    $special_cases = [
+      '<nolink>',
+      '<none>',
+    ];
+
+    // Check the special case of a no link item.
+    if ($url->isExternal() === FALSE && $url->isRouted() && in_array($url->getRouteName(), $special_cases)) {
+      $check_url = TRUE;
+    }
+
+    return $check_url;
   }
 
 }

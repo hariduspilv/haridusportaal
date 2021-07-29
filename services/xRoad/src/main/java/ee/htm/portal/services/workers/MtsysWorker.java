@@ -442,6 +442,10 @@ public class MtsysWorker extends Worker {
           klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetKlSoidukiKategooria())
           .put("value", response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
               response.getTegevusloaAndmed().getKlSoidukiKategooria().intValue() : null);
+      stepZeroDataElementsNode.putObject("menetlejaKommentaar")
+          .put("hidden", !response.getTegevusloaAndmed().isSetKlStaatus()
+              || response.getTegevusloaAndmed().getKlStaatus().intValue() != 15669)
+          .put("value", response.getTegevusloaAndmed().getMenetlejaKommentaar());
 
       stepZeroDataElementsNode.putObject("oppeTasemed").put("hidden",
           !klOkLiik.equals(18057L) && !klOkLiik.equals(18102L)).putArray("value");

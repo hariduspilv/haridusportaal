@@ -1,0 +1,20 @@
+uuid: 7158835f-3436-4229-add1-409bebd16b03
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_import_job_offers
+title: 'Queue: Import task worker: job offers delete queue'
+id: ultimate_cron_queue_cron_htm_custom_import_job_offers_delete
+weight: 10
+module: htm_custom_import_job_offers
+callback: 'ultimate_cron.queue_worker:queueCallback'
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+logger:
+  id: database

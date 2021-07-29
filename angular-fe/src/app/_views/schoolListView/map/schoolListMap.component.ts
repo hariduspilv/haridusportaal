@@ -66,6 +66,7 @@ export class SchoolListMapComponent implements AfterViewInit {
     private mapService: MapService,
     private cdr: ChangeDetectorRef,
     private translate: TranslateService,
+    private el: ElementRef,
   ) { }
 
   ngOnInit() {
@@ -75,6 +76,16 @@ export class SchoolListMapComponent implements AfterViewInit {
 
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
+  }
+
+  mapLoaded() {
+    setTimeout(() => {
+      const focusableElements = this.el.nativeElement.querySelectorAll('[tabindex], agm-map a');
+      Array.from(focusableElements).forEach((element:HTMLElement) => {
+        element.setAttribute('tabindex', '-1');
+      });
+    },
+    3000);
   }
 
   checkLanguageDisable():void {

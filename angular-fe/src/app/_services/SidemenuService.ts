@@ -64,4 +64,13 @@ export class SidemenuService {
 
     this.langSwitch.next({ any: Math.random() * 1000000 });
   }
+
+  resetPageFocus(): void {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    document.body.setAttribute('tabindex', '-1');
+    document.body.focus();
+    document.body.removeAttribute('tabindex');
+  }
 }

@@ -1,10 +1,14 @@
 language: php
-sudo: false
 
 php:
+  - 7.4
+  - 7.3
+  - 7.2
   - 7.1
-  - 7
-  - 5.6
+  - 7.0
+
+services:
+  - mysql
 
 env:
   global:
@@ -12,26 +16,40 @@ env:
     - SIMPLETEST_DB=mysql://root:@127.0.0.1/graphql
     - TRAVIS=true
   matrix:
-    - DRUPAL_CORE=8.3.x
-    - DRUPAL_CORE=8.4.x
-    - DRUPAL_CORE=8.5.x
+    - DRUPAL_CORE=9.0.x
+    - DRUPAL_CORE=8.9.x
+    - DRUPAL_CORE=8.8.x
 
 matrix:
   # Don't wait for the allowed failures to build.
   fast_finish: true
   include:
-    - php: 7.1
+    - php: 7.3
       env:
-        - DRUPAL_CORE=8.4.x
+        - DRUPAL_CORE=8.8.x
         # Only run code coverage on the latest php and drupal versions.
         - WITH_PHPDBG_COVERAGE=true
+  # Drupal 9 requires PHP 7.3 or higher
+  exclude:
+    - php: 7.0
+      env:
+        - DRUPAL_CORE=9.0.x
+    - php: 7.1
+      env:
+        - DRUPAL_CORE=9.0.x
+    - php: 7.2
+      env:
+        - DRUPAL_CORE=9.0.x
   allow_failures:
     # Allow the code coverage report to fail.
-    - php: 7.1
+    - php: 7.3
       env:
-        - DRUPAL_CORE=8.4.x
+        - DRUPAL_CORE=8.8.x
         # Only run code coverage on the latest php and drupal versions.
         - WITH_PHPDBG_COVERAGE=true
+    # Tests on PHP 7.4 are broken right now, see
+    # https://github.com/drupal-graphql/graphql/issues/982
+    - php: 7.4
 
 mysql:
   database: graphql
@@ -41,7 +59,7 @@ mysql:
 # Cache composer downloads.
 cache:
   directories:
-    - $HOME/.composer
+    - $HOME/.composer/cache
 
 before_install:
   # Disable xdebug.
@@ -53,19 +71,12 @@ before_install:
       else export PHPINI=$HOME/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini;
     fi
 
-  # PHP Deprecated: Automatically populating $HTTP_RAW_POST_DATA is deprecated
-  # and will be removed in a future version. To avoid this warning set
-  # 'always_populate_raw_post_data' to '-1' in php.ini and use the php://input
-  # stream instead.
-  - if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]];
-      then echo always_populate_raw_post_data = -1 >> $PHPINI;
-    fi;
-
   # Disable the default memory limit.
   - echo memory_limit = -1 >> $PHPINI
 
-  # Update composer.
-  - composer self-update
+  # Update composer. But keep it at version 1 for compatibility with older
+  # Drupal versions.
+  - composer self-update --1
 
 install:
   # Create the database.
@@ -88,9 +99,13 @@ install:
       then grep -rl 'cli' $DRUPAL_BUILD_DIR/core $DRUPAL_BUILD_DIR/modules | xargs sed -i "s/'cli'/'phpdbg'/g" || true;
     fi
 
+  # We don't care about any dirty changes in the vendor directory, throw them
+  # all away.
+  - composer --working-dir=$DRUPAL_BUILD_DIR config discard-changes true
   # Bring in the module dependencies without requiring a merge plugin. The
   # require also triggers a full 'composer install'.
-  - composer --working-dir=$DRUPAL_BUILD_DIR require webonyx/graphql-php:^0.12.5
+  - composer --no-interaction --working-dir=$DRUPAL_BUILD_DIR require webonyx/graphql-php:^0.12.5
+  - composer --no-interaction --working-dir=$DRUPAL_BUILD_DIR run-script drupal-phpunit-upgrade
 
 script:
   # Run the unit tests using phpdbg if the environment variable is 'true'.

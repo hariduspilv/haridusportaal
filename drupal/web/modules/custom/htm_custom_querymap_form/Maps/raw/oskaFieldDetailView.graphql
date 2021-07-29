@@ -24,7 +24,7 @@ query oskaFieldDetailView($path: String!) {
           entityLabel
           fieldIntroduction
           fieldOskaFieldPicture {
-            derivative(style: CROP_LARGE) {
+            derivative(style: CROPLARGE) {
               url
               __typename
             }
@@ -39,6 +39,7 @@ query oskaFieldDetailView($path: String!) {
             videoDomain
             videoDescription
             videoId
+            videoThumbnail
           }
           body {
             value

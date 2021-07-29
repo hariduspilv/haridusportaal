@@ -17,7 +17,7 @@ query newsList($tagValue: [String], $tagEnabled: Boolean, $titleValue: String, $
         fieldShortDescription
         fieldAuthor
         fieldIntroductionImage {
-          derivative(style: CROP_SMALL) {
+          derivative(style: CROPSMALL) {
             url
           }
           alt
@@ -28,9 +28,10 @@ query newsList($tagValue: [String], $tagEnabled: Boolean, $titleValue: String, $
           videoDomain
           videoDescription
           videoId
+          videoThumbnail
         }
         fieldVideoThumbnail {
-          derivative(style: CROP_SMALL) {
+          derivative(style: CROPSMALL) {
             url
           }
         }

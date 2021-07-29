@@ -3,15 +3,25 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.study_page_accordion.field_body
     - field.field.paragraph.study_page_accordion.field_study_accordion_content
     - field.field.paragraph.study_page_accordion.field_study_accordion_intro
     - field.field.paragraph.study_page_accordion.field_study_page_accordion_title
     - paragraphs.paragraphs_type.study_page_accordion
+  module:
+    - text
 id: paragraph.study_page_accordion.default
 targetEntityType: paragraph
 bundle: study_page_accordion
 mode: default
 content:
+  field_body:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
   field_study_accordion_content:
     weight: 2
     label: above

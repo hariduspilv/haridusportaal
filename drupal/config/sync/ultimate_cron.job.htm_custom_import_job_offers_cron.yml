@@ -1,0 +1,30 @@
+uuid: 7128208b-9521-40ce-9ab2-591f6ea2ba04
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_import_job_offers
+title: 'Default cron handler'
+id: htm_custom_import_job_offers_cron
+weight: 0
+module: htm_custom_import_job_offers
+callback: htm_custom_import_job_offers_cron
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '0 1 * * *'
+    catch_up: 0
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

@@ -1,35 +1,49 @@
-import { HostListener, Component, Input, OnInit } from '@angular/core';
+import { HostListener, Component, Input, OnInit, HostBinding } from '@angular/core';
 import { ModalService } from '@app/_services';
+import { VideoEmbedService } from '@app/_services/VideoEmbedService';
+
+interface ResponseImage {
+  alt?: string;
+  title?: string;
+  index?: number;
+  derivative?: {
+    url: string;
+  };
+}
+
+interface ResponseVideo {
+  input?: string;
+  videoThumbnail?: string;
+}
+
+interface ResolvedList extends ResponseVideo, ResponseImage {}
 
 @Component({
   selector: 'images',
   templateUrl: 'images.template.html',
   styleUrls: ['images.styles.scss'],
-  host: {
-    class: 'image',
-  },
 })
 
 export class ImageComponent implements OnInit {
-  @Input() image: {} = {};
-  @Input() videos: {} = {};
-  @Input() limit: number = 1;
+  @Input() image: ResponseImage | ResponseImage[];
+  @Input() videos: ResponseVideo | ResponseVideo[];
+  @Input() videoThumb: string;
+  @Input() limit = 1;
   @Input() prioritizeVideos = false;
-  public images;
-  public activeImage;
+  @HostBinding('class') className = 'image';
+
+  public images: ResolvedList[];
+  public activeImage: ResolvedList;
   public loadBounce = false;
   public firstImageLoaded = true;
 
   constructor(
     private modalService: ModalService,
-    ) { }
+    private videoService: VideoEmbedService,
+  ) { }
 
-  ngOnInit() {
-    if (!Array.isArray(this.image)) {
-      this.images = [this.image];
-    } else {
-      this.images = this.image;
-    }
+  ngOnInit(): void {
+    this.images = Array.isArray(this.image) ? this.image : [this.image];
     if (Array.isArray(this.videos) || Object.keys(this.videos).length) {
       this.mergeVideosToList();
     }
@@ -42,34 +56,32 @@ export class ImageComponent implements OnInit {
     }
   }
 
-  coverImageLoaded() {
+  coverImageLoaded(): void {
     // Prevent a hypothetical race condition
     this.loadBounce = true;
     this.firstImageLoaded = true;
   }
 
-  mergeVideosToList() {
-    if (!Array.isArray(this.videos)) {
-      this.images = this.prioritizeVideos ? [this.videos, ...this.images] : [...this.images, this.videos];
-    } else {
-      this.images = this.prioritizeVideos ? [...this.videos, ...this.images] : [...this.images, ...this.videos];
-    }
+  mergeVideosToList(): void {
+    const videoArray = Array.isArray(this.videos) ? this.videos : [this.videos];
+    const videos = this.videoService.mapVideoList(videoArray, this.videoThumb) as ResponseVideo[];
+    this.images = this.prioritizeVideos ? [...videos, ...this.images] : [...this.images, ...videos];
   }
 
-  initGalleryImages() {
-    this.images = this.images.map((element, index) => {
-      return { ...element, index };
-    });
+  initGalleryImages(): void {
+    this.images = this.images.map((element, index) => ({
+      ...element, index,
+    }));
     this.activeImage = this.images[0];
   }
 
-  handlePrev(image) {
+  handlePrev(image: ResolvedList): void {
     if (image.index > 0) {
       this.handleNavigation(image.index - 1);
     }
   }
 
-  handleNext(image) {
+  handleNext(image: ResolvedList): void {
     if (image.index < this.images.length - 1) {
       this.handleNavigation(image.index + 1);
     }
@@ -85,11 +97,11 @@ export class ImageComponent implements OnInit {
     }
   }
 
-  handleNavigation(index) {
+  handleNavigation(index: number): void {
     this.activeImage = this.images[index];
   }
 
-  openGallery() {
+  openGallery(): void {
     this.modalService.open('gallery');
   }
 }

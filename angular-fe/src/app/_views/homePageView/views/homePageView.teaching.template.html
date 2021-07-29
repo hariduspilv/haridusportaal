@@ -14,6 +14,14 @@
     [category]="'home.topical_teachers' | translate"
     [image]="'/assets/img/homepage-topical-teachers.svg'"
     [article]="news" [theme]="theme"></homepage-topical>
+  <homepage-study
+    [title]="study.title"
+    [intro]="study.intro"
+    [data]="study.data"
+    [theme]="theme"></homepage-study>
+  <job-offers-map>
+    <homepage-line [type]="2"></homepage-line>
+  </job-offers-map>
   <homepage-slides
     [data]="services"
     [title]="'home.toolbox' | translate" 

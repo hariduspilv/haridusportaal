@@ -64,6 +64,7 @@ import {
   SidebarComponent,
   SidebarContactComponent,
   SidebarDataComponent,
+  SidebarDownloadFileComponent,
   SidebarEventsComponent,
   SidebarFactsComponent,
   SidebarFinalDocumentAccessComponent,
@@ -139,6 +140,7 @@ import { IconModule } from './icon/icon.module';
 import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 import { MaxWidthWrapperComponent } from './max-width-wrapper/max-width-wrapper.component';
 import { TextTruncateTogglerComponent } from './text-truncate-toggler/text-truncate-toggler.component';
+import { SkipToContentComponent } from './skip-to-content';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -206,6 +208,7 @@ const declarations = [
   SidebarFinalDocumentAccessComponent,
   SidebarFinalDocumentDownloadComponent,
   SidebarFinalDocumentHistoryComponent,
+  SidebarDownloadFileComponent,
   StudyProgrammesComponent,
   SchoolsComponent,
   ProgressBarComponent,
@@ -245,6 +248,7 @@ const declarations = [
   LabelCountComponent,
   MainProfessionsSearchResultsComponent,
   TagComponent,
+  SkipToContentComponent,
   MaxWidthWrapperComponent,
   ...certificatesModuleDeclarations,
   TextTruncateTogglerComponent,

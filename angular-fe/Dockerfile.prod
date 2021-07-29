@@ -1,4 +1,4 @@
-FROM node:current-alpine
+FROM node:14-alpine
 
 ARG BUILD_VERSION=${BUILD_VERSION}
 ENV ENVIRONMENT=${ENVIRONMENT}

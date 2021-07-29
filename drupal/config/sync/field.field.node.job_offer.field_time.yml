@@ -1,0 +1,160 @@
+uuid: a267f3d4-a5ce-4525-af56-b60030d8cf73
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_time
+    - node.type.job_offer
+    - paragraphs.paragraphs_type.working_time
+  module:
+    - entity_reference_revisions
+id: node.job_offer.field_time
+field_name: field_time
+entity_type: node
+bundle: job_offer
+label: Tööaeg
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      working_time: working_time
+    target_bundles_drag_drop:
+      accordion:
+        weight: 45
+        enabled: false
+      additional_links:
+        weight: 46
+        enabled: false
+      additional_section:
+        weight: 47
+        enabled: false
+      block:
+        weight: 48
+        enabled: false
+      career_contact:
+        weight: 49
+        enabled: false
+      contact_section:
+        weight: 50
+        enabled: false
+      content_page_link:
+        weight: 51
+        enabled: false
+      ehis_icon_link:
+        weight: 52
+        enabled: false
+      ehis_links:
+        weight: 53
+        enabled: false
+      event_date:
+        weight: 54
+        enabled: false
+      favorite_item:
+        weight: 55
+        enabled: false
+      file_mandatory_description:
+        weight: 56
+        enabled: false
+      frontpage_service_image:
+        weight: 57
+        enabled: false
+      frontpage_services:
+        weight: 58
+        enabled: false
+      homepage_reference:
+        weight: 59
+        enabled: false
+      homepage_topics:
+        weight: 60
+        enabled: false
+      homepage_topics_new:
+        weight: 61
+        enabled: false
+      information_system_accordion:
+        weight: 62
+        enabled: false
+      information_system_lower:
+        weight: 63
+        enabled: false
+      information_system_sidebar:
+        weight: 64
+        enabled: false
+      infosystem_support:
+        weight: 65
+        enabled: false
+      iscedf_search:
+        weight: 66
+        enabled: false
+      job:
+        weight: 67
+        enabled: false
+      learning_carousel:
+        weight: 68
+        enabled: false
+      learning_to_teach:
+        weight: 69
+        enabled: false
+      link:
+        weight: 70
+        enabled: false
+      location:
+        weight: 71
+        enabled: false
+      main_profession_accordion:
+        weight: 72
+        enabled: false
+      main_profession_sidebar:
+        weight: 73
+        enabled: false
+      oska_field_sidebar:
+        weight: 74
+        enabled: false
+      registration_period:
+        weight: 75
+        enabled: false
+      right_sidebar_section_info:
+        weight: 76
+        enabled: false
+      school_location:
+        weight: 77
+        enabled: false
+      study:
+        weight: 78
+        enabled: false
+      study_page_accordion:
+        weight: 79
+        enabled: false
+      studypage_right_column:
+        weight: 80
+        enabled: false
+      supernews:
+        weight: 81
+        enabled: false
+      survey_page_accordion:
+        weight: 82
+        enabled: false
+      teaching_themes:
+        weight: 83
+        enabled: false
+      toolbox:
+        weight: 84
+        enabled: false
+      working_time:
+        enabled: true
+        weight: 85
+      yoth_content_page_link_type_2:
+        weight: 86
+        enabled: false
+      youth_content_page_link:
+        weight: 87
+        enabled: false
+      youth_subject_links:
+        weight: 88
+        enabled: false
+field_type: entity_reference_revisions

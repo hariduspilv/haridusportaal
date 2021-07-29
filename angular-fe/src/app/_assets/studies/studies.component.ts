@@ -70,9 +70,7 @@ export class StudiesComponent implements OnInit {
           if (response.error) {
             this.error = true;
             this.requestErr = true;
-            const currentLang = 'et';
-            this.alertsService
-              .info(response.error.message_text[currentLang], 'studies', 'studies', false, false);
+            this.alertsService.info('errors.studies_data_missing', 'studies');
           } else {
             if (response.value?.isikuandmed) {
               this.oppelaenOigus = response.value.isikuandmed.oppelaenOigus;
@@ -92,13 +90,14 @@ export class StudiesComponent implements OnInit {
             // Sort currently studying and finished separately
             this.content = [
               ...resultData.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(dateSortFn),
-              ...resultData.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort((a, b) => dateSortFn(a, b, 'oppLopp')),
-            ]
+              ...resultData.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort(
+                (a, b) => dateSortFn(a, b, 'oppLopp'),
+              ),
+            ];
             if (!this.content.length) {
               this.error = true;
               this.dataErr = true;
-              this.alertsService
-                .info('errors.studies_data_missing', 'studies');
+              this.alertsService.info('errors.studies_data_missing', 'studies');
             } else {
               this.initializeAccordionStates(this.content);
             }
@@ -111,7 +110,7 @@ export class StudiesComponent implements OnInit {
           this.error = true;
           this.requestErr = true;
           this.alertsService
-            .info('errors.studies_data_missing', 'studies');
+            .info('errors.studies_data_request', 'studies');
         });
   }
 

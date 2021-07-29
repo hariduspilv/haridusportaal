@@ -46,6 +46,7 @@
               "src/auth.html",
               "src/manifest.webmanifest",
               "src/robots.txt",
+              "src/google14fde6570f472c17.html",
               "src/sitemap.xml",
               {
                 "input": "./node_modules/@google/markerclustererplus/images",
@@ -95,6 +96,22 @@
               ]
             },
             "prelive": {
+              "assets": [
+                "src/assets",
+                "src/favicon.ico",
+                "src/auth.html",
+                "src/manifest.webmanifest",
+                "src/sitemap.xml",
+                {
+                  "input": "./node_modules/@google/markerclustererplus/images",
+                  "glob": "*",
+                  "output": "/images"
+                },
+                { "glob": "robots.txt",
+                  "input": "src/environments/prelive/",
+                  "output": "/"
+                }
+              ],
               "index": {
                 "input": "src/index.prod.html",
                 "output": "index.html"
@@ -127,6 +144,7 @@
                 "src/assets",
                 "src/favicon.ico",
                 "src/auth.html",
+                "src/google14fde6570f472c17.html",
                 "src/manifest.webmanifest",
                 "src/sitemap.xml",
                 {

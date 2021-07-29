@@ -259,22 +259,50 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Get the main test information
   public function getTestSessions(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'testsessioonidKod';
+    \Drupal::logger('xjson')->notice('<pre><code>EIS response: '. print_r($params['value'], TRUE). '</code></pre>' );
+
     return $this->invokeWithRedis('testsessioonidKod', $params, FALSE);
+
   }
 
   /**
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  public function getTeisKod(array $params = []){
+    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
+    $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
+    $params['hash'] = 'teisAndmedKod';
+    return $this->invokeWithRedis('teisAndmedKod', $params, FALSE);
+  }
+
+  /**
+   * @param array $params
+   * @return array|mixed|\Psr\Http\Message\ResponseInterface
+   */
+  // Get detailed information about a specific exam and pass it an extra variable if it is EST language exam
   public function gettestidKod(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['session_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'testidKod_'.$params['session_id'];
-    return $this->invokeWithRedis('testidKod', $params, FALSE);
+    // get detailed information about any exam
+    $testid_request = $this->invokeWithRedis('testidKod', $params, FALSE);
+    // get exam's certificate id
+    $exam_cert_id = $testid_request['value']['tunnistus_id'];
+    // get language exam's certificate id-s and check if they match with $testid_request id
+    $lang_ex_cert_id = $this->getTeisKod()['value']['tunnistus_jada'];
+    foreach($lang_ex_cert_id as $sequence){
+      if($exam_cert_id === $sequence['tunnistus_id']) {
+        // if it is an EST language exam, pass it an extra variable
+        $testid_request['lang_cert_nr'] = $sequence['nbr'];
+      }
+    }
+    return $testid_request;
   }
 
   /**
@@ -292,6 +320,7 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  // Download a certificate
   public function getCertificate(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['certificate_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
@@ -335,18 +364,38 @@ class EhisConnectorService {
    * @param array $params
    * @return mixed
    */
+  // Get Isikukaart data from EHIS and forward it to front-end according to the tab that is open
   public function getPersonalCard(array $params = []){
-    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
+    $tab = $params['tab'];
+    switch ($tab){
+      case 'studies':
+        $keys = ['OPPIMINE_ALUS', 'OPPIMINE_HUVI', 'OPPIMINE_POHI', 'OPPIMINE_KUTSE', 'OPPIMINE_KORG', 'OPPELAENUOIGUSLIK'];
+        break;
+      case 'teachings':
+        $keys = ['TOOTAMINE_HUVI', 'TOOTAMINE_ALUS', 'TOOTAMINE_POHI', 'TOOTAMINE_KUTSE', 'TOOTAMINE_KORG', 'TAIENDKOOLITUS', 'TASEMEKOOLITUS', 'KVALIFIKATSIOON'];
+        break;
+      case 'personal_data':
+        $keys = ['ELUKOHAANDMED'];
+        break;
+      case 'digital_sign_data':
+        $keys = ['OPPIMINE_ALUS', 'OPPIMINE_HUVI', 'OPPIMINE_POHI', 'OPPIMINE_KUTSE', 'OPPIMINE_KORG', 'OPPELAENUOIGUSLIK',
+          'TOOTAMINE_HUVI', 'TOOTAMINE_ALUS', 'TOOTAMINE_POHI', 'TOOTAMINE_KUTSE', 'TOOTAMINE_KORG', 'TAIENDKOOLITUS', 'TASEMEKOOLITUS', 'KVALIFIKATSIOON'];
+        break;
+      case 'eeIsikukaartGDPR':
+        $keys = ['ANDMETE_KASUTUS'];
+        break;
+      default:
+        $keys = [];
+        break;
+    }
+
+    $andmeblokk = implode(',', array_values($keys));
+    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time(), $tab, $andmeblokk];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'eeIsikukaart';
     $response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
     \Drupal::logger('xjson')->notice('<pre><code>Personal card response: '. print_r($response, TRUE). '</code></pre>' );
-    if($params['tab'] !== 'eeIsikukaartGDPR') {
-      return $this->filterPersonalCard($response, $params['tab']);
-    } else {
-      $params['hash'] = 'eeIsikukaartGDPR';
-      return $this->invokeWithRedis('', $params, TRUE);
-    }
+    return $response;
   }
 
   /**
@@ -586,38 +635,6 @@ class EhisConnectorService {
   private function getAllClassificators(array $params = []){
     $params['key'] = 'klassifikaator';
     return json_decode($this->client->hGet($params['key'], $params['hash']), TRUE);
-  }
-
-  /**
-   * @param $input
-   * @param $tab
-   * @return mixed
-   */
-  private function filterPersonalCard($input, $tab){
-    switch ($tab){
-      case 'studies':
-        $keys = ['oping', 'isikuandmed', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
-        break;
-      case 'teachings':
-        $keys = ['tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon'];
-        break;
-      case 'personal_data':
-        $keys = ['isikuandmed'];
-        break;
-      case 'digital_sign_data':
-        $keys = ['oping', 'tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
-        break;
-      default:
-        $keys = [];
-        break;
-    }
-    if(isset($input['value'])){
-      foreach($input['value'] as $key => $value){
-        if(!in_array($key, $keys)) unset($input['value'][$key]);
-      }
-    }
-
-    return $input;
   }
 
   /**

@@ -9,13 +9,14 @@ import {
   SettingsService,
   SidemenuService,
 } from './_services';
-import {NavigationEnd, Router} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
 import {Location} from '@angular/common';
 import {AmpService} from './_services/ampService';
 import {TranslateService} from './_modules/translate/translate.service';
 import {CookieService} from './_services/CookieService';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {environment} from '@env/environment';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-root',
@@ -24,8 +25,9 @@ import {environment} from '@env/environment';
 })
 
 export class AppComponent implements OnInit, AfterViewInit {
-
 	public sidemenuIsVisible: boolean = false;
+	translationsLoaded$: Observable<boolean> = this.translate.translationsLoaded$;
+	loaderMessage = 'Ei saa serveriga ühendust, proovi mõne minuti pärast uuesti!';
 
 	constructor(
 		public sidemenuService: SidemenuService,
@@ -123,51 +125,71 @@ export class AppComponent implements OnInit, AfterViewInit {
       "serverUrl":"https://bdr.plumbr.io"
     }`;
 
-		if (prodDomains.includes(document.domain)) {
-			const script = document.createElement('script');
-			script.src = 'https://browser.plumbr.io/pa.js';
-			script.setAttribute('crossorigin', 'anonymous');
-			script.setAttribute('data-plumbr', data.replace(/\s/g, ''));
+    if (prodDomains.includes(document.domain)) {
+      const script = document.createElement('script');
+      script.src = 'https://browser.plumbr.io/pa.js';
+      script.setAttribute('crossorigin', 'anonymous');
+      script.setAttribute('data-plumbr', data.replace(/\s/g, ''));
 
-			const head = document.getElementsByTagName('head')[0];
-			head.appendChild(script);
-		}
-	}
+      const head = document.getElementsByTagName('head')[0];
+      head.appendChild(script);
+    }
+  }
 
-	gaPageTrack(): void {
-		this.router.events.subscribe((event) => {
-			if (event instanceof NavigationEnd) {
-				this.analytics.trackPage(event);
-			}
-		});
-	}
+  gaPageTrack():void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.analytics.trackPage(event);
+      }
+    });
+  }
 
-	ngAfterViewInit(): void {
-		// this.cookieAlert();
-		this.initCookies();
-	}
+  ngAfterViewInit(): void {
+    // this.cookieAlert();
+    this.initCookies();
+    this.unregisterServiceWorker();
+  }
 
-	ngOnInit() {
-		this.sidemenuService.isVisibleSubscription.subscribe((val) => {
-			this.sidemenuIsVisible = val;
-		});
-		if (!sessionStorage.getItem('ehisToken')) {
-			this.auth.getAnonToken();
-		}
+  /**
+   * Temporary function run on initial load to unregister dangling service workers
+   * Also remove service worker cache
+   */
+  private unregisterServiceWorker(): void {
+    if (window.navigator && navigator.serviceWorker) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach((registration) => registration.unregister);
+      });
+    }
+    if ('caches' in window) {
+      caches?.keys().then((keyList) => Promise.all(keyList.map((key) => caches.delete(key))));
+    }
+  }
 
-		this.router.events.subscribe((event) => {
-			if (event instanceof NavigationEnd) {
-				const path = `${window.location.origin}/amp${window.location.pathname}`;
-				this.amp.removeTag('rel=amphtml');
-				this.amp.addTag({
-					href: path,
-					rel: 'amphtml',
-				});
-			}
-		});
-		if (environment.GA_TRACKING) {
-			this.gaPageTrack();
-		}
+  ngOnInit() {
+    this.sidemenuService.isVisibleSubscription.subscribe((val) => {
+      this.sidemenuIsVisible = val;
+    });
+    /**
+     * Reverting anonymous token for now
+     */
+    // if(!sessionStorage.getItem('ehisToken')) {
+    //   console.log('ANONTOKEN');
+    //   this.auth.getAnonToken();
+    // }
 
-	}
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const path = `${window.location.origin}/amp${window.location.pathname}`;
+        this.amp.removeTag('rel=amphtml');
+        this.amp.addTag({
+          href: path,
+          rel: 'amphtml',
+        });
+      }
+    });
+    if (environment.GA_TRACKING) {
+      this.gaPageTrack();
+    }
+
+  }
 }

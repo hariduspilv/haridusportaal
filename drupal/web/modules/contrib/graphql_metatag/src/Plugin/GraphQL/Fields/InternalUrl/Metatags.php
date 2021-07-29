@@ -4,6 +4,7 @@ namespace Drupal\graphql_metatag\Plugin\GraphQL\Fields\InternalUrl;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Url;
 use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
@@ -14,13 +15,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @GraphQLField(
+ *   secure = true,
  *   id = "url_metatags",
  *   name = "metatags",
  *   type = "[Metatag]",
+ *   description = @Translation("Loads metatags for the URL."),
  *   parents = {"InternalUrl", "EntityCanonicalUrl"}
  * )
  */
 class Metatags extends FieldPluginBase implements ContainerFactoryPluginInterface {
+
   use DependencySerializationTrait;
 
   /**
@@ -31,6 +35,13 @@ class Metatags extends FieldPluginBase implements ContainerFactoryPluginInterfac
   protected $subRequestBuffer;
 
   /**
+   * Module Handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  private $moduleHandler;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
@@ -38,7 +49,8 @@ class Metatags extends FieldPluginBase implements ContainerFactoryPluginInterfac
       $configuration,
       $pluginId,
       $pluginDefinition,
-      $container->get('graphql.buffer.subrequest')
+      $container->get('graphql.buffer.subrequest'),
+      $container->get('module_handler')
     );
   }
 
@@ -53,15 +65,19 @@ class Metatags extends FieldPluginBase implements ContainerFactoryPluginInterfac
    *   The plugin definition array.
    * @param \Drupal\graphql\GraphQL\Buffers\SubRequestBuffer $subRequestBuffer
    *   The sub-request buffer service.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   Module Handler.
    */
   public function __construct(
     array $configuration,
-    $pluginId,
+    string $pluginId,
     $pluginDefinition,
-    SubRequestBuffer $subRequestBuffer
+    SubRequestBuffer $subRequestBuffer,
+    ModuleHandlerInterface $moduleHandler
   ) {
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->subRequestBuffer = $subRequestBuffer;
+    $this->moduleHandler = $moduleHandler;
   }
 
   /**
@@ -71,9 +87,15 @@ class Metatags extends FieldPluginBase implements ContainerFactoryPluginInterfac
     if ($value instanceof Url) {
       $resolve = $this->subRequestBuffer->add($value, function () {
         $tags = metatag_get_tags_from_route();
+
+        // Trigger hook_metatags_attachments_alter().
+        // Allow modules to rendered metatags prior to attaching.
+        $this->moduleHandler->alter('metatags_attachments', $tags);
+
         $tags = NestedArray::getValue($tags, ['#attached', 'html_head']) ?: [];
-        $tags = array_filter($tags, function($tag) {
-          return is_array($tag) && in_array(NestedArray::getValue($tag, [0, '#tag']), ['meta', 'link']);
+        $tags = array_filter($tags, function ($tag) {
+          return is_array($tag) &&
+            !NestedArray::getValue($tag, [0, '#attributes', SCHEMA_METATAG_MODULE_NAME]);
         });
 
         return array_map('reset', $tags);
@@ -81,7 +103,7 @@ class Metatags extends FieldPluginBase implements ContainerFactoryPluginInterfac
 
       return function ($value, array $args, ResolveContext $context, ResolveInfo $info) use ($resolve) {
         $tags = $resolve();
-        foreach ($tags as $tag) {
+        foreach ($tags->getValue() as $tag) {
           yield $tag;
         }
       };

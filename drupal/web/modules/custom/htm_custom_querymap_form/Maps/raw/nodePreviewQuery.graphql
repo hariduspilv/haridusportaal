@@ -23,7 +23,7 @@ fragment oskaResult on NodeOskaResultPage {
         value
     }
     fieldResultPagePicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
             __typename
         }
@@ -75,6 +75,7 @@ fragment oskaResult on NodeOskaResultPage {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     fieldResultPageLinks {
         url {
@@ -131,7 +132,7 @@ fragment oskaSurveyPage on NodeOskaSurveyPage {
     entityLabel
     fieldSurveyPageIntroduction
     fieldSurveyPagePicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
             __typename
         }
@@ -146,6 +147,7 @@ fragment oskaSurveyPage on NodeOskaSurveyPage {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     body {
         value
@@ -253,7 +255,7 @@ fragment oskaMainProfession on NodeOskaMainProfessionPage {
     fieldFixedLabel
     fieldIntroduction
     fieldMainProfessionPicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
             __typename
         }
@@ -268,6 +270,7 @@ fragment oskaMainProfession on NodeOskaMainProfessionPage {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     body {
         value
@@ -568,7 +571,7 @@ fragment oskaDetail on NodeOskaFieldPage {
     entityLabel
     fieldIntroduction
     fieldOskaFieldPicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
             __typename
         }
@@ -583,6 +586,7 @@ fragment oskaDetail on NodeOskaFieldPage {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     body {
         value
@@ -698,7 +702,7 @@ fragment event on NodeEvent {
     RegistrationCount
     fieldMaxNumberOfParticipants
     fieldPicture {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
         }
         width
@@ -824,14 +828,14 @@ fragment news on NodeNews {
     }
     fieldShortDescription
     fieldIntroductionImage {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
         }
         alt
         title
     }
     fieldAdditionalImages {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
         }
         alt
@@ -853,6 +857,7 @@ fragment news on NodeNews {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     entityUrl {
         ... on EntityCanonicalUrl {
@@ -876,7 +881,7 @@ fragment article on NodeArticle {
     }
     fieldBodySummary
     fieldImage {
-        derivative(style: CROP_LARGE) {
+        derivative(style: CROPLARGE) {
             url
         }
         targetId
@@ -888,6 +893,7 @@ fragment article on NodeArticle {
         videoDomain
         videoDescription
         videoId
+        videoThumbnail
     }
     fieldAccordionSection {
         entity {
@@ -948,7 +954,7 @@ fragment infoSystemPage on NodeInformationSystemPage{
             title
           fieldSubtitle
           fieldLogo {
-            derivative(style: CROP_LARGE) {
+            derivative(style: CROPLARGE) {
               url
             }
             targetId

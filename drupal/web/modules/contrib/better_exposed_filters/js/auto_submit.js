@@ -1,5 +1,6 @@
 /**
- * @file auto_submit.js
+ * @file
+ * auto_submit.js
  *
  * Provides a "form auto-submit" feature for the Better Exposed Filters module.
  */
@@ -7,7 +8,7 @@
 (function ($, Drupal) {
 
   /**
-   * To make a form auto submit, all you have to do is 3 things:
+   * To make a form auto submit, all you have to do is 3 things:.
    *
    * Use the "better_exposed_filters/auto_submit" js library.
    *
@@ -40,54 +41,82 @@
    * supported. We probably could use additional support for HTML5 input types.
    */
   Drupal.behaviors.betterExposedFiltersAutoSubmit = {
-    attach: function(context) {
-      // e.keyCode: key
-      var ignoredKeyCodes = [
-        16, // shift
-        17, // ctrl
-        18, // alt
-        20, // caps lock
-        33, // page up
-        34, // page down
-        35, // end
-        36, // home
-        37, // left arrow
-        38, // up arrow
-        39, // right arrow
-        40, // down arrow
-        9, // tab
-        13, // enter
-        27  // esc
-      ];
-
+    attach: function (context) {
       // When exposed as a block, the form #attributes are moved from the form
       // to the block element, thus the second selector.
       // @see \Drupal\block\BlockViewBuilder::preRender
       var selectors = 'form[data-bef-auto-submit-full-form], [data-bef-auto-submit-full-form] form, [data-bef-auto-submit]';
 
-      function triggerSubmit ($target) {
-        $target.closest('form').find('[data-bef-auto-submit-click]').click();
-      }
-
       // The change event bubbles so we only need to bind it to the outer form
       // in case of a full form, or a single element when specified explicitly.
-      $(selectors, context).addBack(selectors).once('bef-auto-submit').on('change keyup keypress', function (e) {
+      $(selectors, context).addBack(selectors).each(function (i, e) {
+        // Store the current form.
+        var $form = $(e);
+
+        // Retrieve the autosubmit delay for this particular form.
+        var autoSubmitDelay = $form.data('bef-auto-submit-delay') || 500;
+
+        // Attach event listeners.
+        $form.once('bef-auto-submit')
+          // On change, trigger the submit immediately.
+          .on('change', triggerSubmit)
+          // On keyup, wait for a specified number of milliseconds before
+          // triggering autosubmit. Each new keyup event resets the timer.
+          .on('keyup', Drupal.debounce(triggerSubmit, autoSubmitDelay));
+      });
+
+      /**
+       * Triggers form autosubmit when conditions are right.
+       *
+       * - Checks first that the element that was the target of the triggering
+       *   event is `:text` or `textarea`, but is not `.hasDatePicker`.
+       * - Checks that the keycode of the keyup was not in the list of ignored
+       *   keys (navigation keys etc).
+       *
+       * @param {object} e - The triggering event.
+       */
+      function triggerSubmit(e) {
+        // e.keyCode: key.
+        var ignoredKeyCodes = [
+          16, // Shift.
+          17, // Ctrl.
+          18, // Alt.
+          20, // Caps lock.
+          33, // Page up.
+          34, // Page down.
+          35, // End.
+          36, // Home.
+          37, // Left arrow.
+          38, // Up arrow.
+          39, // Right arrow.
+          40, // Down arrow.
+          9, // Tab.
+          13, // Enter.
+          27  // Esc.
+        ];
+
+        // Triggering element.
         var $target = $(e.target);
+        var $submit = $target.closest('form').find('[data-bef-auto-submit-click]');
 
         // Don't submit on changes to excluded elements or a submit element.
         if ($target.is('[data-bef-auto-submit-exclude], :submit')) {
           return true;
         }
-        // Use debounce to prevent excessive submits on text field changes.
-        // Navigation key presses are ignored.
-        else if ($target.is(':text:not(.hasDatepicker), textarea') && $.inArray(e.keyCode, ignoredKeyCodes) === -1) {
-          Drupal.debounce(triggerSubmit, 500)($target);
+
+        // Submit only if this is a non-datepicker textfield and if the
+        // incoming keycode is not one of the excluded values.
+        if (
+          $target.is(':text:not(.hasDatepicker), textarea')
+          && $.inArray(e.keyCode, ignoredKeyCodes) === -1
+        ) {
+          $submit.click();
         }
         // Only trigger submit if a change was the trigger (no keyup).
         else if (e.type === 'change') {
-          triggerSubmit($target);
+          $submit.click();
         }
-      });
+      }
     }
   }
 

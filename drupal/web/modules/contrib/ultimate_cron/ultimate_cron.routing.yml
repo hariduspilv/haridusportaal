@@ -102,3 +102,11 @@ entity.ultimate_cron_job.logs:
     _title: 'Cron jobs logs'
   requirements:
     _entity_access: 'ultimate_cron_job.views'
+
+entity.ultimate_cron_job.unlock:
+  path: '/admin/config/system/cron/jobs/{ultimate_cron_job}/unlock'
+  defaults:
+    _controller: '\Drupal\ultimate_cron\Controller\JobController::unlockCronJob'
+    _title: Unlock Cron job
+  requirements:
+    _permission: 'run cron jobs'

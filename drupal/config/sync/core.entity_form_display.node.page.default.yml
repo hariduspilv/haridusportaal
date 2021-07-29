@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.node.page.field_metatags
+    - field.field.node.page.field_page_introduction
     - node.type.page
   module:
     - metatag
+    - paragraphs
     - path
 id: node.page.default
 targetEntityType: node
@@ -18,6 +20,18 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: metatag_firehose
+    region: content
+  field_page_introduction:
+    type: entity_reference_paragraphs
+    weight: 27
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
     region: content
   langcode:
     type: language_select

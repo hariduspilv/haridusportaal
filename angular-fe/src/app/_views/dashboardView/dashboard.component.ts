@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.routerSub = this.router.events.subscribe((event: any) => {
 
       if (event instanceof NavigationEnd) {
-        this.breadcrumbs = decodeURI(event.url);
+        this.breadcrumbs = decodeURI(event.url).replace('#content', '');
         try {
 
           let partial = this.breadcrumbs.split('/')[2] || 'intro';
@@ -168,7 +168,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((response: any) => {
         if (response.error) {
           this.alertsService.error(
-            response['error']['message_text']['et'],
+            'errors.personal_data_missing',
             'personalData', 'personalData', false, false,
           );
           this.error = true;

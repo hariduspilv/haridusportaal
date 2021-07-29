@@ -37,7 +37,7 @@ class CronPluginMultiple extends \Drupal\ultimate_cron\CronPlugin {
 
     // No plugins = no settings = no vertical tabs for you mister!
     if (empty($plugins)) {
-      continue;
+      return;
     }
 
     $weight = 10;
