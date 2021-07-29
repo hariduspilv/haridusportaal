@@ -1,0 +1,27 @@
+uuid: 1cbdffbc-a06f-4ee7-af50-e97df3744017
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_add_file
+    - node.type.studypage
+  module:
+    - file
+id: node.studypage.field_add_file
+field_name: field_add_file
+entity_type: node
+bundle: studypage
+label: 'Tutvu täistekstiga fail'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'pdf csv xls sas spss stat'
+  max_filesize: ''
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file
