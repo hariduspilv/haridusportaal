@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.studypage.field_accordion
+    - field.field.node.studypage.field_add_file
     - field.field.node.studypage.field_additional_images
     - field.field.node.studypage.field_content
     - field.field.node.studypage.field_custom_boolean
@@ -16,6 +17,7 @@ dependencies:
     - image.style.thumbnail
     - node.type.studypage
   module:
+    - file
     - image_widget_crop
     - link
     - maxlength
@@ -36,7 +38,7 @@ content:
     third_party_settings: {  }
   field_accordion:
     type: entity_reference_paragraphs
-    weight: 17
+    weight: 18
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -45,6 +47,13 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
+    region: content
+  field_add_file:
+    weight: 17
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
     region: content
   field_additional_images:
     weight: 15
@@ -98,7 +107,7 @@ content:
     type: string_textarea
     region: content
   field_label:
-    weight: 18
+    weight: 19
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -109,7 +118,7 @@ content:
     region: content
   field_right_column:
     type: entity_reference_paragraphs
-    weight: 19
+    weight: 20
     settings:
       title: Paragraph
       title_plural: Paragraphs

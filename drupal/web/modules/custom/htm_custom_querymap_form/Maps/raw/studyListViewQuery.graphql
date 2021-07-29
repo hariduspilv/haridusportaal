@@ -47,6 +47,7 @@ query studyListViewQuery($nid: [String],
         {operator: LIKE, field: "field_accordion.entity.field_study_page_accordion_title", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_accordion.entity.field_study_accordion_intro", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_accordion.entity.field_study_accordion_content", value: [$titleValue], language: $lang, enabled: $titleEnabled},
+        {operator: LIKE, field: "field_accordion.entity.field_body", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_right_column.entity.field_study.entity.field_author", value: [$titleValue], language: $lang, enabled: $titleEnabled}
       ]}]
     }) {
