@@ -1,4 +1,4 @@
-query studyDetailViewIntro {
+query studyListViewIntro {
   route(path: "/uuringud") {
     ... on EntityCanonicalUrl {
       languageSwitchLinks {
