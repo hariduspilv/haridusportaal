@@ -6,6 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { MappedStudy } from '../../models/mapped-study';
 import { MappedStudyFilters } from '../../models/mapped-study-filters';
+import { StudyListIntro } from '../../models/study-list-intro';
 import { StudyListViewQueryParameters } from '../../models/study-list-view-query-parameters';
 import { StudyListViewQueryResponse } from '../../models/study-list-view-query-response';
 import { StudyApiService } from '../../study-api.service';
@@ -20,6 +21,7 @@ export class StudyListComponent implements OnInit, OnDestroy {
   private componentDestroyed$ = new Subject();
   public filterOptions$: Observable<MappedStudyFilters> = this.filterOptionsAsObservable();
   public list: MappedStudy[];
+  public intro: StudyListIntro;
   public highlight: MappedStudy;
   public loading: Record<string, boolean> = {
     list: true,
@@ -44,6 +46,10 @@ export class StudyListComponent implements OnInit, OnDestroy {
       this.resetStudyListOffsetParameters();
       this.studyListViewQuery(parameters);
     });
+
+    this.api.studyListIntroQuery(Language.et)
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe((res) => this.intro = res);
   }
 
 	ngOnDestroy(): void {
