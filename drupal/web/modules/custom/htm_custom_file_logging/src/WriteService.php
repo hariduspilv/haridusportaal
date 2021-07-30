@@ -17,16 +17,27 @@ class WriteService {
     }
 
     private function createLogFile($type){
-        $logpath = '/app/drupal/web/sites/default/files/logs/'.date('Y').'/'.date('m');
-        if(!file_exists($logpath)) {
-          mkdir($logpath, 0744, true);
-          chown($logpath, 'apache');
-          chgrp($logpath, 'apache');
+      // Create a directory to files/logs folder with apache:apache user-group
+      $logpath = '/app/drupal/web/sites/default/files/logs/'.date('Y').'/'.date('m');
+      if(!file_exists($logpath)) {
+        mkdir($logpath, 0744, true);
+        chown($logpath, 'apache');
+        chgrp($logpath, 'apache');
+      }
+      $logpath .= '/'.$type.'.log';
+      fopen($logpath, 'a');
+      // If a ile in a directory exists and its user:group is not apache, then change it to apache
+      if(file_exists($logpath)) {
+        $user = fileowner($logpath);
+        $userinfo = posix_getpwuid($user);
+        if (!empty($userinfo)){
+          if ($userinfo['name']!='apache'){
+            chown($logpath,'apache');
+            chgrp($logpath,'apache');
+          }
         }
-        $logpath .= '/'.$type.'.log';
-        fopen($logpath, 'a');
-
-        return $logpath;
+      }
+      return $logpath;
     }
 
     private function createLogEntry($severity, $logpath, $type, $message){
