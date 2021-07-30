@@ -2,13 +2,16 @@
   <max-width-wrapper>
     <breadcrumbs path="/uuringud"></breadcrumbs>
   </max-width-wrapper>
+  <max-width-wrapper *ngIf="intro?.data?.route?.entity?.fieldPageIntroduction">
+    <study-intro [intro]="intro.data.route.entity.fieldPageIntroduction"></study-intro>
+  </max-width-wrapper>
   <study-list-filter
     *ngIf="filterOptions$ | async as options"
     [options]="options">
   </study-list-filter>
   <max-width-wrapper>
     <block [titleBorder]="false" [loading]="loading?.list">
-      <block-title>{{ 'study.label' | translate }}</block-title>
+      <block-title><h1>{{ 'study.label' | translate }}</h1></block-title>
       <block-content [noPaddingTop]="true">
         <label-count
           *ngIf="list?.length && offsetParameters.count"

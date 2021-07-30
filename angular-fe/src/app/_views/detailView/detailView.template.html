@@ -15,7 +15,7 @@
 		<article>
 			<block [loading]="loading" [titleBorder]="true" *ngIf="data">
 
-				<block-title>{{ title | translate }}</block-title>
+                <block-title><h1>{{ title | translate }}</h1></block-title>
 				<block-secondary-title>{{ data.title }}</block-secondary-title>
 
 				<block-content>
@@ -36,7 +36,10 @@
 						<p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 
 						<!-- <htm-video *ngIf="data.video && data.processedImages?.length === 0" [videos]="data.video"></htm-video> -->
-						<images *ngIf="data.processedImages || data.video" [prioritizeVideos]="type === 'field'" [videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"></images>
+						<images
+							*ngIf="data.processedImages || data.video" [prioritizeVideos]="type === 'field'"
+							[videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"
+							[videoThumb]="data.videoThumb?.derivative?.url"></images>
 	
 						<div class="picto__wrapper">
 							<picto [insideText]="true" [class.shorterBottom]="type === 'profession'" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>

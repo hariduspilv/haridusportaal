@@ -28,6 +28,7 @@ query newsList($tagValue: [String], $tagEnabled: Boolean, $titleValue: String, $
           videoDomain
           videoDescription
           videoId
+          videoThumbnail
         }
         fieldVideoThumbnail {
           derivative(style: CROPSMALL) {

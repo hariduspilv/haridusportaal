@@ -31,6 +31,15 @@
         line-height: 1.33;
       }
     }
+    block-title {
+      h2 {
+        color: #333333;
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.33;
+        margin: 0;
+      }
+    }
     block-title.type-news {
       color: #757575;
       font-size: 1rem;
@@ -292,7 +301,7 @@
         p {
           margin-top: 1rem;
         }
-        h1 {
+        h1, h2 {
           font-size: 1.25rem;
           margin-top: 1rem;
         }
@@ -301,7 +310,7 @@
         .captchaHidden {
           display: none;
         }
-        h3 {
+        h2, h3 {
           font-size: 1.25rem;
         }
         .fullWidth {
