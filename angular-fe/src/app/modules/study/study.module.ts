@@ -22,6 +22,7 @@ import { StudySidebarStudyDataComponent } from './components/study-sidebar-study
 import {
 	StudySidebarStudyDataListItemComponent,
 } from './components/study-sidebar-study-data-list-item/study-sidebar-study-data-list-item.component';
+import { StudyIntroComponent } from './components/study-intro/study-intro.component';
 
 const routes: Routes = [
 	{
@@ -45,6 +46,7 @@ const routes: Routes = [
     StudySidebarStudyDataComponent,
     StudySidebarAdditionalLinksComponent,
     StudySidebarStudyDataListItemComponent,
+    StudyIntroComponent,
 	],
 	imports: [
 		CommonModule,

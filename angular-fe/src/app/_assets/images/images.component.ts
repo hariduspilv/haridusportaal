@@ -43,10 +43,13 @@ export class ImageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.images = Array.isArray(this.image) ? this.image : [this.image];
-    if (Array.isArray(this.videos) || Object.keys(this.videos).length) {
+    const originalImages = this.image || [];
+    this.images = Array.isArray(originalImages) ? originalImages : [originalImages];
+
+    if (this.videos && (Array.isArray(this.videos) || Object.keys(this.videos).length)) {
       this.mergeVideosToList();
     }
+
     if (this.images.length > 0) {
       this.initGalleryImages();
       // Hide the gallery button unless the first image has already loaded
@@ -63,7 +66,8 @@ export class ImageComponent implements OnInit {
   }
 
   mergeVideosToList(): void {
-    const videoArray = Array.isArray(this.videos) ? this.videos : [this.videos];
+    const orignalVideos = this.videos || [];
+    const videoArray = Array.isArray(orignalVideos) ? orignalVideos : [orignalVideos];
     const videos = this.videoService.mapVideoList(videoArray, this.videoThumb) as ResponseVideo[];
     this.images = this.prioritizeVideos ? [...videos, ...this.images] : [...this.images, ...videos];
   }
