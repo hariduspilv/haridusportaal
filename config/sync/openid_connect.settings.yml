@@ -12,3 +12,4 @@ userinfo_mappings:
 _core:
   default_config_hash: kli1Xws0l--Y-jy-9ZTGApFO_EFk9DMawoetjMk76Ro
 langcode: et
+user_login_display: null
