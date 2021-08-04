@@ -2,13 +2,13 @@
   <ng-container *ngFor="let location of data">
     <map *ngIf="markers && markers.length" aria-hidden="true" type="markers" [options]="options" [markers]="markers" (mapLoaded)="mapLoaded()"></map>
     <ng-container *ngIf="!location.fieldEventLocation && location.entity && location.entity.fieldAddress">
-      <h1>{{ 'school.legal_address' | translate }}</h1>
+      <h2>{{ 'school.legal_address' | translate }}</h2>
       <p>
         {{ location.entity?.fieldAddress }}
       </p>
     </ng-container>
     <ng-container *ngIf="location.fieldEventMainDate">
-      <h1>{{ 'event.place_and_time' | translate }}</h1>
+      <h2>{{ 'event.place_and_time' | translate }}</h2>
       <p *ngIf="location.fieldEventMainDate">
         <span>
           {{ 'time.'+ (location.fieldEventMainDate.unix*1000 | weekday: "unix" | lowercase) | translate }}

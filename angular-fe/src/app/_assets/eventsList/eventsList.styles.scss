@@ -47,13 +47,20 @@
     .months {margin-top: $medium;
       @include break-on(sm, min) {margin-top:-$medium;}
     }
-  
-  
+
+
     & > *:nth-child(2) {margin-top: 0;}
     &__block {
       &:hover {.title {text-decoration: none;}}
       &:last-child {
-        .events__content {padding-bottom: $gutter; border-bottom:none;}
+        .events__content {
+          padding-bottom: $gutter;
+          border-bottom:none;
+          h3 {
+            font-size: $medium;
+            padding-bottom: $gutter;
+          }
+        }
       }
     }
     &__head {display: flex;border-bottom: .0625rem solid $gray;}
@@ -69,14 +76,19 @@
       }
     }
     &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;
-      
+
     }
-    &__month {padding: 3rem $medium 0 $medium; 
+    &__month {padding: 3rem $medium 0 $medium;
       &:first-child{
         padding-top:$small;
       }
       @include break-on(sm, min) {padding-left: 8.5rem;}
-      h1{color: $black;}}
+      h1, h2 {
+        color: $black;
+        font-size: $medium;
+        line-height: 1.33;
+      }
+    }
       &__header {display: flex;margin-bottom:-$gutter; margin-right:-1.5rem; position: relative;
         &.highlighted{
           .day, .date{color:$red;}
@@ -85,7 +97,7 @@
       }
       &__datetime {padding: $small $medium 0 $medium;min-width: 4.5rem;
         .day {font-size: .875rem;line-height: 2.29;}
-        .date {font-size: $medium;line-height: 1.33;font-weight: 500; 
+        .date {font-size: $medium;line-height: 1.33;font-weight: 500;
           @include break-on(sm, max) { font-size: .875rem; }
         }
         &.highlighted {color: $red;}
@@ -146,7 +158,7 @@
       }
       td.today { position: relative; background-color: $light-gray;border-right: .0625rem solid $gray; border-left: .0625rem solid $gray;
         &:after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: block; border: solid .0625rem #9b9b9b; pointer-events: none; }
-        .cal__day {background-color: $red; border-radius: 3.125rem;color: $white;font-weight: 300; width: 1.5rem; height: 1.25rem; display: flex; justify-content: center; align-items: center; 
+        .cal__day {background-color: $red; border-radius: 3.125rem;color: $white;font-weight: 300; width: 1.5rem; height: 1.25rem; display: flex; justify-content: center; align-items: center;
                     position: relative; top: -0.125rem; }
       }
     }
@@ -220,14 +232,22 @@
       .popup .popupcontent{top:auto; bottom:-260px;}
       .cal__event .popup .popupcontent{bottom:-170px;}
     }
-  
+
     .disableMore .popup {position:relative;bottom:54%;left:100%;margin-left: $quarter;}
     .lastOnes .disableMore .popup {bottom: 200%;}
     .disableMore.firstTwo .popup .popupcontent {left: auto;margin-left: -.25rem;}
     .popup.holdRight .popupcontent{left:100%;}
     .popup.holdLeft .popupcontent{left:auto; right:100%;}
     .navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
-      .month {h1{color: $black;}}
+      .month {
+        h1 {
+          color: $black;
+        }
+        h2 {
+          font-size: $medium;
+          line-height: 1.33;
+        }
+      }
       .icon-wrapper { padding: 0 $small; height: 1.5rem; width: 1.5rem;
         .htm-icon {
           &:hover { background: $light-gray; border-radius: 3.125rem; }
@@ -252,7 +272,7 @@
         .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
         ::ng-deep .mat-calendar-body-selected {background-color: $blue;}
         ::ng-deep .mat-calendar-table-header {color: $dark-gray;}
-  
+
         .btn-hidden {
           position: absolute;
           top: 0px;
@@ -263,25 +283,25 @@
           background: transparent;
           width: 1.5rem;
         }
-  
-        .title__close .htm-icon { 
+
+        .title__close .htm-icon {
           top: 0.1875rem;
           right: -0.3125rem;
         }
-  
+
         .event__header {
          padding: $small $medium $small $medium;
          border-bottom: solid 1px $gray;
          .title {
            display: flex;
            justify-content: space-between;
-         } 
+         }
        }
-  
+
        .title__strong {
         font-size: 1.25rem; font-weight: 500; line-height: 1.5; letter-spacing: normal; text-align: left; color: $black;
       }
-  
+
       .calendar-wrapper{position:relative;
         .mat-spinner{position:absolute; top:50%; left:50%; margin:-6.25rem 0 0 -6.25rem; z-index: 90;}
         table.loading{opacity:0.3; pointer-events: none;}
@@ -425,7 +445,7 @@
         transform: rotate(-45deg);
         opacity: 1;
       }
-      
-          
+
+
 }
 

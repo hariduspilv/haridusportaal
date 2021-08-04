@@ -26,8 +26,10 @@
       margin-top: 0;
     }
   }
-  h1 {
+  h1, h2 {
     color: $blue;
+    font-size: $medium;
+    line-height: 1.33;
   }
   a {
     text-decoration: none;

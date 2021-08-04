@@ -1,8 +1,11 @@
 @import 'typography.scss';
 @import 'breakpoints.scss';
+
 :host {
-  h1 {
+  h2 {
     color: $black;
+    font-size: $medium;
+    margin: 0;
   }
   .introduction {
     font-size: 1rem;

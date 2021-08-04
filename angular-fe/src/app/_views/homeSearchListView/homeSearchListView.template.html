@@ -20,7 +20,7 @@
 	</form>
 	<div class="inline">
 		<block titleBorder="true">
-			<block-title>{{ 'search.results' | translate }}</block-title>
+			<block-title><h1>{{ 'search.results' | translate }}</h1></block-title>
 			<block-content>
 				<div #content *ngIf="filteredResults && filteredResults.length" class="search__title--filter">
 					{{ 'search.filter_results' | translate }}:</div>
@@ -51,7 +51,7 @@
 							</div>
 							<div class="search__sub--title"
 								attr.aria-label="{{ item.ContentType }}{{ item.ContentType !== 'Õppekava' ? ':' : '' }} {{ item.Title }}{{ item.ContentType === 'Õppekava' ? ':' : '' }}">
-								<h1>{{ item.Title }}</h1>
+								<h2>{{ item.Title }}</h2>
 							</div>
 							<div class="inline__items" *ngIf="item.ContentType === 'Õppekava'"
 								attr.aria-label="{{ item.FieldSchoolName }} {{ item.FieldStudyProgrammeLevel }} {{ item.FieldDuration | monthsToYears }}">

@@ -908,10 +908,6 @@ frontpage:
     translation_type: textarea
     et: Tööpakkumised
     en: Tööpakkumised
-  job_offers_description:
-    translation_type: textarea
-    et: 'Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale'
-    en: 'Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale'
   cooperation_offers:
     translation_type: textarea
     et: Koostööpakkumised
@@ -4787,8 +4783,8 @@ finaldocuments:
     en: Number
   date_of:
     translation_type: textarea
-    et: 'Väljaandmise kuupäev'
-    en: 'Väljaandmise kuupäev'
+    et: 'Lõpetamise kuupäev'
+    en: 'Lõpetamise kuupäev'
   duplicate_number:
     translation_type: textarea
     et: 'Duplikaadi algdokumendi number'

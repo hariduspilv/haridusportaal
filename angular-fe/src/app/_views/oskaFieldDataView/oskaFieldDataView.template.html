@@ -5,14 +5,14 @@
   
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
-			<block-title>{{ 'oskaProfessions.fieldsCompare' | translate }}</block-title>
+			<block-title><h1>{{ 'oskaProfessions.fieldsCompare' | translate }}</h1></block-title>
 			<block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
 			</block-content>
       <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/valdkonnad/andmed" [tabActive]="true">
         <loader *ngIf="!data"></loader>
         <ng-container *ngIf="data">
 
-          <h1 *ngIf="data.title">{{data.title}}</h1>
+          <h2 *ngIf="data.title">{{data.title}}</h2>
 
           <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 
@@ -39,7 +39,7 @@
             </ng-template>
             </accordion-item>
           </accordion>
-  
+
           <chart *ngIf="data.graph" [data]='data.graph' type='filter'></chart>
 
           <infograph *ngIf="data.infograph" [data]='data.infograph' type='filter'></infograph>

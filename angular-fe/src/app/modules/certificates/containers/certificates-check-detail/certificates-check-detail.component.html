@@ -3,10 +3,10 @@
 		<breadcrumbs [path]="path"></breadcrumbs>
 		<block>
 			<block-title>
-				{{ "frontpage.dashboard_tabs_certificates" | translate | uppercase }}
+                <h1>{{ "frontpage.dashboard_tabs_certificates" | translate | uppercase }}</h1>
 			</block-title>
 			<block-content>
-				<h1>{{ "frontpage.certificate_check" | translate }}</h1>
+				<h2>{{ "frontpage.certificate_check" | translate }}</h2>
 				<div
 					class="introduction"
 					innerHtml="{{ 'frontpage.certificate_check_body' | translate }}"
@@ -21,6 +21,7 @@
 						type="number"
 						formControlName="id_code"
 						title="{{ 'frontpage.certificate_owner_id' | translate }}*"
+						ariaLabel="{{ 'frontpage.certificate_owner_id' | translate }}"
 					>
 					</formItem>
 					<formItem
@@ -29,6 +30,7 @@
 						type="text"
 						formControlName="certificate_id"
 						title="{{ 'frontpage.certificate_id' | translate }}*"
+						ariaLabel="{{ 'frontpage.certificate_id' | translate }}"
 					>
 					</formItem>
 					<re-captcha
