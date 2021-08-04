@@ -1,0 +1,21 @@
+uuid: cc131cd1-84f6-45a5-bde6-c56693a2fb95
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.intro
+  module:
+    - text
+id: paragraph.intro.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: intro
+label: Sisu
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

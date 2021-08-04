@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.studypage.field_accordion
+    - field.field.node.studypage.field_add_file
     - field.field.node.studypage.field_additional_images
     - field.field.node.studypage.field_content
     - field.field.node.studypage.field_custom_boolean
@@ -29,6 +30,7 @@ content:
     region: content
 hidden:
   field_accordion: true
+  field_add_file: true
   field_additional_images: true
   field_content: true
   field_custom_boolean: true
