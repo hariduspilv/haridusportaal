@@ -1719,13 +1719,6 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('studyProgramme.admission_status'),
 		];
-		$form['studyProgramme']['admission_status'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme admission status'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.admission_status'),
-		];
 		$form['studyProgramme']['filter_title'] = [
 				'#type' => 'textfield',
 				'#title' => $this->t('Study programme filter title'),

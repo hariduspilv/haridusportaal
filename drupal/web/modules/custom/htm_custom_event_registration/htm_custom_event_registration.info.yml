@@ -2,4 +2,5 @@ name: 'HTM Custom event registration module'
 type: module
 description: 'Event registration & management module with GraphQL mutations'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'
