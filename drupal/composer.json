@@ -34,7 +34,7 @@
         "drupal/core-composer-scaffold": "^8.9",
         "drupal/devel": "^4.1",
         "drupal/devel_entity_updates": "^3.0",
-        "drupal/editor_advanced_link": "^1.4",
+        "drupal/editor_advanced_link": "^1.9",
         "drupal/editor_file": "^1.2",
         "drupal/elasticsearch_connector": "^7.0",
         "drupal/elasticsearch_connector_autocomp": "1.x-dev",
