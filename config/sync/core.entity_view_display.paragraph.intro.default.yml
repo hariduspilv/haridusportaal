@@ -1,0 +1,32 @@
+uuid: a443dd29-dd50-4e4d-89c0-4dd06ab6f55c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.intro.field_body
+    - field.field.paragraph.intro.field_intro_title
+    - paragraphs.paragraphs_type.intro
+  module:
+    - text
+id: paragraph.intro.default
+targetEntityType: paragraph
+bundle: intro
+mode: default
+content:
+  field_body:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_intro_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  search_api_excerpt: true

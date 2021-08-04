@@ -1,0 +1,35 @@
+query studyListViewIntro {
+  route(path: "/uuringud") {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        title
+        language {
+          id
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+      entity {
+        ... on NodePage {
+          nid
+          title
+          fieldPageIntroduction {
+            entity {
+              ... on ParagraphIntro {
+                fieldIntroTitle
+                fieldBody {
+                  value
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

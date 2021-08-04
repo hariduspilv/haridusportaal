@@ -1,0 +1,10 @@
+uuid: b5dbdb68-33c0-48ce-b710-ab1773faa2c0
+langcode: et
+status: true
+dependencies: {  }
+id: intro
+label: Sissejuhatus
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

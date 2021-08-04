@@ -1,0 +1,21 @@
+uuid: 861891ed-af65-44d8-8f00-52b8b34186e4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.study_page_accordion
+  module:
+    - text
+id: paragraph.study_page_accordion.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: study_page_accordion
+label: 'Akordioni sisu - vormindatud'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
