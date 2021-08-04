@@ -1,6 +1,7 @@
 <ng-container *ngIf="status == 'vote'">
-  <h2 attr.aria-label="{{ 'feedback_heading' | translate }}">
-    <b>{{ 'feedback_heading' | translate }}</b></h2>
+  <h3 attr.aria-label="{{ 'feedback_heading' | translate }}">
+    <b>{{ 'feedback_heading' | translate }}</b>
+  </h3>
   <div class="options">
     <button (click)="vote(true)" attr.aria-label="{{ 'feedback_yes' | translate }}">
       <icon glyph="thumbs-up" bg="true"></icon>

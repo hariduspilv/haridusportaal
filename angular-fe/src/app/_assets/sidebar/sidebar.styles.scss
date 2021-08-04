@@ -34,7 +34,7 @@
     block-title {
       h2 {
         color: #333333;
-        font-size: 1.25rem;
+        font-size: $small+$half-gutter;
         font-weight: 500;
         line-height: 1.33;
         margin: 0;
@@ -104,8 +104,8 @@
         }
       }
       sidebar-data {
-        h3 {
-          font-size: 1.25rem;
+        h2, h3 {
+          font-size: $small+$half-gutter;
         }
       }
       sidebar-links, sidebar-events, sidebar-notifications {

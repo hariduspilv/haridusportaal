@@ -1,5 +1,5 @@
 <block>
-  <block-title>{{ 'event.related' | translate }}</block-title>
+  <block-title><h2>{{ 'event.related' | translate }}</h2></block-title>
   <block-content>
     <ng-container *ngIf="!loading && data.length">
       <div class="row">
@@ -8,7 +8,7 @@
             
             <div class="entry" [routerLink]="[item.url.path]">
               <span class="entry__date" *ngIf="item.fieldEventMainDate">{{ 'time.' + (item.fieldEventMainDate.unix*1000 | weekday: "unix") | translate }}, {{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
-              <h2 class="entry__title">{{ item.title }}</h2>
+              <h3 class="entry__title">{{ item.title }}</h3>
               <span class="entry__author" *ngIf="item.person" tabindex="0" attr.aria-label="{{'author.author' | translate}} {{ item.person }}">{{ item.person }}</span>
             </div>
           </div><!--/col-6-->
