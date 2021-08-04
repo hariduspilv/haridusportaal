@@ -2,4 +2,5 @@ name: 'HTM Custom Authentication'
 type: module
 description: 'Module for authenticating HTM Users'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

@@ -2,4 +2,5 @@ name: 'HTM Custom xJson services'
 type: module
 description: 'xJson service entity with service'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

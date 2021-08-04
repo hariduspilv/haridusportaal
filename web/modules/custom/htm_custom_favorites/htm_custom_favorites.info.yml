@@ -2,4 +2,5 @@ name: 'HTM Custom favorites'
 type: module
 description: 'Custom favorites entity and GraphQL requests'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

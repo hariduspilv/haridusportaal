@@ -9,13 +9,14 @@ use Drupal\Core\Url;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
 use Drupal\openid_connect\OpenIDConnect;
 use Drupal\openid_connect\OpenIDConnectClaims;
-use Drupal\openid_connect\Controller\RedirectController;
+use Drupal\openid_connect\Controller\OpenIDConnectRedirectController;
 use Drupal\openid_connect\OpenIDConnectStateTokenInterface;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+Use Drupal\user\UserInterface;
 
-class TaraRedirectController extends RedirectController{
+class TaraRedirectController extends OpenIDConnectRedirectController{
 
   protected $claims;
 
@@ -60,7 +61,7 @@ class TaraRedirectController extends RedirectController{
       $redirect = Url::fromUri($url);
       return new TrustedRedirectResponse($redirect);
     }
-    if ($state_token && $this->stateToken->confirm($state_token)) {
+    if ($state_token && \Drupal::service('openid_connect.state_token')->confirm($state_token)) {
       return AccessResult::allowed();
     }
     return AccessResult::forbidden();
@@ -130,15 +131,15 @@ class TaraRedirectController extends RedirectController{
       $tokens = $client->retrieveTokens($query->get('code'));
       if ($tokens) {
         if ($parameters['op'] === 'login') {
-          $success = openid_connect_complete_authorization($client, $tokens, $destination);
+          $success =  \Drupal::service('openid_connect.openid_connect')->completeAuthorization($client, $tokens, $destination);
 
           $register = \Drupal::config('user.settings')->get('register');
-          if (!$success && $register !== USER_REGISTER_ADMINISTRATORS_ONLY) {
+          if (!$success && $register !== UserInterface::REGISTER_ADMINISTRATORS_ONLY) {
             $this->messenger()->addError(t('Logging in with @provider could not be completed due to an error.', $provider_param));
           }
         }
         elseif ($parameters['op'] === 'connect' && $parameters['connect_uid'] === $this->currentUser->id()) {
-          $success = openid_connect_connect_current_user($client, $tokens);
+          $success = \Drupal::service('openid_connect.openid_connect')->connectCurrentUser($client, $tokens);
           if ($success) {
             $this->messenger()->addMessage($this->t('Account successfully connected with @provider.', $provider_param));
           }
@@ -152,7 +153,7 @@ class TaraRedirectController extends RedirectController{
         ];
         $message = 'Authorization failed: @error. Details: @details';
         $this->loggerFactory->get('openid_connect_' . $client_name)->error($message, $variables);
-        drupal_set_message(t('Could not authenticate with @provider.', $provider_param), 'error');
+        \Drupal::messenger()->addMessage(t('Could not authenticate with @provider.', $provider_param), 'error');
       }
     }
 
