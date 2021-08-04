@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { VideoEmbedService } from '@app/_services/VideoEmbedService';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
@@ -16,7 +17,10 @@ export class DropdownListComponent implements OnInit {
   public lastOpenedPosition: number = 0;
   public errMessage: any = false;
 
-  constructor(private device: DeviceDetectorService) { }
+  constructor(
+    private device: DeviceDetectorService,
+    private videoService: VideoEmbedService,
+  ) { }
 
   ngOnInit() {
     this.calculateColsPerRow();
@@ -87,8 +91,8 @@ export class DropdownListComponent implements OnInit {
     this.modal.index = index;
 
     if (this.modal.fieldOskaVideo) {
-      this.modal.videoUrl =
-        `${window.location.protocol}//www.youtube.com/embed/${this.modal.fieldOskaVideo.videoId}`;
+      const embeddable = this.videoService.mapVideo(this.modal.fieldOskaVideo);
+      this.modal.videoUrl = embeddable.videoEmbed;
     }
 
     try {
