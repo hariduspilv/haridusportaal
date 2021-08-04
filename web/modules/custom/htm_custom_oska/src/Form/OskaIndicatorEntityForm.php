@@ -34,13 +34,13 @@ class OskaIndicatorEntityForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label Oska indicator entity.', [
+        \Drupal::messenger()->addMessage($this->t('Created the %label Oska indicator entity.', [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label Oska indicator entity.', [
+        \Drupal::messenger()->addMessage($this->t('Saved the %label Oska indicator entity.', [
           '%label' => $entity->label(),
         ]));
     }

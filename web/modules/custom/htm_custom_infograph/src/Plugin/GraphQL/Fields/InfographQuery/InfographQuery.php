@@ -101,7 +101,7 @@ class InfographQuery extends FieldPluginBase {
     } catch (Exception $e) {
       return NULL;
     }
-    
+
     $reader->setDelimiter(';');
     $reader->setHeaderOffset(0);
     $stmt = (new Statement())
@@ -159,9 +159,9 @@ class InfographQuery extends FieldPluginBase {
 
         $labelsums[$ylabel][$xlabel] = $xlabel;
         if(!isset($labelsums[$value_label][$xlabel])){
-          $labelsums[$value_label][$xlabel] = empty($val) ? null : floatval(str_replace(",",".", $val));
+          $labelsums[$value_label][$xlabel] = empty($val) ? null : (float)str_replace(",", ".", $val);
         }else{
-          $labelsums[$value_label][$xlabel] += empty($val) ? null : floatval(str_replace(",",".", $val));
+          $labelsums[$value_label][$xlabel] += empty($val) ? null : (float)str_replace(",", ".", $val);
         }
         if(!in_array($xlabel, $xlabels)){
           $xlabels[] = $xlabel;

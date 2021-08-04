@@ -42,7 +42,7 @@ class NotificationController extends ControllerBase {
     ->condition($group)
     ->execute();
 
-    $nodes = \Drupal::entityManager()->getStorage('node')->loadMultiple($nid_result);
+    $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nid_result);
     foreach($nodes as $node){
       $nodetags = $node->toArray()['field_tag'];
       foreach($nodetags as $tag){
@@ -83,7 +83,7 @@ class NotificationController extends ControllerBase {
     ->condition($group)
     ->execute();
 
-    $querynodes = \Drupal::entityManager()->getStorage('node')->loadMultiple($nid_result);
+    $querynodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nid_result);
     foreach($querynodes as $node){
       $nodes[$node->toArray()['type'][0]['target_id']][] = $node;
     }

@@ -25,8 +25,8 @@ class xJsonFormEntityController extends ControllerBase implements ContainerInjec
    *   An array suitable for drupal_render().
    */
   public function revisionShow($x_json_form_entity_revision) {
-    $x_json_form_entity = $this->entityManager()->getStorage('x_json_form_entity')->loadRevision($x_json_form_entity_revision);
-    $view_builder = $this->entityManager()->getViewBuilder('x_json_form_entity');
+    $x_json_form_entity = $this->entityTypeManager()->getStorage('x_json_form_entity')->loadRevision($x_json_form_entity_revision);
+    $view_builder = $this->entityTypeManager()->getViewBuilder('x_json_form_entity');
 
     return $view_builder->view($x_json_form_entity);
   }
@@ -41,7 +41,7 @@ class xJsonFormEntityController extends ControllerBase implements ContainerInjec
    *   The page title.
    */
   public function revisionPageTitle($x_json_form_entity_revision) {
-    $x_json_form_entity = $this->entityManager()->getStorage('x_json_form_entity')->loadRevision($x_json_form_entity_revision);
+    $x_json_form_entity = $this->entityTypeManager()->getStorage('x_json_form_entity')->loadRevision($x_json_form_entity_revision);
     return $this->t('Revision of %title from %date', ['%title' => $x_json_form_entity->label(), '%date' => format_date($x_json_form_entity->getRevisionCreationTime())]);
   }
 
@@ -60,7 +60,7 @@ class xJsonFormEntityController extends ControllerBase implements ContainerInjec
     $langname = $x_json_form_entity->language()->getName();
     $languages = $x_json_form_entity->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
-    $x_json_form_entity_storage = $this->entityManager()->getStorage('x_json_form_entity');
+    $x_json_form_entity_storage = $this->entityTypeManager()->getStorage('x_json_form_entity');
 
     $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => $x_json_form_entity->label()]) : $this->t('Revisions for %title', ['%title' => $x_json_form_entity->label()]);
     $header = [$this->t('Revision'), $this->t('Operations')];
