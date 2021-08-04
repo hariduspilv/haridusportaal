@@ -31,6 +31,7 @@ query getArticleData($path: String!) {
             videoDomain
             videoDescription
             videoId
+            videoThumbnail
           }
           fieldAccordionSection {
             entity {
