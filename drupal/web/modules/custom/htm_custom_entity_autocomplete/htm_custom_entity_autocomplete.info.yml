@@ -2,4 +2,5 @@ name: 'Custom Alter Entity Autocomplete'
 type: module
 description: 'Module for altering entity autocomplete'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

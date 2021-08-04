@@ -34,13 +34,13 @@ class OskaFillingBarEntityForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label Oska filling bar entity.', [
+        \Drupal::messenger()->addMessage($this->t('Created the %label Oska filling bar entity.', [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label Oska filling bar entity.', [
+        \Drupal::messenger()->addMessage($this->t('Saved the %label Oska filling bar entity.', [
           '%label' => $entity->label(),
         ]));
     }

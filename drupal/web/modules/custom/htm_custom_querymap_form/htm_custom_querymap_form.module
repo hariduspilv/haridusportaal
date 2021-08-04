@@ -47,7 +47,7 @@ function htm_custom_querymap_form_save(array $form, FormStateInterface $formStat
   $entity->set('uuid', \Drupal::service('uuid')->generate());
   $entity->save();
 
-  drupal_set_message(t('Saved the query map version %id.', [
+  \Drupal::messenger()->addMessage(t('Saved the query map version %id.', [
     '%id' => $entity->id(),
   ]));
 
