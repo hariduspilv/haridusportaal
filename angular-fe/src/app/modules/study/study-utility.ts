@@ -15,7 +15,7 @@ import {StudyListViewRequestParameters} from './models/study-list-view-request-p
 import {StudyPageFieldRightColumn} from './models/study-page-field-right-column';
 import {StudyPageFieldRightColumnDataEntity} from './models/study-page-field-right-column-data-entity';
 import {YearOption} from './models/year-option';
-import {MappedStudyPage} from "@app/modules/study/models/mapped-study-page";
+import {MappedStudyPage} from '@app/modules/study/models/mapped-study-page';
 
 export class StudyUtility {
 
@@ -166,6 +166,16 @@ export class StudyUtility {
   static mapStudyDetailData(studyDetails: MappedStudyPage): MappedStudyPage {
     return {
       ...studyDetails,
+      fieldStudyText: [
+        ...studyDetails.fieldAddFile.map((addFile) => ({
+          title: addFile.description,
+          url: {
+            path: addFile.entity.url,
+            routed: false,
+          },
+        })),
+        ...studyDetails.fieldStudyText,
+      ],
     };
   }
 
