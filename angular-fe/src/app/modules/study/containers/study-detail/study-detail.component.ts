@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {StudyDetailViewQuery} from '@app/modules/study/models/study-detail-view-query';
 import {MappedStudyPage} from '@app/modules/study/models/mapped-study-page';
-import {StudyUtility} from "@app/modules/study/study-utility";
+import {StudyUtility} from '@app/modules/study/study-utility';
 
 @Component({
   selector: 'study-detail',
@@ -19,7 +19,7 @@ export class StudyDetailComponent {
   public study$: Observable<MappedStudyPage> = this.api.studyDetailViewQuery(this.studyPath)
     .pipe(
       tap(() => this.loading = false, error => console.log('Error: ', error)),
-      map((response: StudyDetailViewQuery) => StudyUtility.mapStudyDetailData(response?.data?.route?.entity))
+      map((response: StudyDetailViewQuery) => StudyUtility.mapStudyDetailData(response?.data?.route?.entity)),
     );
 
   constructor(

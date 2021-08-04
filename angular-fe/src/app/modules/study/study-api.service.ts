@@ -6,6 +6,7 @@ import {StudyListViewFilterQueryResponse} from './models/study-list-view-filter-
 import {StudyListViewQueryResponse} from './models/study-list-view-query-response';
 import {StudyListViewRequestParameters} from './models/study-list-view-request-parameters';
 import {StudyDetailViewQuery} from '@app/modules/study/models/study-detail-view-query';
+import { StudyListIntro } from './models/study-list-intro';
 
 @Injectable({
 	providedIn: 'root',
@@ -20,6 +21,11 @@ export class StudyApiService {
 	studyListViewQuery(parameters: StudyListViewRequestParameters): Observable<StudyListViewQueryResponse> {
 		const path = this.settingsService.query('studyListViewQuery', parameters);
 		return this.http.get<StudyListViewQueryResponse>(path);
+	}
+
+	studyListIntroQuery(lang: string): Observable<StudyListIntro> {
+		const path = this.settingsService.query('studyListViewIntro', {lang});
+		return this.http.get<StudyListIntro>(path);
 	}
 
 	studyListViewFilterQuery(lang: string): Observable<StudyListViewFilterQueryResponse> {
