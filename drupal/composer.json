@@ -72,7 +72,6 @@
         "drupal/svg_image": "^1.9",
         "drupal/taxonomy_multidelete_terms": "^1.1",
         "drupal/ultimate_cron": "^2.0",
-        "drupal/upgrade_status": "^3.8",
         "drush/drush": "^10.4",
         "elasticsearch/elasticsearch": "^7.0",
         "eluceo/ical": "^0.14.0",
