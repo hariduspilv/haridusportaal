@@ -28,6 +28,7 @@ query getEventSingle(
           videoDomain
           videoDescription
           videoId
+          videoThumbnail
         }
           fieldPicture {
             derivative(style:CROPLARGE){
