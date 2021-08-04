@@ -61,7 +61,9 @@
       margin-bottom: .5rem;
     }
     .role-title {
-      margin-bottom: 1rem;
+      //margin-bottom: 1rem;
+      font-size: $medium;
+      margin: $gutter 0 $gutter*3;
     }
   }
 }
