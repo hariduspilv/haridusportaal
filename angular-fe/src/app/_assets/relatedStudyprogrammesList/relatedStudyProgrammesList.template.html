@@ -24,7 +24,7 @@
       (click)="showListItems()">{{ 'studyProgramme.view_similar' | translate }}</button>
   </div><!--/text-center-->
   <block *ngIf="showList">
-    <block-title><h1>{{ title | translate | uppercase }}</h1></block-title>
+    <block-title><h2>{{ title | translate | uppercase }}</h2></block-title>
     <block-content>
 
       <form [formGroup]="relatedProgrammesForm" class="filter-wrapper" (submit)="getRelatedStudyprogrammes(nid)" filters>
