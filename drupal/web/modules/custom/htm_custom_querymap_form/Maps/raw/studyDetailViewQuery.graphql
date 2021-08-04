@@ -52,12 +52,28 @@
             }
             title
           }
+          fieldAddFile {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+            }
+          }
           fieldAccordion {
             entity {
               ... on ParagraphStudyPageAccordion {
                 fieldStudyPageAccordionTitle
                 fieldStudyAccordionIntro
                 fieldStudyAccordionContent
+                fieldBody {
+                  value
+                }
               }
             }
           }

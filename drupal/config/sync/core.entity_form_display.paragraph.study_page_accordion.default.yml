@@ -3,17 +3,27 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.study_page_accordion.field_body
     - field.field.paragraph.study_page_accordion.field_study_accordion_content
     - field.field.paragraph.study_page_accordion.field_study_accordion_intro
     - field.field.paragraph.study_page_accordion.field_study_page_accordion_title
     - paragraphs.paragraphs_type.study_page_accordion
   module:
     - maxlength
+    - text
 id: paragraph.study_page_accordion.default
 targetEntityType: paragraph
 bundle: study_page_accordion
 mode: default
 content:
+  field_body:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
   field_study_accordion_content:
     weight: 2
     settings:
