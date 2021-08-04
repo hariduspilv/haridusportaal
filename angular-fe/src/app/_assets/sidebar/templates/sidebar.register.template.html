@@ -1,5 +1,5 @@
 <ng-container *ngIf="data.fieldEntryType && data.fieldEntryType == 'register'">
-  <h3>{{ 'event.registration' | translate }}</h3>
+  <h2>{{ 'event.registration' | translate }}</h2>
   <p>
     <ng-container *ngIf="canRegister() == true">
       <span>{{'button.register' | translate}} {{'time.from' | translate | lowercase}} </span>
