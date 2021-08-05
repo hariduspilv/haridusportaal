@@ -1,7 +1,13 @@
+@import "typography.scss";
+
 :host {
   ::ng-deep block {
     b {
       font-weight: 500;
+    }
+    h2 {
+      font-size: $medium;
+      line-height: 1.33;
     }
   }
 }

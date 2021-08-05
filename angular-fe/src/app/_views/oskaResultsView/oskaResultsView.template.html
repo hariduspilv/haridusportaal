@@ -21,6 +21,7 @@
 							title="{{ 'oska.title_field' | translate }}"
 							[(ngModel)]="filterFormItems.field"
 							[options]="filterItemValues.field"
+                            ariaLabel="{{ 'oska.title_field' | translate }}"
 						></formItem>
 					</div>
 					<div class="col-5 sm-12 form-col">
@@ -31,6 +32,7 @@
 							[(ngModel)]="filterFormItems.responsible"
 							[options]="filterItemValues.responsible"
 							*ngIf="filterItemValues.responsible.length"
+                            ariaLabel="{{ 'oska.table_responsible_person' | translate }}"
 						></formItem>
 						<div class="round-input__wrapper"></div>
 					</div>
@@ -94,7 +96,7 @@
 	</form>
 	<div class="inline">
 		<block>
-			<block-title>{{ 'oska.results' | translate }}</block-title>
+			<block-title><h1>{{ 'oska.results' | translate }}</h1></block-title>
 			<block-content>
 				<div class="main-container">
 					<loader *ngIf="!tableData && !error"></loader>
@@ -107,7 +109,7 @@
 							>
 								<div class="row">
 									<div class="col-8 sm-8 flex">
-										<h1>{{ 'oska.proposal_title' | translate }}</h1>
+										<h2>{{ 'oska.proposal_title' | translate }}</h2>
 									</div>
 									<div
 										class="col-4 sm-4 flex flex-center flex-justify-end action--back"

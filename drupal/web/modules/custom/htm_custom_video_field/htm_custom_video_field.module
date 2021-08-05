@@ -32,19 +32,66 @@ function htm_custom_video_field_help($route_name, RouteMatchInterface $route_mat
  * @return array|bool
  *   Returns the domain and video_id if available, or FALSE if not.
  */
-function youtube_get_video_id($input) {
-	// See README.txt for accepted URL formats.
-	//^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)?.*(?:youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).
-	//preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'<> ]+)/", $input, $matches);
 
-	//custom regex for testing
-	preg_match("/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+).*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/", $input, $matches);
+// Check & get the video domain
+function videoType($input) {
+  if (strpos($input, 'youtube') > 0 || strpos($input, 'youtu.be') > 0) {
+    return 'youtube';
+  }
+  if (strpos($input, 'vimeo') > 0) {
+    return 'vimeo';
+  }
+  if (strpos($input, 'facebook') > 0 || strpos($input, 'fb.watch') > 0) {
+    return 'facebook';
+  }
+  if (strpos($input, 'biteable') > 0) {
+    return 'biteable';
+  }
+  return FALSE;
+}
 
-	if (!empty($matches[1]) && !empty($matches[3])) {
-		$domain = $matches[1];
-		$video_id = $matches[3];
-		return [$domain, $video_id];
-	}
+function get_video_data($input) {
 
-	return FALSE;
+  $domain = videoType($input);
+
+  // The following regexes will extract the video id and thumbnails (if applicable) from url
+  if($domain === "youtube")  {
+    preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/",$input, $matches);
+    $video_id =$matches[1];
+  }
+
+  if($domain === "vimeo") {
+    preg_match("/(https?:\/\/)?(www\.)?(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/",$input, $matches);
+    $video_id = $matches[5];
+    // get video thumbnail through vimeo API
+    $arr_vimeo = unserialize(file_get_contents("https://vimeo.com/api/v2/video/$video_id.php"), ['allowed_classes' => false]);
+    $video_thumbnail = $arr_vimeo[0]['thumbnail_large'];
+  }
+
+  if($domain === "facebook") {
+    preg_match("/^(?:(?:https?:)?\/\/)?(?:www\.)?(?:facebook\.com\/(?:[a-zA-Z0-9\.]+\/videos\/(?:[a-zA-Z0-9\.]+\/)?([0-9]+)|watch\/\?v=(\d+))\/?|fb\.watch(?:\/v)?\/([^\/ ]*)\/?)/",$input, $matches);
+    $video_id = end($matches);
+
+    // facebook needs access token to get the video thumbnail url (NB! works only for domain facebook.com)
+    $data = `curl -s -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0' -L 'https://www.facebook.com/$video_id'`;
+    if (preg_match('#<video [^>]+></video>\s*<div [^>]+><img [^>]+src="([^"]+)#s',$data,$img_matches)) {
+      $image = $img_matches[1];
+      $video_thumbnail = str_replace('&amp;','&',$image);
+    }
+  }
+
+  if($domain === "biteable") {
+    preg_match("/^(?:(?:https?:)?\/\/)?(?:www\.)?biteable\.com\/watch\/([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?\/([0-9]+([a-zA-Z]+[0-9]+)+)/",$input, $matches);
+    $video_id = $matches[1];
+  }
+
+  // If video image thumbnail is requested, return video id, domain and thumbnail
+  if (!empty($video_id) && !empty($video_thumbnail)) {
+    return [$domain, $video_id, $video_thumbnail];
+  }
+  // If video image thumbnail is not requested, return video id and domain
+  if (!empty($video_id) && empty($video_thumbnail)) {
+    return [$domain, $video_id];
+  }
+  return FALSE;
 }

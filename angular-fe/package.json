@@ -30,7 +30,7 @@
     "@angular/router": "^10.1.6",
     "@auth0/angular-jwt": "^5.0.2",
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
-    "@ng-select/ng-select": "^5.1.0",
+    "@ng-select/ng-select": "^5.0.2",
     "angular-google-tag-manager": "^1.2.3",
     "autoprefixer": "^10.2.1",
     "classlist.js": "^1.1.20150312",
@@ -44,9 +44,9 @@
     "patch-package": "^6.4.7",
     "rxjs": "^6.6.3",
     "swiper": "^6.4.0",
+    "zone.js": "^0.10.3",
     "tslib": "^1.13.0",
-    "web-animations-js": "^2.3.2",
-    "zone.js": "^0.10.3"
+    "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
     "@agm/core": "^3.0.0-beta.0",
