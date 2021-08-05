@@ -4,8 +4,8 @@ namespace Drupal\htm_custom_tara_authentication\Plugin\OpenIDConnectClient;
 
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Url;
-use Drupal\openid_connect\Plugin\OpenIDConnectClient\Generic;
-use Drupal\openid_connect\StateToken;
+use Drupal\openid_connect\Plugin\OpenIDConnectClient\OpenIDConnectGenericClient;
+use Drupal\openid_connect\OpenIDConnectStateToken;
 use Exception;
 
 /**
@@ -22,7 +22,7 @@ use Exception;
 
 
 
-class HarID extends Generic {
+class HarID extends OpenIDConnectGenericClient {
 
   protected $userInfoMapping = [
     'personal_code' => 'id_code',
@@ -42,7 +42,7 @@ class HarID extends Generic {
         'response_type' => 'code',
         'scope' => $scope,
         'redirect_uri' => $redirect_uri,
-        'state' => StateToken::create(),
+        'state' => OpenIDConnectStateToken::create(),
       ],
     ];
 
@@ -103,7 +103,7 @@ class HarID extends Generic {
         'access_token' => isset($response_data['access_token']) ? $response_data['access_token'] : NULL,
       ];
       if (array_key_exists('expires_in', $response_data)) {
-        $tokens['expire'] = REQUEST_TIME + $response_data['expires_in'];
+        $tokens['expire'] = \Drupal::time()->getRequestTime() + $response_data['expires_in'];
       }
       if (array_key_exists('refresh_token', $response_data)) {
         $tokens['refresh_token'] = $response_data['refresh_token'];

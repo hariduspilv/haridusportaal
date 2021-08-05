@@ -42,7 +42,7 @@ class xJsonEntityForm extends ContentEntityForm {
       $entity->setNewRevision();
 
       // If a new revision is created, save the current user as revision author.
-      $entity->setRevisionCreationTime(REQUEST_TIME);
+      $entity->setRevisionCreationTime(\Drupal::time()->getRequestTime());
       $entity->setRevisionUserId(\Drupal::currentUser()->id());
     }
     else {
@@ -53,13 +53,13 @@ class xJsonEntityForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label xJson entity.', [
+        \Drupal::messenger()->addMessage($this->t('Created the %label xJson entity.', [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label xJson entity.', [
+        \Drupal::messenger()->addMessage($this->t('Saved the %label xJson entity.', [
           '%label' => $entity->label(),
         ]));
     }

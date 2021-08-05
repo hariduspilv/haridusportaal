@@ -2,4 +2,5 @@ name: 'HTM custom EHIS connector'
 type: module
 description: 'Service for EHIS'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'
