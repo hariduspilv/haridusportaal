@@ -2,4 +2,5 @@ name: 'Custom Translation Module'
 type: module
 description: 'HTM custom translations module with REST export'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

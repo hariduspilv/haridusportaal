@@ -2,4 +2,5 @@ name: 'htm_custom_exports'
 type: module
 description: 'Custom module for exporting PHP made files'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

@@ -2,8 +2,9 @@
 
 namespace Drupal\htm_custom_authentication;
 
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Password\PasswordInterface;
+use Drupal\node\Entity\Node;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Drupal\htm_custom_authentication\Plugin\DigiDocService;
@@ -30,12 +31,12 @@ class UserAuth implements UserAuthInterface {
   /**
   * Constructs a UserAuth object.
   *
-  * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+  * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
   *   The entity manager.
   * @param \Drupal\Core\Password\PasswordInterface $password_checker
   *   The password service.
   */
-  public function __construct(EntityManagerInterface $entity_manager, PasswordInterface $password_checker) {
+  public function __construct(EntityTypeManagerInterface $entity_manager, PasswordInterface $password_checker) {
     $this->entityManager = $entity_manager;
     $this->passwordChecker = $password_checker;
   }
@@ -118,7 +119,7 @@ class UserAuth implements UserAuthInterface {
           'field_user_idcode' => $params['UserIDCode'],
           'status' => 1,
         );
-        $account = entity_create('user', $values);
+        $account = Node::create('user', $values);
         $account->save();
       }else{
         $account = reset($users);

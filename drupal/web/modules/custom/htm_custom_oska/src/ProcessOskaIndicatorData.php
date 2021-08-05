@@ -184,7 +184,7 @@ class ProcessOskaIndicatorData {
     else {
       $message = [t('Finished with an error.'), 'error'];
     }
-    drupal_set_message($message[0], $message[1]);
+    \Drupal::messenger()->addMessage($message[0], $message[1]);
   }
 
   public static function checkEntityReference($entity_type, $vocabulary, $name){

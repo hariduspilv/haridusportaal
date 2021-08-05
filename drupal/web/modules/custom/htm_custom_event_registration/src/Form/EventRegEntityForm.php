@@ -70,13 +70,13 @@ class EventRegEntityForm extends ContentEntityForm {
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label Event registration.', [
+        \Drupal::messenger()->addMessage($this->t('Created the %label Event registration.', [
           '%label' => $entity->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label Event registration.', [
+        \Drupal::messenger()->addMessage($this->t('Saved the %label Event registration.', [
           '%label' => $entity->label(),
         ]));
     }
