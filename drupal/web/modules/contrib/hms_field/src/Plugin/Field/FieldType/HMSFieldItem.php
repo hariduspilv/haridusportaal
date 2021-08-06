@@ -12,7 +12,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\StringTranslation\TranslationWrapper;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
 
 /**
@@ -34,7 +34,7 @@ class HMSFieldItem extends FieldItemBase {
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     // Prevent early t() calls by using the TranslationWrapper.
     $properties['value'] = DataDefinition::create('integer')
-      ->setLabel(new TranslationWrapper('HMS integer value'));
+      ->setLabel(new TranslatableMarkup('HMS integer value'));
 
     return $properties;
   }
