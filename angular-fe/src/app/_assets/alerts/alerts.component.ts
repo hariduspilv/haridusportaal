@@ -34,7 +34,6 @@ export class AlertsComponent implements OnDestroy {
   @Input() id: string = 'global';
   @Input() alerts: Alert[] = [];
   @Input() small: boolean = false;
-  @Input() plaintext = false;
   @Input() closeMs: number;
   public alertIcons = AlertIcon;
   private alertSubscription: Subscription = new Subscription;
