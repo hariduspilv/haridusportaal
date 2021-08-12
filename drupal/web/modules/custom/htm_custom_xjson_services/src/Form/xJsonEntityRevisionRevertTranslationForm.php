@@ -51,7 +51,7 @@ class xJsonEntityRevisionRevertTranslationForm extends xJsonEntityRevisionRevert
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('x_json_entity'),
+      $container->get('entity_type.manager')->getStorage('x_json_entity'),
       $container->get('date.formatter'),
       $container->get('language_manager')
     );

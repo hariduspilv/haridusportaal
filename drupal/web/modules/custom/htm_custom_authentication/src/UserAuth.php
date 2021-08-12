@@ -17,23 +17,23 @@ class UserAuth implements UserAuthInterface {
   /**
   * The entity manager.
   *
-  * @var \Drupal\Core\Entity\EntityManagerInterface
+  * @var Drupal\Core\Entity\EntityTypeManagerInterfacee
   */
   protected $entityManager;
 
   /**
   * The password hashing service.
   *
-  * @var \Drupal\Core\Password\PasswordInterface
+  * @var Drupal\Core\Password\PasswordInterface
   */
   protected $passwordChecker;
 
   /**
   * Constructs a UserAuth object.
   *
-  * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
+  * @param EntityTypeManagerInterface $entity_manager
   *   The entity manager.
-  * @param \Drupal\Core\Password\PasswordInterface $password_checker
+  * @param PasswordInterface $password_checker
   *   The password service.
   */
   public function __construct(EntityTypeManagerInterface $entity_manager, PasswordInterface $password_checker) {
