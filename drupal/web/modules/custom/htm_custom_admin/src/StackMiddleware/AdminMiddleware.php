@@ -2,7 +2,6 @@
 
 namespace Drupal\htm_custom_admin\StackMiddleware;
 
-use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -17,11 +16,11 @@ class AdminMiddleware implements HttpKernelInterface {
    *
    * @var \Symfony\Component\HttpKernel\HttpKernelInterface
    */
-  protected $httpKernel;
+  protected HttpKernelInterface $httpKernel;
 
-  protected $anonymous;
+  protected bool $anonymous;
 
-  protected $query;
+  protected string $query;
   /**
    * Creates a HTTP middleware handler.
    *
@@ -55,7 +54,7 @@ class AdminMiddleware implements HttpKernelInterface {
     ];
 
     foreach($request->cookies->keys() as $key) {
-      if(substr($key, 0, strlen($this->query)) === $this->query) {
+      if(strpos($key, $this->query) === 0) {
         $this->anonymous = false;
       }
     }
@@ -82,7 +81,7 @@ class AdminMiddleware implements HttpKernelInterface {
   private function endsWith($string, $endString)
   {
     $len = strlen($endString);
-    if ($len == 0) {
+    if ($len === 0) {
       return true;
     }
     return (substr($string, -$len) === $endString);
