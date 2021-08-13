@@ -1,0 +1,20 @@
+Index: drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php b/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php
+--- a/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php	(revision 2649df14fb97185baf97b17ad693c72b5e097483)
++++ b/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php	(date 1628840780170)
+@@ -57,9 +57,11 @@
+    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+    *   Event dispatcher.
+    */
+-  public function __construct(EventDispatcherInterface $eventDispatcher) {
++  public function __construct(EventDispatcherInterface $eventDispatcher = NULL) {
++    if (!$eventDispatcher) {
++      @trigger_error('Calling AccountProxy::__construct() without the $eventDispatcher argument is deprecated in drupal:8.8.0. The $eventDispatcher argument will be required in drupal:9.0.0. See https://www.drupal.org/node/3009387', E_USER_DEPRECATED);
++      $eventDispatcher = \Drupal::service('event_dispatcher');
++    }
+     $this->eventDispatcher = $eventDispatcher;
+   }
