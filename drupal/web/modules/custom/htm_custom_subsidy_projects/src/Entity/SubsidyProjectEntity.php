@@ -63,6 +63,11 @@ use Drupal\user\UserInterface;
  *     "translation_revert" = "/admin/structure/subsidy_project_entity/{subsidy_project_entity}/revisions/{subsidy_project_entity_revision}/revert/{langcode}",
  *     "collection" = "/admin/structure/subsidy_project_entity",
  *   },
+ *   revision_metadata_keys = {
+ *     "revision_user" = "revision_user",
+ *     "revision_created" = "revision_created",
+ *     "revision_log_message" = "revision_log"
+ *   },
  *   field_ui_base_route = "subsidy_project_entity.settings"
  * )
  */
@@ -83,13 +88,14 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
   /**
    * {@inheritdoc}
    */
-  protected function urlRouteParameters($rel) {
+  protected function urlRouteParameters($rel): array
+  {
     $uri_route_parameters = parent::urlRouteParameters($rel);
 
-    if ($rel === 'revision_revert' && $this instanceof RevisionableInterface) {
+    if ($rel === 'revision_revert') {
       $uri_route_parameters[$this->getEntityTypeId() . '_revision'] = $this->getRevisionId();
     }
-    elseif ($rel === 'revision_delete' && $this instanceof RevisionableInterface) {
+    elseif ($rel === 'revision_delete') {
       $uri_route_parameters[$this->getEntityTypeId() . '_revision'] = $this->getRevisionId();
     }
 

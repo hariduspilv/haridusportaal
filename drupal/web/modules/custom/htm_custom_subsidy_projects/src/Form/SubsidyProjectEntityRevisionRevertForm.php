@@ -57,7 +57,7 @@ class SubsidyProjectEntityRevisionRevertForm extends ConfirmFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('subsidy_project_entity'),
+      $container->get('entity_type.manager')->getStorage('subsidy_project_entity'),
       $container->get('date.formatter')
     );
   }

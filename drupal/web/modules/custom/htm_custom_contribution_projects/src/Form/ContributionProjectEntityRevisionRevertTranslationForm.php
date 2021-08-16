@@ -51,7 +51,7 @@ class ContributionProjectEntityRevisionRevertTranslationForm extends Contributio
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('contribution_project_entity'),
+      $container->get('entity_type.manager')->getStorage('contribution_project_entity'),
       $container->get('date.formatter'),
       $container->get('language_manager')
     );
