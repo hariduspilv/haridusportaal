@@ -1,7 +1,7 @@
-diff --git a/cache_tags.info.yml b/cache_tags.info.yml
+diff --git a/app/drupal/web/modules/contrib/cache_tags/cache_tags.info.yml b/app/drupal/web/modules/contrib/cache_tags/cache_tags.info.yml
 index dd027af9..625df079 100644
---- a/cache_tags.info.yml
-+++ b/cache_tags.info.yml
+--- a/app/drupal/web/modules/contrib/cache_tags/cache_tags.info.yml
++++ b/app/drupal/web/modules/contrib/cache_tags/cache_tags.info.yml
 @@ -3,6 +3,7 @@ type: module
  description: 'Adds a configurable Cache-Tags header.'
  # core: 8.x
@@ -10,10 +10,10 @@ index dd027af9..625df079 100644
 
  # Information added by Drupal.org packaging script on 2016-09-28
  version: '8.x-1.0-beta1'
-diff --git a/cache_tags.services.yml b/cache_tags.services.yml
+diff --git a/app/drupal/web/modules/contrib/cache_tags/cache_tags.services.yml b/app/drupal/web/modules/contrib/cache_tags/cache_tags.services.yml
 index 1cc9ad1c..d34dc3b6 100644
---- a/cache_tags.services.yml
-+++ b/cache_tags.services.yml
+--- a/app/drupal/web/modules/contrib/cache_tags/cache_tags.services.yml
++++ b/app/drupal/web/modules/contrib/cache_tags/cache_tags.services.yml
 @@ -1,5 +1,6 @@
  services:
    cache_tags:
@@ -21,14 +21,10 @@ index 1cc9ad1c..d34dc3b6 100644
 +    arguments: ['@config.factory']
      tags:
        - { name: 'event_subscriber' }
-diff --git a/src/.DS_Store b/src/.DS_Store
-new file mode 100644
-index 00000000..d548419d
-Binary files /dev/null and b/src/.DS_Store differ
-diff --git a/src/EventSubscriber/AddCacheTags.php b/src/EventSubscriber/AddCacheTags.php
+diff --git a/app/drupal/web/modules/contrib/cache_tags/src/EventSubscriber/AddCacheTags.php b/app/drupal/web/modules/contrib/cache_tags/src/EventSubscriber/AddCacheTags.php
 index 63794c9d..3743c501 100644
---- a/src/EventSubscriber/AddCacheTags.php
-+++ b/src/EventSubscriber/AddCacheTags.php
+--- a/app/drupal/web/modules/contrib/cache_tags/src/EventSubscriber/AddCacheTags.php
++++ b/app/drupal/web/modules/contrib/cache_tags/src/EventSubscriber/AddCacheTags.php
 @@ -6,22 +6,42 @@
   * @file
   * Contains \Drupal\cache_tags\EventSubscriber\AddCacheTags.
