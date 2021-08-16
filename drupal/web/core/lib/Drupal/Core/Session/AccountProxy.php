@@ -47,11 +47,7 @@ class AccountProxy implements AccountProxyInterface {
    * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
    *   Event dispatcher.
    */
-  public function __construct(EventDispatcherInterface $eventDispatcher = NULL) {
-    if (!$eventDispatcher) {
-      @trigger_error('Calling AccountProxy::__construct() without the $eventDispatcher argument is deprecated in drupal:8.8.0. The $eventDispatcher argument will be required in drupal:9.0.0. See https://www.drupal.org/node/3009387', E_USER_DEPRECATED);
-      $eventDispatcher = \Drupal::service('event_dispatcher');
-    }
+  public function __construct(EventDispatcherInterface $eventDispatcher) {
     $this->eventDispatcher = $eventDispatcher;
   }
 
