@@ -6,22 +6,42 @@ namespace Drupal\cache_tags\EventSubscriber;
  * @file
  * Contains \Drupal\cache_tags\EventSubscriber\AddCacheTags.
  */
-
-
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Core\Cache\CacheableResponseInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Provides AddCacheTags.
  */
-class AddCacheTags implements EventSubscriberInterface {
+class AddCacheTags implements EventSubscriberInterface, ContainerInjectionInterface {
+
+  /** @var \Drupal\Core\Config\ImmutableConfig */
+  protected $config;
+
+  /**
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   */
+  public function __construct(ConfigFactoryInterface $config_factory) {
+    $this->config = $config_factory->get('cache_tags.settings');
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory')
+    );
+  }
 
   /**
    * Sets extra HTTP headers.
    */
-  public function onRespond(FilterResponseEvent $event) {
+  public function onRespond(ResponseEvent $event) {
     if (!$event->isMasterRequest()) {
       return;
     }
@@ -31,18 +51,17 @@ class AddCacheTags implements EventSubscriberInterface {
       // Get all cache tags for the request.
       $tags = $response->getCacheableMetadata()->getCacheTags();
 
-      $config = \Drupal::config('cache_tags.settings');
       // Read cacheTags settings.
       // Get cacheTags name.
-      if (NULL !== $config->get('CacheTagsName')) {
-        $cacheTagsName = trim($config->get('CacheTagsName'));
+      if (NULL !== $this->config->get('CacheTagsName')) {
+        $cacheTagsName = trim($this->config->get('CacheTagsName'));
       }
       else {
         $cacheTagsName = 'Cache-Tags';
       }
       // Get cacheTags delimiter.
-      if (NULL !== $config->get('Delimiter')) {
-        $delimiter = trim($config->get('Delimiter'));
+      if (NULL !== $this->config->get('Delimiter')) {
+        $delimiter = trim($this->config->get('Delimiter'));
       }
       if (!isset($delimiter)) {
         $delimiter = '[space]';
