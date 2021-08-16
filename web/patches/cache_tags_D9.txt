@@ -1,0 +1,104 @@
+diff --git a/cache_tags.info.yml b/cache_tags.info.yml
+index dd027af9..625df079 100644
+--- a/cache_tags.info.yml
++++ b/cache_tags.info.yml
+@@ -3,6 +3,7 @@ type: module
+ description: 'Adds a configurable Cache-Tags header.'
+ # core: 8.x
+ package: Other
++core_version_requirement: ^8 || ^9
+
+ # Information added by Drupal.org packaging script on 2016-09-28
+ version: '8.x-1.0-beta1'
+diff --git a/cache_tags.services.yml b/cache_tags.services.yml
+index 1cc9ad1c..d34dc3b6 100644
+--- a/cache_tags.services.yml
++++ b/cache_tags.services.yml
+@@ -1,5 +1,6 @@
+ services:
+   cache_tags:
+     class: '\Drupal\cache_tags\EventSubscriber\AddCacheTags'
++    arguments: ['@config.factory']
+     tags:
+       - { name: 'event_subscriber' }
+diff --git a/src/.DS_Store b/src/.DS_Store
+new file mode 100644
+index 00000000..d548419d
+Binary files /dev/null and b/src/.DS_Store differ
+diff --git a/src/EventSubscriber/AddCacheTags.php b/src/EventSubscriber/AddCacheTags.php
+index 63794c9d..3743c501 100644
+--- a/src/EventSubscriber/AddCacheTags.php
++++ b/src/EventSubscriber/AddCacheTags.php
+@@ -6,22 +6,42 @@
+  * @file
+  * Contains \Drupal\cache_tags\EventSubscriber\AddCacheTags.
+  */
+-
+-
+-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+-use Symfony\Component\HttpKernel\KernelEvents;
+-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+ use Drupal\Core\Cache\CacheableResponseInterface;
++use Drupal\Core\Config\ConfigFactoryInterface;
++use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
++use Symfony\Component\DependencyInjection\ContainerInterface;
++use Symfony\Component\EventDispatcher\EventSubscriberInterface;
++use Symfony\Component\HttpKernel\Event\ResponseEvent;
++use Symfony\Component\HttpKernel\KernelEvents;
+
+ /**
+  * Provides AddCacheTags.
+  */
+-class AddCacheTags implements EventSubscriberInterface {
++class AddCacheTags implements EventSubscriberInterface, ContainerInjectionInterface {
++
++  /** @var \Drupal\Core\Config\ImmutableConfig */
++  protected $config;
++
++  /**
++   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
++   */
++  public function __construct(ConfigFactoryInterface $config_factory) {
++    $this->config = $config_factory->get('cache_tags.settings');
++  }
++
++  /**
++   * @inheritDoc
++   */
++  public static function create(ContainerInterface $container) {
++    return new static(
++      $container->get('config.factory')
++    );
++  }
+
+   /**
+    * Sets extra HTTP headers.
+    */
+-  public function onRespond(FilterResponseEvent $event) {
++  public function onRespond(ResponseEvent $event) {
+     if (!$event->isMasterRequest()) {
+       return;
+     }
+@@ -31,18 +51,17 @@ public function onRespond(FilterResponseEvent $event) {
+       // Get all cache tags for the request.
+       $tags = $response->getCacheableMetadata()->getCacheTags();
+
+-      $config = \Drupal::config('cache_tags.settings');
+       // Read cacheTags settings.
+       // Get cacheTags name.
+-      if (NULL !== $config->get('CacheTagsName')) {
+-        $cacheTagsName = trim($config->get('CacheTagsName'));
++      if (NULL !== $this->config->get('CacheTagsName')) {
++        $cacheTagsName = trim($this->config->get('CacheTagsName'));
+       }
+       else {
+         $cacheTagsName = 'Cache-Tags';
+       }
+       // Get cacheTags delimiter.
+-      if (NULL !== $config->get('Delimiter')) {
+-        $delimiter = trim($config->get('Delimiter'));
++      if (NULL !== $this->config->get('Delimiter')) {
++        $delimiter = trim($this->config->get('Delimiter'));
+       }
+       if (!isset($delimiter)) {
+         $delimiter = '[space]';
