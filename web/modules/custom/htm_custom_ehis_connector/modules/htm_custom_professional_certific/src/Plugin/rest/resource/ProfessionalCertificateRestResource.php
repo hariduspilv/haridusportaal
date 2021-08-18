@@ -27,13 +27,13 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class ProfessionalCertificateRestResource extends ResourceBase {
 
+  /**
+   * Ehis connector service
+   *
+   * @var EhisConnectorService
+   */
+  protected $certificate;
 
-	/**
-	 * Ehis connector service
-	 *
-	 * @var EhisConnectorService
-	 */
-	protected $certificate;
   /**
    * A current user instance.
    *
@@ -42,17 +42,17 @@ class ProfessionalCertificateRestResource extends ResourceBase {
   protected $currentUser;
 
 
-	/**
-	 * ProfessionalCertificateRestResource constructor.
-	 *
-	 * @param array                 $configuration
-	 * @param                       $plugin_id
-	 * @param                       $plugin_definition
-	 * @param array                 $serializer_formats
-	 * @param LoggerInterface       $logger
-	 * @param AccountProxyInterface $current_user
-	 * @param EhisConnectorService  $ehisConnectorService
-	 */
+  /**
+   * ProfessionalCertificateRestResource constructor.
+   *
+   * @param array                 $configuration
+   * @param                       $plugin_id
+   * @param                       $plugin_definition
+   * @param array                 $serializer_formats
+   * @param LoggerInterface       $logger
+   * @param AccountProxyInterface $current_user
+   * @param EhisConnectorService  $ehisConnectorService
+   */
 	public function __construct(
 			array $configuration,
 			$plugin_id,
@@ -89,14 +89,14 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 	 * @param $service_name
 	 *   The serice key
 	 *
-	 * @param $tab.
+	 * @param $tab_index.
 	 *
 	 * @throws \Symfony\Component\HttpKernel\Exception\HttpException
 	 *   Throws exception expected.
 	 *
 	 * @return ResourceResponse
 	 */
-	public function get($service_name, $tab) {
+	public function get($service_name, $tab_index) {
 		// You must to implement the logic of your REST Resource here.
 		// Use current user after pass authentication to validate access.
 		if (!$this->currentUser->hasPermission('access content')) {
@@ -105,25 +105,25 @@ class ProfessionalCertificateRestResource extends ResourceBase {
   	switch ($service_name){
 			case 'certificates':
 				// @TODO  Mby security risk
-				$method = $tab;
+				$method = $tab_index;
 				$params = [];
 				break;
 			case 'eeIsikukaart':
 				$method = 'getPersonalCard';
-				$params = ['tab' => $tab];
+				$params = ['tab' => $tab_index];
 				break;
       case 'deleteDoc':
         $method = 'deleteDocument';
-        $params = ['id' => $tab, 'form_name' => 'MTSYS_TEGEVUSLUBA'];
+        $params = ['id' => $tab_index, 'form_name' => 'MTSYS_TEGEVUSLUBA'];
         break;
 			case 'applications':
 				$method = 'getApplications';
 				#$this->certificate->testApplications();
-				$params = ['init' => (boolean) $tab, 'get_edi_data' => TRUE];
+				$params = ['init' => (boolean) $tab_index, 'get_edi_data' => TRUE];
         break;
 		  case 'educational_institution':
 		  	$method = 'getEducationalInstitution';
-		  	$params = ['id' => $tab, 'addTitle' => true];
+		  	$params = ['id' => $tab_index, 'addTitle' => true];
 		  	break;
 			default:
 				throw new BadRequestHttpException('Service name not found');
@@ -138,6 +138,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		}
 
     $response = new ModifiedResourceResponse($json, 200);
+
     \Drupal::logger('xjson')->notice('<pre><code>Dashboard '.$service_name.' response: '. print_r($response, TRUE) . '</code></pre>' );
 
 		return $response;
