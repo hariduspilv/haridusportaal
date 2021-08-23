@@ -43,6 +43,7 @@ export class CertificateDetailedComponent {
   }
 
   public get certificate(): CertificateDocument {
+    console.log(this.documents)
     return this.documents.certificate;
   }
 
