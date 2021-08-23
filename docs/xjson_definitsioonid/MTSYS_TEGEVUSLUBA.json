@@ -125,6 +125,22 @@
             "options_list": "soidukiKategooriad",
             "readonly": true
           },
+          "menetlejaKommentaar": {
+            "type": "table",
+            "title": {
+              "et": "Menetleja kommentaar"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "nimetus": {
+                "type": "text",
+                "title": {
+                  "et": "Menetleja kommentaar"
+                },
+                "readonly": true
+              }
+            }
+          },
           "oppeTasemed": {
             "type": "table",
             "title": {
@@ -284,7 +300,7 @@
                 "readonly": true
               },
               "kommentaar": {
-                "type": "textarea",
+                "type": "text",
                 "title": {
                   "et": "Kommentaar"
                 },
