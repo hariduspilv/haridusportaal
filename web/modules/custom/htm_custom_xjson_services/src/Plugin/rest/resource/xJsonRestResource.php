@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *   id = "xjson_rest_resource",
  *   label = @Translation("X json rest resource"),
  *   uri_paths = {
- *     "https://www.drupal.org/link-relations/create" = "/xjson_service"
+ *     "create" = "/xjson_service"
  *   }
  * )
  */
@@ -212,7 +212,7 @@ class xJsonRestResource extends ResourceBase {
       $this->formAction = $data['activity'];
     }
 
-    $path = \Drupal::service('path.alias_manager')->getPathByAlias($path);
+    $path = \Drupal::service('path_alias.manager')->getPathByAlias($path);
     $system_path = explode('/', $path);
     $entityStorage = \Drupal::entityTypeManager()->getStorage($system_path[1]);
     $entity = reset($entityStorage->loadByProperties(['id' => $system_path[2]]));
