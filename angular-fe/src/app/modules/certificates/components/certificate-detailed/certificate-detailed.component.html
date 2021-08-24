@@ -94,11 +94,11 @@
     </tr>
     <tr *ngIf="documents.transcript?.content?.studies?.creditPoint">
       <td>{{ 'finaldocuments.credit_point' | translate }}:</td>
-      <td>{{ documents.transcript.content.studies.creditPoint }}EKAP</td>
+      <td>{{ documents.transcript.content.studies.creditPoint }}</td>
     </tr>
     <tr *ngIf="documents.transcript?.content?.studies?.officialLengthOfProgramme">
       <td>{{ 'finaldocuments.length_of_programme' | translate }}:</td>
-      <td>{{ documents.transcript.content.studies.officialLengthOfProgramme }} {{ 'time.duration_year_plural' | translate }}</td>
+      <td>{{ documents.transcript.content.studies.officialLengthOfProgramme }}</td>
     </tr>
     <tr *ngIf="documents.supplement?.content?.studies?.creditPoint">
       <td>{{ 'finaldocuments.credit_point' | translate }}:</td>

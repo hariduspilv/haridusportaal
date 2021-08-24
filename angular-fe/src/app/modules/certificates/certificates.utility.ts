@@ -202,9 +202,10 @@ export class CertificatesUtility {
    */
   public static getCertificateIssueDate(document: CertificateDocument): string {
     const content = document.content as CertificateDocumentContent;
-    return content.headOfSchoolDirective
-      ? content.headOfSchoolDirective.issueDate
-      : (content.issued ? content.issued.issueDate : '');
+    return content.issued ? content.issued.issueDate :
+      (content.headOfSchoolDirective
+        ? content.headOfSchoolDirective.issueDate
+        : '');
   }
 
   /**

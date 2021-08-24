@@ -79,7 +79,7 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 	dump($tokens);*/
 	$replacements = [];
 	if($type === 'node'){
-		/* @var $node \Drupal\Core\Entity\Entity */
+		/* @var $node \Drupal\Core\Entity\EntityBase */
 		$node = $data['node'];
 		$node_type = $node->getType();
 		#$node_type = $node
@@ -106,7 +106,7 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 					}
 					break;
 				case 'custom_url':
-					$url = $fe_url . $node->url();
+					$url = $fe_url . $node->toUrl()->toString();
 					$replacements[$original] = $url;
 					break;
 				case 'custom_img':
@@ -180,13 +180,13 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 					break;
 				case 'news':
 					foreach($data['news'] as $node){
-						$newslinks[] = ('<a href="'.$options['custom_link_path'].$node->url().'">'.$node->label().'</a>');
+						$newslinks[] = ('<a href="'.$options['custom_link_path'].$node->toUrl()->toString().'">'.$node->label().'</a>');
 					}
 					$replacements[$original] = implode('<br>', $newslinks);
 					break;
 				case 'events':
 					foreach($data['events'] as $node){
-						$eventlinks[] = ('<a href="'.$options['custom_link_path'].$node->url().'">'.$node->label().'</a>');
+						$eventlinks[] = ('<a href="'.$options['custom_link_path'].$node->toUrl()->toString().'">'.$node->label().'</a>');
 					}
 					$replacements[$original] = implode('<br>', $eventlinks);
 					break;

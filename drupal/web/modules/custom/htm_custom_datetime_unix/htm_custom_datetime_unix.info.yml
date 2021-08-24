@@ -2,4 +2,5 @@ name: 'HTM Custom Datetime'
 type: module
 description: 'Add unix value for datetime field'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

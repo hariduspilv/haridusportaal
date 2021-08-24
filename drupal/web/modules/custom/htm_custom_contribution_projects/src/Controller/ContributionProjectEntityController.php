@@ -25,8 +25,8 @@ class ContributionProjectEntityController extends ControllerBase implements Cont
    *   An array suitable for drupal_render().
    */
   public function revisionShow($contribution_project_entity_revision) {
-    $contribution_project_entity = $this->entityManager()->getStorage('contribution_project_entity')->loadRevision($contribution_project_entity_revision);
-    $view_builder = $this->entityManager()->getViewBuilder('contribution_project_entity');
+    $contribution_project_entity = $this->entityTypeManager()->getStorage('contribution_project_entity')->loadRevision($contribution_project_entity_revision);
+    $view_builder = $this->entityTypeManager()->getViewBuilder('contribution_project_entity');
 
     return $view_builder->view($contribution_project_entity);
   }
@@ -41,7 +41,7 @@ class ContributionProjectEntityController extends ControllerBase implements Cont
    *   The page title.
    */
   public function revisionPageTitle($contribution_project_entity_revision) {
-    $contribution_project_entity = $this->entityManager()->getStorage('contribution_project_entity')->loadRevision($contribution_project_entity_revision);
+    $contribution_project_entity = $this->entityTypeManager()->getStorage('contribution_project_entity')->loadRevision($contribution_project_entity_revision);
     return $this->t('Revision of %title from %date', ['%title' => $contribution_project_entity->label(), '%date' => format_date($contribution_project_entity->getRevisionCreationTime())]);
   }
 
@@ -60,7 +60,7 @@ class ContributionProjectEntityController extends ControllerBase implements Cont
     $langname = $contribution_project_entity->language()->getName();
     $languages = $contribution_project_entity->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
-    $contribution_project_entity_storage = $this->entityManager()->getStorage('contribution_project_entity');
+    $contribution_project_entity_storage = $this->entityTypeManager()->getStorage('contribution_project_entity');
 
     $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => $contribution_project_entity->label()]) : $this->t('Revisions for %title', ['%title' => $contribution_project_entity->label()]);
     $header = [$this->t('Revision'), $this->t('Operations')];
