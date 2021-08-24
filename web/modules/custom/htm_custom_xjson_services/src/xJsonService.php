@@ -268,7 +268,7 @@ class xJsonService implements xJsonServiceInterface {
    */
   public function getEntityFormName ($form_path)
   {
-    $path = \Drupal::service('path.alias_manager')->getPathByAlias($form_path);
+    $path = \Drupal::service('path_alias.manager')->getPathByAlias($form_path);
     $system_path = explode('/', $path);
     $entityStorage = \Drupal::entityTypeManager()->getStorage($system_path[1]);
     $entity = reset($entityStorage->loadByProperties(['id' => $system_path[2]]));
