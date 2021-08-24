@@ -300,7 +300,7 @@
                 "readonly": true
               },
               "kommentaar": {
-                "type": "text",
+                "type": "textarea",
                 "title": {
                   "et": "Kommentaar"
                 },
