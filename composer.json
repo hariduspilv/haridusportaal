@@ -48,7 +48,6 @@
         "drupal/image_widget_crop": "^2.1",
         "drupal/jquery_ui": "^1.4",
         "drupal/jquery_ui_autocomplete": "^1.1",
-        "drupal/jquery_ui_menu": "^1.1",
         "drupal/json_feed": "^1.1",
         "drupal/jwt": "^1.0@alpha",
         "drupal/material_admin": "^2.0",
@@ -137,7 +136,8 @@
             },
             "drupal/material_admin": {
                 "Material Admin Fixing Array to String Notice for PHP 7 on 2.X": "https://www.drupal.org/files/issues/2021-02-08/material_admin-v2-array_to_string_notice.patch",
-                "Material Admin Drupal 9 patch": "https://www.drupal.org/files/issues/2021-06-17/deprecated-3075746-3.patch"
+                "Drupal 9 deprecated code fix": "https://www.drupal.org/files/issues/2021-06-17/deprecated-3075746-3.patch",
+                "Drupal 9 autocomplete fix": "web/patches/mat_admin_autocomplete_D9.txt"
             },
             "drupal/cache_tags": {
                 "Cache Tags Drupal 9 patch": "https://www.drupal.org/files/issues/2021-01-19/cache_tags-3139751.patch"
