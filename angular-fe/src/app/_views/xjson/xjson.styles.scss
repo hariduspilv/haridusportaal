@@ -114,9 +114,6 @@
         padding-right: 1.5rem;
       }
     }
-    &__table {
-      margin: 1rem 0rem;
-    }
     @include break-on(sm, min) {
       border-radius: $half-gutter;
       margin-left: $medium;
@@ -1010,9 +1007,6 @@
   }
   .disabled-step table .round-input__field-wrapper {
     border: 0px solid transparent;
-  }
-  h1 {
-    margin-bottom: 1rem;
   }
   .row {
     formItem {
