@@ -27,6 +27,7 @@ RUN	apk update && \
 	zlib \
 	apache2 \
 	postgresql-client \
+	patch \
 	php7 \
 	php7-apache2 \
         php7-bcmath \

@@ -131,6 +131,24 @@
         "patchLevel": {
             "drupal/core": "-p2"
         },
+        "patches": {
+            "drupal/core": {
+                "AccountProxy Drupal 9 custom patch": "web/patches/AccountProxy_D9.txt"
+            },
+            "drupal/material_admin": {
+                "Material Admin Fixing Array to String Notice for PHP 7 on 2.X": "https://www.drupal.org/files/issues/2021-02-08/material_admin-v2-array_to_string_notice.patch",
+                "Material Admin Drupal 9 patch": "https://www.drupal.org/files/issues/2021-06-17/deprecated-3075746-3.patch"
+            },
+            "drupal/cache_tags": {
+                "Cache Tags Drupal 9 patch": "https://www.drupal.org/files/issues/2021-01-19/cache_tags-3139751.patch"
+            },
+            "drupal/hms_field": {
+                "HMS Field Drupal 9 patch": "https://www.drupal.org/files/issues/2021-05-09/3147750-d9-compatibility-2.patch"
+            },
+            "drupal/menu_item_role_access": {
+                "Call to a member function hasField() on null": "https://www.drupal.org/files/issues/2021-02-09/hasField-on-null-3197539-2.patch"
+            }
+        },
         "installer-paths": {
             "web/core": ["type:drupal-core"],
             "web/libraries/{$name}": ["type:drupal-library"],
