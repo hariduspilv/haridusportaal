@@ -1,11 +1,11 @@
-Index: app/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php
+Index: core/lib/Drupal/Core/Session/AccountProxy.php
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
-diff --git a/app/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php b/app/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php
---- a/app/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php	(revision 2649df14fb97185baf97b17ad693c72b5e097483)
-+++ b/app/drupal/web/core/lib/Drupal/Core/Session/AccountProxy.php	(date 1628840780170)
+diff --git a/core/lib/Drupal/Core/Session/AccountProxy.php b/core/lib/Drupal/Core/Session/AccountProxy.php
+--- a/core/lib/Drupal/Core/Session/AccountProxy.php	(revision 2649df14fb97185baf97b17ad693c72b5e097483)
++++ b/web/lib/Drupal/Core/Session/AccountProxy.php	(date 1628840780170)
 @@ -47,6 +47,10 @@
     * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
     *   Event dispatcher.
