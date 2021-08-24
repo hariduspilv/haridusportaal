@@ -76,7 +76,7 @@ class CalendarExportController extends ControllerBase {
 
 			return $response;
 		}else{
-  		return drupal_set_message('error');
+  		return \Drupal::messenger()->addMessage('error');
 		}
   }
 

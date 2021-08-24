@@ -55,7 +55,7 @@ class xJsonEntityRevisionDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    $entity_manager = $container->get('entity.manager');
+    $entity_manager = $container->get('entity_type.manager');
     return new static(
       $entity_manager->getStorage('x_json_entity'),
       $container->get('database')
@@ -107,7 +107,7 @@ class xJsonEntityRevisionDeleteForm extends ConfirmFormBase {
     $this->xJsonEntityStorage->deleteRevision($this->revision->getRevisionId());
 
     $this->logger('content')->notice('xJson entity: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    drupal_set_message(t('Revision from %revision-date of xJson entity %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
+    \Drupal::messenger()->addMessage(t('Revision from %revision-date of xJson entity %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
     $form_state->setRedirect(
       'entity.x_json_entity.canonical',
        ['x_json_entity' => $this->revision->id()]

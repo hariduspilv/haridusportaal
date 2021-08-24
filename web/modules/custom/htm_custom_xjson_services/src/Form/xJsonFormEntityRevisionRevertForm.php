@@ -57,7 +57,7 @@ class xJsonFormEntityRevisionRevertForm extends ConfirmFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('x_json_form_entity'),
+      $container->get('entity_type.manager')->getStorage('x_json_form_entity'),
       $container->get('date.formatter')
     );
   }
@@ -120,7 +120,7 @@ class xJsonFormEntityRevisionRevertForm extends ConfirmFormBase {
     $this->revision->save();
 
     $this->logger('content')->notice('xJson form entity: reverted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    drupal_set_message(t('xJson form entity %title has been reverted to the revision from %revision-date.', ['%title' => $this->revision->label(), '%revision-date' => $this->dateFormatter->format($original_revision_timestamp)]));
+    \Drupal::messenger()->addMessage(t('xJson form entity %title has been reverted to the revision from %revision-date.', ['%title' => $this->revision->label(), '%revision-date' => $this->dateFormatter->format($original_revision_timestamp)]));
     $form_state->setRedirect(
       'entity.x_json_form_entity.version_history',
       ['x_json_form_entity' => $this->revision->id()]
@@ -141,7 +141,7 @@ class xJsonFormEntityRevisionRevertForm extends ConfirmFormBase {
   protected function prepareRevertedRevision(xJsonFormEntityInterface $revision, FormStateInterface $form_state) {
     $revision->setNewRevision();
     $revision->isDefaultRevision(TRUE);
-    $revision->setRevisionCreationTime(REQUEST_TIME);
+    $revision->setRevisionCreationTime(\Drupal::time()->getRequestTime());
 
     return $revision;
   }

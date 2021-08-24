@@ -55,7 +55,7 @@ class ContributionProjectEntityRevisionDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    $entity_manager = $container->get('entity.manager');
+    $entity_manager = $container->get('entity_type.manager');
     return new static(
       $entity_manager->getStorage('contribution_project_entity'),
       $container->get('database')
@@ -107,7 +107,7 @@ class ContributionProjectEntityRevisionDeleteForm extends ConfirmFormBase {
     $this->ContributionProjectEntityStorage->deleteRevision($this->revision->getRevisionId());
 
     $this->logger('content')->notice('Contribution project: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    drupal_set_message(t('Revision from %revision-date of Contribution project %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
+    \Drupal::messenger()->addMessage(t('Revision from %revision-date of Contribution project %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
     $form_state->setRedirect(
       'entity.contribution_project_entity.canonical',
        ['contribution_project_entity' => $this->revision->id()]

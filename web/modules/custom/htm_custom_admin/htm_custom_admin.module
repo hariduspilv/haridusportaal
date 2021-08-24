@@ -127,7 +127,7 @@ function htm_custom_admin_validate(&$form, FormStateInterface $form_state){
 
   if($form_state->getTriggeringElement()['#id'] == 'edit-submit'){
 
-    if(sizeof($form_state->getValue('field_entry_type')) != 0 && $form_state->getValue('field_entry_type')[0]['value'] === 'register'){
+    if(count($form_state->getValue('field_entry_type')) !== 0 && $form_state->getValue('field_entry_type')[0]['value'] === 'register'){
       $first_rform_element = 'field_registration_date][0][subform][field_registration_first_date][0';
       $second_rform_element = 'field_registration_date][0][subform][field_registration_last_date][0';
 
