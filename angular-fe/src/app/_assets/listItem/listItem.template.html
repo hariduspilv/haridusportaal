@@ -1,7 +1,11 @@
 <div #content *ngIf="list && list.length > 0">
     <ng-container *ngFor="let item of list; let i = index; let last = last">
 
-        <div class="list__item {{ addonClass }}{{ item.highlighted ? ' list__item--highlighted' : '' }}">
+        <div class="list__item {{ addonClass }}"
+        [ngClass]="{
+            'list__item--highlighted': item.highlighted,
+            'overflow-hidden': type === 'news'
+        }">
             <div class="list__item__wrapper">
                 <div class="list__item__titlebox">
                     <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
@@ -53,7 +57,7 @@
                         <div *ngIf="clickedVideos[i]" class="col-4 xs-12 list__item__video">
                             <div class="aspect">
                                 <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}"
-                                    [src]="'https://www.youtube.com/embed/' + item.video.videoId +'?autoplay=1&mute=1' | iframe "
+                                    [src]="item.video.videoEmbed +'?autoplay=1&mute=1' | iframe "
                                     frameborder="0"
                                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                     allowfullscreen></iframe>
