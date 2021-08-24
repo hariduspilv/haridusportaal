@@ -74,7 +74,7 @@ class JsonbWidget extends StringTextareaWidget {
     public function validateJsonStructure (&$element, FormStateInterface $form_state, $form) {
         $this->langs = \Drupal::languageManager()->getLanguages();
 
-        if (Unicode::strlen($element['#value'])) {
+        if (mb_strlen($element['#value'])) {
 
             $value = json_decode($element['#value']);
             if($value->header->endpoint === 'HP'){
