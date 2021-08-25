@@ -114,6 +114,9 @@
         padding-right: 1.5rem;
       }
     }
+    &__table {
+      margin-bottom: 1rem;
+    }
     @include break-on(sm, min) {
       border-radius: $half-gutter;
       margin-left: $medium;
