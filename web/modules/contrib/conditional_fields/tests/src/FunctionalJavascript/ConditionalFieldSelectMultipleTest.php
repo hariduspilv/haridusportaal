@@ -116,7 +116,7 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-post-add-list-options-filed-conditions.png');
 
@@ -127,7 +127,6 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-body-invisible-when-controlled-field-has-no-value.png');
@@ -168,7 +167,7 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-post-add-list-options-filed-conditions.png');
 
@@ -179,7 +178,6 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-body-invisible-when-controlled-field-has-no-value.png');
@@ -230,7 +228,7 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-post-add-list-options-filed-conditions.png');
 
@@ -241,7 +239,6 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-body-invisible-when-controlled-field-has-no-value.png');
@@ -287,7 +284,7 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-post-add-list-options-filed-conditions.png');
 
@@ -298,7 +295,6 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-body-invisible-when-controlled-field-has-no-value.png');
@@ -349,7 +345,7 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-post-add-list-options-filed-conditions.png');
 
@@ -360,7 +356,6 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-body-invisible-when-controlled-field-has-no-value.png');
@@ -411,7 +406,7 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-post-add-list-options-filed-conditions.png');
 
@@ -422,7 +417,6 @@ class ConditionalFieldSelectMultipleTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-body-invisible-when-controlled-field-has-no-value.png');

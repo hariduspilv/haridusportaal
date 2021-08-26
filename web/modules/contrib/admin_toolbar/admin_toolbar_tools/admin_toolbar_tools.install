@@ -22,3 +22,13 @@ function admin_toolbar_tools_update_8201() {
     ->set('max_bundle_number', 20)
     ->save(TRUE);
 }
+
+/**
+ * Default setting for enable hoverintent.
+ */
+function admin_toolbar_tools_update_8202() {
+  \Drupal::service('config.factory')
+    ->getEditable('admin_toolbar_tools.settings')
+    ->set('hoverintent_functionality', TRUE)
+    ->save(TRUE);
+}

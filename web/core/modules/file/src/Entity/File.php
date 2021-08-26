@@ -10,6 +10,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\File\Exception\FileException;
 use Drupal\file\FileInterface;
 use Drupal\user\EntityOwnerTrait;
+use Symfony\Component\Mime\MimeTypeGuesserInterface;
 
 /**
  * Defines the file entity class.
@@ -88,16 +89,6 @@ class File extends ContentEntityBase implements FileInterface {
 
   /**
    * {@inheritdoc}
-   *
-   * @see file_url_transform_relative()
-   */
-  public function url($rel = 'canonical', $options = []) {
-    @trigger_error('File entities returning the URL to the physical file in File::url() is deprecated, use $file->createFileUrl() instead. See https://www.drupal.org/node/3019830', E_USER_DEPRECATED);
-    return $this->createFileUrl(FALSE);
-  }
-
-  /**
-   * {@inheritdoc}
    */
   public function getMimeType() {
     return $this->get('filemime')->value;
@@ -170,7 +161,14 @@ class File extends ContentEntityBase implements FileInterface {
 
     // Automatically detect filemime if not set.
     if (!isset($values['filemime']) && isset($values['uri'])) {
-      $values['filemime'] = \Drupal::service('file.mime_type.guesser')->guess($values['uri']);
+      $guesser = \Drupal::service('file.mime_type.guesser');
+      if ($guesser instanceof MimeTypeGuesserInterface) {
+        $values['filemime'] = $guesser->guessMimeType($values['uri']);
+      }
+      else {
+        $values['filemime'] = $guesser->guess($values['uri']);
+        @trigger_error('\Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface is deprecated in drupal:9.1.0 and is removed from drupal:10.0.0. Implement \Symfony\Component\Mime\MimeTypeGuesserInterface instead. See https://www.drupal.org/node/3133341', E_USER_DEPRECATED);
+      }
     }
   }
 

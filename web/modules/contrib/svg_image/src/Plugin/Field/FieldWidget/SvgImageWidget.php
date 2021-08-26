@@ -62,6 +62,13 @@ class SvgImageWidget extends FileWidget {
   protected $imageStyleStorage;
 
   /**
+   * The image factory service.
+   *
+   * @var \Drupal\Core\Image\ImageFactory
+   */
+  protected $imageFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct($pluginId, $pluginDefinition, FieldDefinitionInterface $fieldDefinition, array $settings, array $thirdPartySettings, ContainerInterface $container) {
@@ -72,6 +79,7 @@ class SvgImageWidget extends FileWidget {
     $this->renderer = $container->get('renderer');
     $this->entityTypeManager = $container->get('entity_type.manager');
     $this->imageStyleStorage = $this->entityTypeManager->getStorage('image_style');
+    $this->imageFactory = $container->get('image.factory');
   }
 
   /**
@@ -182,7 +190,8 @@ class SvgImageWidget extends FileWidget {
     }
 
     // If not using custom extension validation, ensure this is an image.
-    $supportedExtensions = ['png', 'gif', 'jpg', 'jpeg', 'svg'];
+    $supportedExtensions = $this->imageFactory->getSupportedExtensions();
+    $supportedExtensions[] = 'svg';
     $extensions = isset($element['#upload_validators']['file_validate_extensions'][0]) ? $element['#upload_validators']['file_validate_extensions'][0] : implode(' ', $supportedExtensions);
     $extensions = array_intersect(explode(' ', $extensions), $supportedExtensions);
     $element['#upload_validators']['file_validate_extensions'][0] = implode(' ', $extensions);

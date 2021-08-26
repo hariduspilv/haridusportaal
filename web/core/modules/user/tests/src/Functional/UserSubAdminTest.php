@@ -14,7 +14,7 @@ class UserSubAdminTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['user_access_test'];
+  protected static $modules = ['user_access_test'];
 
   /**
    * {@inheritdoc}
@@ -22,7 +22,7 @@ class UserSubAdminTest extends BrowserTestBase {
   protected $defaultTheme = 'stark';
 
   /**
-   * Test create and cancel forms as 'sub-admin'.
+   * Tests create and cancel forms as 'sub-admin'.
    */
   public function testSubAdmin() {
     $user = $this->drupalCreateUser(['sub-admin']);
@@ -45,7 +45,8 @@ class UserSubAdminTest extends BrowserTestBase {
       'pass[pass2]' => $pass,
       'notify' => FALSE,
     ];
-    $this->drupalPostForm('admin/people/create', $edit, 'Create new account');
+    $this->drupalGet('admin/people/create');
+    $this->submitForm($edit, 'Create new account');
     $this->assertSession()->pageTextContains('Created a new user account for ' . $edit['name'] . '. No email has been sent.');
 
     // Test that the cancel user page has admin fields.
@@ -55,7 +56,7 @@ class UserSubAdminTest extends BrowserTestBase {
     $this->assertSession()->responseContains('Disable the account and keep its content. This action cannot be undone.');
 
     // Test that cancel confirmation gives an admin style message.
-    $this->drupalPostForm(NULL, NULL, t('Cancel account'));
+    $this->submitForm([], 'Cancel account');
     $this->assertSession()->pageTextContains($cancel_user->getAccountName() . ' has been disabled.');
 
     // Repeat with permission to select account cancellation method.

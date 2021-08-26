@@ -120,7 +120,7 @@ class BetterExposedFilters extends InputRequired {
     // Initialize options if any sort is exposed.
     // Iterate over each sort and determine if any sorts are exposed.
     $is_sort_exposed = FALSE;
-    /* @var \Drupal\views\Plugin\views\HandlerBase $sort */
+    /** @var \Drupal\views\Plugin\views\HandlerBase $sort */
     foreach ($this->view->display_handler->getHandlers('sort') as $sort) {
       if ($sort->isExposed()) {
         $is_sort_exposed = TRUE;
@@ -138,7 +138,7 @@ class BetterExposedFilters extends InputRequired {
     }
 
     // Go through each exposed filter and set default format.
-    /* @var \Drupal\views\Plugin\views\HandlerBase $filter */
+    /** @var \Drupal\views\Plugin\views\HandlerBase $filter */
     foreach ($this->view->display_handler->getHandlers('filter') as $filter_id => $filter) {
       if (!$filter->isExposed()) {
         continue;
@@ -323,7 +323,7 @@ class BetterExposedFilters extends InputRequired {
 
     // Iterate over each sort and determine if any sorts are exposed.
     $is_sort_exposed = FALSE;
-    /* @var \Drupal\views\Plugin\views\HandlerBase $sort */
+    /** @var \Drupal\views\Plugin\views\HandlerBase $sort */
     foreach ($this->view->display_handler->getHandlers('sort') as $sort) {
       if ($sort->isExposed()) {
         $is_sort_exposed = TRUE;
@@ -465,7 +465,7 @@ class BetterExposedFilters extends InputRequired {
     ];
 
     // Iterate over each filter and add BEF filter options.
-    /* @var \Drupal\views\Plugin\views\HandlerBase $filter */
+    /** @var \Drupal\views\Plugin\views\HandlerBase $filter */
     foreach ($this->view->display_handler->getHandlers('filter') as $filter_id => $filter) {
       if (!$filter->isExposed()) {
         continue;
@@ -479,7 +479,7 @@ class BetterExposedFilters extends InputRequired {
       }
 
       // Alter the list of available widgets for this filter.
-     $this->moduleHandler->alter('better_exposed_filters_display_options', $options, $filter);
+      $this->moduleHandler->alter('better_exposed_filters_display_options', $options, $filter);
 
       // Get a descriptive label for the filter.
       $label = $this->t('Exposed filter @filter', [
@@ -575,7 +575,7 @@ class BetterExposedFilters extends InputRequired {
     }
 
     // Shorthand for all filter handlers in this view.
-    /* @var \Drupal\views\Plugin\views\HandlerBase[] $filters */
+    /** @var \Drupal\views\Plugin\views\HandlerBase[] $filters */
     $filters = $this->view->display_handler->handlers['filter'];
 
     // Iterate over all filter, sort and pager plugins.
@@ -639,7 +639,7 @@ class BetterExposedFilters extends InputRequired {
     $bef_options = &$options['bef'];
 
     // Shorthand for all filter handlers in this view.
-    /* @var \Drupal\views\Plugin\views\HandlerBase[] $filters */
+    /** @var \Drupal\views\Plugin\views\HandlerBase[] $filters */
     $filters = $this->view->display_handler->handlers['filter'];
 
     parent::submitOptionsForm($form, $form_state);
@@ -794,7 +794,7 @@ class BetterExposedFilters extends InputRequired {
      */
 
     // Shorthand for all filter handlers in this view.
-    /* @var \Drupal\views\Plugin\views\HandlerBase[] $filters */
+    /** @var \Drupal\views\Plugin\views\HandlerBase[] $filters */
     $filters = $this->view->display_handler->handlers['filter'];
 
     // Iterate over all exposed filters.
@@ -819,7 +819,10 @@ class BetterExposedFilters extends InputRequired {
     // If our form has no visible filters, hide the submit button.
     $has_visible_filters = !empty(Element::getVisibleChildren($form)) ?: FALSE;
     $form['actions']['submit']['#access'] = $has_visible_filters;
-    $form['actions']['reset']['#access'] = $has_visible_filters;
+    // Never enable a reset button that has already been disabled.
+    if (!isset($form['actions']['reset']['#access']) || $form['actions']['reset']['#access'] === TRUE) {
+      $form['actions']['reset']['#access'] = $has_visible_filters;
+    }
 
     // Ensure default process/pre_render callbacks are included when a BEF
     // widget has added their own.

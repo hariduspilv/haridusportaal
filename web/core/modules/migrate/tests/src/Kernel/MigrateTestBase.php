@@ -58,7 +58,7 @@ abstract class MigrateTestBase extends KernelTestBase implements MigrateMessageI
    */
   protected $logger;
 
-  public static $modules = ['migrate'];
+  protected static $modules = ['migrate'];
 
   /**
    * {@inheritdoc}
@@ -205,7 +205,7 @@ abstract class MigrateTestBase extends KernelTestBase implements MigrateMessageI
       $this->migrateMessages[$type][] = $message;
     }
     else {
-      $this->assert($type == 'status', $message, 'migrate');
+      $this->assertEquals('status', $type, $message);
     }
   }
 

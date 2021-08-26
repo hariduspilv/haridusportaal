@@ -14,7 +14,7 @@ use Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases\ConditionalFi
  *
  * @group conditional_fields
  */
-class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements ConditionalFieldValueInterface, ConditionalFieldFilledEmptyInterface{
+class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements ConditionalFieldValueInterface, ConditionalFieldFilledEmptyInterface {
 
   /**
    * Modules to enable.
@@ -30,11 +30,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
    * {@inheritdoc}
    */
   protected $screenshotPath = 'sites/simpletest/conditional_fields/email/';
-
-  /**
-   * The default display settings to use for the formatters.
-   */
-  protected $defaultSettings;
 
   /**
    * An array of display options to pass to entity_get_display()
@@ -101,7 +96,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
         'min' => '',
         'max' => '',
         'prefix' => '',
-      ]
+      ],
     ])->save();
 
     EntityFormDisplay::load('node.article.default')
@@ -135,7 +130,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
       'state' => 'visible',
       'effect' => 'show',
     ];
-   $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testEmailVisibleValueWidget.png');
 
@@ -147,7 +142,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Change a email that should not show the body.
     $this->changeField($this->fieldSelector, 'wrongmail@drupal.org');
@@ -187,7 +181,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testEmailVisibleValueWidget.png');
 
@@ -200,7 +194,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Change a email that should not show the body.
     $this->changeField($this->fieldSelector, $email_wrong);
     $this->createScreenshot($this->screenshotPath . '04-testEmailVisibleValueWidget.png');
@@ -210,7 +203,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     $this->changeField($this->fieldSelector, $email);
     $this->createScreenshot($this->screenshotPath . '05-testEmailVisibleValueWidget.png');
     $this->waitUntilVisible('.field--name-body', 500, '02. Article Body field is not visible');
-
 
     // Change a email that should not show the body again.
     $this->changeField($this->fieldSelector, '');
@@ -240,7 +232,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testEmailVisibleValueWidget.png');
 
@@ -252,7 +244,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Change a email that should not show the body.
     $this->createScreenshot($this->screenshotPath . '04-testEmailVisibleValueWidget.png');
@@ -297,7 +288,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testEmailTimeVisibleValueOr.png');
 
@@ -309,7 +300,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testEmailTimeVisibleValueOr.png');
@@ -359,7 +349,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testEmailTimeVisibleValueOr.png');
 
@@ -420,7 +410,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testEmailTimeVisibleValueOr.png');
 
@@ -432,7 +422,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testEmailTimeVisibleValueOr.png');
@@ -475,7 +464,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is not visible');
     $this->changeField($this->fieldSelector, 'test@drupal.org');
@@ -498,7 +486,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     $this->waitUntilVisible('.field--name-body', 0, '01. Article Body field is visible');
     $this->changeField($this->fieldSelector, 'test@drupal.org');
     $this->waitUntilHidden('.field--name-body', 10, '02. Article Body field is not visible');
@@ -519,7 +506,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilVisible('.field--name-body', 0, '01. Article Body field is visible');
@@ -542,7 +528,6 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is not visible');
     $this->changeField($this->fieldSelector, 'test@drupal.org');

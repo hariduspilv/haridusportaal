@@ -3,7 +3,7 @@
 namespace Drupal\Tests\scheduler\Functional;
 
 /**
- * Tests the display of the date entry fields (vertical tab, fieldset).
+ * Tests the display of date entry fields and form elements.
  *
  * @group scheduler
  */
@@ -19,7 +19,7 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // Create a custom user with admin permissions but also permission to use
@@ -85,11 +85,34 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
     $this->drupalGet('node/' . $node->id() . '/edit');
     $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and @open = "open"]');
 
+    // Repeat the check with a timestamp value of zero. This is a valid date
+    // so the fieldset should be opened. It will not be used much on real sites
+    // but can occur when testing Rules which fail to set the date correctly and
+    // we get zero. Debugging Rules is easier if the fieldset opens as expected.
+    $options = [
+      'title' => 'Contains Publish-on date with timestamp value zero - ' . $this->randomMachineName(10),
+      'type' => $this->type,
+      'publish_on' => 0,
+    ];
+    $node = $this->drupalCreateNode($options);
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and @open = "open"]');
+
     // Check that the fieldset is expanded if the node has an unpublish-on date.
     $options = [
       'title' => 'Contains Unpublish-on date ' . $this->randomMachineName(10),
       'type' => $this->type,
       'unpublish_on' => strtotime('+1 day'),
+    ];
+    $node = $this->drupalCreateNode($options);
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and @open = "open"]');
+
+    // Repeat with a timestamp value of zero.
+    $options = [
+      'title' => 'Contains Unpublish-on date with timestamp value zero - ' . $this->randomMachineName(10),
+      'type' => $this->type,
+      'unpublish_on' => 0,
     ];
     $node = $this->drupalCreateNode($options);
     $this->drupalGet('node/' . $node->id() . '/edit');
@@ -120,7 +143,7 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_enable', FALSE)
       ->setThirdPartySetting('scheduler', 'unpublish_enable', FALSE)->save();
     $this->drupalGet('admin/structure/types/manage/' . $this->type . '/form-display');
-    $this->assertNoFieldById('edit-fields-scheduler-settings-weight', NULL, 'The scheduler settings row is not shown when the content type is not enabled for scheduling.');
+    $this->assertSession()->FieldNotExists('edit-fields-scheduler-settings-weight');
   }
 
   /**
@@ -144,8 +167,8 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
     $this->drupalGet('node/add/' . $this->type);
     $assert->elementExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
     // Check the publish_on field is not shown, but the unpublish_on field is.
-    $this->assertNoFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is not shown - 1');
-    $this->assertFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is shown - 1');
+    $this->assertSession()->FieldNotExists('publish_on[0][value][date]');
+    $this->assertSession()->FieldExists('unpublish_on[0][value][date]');
 
     // 2. Set publish_on to be displayed but hide the unpublish_on field.
     $edit = [
@@ -158,8 +181,8 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
     $this->drupalGet('node/add/' . $this->type);
     $assert->elementExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
     // Check the publish_on field is not shown, but the unpublish_on field is.
-    $this->assertFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is shown - 2');
-    $this->assertNoFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is not shown - 2');
+    $this->assertSession()->FieldExists('publish_on[0][value][date]');
+    $this->assertSession()->FieldNotExists('unpublish_on[0][value][date]');
 
     // 3. Set both fields to be hidden.
     $edit = [
@@ -172,8 +195,53 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
     $this->drupalGet('node/add/' . $this->type);
     $assert->elementNotExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
     // Check the neither field is displayed.
-    $this->assertNoFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is not shown - 3');
-    $this->assertNoFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is not shown - 3');
+    $this->assertSession()->FieldNotExists('publish_on[0][value][date]');
+    $this->assertSession()->FieldNotExists('unpublish_on[0][value][date]');
+  }
+
+  /**
+   * Test the option to hide the seconds on the time input fields.
+   */
+  public function testHideSeconds() {
+    $this->drupalLogin($this->schedulerUser);
+    $config = $this->config('scheduler.settings');
+
+    // Check that the default is to show the seconds on the input fields.
+    $this->drupalGet('node/add/' . $this->type);
+    $publish_time_field = $this->xpath('//input[@id="edit-publish-on-0-value-time"]');
+    $unpublish_time_field = $this->xpath('//input[@id="edit-unpublish-on-0-value-time"]');
+    $this->assertEquals(1, $publish_time_field[0]->getAttribute('step'), 'The input time step for publish-on is 1, so the seconds will be visible and usable.');
+    $this->assertEquals(1, $unpublish_time_field[0]->getAttribute('step'), 'The input time step for unpublish-on is 1, so the seconds will be visible and usable.');
+
+    // Set the config option to hide the seconds and thus set the input fields
+    // to the granularity of one minute.
+    $config->set('hide_seconds', TRUE)->save();
+
+    // Get the node-add page and check the input fields.
+    $this->drupalGet('node/add/' . $this->type);
+    $publish_time_field = $this->xpath('//input[@id="edit-publish-on-0-value-time"]');
+    $unpublish_time_field = $this->xpath('//input[@id="edit-unpublish-on-0-value-time"]');
+    $this->assertEquals(60, $publish_time_field[0]->getAttribute('step'), 'The input time step for publish-on is 60, so the seconds will be hidden and not usable.');
+    $this->assertEquals(60, $unpublish_time_field[0]->getAttribute('step'), 'The input time step for unpublish-on is 60, so the seconds will be hidden and not usable.');
+    // @todo How can we check that the seconds element is not shown?
+
+    // Save with both dates entered, including seconds in the times.
+    $edit = [
+      'title[0][value]' => 'Hide the seconds',
+      'body[0][value]' => $this->randomString(30),
+      'publish_on[0][value][date]' => date('Y-m-d', strtotime('+1 day', $this->requestTime)),
+      'publish_on[0][value][time]' => '01:02:03',
+      'unpublish_on[0][value][date]' => date('Y-m-d', strtotime('+1 day', $this->requestTime)),
+      'unpublish_on[0][value][time]' => '04:05:06',
+    ];
+    $this->submitForm($edit, 'Save');
+    $node = $this->drupalGetNodeByTitle('Hide the seconds');
+
+    // Edit and check that the seconds have been set to zero.
+    $this->drupalGet("node/{$node->id()}/edit");
+    $this->assertSession()->FieldValueEquals('publish_on[0][value][time]', '01:02:00');
+    $this->assertSession()->FieldValueEquals('unpublish_on[0][value][time]', '04:05:00');
+
   }
 
 }

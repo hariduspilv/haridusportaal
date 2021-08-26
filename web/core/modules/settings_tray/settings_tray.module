@@ -94,7 +94,7 @@ function settings_tray_block_view_alter(array &$build) {
  * Implements hook_entity_type_build().
  */
 function settings_tray_entity_type_build(array &$entity_types) {
-  /* @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[] */
+  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
   $entity_types['block']
     ->setFormClass('settings_tray', BlockEntitySettingTrayForm::class)
     ->setLinkTemplate('settings_tray-form', '/admin/structure/block/manage/{block}/settings-tray');
@@ -120,7 +120,7 @@ function settings_tray_preprocess_block(&$variables) {
   if (isset($variables['elements']['#contextual_links']['block']['route_parameters']['block'])) {
     $block = Block::load($variables['elements']['#contextual_links']['block']['route_parameters']['block']);
     if ($access_checker->accessBlockPlugin($block_plugin)->isAllowed() && !_settings_tray_has_block_overrides($block)) {
-      // Add class and attributes to all blocks to allow Javascript to target.
+      // Add class and attributes to all blocks to allow JavaScript to target.
       $variables['attributes']['class'][] = 'settings-tray-editable';
       $variables['attributes']['data-drupal-settingstray'] = 'editable';
     }
@@ -148,7 +148,7 @@ function settings_tray_toolbar_alter(&$items) {
     // Set a class on items to mark whether they should be active in edit mode.
     // @todo Create a dynamic method for modules to set their own items.
     //   https://www.drupal.org/node/2784589.
-    $edit_mode_items = ['contextual', 'block_place'];
+    $edit_mode_items = ['contextual'];
     foreach ($items as $key => $item) {
       if (!in_array($key, $edit_mode_items) && (!isset($items[$key]['#wrapper_attributes']['class']) || !in_array('hidden', $items[$key]['#wrapper_attributes']['class']))) {
         $items[$key]['#wrapper_attributes']['class'][] = 'edit-mode-inactive';

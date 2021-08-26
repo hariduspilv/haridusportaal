@@ -75,7 +75,7 @@ function better_exposed_filters_preprocess_views_exposed_form(array &$variables)
 
 /******************************************************************************
  * Preprocess functions for BEF themed elements.
- ******************************************************************************/
+ */
 
 /**
  * Prepares variables for bef-checkboxes template.
@@ -159,15 +159,15 @@ function template_preprocess_bef_hidden(array &$variables) {
     ];
   }
 
-  // @todo:
+  // @todo
   // Check for optgroups.  Put subelements in the $element_set array and add a
   // group heading. Otherwise, just add the element to the set.
   // $element_set = array();
   // if (is_array($elem)) {
-  //  $element_set = $elem;
+  // $element_set = $elem;
   // }
   // else {
-  //  $element_set[$option] = $elem;
+  // $element_set[$option] = $elem;
   // }
 }
 
@@ -215,7 +215,7 @@ function template_preprocess_bef_links(array &$variables) {
     // with the entire options array and remove items from it as needed.
     $urlOptions = $url->getOptions();
 
-    if ($element['#multiple']) {
+    if (isset($element['#multiple']) && $element['#multiple']) {
       $newQuery = isset($existing_query[$name]) ? $existing_query[$name] : [];
       if (in_array($optionValue, $selectedValues)) {
         // Allow users to toggle an option using the same link.
@@ -234,7 +234,7 @@ function template_preprocess_bef_links(array &$variables) {
       }
     }
     else {
-      if ($optionValue == $element['#value']) {
+      if (strval($optionValue) === $element['#value']) {
         // Allow toggle link functionality -- click the same link to turn an
         // option on or off.
         $newQuery = $existing_query;
@@ -270,7 +270,10 @@ function template_preprocess_bef_links(array &$variables) {
       '#url' => $url,
     ];
 
-    if (in_array($optionValue, $selectedValues)) {
+    /*
+     * @see https://stackoverflow.com/questions/13846769/php-in-array-0-value
+     */
+    if (in_array(strval($optionValue), $selectedValues)) {
       $variables['links'][$optionValue]['#attributes']['class'][] = 'bef-link--selected';
     }
   }
@@ -286,7 +289,7 @@ function template_preprocess_bef_links(array &$variables) {
 
 /******************************************************************************
  * Utility functions for BEF themed elements.
- ******************************************************************************/
+ */
 
 /**
  * Internal function to handled nested form elements.

@@ -33,8 +33,10 @@ class FilterWidgetKernelTest extends BetterExposedFiltersKernelTestBase {
   $display = &$view->storage->getDisplay('default');
 
   // Ensure our filter "field_bef_boolean_value" is grouped.
-  $display['display_options']['filters']['field_bef_boolean_value']['is_grouped'] = TRUE;
-  $display['display_options']['filters']['field_bef_boolean_value']['group_info'] = [
+  $display['display_options']['filters']['field_bef_boolean_value']
+  ['is_grouped'] = TRUE;
+  $display['display_options']['filters']['field_bef_boolean_value']
+  ['group_info'] = [
   'plugin_id' => 'boolean',
   'label' => 'bef_boolean (field_bef_boolean)',
   'description' => '',
@@ -64,7 +66,9 @@ class FilterWidgetKernelTest extends BetterExposedFiltersKernelTestBase {
 
   // Check our "FIELD_BEF_BOOLEAN" filter is rendered with id
   // "field_bef_boolean_value2".
-  $this->assertTrue(isset($output['field_bef_boolean_value2']), 'Exposed filter "FIELD_BEF_BOOLEAN" is exposed with id "field_bef_boolean_value2".');
+  $this->assertTrue(isset($output['field_bef_boolean_value2']),
+  'Exposed filter "FIELD_BEF_BOOLEAN" is exposed with id
+  "field_bef_boolean_value2".');
 
   $view->destroy();
   }*/

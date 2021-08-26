@@ -10,7 +10,7 @@ use Drupal\user\Entity\Role;
  */
 class UserRoleEntityTest extends KernelTestBase {
 
-  public static $modules = ['system', 'user'];
+  protected static $modules = ['system', 'user'];
 
   public function testOrderOfPermissions() {
     $role = Role::create(['id' => 'test_role']);
@@ -18,13 +18,13 @@ class UserRoleEntityTest extends KernelTestBase {
       ->grantPermission('a')
       ->grantPermission('c')
       ->save();
-    $this->assertEquals($role->getPermissions(), ['a', 'b', 'c']);
+    $this->assertEquals(['a', 'b', 'c'], $role->getPermissions());
 
     $role->revokePermission('b')->save();
-    $this->assertEquals($role->getPermissions(), ['a', 'c']);
+    $this->assertEquals(['a', 'c'], $role->getPermissions());
 
     $role->grantPermission('b')->save();
-    $this->assertEquals($role->getPermissions(), ['a', 'b', 'c']);
+    $this->assertEquals(['a', 'b', 'c'], $role->getPermissions());
   }
 
 }

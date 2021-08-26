@@ -139,7 +139,7 @@ class Sliders extends FilterWidgetBase {
     // Max must be > min.
     $min = $form_state->getValue('min');
     $max = $form_state->getValue('max');
-    if ($max <= $min) {
+    if (!empty($min) && $max <= $min) {
       $form_state->setError($form['max'], $this->t('The slider max value must be greater than the slider min value.'));
     }
 

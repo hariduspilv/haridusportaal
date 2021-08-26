@@ -1,0 +1,7 @@
+field_defaults.configuration:
+  type: config_object
+  label: 'Field defaults settings'
+  mapping:
+    update_date:
+      type: string
+      label: 'Retain original entity updated time'
