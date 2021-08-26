@@ -1,8 +1,41 @@
 # Change Log
 
-### 2.12.1 - 10 Oct 2020
+### 4.2.4 - 10 December 2020
 
-- Allow symfony/finder 5 (#213)
+- PHP 8
+
+### 4.2.3 - 3 October 2020
+
+- Add ability to ignore methods using regular expressions. (#212)
+
+### 4.2.2 - 30 September 2020
+
+- PHP 8 / Composer 2 support (#210)
+- Add @ignored-command annotation. (#211)
+- Address deprecation of ReflectionType::getClass() (#209)
+
+### 4.2.1 - 30 August 2020
+
+- Give command handlers the ability to save and restore their state (#208)
+- Do not inject $input and $output into the command instance unless it supports saving and restoring state.
+
+### 4.2.0 - 27 August 2020
+
+DEPRECATED RELEASE. Do not use.
+
+- Inject $input and $output into the command instance if it is set up to receive them. (#207)
+
+### 4.1.1 - 27 May 2020
+
+- Fix bugs with Symfony 5. (#204)
+
+### 4.1.0 - 6 Feb 2020
+
+- Test with PHP 7.4.
+
+### 4.0.0 - 29 Oct 2019
+
+- Compatible with the 2.x branch, but removes support for old PHP versions and requires Symfony 4.
 
 ### 2.12.0 - 8 Mar 2019
 

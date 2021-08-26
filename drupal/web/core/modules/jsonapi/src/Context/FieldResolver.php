@@ -265,20 +265,7 @@ class FieldResolver {
    *
    * @throws \Drupal\Core\Http\Exception\CacheableBadRequestHttpException
    */
-  public function resolveInternalEntityQueryPath($resource_type, $external_field_name, $operator = NULL) {
-    $function_args = func_get_args();
-    // @todo Remove this conditional block in drupal:9.0.0 and add a type hint
-    // to the first argument of this method.
-    // @see https://www.drupal.org/project/drupal/issues/3078045
-    if (count($function_args) === 3 && is_string($resource_type)) {
-      @trigger_error('Passing the entity type ID and bundle to ' . __METHOD__ . ' is deprecated in drupal:8.8.0 and will throw a fatal error in drupal:9.0.0. Pass a JSON:API resource type instead. See https://www.drupal.org/node/3078036', E_USER_DEPRECATED);
-      list($entity_type_id, $bundle, $external_field_name) = $function_args;
-      $resource_type = $this->resourceTypeRepository->get($entity_type_id, $bundle);
-    }
-    elseif (!$resource_type instanceof ResourceType) {
-      throw new \InvalidArgumentException("The first argument to " . __METHOD__ . " should be an instance of \Drupal\jsonapi\ResourceType\ResourceType, " . gettype($resource_type) . " given.");
-    }
-
+  public function resolveInternalEntityQueryPath(ResourceType $resource_type, $external_field_name, $operator = NULL) {
     $cacheability = (new CacheableMetadata())->addCacheContexts(['url.query_args:filter', 'url.query_args:sort']);
     if (empty($external_field_name)) {
       throw new CacheableBadRequestHttpException($cacheability, 'No field name was provided for the filter.');
@@ -290,7 +277,7 @@ class FieldResolver {
     $parts = explode('.', $external_field_name);
     $unresolved_path_parts = $parts;
     $reference_breadcrumbs = [];
-    /* @var \Drupal\jsonapi\ResourceType\ResourceType[] $resource_types */
+    /** @var \Drupal\jsonapi\ResourceType\ResourceType[] $resource_types */
     $resource_types = [$resource_type];
     // This complex expression is needed to handle the string, "0", which would
     // otherwise be evaluated as FALSE.
@@ -484,7 +471,7 @@ class FieldResolver {
    */
   protected function getFieldItemDefinitions(array $resource_types, $field_name) {
     return array_reduce($resource_types, function ($result, ResourceType $resource_type) use ($field_name) {
-      /* @var \Drupal\jsonapi\ResourceType\ResourceType $resource_type */
+      /** @var \Drupal\jsonapi\ResourceType\ResourceType $resource_type */
       $entity_type = $resource_type->getEntityTypeId();
       $bundle = $resource_type->getBundle();
       $definitions = $this->fieldManager->getFieldDefinitions($entity_type, $bundle);

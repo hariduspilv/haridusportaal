@@ -2,6 +2,8 @@
 
 namespace Drupal\Core\Database;
 
+@trigger_error('\Drupal\Core\Database\Statement is deprecated in drupal:9.1.0 and is removed from drupal:10.0.0. Database drivers should use or extend StatementWrapper instead, and encapsulate client-level statement objects. See https://www.drupal.org/node/3177488', E_USER_DEPRECATED);
+
 /**
  * Default implementation of StatementInterface.
  *
@@ -12,6 +14,12 @@ namespace Drupal\Core\Database;
  * constructor.
  *
  * @see http://php.net/pdostatement
+ *
+ * @deprecated in drupal:9.1.0 and is removed from drupal:10.0.0. Database
+ *   drivers should use or extend StatementWrapper instead, and encapsulate
+ *   client-level statement objects.
+ *
+ * @see https://www.drupal.org/node/3177488
  */
 class Statement extends \PDOStatement implements StatementInterface {
 
@@ -60,7 +68,7 @@ class Statement extends \PDOStatement implements StatementInterface {
 
     if (!empty($logger)) {
       $query_end = microtime(TRUE);
-      $logger->log($this, $args, $query_end - $query_start);
+      $logger->log($this, $args, $query_end - $query_start, $query_start);
     }
 
     return $return;

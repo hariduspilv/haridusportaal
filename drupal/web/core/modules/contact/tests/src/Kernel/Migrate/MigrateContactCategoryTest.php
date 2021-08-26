@@ -18,12 +18,12 @@ class MigrateContactCategoryTest extends MigrateDrupal6TestBase {
    *
    * @var array
    */
-  public static $modules = ['contact'];
+  protected static $modules = ['contact'];
 
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->executeMigration('contact_category');
   }
@@ -46,10 +46,10 @@ class MigrateContactCategoryTest extends MigrateDrupal6TestBase {
     /** @var \Drupal\contact\ContactFormInterface $entity */
     $entity = ContactForm::load($id);
     $this->assertInstanceOf(ContactFormInterface::class, $entity);
-    $this->assertIdentical($expected_label, $entity->label());
-    $this->assertIdentical($expected_recipients, $entity->getRecipients());
-    $this->assertIdentical($expected_reply, $entity->getReply());
-    $this->assertIdentical($expected_weight, $entity->getWeight());
+    $this->assertSame($expected_label, $entity->label());
+    $this->assertSame($expected_recipients, $entity->getRecipients());
+    $this->assertSame($expected_reply, $entity->getReply());
+    $this->assertSame($expected_weight, $entity->getWeight());
   }
 
   /**
@@ -77,7 +77,6 @@ class MigrateContactCategoryTest extends MigrateDrupal6TestBase {
     $this->executeMigration('contact_category');
 
     // Test there is a duplicate Website feedback form.
-    $contact_form = ContactForm::load('website_feedback1');
     $this->assertEntity('website_feedback1', 'Website feedback', ['admin@example.com'], '', 0);
   }
 

@@ -143,6 +143,40 @@ function openid_connect_form_user_profile_form_alter(&$form, &$form_state) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
+function openid_connect_form_user_pass_alter(array &$form, FormStateInterface &$form_state) {
+  $form['#validate'][] = '_openid_connect_user_pass_form_validate';
+}
+
+/**
+ * Validate user password reset form on existing connections with openid.
+ *
+ * @param array $form
+ *   An associative array containing the structure of the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form.
+ */
+function _openid_connect_user_pass_form_validate(array &$form, FormStateInterface $form_state) {
+  $name = $form_state->getValue('name');
+
+  if (empty($name)) {
+    return;
+  }
+
+  // Try to load by email.
+  $user = user_load_by_mail($name);
+  if (empty($user)) {
+    // No success, try to load by name.
+    $user = user_load_by_name($name);
+  }
+
+  if (!empty($user) && !\Drupal::service('openid_connect.openid_connect')->hasSetPasswordAccess($user)) {
+    $form_state->setErrorByName('name', t('%name is connected to an external authentication system.', ['%name' => $name]));
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
 function openid_connect_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $user_login_display = \Drupal::config('openid_connect.settings')
     ->get('user_login_display');

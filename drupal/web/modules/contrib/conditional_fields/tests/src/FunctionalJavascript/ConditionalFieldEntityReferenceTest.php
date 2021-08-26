@@ -15,9 +15,7 @@ use Drupal\Tests\RandomGeneratorTrait;
  *
  * @group conditional_fields
  */
-class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase implements
-  ConditionalFieldValueInterface,
-  ConditionalFieldFilledEmptyInterface {
+class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase implements ConditionalFieldValueInterface, ConditionalFieldFilledEmptyInterface {
 
   use EntityReferenceTestTrait;
   use RandomGeneratorTrait;
@@ -101,7 +99,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
 
@@ -122,7 +120,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-entity-reference-post-add-list-options-filed-conditions.png');
 
@@ -135,7 +133,6 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
@@ -145,7 +142,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '05-entity-reference-body-invisible-when-controlled-field-has-wrong-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
@@ -175,7 +173,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
 
@@ -196,7 +194,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-entity-reference-post-add-list-options-filed-conditions.png');
 
@@ -218,7 +216,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '05-entity-reference-body-invisible-when-controlled-field-has-wrong-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
@@ -248,13 +247,13 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
 
     $node_2 = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node 2'
+      'title' => 'Referenced node 2',
     ]);
     $node_2->save();
 
@@ -275,7 +274,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-entity-reference-post-add-list-options-filed-conditions.png');
 
@@ -288,10 +287,6 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-    // Multiple field testing
-//    $this->assertSession()->buttonExists( 'Add another item' );
-//    $this->submitForm([], 'Add another item');
-
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
@@ -301,7 +296,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '05-entity-reference-body-invisible-when-controlled-field-has-wrong-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
@@ -331,13 +327,13 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
 
     $node_2 = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node 2'
+      'title' => 'Referenced node 2',
     ]);
     $node_2->save();
 
@@ -358,7 +354,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-entity-reference-post-add-list-options-filed-conditions.png');
 
@@ -380,7 +376,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '05-entity-reference-body-invisible-when-controlled-field-has-wrong-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
@@ -410,13 +407,13 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
 
     $node_2 = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node 2'
+      'title' => 'Referenced node 2',
     ]);
     $node_2->save();
 
@@ -437,7 +434,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-entity-reference-post-add-list-options-filed-conditions.png');
 
@@ -454,7 +451,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
@@ -484,13 +482,13 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
 
     $node_2 = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node 2'
+      'title' => 'Referenced node 2',
     ]);
     $node_2->save();
 
@@ -511,7 +509,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-entity-reference-post-add-list-options-filed-conditions.png');
 
@@ -528,7 +526,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
@@ -558,10 +557,9 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
-
 
     $referenced_format_1 = sprintf("%s (%d)", $node->label(), $node->id());
     $referenced_format_wrong = sprintf("%s ", $node->label());
@@ -583,7 +581,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
@@ -608,10 +607,9 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
-
 
     $referenced_format_1 = sprintf("%s (%d)", $node->label(), $node->id());
     $referenced_format_wrong = sprintf("%s ", $node->label());
@@ -633,7 +631,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
@@ -658,10 +657,9 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
-
 
     $referenced_format_1 = sprintf("%s (%d)", $node->label(), $node->id());
     $referenced_format_wrong = sprintf("%s ", $node->label());
@@ -683,7 +681,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
@@ -708,10 +707,9 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
-
 
     $referenced_format_1 = sprintf("%s (%d)", $node->label(), $node->id());
     $referenced_format_wrong = sprintf("%s ", $node->label());
@@ -733,7 +731,8 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_1);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-body-visible-when-controlled-field-has-value-format-1.png');
     $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');

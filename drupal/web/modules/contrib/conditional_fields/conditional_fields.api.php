@@ -22,12 +22,13 @@
  * @param string $bundle_name
  *   Name of the entity bundle being configured.
  *
- * @return array Fields provided by this module.
- *   Keyed by machine name, with field labels as values.
+ * @return array
+ *   Fields provided by this module, keyed by machine name, with field labels as
+ *   values.
  *
- * @see ConditionalFieldForm::getFields().
- * @see hook_conditional_fields_alter().
- * @see conditional_fields_conditional_fields().
+ * @see ConditionalFieldForm::getFields()
+ * @see hook_conditional_fields_alter()
+ * @see conditional_fields_conditional_fields()
  */
 function hook_conditional_fields($entity_type, $bundle_name) {
   $fields = [];
@@ -42,18 +43,16 @@ function hook_conditional_fields($entity_type, $bundle_name) {
  * Alter the list of available fields.
  *
  * @param string &$fields
- *   Fields provided by hook_conditional_fields().
+ *   Fields available to this module, provided by modules that implement
+ *   hook_conditional_fields().
  * @param string $entity_type
  *   Name of the entity type being configured.
  * @param string $bundle_name
  *   Name of the entity bundle being configured.
- * @param string $fields
- *   Fields available to this module, provided by modules that implement
- *   hook_conditional_fields().
  *
- * @see ConditionalFieldForm::getFields().
- * @see hook_conditional_fields().
- * @see conditional_fields_conditional_fields_alter().
+ * @see ConditionalFieldForm::getFields()
+ * @see hook_conditional_fields()
+ * @see conditional_fields_conditional_fields_alter()
  */
 function hook_conditional_fields_alter(&$fields, $entity_type, $bundle_name) {
   asort($fields);
@@ -71,12 +70,12 @@ function hook_conditional_fields_alter(&$fields, $entity_type, $bundle_name) {
  * @param string $bundle_name
  *   Name of the entity bundle being configured.
  *
- * @return array List of Arrays, themselves listing children.
- *   Keys are parent fields, values are llists of children.
+ * @return array
+ *   Keys are parent fields, values are lists of children.
  *
- * @see DependencyHelper::getInheritingFieldNames().
- * @see hook_conditional_fields_children_alter().
- * @see field_group_conditional_fields_children().
+ * @see DependencyHelper::getInheritingFieldNames()
+ * @see hook_conditional_fields_children_alter()
+ * @see field_group_conditional_fields_children()
  */
 function hook_conditional_fields_children($entity_type, $bundle_name) {
   $groups = [];
@@ -99,8 +98,8 @@ function hook_conditional_fields_children($entity_type, $bundle_name) {
  * @param string $field
  *   Name of the parent field to check for children fields.
  *
- * @see DependencyHelper::getInheritingFieldNames().
- * @see hook_conditional_fields_children().
+ * @see DependencyHelper::getInheritingFieldNames()
+ * @see hook_conditional_fields_children()
  */
 function hook_conditional_fields_children_alter(&$fields, $entity_type, $bundle_name, $field) {
   // Do something with the child fields.

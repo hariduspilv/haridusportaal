@@ -2,11 +2,10 @@
 
 Initialize Symfony Console commands from annotated command class methods.
 
-[![Travis CI](https://travis-ci.org/consolidation/annotated-command.svg?branch=master)](https://travis-ci.org/consolidation/annotated-command)
-[![Windows CI](https://ci.appveyor.com/api/projects/status/c2c4lcf43ux4c30p?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/annotated-command)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/annotated-command/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation/annotated-command/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/consolidation/annotated-command/badge.svg?branch=master)](https://coveralls.io/github/consolidation/annotated-command?branch=master)
-[![License](https://poser.pugx.org/consolidation/annotated-command/license)](https://packagist.org/packages/consolidation/annotated-command)
+[![ci](https://github.com/consolidation/annotated-command/workflows/CI/badge.svg)](https://travis-ci.org/consolidation/annotated-command)
+[![scrutinizer](https://scrutinizer-ci.com/g/consolidation/annotated-command/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation/annotated-command/?branch=master)
+[![codecov](https://codecov.io/gh/consolidation/annotated-command/branch/main/graph/badge.svg?token=CAaB7ofhxx)](https://codecov.io/gh/consolidation/annotated-command)
+[![license](https://poser.pugx.org/consolidation/annotated-command/license)](https://packagist.org/packages/consolidation/annotated-command)
 
 ## Component Status
 
@@ -152,7 +151,7 @@ In addition to these, there are two more hooks available:
 - [Replace Command](#replace-command-hook)
    - @replace-command
 
-The "pre" and "post" varieties of these hooks, where avalable, give more flexibility vis-a-vis hook ordering (and for consistency). Within one type of hook, the running order is undefined and not guaranteed. Note that many validate, process and alter hooks may run, but the first status or extract hook that successfully returns a result will halt processing of further hooks of the same type.
+The "pre" and "post" varieties of these hooks, where available, give more flexibility vis-a-vis hook ordering (and for consistency). Within one type of hook, the running order is undefined and not guaranteed. Note that many validate, process and alter hooks may run, but the first status or extract hook that successfully returns a result will halt processing of further hooks of the same type.
 
 Each hook has an interface that defines its calling conventions; however, any callable may be used when registering a hook, which is convenient if versions of PHP prior to 7.0 (with no anonymous classes) need to be supported.
 
@@ -317,7 +316,7 @@ public function postCommand($result, CommandData $commandData)
 
 ### Process Hook
 
-The process hook ([ProcessResultInterface](src/Hooks/ProcessResultInterface.php)) is specifically designed to convert a series of processing instructions into a final result.  An example of this is implemented in Robo in the [CollectionProcessHook](https://github.com/consolidation/Robo/blob/master/src/Collection/CollectionProcessHook.php) class; if a Robo command returns a TaskInterface, then a Robo process hook will execute the task and return the result. This allows a pre-process hook to alter the task, e.g. by adding more operations to a task collection.
+The process hook ([ProcessResultInterface](src/Hooks/ProcessResultInterface.php)) is specifically designed to convert a series of processing instructions into a final result.  An example of this is implemented in Robo in the [CollectionProcessHook](https://github.com/consolidation/Robo/blob/main/src/Collection/CollectionProcessHook.php) class; if a Robo command returns a TaskInterface, then a Robo process hook will execute the task and return the result. This allows a pre-process hook to alter the task, e.g. by adding more operations to a task collection.
 
 The process hook should not be used for other purposes.
 ```
@@ -394,7 +393,7 @@ If no status hook returns any result, then success is presumed.
 
 **DEPRECATED**
 
-See [RowsOfFieldsWithMetadata in output-formatters](https://github.com/consolidation/output-formatters/blob/master/src/StructuredData/RowsOfFieldsWithMetadata.php) for an alternative that is more flexible for most use cases.
+See [RowsOfFieldsWithMetadata in output-formatters](https://github.com/consolidation/output-formatters/blob/main/src/StructuredData/RowsOfFieldsWithMetadata.php) for an alternative that is more flexible for most use cases.
 
 The extract hook ([ExtractOutputInterface](src/Hooks/ExtractOutputInterface.php)) is responsible for determining what the actual rendered output for the command should be.  The result object returned by a command may be a compound object that contains multiple bits of information about the command result.  If the result object implements [OutputDataInterface](OutputDataInterface.php), then the `getOutputData()` method of the result object is called to determine what information should be displayed to the user as a result of the command's execution. If OutputDataInterface is not implemented, then all of the extract hooks attached to this command are executed; the first one that successfully returns output data will stop further execution of extract hooks.
 

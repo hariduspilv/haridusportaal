@@ -79,6 +79,9 @@ class BetterExposedFiltersHelper {
         $key = key($choice->option);
         $value = &$choice->option[$key];
       }
+      elseif (is_array($choice) && array_key_exists('name', $choice)) {
+        $value = &$choice['name'];
+      }
       else {
         $choice = (string) $choice;
         $value = &$choice;

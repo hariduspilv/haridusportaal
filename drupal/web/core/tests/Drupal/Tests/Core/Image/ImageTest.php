@@ -46,7 +46,7 @@ class ImageTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     // Use the Druplicon image.
     $this->source = __DIR__ . '/../../../../../misc/druplicon.png';
   }
@@ -159,7 +159,7 @@ class ImageTest extends UnitTestCase {
   }
 
   /**
-   * Tests \Drupal\Core\Image\Image::getFileSize
+   * Tests \Drupal\Core\Image\Image::getFileSize.
    */
   public function testGetFileSize() {
     $this->getTestImage(FALSE);

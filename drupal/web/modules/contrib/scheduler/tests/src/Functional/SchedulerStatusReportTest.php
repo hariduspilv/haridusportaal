@@ -22,12 +22,12 @@ class SchedulerStatusReportTest extends SchedulerBrowserTestBase {
     $this->assertSession()->pageTextContains('In most cases the server time should match Coordinated Universal Time (UTC) / Greenwich Mean Time (GMT)');
 
     $admin_regional_settings = Url::fromRoute('system.regional_settings');
-    $this->assertLink('changed by admin users');
-    $this->assertLinkByHref($admin_regional_settings->toString());
+    $this->assertSession()->linkExists('changed by admin users');
+    $this->assertSession()->linkByHrefExists($admin_regional_settings->toString());
 
     $account_edit = Url::fromRoute('entity.user.edit_form', ['user' => $this->adminUser->id()]);
-    $this->assertLink('user account');
-    $this->assertLinkByHref($account_edit->toString());
+    $this->assertSession()->linkExists('user account');
+    $this->assertSession()->linkByHrefExists($account_edit->toString());
   }
 
 }

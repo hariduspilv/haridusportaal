@@ -4,33 +4,59 @@ namespace Drupal\conditional_fields;
 
 use Drupal\Component\Render\MarkupInterface;
 use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Render\ElementInfoManager;
-use Drupal\conditional_fields\ConditionalFieldsHandlersManager;
-
 
 /**
  * Helper to interact with forms.
  */
 class ConditionalFieldsFormHelper {
 
-  protected $form;
-  protected $form_state;
-  protected $effects;
-  protected $dependent_location;
-  protected $dependent_form_field;
-  /*  List of all form states. */
-  protected $states;
+  /**
+   * The form array being modified.
+   *
+   * @var array
+   */
+  public $form;
 
-  /** @var \Drupal\Core\Render\ElementInfoManager */
+  /**
+   * The state of the form being modified.
+   *
+   * @var \Drupal\Core\Form\FormStateInterface
+   */
+  public $form_state;
+
+  /**
+   * Array of effects for being applied to the conditional fields in this form.
+   *
+   * @var array
+   */
+  public $effects;
+
+  /**
+   * A form element information manager.
+   *
+   * @var \Drupal\Core\Render\ElementInfoManager
+   */
   protected $elementInfo;
 
-  /** @var \Drupal\conditional_fields\ConditionalFieldsHandlersManager */
+  /**
+   * A manager for conditional fields handlers.
+   *
+   * @var \Drupal\conditional_fields\ConditionalFieldsHandlersManager
+   */
   protected $type;
 
+  /**
+   * ConditionalFieldsFormHelper constructor.
+   *
+   * @param \Drupal\Core\Render\ElementInfoManager $element_info
+   *   A form element information manager.
+   * @param \Drupal\conditional_fields\ConditionalFieldsHandlersManager $type
+   *   A manager for conditional fields handlers.
+   */
   public function __construct(ElementInfoManager $element_info, ConditionalFieldsHandlersManager $type) {
     $this->elementInfo = $element_info;
     $this->type = $type;
@@ -40,10 +66,18 @@ class ConditionalFieldsFormHelper {
    * An after_build callback for forms with dependencies.
    *
    * Builds and attaches #states properties to dependent fields, adds additional
-   * visual effects handling to the States API and attaches a validation callback
-   * to the form that handles validation of dependent fields.
+   * visual effects handling to the States API and attaches a validation
+   * callback to the form that handles validation of dependent fields.
+   *
+   * @param array $form
+   *   The form array being modified.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The state of the form being modified.
+   *
+   * @return array
+   *   The modified form array.
    */
-  public function afterBuild($form, FormStateInterface &$form_state) {
+  public function afterBuild(array $form, FormStateInterface &$form_state) {
     $this->form = $form;
     $this->form_state = $form_state;
 
@@ -59,32 +93,32 @@ class ConditionalFieldsFormHelper {
   /**
    * Build and attach #states properties to dependent fields.
    */
-  protected function processDependentFields() {
+  public function processDependentFields() {
     $this->effects = [];
 
     // Cycle all dependents.
     foreach ($this->form['#conditional_fields'] as $dependent => $dependent_info) {
-      $this->states = [];
+      $states = [];
 
       if (!isset($dependent_info['dependees']) || empty($dependent_info['dependees'])) {
         continue;
       }
       $dependees = $dependent_info['dependees'];
 
-      $this->dependent_location = array_merge([], [$dependent]);
-      $this->dependent_form_field = NestedArray::getValue($this->form, $this->dependent_location);
+      $dependent_location = array_merge([], [$dependent]);
+      $dependent_form_field = NestedArray::getValue($this->form, $dependent_location);
 
-      $this->processDependeeFields($dependees);
+      $states = $this->processDependeeFields($dependees, $dependent_form_field, $dependent_location, $states);
 
-      if (empty($this->states)) {
+      if (empty($states)) {
         continue;
       }
 
       // Save the modified field back into the form.
-      NestedArray::setValue($this->form, $this->dependent_location, $this->dependent_form_field);
+      NestedArray::setValue($this->form, $dependent_location, $dependent_form_field);
 
       // Add the #states property to the dependent field.
-      NestedArray::setValue($this->form, array_merge($this->dependent_location, ['#states']), $this->mapStates());
+      NestedArray::setValue($this->form, array_merge($dependent_location, ['#states']), $this->mapStates($states));
     }
 
     return $this;
@@ -93,7 +127,7 @@ class ConditionalFieldsFormHelper {
   /**
    * Determine and register dependee field effects.
    */
-  protected function processDependeeFields($dependees) {
+  public function processDependeeFields($dependees, &$dependent_form_field = [], $dependent_location = [], $states = []) {
     // Cycle the dependant's dependees.
     foreach ($dependees as $dependency) {
       $dependee = $dependency['dependee'];
@@ -117,7 +151,7 @@ class ConditionalFieldsFormHelper {
         $options['values'] = explode("\r\n", $options['values']);
       }
 
-      $options['selector'] = self::getSelector($options['selector'], $dependee_form_field);
+      $options['selector'] = $this->getSelector($options['selector'], $dependee_form_field);
 
       $state = $this->getState($dependee, $dependee_form_field, $options);
 
@@ -129,20 +163,25 @@ class ConditionalFieldsFormHelper {
         'checked',
         '!checked',
       ])) {
-      self::elementAddProperty($this->dependent_form_field, '#element_validate', [self::class, 'dependentValidate'], 'append');
+        $dependent_form_field = $this->elementAddProperty($dependent_form_field,
+          '#element_validate',
+          [self::class, 'dependentValidate'],
+          'append');
       }
 
-      $this->addStateToGroup($state, $options);
+      $states = $this->addStateToGroup($state, $options, $states);
 
-      $selector = conditional_fields_field_selector(NestedArray::getValue($this->form, [$this->dependent_location[0]]));
-      $this->effects[$selector] = self::getEffect($options);
+      $selector = $this->buildJquerySelectorForField(NestedArray::getValue($this->form, [$dependent_location[0]]));
+      $this->effects[$selector] = $this->getEffect($options);
     }
+
+    return $states;
   }
 
   /**
    * Add our Javascript and effects.
    */
-  protected function addJavascriptEffects() {
+  public function addJavascriptEffects() {
     $this->form['#attached']['library'][] = 'conditional_fields/conditional_fields';
     // Add effect settings to the form.
     if ($this->effects) {
@@ -157,10 +196,10 @@ class ConditionalFieldsFormHelper {
   /**
    * Add validation callback to manage dependent fields validation.
    */
-  protected function addValidationCallback() {
+  public function addValidationCallback() {
     $this->form['#validate'][] = [self::class, 'formValidate'];
-    // Initialize validation information every time the form is rendered to avoid
-    // stale data after a failed submission.
+    // Initialize validation information every time the form is rendered to
+    // avoid stale data after a failed submission.
     $this->form_state->setValue('conditional_fields_untriggered_dependents', []);
 
     return $this;
@@ -175,13 +214,14 @@ class ConditionalFieldsFormHelper {
    *   Nested array of control field.
    * @param array $options
    *   Settings of dependency.
+   *
    * @return array
    *   List of states.
    *
    * @see hook_get_state
    */
-  protected function getState($dependee, $dependee_form_field, $options) {
-    // @var EntityFormDisplayInterface $form_display
+  protected function getState($dependee, array $dependee_form_field, array $options) {
+    /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display */
     $form_display = $this->form_state->getFormObject()->getFormDisplay($this->form_state);
     $state = [];
 
@@ -198,10 +238,10 @@ class ConditionalFieldsFormHelper {
         $widget_id = $dependee_display['type'];
       }
 
-      // @todo: Use field cardinality instead of number of values that was
-      // selected on manage dependency tab. As temporary solution put cardinality
-      // in $options. Format of #states depend on field widget and field
-      // cardinality (it can be like value: string and value: [array]).
+      // @todo Use field cardinality instead of number of values that was
+      // selected on manage dependency tab. As temporary solution put
+      // cardinality in $options. Format of #states depend on field widget and
+      // field cardinality (it can be like value: string and value: [array]).
       if ($field_config = FieldStorageConfig::loadByName($form_display->getTargetEntityTypeId(), $dependee)) {
         $options['field_cardinality'] = $field_config->getCardinality();
       }
@@ -227,8 +267,12 @@ class ConditionalFieldsFormHelper {
     return $state;
   }
 
-  protected function hasConditionalFields() {
-    // Dependencies data is attached in conditional_fields_element_after_build().
+  /**
+   * Determine whether the form has conditional fields.
+   */
+  public function hasConditionalFields() {
+    // Dependencies data is attached in
+    // conditional_fields_element_after_build().
     if (empty($this->form['#conditional_fields'])) {
       return FALSE;
     }
@@ -243,13 +287,15 @@ class ConditionalFieldsFormHelper {
    *
    * Note that this may be overridden later by a state handler.
    */
-  protected static function getSelector($options_selector, $dependee_form_field) {
+  public function getSelector($options_selector, $dependee_form_field) {
     if (!$options_selector) {
-      $selector = conditional_fields_field_selector($dependee_form_field);
+      $selector = $this->buildJquerySelectorForField($dependee_form_field);
     }
     else {
       // Replace the language placeholder in the selector with current language.
-      $selector = str_replace('%lang', $dependee_form_field['#language'], $options_selector);
+      $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+      $language = isset($dependee_form_field['#language']) ? $dependee_form_field['#language'] : $current_language;
+      $selector = str_replace('%lang', $language, $options_selector);
     }
     return $selector;
   }
@@ -257,21 +303,28 @@ class ConditionalFieldsFormHelper {
   /**
    * Merge field states to general list.
    *
-   * @param array $state
-   *   List of field states.
+   * @param array $new_states
+   *   List of new states to add to the existing states.
    * @param array $options
    *   Field CF settings.
+   * @param array $states
+   *   An array of existing states.
+   *
+   * @return array
+   *   An array of modified states.
    */
-  protected function addStateToGroup($state, $options) {
+  protected function addStateToGroup(array $new_states, array $options, array $states) {
     // Add the $state into the correct logic group in $states.
-    foreach ($state as $key => $constraints) {
-      if (empty($this->states[$key][$options['grouping']])) {
-        $this->states[$key][$options['grouping']] = $constraints;
+    foreach ($new_states as $key => $constraints) {
+      if (empty($states[$key][$options['grouping']])) {
+        $states[$key][$options['grouping']] = $constraints;
       }
       else {
-        $this->states[$key][$options['grouping']] = array_merge($this->states[$key][$options['grouping']], $constraints);
+        $states[$key][$options['grouping']] = array_merge($states[$key][$options['grouping']], $constraints);
       }
     }
+
+    return $states;
   }
 
   /**
@@ -283,9 +336,9 @@ class ConditionalFieldsFormHelper {
    * @return array
    *   Effect with options.
    */
-  protected static function getEffect($options) {
+  public function getEffect(array $options) {
     // Build effect settings for effects with options.
-    // TODO: add dependee key to allow different effects on the same selector.
+    // @todo add dependee key to allow different effects on the same selector.
     if ($options['effect'] && $options['effect'] != 'show') {
       // Convert numeric strings to numbers.
       foreach ($options['effect_options'] as &$effect_option) {
@@ -305,11 +358,12 @@ class ConditionalFieldsFormHelper {
    * Dependent field validation callback.
    *
    * If the dependencies of a dependent field are not triggered, the validation
-   * errors that it might have thrown must be removed, together with its submitted
-   * values. This will simulate the field not being present in the form at all.
-   * In this field-level callback we just collect needed information and store it
-   * in $form_state. Values and errors will be removed in a single sweep in
-   * formValidate(), which runs at the end of the validation cycle.
+   * errors that it might have thrown must be removed, together with its
+   * submitted values. This will simulate the field not being present in the
+   * form at all. In this field-level callback we just collect needed
+   * information and store it in $form_state. Values and errors will be removed
+   * in a single sweep in formValidate(), which runs at the end of the
+   * validation cycle.
    *
    * @see \Drupal\conditional_fields\ConditionalFieldsFormHelper::formValidate()
    */
@@ -324,7 +378,7 @@ class ConditionalFieldsFormHelper {
     $triggered = self::evaluateDependencies($dependent, $form, $form_state);
     $return = FALSE;
 
-    // TODO: refactor this!
+    // @todo Refactor this!
     if ($evaluated_dependencies = self::evaluateDependencies($dependent, $form, $form_state, FALSE)) {
       foreach ($evaluated_dependencies[reset($dependent['field_parents'])] as $operator) {
         foreach ($operator as $state => $result) {
@@ -341,9 +395,10 @@ class ConditionalFieldsFormHelper {
             }
             $input_state = (is_null($input_state)) ? [] : $input_state;
             if (isset($dependent['field_parents'][0])) {
-                $field = FieldStorageConfig::loadByName($form['#entity_type'], $dependent['field_parents'][0]);
-            } else {
-                $field = null;
+              $field = FieldStorageConfig::loadByName($form['#entity_type'], $dependent['field_parents'][0]);
+            }
+            else {
+              $field = NULL;
             }
             if (empty($input_state)) {
               if (isset($element['widget']['#title'])) {
@@ -351,7 +406,8 @@ class ConditionalFieldsFormHelper {
               }
               elseif (isset($dependent['field_parents'][0])) {
                 $title = $dependent['field_parents'][0];
-              } elseif ($field) {
+              }
+              elseif ($field) {
                 $title = $field->getName();
               }
 
@@ -366,10 +422,9 @@ class ConditionalFieldsFormHelper {
       return;
     }
 
-    // Mark submitted values for removal. We have to remove them after all fields
-    // have been validated to avoid collision between dependencies.
+    // Mark submitted values for removal. We have to remove them after all
+    // fields have been validated to avoid collision between dependencies.
     $form_state_addition['parents'] = $dependent['field_parents'];
-
 
     // Optional behavior: reset the field to its default values.
     // Default values are always valid, so it's safe to skip validation.
@@ -388,7 +443,7 @@ class ConditionalFieldsFormHelper {
         // element. This also means that so there can be multiple errors on the
         // same field (even though Drupal doesn't support multiple errors on the
         // same element).
-        if (strpos((string)$name, $error_key) === 0) {
+        if (strpos((string) $name, $error_key) === 0) {
           $field_errors[$name] = $error;
         }
       }
@@ -410,15 +465,21 @@ class ConditionalFieldsFormHelper {
    *
    * @param array $dependent
    *   The field form element in the current language.
+   * @param array $form
+   *   The form to evaluate dependencies on.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The state of the form to evaluate dependencies on.
+   * @param bool $grouping
+   *   TRUE to evaluate grouping; FALSE otherwise.
    *
-   * @return array|bool $evaluated_dependees.
+   * @return array|bool
    *   Evaluated dependencies array.
    */
-  protected static function evaluateDependencies($dependent, $form, $form_state, $grouping = TRUE) {
+  protected static function evaluateDependencies(array $dependent, array $form, FormStateInterface $form_state, $grouping = TRUE) {
     $dependencies = $form['#conditional_fields'][reset($dependent['field_parents'])]['dependees'];
     $evaluated_dependees = [];
 
-    foreach ($dependencies as $dependency_id => $dependency) {
+    foreach ($dependencies as $dependency) {
       // Extract field values from submitted values.
       $dependee = $dependency['dependee'];
 
@@ -498,8 +559,8 @@ class ConditionalFieldsFormHelper {
       $dependent = NestedArray::getValue($form, $parent);
       $field_values_location = self::formFieldGetValues($dependent, $form_state);
 
-      // If we couldn't find a location for the field's submitted values, let the
-      // validation errors pass through to avoid security holes.
+      // If we couldn't find a location for the field's submitted values, let
+      // the validation errors pass through to avoid security holes.
       if (!isset($field_values_location[reset($dependent['#array_parents'])])) {
         if (!empty($field['errors'])) {
           $untriggered_dependents_errors = array_merge($untriggered_dependents_errors, $field['errors']);
@@ -521,10 +582,11 @@ class ConditionalFieldsFormHelper {
     }
 
     if (!empty($untriggered_dependents_errors)) {
-      // Since Drupal provides no clean way to selectively remove error messages,
-      // we have to store all current form errors and error messages, clear them,
-      // filter out from our stored values the errors originating from untriggered
-      // dependent fields, and then reinstate remaining errors and messages.
+      // Since Drupal provides no clean way to selectively remove error
+      // messages, we have to store all current form errors and error messages,
+      // clear them, filter out from our stored values the errors originating
+      // from untriggered dependent fields, and then reinstate remaining errors
+      // and messages.
       $errors = array_diff_assoc((array) $form_state->getErrors(), $untriggered_dependents_errors);
       $form_state->clearErrors();
       $error_messages = \Drupal::messenger()->messagesByType('error');
@@ -543,7 +605,7 @@ class ConditionalFieldsFormHelper {
       if (!empty($error_messages['error'])) {
         $error_messages_array = $error_messages['error'] instanceof MarkupInterface ? $error_messages['error']->jsonSerialize() : $error_messages['error'];
         foreach (array_diff($error_messages_array, $removed_messages) as $message) {
-          \Drupal::messenger()->addMessage( $message, 'error' );
+          \Drupal::messenger()->addMessage($message, 'error');
         }
       }
     }
@@ -552,7 +614,7 @@ class ConditionalFieldsFormHelper {
   /**
    * Extracts submitted field values during form validation.
    *
-   * @return array|NULL
+   * @return array|null
    *   The requested field values parent. Actual field vales are stored under
    *   the key $element['#field_name'].
    */
@@ -569,11 +631,15 @@ class ConditionalFieldsFormHelper {
    *   Options:
    *   'edit' if $values are extracted from $form_state.
    *   'view' if $values are extracted from an entity.
+   * @param mixed $values
+   *   An array of values to evaluate the dependency based on.
+   * @param array $options
+   *   An array of options.
    *
    * @return bool
    *   Can the dependency be triggered?
    */
-  protected static function evaluateDependency($context, $values, $options) {
+  protected static function evaluateDependency($context, $values, array $options) {
     if ($options['values_set'] == ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET) {
       $dependency_values = $context == 'view' ? $options['value'] : $options['value_form'];
 
@@ -596,17 +662,16 @@ class ConditionalFieldsFormHelper {
         $dependency_values = (int) ($options['condition'] === 'checked');
       }
 
-
-      // Simple case: both values are strings or integers. Should never happen in
-      // view context, but does no harm to check anyway.
+      // Simple case: both values are strings or integers. Should never happen
+      // in view context, but does no harm to check anyway.
       if (!is_array($values) || (is_array($values) && empty($values))) {
         // Options elements consider "_none" value same as empty.
         $values = $values === '_none' ? '' : $values;
 
         if (!is_array($dependency_values)) {
           // Some widgets store integers, but values saved in $dependency_values
-          // are always strings. Convert them to integers because we want to do a
-          // strict equality check to differentiate empty strings from '0'.
+          // are always strings. Convert them to integers because we want to do
+          // a strict equality check to differentiate empty strings from '0'.
           if (is_int($values) && is_numeric($dependency_values)) {
             $dependency_values = (int) $dependency_values;
           }
@@ -614,9 +679,9 @@ class ConditionalFieldsFormHelper {
           return $dependency_values === $values;
         }
 
-        // If $values is a string and $dependency_values an array, convert $values
-        // to the standard field array form format. This covers cases like single
-        // value textfields.
+        // If $values is a string and $dependency_values an array, convert
+        // $values to the standard field array form format. This covers cases
+        // like single value textfields.
         $values = [['value' => $values]];
       }
 
@@ -634,15 +699,15 @@ class ConditionalFieldsFormHelper {
           $values = $temp;
         }
 
-        // Compare arrays recursively ignoring keys, since multiple select widgets
-        // values have numeric keys in form format and string keys in storage
-        // format.
+        // Compare arrays recursively ignoring keys, since multiple select
+        // widgets values have numeric keys in form format and string keys in
+        // storage format.
         return array_values($dependency_values) == array_values($values);
       }
 
       // $values, when viewing fields, may contain all sort of additional
-      // information, so filter out from $values the keys that are not present in
-      // $dependency_values.
+      // information, so filter out from $values the keys that are not present
+      // in $dependency_values.
       // Values here are alway keyed by delta (regardless of multiple value
       // settings).
       foreach ($values as $delta => &$value) {
@@ -676,7 +741,7 @@ class ConditionalFieldsFormHelper {
     // Flatten array of values.
     $reference_values = [];
     foreach ((array) $values as $value) {
-      // TODO: support multiple values.
+      // @todo support multiple values.
       $reference_values[] = is_array($value) ? array_shift($value) : $value;
     }
 
@@ -720,12 +785,20 @@ class ConditionalFieldsFormHelper {
    *
    * Safely without overriding any pre-existing value.
    *
+   * @param array $element
+   *   The form element that we're adding a property to.
+   * @param string $property
+   *   The property to add.
+   * @param mixed $value
+   *   The value for the property to add.
    * @param string $position
-   *   Use 'append' if $value should be inserted at the end of
-   *   the $element[$property] array, any other value to insert it
-   *   at the beginning.
+   *   Use 'append' if $value should be inserted at the end of the
+   *   $element[$property] array, any other value to insert it at the beginning.
+   *
+   * @return array
+   *   The modified element.
    */
-  public function elementAddProperty(&$element, $property, $value, $position = 'prepend') {
+  public function elementAddProperty(array $element, $property, $value, $position = 'prepend') {
     // Avoid overriding default element properties that might not yet be set.
     if (!isset($element[$property])) {
       $element[$property] = isset($element['#type']) ? $this->elementInfo->getInfoProperty($element['#type'], $property, []) : [];
@@ -735,44 +808,53 @@ class ConditionalFieldsFormHelper {
       $value = [$value];
     }
     if (in_array($value, $element[$property])) {
-      return;
+      return $element;
     }
     switch ($position) {
       case 'append':
         $element[$property] = array_merge($element[$property], (array) $value);
         break;
+
       case 'prepend':
       default:
         $element[$property] = array_merge((array) $value, $element[$property]);
         break;
     }
+
+    return $element;
   }
 
   /**
    * Map the states based on the conjunctions.
+   *
+   * @param array $unmapped_states
+   *   An array of unmapped states.
+   *
+   * @return array
+   *   An array of mapped states.
    */
-  protected function mapStates() {
+  public function mapStates(array $unmapped_states) {
     $states_new = [];
-    foreach ($this->states as $state_key => $value) {
+    foreach ($unmapped_states as $state_key => $value) {
       // As the main object is ANDed together we can add the AND items directly.
-      if (!empty($this->states[$state_key]['AND'])) {
-        $states_new[$state_key] = $this->states[$state_key]['AND'];
+      if (!empty($unmapped_states[$state_key]['AND'])) {
+        $states_new[$state_key] = $unmapped_states[$state_key]['AND'];
       }
       // The OR and XOR groups are moved into a sub-array that has numeric keys
-      // so that we get a JSON array and not an object, as required by the States
-      // API for OR and XOR groupings.
-      if (!empty($this->states[$state_key]['OR'])) {
+      // so that we get a JSON array and not an object, as required by the
+      // States API for OR and XOR groupings.
+      if (!empty($unmapped_states[$state_key]['OR'])) {
         $or = [];
-        foreach ($this->states[$state_key]['OR'] as $constraint_key => $constraint_value) {
+        foreach ($unmapped_states[$state_key]['OR'] as $constraint_key => $constraint_value) {
           $or[] = [$constraint_key => $constraint_value];
         }
         // '1' as a string so that we get an object (which means logic groups
         // are ANDed together).
         $states_new[$state_key]['1'] = $or;
       }
-      if (!empty($this->states[$state_key]['XOR'])) {
+      if (!empty($unmapped_states[$state_key]['XOR'])) {
         $xor = ['xor'];
-        foreach ($this->states[$state_key]['XOR'] as $constraint_key => $constraint_value) {
+        foreach ($unmapped_states[$state_key]['XOR'] as $constraint_key => $constraint_value) {
           $xor[] = [$constraint_key => $constraint_value];
         }
         // '2' as a string so that we get an object.
@@ -780,6 +862,21 @@ class ConditionalFieldsFormHelper {
       }
     }
     return $states_new;
+  }
+
+  /**
+   * Build a jQuery selector for a field, from its name or ID attribute.
+   *
+   * A mockable wrapper around conditional_fields_field_selector().
+   *
+   * @param array $field
+   *   A form array for the field we want to build a selector for.
+   *
+   * @return false|string
+   *   A jQuery selector; or FALSE if one cannot be determined.
+   */
+  public function buildJquerySelectorForField(array $field) {
+    return conditional_fields_field_selector($field);
   }
 
 }

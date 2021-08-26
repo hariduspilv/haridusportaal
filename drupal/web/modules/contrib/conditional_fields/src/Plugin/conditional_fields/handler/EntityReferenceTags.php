@@ -30,7 +30,7 @@ class EntityReferenceTags extends ConditionalFieldsHandlerBase {
           if ($node instanceof Node) {
             // Create an array of valid formats of title for autocomplete.
             $state[$options['state']][$options['selector']] = [
-              'value' => $this->getAutocompleteSuggestions($node)
+              'value' => $this->getAutocompleteSuggestions($node),
             ];
           }
         }
@@ -39,7 +39,7 @@ class EntityReferenceTags extends ConditionalFieldsHandlerBase {
           $nodes = Node::loadMultiple($value_form);
           if (!empty($nodes)) {
             $suggestion = [];
-            foreach (array_values($nodes) as $key => $node) {
+            foreach (array_values($nodes) as $node) {
               $suggestion[] = $this->getAutocompleteSuggestions($node);
             }
             $state[$options['state']][$options['selector']] = [
@@ -59,12 +59,13 @@ class EntityReferenceTags extends ConditionalFieldsHandlerBase {
   /**
    * Get a variants of node title for autocomplete.
    *
-   * @param Node $node
+   * @param \Drupal\node\Entity\Node $node
    *   A node object.
+   *
    * @return string
    *   An array with a few relevant suggestions for autocomplete.
    */
-  private function getAutocompleteSuggestions($node) {
+  private function getAutocompleteSuggestions(Node $node) {
     return $node->label() . ' (' . $node->id() . ')';
   }
 

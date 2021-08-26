@@ -3,7 +3,6 @@
 namespace Drupal\taxonomy\Plugin\views\argument;
 
 use Drupal\Core\Database\Database;
-use Drupal\Core\Database\Query\Condition;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -113,14 +112,14 @@ class IndexTidDepth extends ArgumentPluginBase implements ContainerFactoryPlugin
     // Now build the subqueries.
     $subquery = Database::getConnection()->select('taxonomy_index', 'tn');
     $subquery->addField('tn', 'nid');
-    $where = (new Condition('OR'))->condition('tn.tid', $tids, $operator);
+    $where = ($this->view->query->getConnection()->condition('OR'))->condition('tn.tid', $tids, $operator);
     $last = "tn";
 
     if ($this->options['depth'] > 0) {
-      $subquery->leftJoin('taxonomy_term__parent', 'th', "th.entity_id = tn.tid");
+      $subquery->leftJoin('taxonomy_term__parent', 'th', "[th].[entity_id] = [tn].[tid]");
       $last = "th";
       foreach (range(1, abs($this->options['depth'])) as $count) {
-        $subquery->leftJoin('taxonomy_term__parent', "th$count", "$last.parent_target_id = th$count.entity_id");
+        $subquery->leftJoin('taxonomy_term__parent', "th$count", "[$last].[parent_target_id] = [th$count].[entity_id]");
         $where->condition("th$count.entity_id", $tids, $operator);
         $last = "th$count";
       }
@@ -128,7 +127,7 @@ class IndexTidDepth extends ArgumentPluginBase implements ContainerFactoryPlugin
     elseif ($this->options['depth'] < 0) {
       foreach (range(1, abs($this->options['depth'])) as $count) {
         $field = $count == 1 ? 'tid' : 'entity_id';
-        $subquery->leftJoin('taxonomy_term__parent', "th$count", "$last.$field = th$count.parent_target_id");
+        $subquery->leftJoin('taxonomy_term__parent', "th$count", "[$last].[$field] = [th$count].[parent_target_id]");
         $where->condition("th$count.entity_id", $tids, $operator);
         $last = "th$count";
       }

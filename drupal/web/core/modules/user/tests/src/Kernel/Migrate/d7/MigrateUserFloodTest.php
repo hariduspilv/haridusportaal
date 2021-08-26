@@ -14,7 +14,7 @@ class MigrateUserFloodTest extends MigrateDrupal7TestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->installConfig(['user']);
     $this->executeMigration('d7_user_flood');
@@ -34,7 +34,7 @@ class MigrateUserFloodTest extends MigrateDrupal7TestBase {
         'default_config_hash' => 'UYfMzeP1S8jKm9PSvxf7nQNe8DsNS-3bc2WSNNXBQWs',
       ],
     ];
-    $this->assertIdentical($expected, $this->config('user.flood')->get());
+    $this->assertSame($expected, $this->config('user.flood')->get());
   }
 
 }
