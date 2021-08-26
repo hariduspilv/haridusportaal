@@ -19,6 +19,7 @@ import { HttpClient } from '@angular/common/http';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'mainProfessionsSearchResults',
@@ -231,8 +232,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         } else {
           this.httpWatcher = this.http.get(path).subscribe(
           (response) => {
-            this.loading = false;
-            this.loadingMore = false;
             if (response['data']['countProfessionsFalseValue']) {
               this.nonProfessionCount = response['data']['countProfessionsFalseValue']['count'];
               this.professionCount = response['data']['countProfessionsValue']['count'];
@@ -241,6 +240,8 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
             const listData = response['data']['nodeQuery']['entities'];
             if (append) {
               this.list = [...this.list, ...listData];
+              this.loading = false;
+              this.loadingMore = false;
             } else {
               this.list = listData;
               this.selectArbitraryHighlightedJob();
@@ -293,13 +294,15 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
     if (this.list && this.list.length && !this.searchWithParams) {
       // If there already was a selected highlight, check to see if its in the resulting list
       if (this.highlighted) {
-        const exists = this.list.findIndex((elem: any) => {
-          return elem.nid === this.highlighted.nid;
-        });
+        const exists = this.list.findIndex(
+          (elem: any) => elem.nid === this.highlighted.nid,
+        );
         if (exists > -1) {
           // If it is, remove it from the list and put it in front
           this.list.splice(exists, 1);
           this.list.unshift(this.highlighted);
+          this.loading = false;
+          this.loadingMore = false;
           return;
         }
       }
@@ -316,8 +319,9 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         // TODO: GET RID OF THIS NIGHTMARE PLEASE!!!
         // I need to create a request to get the pictogram field..
         const jobSubscription = this.http.get(
-          this.settings.query('oskaMainProfessionDetailView', { path: initialFilteredJobPath })).subscribe(
-          (response) => {
+          this.settings.query('oskaMainProfessionDetailView', { path: initialFilteredJobPath }))
+          .pipe(take(1))
+          .subscribe((response) => {
             const filteredJob = FieldVaryService(initialFilteredJob);
             filteredJob['highlighted'] = true;
             if (!filteredJob['fixedLabel']) {
@@ -331,8 +335,16 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
             this.highlighted = filteredJob;
             this.list.unshift(filteredJob);
             jobSubscription.unsubscribe();
+            this.loading = false;
+            this.loadingMore = false;
+          }, () => {
+            this.loading = false;
+            this.loadingMore = false;
           });
       }
+    } else {
+      this.loading = false;
+      this.loadingMore = false;
     }
   }
 
