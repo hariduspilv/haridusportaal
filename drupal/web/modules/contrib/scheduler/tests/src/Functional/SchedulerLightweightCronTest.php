@@ -14,7 +14,7 @@ class SchedulerLightweightCronTest extends SchedulerBrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->routeCronForm = Url::fromRoute('scheduler.cron_form');
@@ -55,16 +55,16 @@ class SchedulerLightweightCronTest extends SchedulerBrowserTestBase {
     $this->drupalGet($this->routeCronForm);
     $key_xpath = $this->xpath('//input[@id="edit-lightweight-access-key"]/@value');
     $key = $key_xpath[0]->getText();
-    $this->assertTrue(!empty($key), 'Default lightweight cron key field is not empty');
-    $this->assertTrue(strlen($key) == 20, 'Default lightweight cron key string length is 20');
+    $this->assertNotEmpty($key, 'The default lightweight cron key field should not be empty');
+    $this->assertEquals(20, strlen($key), 'The default lightweight cron key string length should be 20');
 
     // Check that a new random key can be generated.
     $this->drupalPostForm($this->routeCronForm, [], 'Generate new random key');
     $new_key_xpath = $this->xpath('//input[@id="edit-lightweight-access-key"]/@value');
     $new_key = $new_key_xpath[0]->getText();
-    $this->assertTrue(!empty($new_key), 'Lightweight cron key field is not empty after generating new key');
-    $this->assertTrue(strlen($new_key) == 20, 'New lightweight cron key string length is 20');
-    $this->assertNotEqual($key, $new_key, 'Lightweight cron key has changed.');
+    $this->assertNotEmpty($new_key, 'The lightweight cron key field should not be empty after generating a new key');
+    $this->assertEquals(20, strlen($new_key), 'The new lightweight cron key string length should be 20');
+    $this->assertNotEquals($new_key, $key, 'The new lightweight cron key should be different from the previous key.');
 
     // Check that the 'run lightweight cron' button works.
     $this->drupalPostForm($this->routeCronForm, [], "Run Scheduler's lightweight cron now");

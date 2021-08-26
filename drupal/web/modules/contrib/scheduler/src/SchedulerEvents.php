@@ -4,6 +4,11 @@ namespace Drupal\scheduler;
 
 /**
  * Contains all events dispatched by Scheduler.
+ *
+ * Ideally the namespace should have been Drupal\scheduler\Event and all the
+ * event-related files stored in a src/Event folder. This cannot be chnaged now
+ * as it would break the API which is being used by 3rd-party modules
+ * subscribing to scheduler's events.
  */
 final class SchedulerEvents {
 

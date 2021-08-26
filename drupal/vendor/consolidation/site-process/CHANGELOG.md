@@ -1,5 +1,13 @@
 # Changelog
 
+### 4.1.0 - 2021/Feb/20
+
+* Support PHP 8
+
+### 4.0.0 - 2020/May/27
+
+* Support symfony/process ^4.4, and other symfony components ^5
+
 ### 2.1.0 - 2019/Sep/10
 
 * Added environment variables in aliases (#47)

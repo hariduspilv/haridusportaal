@@ -43,7 +43,7 @@ class BlockComponentRenderArrayTest extends UnitTestCase {
   protected $blockManager;
 
   /**
-   * Dataprovider for test functions that should test block types.
+   * Data provider for test functions that should test block types.
    */
   public function providerBlockTypes() {
     return [
@@ -55,7 +55,7 @@ class BlockComponentRenderArrayTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->blockManager = $this->prophesize(BlockManagerInterface::class);

@@ -41,12 +41,8 @@ class ContentTranslationController extends ControllerBase {
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
    *   The entity field manager service.
    */
-  public function __construct(ContentTranslationManagerInterface $manager, EntityFieldManagerInterface $entity_field_manager = NULL) {
+  public function __construct(ContentTranslationManagerInterface $manager, EntityFieldManagerInterface $entity_field_manager) {
     $this->manager = $manager;
-    if (!$entity_field_manager) {
-      @trigger_error('The entity_field.manager service must be passed to ContentTranslationController::__construct(), it is required before Drupal 9.0.0. See https://www.drupal.org/node/2549139.', E_USER_DEPRECATED);
-      $entity_field_manager = \Drupal::service('entity_field.manager');
-    }
     $this->entityFieldManager = $entity_field_manager;
   }
 
@@ -72,7 +68,7 @@ class ContentTranslationController extends ControllerBase {
    */
   public function prepareTranslation(ContentEntityInterface $entity, LanguageInterface $source, LanguageInterface $target) {
     $source_langcode = $source->getId();
-    /* @var \Drupal\Core\Entity\ContentEntityInterface $source_translation */
+    /** @var \Drupal\Core\Entity\ContentEntityInterface $source_translation */
     $source_translation = $entity->getTranslation($source_langcode);
     $target_translation = $entity->addTranslation($target->getId(), $source_translation->toArray());
 

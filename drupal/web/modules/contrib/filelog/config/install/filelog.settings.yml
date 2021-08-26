@@ -1,9 +1,0 @@
-enabled: false
-location: 'public://logs'
-rotation:
-  schedule: daily
-  delete: false
-  destination: 'archive/[date:custom:Y/m/d].log'
-  gzip: true
-format: '[[log:created]] [[log:level]] [[log:type]] [client: [log:ip], [log:user]] [log:message]'
-level: 7

@@ -70,7 +70,7 @@ class Conditions {
       'collapsed' => $this->t('Collapsed'),
       // Supported by Conditional Fields.
       'unchanged' => $this->t('Unchanged (no state)'),
-      // TODO: Add support to these states:
+      // @todo Add support to these states:
       /*
       'relevant'   => $this->t('Relevant'),
       '!relevant'  => $this->t('Irrelevant'),

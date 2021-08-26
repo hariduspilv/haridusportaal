@@ -1,5 +1,15 @@
--- SUMMARY --
+CONTENTS OF THIS FILE
+---------------------
 
+ * Introduction
+ * Requirements
+ * Installation
+ * Configuration
+ * Maintainers
+
+
+INTRODUCTION
+------------
 The Better Exposed Filters module replaces the Views' default single-  or
 multi-select boxes with more advanced options such as radio buttons, checkboxes,
 toggle links or jQueryUI widgets.
@@ -19,16 +29,26 @@ Documentation:
 To submit bug reports and feature suggestions, or to track changes:
   https://drupal.org/project/issues/better_exposed_filters
 
--- INSTALLATION --
 
-Install as usual, see http://drupal.org/node/70151 for further instructions.
+REQUIREMENTS
+------------
+This module requires jquery_ui, jquery_ui_slider, jquery_ui_touch_punch,
+jquery_ui_datepicker and drupal core views.
 
--- CONFIGURATION --
 
+INSTALLATION
+------------
+Install as you would normally install a contributed Drupal module.
+Visit https://www.drupal.org/node/1897420 for further information.
+
+
+CONFIGURATION
+-------------
 See the documentation on Drupal.org.
 
--- CONTACT --
 
-The maintainer for this project is Mike Keran (https://www.drupal.org/u/mikeker)
-He can be contacted through his personal web site (http://MikeKeran.com) for
-work on this module or other custom projects.
+MAINTAINERS
+-----------
+ * Mike Keran - https://www.drupal.org/u/mikeker
+ * Martin Keereman - https://www.drupal.org/u/etroid
+ * Neslee Canil Pinto - https://www.drupal.org/u/neslee-canil-pinto

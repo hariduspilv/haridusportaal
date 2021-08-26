@@ -5,9 +5,7 @@ namespace Drupal\conditional_fields\Controller;
 use Drupal\conditional_fields\Form\ConditionalFieldFormTab;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\ContentEntityType;
-use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
-use Drupal\Core\Entity\EntityFormBuilder;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
@@ -18,12 +16,17 @@ use Drupal\Core\Url;
  */
 class ConditionalFieldController extends ControllerBase {
 
+  /**
+   * An entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
   protected $entityTypeManager;
 
   /**
    * Form Builder.
    *
-   * @var \Drupal\Core\Form\FormBuilderInterface|EntityFormBuilder
+   * @var \Drupal\Core\Form\FormBuilderInterface|\Drupal\Core\Entity\EntityFormBuilderInterface
    */
   protected $formBuilder;
 
@@ -44,13 +47,13 @@ class ConditionalFieldController extends ControllerBase {
   /**
    * ConditionalFieldController constructor.
    *
-   * @param EntityTypeManagerInterface $entityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   Entity type manager.
-   * @param FormBuilderInterface $formBuilder
+   * @param \Drupal\Core\Form\FormBuilderInterface $formBuilder
    *   Form builder.
-   * @param EntityTypeBundleInfoInterface $entityTypeBundleInfo
+   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entityTypeBundleInfo
    *   Entity type bundle info.
-   * @param EntityFieldManagerInterface $entityFieldManager
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entityFieldManager
    *   Entity field manager.
    */
   public function __construct(EntityTypeManagerInterface $entityTypeManager, FormBuilderInterface $formBuilder, EntityTypeBundleInfoInterface $entityTypeBundleInfo, EntityFieldManagerInterface $entityFieldManager) {
@@ -129,7 +132,7 @@ class ConditionalFieldController extends ControllerBase {
    * @param string $entity_type
    *   Entity type.
    *
-   * @return string The title for the bundle list page.
+   * @return string
    *   The title for the bundle list page.
    */
   public function bundleListTitle($entity_type) {
@@ -143,7 +146,7 @@ class ConditionalFieldController extends ControllerBase {
    * @param string $entity_type
    *   Entity type.
    *
-   * @return array Array of page elements to render.
+   * @return array
    *   Array of page elements to render.
    */
   public function bundleList($entity_type) {
@@ -172,7 +175,7 @@ class ConditionalFieldController extends ControllerBase {
   /**
    * Get list of available EntityTypes.
    *
-   * @return ContentEntityTypeInterface[]
+   * @return \Drupal\Core\Entity\ContentEntityTypeInterface[]
    *   List of content entity types.
    */
   public function getEntityTypes() {
@@ -203,56 +206,49 @@ class ConditionalFieldController extends ControllerBase {
   /**
    * Provide arguments for ConditionalFieldFormTab.
    *
-   * @param string $node_type
-   *   Node type.
+   * @param string $media_type
+   *   Media type.
    *
    * @return array
    *   Form array.
    */
-  public function getMediaEditFormTab($media_type)
-  {
+  public function getMediaEditFormTab($media_type) {
     return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'media', $media_type);
   }
 
   /**
    * Provide arguments for ConditionalFieldFormTab.
    *
-   * @param string $node_type
-   *   Node type.
+   * @param string $block_content_type
+   *   Block content type.
    *
    * @return array
    *   Form array.
    */
-  public function getBlockEditFormTab($block_content_type)
-  {
+  public function getBlockEditFormTab($block_content_type) {
     return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'block_content', $block_content_type);
   }
 
   /**
    * Provide arguments for ConditionalFieldFormTab.
    *
-   * @param string $node_type
-   *   Node type.
+   * @param string $comment_type
+   *   Comment type.
    *
    * @return array
    *   Form array.
    */
-  public function getCommentEditFormTab($comment_type)
-  {
+  public function getCommentEditFormTab($comment_type) {
     return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'comment', $comment_type);
   }
 
   /**
    * Provide arguments for ConditionalFieldFormTab.
    *
-   * @param string $node_type
-   *   Node type.
-   *
    * @return array
    *   Form array.
    */
-  public function getUserEditFormTab()
-  {
+  public function getUserEditFormTab() {
     $user_type = "user";
     return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'user', $user_type);
   }

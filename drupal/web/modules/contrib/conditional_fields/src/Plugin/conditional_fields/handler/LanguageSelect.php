@@ -17,41 +17,45 @@ class LanguageSelect extends ConditionalFieldsHandlerBase {
   /**
    * {@inheritdoc}
    */
-  public function statesHandler( $field, $field_info, $options ) {
+  public function statesHandler($field, $field_info, $options) {
     $state         = [];
     $select_states = [];
 
-    switch ($options[ 'values_set' ]) {
+    switch ($options['values_set']) {
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
-        $state[ $options[ 'state' ] ][ $options[ 'selector' ] ] = [
-          'value' => $this->getWidgetValue( $options[ 'value_form' ] ),
+        $state[$options['state']][$options['selector']] = [
+          'value' => $this->getWidgetValue($options['value_form']),
         ];
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
-        $select_states[ $options[ 'state' ] ][] = [
-          $options[ 'selector' ] => [
-            $options[ 'condition' ] => [ 'xor' => $options['values'] ],
+        $select_states[$options['state']][] = [
+          $options['selector'] => [
+            $options['condition'] => ['xor' => $options['values']],
           ],
         ];
         $state = $select_states;
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
-          $select_states[ $options[ 'state' ] ][] = [
-            $options[ 'selector' ] => [
-              $options[ 'condition' ] => [ 'regex' => $options['regex'] ],
-            ],
-          ];
+        $select_states[$options['state']][] = [
+          $options['selector'] => [
+            $options['condition'] => ['regex' => $options['regex']],
+          ],
+        ];
         $state = $select_states;
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $options['state'] = '!' . $options['state'];
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
-        foreach ( $options[ 'values' ] as $value ) {
-          $select_states[ $options['state'] ][] = [
-            $options[ 'selector' ] => [
-              $options[ 'condition' ] => empty( $regex ) ? [ $value ] : $options[ 'value' ],
+        foreach ($options['values'] as $value) {
+          $select_states[$options['state']][] = [
+            $options['selector'] => [
+              $options['condition'] => empty($regex) ? [$value] : $options['value'],
             ],
           ];
         }

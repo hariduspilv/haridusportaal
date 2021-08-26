@@ -4,7 +4,6 @@ namespace Drupal\scheduler\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Datetime\Element\Datetime;
-use Drupal\Core\Datetime\Entity\DateFormat;
 use Drupal\Core\Datetime\Plugin\Field\FieldWidget\TimestampDatetimeWidget;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -15,7 +14,7 @@ use Drupal\Core\Form\FormStateInterface;
  * @FieldWidget(
  *   id = "datetime_timestamp_no_default",
  *   label = @Translation("Datetime Timestamp for Scheduler"),
- *   description = @Translation("An optional datetime field. Does not provide a default time if left blank. Defined by Scheduler module."),
+ *   description = @Translation("An optional datetime field. Does not fill in the current datetime if left blank. Defined by Scheduler module."),
  *   field_types = {
  *     "timestamp",
  *   }
@@ -28,18 +27,31 @@ class TimestampDatetimeNoDefaultWidget extends TimestampDatetimeWidget {
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element = parent::formElement($items, $delta, $element, $form, $form_state);
-    // Remove 'Leave blank to use the time of form submission' which is in the
-    // #description inherited from TimestampDatetimeWidget. The text here is not
-    // used because it is entirely replaced in scheduler_form_node_form_alter()
-    // However the widget is generic and may be used elsewhere in future.
-    $date_format = DateFormat::load('html_date')->getPattern();
-    $time_format = DateFormat::load('html_time')->getPattern();
-    $element['value']['#description'] = $this->t('Format: %format. Leave blank for no date.', ['%format' => Datetime::formatExample($date_format . ' ' . $time_format)]);
+    // The default description "Format: html-date html-time. Leave blank to use
+    // the time of form submission" is inherited from TimestampDatetimeWidget,
+    // but this is entirely replaced in scheduler_form_node_form_alter().
+    // However this widget is generic and may be used elsewhere, so provide
+    // an accurate #description here.
+    $element['value']['#description'] = $this->t('Leave blank for no date.');
 
     // Set the callback function to allow interception of the submitted user
     // input and add the default time if needed. It is too late to try this in
     // function massageFormValues as the validation has already been done.
     $element['value']['#value_callback'] = [$this, 'valueCallback'];
+
+    // Hide the seconds portion of the time input element if that option is set.
+    if (\Drupal::config('scheduler.settings')->get('hide_seconds')) {
+      $element['value']['#date_increment'] = 60;
+      // Some browsers HTML5 date element implementations show the seconds on
+      // pre-existing date values event though the number cannot be changed. To
+      // reduce confusion set the seconds to zero so that the browsers
+      // validation messages only have hours and minutes.
+      $current_value = $element['value']['#default_value'];
+      if (is_object($current_value)) {
+        $current_value->setTime($current_value->format('H'), $current_value->format('i'), 0);
+      }
+    }
+
     return $element;
   }
 
@@ -63,9 +75,19 @@ class TimestampDatetimeNoDefaultWidget extends TimestampDatetimeWidget {
         $input['time'] = $config->get('default_time');
       }
     }
+
+    // Temporarily set the #date_time_element to 'time' because if it had been
+    // hidden in the form by being set to 'none' then the default time set above
+    // would not be used and we would get the current hour and minute instead.
+    $originalTimeElement = $element['#date_time_element'];
+    $element['#date_time_element'] = 'time';
     // Chain on to the standard valueCallback for Datetime as we do not want to
     // duplicate that core code here.
-    return Datetime::valueCallback($element, $input, $form_state);
+    $value = Datetime::valueCallback($element, $input, $form_state);
+    // Restore the #date_time_element.
+    $element['#date_time_element'] = $originalTimeElement;
+
+    return $value;
   }
 
   /**
@@ -74,13 +96,18 @@ class TimestampDatetimeNoDefaultWidget extends TimestampDatetimeWidget {
   public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
     foreach ($values as &$item) {
       // @todo The structure is different whether access is denied or not, to
-      //   be fixed in https://www.drupal.org/node/2326533.
-      $date = NULL;
+      //   be fixed in core issue https://www.drupal.org/node/2326533.
       if (isset($item['value']) && $item['value'] instanceof DrupalDateTime) {
         $date = $item['value'];
       }
       elseif (isset($item['value']['object']) && $item['value']['object'] instanceof DrupalDateTime) {
         $date = $item['value']['object'];
+      }
+      else {
+        // The above is copied from core Datetime/Plugin/Field/FieldWidget
+        // TimestampDatetimeWidget. But here is where we do not return a current
+        // datetime when no value is sent in the form.
+        $date = NULL;
       }
 
       $item['value'] = $date ? $date->getTimestamp() : NULL;

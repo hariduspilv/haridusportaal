@@ -42,7 +42,7 @@ class SchedulerMetaInformationTest extends SchedulerBrowserTestBase {
     // The node page should now have an X-Robots-Tag header with an
     // unavailable_after-directive and RFC850 date- and time-value.
     $this->drupalGet('node/' . $published_node->id());
-    $this->assertSession()->responseHeaderEquals('X-Robots-Tag', 'unavailable_after: ' . date(DATE_RFC850, $unpublish_date), 'X-Robots-Tag is present with correct timestamp derived from unpublish_on date.');
+    $this->assertSession()->responseHeaderEquals('X-Robots-Tag', 'unavailable_after: ' . date(DATE_RFC850, $unpublish_date));
   }
 
 }

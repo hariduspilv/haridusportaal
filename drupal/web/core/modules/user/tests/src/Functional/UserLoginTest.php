@@ -19,23 +19,28 @@ class UserLoginTest extends BrowserTestBase {
   protected $defaultTheme = 'stark';
 
   /**
+   * {@inheritdoc}
+   */
+  protected static $modules = ['dblog'];
+
+  /**
    * Tests login with destination.
    */
   public function testLoginCacheTagsAndDestination() {
     $this->drupalGet('user/login');
     // The user login form says "Enter your <site name> username.", hence it
     // depends on config:system.site, and its cache tags should be present.
-    $this->assertCacheTag('config:system.site');
+    $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:system.site');
 
     $user = $this->drupalCreateUser([]);
     $this->drupalGet('user/login', ['query' => ['destination' => 'foo']]);
     $edit = ['name' => $user->getAccountName(), 'pass' => $user->passRaw];
-    $this->drupalPostForm(NULL, $edit, t('Log in'));
-    $this->assertUrl('foo', [], 'Redirected to the correct URL');
+    $this->submitForm($edit, 'Log in');
+    $this->assertSession()->addressEquals('foo');
   }
 
   /**
-   * Test the global login flood control.
+   * Tests the global login flood control.
    */
   public function testGlobalLoginFloodControl() {
     $this->config('user.flood')
@@ -72,7 +77,7 @@ class UserLoginTest extends BrowserTestBase {
   }
 
   /**
-   * Test the per-user login flood control.
+   * Tests the per-user login flood control.
    */
   public function testPerUserLoginFloodControl() {
     $this->config('user.flood')
@@ -112,7 +117,7 @@ class UserLoginTest extends BrowserTestBase {
   }
 
   /**
-   * Test that user password is re-hashed upon login after changing $count_log2.
+   * Tests user password is re-hashed upon login after changing $count_log2.
    */
   public function testPasswordRehashOnLogin() {
     // Determine default log2 for phpass hashing algorithm
@@ -129,7 +134,7 @@ class UserLoginTest extends BrowserTestBase {
     // Load the stored user. The password hash should reflect $default_count_log2.
     $user_storage = $this->container->get('entity_type.manager')->getStorage('user');
     $account = User::load($account->id());
-    $this->assertIdentical($password_hasher->getCountLog2($account->getPassword()), $default_count_log2);
+    $this->assertSame($default_count_log2, $password_hasher->getCountLog2($account->getPassword()));
 
     // Change the required number of iterations by loading a test-module
     // containing the necessary container builder code and then verify that the
@@ -143,7 +148,7 @@ class UserLoginTest extends BrowserTestBase {
     // Load the stored user, which should have a different password hash now.
     $user_storage->resetCache([$account->id()]);
     $account = $user_storage->load($account->id());
-    $this->assertIdentical($password_hasher->getCountLog2($account->getPassword()), $overridden_count_log2);
+    $this->assertSame($overridden_count_log2, $password_hasher->getCountLog2($account->getPassword()));
     $this->assertTrue($password_hasher->check($password, $account->getPassword()));
   }
 
@@ -161,23 +166,37 @@ class UserLoginTest extends BrowserTestBase {
    *   - Set to NULL to expect a failed login.
    */
   public function assertFailedLogin($account, $flood_trigger = NULL) {
+    $database = \Drupal::database();
     $edit = [
       'name' => $account->getAccountName(),
       'pass' => $account->passRaw,
     ];
-    $this->drupalPostForm('user/login', $edit, t('Log in'));
-    $this->assertNoFieldByXPath("//input[@name='pass' and @value!='']", NULL, 'Password value attribute is blank.');
+    $this->drupalGet('user/login');
+    $this->submitForm($edit, 'Log in');
     if (isset($flood_trigger)) {
+      $this->assertSession()->statusCodeEquals(403);
+      $this->assertSession()->fieldNotExists('pass');
+      $last_log = $database->select('watchdog', 'w')
+        ->fields('w', ['message'])
+        ->condition('type', 'user')
+        ->orderBy('wid', 'DESC')
+        ->range(0, 1)
+        ->execute()
+        ->fetchField();
       if ($flood_trigger == 'user') {
         $this->assertRaw(\Drupal::translation()->formatPlural($this->config('user.flood')->get('user_limit'), 'There has been more than one failed login attempt for this account. It is temporarily blocked. Try again later or <a href=":url">request a new password</a>.', 'There have been more than @count failed login attempts for this account. It is temporarily blocked. Try again later or <a href=":url">request a new password</a>.', [':url' => Url::fromRoute('user.pass')->toString()]));
+        $this->assertEquals('Flood control blocked login attempt for uid %uid from %ip', $last_log, 'A watchdog message was logged for the login attempt blocked by flood control per user.');
       }
       else {
         // No uid, so the limit is IP-based.
         $this->assertRaw(t('Too many failed login attempts from your IP address. This IP address is temporarily blocked. Try again later or <a href=":url">request a new password</a>.', [':url' => Url::fromRoute('user.pass')->toString()]));
+        $this->assertEquals('Flood control blocked login attempt from %ip', $last_log, 'A watchdog message was logged for the login attempt blocked by flood control per IP.');
       }
     }
     else {
-      $this->assertText(t('Unrecognized username or password. Forgot your password?'));
+      $this->assertSession()->statusCodeEquals(200);
+      $this->assertSession()->fieldValueEquals('pass', '');
+      $this->assertSession()->pageTextContains('Unrecognized username or password. Forgot your password?');
     }
   }
 

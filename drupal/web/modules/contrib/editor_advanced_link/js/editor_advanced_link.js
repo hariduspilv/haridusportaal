@@ -15,6 +15,22 @@
             }
           });
       });
+      //Add noopener to rel attribute if open link in new window checkbox is checked
+      if($('input[data-drupal-selector="edit-attributes-rel"]').length) {
+        $('input[data-drupal-selector="edit-attributes-target"]')
+        .once('editor_advanced_linktargetrel')
+        .change(function () {
+          var rel_attribute_field = $('input[data-drupal-selector="edit-attributes-rel"]');
+          var rel_attributes = ' ' + 'noopener';
+          if (this.checked) {
+            rel_attribute_field.val(rel_attribute_field.val() + rel_attributes);
+            Drupal.announce(Drupal.t('the noopener attribute has been added to rel'));
+          } else {
+            rel_attribute_field.val(rel_attribute_field.val().replace(rel_attributes, ''));
+            Drupal.announce(Drupal.t('the noopener attribute has been removed from rel'));
+          }
+        });
+      }
     }
   };
 

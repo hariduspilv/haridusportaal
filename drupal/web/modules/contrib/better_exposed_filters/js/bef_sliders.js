@@ -99,7 +99,7 @@
               // Attach stop listeners.
               stop: function (event, ui) {
                 // Click the auto submit button.
-                $(this).parents('form').find('.ctools-auto-submit-click').click();
+                $(this).parents('form').find('[data-bef-auto-submit-click]').click();
               }
             });
 

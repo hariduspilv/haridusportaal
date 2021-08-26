@@ -75,6 +75,8 @@ class FormsTest extends BrowserTestBase {
     $keys = $key_repository->getUsersKeys($this->user->id());
     $this->assertCount(1, $keys);
     $generated_key = end($keys);
+    // Sleep to make sure the time changes for the next key ID.
+    sleep(1);
     $this->clickLink('Add Key');
     $path = drupal_get_path('module', 'users_jwt') . '/tests/fixtures/users_jwt_rsa1-public.pem';
     $public_key = file_get_contents($path);
@@ -134,6 +136,11 @@ class FormsTest extends BrowserTestBase {
       $headers = [$header_name => 'UsersJwt ' . $token];
       $this->drupalGet($url, [], $headers);
       $this->assertResponse(403);
+      // Invalid private key, public page.
+      $token = JWT::encode($good_payload, $private_key2, 'RS256', $submitted_key->id);
+      $headers = [$header_name => 'UsersJwt ' . $token];
+      $this->drupalGet('<front>', [], $headers);
+      $this->assertResponse(200);
     }
   }
 

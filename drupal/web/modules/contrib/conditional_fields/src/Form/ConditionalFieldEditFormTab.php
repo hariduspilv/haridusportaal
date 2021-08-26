@@ -5,12 +5,17 @@ namespace Drupal\conditional_fields\Form;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class ConditionalFieldEditFormTab.
+ * A form to edit a conditional field, designed to be displayed in a tab.
  *
  * @package Drupal\conditional_fields\Form
  */
 class ConditionalFieldEditFormTab extends ConditionalFieldEditForm {
 
+  /**
+   * The name of the route to redirect to when the form has been submitted.
+   *
+   * @var string
+   */
   protected $redirectPath = 'conditional_fields.tab';
 
   /**

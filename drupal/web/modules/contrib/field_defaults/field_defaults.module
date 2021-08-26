@@ -1,0 +1,208 @@
+<?php
+
+/**
+ * @file
+ * Allows updating existing content with default values.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_entity_presave().
+ */
+function field_defaults_entity_presave(EntityInterface $entity) {
+  // If this entity is not being saved through the field_defaults module, leave the changed date alone.
+  if (empty($entity->batch_field_defaults)) {
+    return;
+  }
+  unset($entity->batch_field_defaults);
+
+  $config = \Drupal::config('field_defaults.configuration');
+  $changeDate = $config->get('update_date');
+  if ($changeDate == '1' && isset($entity->original->changed)) {
+    $entity->changed = $entity->original->changed;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function field_defaults_form_field_config_edit_form_alter(&$form, FormStateInterface $form_state) {
+  if (\Drupal::currentUser()->hasPermission('administer field defaults')) {
+    if (isset($form['default_value'])) {
+
+      /** @var \Drupal\field\FieldConfigInterface $field */
+      $field = $form_state->getFormObject()->getEntity();
+      $field_language = $field->language();
+
+      $form['default_value']['field_defaults'] = [
+        '#type' => 'details',
+        '#title' => t('Update existing content'),
+        '#weight' => 100,
+      ];
+      $form['default_value']['field_defaults']['update_defaults'] = [
+        '#title' => t('Overwrite existing <em>@lang</em> content with the selected default value(s)', ['@lang' => $field_language->getName()]),
+        '#type' => 'checkbox',
+      ];
+      // Check that both field and bundle are translateable.
+      $bundle_is_translatable = FALSE;
+      if (\Drupal::hasService("content_translation.manager")) {
+        $bundle_is_translatable = \Drupal::service('content_translation.manager')
+          ->isEnabled($field->getTargetEntityTypeId(), $field->getTargetBundle());
+      }
+
+      if ($bundle_is_translatable && $field->isTranslatable()) {
+        $field_language_id = $field_language->getId();
+        $languages = \Drupal::languageManager()->getLanguages();
+
+        $options = [];
+        foreach ($languages as $language) {
+          if ($language->getId() != $field_language_id) {
+            $options[$language->getId()] = $language->getName();
+          }
+        }
+        $form['default_value']['field_defaults']['update_defaults_lang'] = [
+          '#type' => 'checkboxes',
+          '#title' => t('Additionally Update entities of the following languages:'),
+          '#options' => $options,
+        ];
+      }
+
+      $form['default_value']['field_defaults']['no_overwrite'] = [
+        '#type' => 'checkbox',
+        '#title' => t('Keep existing values'),
+        '#description' => t('This option will prevent overwriting fields with existing values.'),
+      ];
+
+      $form['actions']['submit']['#submit'][] = '_field_defaults_ui_submit';
+    }
+  }
+}
+
+/**
+ * Submit handler for field ui form.
+ */
+function _field_defaults_ui_submit(&$form, FormStateInterface $form_state) {
+  $values = $form_state->getValue(['default_value_input', 'field_defaults'], FALSE);
+  if (!empty($values['update_defaults'])) {
+    /** @var \Drupal\field\FieldConfigInterface $entity */
+    $entity = $form_state->getFormObject()->getEntity();
+    $field_name = $entity->getName();
+
+    // Only go ahead if default value field actually has value.
+    if ($field_value = $form_state->getValue(['default_value_input', $field_name], 0)) {
+
+      if (isset($field_value['target_id'])) {
+        // Fix odd term structure.
+        if (is_array($field_value['target_id'])) {
+          $field_value = $field_value['target_id'];
+        }
+
+        $handler = $entity->getSetting('handler');
+        if (!empty($handler)) {
+          $definition = explode(':', $handler);
+          $provider = $definition[1] ?? $definition[0];
+        }
+
+        // Fix media structure.
+        if ($provider === 'media') {
+          $media_values = explode(':', $field_value['target_id']);
+          $field_value = $media_values[1] ?? $media_values[0];
+        }
+      }
+
+      $entity_type = $entity->getTargetEntityTypeId();
+      $bundle_key = \Drupal::entityTypeManager()
+        ->getDefinition($entity_type)
+        ->getKey('bundle');
+
+      // Get all entities of type/bundle to process.
+      $query = \Drupal::entityQuery($entity_type);
+
+      // Some entities don't have bundle (i.e. user)
+      if (!empty($bundle_key)) {
+        $bundle = $entity->getTargetBundle();
+        $query->condition($bundle_key, $bundle);
+      }
+      $ids = $query->execute();
+
+      // Load languages and overwrite settings.
+      $languages = !empty($values['update_defaults_lang']) ? $values['update_defaults_lang'] : [];
+      $no_overwrite = !empty($values['no_overwrite']) ? $values['no_overwrite'] : FALSE;
+
+      $operations = [];
+      foreach ($ids as $id) {
+        $operations[] = [
+          'field_defaults_update_default',
+          [$entity_type, $id, $field_name, $field_value, $languages, $no_overwrite],
+        ];
+      }
+
+      $batch = [
+        'title' => t('Processing default values'),
+        'operations' => $operations,
+        'finished' => 'field_defaults_batch_finished',
+      ];
+
+      batch_set($batch);
+    }
+  }
+}
+
+/**
+ * Batch Processor.
+ */
+function field_defaults_update_default($type, $id, $field_name, $field_value, $languages, $no_overwrite, &$context) {
+  $has_changed = FALSE;
+
+  /** @var \Drupal\Core\Entity\ContentEntityBase $entity */
+  $entity = \Drupal::entityTypeManager()->getStorage($type)->load($id);
+
+  // First set the default on the current language.
+  if (!$no_overwrite || $entity->get($field_name)->isEmpty()) {
+    $entity->{$field_name} = $field_value;
+    $has_changed = TRUE;
+  }
+
+  // Now set any additional languages.
+  foreach ($languages as $language_id => $language_value) {
+    // Value is if was checked in form.
+    if ($language_value) {
+      if ($entity->hasTranslation($language_id)) {
+        $entity = $entity->getTranslation($language_id);
+
+        if (!$no_overwrite || $entity->get($field_name)->isEmpty()) {
+          $entity->{$field_name} = $field_value;
+          $has_changed = TRUE;
+        }
+      }
+    }
+  }
+
+  // Mark this entity as being saved through the field_defaults module.
+  $entity->batch_field_defaults = TRUE;
+
+  // Save the entity.
+  if ($has_changed) {
+    $context['results'][] = $entity->save();
+    $context['message'] = t("Setting Default Values on entity id: @id", ["@id" => $id]);
+  }
+}
+
+/**
+ * The batch finish handler.
+ */
+function field_defaults_batch_finished($success, $results, $operations) {
+  if ($success) {
+    $message = \Drupal::translation()->formatPlural(
+      count($results),
+      'Default values were updated for one entity.',
+      'Default values were updated for @count entities.'
+    );
+  }
+  else {
+    $message = t('Finished with an error.');
+  }
+  \Drupal::messenger()->addMessage($message);
+}

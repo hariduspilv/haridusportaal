@@ -18,7 +18,7 @@ class LinkField extends ConditionalFieldsHandlerBase {
   /**
    * {@inheritdoc}
    *
-   * @todo: Provide possibility to create states with pair URL and title.
+   * @todo Provide possibility to create states with pair URL and title.
    *        Only states for URL currently supported.
    */
   public function statesHandler($field, $field_info, $options) {
@@ -52,7 +52,7 @@ class LinkField extends ConditionalFieldsHandlerBase {
         break;
 
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
-        // @todo: Send field settings to statesHandler to check field cardinality.
+        // @todo Send field settings to statesHandler to check field cardinality.
         break;
 
     }

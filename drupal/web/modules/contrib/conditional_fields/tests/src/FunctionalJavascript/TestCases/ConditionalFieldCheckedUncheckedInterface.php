@@ -3,7 +3,8 @@
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases;
 
 /**
- * Interface ConditionalFieldCheckedUncheckedInterface
+ * Outline tests for field types that can be both (in)visible and (un)checked.
+ *
  * @package Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases
  */
 interface ConditionalFieldCheckedUncheckedInterface {
