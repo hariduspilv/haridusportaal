@@ -12,7 +12,6 @@ use Drupal\jwt\JsonWebToken\JsonWebToken;
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * JWT Authentication Provider.
@@ -67,14 +66,14 @@ class JwtAuth implements AuthenticationProviderInterface {
       $jwt = $this->transcoder->decode($raw_jwt);
     }
     catch (JwtDecodeException $e) {
-      throw new AccessDeniedHttpException($e->getMessage(), $e);
+      return NULL;
     }
 
     $validate = new JwtAuthValidateEvent($jwt);
     // Signature is validated, but allow modules to do additional validation.
     $this->eventDispatcher->dispatch(JwtAuthEvents::VALIDATE, $validate);
     if (!$validate->isValid()) {
-      throw new AccessDeniedHttpException($validate->invalidReason());
+      return NULL;
     }
 
     $valid = new JwtAuthValidEvent($jwt);
@@ -82,7 +81,7 @@ class JwtAuth implements AuthenticationProviderInterface {
     $user = $valid->getUser();
 
     if (!$user) {
-      throw new AccessDeniedHttpException('Unable to load user from provided JWT.');
+      return NULL;
     }
 
     return $user;

@@ -55,6 +55,9 @@ scheduler.settings:
     default_unpublish_revision:
       type: boolean
       label: 'Default value for nodetype setting unpublish_revision'
+    hide_seconds:
+      type: boolean
+      label: 'Hide the seconds on the input control when entering a time'
     lightweight_cron_access_key:
       type: string
       label: 'Lightweight cron access key'

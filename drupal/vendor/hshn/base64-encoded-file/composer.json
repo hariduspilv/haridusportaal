@@ -5,28 +5,45 @@
     "authors": [
         {
             "name": "Shota Hoshino",
-            "email": "lga0503@gmail.com"
+            "email": "sht.hshn@gmail.com"
         }
     ],
     "require": {
-        "PHP": ">=5.4.0",
-        "symfony/http-foundation": "~2.7|~3.0"
+        "php": "^7.3.0 || ^8.0.0",
+        "symfony/http-foundation": "^3.4.35 || ^4.4.7 || ^5.0.7",
+        "symfony/mime": "^4.3.8 || ^5.0"
     },
     "require-dev": {
-        "symfony/form": "~2.7|~3.0"
+        "symfony/form": "^3.4 || ^4.0 || ^5.0",
+        "symfony/serializer": "^3.4 || ^4.0 || ^5.0",
+        "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0",
+        "symfony/dependency-injection": "^3.4 || ^4.0 || ^5.0",
+        "symfony/config": "^3.4 || ^4.0 || ^5.0",
+        "symfony/http-kernel": "^3.4 || ^4.0 || ^5.0"
     },
     "suggest": {
-        "symfony/form": "to use base64_encoded_file type"
+        "symfony/form": "to use base64_encoded_file type",
+        "symfony/serializer": "to convert a base64 string to a Base64EncodedFile object",
+        "symfony/dependency-injection": "to use the bundle in a Symfony project",
+        "symfony/http-kernel": "to use the bundle in a Symfony project",
+        "symfony/config": "to use the bundle in a Symfony project"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit -c ."
     },
     "autoload": {
-        "psr-4": { "Hshn\\Base64EncodedFile\\": "src" }
+        "psr-4": {
+            "Hshn\\Base64EncodedFile\\": "src"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Hshn\\Base64EncodedFile\\": "tests" }
+        "psr-4": {
+            "Hshn\\Base64EncodedFile\\": "tests"
+        }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-master": "3.x-dev"
         }
     }
 }

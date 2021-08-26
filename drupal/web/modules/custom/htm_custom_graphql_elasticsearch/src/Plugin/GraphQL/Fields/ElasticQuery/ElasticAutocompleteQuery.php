@@ -125,7 +125,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
             if(isset($value['_source'])){
                 $language = \Drupal::languageManager()->getLanguage($value['_source']['langcode'][0]);
                 \Drupal::languageManager()->setConfigOverrideLanguage($language);
-                $contentTypes = \Drupal::service('entity.manager')->getStorage('node_type')->loadByProperties(['type' => $value['_source']['content_type'][0]]);
+                $contentTypes = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadByProperties(['type' => $value['_source']['content_type'][0]]);
                 foreach($contentTypes as $type){
                     $value['_source']['content_type'][0] = $type->label();
                     $response[] = $value;

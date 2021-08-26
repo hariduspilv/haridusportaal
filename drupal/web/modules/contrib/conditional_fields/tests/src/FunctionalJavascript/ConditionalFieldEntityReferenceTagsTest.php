@@ -97,7 +97,7 @@ class ConditionalFieldEntityReferenceTagsTest extends ConditionalFieldTestBase {
     // Create a node that we will use in reference field.
     $node = Node::create([
       'type' => 'article',
-      'title' => 'Referenced node'
+      'title' => 'Referenced node',
     ]);
     $node->save();
 
@@ -135,7 +135,6 @@ class ConditionalFieldEntityReferenceTagsTest extends ConditionalFieldTestBase {
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-tags-body-invisible-when-controlled-field-has-no-value.png');
     $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
@@ -145,7 +144,8 @@ class ConditionalFieldEntityReferenceTagsTest extends ConditionalFieldTestBase {
     $this->createScreenshot($this->screenshotPath . '05-entity-reference-tags-body-invisible-when-controlled-field-has-wrong-value.png');
     $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
 
-    // Change an entity reference field in format 'Node title (nid)' to show the body.
+    // Change an entity reference field in format 'Node title (nid)' to show the
+    // body.
     $this->changeField($this->fieldSelector, $referenced_format_valid);
     $this->createScreenshot($this->screenshotPath . '06-entity-reference-tags-body-visible-when-controlled-field-has-valid-value.png');
     $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');

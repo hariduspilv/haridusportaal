@@ -52,6 +52,23 @@
             },
             "readonly": true
           },
+          "menetlejaKommentaar": {
+            "type": "table",
+            "title": {
+              "et": "Menetleja kommentaar"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "nimetus": {
+                "type": "text",
+                "title": {
+                  "et": "Menetleja kommentaar"
+                },
+                "readonly": true
+              }
+            },
+            "hidden": false
+          },
           "kaskkirjaNr": {
             "type": "text",
             "title": {
@@ -284,7 +301,7 @@
                 "readonly": true
               },
               "kommentaar": {
-                "type": "textarea",
+                "type": "text",
                 "title": {
                   "et": "Kommentaar"
                 },

@@ -19,7 +19,7 @@ class NumericFormatPluralTest extends ViewTestBase {
    *
    * @var array
    */
-  public static $modules = ['views_ui', 'file', 'language', 'locale'];
+  protected static $modules = ['views_ui', 'file', 'language', 'locale'];
 
   /**
    * {@inheritdoc}
@@ -33,7 +33,7 @@ class NumericFormatPluralTest extends ViewTestBase {
    */
   public static $testViews = ['numeric_test'];
 
-  protected function setUp($import_test_views = TRUE) {
+  protected function setUp($import_test_views = TRUE): void {
     parent::setUp($import_test_views);
 
     $web_user = $this->drupalCreateUser([
@@ -44,7 +44,7 @@ class NumericFormatPluralTest extends ViewTestBase {
   }
 
   /**
-   * Test plural formatting setting on a numeric views handler.
+   * Tests plural formatting setting on a numeric views handler.
    */
   public function testNumericFormatPlural() {
     // Create a file.
@@ -53,8 +53,8 @@ class NumericFormatPluralTest extends ViewTestBase {
     // Assert that the starting configuration is correct.
     $config = $this->config('views.view.numeric_test');
     $field_config_prefix = 'display.default.display_options.fields.count.';
-    $this->assertEqual($config->get($field_config_prefix . 'format_plural'), TRUE);
-    $this->assertEqual($config->get($field_config_prefix . 'format_plural_string'), '1' . PoItem::DELIMITER . '@count');
+    $this->assertTrue($config->get($field_config_prefix . 'format_plural'));
+    $this->assertEquals('1' . PoItem::DELIMITER . '@count', $config->get($field_config_prefix . 'format_plural_string'));
 
     // Assert that the value is displayed.
     $this->drupalGet('numeric-test');
@@ -62,18 +62,18 @@ class NumericFormatPluralTest extends ViewTestBase {
 
     // Assert that the user interface has controls to change it.
     $this->drupalGet('admin/structure/views/nojs/handler/numeric_test/page_1/field/count');
-    $this->assertFieldByName('options[format_plural_values][0]', '1');
-    $this->assertFieldByName('options[format_plural_values][1]', '@count');
+    $this->assertSession()->fieldValueEquals('options[format_plural_values][0]', '1');
+    $this->assertSession()->fieldValueEquals('options[format_plural_values][1]', '@count');
 
     // Assert that changing the settings will change configuration properly.
     $edit = ['options[format_plural_values][0]' => '1 time', 'options[format_plural_values][1]' => '@count times'];
-    $this->drupalPostForm(NULL, $edit, t('Apply'));
-    $this->drupalPostForm(NULL, [], t('Save'));
+    $this->submitForm($edit, 'Apply');
+    $this->submitForm([], 'Save');
 
     $config = $this->config('views.view.numeric_test');
     $field_config_prefix = 'display.default.display_options.fields.count.';
-    $this->assertEqual($config->get($field_config_prefix . 'format_plural'), TRUE);
-    $this->assertEqual($config->get($field_config_prefix . 'format_plural_string'), '1 time' . PoItem::DELIMITER . '@count times');
+    $this->assertTrue($config->get($field_config_prefix . 'format_plural'));
+    $this->assertEquals('1 time' . PoItem::DELIMITER . '@count times', $config->get($field_config_prefix . 'format_plural_string'));
 
     // Assert that the value is displayed with some sample values.
     $numbers = [0, 1, 2, 3, 4, 42];
@@ -87,7 +87,8 @@ class NumericFormatPluralTest extends ViewTestBase {
 
     // Add Slovenian and set its plural formula to test multiple plural forms.
     $edit = ['predefined_langcode' => 'sl'];
-    $this->drupalPostForm('admin/config/regional/language/add', $edit, t('Add language'));
+    $this->drupalGet('admin/config/regional/language/add');
+    $this->submitForm($edit, 'Add language');
     $formula = 'nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);';
     $header = new PoHeader();
     list($nplurals, $formula) = $header->parsePluralForms($formula);
@@ -99,10 +100,10 @@ class NumericFormatPluralTest extends ViewTestBase {
 
     // Assert that the user interface has controls with more inputs now.
     $this->drupalGet('admin/structure/views/nojs/handler/numeric_test/page_1/field/count');
-    $this->assertFieldByName('options[format_plural_values][0]', '1 time');
-    $this->assertFieldByName('options[format_plural_values][1]', '@count times');
-    $this->assertFieldByName('options[format_plural_values][2]', '');
-    $this->assertFieldByName('options[format_plural_values][3]', '');
+    $this->assertSession()->fieldValueEquals('options[format_plural_values][0]', '1 time');
+    $this->assertSession()->fieldValueEquals('options[format_plural_values][1]', '@count times');
+    $this->assertSession()->fieldValueEquals('options[format_plural_values][2]', '');
+    $this->assertSession()->fieldValueEquals('options[format_plural_values][3]', '');
 
     // Assert that changing the settings will change configuration properly.
     $edit = [
@@ -111,12 +112,12 @@ class NumericFormatPluralTest extends ViewTestBase {
       'options[format_plural_values][2]' => '@count time2',
       'options[format_plural_values][3]' => '@count time3',
     ];
-    $this->drupalPostForm(NULL, $edit, t('Apply'));
-    $this->drupalPostForm(NULL, [], t('Save'));
+    $this->submitForm($edit, 'Apply');
+    $this->submitForm([], 'Save');
     $config = $this->config('views.view.numeric_test');
     $field_config_prefix = 'display.default.display_options.fields.count.';
-    $this->assertEqual($config->get($field_config_prefix . 'format_plural'), TRUE);
-    $this->assertEqual($config->get($field_config_prefix . 'format_plural_string'), implode(PoItem::DELIMITER, array_values($edit)));
+    $this->assertTrue($config->get($field_config_prefix . 'format_plural'));
+    $this->assertEquals(implode(PoItem::DELIMITER, array_values($edit)), $config->get($field_config_prefix . 'format_plural_string'));
 
     // The view should now use the new plural configuration.
     $this->drupalGet('sl/numeric-test');

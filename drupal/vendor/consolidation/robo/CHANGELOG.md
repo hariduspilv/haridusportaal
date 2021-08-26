@@ -1,31 +1,52 @@
 # Changelog
 
-### 1.4.13 - 10/10/2020
+### 2.2.2 12/18/2020
 
-- Allow symfony/finder ^5 (#992)
-- Fix #981: PHP 7.3 compatibility fixes (#982)
+* Restore symfony/yaml dependency by Dan Untenzu (#1010)
+* Backport Logfile tasks from Robo 3.x by Christin Gruber (#995)
+* TaskInterface::Run() should always return a Result by Pieter Frenssen (#986)
+* PHP 7.3 compatibility issues by Yogesh Pawar (#984)
+* Fix Parallel Exec example.
+* Stopped using deprecated "printed()" method in taskExec and used recommended "printOutput()" instead. (#980)
+* Removed problematic annotation in try:capture-exec
 
-### 1.4.12 2/18/2020
+### 2.2.1 09/08/2020
 
-- Fixed #922: PHP 7.4 compatibility. (#923) (#928)
-- Test on PHP 7.4. Backport removal of Codeception to 1.x branch. (#925)
-- Copy branches documentation to the 1.x branch.
-- Fix incosistent white space formatting in code example. (#916)
-- Viktor Szépe extract() is not our friend (#903)
-- Viktor Szépe Old variables in ImageMinify (#904)
-- Viktor Szépe RuntimeException used realtively (#905)
+* Do not call ignorelist on the archive if it is empty. (#979)
+* Backport #977
+* Make sure that output from ExecTrait is passed through when "printOutput(false)" is called. (#977)
 
-### 1.4.11 10/29/2019
+### 2.2.0 09/05/2020
 
-- Deprecate $this->io() and provide style injector instead. (#910)
-- Jordon Replogle Changed leafo to scssphp as leafo is archived (#900)
-- Patrick Kollitsch Add missing code formatting to sample code (#861)
-- Patrick Kollitsch Adding documentation as option to pull_request_template.md (#862)
-- RTLcoil Tiny formatting fix in README (#874)
-- Tal Ater Updated README with command for initiating a RoboFile (#875)
+* New CheckPlatformReqs task by Pierre Rudloff (#957)
+* Add Runner function for retrieving an application to be used with tests by Les Peabody (#968)
+* Add ignorelist to pack command by O'Briat (#964)
+* Create a semver file if using the SemVer task for the first time by Dan Untenzu (#960)
+* Allow symfony/yaml ^5
+
+### 2.1.0 05/27/2020
+
+* Symfony 5 support. (#940)
+
+### 2.0.4 - 2.0.5 05/22/2020
+
+* Class ZipArchive does not have a constructor by Viktor Szépe (#902)
+* In instances where the simple default config rules are in use, allow for config files to be loaded from the root of the app when Robo is in the vendor directory. (#948)
+* Docker builds with Buildkit by Mario Lubenka (#942)
+* Add a limit to replace via regexp by Patrick Kollitsch (#946)
+* Github access_token via query parameter is deprecated. by Dane Powell (#943)
+* Added the --no-suggest option to composer tasks by Klein Thomas (#934)
+
+### 2.0.0 - 2.0.3 02/18/2019
+
+* Compatible with the 1.x branch, but removes support for old versions of PHP and requires Symfony 4.x.
+* PHP 7.4 compatibility by Dane Powell (#923)
+* extract() is not our friend by Viktor Szépe (#903)
+* Old variables in ImageMinify by Viktor Szépe (#904)
+* RuntimeException used realtively by Viktor Szépe (#905)
 
 ### 1.4.10 7/29/2019
-
+ 
 * Allow default argument for confirm() questions by Dane Powell (#850)
 * Allow command classes to end in Commands or Command by Jelle Sebreghts (#878)
 * ImageMinify: Prevent undefined variable error by Dan (#852) (#854)
@@ -37,14 +58,14 @@
 ### 1.4.7 - 1.4.9 2/19/2019
 
 * Re-release 1.4.6 to remove artifacts inadvertantly added to tagged release.
-
+ 
 ### 1.4.6 2/16/2019
-
-* Simplify ConfigAwareTrait to avoid probem with downstream clients.
+ 
+* Extend ConfigAwareTrait from consolidation config (#838)
 
 ### 1.4.5 2/15/2019
 
-* Extend ConfigAwareTrait from consolidation config (#838)
+* Improved paramameter injection (#822)
 
 ### 1.4.4 2/8/2019
 

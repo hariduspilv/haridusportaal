@@ -1,0 +1,4 @@
+'administer field defaults':
+  title: 'Administer field defaults'
+  description: 'Administer default values on content entities.'
+  restrict access: TRUE

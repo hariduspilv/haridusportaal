@@ -6,20 +6,31 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
 /**
- * Class ConditionalFieldDeleteFormTab.
+ * A conditional field delete form designed to be displayed as a tab.
  *
  * @package Drupal\conditional_fields\Form
  */
 class ConditionalFieldDeleteFormTab extends ConditionalFieldDeleteForm {
 
+  /**
+   * The entity type this conditional field is attached to.
+   *
+   * @var string
+   */
   protected $entity_type;
+
+  /**
+   * The bundle type this conditional field is attached to.
+   *
+   * @var string
+   */
   protected $bundle;
 
   /**
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return Url::fromRoute('conditional_fields.tab'. "." . $this->entity_type, [
+    return Url::fromRoute('conditional_fields.tab' . "." . $this->entity_type, [
       "{$this->entity_type}_type" => $this->bundle,
     ]);
   }

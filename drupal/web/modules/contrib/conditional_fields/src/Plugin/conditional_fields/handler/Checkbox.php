@@ -17,7 +17,7 @@ class Checkbox extends ConditionalFieldsHandlerBase {
   /**
    * {@inheritdoc}
    *
-   * @TODO: Different handlers for boolean and list fields.
+   * @todo Different handlers for boolean and list fields.
    */
   public function statesHandler($field, $field_info, $options) {
     $state = [];

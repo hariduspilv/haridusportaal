@@ -59,4 +59,15 @@ class PirateFilter extends ConfigFilterBase {
     return $exists;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function filterWrite($name, array $data) {
+    if ($name == 'system.site') {
+      $data['slogan'] = $data['slogan'] . ' Arrr';
+    }
+
+    return $data;
+  }
+
 }

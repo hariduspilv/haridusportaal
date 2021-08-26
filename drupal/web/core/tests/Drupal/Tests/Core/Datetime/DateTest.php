@@ -17,7 +17,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 class DateTest extends UnitTestCase {
 
   /**
-   * The mocked entity manager.
+   * The mocked entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface|\PHPUnit\Framework\MockObject\MockObject
    */
@@ -58,7 +58,7 @@ class DateTest extends UnitTestCase {
    */
   protected $dateFormatterStub;
 
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $entity_storage = $this->createMock('Drupal\Core\Entity\EntityStorageInterface');
@@ -185,16 +185,12 @@ class DateTest extends UnitTestCase {
 
     // Mocks the formatDiff function of the dateformatter object.
     $this->dateFormatterStub
-      ->expects($this->at(0))
+      ->expects($this->exactly(2))
       ->method('formatDiff')
-      ->with($timestamp, $request_time, $options)
-      ->will($this->returnValue($expected));
-
-    $this->dateFormatterStub
-      ->expects($this->at(1))
-      ->method('formatDiff')
-      ->with($timestamp, $request_time, $options + ['return_as_object' => TRUE])
-      ->will($this->returnValue(new FormattedDateDiff('1 second', 1)));
+      ->willReturnMap([
+        [$timestamp, $request_time, $options, $expected],
+        [$timestamp, $request_time, $options + ['return_as_object' => TRUE], new FormattedDateDiff('1 second', 1)],
+      ]);
 
     $request = Request::createFromGlobals();
     $request->server->set('REQUEST_TIME', $request_time);
@@ -222,16 +218,12 @@ class DateTest extends UnitTestCase {
 
     // Mocks the formatDiff function of the dateformatter object.
     $this->dateFormatterStub
-      ->expects($this->at(0))
+      ->expects($this->exactly(2))
       ->method('formatDiff')
-      ->with($request_time, $timestamp, $options)
-      ->will($this->returnValue($expected));
-
-    $this->dateFormatterStub
-      ->expects($this->at(1))
-      ->method('formatDiff')
-      ->with($request_time, $timestamp, $options + ['return_as_object' => TRUE])
-      ->will($this->returnValue(new FormattedDateDiff('1 second', 1)));
+      ->willReturnMap([
+        [$request_time, $timestamp, $options, $expected],
+        [$request_time, $timestamp, $options + ['return_as_object' => TRUE], new FormattedDateDiff('1 second', 1)],
+      ]);
 
     $request = Request::createFromGlobals();
     $request->server->set('REQUEST_TIME', $request_time);
@@ -412,7 +404,7 @@ class DateTest extends UnitTestCase {
         'max-age' => $max_age,
       ],
     ];
-    $this->assertArrayEquals($expected, $object->toRenderable());
+    $this->assertEquals($expected, $object->toRenderable());
 
     // Test retrieving the formatted time difference string.
     $this->assertEquals($string, $object->getString());
@@ -421,20 +413,6 @@ class DateTest extends UnitTestCase {
     $build = [];
     CacheableMetadata::createFromObject($object)->applyTo($build);
     $this->assertEquals($max_age, $build['#cache']['max-age']);
-  }
-
-  /**
-   * Tests FormattedDateDiff.
-   *
-   * @covers \Drupal\Core\Datetime\FormattedDateDiff::getMaxAge
-   * @group legacy
-   * @expectedDeprecation Drupal\Core\Datetime\FormattedDateDiff::getMaxAge() is deprecated in drupal:8.1.9 and is removed from drupal:9.0.0. Use \Drupal\Core\Datetime\FormattedDateDiff::getCacheMaxAge() instead. See https://www.drupal.org/node/2783545
-   */
-  public function testLegacyMaxAgeFormattedDateDiff() {
-    $string = '10 minutes';
-    $max_age = 60;
-    $object = new FormattedDateDiff($string, $max_age);
-    $this->assertSame($object->getCacheMaxAge(), $object->getMaxAge());
   }
 
   /**

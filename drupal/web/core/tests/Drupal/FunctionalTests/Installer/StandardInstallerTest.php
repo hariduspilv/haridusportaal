@@ -20,6 +20,11 @@ class StandardInstallerTest extends ConfigAfterInstallerTestBase {
   public function testInstaller() {
     // Verify that the Standard install profile's default frontpage appears.
     $this->assertRaw('No front page content has been created yet.');
+    // Ensure that the contact link enabled in standard_install() works as
+    // expected.
+    $this->clickLink('Contact');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->addressEquals('contact');
   }
 
   /**
@@ -30,19 +35,6 @@ class StandardInstallerTest extends ConfigAfterInstallerTestBase {
     $this->assertNoRaw('bartik');
     $this->assertRaw('themes/seven/css/theme/install-page.css');
     parent::setUpSite();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function curlExec($curl_options, $redirect = FALSE) {
-    // Ensure that we see the classy progress CSS on the batch page.
-    // Batch processing happens as part of HTTP redirects, so we can access the
-    // HTML of the batch page.
-    if (strpos($curl_options[CURLOPT_URL], '&id=1&op=do_nojs') !== FALSE) {
-      $this->assertRaw('themes/classy/css/components/progress.css');
-    }
-    return parent::curlExec($curl_options, $redirect);
   }
 
   /**

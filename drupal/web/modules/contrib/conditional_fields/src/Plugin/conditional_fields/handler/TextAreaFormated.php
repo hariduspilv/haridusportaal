@@ -22,7 +22,7 @@ class TextAreaFormated extends ConditionalFieldsHandlerBase {
     $values_array = $this->getConditionValues($options);
     $input_states = [];
     // Text fields values are keyed by cardinality, so we have to flatten them.
-    // TODO: support multiple values.
+    // @todo support multiple values.
     switch ($options['values_set']) {
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         foreach ($options['value_form'] as $value) {
@@ -30,6 +30,7 @@ class TextAreaFormated extends ConditionalFieldsHandlerBase {
         }
         $state[$options['state']] = $input_states;
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         if (!empty($selectors)) {
           foreach ($selectors as $selector) {
@@ -46,16 +47,19 @@ class TextAreaFormated extends ConditionalFieldsHandlerBase {
           $state[$options['state']] = $input_states;
         }
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
         $values[$options['condition']] = ['regex' => $options['regex']];
         $state[$options['state']][$options['selector']] = $values;
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
         $input_states[$options['selector']] = [
           $options['condition'] => ['xor' => $values_array],
         ];
         $state[$options['state']] = $input_states;
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $options['state'] = '!' . $options['state'];
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
@@ -73,9 +77,11 @@ class TextAreaFormated extends ConditionalFieldsHandlerBase {
         }
         $state[$options['state']] = $input_states;
         break;
+
       default:
         break;
     }
     return $state;
   }
+
 }

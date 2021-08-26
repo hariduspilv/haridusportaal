@@ -59,6 +59,11 @@ use Drupal\user\UserInterface;
  *     "revision_delete" = "/admin/structure/x_json_form_entity/{x_json_form_entity}/revisions/{x_json_form_entity_revision}/delete",
  *     "collection" = "/admin/structure/x_json_form_entity",
  *   },
+ *   revision_metadata_keys = {
+ *     "revision_user" = "revision_user",
+ *     "revision_created" = "revision_created",
+ *     "revision_log_message" = "revision_log"
+ *   },
  *   field_ui_base_route = "x_json_form_entity.settings"
  * )
  */

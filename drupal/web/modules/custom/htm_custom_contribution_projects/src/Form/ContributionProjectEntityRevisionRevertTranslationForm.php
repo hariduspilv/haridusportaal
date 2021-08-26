@@ -51,7 +51,7 @@ class ContributionProjectEntityRevisionRevertTranslationForm extends Contributio
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('contribution_project_entity'),
+      $container->get('entity_type.manager')->getStorage('contribution_project_entity'),
       $container->get('date.formatter'),
       $container->get('language_manager')
     );
@@ -107,7 +107,7 @@ class ContributionProjectEntityRevisionRevertTranslationForm extends Contributio
 
     $latest_revision_translation->setNewRevision();
     $latest_revision_translation->isDefaultRevision(TRUE);
-    $revision->setRevisionCreationTime(REQUEST_TIME);
+    $revision->setRevisionCreationTime(\Drupal::time()->getRequestTime());
 
     return $latest_revision_translation;
   }

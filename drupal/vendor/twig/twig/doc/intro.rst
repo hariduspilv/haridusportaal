@@ -23,10 +23,14 @@ Twig is used by many Open-Source projects like Symfony, Drupal8, eZPublish,
 phpBB, Matomo, OroCRM; and many frameworks have support for it as well like
 Slim, Yii, Laravel, and Codeigniter — just to name a few.
 
+.. admonition:: Screencast
+
+    Like to learn from video tutorials? Check out the `SymfonyCasts Twig Tutorial`_!
+
 Prerequisites
 -------------
 
-Twig 1.x needs at least **PHP 7.2.5** to run.
+Twig 2.x needs at least **PHP 7.2.5** to run.
 
 Installation
 ------------
@@ -35,13 +39,7 @@ The recommended way to install Twig is via Composer:
 
 .. code-block:: bash
 
-    composer require "twig/twig:^1.0"
-
-.. note::
-
-    To learn more about the other installation methods, read the
-    :doc:`installation<installation>` chapter; it also explains how to install
-    the Twig C extension.
+    composer require "twig/twig:^2.0"
 
 Basic API Usage
 ---------------
@@ -72,3 +70,5 @@ filesystem loader::
     ]);
 
     echo $twig->render('index.html', ['name' => 'Fabien']);
+
+.. _`SymfonyCasts Twig Tutorial`: https://symfonycasts.com/screencast/twig

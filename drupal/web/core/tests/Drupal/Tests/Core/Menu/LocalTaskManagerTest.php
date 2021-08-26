@@ -7,7 +7,6 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Cache\Context\CacheContextsManager;
-use Drupal\Core\Controller\ControllerResolver;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Menu\LocalTaskInterface;
@@ -97,7 +96,7 @@ class LocalTaskManagerTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->argumentResolver = $this->createMock('Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface');
@@ -179,23 +178,18 @@ class LocalTaskManagerTest extends UnitTestCase {
 
     $result = $this->getLocalTasksForRouteResult($mock_plugin);
 
-    $this->cacheBackend->expects($this->at(0))
+    $this->cacheBackend->expects($this->exactly(2))
       ->method('get')
-      ->with('local_task_plugins:en:menu_local_task_test_tasks_view');
-
-    $this->cacheBackend->expects($this->at(1))
-      ->method('get')
-      ->with('local_task_plugins:en');
-
-    $this->cacheBackend->expects($this->at(2))
+      ->withConsecutive(
+        ['local_task_plugins:en:menu_local_task_test_tasks_view'],
+        ['local_task_plugins:en'],
+      );
+    $this->cacheBackend->expects($this->exactly(2))
       ->method('set')
-      ->with('local_task_plugins:en', $definitions, Cache::PERMANENT);
-
-    $expected_set = $this->getLocalTasksCache();
-
-    $this->cacheBackend->expects($this->at(3))
-      ->method('set')
-      ->with('local_task_plugins:en:menu_local_task_test_tasks_view', $expected_set, Cache::PERMANENT, ['local_task']);
+      ->withConsecutive(
+        ['local_task_plugins:en', $definitions, Cache::PERMANENT],
+        ['local_task_plugins:en:menu_local_task_test_tasks_view', $this->getLocalTasksCache(), Cache::PERMANENT, ['local_task']],
+      );
 
     $local_tasks = $this->manager->getLocalTasksForRoute('menu_local_task_test_tasks_view');
     $this->assertEquals($result, $local_tasks);
@@ -215,7 +209,7 @@ class LocalTaskManagerTest extends UnitTestCase {
 
     $result = $this->getLocalTasksCache($mock_plugin);
 
-    $this->cacheBackend->expects($this->at(0))
+    $this->cacheBackend->expects($this->once())
       ->method('get')
       ->with('local_task_plugins:en:menu_local_task_test_tasks_view')
       ->will($this->returnValue((object) ['data' => $result]));
@@ -244,30 +238,6 @@ class LocalTaskManagerTest extends UnitTestCase {
       ->will($this->returnValue([]));
 
     $this->manager->getTitle($menu_local_task);
-  }
-
-  /**
-   * @expectedDeprecation Using the 'controller_resolver' service as the first argument is deprecated, use the 'http_kernel.controller.argument_resolver' instead. If your subclass requires the 'controller_resolver' service add it as an additional argument. See https://www.drupal.org/node/2959408.
-   * @group legacy
-   */
-  public function testControllerResolverDeprecation() {
-    if (!in_array('Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface', class_implements('Symfony\Component\HttpKernel\Controller\ControllerResolver'))) {
-      $this->markTestSkipped("Do not test ::getArguments() method when it is not implemented by Symfony's ControllerResolver.");
-    }
-
-    $controller_resolver = $this->getMockBuilder(ControllerResolver::class)->disableOriginalConstructor()->getMock();
-    $request_stack = new RequestStack();
-    $request_stack->push($this->request);
-    $module_handler = $this->createMock('Drupal\Core\Extension\ModuleHandlerInterface');
-    $module_handler->expects($this->any())
-      ->method('getModuleDirectories')
-      ->willReturn([]);
-    $language_manager = $this->createMock('Drupal\Core\Language\LanguageManagerInterface');
-    $language_manager->expects($this->any())
-      ->method('getCurrentLanguage')
-      ->will($this->returnValue(new Language(['id' => 'en'])));
-
-    new LocalTaskManager($controller_resolver, $request_stack, $this->routeMatch, $this->routeProvider, $module_handler, $this->cacheBackend, $language_manager, $this->accessManager, $this->account);
   }
 
   /**
@@ -366,7 +336,7 @@ class LocalTaskManagerTest extends UnitTestCase {
     }
     $this->factory->expects($this->any())
       ->method('createInstance')
-      ->will($this->returnValueMap($map));
+      ->willReturnMap($map);
   }
 
   /**
@@ -461,7 +431,7 @@ class LocalTaskManagerTest extends UnitTestCase {
       ->willReturn(new ParameterBag());
 
     $cacheability = new CacheableMetadata();
-    $local_tasks = $this->manager->getTasksBuild('menu_local_task_test_tasks_view', $cacheability);
+    $this->manager->getTasksBuild('menu_local_task_test_tasks_view', $cacheability);
 
     // Ensure that all cacheability metadata is merged together.
     $this->assertEquals(['tag.example1', 'tag.example2'], $cacheability->getCacheTags());
@@ -498,7 +468,7 @@ class LocalTaskManagerTest extends UnitTestCase {
 
     $this->factory->expects($this->any())
       ->method('createInstance')
-      ->will($this->returnValueMap($map));
+      ->willReturnMap($map);
   }
 
   protected function setupNullCacheabilityMetadataValidation() {

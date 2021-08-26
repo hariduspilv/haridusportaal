@@ -91,7 +91,12 @@ function better_exposed_filters_update_8001() {
               }
 
               // Sliders.
-              if ($option['bef_format'] === 'bef_sliders') {
+              if ($option['bef_format'] === 'bef_slider') {
+                // Update plugin name to 'bef_sliders'.
+                $bef_settings['filter'][$field_name] = [
+                  'plugin_id' => 'bef_sliders',
+                ];
+
                 // Animate option is now split into two separate options.
                 $animate = $option['slider_options']['bef_slider_animate'];
                 $animate_ms = 0;
@@ -134,5 +139,69 @@ function better_exposed_filters_update_8001() {
     }
 
     $config->save(TRUE);
+  }
+}
+
+/**
+ * Renames bef_slider plugin to bef_sliders to be compatible with 8.x-4.x.
+ */
+function better_exposed_filters_update_8002() {
+  $config_factory = \Drupal::configFactory();
+  foreach ($config_factory->listAll('views.view.') as $config_name) {
+    $config = $config_factory->getEditable($config_name);
+
+    // Go through each display on each view.
+    $displays = $config->get('display');
+    $needs_update = FALSE;
+    foreach ($displays as $display_name => $display) {
+      if (!empty($display['display_options']['exposed_form'])) {
+        $exposed_form = $display['display_options']['exposed_form'];
+        // Find BEF exposed forms.
+        if (isset($exposed_form['type']) && $exposed_form['type'] === 'bef') {
+          $bef_settings = $exposed_form['options']['bef'];
+          foreach ($exposed_form['options']['bef'] as $type => $option) {
+            if ($type === 'filter') {
+              $field_name = $type;
+              // Sliders.
+              if (($option['bef_format'] ?? '') === 'bef_slider') {
+                $needs_update = TRUE;
+                // Update plugin name to 'bef_sliders'.
+                $bef_settings['filter'][$field_name] = [
+                  'plugin_id' => 'bef_sliders',
+                ];
+
+                // Animate option is now split into two separate options.
+                $animate = $option['slider_options']['bef_slider_animate'];
+                $animate_ms = 0;
+                if (empty($animate)) {
+                  $animate = 'none';
+                }
+                elseif (is_int($animate)) {
+                  $animate = 'custom';
+                  $animate_ms = $animate;
+                }
+
+                $bef_settings['filter'][$field_name] = array_merge($bef_settings['filter'][$field_name], [
+                  'min' => $option['slider_options']['bef_slider_min'] ?? 0,
+                  'max' => $option['slider_options']['bef_slider_max'] ?? 99999,
+                  'step' => $option['slider_options']['bef_slider_step'] ?? 1,
+                  'animate' => $animate,
+                  'animate_ms' => $animate_ms,
+                  'orientation' => $option['slider_options']['bef_slider_orientation'] ?? 'horizontal',
+                ]);
+              }
+            }
+          }
+
+          // Update BEF settings.
+          if ($needs_update) {
+            $config->set("display.$display_name.display_options.exposed_form.options.bef", $bef_settings);
+          }
+        }
+      }
+    }
+    if ($needs_update) {
+      $config->save(TRUE);
+    }
   }
 }

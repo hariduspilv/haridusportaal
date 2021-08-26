@@ -35,6 +35,9 @@ menu_breadcrumb.settings:
     exclude_empty_url:
       type: boolean
       label: 'Exclude menu items with empty URLs.'
+    exclude_disabled_menu_items:
+      type: boolean
+      label: 'Exclude disabled menu items.'
     derived_active_trail:
       type: boolean
       label: 'Derive MenuActiveTrail from RouteMatch.'

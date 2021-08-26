@@ -1,9 +1,9 @@
 ``join``
 ========
 
-.. versionadded:: 1.37
+.. versionadded:: 2.6.1
 
-    The ``and`` argument was added in Twig 1.37.
+    The ``and`` argument was added in Twig 2.6.1.
 
 The ``join`` filter returns a string which is the concatenation of the items
 of a sequence:

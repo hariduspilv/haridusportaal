@@ -268,7 +268,7 @@ class xJsonService implements xJsonServiceInterface {
    */
   public function getEntityFormName ($form_path)
   {
-    $path = \Drupal::service('path.alias_manager')->getPathByAlias($form_path);
+    $path = \Drupal::service('path_alias.manager')->getPathByAlias($form_path);
     $system_path = explode('/', $path);
     $entityStorage = \Drupal::entityTypeManager()->getStorage($system_path[1]);
     $entity = reset($entityStorage->loadByProperties(['id' => $system_path[2]]));
@@ -487,7 +487,7 @@ class xJsonService implements xJsonServiceInterface {
         }
 
         if(!$table && (!isset($element['max_size']) || $element['max_size'] > ini_get('upload_max_filesize'))) {
-          $element['max_size'] = intval(preg_replace('/\D/', '', ini_get('upload_max_filesize')));
+          $element['max_size'] = (int)preg_replace('/\D/', '', ini_get('upload_max_filesize'));
         }
         break;
       case 'table':

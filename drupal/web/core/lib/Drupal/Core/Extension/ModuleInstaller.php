@@ -4,9 +4,11 @@ namespace Drupal\Core\Extension;
 
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\DrupalKernelInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\Serialization\Yaml;
 
 /**
@@ -44,6 +46,13 @@ class ModuleInstaller implements ModuleInstallerInterface {
   protected $root;
 
   /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $connection;
+
+  /**
    * The uninstall validators.
    *
    * @var \Drupal\Core\Extension\ModuleUninstallValidatorInterface[]
@@ -59,14 +68,21 @@ class ModuleInstaller implements ModuleInstallerInterface {
    *   The module handler.
    * @param \Drupal\Core\DrupalKernelInterface $kernel
    *   The drupal kernel.
+   * @param \Drupal\Core\Database\Connection $connection
+   *   The database connection.
    *
    * @see \Drupal\Core\DrupalKernel
    * @see \Drupal\Core\CoreServiceProvider
    */
-  public function __construct($root, ModuleHandlerInterface $module_handler, DrupalKernelInterface $kernel) {
+  public function __construct($root, ModuleHandlerInterface $module_handler, DrupalKernelInterface $kernel, Connection $connection = NULL) {
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->kernel = $kernel;
+    if (!$connection) {
+      @trigger_error('The database connection must be passed to ' . __METHOD__ . '(). Creating ' . __CLASS__ . ' without it is deprecated in drupal:9.2.0 and will be required in drupal:10.0.0. See https://www.drupal.org/node/2970993', E_USER_DEPRECATED);
+      $connection = \Drupal::service('database');
+    }
+    $this->connection = $connection;
   }
 
   /**
@@ -209,22 +225,24 @@ class ModuleInstaller implements ModuleInstallerInterface {
         $this->moduleHandler->load($module);
         module_load_install($module);
 
-        // Replace the route provider service with a version that will rebuild
-        // if routes used during installation. This ensures that a module's
-        // routes are available during installation. This has to occur before
-        // any services that depend on it are instantiated otherwise those
-        // services will have the old route provider injected. Note that, since
-        // the container is rebuilt by updating the kernel, the route provider
-        // service is the regular one even though we are in a loop and might
-        // have replaced it before.
-        \Drupal::getContainer()->set('router.route_provider.old', \Drupal::service('router.route_provider'));
-        \Drupal::getContainer()->set('router.route_provider', \Drupal::service('router.route_provider.lazy_builder'));
+        if (!InstallerKernel::installationAttempted()) {
+          // Replace the route provider service with a version that will rebuild
+          // if routes used during installation. This ensures that a module's
+          // routes are available during installation. This has to occur before
+          // any services that depend on it are instantiated otherwise those
+          // services will have the old route provider injected. Note that, since
+          // the container is rebuilt by updating the kernel, the route provider
+          // service is the regular one even though we are in a loop and might
+          // have replaced it before.
+          \Drupal::getContainer()->set('router.route_provider.old', \Drupal::service('router.route_provider'));
+          \Drupal::getContainer()->set('router.route_provider', \Drupal::service('router.route_provider.lazy_builder'));
+        }
 
         // Allow modules to react prior to the installation of a module.
         $this->moduleHandler->invokeAll('module_preinstall', [$module]);
 
         // Now install the module's schema if necessary.
-        drupal_install_schema($module);
+        $this->installSchema($module);
 
         // Clear plugin manager caches.
         \Drupal::getContainer()->get('plugin.cache_clearer')->clearCachedDefinitions();
@@ -331,17 +349,19 @@ class ModuleInstaller implements ModuleInstallerInterface {
 
     // If any modules were newly installed, invoke hook_modules_installed().
     if (!empty($modules_installed)) {
-      // If the container was rebuilt during hook_install() it might not have
-      // the 'router.route_provider.old' service.
-      if (\Drupal::hasService('router.route_provider.old')) {
-        \Drupal::getContainer()->set('router.route_provider', \Drupal::service('router.route_provider.old'));
-      }
-      if (!\Drupal::service('router.route_provider.lazy_builder')->hasRebuilt()) {
-        // Rebuild routes after installing module. This is done here on top of
-        // \Drupal\Core\Routing\RouteBuilder::destruct to not run into errors on
-        // fastCGI which executes ::destruct() after the module installation
-        // page was sent already.
-        \Drupal::service('router.builder')->rebuild();
+      if (!InstallerKernel::installationAttempted()) {
+        // If the container was rebuilt during hook_install() it might not have
+        // the 'router.route_provider.old' service.
+        if (\Drupal::hasService('router.route_provider.old')) {
+          \Drupal::getContainer()->set('router.route_provider', \Drupal::service('router.route_provider.old'));
+        }
+        if (!\Drupal::service('router.route_provider.lazy_builder')->hasRebuilt()) {
+          // Rebuild routes after installing module. This is done here on top of
+          // \Drupal\Core\Routing\RouteBuilder::destruct to not run into errors on
+          // fastCGI which executes ::destruct() after the module installation
+          // page was sent already.
+          \Drupal::service('router.builder')->rebuild();
+        }
       }
 
       $this->moduleHandler->invokeAll('modules_installed', [$modules_installed, $sync_status]);
@@ -463,7 +483,7 @@ class ModuleInstaller implements ModuleInstallerInterface {
       }
 
       // Remove the schema.
-      drupal_uninstall_schema($module);
+      $this->uninstallSchema($module);
 
       // Remove the module's entry from the config. Don't check schema when
       // uninstalling a module since we are only clearing a key.
@@ -484,11 +504,11 @@ class ModuleInstaller implements ModuleInstallerInterface {
       // into its statically cached list.
       \Drupal::service('extension.list.module')->reset();
 
-      // Clear plugin manager caches.
-      \Drupal::getContainer()->get('plugin.cache_clearer')->clearCachedDefinitions();
-
       // Update the kernel to exclude the uninstalled modules.
       $this->updateKernel($module_filenames);
+
+      // Clear plugin manager caches.
+      \Drupal::getContainer()->get('plugin.cache_clearer')->clearCachedDefinitions();
 
       // Update the theme registry to remove the newly uninstalled module.
       drupal_theme_rebuild();
@@ -580,6 +600,7 @@ class ModuleInstaller implements ModuleInstallerInterface {
     // dependencies.
     $container = $this->kernel->getContainer();
     $this->moduleHandler = $container->get('module_handler');
+    $this->connection = $container->get('database');
   }
 
   /**
@@ -599,6 +620,40 @@ class ModuleInstaller implements ModuleInstallerInterface {
       }
     }
     return $reasons;
+  }
+
+  /**
+   * Creates all tables defined in a module's hook_schema().
+   *
+   * @param string $module
+   *   The module for which the tables will be created.
+   *
+   * @internal
+   */
+  protected function installSchema(string $module): void {
+    $tables = $this->moduleHandler->invoke($module, 'schema') ?? [];
+    $schema = $this->connection->schema();
+    foreach ($tables as $name => $table) {
+      $schema->createTable($name, $table);
+    }
+  }
+
+  /**
+   * Removes all tables defined in a module's hook_schema().
+   *
+   * @param string $module
+   *   The module for which the tables will be removed.
+   *
+   * @internal
+   */
+  protected function uninstallSchema(string $module): void {
+    $tables = $this->moduleHandler->invoke($module, 'schema') ?? [];
+    $schema = $this->connection->schema();
+    foreach (array_keys($tables) as $table) {
+      if ($schema->tableExists($table)) {
+        $schema->dropTable($table);
+      }
+    }
   }
 
 }

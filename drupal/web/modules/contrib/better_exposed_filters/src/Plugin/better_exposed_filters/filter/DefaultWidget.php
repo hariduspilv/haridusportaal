@@ -2,8 +2,6 @@
 
 namespace Drupal\better_exposed_filters\Plugin\better_exposed_filters\filter;
 
-use Drupal\Core\Form\FormStateInterface;
-
 /**
  * Default widget implementation.
  *

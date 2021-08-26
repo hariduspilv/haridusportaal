@@ -27,7 +27,7 @@ class CounterTest extends UnitTestCase {
    *
    * @var \Drupal\views\ViewExecutable
    */
-  protected  $view;
+  protected $view;
 
   /**
    * The display plugin instance.
@@ -54,7 +54,7 @@ class CounterTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // Setup basic stuff like the view and the display.

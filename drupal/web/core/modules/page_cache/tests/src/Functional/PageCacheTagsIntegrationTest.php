@@ -27,14 +27,14 @@ class PageCacheTagsIntegrationTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->enablePageCaching();
   }
 
   /**
-   * Test that cache tags are properly bubbled up to the page level.
+   * Tests that cache tags are properly bubbled up to the page level.
    */
   public function testPageCacheTags() {
     // Create two nodes.

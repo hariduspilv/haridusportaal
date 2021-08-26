@@ -7,45 +7,89 @@ namespace Drupal\conditional_fields;
  */
 class DependencyHelper {
 
-  /* The current entity type. */
+  /**
+   * The current entity type.
+   *
+   * @var string
+   */
   protected $entity_type;
 
-  /* The current bundle name. */
+  /**
+   * The current bundle name.
+   *
+   * @var string
+   */
   protected $bundle;
 
-  /* Name of the current dependent field. */
+  /**
+   * Name of the current dependent field.
+   *
+   * @var string
+   */
   protected $dependent;
 
-  /* The current dependent field. */
+  /**
+   * The current dependent field.
+   *
+   * @var array
+   */
   protected $dependent_field;
 
-  /* Full list of dependencies. */
+  /**
+   * Full list of dependencies.
+   *
+   * @var array
+   */
   protected $dependencies;
 
-  /* Dependent field definitions. */
+  /**
+   * Dependent field definitions.
+   *
+   * @var array
+   */
   protected $dependent_fields;
 
-  /* UUID of the current dependency. */
+  /**
+   * UUID of the current dependency.
+   *
+   * @var string
+   */
   protected $uuid;
 
-  /* Name of the current dependee field. */
+  /**
+   * Name of the current dependee field.
+   *
+   * @var string
+   */
   protected $dependee;
 
-  /* Options that define the current dependency. */
+  /**
+   * Options that define the current dependency.
+   *
+   * @var array
+   */
   protected $settings;
 
-  /* Fields attached to a bundle's default form display. */
+  /**
+   * Fields attached to a bundle's default form display.
+   *
+   * @var array
+   */
   protected $form_fields;
 
-  /* Fields that support inheritance. */
+  /**
+   * Fields that support inheritance.
+   *
+   * @var array
+   */
   protected $inheriting_fields;
 
   /**
    * Constructor method.
    *
-   * @param string $entity_type;
+   * @param string $entity_type
    *   An entity type name.
-   * @param string $bundle;
+   * @param string $bundle
    *   A bundle name.
    */
   public function __construct(string $entity_type, string $bundle) {
@@ -62,7 +106,7 @@ class DependencyHelper {
     $fields = $this->module_handler
       ->invokeAll($hook, [$this->entity_type, $this->bundle]);
     $this->module_handler
-      ->alter($hook,$fields, $this->entity_type, $this->bundle);
+      ->alter($hook, $fields, $this->entity_type, $this->bundle);
     return $fields;
   }
 
@@ -117,7 +161,9 @@ class DependencyHelper {
    * Determine whether a field dependency should be inherited.
    */
   protected function fieldDependencyShouldPropagate() {
-    if (!isset($this->settings['inheritance']['propagate'])) return FALSE;
+    if (!isset($this->settings['inheritance']['propagate'])) {
+      return FALSE;
+    }
     return (bool) $this->settings['inheritance']['propagate'];
   }
 
@@ -125,7 +171,9 @@ class DependencyHelper {
    * Determine whether a field dependency should be apply to the parent field.
    */
   protected function fieldDependencyShouldApplyToParent() {
-    if (!isset($this->settings['inheritance']['apply_to_parent'])) return FALSE;
+    if (!isset($this->settings['inheritance']['apply_to_parent'])) {
+      return FALSE;
+    }
     return (bool) $this->settings['inheritance']['apply_to_parent'];
   }
 
@@ -133,7 +181,9 @@ class DependencyHelper {
    * Determine whether a field dependency should be apply to the parent field.
    */
   protected function fieldDependencyShouldRecurse() {
-    if (!isset($this->settings['inheritance']['recurse'])) return FALSE;
+    if (!isset($this->settings['inheritance']['recurse'])) {
+      return FALSE;
+    }
     return (bool) $this->settings['inheritance']['recurse'];
   }
 
@@ -166,7 +216,9 @@ class DependencyHelper {
     if (!isset($this->inheriting_fields)) {
       $this->inheriting_fields = $this->getInheritingChildren();
     }
-    if (!isset($this->inheriting_fields[$parent_field])) return [];
+    if (!isset($this->inheriting_fields[$parent_field])) {
+      return [];
+    }
     return $this->inheriting_fields[$parent_field];
   }
 
@@ -224,8 +276,12 @@ class DependencyHelper {
    * Determine whether a bundle has registered any dependent fields.
    */
   protected function bundleHasRegisteredDependentFields() {
-    if (!isset($this->dependent_fields[$this->entity_type][$this->bundle])) return FALSE;
-    if (empty($this->dependent_fields[$this->entity_type][$this->bundle])) return FALSE;
+    if (!isset($this->dependent_fields[$this->entity_type][$this->bundle])) {
+      return FALSE;
+    }
+    if (empty($this->dependent_fields[$this->entity_type][$this->bundle])) {
+      return FALSE;
+    }
     return TRUE;
   }
 
@@ -235,7 +291,9 @@ class DependencyHelper {
   protected function registerBundleDependentFields() {
     $this->dependent_fields[$this->entity_type][$this->bundle] = [];
     foreach ($this->getBundleFormFields() as $name => $field) {
-      if (!$this->hasConditionalFields($field)) continue;
+      if (!$this->hasConditionalFields($field)) {
+        continue;
+      }
       $this->dependent_fields[$this->entity_type][$this->bundle][$name] = $field;
     }
   }
@@ -247,7 +305,9 @@ class DependencyHelper {
     if (!isset($this->form_fields)) {
       $this->form_fields = $this->getBundleFormFields();
     }
-    if (!isset($this->form_fields[$field_name])) return [];
+    if (!isset($this->form_fields[$field_name])) {
+      return [];
+    }
     return $this->form_fields[$field_name];
   }
 

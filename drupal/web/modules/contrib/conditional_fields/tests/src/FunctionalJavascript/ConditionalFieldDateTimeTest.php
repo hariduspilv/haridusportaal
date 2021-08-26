@@ -85,16 +85,16 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
       ->getStorage('entity_view_display')
       ->load($field->getTargetEntityTypeId() . '.' . $field->getTargetBundle() . '.' . 'full');
 
-    if ( ! $view_display ) {
-      $view_display = EntityViewDisplay::create( [
-          'targetEntityType' => $field->getTargetEntityTypeId(),
-          'bundle' => $field->getTargetBundle(),
-          'mode' => 'full',
-          'status' => TRUE,
-        ] );
+    if (!$view_display) {
+      $view_display = EntityViewDisplay::create([
+        'targetEntityType' => $field->getTargetEntityTypeId(),
+        'bundle' => $field->getTargetBundle(),
+        'mode' => 'full',
+        'status' => TRUE,
+      ]);
     }
-    if ( $view_display instanceof EntityDisplayInterface ) {
-      $view_display->setComponent( $this->fieldName, $this->displayOptions )
+    if ($view_display instanceof EntityDisplayInterface) {
+      $view_display->setComponent($this->fieldName, $this->displayOptions)
         ->save();
     }
   }
@@ -119,7 +119,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testDateTimeVisibleValueWidget.png');
 
@@ -132,7 +132,6 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Change a date that should not show the body.
     $this->changeField($this->fieldSelector, '');
@@ -155,7 +154,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
    */
   public function testVisibleValueRegExp() {
     $date = new DrupalDateTime();
-    $date_formatted = $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT );
+    $date_formatted = $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
     $this->baseTestSteps();
 
     // Visit a ConditionalFields configuration page for Content bundles.
@@ -171,7 +170,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testDateTimeVisibleValueWidget.png');
 
@@ -184,7 +183,6 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Change a date that should not show the body.
     $this->changeField($this->fieldSelector, '');
@@ -216,19 +214,19 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     $this->createScreenshot($this->screenshotPath . '01-testDateTime ' . __FUNCTION__ . '.png');
 
     // Set up conditions.
-    $dates =  [
-      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT ),
-      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT )
+    $dates = [
+      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT),
+      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT),
     ];
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
-      'values' => implode("\r\n", $dates ),
+      'values' => implode("\r\n", $dates),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testDateTime ' . __FUNCTION__ . '.png');
 
@@ -282,18 +280,18 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Set up conditions.
     $dates = [
-      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT ),
-      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT )
+      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT),
+      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT),
     ];
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
-      'values' => implode("\r\n", $dates ),
+      'values' => implode("\r\n", $dates),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testDateTimeVisibleValueOr.png');
 
@@ -306,7 +304,6 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testDateTimeVisibleValueOr.png');
@@ -348,18 +345,18 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Set up conditions.
     $dates = [
-      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT ),
-      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT )
+      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT),
+      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT),
     ];
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
-      'values' => implode("\r\n", $dates ),
+      'values' => implode("\r\n", $dates),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testDateTime' . __FUNCTION__ . '.png');
 
@@ -372,7 +369,6 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testDateTime' . __FUNCTION__ . '.png');
@@ -414,18 +410,18 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Set up conditions.
     $dates = [
-      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT ),
-      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT )
+      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT),
+      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT),
     ];
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
-      'values' => implode("\r\n", $dates ),
+      'values' => implode("\r\n", $dates),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testDateTime' . __FUNCTION__ . '.png');
 
@@ -438,7 +434,6 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testDateTime' . __FUNCTION__ . '.png');
