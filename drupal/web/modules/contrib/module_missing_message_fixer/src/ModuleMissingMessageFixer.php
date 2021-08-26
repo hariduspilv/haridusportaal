@@ -51,35 +51,6 @@ class ModuleMissingMessageFixer {
   }
 
   /**
-   * Helper function to check for modules to fix.
-   *
-   * @param bool $return
-   *   If we are to return to rows or just print the list.
-   *
-   * @return string|null
-   *   The printed output.
-   */
-  public function checkModules($return = FALSE) {
-
-    if ($return) {
-      return $this->getTableRows();
-    }
-
-    $rows = [];
-
-    // Use a key for the head row that is not a valid module name.
-    $rows['*HEAD*'] = ModuleMissingMessageFixer::getTableHeader();
-    $rows += ModuleMissingMessageFixer::getTableRows();
-
-    // Print Table here instead of in the hook_command.
-    $output = count($rows) > 1 ?
-      drush_format_table($rows, TRUE) : 'No Missing Modules Found!!!';
-    drush_print($output);
-
-    return NULL;
-  }
-
-  /**
    * Set the table headers for the ui and drush.
    *
    * @return string[]

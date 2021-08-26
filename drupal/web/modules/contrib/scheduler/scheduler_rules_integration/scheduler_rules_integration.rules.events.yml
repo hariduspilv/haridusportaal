@@ -1,7 +1,7 @@
 scheduler_new_node_is_scheduled_for_publishing_event:
   label: 'After saving new content that is scheduled for publishing'
   category: 'Scheduler'
-  context:
+  context_definitions:
     node:
       type: 'entity:node'
       label: 'Scheduled Content Node'
@@ -21,7 +21,7 @@ scheduler_new_node_is_scheduled_for_publishing_event:
 scheduler_existing_node_is_scheduled_for_publishing_event:
   label: 'After updating existing content that is scheduled for publishing'
   category: 'Scheduler'
-  context:
+  context_definitions:
     node:
       type: 'entity:node'
       label: 'Scheduled Content Node'
@@ -30,7 +30,7 @@ scheduler_existing_node_is_scheduled_for_publishing_event:
 scheduler_new_node_is_scheduled_for_unpublishing_event:
   label: 'After saving new content that is scheduled for unpublishing'
   category: 'Scheduler'
-  context:
+  context_definitions:
     node:
       type: 'entity:node'
       label: 'Scheduled Content Node'
@@ -39,7 +39,7 @@ scheduler_new_node_is_scheduled_for_unpublishing_event:
 scheduler_existing_node_is_scheduled_for_unpublishing_event:
   label: 'After updating existing content that is scheduled for unpublishing'
   category: 'Scheduler'
-  context:
+  context_definitions:
     node:
       type: 'entity:node'
       label: 'Scheduled Content Node'
@@ -48,7 +48,7 @@ scheduler_existing_node_is_scheduled_for_unpublishing_event:
 scheduler_has_published_this_node_event:
   label: 'After a node has been published by Scheduler'
   category: 'Scheduler'
-  context:
+  context_definitions:
     node:
       type: 'entity:node'
       label: 'Scheduled Content Node'
@@ -57,7 +57,7 @@ scheduler_has_published_this_node_event:
 scheduler_has_unpublished_this_node_event:
   label: 'After a node has been unpublished by Scheduler'
   category: 'Scheduler'
-  context:
+  context_definitions:
     node:
       type: 'entity:node'
       label: 'Scheduled Content Node'

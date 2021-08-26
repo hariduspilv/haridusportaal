@@ -3,10 +3,13 @@
 
 namespace Hshn\Base64EncodedFile\HttpFoundation\File;
 
+use PHPUnit\Framework\TestCase;
+
+
 /**
  * @author Shota Hoshino <lga0503@gmail.com>
  */
-class UploadedBase64EncodedFileTest extends \PHPUnit_Framework_TestCase
+class UploadedBase64EncodedFileTest extends TestCase
 {
     /**
      * @test
@@ -70,7 +73,7 @@ class UploadedBase64EncodedFileTest extends \PHPUnit_Framework_TestCase
      *
      * @return UploadedBase64EncodedFile
      */
-    private function getFile($content, $filename = '')
+    private function getFile(string $content, string $filename = ''): UploadedBase64EncodedFile
     {
         return new UploadedBase64EncodedFile(new Base64EncodedFile(base64_encode($content)), $filename);
     }

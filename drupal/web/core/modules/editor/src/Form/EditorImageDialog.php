@@ -57,6 +57,10 @@ class EditorImageDialog extends FormBase {
   /**
    * {@inheritdoc}
    *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
    * @param \Drupal\editor\Entity\Editor $editor
    *   The text editor to which this dialog corresponds.
    */
@@ -92,7 +96,7 @@ class EditorImageDialog extends FormBase {
     else {
       $max_dimensions = 0;
     }
-    $max_filesize = min(Bytes::toInt($image_upload['max_size']), Environment::getUploadMaxSize());
+    $max_filesize = min(Bytes::toNumber($image_upload['max_size']), Environment::getUploadMaxSize());
     $existing_file = isset($image_element['data-entity-uuid']) ? \Drupal::service('entity.repository')->loadEntityByUuid('file', $image_element['data-entity-uuid']) : NULL;
     $fid = $existing_file ? $existing_file->id() : NULL;
 

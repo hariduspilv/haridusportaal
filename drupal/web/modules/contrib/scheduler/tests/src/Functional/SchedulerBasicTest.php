@@ -48,7 +48,7 @@ class SchedulerBasicTest extends SchedulerBrowserTestBase {
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
     $this->assertNotEmpty($node, sprintf('"%s" was created sucessfully.', $edit['title[0][value]']));
     if (empty($node)) {
-      $this->assert(FALSE, 'Test halted because node was not created.');
+      $this->assertTrue(FALSE, 'Test halted because node was not created.');
       return;
     }
 

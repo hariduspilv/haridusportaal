@@ -7,7 +7,6 @@ use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\conditional_fields\Conditions;
 use Drupal\conditional_fields\DependencyHelper;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormBuilderInterface;
@@ -18,18 +17,23 @@ use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class ConditionalFieldEditForm.
+ * An edit form for conditional fields.
  *
  * @package Drupal\conditional_fields\Form
  */
 class ConditionalFieldEditForm extends FormBase {
 
+  /**
+   * The name of the route to redirect to when the form has been submitted.
+   *
+   * @var string
+   */
   protected $redirectPath = 'conditional_fields.conditions_list';
 
   /**
    * CF lists builder.
    *
-   * @var Conditions $list
+   * @var \Drupal\conditional_fields\Conditions
    */
   protected $list;
 
@@ -62,7 +66,6 @@ class ConditionalFieldEditForm extends FormBase {
   public static function create(ContainerInterface $container) {
     // Instantiates this form class.
     return new static(
-    // Load the service required to construct this class.
       $container->get('conditional_fields.conditions'),
       $container->get('entity_type.manager'),
       $container->get('form_builder')
@@ -80,7 +83,6 @@ class ConditionalFieldEditForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $entity_type = NULL, $bundle = NULL, $field_name = NULL, $uuid = NULL) {
-
     if (empty($entity_type) || empty($bundle) || empty($field_name) || empty($uuid)) {
       return $form;
     }
@@ -88,9 +90,11 @@ class ConditionalFieldEditForm extends FormBase {
     $form_display_entity = $this->entityTypeManager
       ->getStorage('entity_form_display')
       ->load("$entity_type.$bundle.default");
+
     if (!$form_display_entity) {
       return $form;
     }
+
     // Retrieve first field from the list.
     $field = count(explode('-', $field_name)) > 0 ? explode('-', $field_name)[0] : $field_name;
     $field = $form_display_entity->getComponent($field);
@@ -100,7 +104,8 @@ class ConditionalFieldEditForm extends FormBase {
     }
     $condition = $field['third_party_settings']['conditional_fields'][$uuid];
     $settings = $condition['settings'];
-    // @TODO: it's not label but machine_name.
+
+    // @todo It's not label, but machine_name.
     $label = $condition['dependee'];
 
     $form['submit'] = [
@@ -152,7 +157,6 @@ class ConditionalFieldEditForm extends FormBase {
           ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR => $this->t('Any of these values (OR)...'),
           ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR => $this->t('Only one of these values (XOR)...'),
           ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT => $this->t('None of these values (NOT)...'),
-          // TODO: PHP evaluation.
         ],
       ],
       '#default_value' => array_key_exists('values_set', $settings) ? $settings['values_set'] : 0,
@@ -317,7 +321,7 @@ class ConditionalFieldEditForm extends FormBase {
     $entity_type = $values['entity_type'];
     $bundle = $values['bundle'];
 
-    /** @var EntityFormDisplay $entity */
+    /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $entity */
     $entity = $this->entityTypeManager
       ->getStorage('entity_form_display')
       ->load("$entity_type.$bundle.default");
@@ -353,7 +357,7 @@ class ConditionalFieldEditForm extends FormBase {
       }
 
       // Set field value.
-      if ( isset( $settings[ $dependee ] ) && ! empty( $settings[ $dependee ] ) ) {
+      if (isset($settings[$dependee]) && !empty($settings[$dependee])) {
         // Get and save value as string with timezone.
         $value = &$settings[$dependee];
         if (!empty($value[0]['value']) && is_object($value[0]['value']) && $value[0]['value'] instanceof DrupalDateTime) {
@@ -537,9 +541,10 @@ class ConditionalFieldEditForm extends FormBase {
       $operation = isset($handlers['form']['edit']) ? 'edit' : 'default';
       $form_object = $entityTypeManager->getFormObject($entity_type, $operation);
       $form_object->setEntity($dummy_entity);
-    } catch (InvalidPluginDefinitionException $e) {
+    }
+    catch (InvalidPluginDefinitionException $e) {
       watchdog_exception('conditional_fields', $e);
-      // @TODO May be it make sense to return markup?
+      // @todo May be it make sense to return markup?
       return NULL;
     }
 

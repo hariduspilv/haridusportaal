@@ -1,5 +1,0 @@
-content.sync:
-  title: 'Content synchronization'
-  description: 'Import and export your content.'
-  route_name: content.sync
-  parent: system.admin_config_development

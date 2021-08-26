@@ -1,9 +1,9 @@
 ``spaceless``
 =============
 
-.. versionadded:: 1.38
+.. versionadded:: 2.7
 
-    The ``spaceless`` filter was added in Twig 1.38.
+    The ``spaceless`` filter was added in Twig 2.7.
 
 Use the ``spaceless`` filter to remove whitespace *between HTML tags*, not
 whitespace within HTML tags or whitespace in plain text:
@@ -33,7 +33,7 @@ on large amounts of HTML:
 
 .. note::
 
-    The ``apply`` tag was introduced in Twig 1.40; use the ``filter`` tag with
+    The ``apply`` tag was introduced in Twig 2.9; use the ``filter`` tag with
     previous versions.
 
 This tag is not meant to "optimize" the size of the generated HTML content but

@@ -61,17 +61,16 @@ class ConfigInstallProfileOverrideTest extends BrowserTestBase {
     $this->assertDirectoryExists($config_dir);
     $source_storage = new FileStorage($config_dir);
     $data = $source_storage->read($config_name);
-    $this->assertIdentical($data, $expected_original_data);
+    $this->assertSame($expected_original_data, $data);
 
     // Verify that active configuration matches the expected data, which was
     // created from the testing install profile's system.cron.yml file.
     $config = $this->config($config_name);
-    $this->assertIdentical($config->get(), $expected_profile_data);
+    $this->assertSame($expected_profile_data, $config->get());
 
     $config = $this->config('system.site');
     // Verify the system.site config has a valid UUID.
-    $site_uuid = $config->get('uuid');
-    $this->assertTrue(Uuid::isValid($site_uuid) && strlen($site_uuid) > 0, "Site UUID '$site_uuid' is valid");
+    $this->assertTrue(Uuid::isValid($config->get('uuid')));
     // Verify the profile overrides have been used.
     $this->assertEquals(91, $config->get('weight_select_max'));
     // Ensure the site configure form is used.
@@ -90,6 +89,10 @@ class ConfigInstallProfileOverrideTest extends BrowserTestBase {
     $this->assertCount(1, $tour->getTips(), 'Optional configuration can be overridden. The language tour only has one tip');
     $tour = Tour::load('language-add');
     $this->assertCount(3, $tour->getTips(), 'Optional configuration that is not overridden is not affected.');
+
+    // Ensure the optional configuration is installed. Note that the overridden
+    // language tour has a dependency on this tour so it has to exist.
+    $this->assertInstanceOf(Tour::class, Tour::load('testing_config_overrides_module'));
 
     // Ensure that optional configuration from a profile is created if
     // dependencies are met.

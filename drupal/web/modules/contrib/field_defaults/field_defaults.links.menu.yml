@@ -1,0 +1,6 @@
+field_defaults.collection:
+  title: 'Field defaults settings'
+  route_name: field_defaults.field_defaults_settings_form
+  description: 'Adds and overwrites default field values on existing content.'
+  parent: system.admin_config_system
+  weight: 99

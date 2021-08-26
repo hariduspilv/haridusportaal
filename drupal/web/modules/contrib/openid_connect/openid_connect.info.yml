@@ -5,7 +5,7 @@ core_version_requirement: ^8.8 || ^9
 package: Security
 configure: openid_connect.admin_settings
 
-# Information added by Drupal.org packaging script on 2020-12-18
-version: '8.x-1.0'
+# Information added by Drupal.org packaging script on 2021-06-02
+version: '8.x-1.1'
 project: 'openid_connect'
-datestamp: 1608316552
+datestamp: 1622644612

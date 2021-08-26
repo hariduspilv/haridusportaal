@@ -1,0 +1,16 @@
+{
+  "name": "drupal/field_defaults",
+  "description": "Field Defaults allows batch updating of default field values to existing content.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "support": {
+    "issues": "https://drupal.org/project/issues/field_defaults",
+    "source": "https://drupal.org/project/field_defaults"
+  },
+  "keywords": [
+    "Drupal",
+    "Content",
+    "Content Construction Kit (CCK)",
+    "Fields"
+  ]
+}

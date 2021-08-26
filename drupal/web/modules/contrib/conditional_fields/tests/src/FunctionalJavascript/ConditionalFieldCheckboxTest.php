@@ -31,7 +31,6 @@ class ConditionalFieldCheckboxTest extends ConditionalFieldTestBase implements C
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
 
     $this->waitUntilVisible('.field--name-body', 10, '01. Article Body field is not visible');
     $this->changeSelect('#edit-promote-value', FALSE);
@@ -54,7 +53,6 @@ class ConditionalFieldCheckboxTest extends ConditionalFieldTestBase implements C
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     $this->waitUntilHidden('.field--name-body', 10, '01. Article Body field is visible');
     $this->changeSelect('#edit-promote-value', FALSE);
     $this->waitUntilVisible('.field--name-body', 0, '02. Article Body field is not visible');
@@ -76,7 +74,6 @@ class ConditionalFieldCheckboxTest extends ConditionalFieldTestBase implements C
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     $this->waitUntilHidden('.field--name-body', 10, '01. Article Body field is visible');
     $this->changeSelect('#edit-promote-value', FALSE);
     $this->waitUntilVisible('.field--name-body', 0, '02. Article Body field is not visible');
@@ -97,7 +94,6 @@ class ConditionalFieldCheckboxTest extends ConditionalFieldTestBase implements C
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
 
     $this->waitUntilVisible('.field--name-body', 10, '01. Article Body field is not visible');
     $this->changeSelect('#edit-promote-value', FALSE);

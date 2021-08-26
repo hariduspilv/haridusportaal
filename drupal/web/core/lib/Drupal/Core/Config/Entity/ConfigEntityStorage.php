@@ -77,17 +77,6 @@ class ConfigEntityStorage extends EntityStorageBase implements ConfigEntityStora
   protected $languageManager;
 
   /**
-   * Static cache of entities, keyed first by entity ID, then by an extra key.
-   *
-   * The additional cache key is to maintain separate caches for different
-   * states of config overrides.
-   *
-   * @var array
-   * @see \Drupal\Core\Config\ConfigFactoryInterface::getCacheKeys().
-   */
-  protected $entities = [];
-
-  /**
    * Determines if the underlying configuration is retrieved override free.
    *
    * @var bool
@@ -105,10 +94,10 @@ class ConfigEntityStorage extends EntityStorageBase implements ConfigEntityStora
    *   The UUID service.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
-   * @param \Drupal\Core\Cache\MemoryCache\MemoryCacheInterface|null $memory_cache
+   * @param \Drupal\Core\Cache\MemoryCache\MemoryCacheInterface $memory_cache
    *   The memory cache backend.
    */
-  public function __construct(EntityTypeInterface $entity_type, ConfigFactoryInterface $config_factory, UuidInterface $uuid_service, LanguageManagerInterface $language_manager, MemoryCacheInterface $memory_cache = NULL) {
+  public function __construct(EntityTypeInterface $entity_type, ConfigFactoryInterface $config_factory, UuidInterface $uuid_service, LanguageManagerInterface $language_manager, MemoryCacheInterface $memory_cache) {
     parent::__construct($entity_type, $memory_cache);
 
     $this->configFactory = $config_factory;
@@ -190,7 +179,7 @@ class ConfigEntityStorage extends EntityStorageBase implements ConfigEntityStora
       $records[$id] = $this->overrideFree ? $config->getOriginal(NULL, FALSE) : $config->get();
       $configs[$id] = $config;
     }
-    $entities = $this->mapFromStorageRecords($records, $configs);
+    $entities = $this->mapFromStorageRecords($records);
 
     // Config entities wrap config objects, and therefore they need to inherit
     // the cacheability metadata of config objects (to ensure e.g. additional

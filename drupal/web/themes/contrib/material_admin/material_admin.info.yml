@@ -13,7 +13,7 @@ libraries:
 
 
 # remove css sheets from the base themes rather than than override because
-# the SCSS is aleady including those files into a single file.
+# the SCSS is aleady including those files into a single file. 
 # See: scss/base/overrides directory
 stylesheets-remove:
   - '@classy/css/components/action-links.css'
