@@ -18,7 +18,7 @@ class AdminToolbarToolsSearchTest extends AdminToolbarSearchTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'admin_toolbar_tools',
     'admin_toolbar_search',
     'node',
@@ -38,7 +38,7 @@ class AdminToolbarToolsSearchTest extends AdminToolbarSearchTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->drupalCreateContentType([

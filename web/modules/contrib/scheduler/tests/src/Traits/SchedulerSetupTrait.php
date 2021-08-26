@@ -113,7 +113,7 @@ trait SchedulerSetupTrait {
     // we also need a content type which is not enabled for Scheduler.
     $this->nonSchedulerNodeType = $this->drupalCreateContentType([
       'type' => 'not-for-scheduler',
-      'name' => 'Non Scheduler Content',
+      'name' => 'Not For Scheduler',
     ]);
 
     // Define nodeStorage for use in many tests.

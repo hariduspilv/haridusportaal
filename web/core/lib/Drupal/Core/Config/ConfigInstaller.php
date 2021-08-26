@@ -5,7 +5,7 @@ namespace Drupal\Core\Config;
 use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Config\Entity\ConfigDependencyManager;
 use Drupal\Core\Installer\InstallerKernel;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ConfigInstaller implements ConfigInstallerInterface {
 
@@ -40,7 +40,7 @@ class ConfigInstaller implements ConfigInstallerInterface {
   /**
    * The event dispatcher.
    *
-   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface
    */
   protected $eventDispatcher;
 
@@ -76,7 +76,7 @@ class ConfigInstaller implements ConfigInstallerInterface {
    *   The typed configuration manager.
    * @param \Drupal\Core\Config\ConfigManagerInterface $config_manager
    *   The configuration manager.
-   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+   * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $event_dispatcher
    *   The event dispatcher.
    * @param string $install_profile
    *   The name of the currently active installation profile.
@@ -140,9 +140,11 @@ class ConfigInstaller implements ConfigInstallerInterface {
     }
 
     // During a drupal installation optional configuration is installed at the
-    // end of the installation process.
+    // end of the installation process. Once the install profile is installed
+    // optional configuration should be installed as usual.
     // @see install_install_profile()
-    if (!$this->isSyncing() && !InstallerKernel::installationAttempted()) {
+    $profile_installed = in_array($this->drupalGetProfile(), $this->getEnabledExtensions(), TRUE);
+    if (!$this->isSyncing() && (!InstallerKernel::installationAttempted() || $profile_installed)) {
       $optional_install_path = $extension_path . '/' . InstallStorage::CONFIG_OPTIONAL_DIRECTORY;
       if (is_dir($optional_install_path)) {
         // Install any optional config the module provides.
@@ -723,24 +725,6 @@ class ConfigInstaller implements ConfigInstallerInterface {
    */
   protected function drupalGetProfile() {
     return $this->installProfile;
-  }
-
-  /**
-   * Wrapper for drupal_installation_attempted().
-   *
-   * @return bool
-   *   TRUE if a Drupal installation is currently being attempted.
-   *
-   * @deprecated in drupal:8.8.0 and is removed from drupal:9.0.0.
-   *   Use \Drupal\Core\Installer\InstallerKernel::installationAttempted()
-   *   instead.
-   *
-   * @see https://www.drupal.org/node/3052704
-   * @see \Drupal\Core\Installer\InstallerKernel::installationAttempted()
-   */
-  protected function drupalInstallationAttempted() {
-    @trigger_error(__METHOD__ . '() is deprecated in drupal:8.8.0 and is removed from drupal:9.0.0. Use \Drupal\Core\Installer\InstallerKernel::installationAttempted() instead. See https://www.drupal.org/node/3052704', E_USER_DEPRECATED);
-    return InstallerKernel::installationAttempted();
   }
 
 }

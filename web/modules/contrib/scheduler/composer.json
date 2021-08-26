@@ -7,7 +7,7 @@
     "require-dev": {
         "drupal/rules": "^3",
         "drush/drush": "^9.0 || ^10",
-        "drupal/devel_generate": "^2.0 || 3.x-dev"
+        "drupal/devel_generate": "^2.0 || 4.x-dev"
     },
     "repositories": {
         "drupal": {
@@ -44,7 +44,7 @@
     "extra": {
         "drush": {
             "services": {
-                "drush.services.yml": "^9"
+                "drush.services.yml": "^9 || ^10"
             }
         }
     }

@@ -10,6 +10,11 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 abstract class ConditionalFieldTestBase extends WebDriverTestBase {
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Path to create screenshot.
    *
    * @var string
@@ -123,7 +128,8 @@ abstract class ConditionalFieldTestBase extends WebDriverTestBase {
       'table[add_new_dependency][condition]' => $condition,
     ];
     $this->submitForm($edit, 'Add dependency');
-    //the Status code not supported on WebDriverTestBase since 8.4 core. See more information on See https://www.drupal.org/node/2857562
+    // The Status code not supported on WebDriverTestBase since 8.4 core. See
+    // more information on See https://www.drupal.org/node/2857562
   }
 
   /**
@@ -139,7 +145,7 @@ abstract class ConditionalFieldTestBase extends WebDriverTestBase {
       'administer content types',
     ]);
 
-    $this->drupalLogin( $admin_account );
+    $this->drupalLogin($admin_account);
 
     // Visit a ConditionalFields configuration page that requires login.
     $this->drupalGet('admin/structure/conditional_fields');
@@ -147,15 +153,15 @@ abstract class ConditionalFieldTestBase extends WebDriverTestBase {
     // Configuration page contains the `Content` entity type.
     $this->assertSession()->pageTextContains('Content');
 
-    // Content link exists
-    $this->assertSession()->linkByHrefExists( '/admin/structure/conditional_fields/node');
+    // Content link exists.
+    $this->assertSession()->linkByHrefExists('/admin/structure/conditional_fields/node');
 
     // Visit a ConditionalFields configuration page for Content bundles.
     $this->drupalGet('admin/structure/conditional_fields/node');
 
     // Configuration page contains the `Article` bundle of Content entity type.
     $this->assertSession()->pageTextContains('Article');
-    $this->assertSession()->linkByHrefExists( 'admin/structure/conditional_fields/node/article');
+    $this->assertSession()->linkByHrefExists('admin/structure/conditional_fields/node/article');
 
     // Visit a ConditionalFields configuration page for Article CT.
     $this->drupalGet('admin/structure/conditional_fields/node/article');

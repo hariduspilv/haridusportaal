@@ -19,7 +19,7 @@ class FeedFetcherPluginTest extends AggregatorTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     // Enable test plugins.
     $this->enableTestPlugins();
@@ -28,7 +28,7 @@ class FeedFetcherPluginTest extends AggregatorTestBase {
   }
 
   /**
-   * Test fetching functionality.
+   * Tests fetching functionality.
    */
   public function testfetch() {
     // Create feed with local url.

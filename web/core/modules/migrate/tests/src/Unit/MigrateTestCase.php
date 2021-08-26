@@ -157,7 +157,7 @@ abstract class MigrateTestCase extends UnitTestCase {
    *   An array of expected results.
    */
   public function queryResultTest($iter, $expected_results) {
-    $this->assertSame(count($expected_results), count($iter), 'Number of results match');
+    $this->assertSameSize($expected_results, $iter, 'Number of results match');
     $count = 0;
     foreach ($iter as $data_row) {
       $expected_row = $expected_results[$count];
@@ -200,7 +200,7 @@ abstract class MigrateTestCase extends UnitTestCase {
       if (empty($expected_value && $actual_value)) {
         return;
       }
-      $this->assertArrayEquals($expected_value, $actual_value, $message);
+      $this->assertEquals($expected_value, $actual_value, $message);
     }
     else {
       $this->assertSame((string) $expected_value, (string) $actual_value, $message);

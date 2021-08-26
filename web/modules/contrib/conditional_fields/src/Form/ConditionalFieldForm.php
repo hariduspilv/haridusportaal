@@ -3,32 +3,41 @@
 namespace Drupal\conditional_fields\Form;
 
 use Drupal\Component\Uuid\UuidInterface;
+use Drupal\conditional_fields\Conditions;
+use Drupal\conditional_fields\DependencyHelper;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\conditional_fields\Conditions;
-use Drupal\conditional_fields\DependencyHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class ConditionalFieldForm.
+ * A form with a list of conditional fields for an entity type.
  *
  * @package Drupal\conditional_fields\Form
  */
 class ConditionalFieldForm extends FormBase {
 
+  /**
+   * The route name for a conditional field edit form.
+   *
+   * @var string
+   */
   protected $editPath = 'conditional_fields.edit_form';
 
+  /**
+   * The route name for a conditional field delete form.
+   *
+   * @var string
+   */
   protected $deletePath = 'conditional_fields.delete_form';
 
   /**
    * Uuid generator.
    *
-   * @var UuidInterface
+   * @var \Drupal\Component\Uuid\UuidInterface
    */
   protected $uuidGenerator;
 
@@ -49,27 +58,35 @@ class ConditionalFieldForm extends FormBase {
   /**
    * CF lists builder.
    *
-   * @var Conditions $list
+   * @var \Drupal\conditional_fields\Conditions
    */
   protected $list;
 
   /**
    * Form array.
+   *
+   * @var array
    */
   protected $form;
 
   /**
    * FormState object.
+   *
+   * @var \Drupal\Core\Form\FormStateInterface
    */
   protected $form_state;
 
   /**
    * Name of the entity type being configured.
+   *
+   * @var string
    */
   protected $entity_type;
 
   /**
    * Name of the entity bundle being configured.
+   *
+   * @var string
    */
   protected $bundle_name;
 
@@ -103,7 +120,6 @@ class ConditionalFieldForm extends FormBase {
   public static function create(ContainerInterface $container) {
     // Instantiates this form class.
     return new static(
-    // Load the service required to construct this class.
       $container->get('conditional_fields.conditions'),
       $container->get('entity_field.manager'),
       $container->get('entity_type.manager'),
@@ -191,7 +207,8 @@ class ConditionalFieldForm extends FormBase {
    *
    * @return bool
    *   TRUE if the field is required but not visible; FALSE otherwise.
-   */  protected function requiredFieldIsNotVisible(FieldDefinitionInterface $field, $state): bool {
+   */
+  protected function requiredFieldIsNotVisible(FieldDefinitionInterface $field, $state): bool {
     return method_exists($field, 'isRequired') &&
       $field->isRequired() &&
       in_array($state, ['!visible', 'disabled', '!required']);
@@ -222,8 +239,7 @@ class ConditionalFieldForm extends FormBase {
         $component_value[$key] = $value;
         continue;
       }
-      // @TODO: it seems reasonable
-      // to only set values allowed by field schema,
+      // @todo It seems reasonable to only set values allowed by field schema.
       // @see conditional_fields.schema.yml
       $settings[$key] = $value;
     }

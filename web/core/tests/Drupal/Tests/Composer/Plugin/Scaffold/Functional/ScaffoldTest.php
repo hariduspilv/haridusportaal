@@ -6,7 +6,6 @@ use Composer\Util\Filesystem;
 use Drupal\Tests\Composer\Plugin\Scaffold\AssertUtilsTrait;
 use Drupal\Tests\Composer\Plugin\Scaffold\Fixtures;
 use Drupal\Tests\Composer\Plugin\Scaffold\ScaffoldTestResult;
-use Drupal\Tests\PhpunitCompatibilityTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,7 +18,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ScaffoldTest extends TestCase {
   use AssertUtilsTrait;
-  use PhpunitCompatibilityTrait;
 
   /**
    * The root of this project.
@@ -55,7 +53,7 @@ class ScaffoldTest extends TestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     $this->fileSystem = new Filesystem();
     $this->fixtures = new Fixtures();
     $this->fixtures->createIsolatedComposerCacheDir();
@@ -72,7 +70,7 @@ class ScaffoldTest extends TestCase {
   /**
    * {@inheritdoc}
    */
-  protected function tearDown() {
+  protected function tearDown(): void {
     // Remove any temporary directories et. al. that were created.
     $this->fixtures->tearDown();
   }
@@ -126,7 +124,7 @@ class ScaffoldTest extends TestCase {
       $this->assertFileExists($docroot);
     }
     else {
-      $this->assertFileNotExists($sut . '/docroot');
+      $this->assertFileDoesNotExist($sut . '/docroot');
     }
 
     return new ScaffoldTestResult($docroot, $scaffoldOutput);
@@ -256,7 +254,7 @@ class ScaffoldTest extends TestCase {
   }
 
   /**
-   * Test values for testDrupalDrupalFileWasAppended.
+   * Provides test values for testDrupalDrupalFileWasAppended.
    */
   public function scaffoldAppendTestValues() {
     return array_merge(
@@ -279,7 +277,7 @@ include __DIR__ . "/settings-custom-additions.php";',
   }
 
   /**
-   * Test values to run both with $is_link FALSE and $is_link TRUE.
+   * Tests values to run both with $is_link FALSE and $is_link TRUE.
    *
    * @param bool $is_link
    *   Whether or not symlinking should be used.
@@ -372,7 +370,7 @@ include __DIR__ . "/settings-custom-additions.php";',
   protected function assertHtaccessExcluded($docroot) {
     // Ensure that the .htaccess.txt file was not written, as our
     // top-level composer.json excludes it from the files to scaffold.
-    $this->assertFileNotExists($docroot . '/.htaccess');
+    $this->assertFileDoesNotExist($docroot . '/.htaccess');
   }
 
   /**

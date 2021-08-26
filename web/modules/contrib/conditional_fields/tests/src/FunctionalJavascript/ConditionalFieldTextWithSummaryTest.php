@@ -122,7 +122,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
-    $this->clickLink( 'Edit');
+    $this->clickLink('Edit');
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
 
     // Visit Article Add form to check that conditions are applied.
@@ -164,7 +164,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -172,7 +172,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
-    $this->clickLink( 'Edit');
+    $this->clickLink('Edit');
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
 
     // Visit Article Add form to check that conditions are applied.
@@ -218,7 +218,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -226,7 +226,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
-    $this->clickLink( 'Edit');
+    $this->clickLink('Edit');
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
 
     // Visit Article Add form to check that conditions are applied.
@@ -277,7 +277,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -324,7 +324,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -375,7 +375,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -453,4 +453,5 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $this->changeField($this->fieldSelector, 'This field is not empty.');
     $this->waitUntilVisible('.field--name-body', 10, 'Article Body field is not visible');
   }
+
 }

@@ -17,7 +17,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGeneratorInterface;
 use Drupal\system\PathBasedBreadcrumbBuilder;
 use Drupal\Tests\UnitTestCase;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use Drupal\Core\Routing\RouteObjectInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -97,7 +97,7 @@ class PathBasedBreadcrumbBuilderTest extends UnitTestCase {
    *
    * @covers ::__construct
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->requestMatcher = $this->createMock('\Symfony\Component\Routing\Matcher\RequestMatcherInterface');
@@ -189,7 +189,7 @@ class PathBasedBreadcrumbBuilderTest extends UnitTestCase {
 
     $this->requestMatcher->expects($this->exactly(1))
       ->method('matchRequest')
-      ->will($this->returnCallback(function (Request $request) use ($route_1) {
+      ->willReturnCallback(function (Request $request) use ($route_1) {
         if ($request->getPathInfo() == '/example') {
           return [
             RouteObjectInterface::ROUTE_NAME => 'example',
@@ -197,7 +197,7 @@ class PathBasedBreadcrumbBuilderTest extends UnitTestCase {
             '_raw_variables' => new ParameterBag([]),
           ];
         }
-      }));
+      });
 
     $this->setupAccessManagerToAllow();
 
@@ -229,7 +229,7 @@ class PathBasedBreadcrumbBuilderTest extends UnitTestCase {
 
     $this->requestMatcher->expects($this->exactly(2))
       ->method('matchRequest')
-      ->will($this->returnCallback(function (Request $request) use ($route_1, $route_2) {
+      ->willReturnCallback(function (Request $request) use ($route_1, $route_2) {
         if ($request->getPathInfo() == '/example/bar') {
           return [
             RouteObjectInterface::ROUTE_NAME => 'example_bar',
@@ -244,7 +244,7 @@ class PathBasedBreadcrumbBuilderTest extends UnitTestCase {
             '_raw_variables' => new ParameterBag([]),
           ];
         }
-      }));
+      });
 
     $this->accessManager->expects($this->any())
       ->method('check')
@@ -364,7 +364,7 @@ class PathBasedBreadcrumbBuilderTest extends UnitTestCase {
 
     $this->requestMatcher->expects($this->exactly(1))
       ->method('matchRequest')
-      ->will($this->returnCallback(function (Request $request) use ($route_1) {
+      ->willReturnCallback(function (Request $request) use ($route_1) {
         if ($request->getPathInfo() == '/user/1') {
           return [
             RouteObjectInterface::ROUTE_NAME => 'user_page',
@@ -372,7 +372,7 @@ class PathBasedBreadcrumbBuilderTest extends UnitTestCase {
             '_raw_variables' => new ParameterBag([]),
           ];
         }
-      }));
+      });
 
     $this->setupAccessManagerToAllow();
     $this->titleResolver->expects($this->once())

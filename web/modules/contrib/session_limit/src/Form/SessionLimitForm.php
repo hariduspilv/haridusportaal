@@ -75,7 +75,7 @@ class SessionLimitForm extends FormBase {
     /** @var SessionLimit $session_limit */
     $session_limit = \Drupal::service('session_limit');
     $session_reference = $form_state->getValue(['session_reference']);
-    $sid = $form['active_sessions']['#value'][$session_reference]->sid;
+    $sid = isset($session_reference) ? $form['active_sessions']['#value'][$session_reference]->sid : '';
 
     if ($current_session_id == $sid) {
       // @todo the user is not seeing the message below.

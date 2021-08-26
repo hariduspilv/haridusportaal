@@ -7,7 +7,6 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
-use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
 use Drupal\user\Entity\User;
 use GuzzleHttp\RequestOptions;
 
@@ -18,13 +17,12 @@ use GuzzleHttp\RequestOptions;
  */
 class FileTest extends ResourceTestBase {
 
-  use BcTimestampNormalizerUnixTestTrait;
   use CommonCollectionFilterAccessTestPatternsTrait;
 
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['file', 'user'];
+  protected static $modules = ['file', 'user'];
 
   /**
    * {@inheritdoc}
@@ -119,7 +117,7 @@ class FileTest extends ResourceTestBase {
    * {@inheritdoc}
    */
   protected function createAnotherEntity($key) {
-    /* @var \Drupal\file\FileInterface $duplicate */
+    /** @var \Drupal\file\FileInterface $duplicate */
     $duplicate = parent::createAnotherEntity($key);
     $duplicate->setFileUri("public://$key.txt");
     $duplicate->save();

@@ -7,7 +7,7 @@ core_version_requirement: ^8 || ^9
 dependencies:
   - scheduler:scheduler
 
-# Information added by Drupal.org packaging script on 2020-06-06
-version: '8.x-1.3'
+# Information added by Drupal.org packaging script on 2021-07-19
+version: '8.x-1.4'
 project: 'scheduler'
-datestamp: 1591431340
+datestamp: 1626701769

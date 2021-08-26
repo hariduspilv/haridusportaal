@@ -10,6 +10,8 @@ session_limit.settings:
       type: integer
     session_limit_logged_out_message_severity:
       type: string
+    session_limit_admin_inclusion:
+      type: integer
     session_limit_roles:
       type: sequence
       sequence:

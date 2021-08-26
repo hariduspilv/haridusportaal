@@ -23,7 +23,7 @@ class LatestRevisionFilterTest extends ViewsKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['node'];
+  protected static $modules = ['node'];
 
   /**
    * Tests the 'Latest revision' filter.
@@ -100,7 +100,7 @@ class LatestRevisionFilterTest extends ViewsKernelTestBase {
     $this->executeView($view);
 
     // Check that we have all the results.
-    $this->assertCount(count($latest_revisions), $view->result);
+    $this->assertSameSize($latest_revisions, $view->result);
 
     $expected = $not_expected = [];
     foreach ($all_revisions as $revision_id => $revision) {

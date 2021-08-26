@@ -1,22 +1,6 @@
 ``date``
 ========
 
-.. versionadded:: 1.1
-
-    The timezone support has been added in Twig 1.1.
-
-.. versionadded:: 1.5
-
-    The default date format support has been added in Twig 1.5.
-
-.. versionadded:: 1.6.1
-
-    The default timezone support has been added in Twig 1.6.1.
-
-.. versionadded:: 1.11.0
-
-    The introduction of the false value for the timezone was introduced in Twig 1.11.0
-
 The ``date`` filter formats a date to a given format:
 
 .. code-block:: twig
@@ -56,10 +40,7 @@ default can be changed by calling the ``setDateFormat()`` method on the
 dates and the second one is the default format for date intervals::
 
     $twig = new \Twig\Environment($loader);
-    $twig->getExtension('\Twig\Extension\CoreExtension')->setDateFormat('d/m/Y', '%d days');
-
-    // before Twig 1.26
-    $twig->getExtension('core')->setDateFormat('d/m/Y', '%d days');
+    $twig->getExtension(\Twig\Extension\CoreExtension::class)->setDateFormat('d/m/Y', '%d days');
 
 Timezone
 --------
@@ -82,10 +63,7 @@ timezone, pass ``false`` as the timezone value:
 The default timezone can also be set globally by calling ``setTimezone()``::
 
     $twig = new \Twig\Environment($loader);
-    $twig->getExtension('\Twig\Extension\CoreExtension')->setTimezone('Europe/Paris');
-
-    // before Twig 1.26
-    $twig->getExtension('core')->setTimezone('Europe/Paris');
+    $twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('Europe/Paris');
 
 Arguments
 ---------

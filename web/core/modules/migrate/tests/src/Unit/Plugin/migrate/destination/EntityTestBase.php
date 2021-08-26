@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Tests\migrate\Unit\Plugin\migrate\destination\EntityTestBase
+ * Contains \Drupal\Tests\migrate\Unit\Plugin\migrate\destination\EntityTestBase.
  */
 
 namespace Drupal\Tests\migrate\Unit\Plugin\migrate\destination;
@@ -15,7 +15,7 @@ use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\Tests\UnitTestCase;
 
 /**
- * Base test class forentity migration destination functionality.
+ * Base test class for entity migration destination functionality.
  */
 class EntityTestBase extends UnitTestCase {
 

@@ -2,9 +2,11 @@
 
 namespace Drupal\session_limit\Services;
 
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AnonymousUserSession;
+use Drupal\Core\Url;
 use Drupal\session_limit\Event\SessionLimitBypassEvent;
 use Drupal\session_limit\Event\SessionLimitCollisionEvent;
 use Drupal\session_limit\Event\SessionLimitDisconnectEvent;
@@ -45,7 +47,7 @@ class SessionLimit implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[KernelEvents::REQUEST][] = ['onKernelRequest'];
+    $events[KernelEvents::REQUEST][] = ['onKernelRequest',32];
     $events['session_limit.bypass'][] = ['onSessionLimitBypass'];
     $events['session_limit.collision'][] = ['onSessionCollision'];
     return $events;
@@ -88,6 +90,13 @@ class SessionLimit implements EventSubscriberInterface {
   protected $configFactory;
 
   /**
+   * The messenger.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * SessionLimit constructor.
    *
    * @param Connection $database
@@ -104,8 +113,10 @@ class SessionLimit implements EventSubscriberInterface {
    *   Module handler.
    * @param ConfigFactory $configFactory
    *   Config factory.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger.
    */
-  public function __construct(Connection $database, EventDispatcherInterface $eventDispatcher, RouteMatchInterface $routeMatch, AccountProxy $currentUser, SessionManager $sessionManager, ModuleHandler $moduleHandler, ConfigFactory $configFactory) {
+  public function __construct(Connection $database, EventDispatcherInterface $eventDispatcher, RouteMatchInterface $routeMatch, AccountProxy $currentUser, SessionManager $sessionManager, ModuleHandler $moduleHandler, ConfigFactory $configFactory, MessengerInterface $messenger) {
     $this->routeMatch = $routeMatch;
     $this->database = $database;
     $this->eventDispatcher = $eventDispatcher;
@@ -113,6 +124,7 @@ class SessionLimit implements EventSubscriberInterface {
     $this->sessionManager = $sessionManager;
     $this->moduleHandler = $moduleHandler;
     $this->configFactory = $configFactory;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -143,6 +155,18 @@ class SessionLimit implements EventSubscriberInterface {
    * higher than the configured limit.
    */
   public function onKernelRequest() {
+    // Show session messages to the user if they have been logged out.
+    if(isset($_SESSION['messages'])) {
+      $session_messages = $_SESSION['messages'];
+      foreach ($session_messages as $severity => $message_object) {
+          foreach ($message_object AS $message) {
+              \Drupal::messenger()->addMessage($message, $severity);
+          }
+      }
+      // Remove messages from session so that it only displays once.
+      unset($_SESSION['messages']);
+    }
+
     /** @var SessionLimitBypassEvent $bypassEvent */
     $bypassEvent = $this
       ->getEventDispatcher()
@@ -183,7 +207,12 @@ class SessionLimit implements EventSubscriberInterface {
    * @param SessionLimitBypassEvent $event
    */
   public function onSessionLimitBypass(SessionLimitBypassEvent $event) {
-    if ($this->getCurrentUser()->id() < 2) {
+
+      $admin_bypass_check =  $this->configFactory->get('session_limit.settings')
+      ->get('session_limit_admin_inclusion');
+      $uid = $admin_bypass_check ? 1 : 2;
+
+    if ($this->getCurrentUser()->id() < $uid) {
       // User 1 and anonymous don't get session checked.
       $event->setBypass(TRUE);
       return;
@@ -246,8 +275,8 @@ class SessionLimit implements EventSubscriberInterface {
    * React to a session collision by asking the user which session to end.
    */
   protected function _onSessionCollision__Ask() {
-    drupal_set_message(t('You have too many active sessions. Please choose a session to end.'));
-    $response = new RedirectResponse(\Drupal::url('session_limit.limit_form'), 307, [
+    $this->messenger->addMessage(t('You have too many active sessions. Please choose a session to end.'));
+    $response = new RedirectResponse(Url::fromRoute('session_limit.limit_form')->toString(), 307, [
       'Cache-Control' => 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0',
       'Expires' => 'Sat, 26 Jul 1997 05:00:00 GMT',
     ]);
@@ -302,7 +331,7 @@ class SessionLimit implements EventSubscriberInterface {
         /** @var SessionLimitDisconnectEvent $disconnectEvent */
         $disconnectEvent = $this
           ->getEventDispatcher()
-          ->dispatch('session_limit.disconnect', new SessionLimitDisconnectEvent($session->id, $event, $this->getMessage($event->getAccount())));
+          ->dispatch('session_limit.disconnect', new SessionLimitDisconnectEvent($event->getSessionId(), $event, $this->getMessage($event->getAccount())));
 
         if (!$disconnectEvent->shouldPreventDisconnect()) {
           $this->sessionDisconnect($session->sid, $disconnectEvent->getMessage());
@@ -348,7 +377,7 @@ class SessionLimit implements EventSubscriberInterface {
    * @param string $message
    */
   public function sessionActiveDisconnect($message) {
-    drupal_set_message($message, $this->getMessageSeverity());
+    $this->messenger->addMessage($message, $this->getMessageSeverity());
     $this->moduleHandler->invokeAll('user_logout', array($this->currentUser));
     $this->sessionManager->destroy();
     $this->currentUser->setAccount(new AnonymousUserSession());
