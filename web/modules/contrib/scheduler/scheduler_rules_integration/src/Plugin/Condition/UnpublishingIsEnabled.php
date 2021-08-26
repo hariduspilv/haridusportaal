@@ -11,7 +11,7 @@ use Drupal\rules\Core\RulesConditionBase;
  *   id = "scheduler_condition_unpublishing_is_enabled",
  *   label = @Translation("Node type is enabled for scheduled unpublishing"),
  *   category = @Translation("Scheduler"),
- *   context = {
+ *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node",
  *       label = @Translation("Scheduled Node"),
  *       description = @Translation("The node to check for scheduled unpublishing enabled. Enter 'node' or use data selection.")

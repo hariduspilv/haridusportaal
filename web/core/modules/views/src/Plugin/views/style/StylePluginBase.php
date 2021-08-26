@@ -246,7 +246,8 @@ abstract class StylePluginBase extends PluginBase {
   }
 
   /**
-   * Should the output of the style plugin be rendered even if it's a empty view.
+   * Should the output of the style plugin be rendered even if it's an empty
+   * view.
    */
   public function evenEmpty() {
     return !empty($this->definition['even empty']);
@@ -386,8 +387,14 @@ abstract class StylePluginBase extends PluginBase {
    *   The current state of the form.
    * @param string $type
    *   The display type, either block or page.
+   *
+   * @deprecated in drupal:9.2.0 and is removed from drupal:10.0.0. No direct
+   *   replacement is provided.
+   *
+   * @see https://www.drupal.org/node/3186502
    */
   public function wizardForm(&$form, FormStateInterface $form_state, $type) {
+    @trigger_error(__METHOD__ . '() is deprecated in drupal:9.2.0 and is removed from drupal:10.0.0. No direct replacement is provided. See https://www.drupal.org/node/3186502', E_USER_DEPRECATED);
   }
 
   /**

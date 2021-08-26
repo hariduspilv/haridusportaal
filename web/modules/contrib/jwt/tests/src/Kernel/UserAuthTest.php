@@ -5,7 +5,6 @@ namespace Drupal\Tests\jwt\Kernel;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Tests JWT config schema.
@@ -64,13 +63,8 @@ class UserAuthTest extends KernelTestBase {
       $this->assertEqual($account->id(), $user->id());
       // When blocked the account is no longer valid.
       $account->block()->save();
-      try {
-        $auth_service->authenticate($request);
-        $this->fail('Exception not thrown');
-      }
-      catch (AccessDeniedHttpException $e) {
-        $this->assertEqual('User is blocked.', $e->getMessage());
-      }
+      $result = $auth_service->authenticate($request);
+      $this->assertNull($result, 'User is blocked.');
       $account->activate()->save();
     }
   }

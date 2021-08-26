@@ -3,7 +3,8 @@
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases;
 
 /**
- * Interface ConditionalFieldFilledEmptyInterface
+ * Outline tests for fields types that can be filled or empty.
+ *
  * @package Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases
  */
 interface ConditionalFieldFilledEmptyInterface {

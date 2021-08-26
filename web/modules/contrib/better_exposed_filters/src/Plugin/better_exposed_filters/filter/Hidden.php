@@ -37,4 +37,17 @@ class Hidden extends FilterWidgetBase {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public static function isApplicable($filter = NULL, array $filter_options = []) {
+    $is_applicable = parent::isApplicable($filter, $filter_options);
+
+    if ((is_a($filter, 'Drupal\views\Plugin\views\filter\Date') || !empty($filter->date_handler)) && !$filter->isAGroup()) {
+      $is_applicable = TRUE;
+    }
+
+    return $is_applicable;
+  }
+
 }

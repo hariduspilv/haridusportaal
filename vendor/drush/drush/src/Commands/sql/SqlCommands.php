@@ -175,7 +175,7 @@ class SqlCommands extends DrushCommands implements StdinAwareInterface
      *   Import sql statements from a file into the current database.
      * @usage drush sql:query --file=example.sql
      *   Alternate way to import sql statements from a file.
-     * @usage drush @d8 ev "return db_query('SELECT * FROM users')->fetchAll()" --format=json
+     * @usage drush ev "return db_query('SELECT * FROM users')->fetchAll()" --format=json
      *   Get data back in JSON format. See https://github.com/drush-ops/drush/issues/3071#issuecomment-347929777.
      * @bootstrap max configuration
      *
@@ -221,7 +221,7 @@ class SqlCommands extends DrushCommands implements StdinAwareInterface
      * @usage drush sql:dump --result-file=../18.sql
      *   Save SQL dump to the directory above Drupal root.
      * @usage drush sql:dump --skip-tables-key=common
-     *   Skip standard tables. See examples/example.drush.yml
+     *   Skip standard tables. See [Drush configuration](../using-drush-configuration)
      * @usage drush sql:dump --extra-dump=--no-data
      *   Pass extra option to <info>mysqldump</info> command.
      * @hidden-options create-db

@@ -19,7 +19,7 @@ class SchedulerScheduledContentListAccessTest extends SchedulerBrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $base_permissions = [

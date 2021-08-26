@@ -107,7 +107,7 @@ class ExternalAuthTest extends UnitTestCase {
       $this->eventDispatcher
     );
     $result = $externalauth->load("test_authname", "test_provider");
-    $this->assertTrue($result instanceof UserInterface);
+    $this->assertInstanceOf(UserInterface::class, $result);
   }
 
   /**
@@ -209,7 +209,7 @@ class ExternalAuthTest extends UnitTestCase {
       $this->eventDispatcher
     );
     $registered_account = $externalauth->register($registration_data['authname'], $registration_data['provider'], $registration_data['account_data'], $registration_data['authmap_data']);
-    $this->assertTrue($registered_account instanceof UserInterface);
+    $this->assertInstanceOf(UserInterface::class, $registered_account);
     $this->assertEquals($expected_data['timezone'], $registered_account->getTimeZone());
     $this->assertEquals($expected_data['data'], $dispatched_event->getData());
   }
@@ -303,7 +303,7 @@ class ExternalAuthTest extends UnitTestCase {
       ->will($this->returnValue($account));
 
     $result = $externalauth->loginRegister("test_authname", "test_provider");
-    $this->assertTrue($result instanceof UserInterface);
+    $this->assertInstanceOf(UserInterface::class, $result);
   }
 
   /**

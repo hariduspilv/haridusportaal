@@ -4,9 +4,9 @@ namespace Drupal\scheduler\Access;
 
 use Drupal\Core\Access\AccessCheckInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\Routing\Route;
-use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Checks access for displaying the scheduler list of scheduled nodes.
