@@ -84,12 +84,6 @@ chown -R apache:apache /app/drupal/web/sites/default/files
 chmod -R 764 /app/drupal/web/sites/default/files/php
 chmod -R 764 /app/drupal/web/sites/default/files/logs
 
-if [ -d /plumbr-agent-installer ] && [[ $ENVIRONMENT == "Live" ]]; then
-  /plumbr-agent-installer/PlumbrAgentInstaller --unpack-only --cluster-id="Drupal-${ENVIRONMENT}"
-  /lib/ld-musl-x86_64.so.1 -- /opt/plumbr-agent/plumbrd &
-  export LD_PRELOAD=/opt/plumbr-agent/libplumbrmonitor.so
-fi
-
 /usr/sbin/crond -l 8
 
 echo "[i] Starting daemon..."
