@@ -2,4 +2,5 @@ name: 'HTM Variables'
 type: module
 description: 'Custom variable module with REST endpoint'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

@@ -6,10 +6,11 @@ emails:
     organizer_email_body: ''
   email_subscription:
     create_email_subject: 'Uudiskirja tellimuse kinnitamine'
-    create_email_body: "Tere!\r\n\r\nTänud haridusteemade vastu huvi tundmast. Aadressile [subscription_entity:subscriber_email] on tellitud teavitused teemadel: [htm_custom_subscription_tokens:newtags].\r\n\r\nTellimuse kinnitamiseks palun vajutage seda linki: [htm_custom_subscription_tokens:subscribe_link].\r\n\r\nKui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: [htm_custom_subscription_tokens:unsubscribe_link]."
+    create_email_body: "Tere!\r\n\r\nAitäh, et tunnete huvi haridusteemade vastu! Aadressile [subscription_entity:subscriber_email] on tellitud teavitused haridus-, noorte- ja karjäärivaldkonna uudistest ja sündmustest.\r\n\r\nTellimuse kinnitamiseks palun vajutage seda linki: [htm_custom_subscription_tokens:subscribe_link].\r\n\r\nKui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: [htm_custom_subscription_tokens:unsubscribe_link]."
     update_email_subject: 'Uudiskirja tellimuse uuendamine'
     update_email_body: "Tere!\r\n\r\nAadressile [subscription_entity:subscriber_email] on tellitud teavitused teemadel: [htm_custom_subscription_tokens:tags].\r\n\r\nMuudetud tellimus sisaldab teemasid: [htm_custom_subscription_tokens:newtags].\r\n\r\nVarasema tellimuse muutmiseks palun vajutage seda linki: [htm_custom_subscription_tokens:subscribe_link].\r\n\r\nKui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: [htm_custom_subscription_tokens:unsubscribe_link]."
     notify_email_subject: 'Haridusteemalised uudised'
     notify_email_body: "Uudised:\r\n[htm_custom_subscription_tokens:news]\r\n\r\nSündmused:\r\n[htm_custom_subscription_tokens:events]"
 general:
   fe_url: 'https://haridusportaal.twn.zone'
+langcode: et

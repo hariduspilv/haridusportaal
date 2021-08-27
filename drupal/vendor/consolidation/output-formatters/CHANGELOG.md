@@ -1,8 +1,20 @@
 # Change Log
 
-### 3.5.1 - 10 October 2020
+### 4.1.2 - 10 Dec 2020
 
-- Allow symfony/finder ^5 in output-formatters 3.x. (#87)
+- PHP 8
+
+### 4.1.1 - 27 May 2020
+
+- Fix Symfony 5 bugs. (#85)
+
+### 4.1.0 - 6 Feb 2020
+
+- Test with PHP 7.4.
+
+### 4.0.0 - 29 Oct 2019
+
+- Compatible with the 3.x branch, but removes support for old PHP versions and requires Symfony 4.
 
 ### 3.5.0 - 30 May 2019
 

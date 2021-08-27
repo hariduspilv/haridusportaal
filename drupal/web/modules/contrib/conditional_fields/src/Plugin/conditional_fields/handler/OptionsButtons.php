@@ -34,11 +34,11 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
    */
   protected function radioHandler($field, $field_info, $options) {
     $select_states = [];
-    $values_array  = $this->getConditionValues( $options );
+    $values_array  = $this->getConditionValues($options);
     $state         = [];
-    switch ($options[ 'values_set' ]) {
+    switch ($options['values_set']) {
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
-        // TODO: Try to get key_column automatically.
+        // @todo Try to get key_column automatically.
         // like here:
         // @see \Drupal\conditional_fields\Plugin\conditional_fields\handler\Select::widgetCase()
         if (isset($options['value_form'][0]['value'])) {
@@ -76,6 +76,7 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         ];
         $state = [$options['state'] => $select_states];
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $options['state'] = '!' . $options['state'];
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
@@ -108,10 +109,10 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
     $state                = [];
     $values_array         = $this->getConditionValues($options);
     $select               = conditional_fields_field_selector($field);
-    switch ($options[ 'values_set' ]) {
+    switch ($options['values_set']) {
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $values_array = $this->getWidgetValue($options['value_form']);
-        //We are placed on the parent field with options
+        // We are placed on the parent field with options.
         if (isset($field['#options'])) {
           foreach ($field['#options'] as $id => $label) {
             if (isset($field[$id]) && is_array($field[$id])) {
@@ -119,17 +120,19 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
               if (!$selector_key) {
                 $selector_key = sprintf("[name=\"%s\"]", $this->getFieldName($field));
               }
-            } else {
+            }
+            else {
               $selector_key = $select;
             }
             $checkboxes_selectors[$selector_key] = ['checked' => in_array($id, $values_array)];
           }
-        } elseif (isset($field['#return_value'])) {
-          //We are placed inside the option of the checkboxes
+        }
+        elseif (isset($field['#return_value'])) {
+          // We are placed inside the option of the checkboxes.
           $selector = conditional_fields_field_selector($field);
           foreach ($options['value_form'] as $value) {
             $selector_key = str_replace($field['#return_value'], current($value), $selector);
-            $checkboxes_selectors[$selector_key] = ['checked' => true];
+            $checkboxes_selectors[$selector_key] = ['checked' => TRUE];
           }
         }
         $state[$options['state']] = $checkboxes_selectors;
@@ -139,10 +142,10 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         // We interpret this as: checkboxes whose values match the regular
         // expression should be checked.
         if (isset($field['#options'])) {
-          foreach ($field['#options'] as $key => $label ) {
+          foreach ($field['#options'] as $key => $label) {
             if (preg_match('/' . $options['regex'] . '/', $key)) {
               $checkboxes_selectors = [
-                conditional_fields_field_selector($field[$key]) => ['checked' => true],
+                conditional_fields_field_selector($field[$key]) => ['checked' => TRUE],
               ];
               $state[$options['state']][] = $checkboxes_selectors;
             }
@@ -154,13 +157,14 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         if (!empty($values_array)) {
           foreach ($values_array as $value) {
             if (isset($field[$value])) {
-              $checkboxes_selectors[conditional_fields_field_selector($field[$value])] = ['checked' => true];
+              $checkboxes_selectors[conditional_fields_field_selector($field[$value])] = ['checked' => TRUE];
             }
           }
-        } else {
-          $checkboxes_selectors[conditional_fields_field_selector($field[$options['values']])] = ['checked' => true];
         }
-        $state[ $options[ 'state' ] ] = $checkboxes_selectors;
+        else {
+          $checkboxes_selectors[conditional_fields_field_selector($field[$options['values']])] = ['checked' => TRUE];
+        }
+        $state[$options['state']] = $checkboxes_selectors;
         break;
 
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
@@ -168,7 +172,7 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
           if ($index > 0) {
             $checkboxes_selectors[] = 'xor';
           }
-          $checkboxes_selectors[] = [conditional_fields_field_selector($field[$value]) => ['checked' => true]];
+          $checkboxes_selectors[] = [conditional_fields_field_selector($field[$value]) => ['checked' => TRUE]];
         }
         $state[$options['state']] = $checkboxes_selectors;
         break;
@@ -176,10 +180,10 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $options['state'] = '!' . $options['state'];
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
-        foreach ( $values_array as $value ) {
-          $checkboxes_selectors[] = [ conditional_fields_field_selector( $field[ $value ] ) => [ 'checked' => true ] ];
+        foreach ($values_array as $value) {
+          $checkboxes_selectors[] = [conditional_fields_field_selector($field[$value]) => ['checked' => TRUE]];
         }
-        $state[ $options['state'] ] = $checkboxes_selectors;
+        $state[$options['state']] = $checkboxes_selectors;
         break;
     }
     return $state;
@@ -189,20 +193,23 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
    * Get field name.
    *
    * @param array $field
-   *   The field object
+   *   The field object.
    *
    * @return string|false
    *   The field name
    */
   public function getFieldName(array $field) {
-    $field_name = false;
+    $field_name = FALSE;
     if (isset($field['#name'])) {
       $field_name = $field['#name'];
-    } elseif (isset($field['#field_name'])) {
+    }
+    elseif (isset($field['#field_name'])) {
       $field_name = $field['#field_name'];
-    } elseif (isset($field['#array_parents']) && !empty($field['#array_parents'])) {
+    }
+    elseif (isset($field['#array_parents']) && !empty($field['#array_parents'])) {
       $field_name = $field['#parents'][0];
-    } elseif (isset($field['#parents']) && is_array($field['#parents'])) {
+    }
+    elseif (isset($field['#parents']) && is_array($field['#parents'])) {
       $field_name = $field['#parents'][0];
     }
     return $field_name;
@@ -215,27 +222,36 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
     $values = [];
     if (empty($value_form)) {
       return $values;
-    } else {
+    }
+    else {
       foreach ($value_form as $value) {
         if (isset($value['value'])) {
           $values[] = $value['value'];
-        } elseif ( isset($value['target_id'])) {
+        }
+        elseif (isset($value['target_id'])) {
           $values[] = $value['target_id'];
-        } elseif ( isset($value['nid'])) {
+        }
+        elseif (isset($value['nid'])) {
           $values[] = $value['nid'];
-        } elseif ( isset($value['vid'])) {
+        }
+        elseif (isset($value['vid'])) {
           $values[] = $value['vid'];
-        } elseif ( isset($value['uid'])) {
+        }
+        elseif (isset($value['uid'])) {
           $values[] = $value['uid'];
-        } elseif ( isset($value['fid'])) {
+        }
+        elseif (isset($value['fid'])) {
           $values[] = $value['fid'];
-        } elseif ( isset($value['id'])) {
+        }
+        elseif (isset($value['id'])) {
           $values[] = $value['id'];
-        } else {
+        }
+        else {
           $values[] = $value;
         }
       }
       return $values;
     }
   }
+
 }

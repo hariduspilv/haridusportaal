@@ -129,7 +129,7 @@ class UsersKeyForm extends FormBase {
     if ($is_new) {
       $id = trim($form_state->getValue('id'));
       if ($this->keyRepository->getKey($id)) {
-        $form_state->setErrorByName('id', $this->t('%key is already in use as an ID', ['%id' => $id]));
+        $form_state->setErrorByName('id', $this->t('%id is already in use as an ID', ['%id' => $id]));
       }
     }
     $alg = $form_state->getValue('alg');

@@ -102,7 +102,7 @@ function svg_image_field_validate_mime_type(FileInterface $file) {
   $file_system = \Drupal::service('file_system');
   $file_path = $file_system->realpath($file->getFileUri());
   $mime_type = mime_content_type($file_path);
-  $allowed_mime_types = ['image/svg+xml'];
+  $allowed_mime_types = ['image/svg+xml', 'image/svg'];
   if (in_array($mime_type, $allowed_mime_types) === FALSE) {
     $errors[] = t('Only files with mime type %mime-types-allowed are allowed. Mime type detected %mime-type-detected',
         [

@@ -44,21 +44,21 @@ if (Drupal.autocomplete) {
  */
 
 //Visible/Invisible.
-$(document).bind('state:visible-fade', function(e) {
+$(document).bind('state:visible-fade', function (e) {
   if (e.trigger) {
     $(e.target).closest('.form-item, .form-submit, .form-wrapper')[e.value ? 'fadeIn' : 'fadeOut'](e.effect.speed);
   }
 })
-.bind('state:visible-slide', function(e) {
+.bind('state:visible-slide', function (e) {
   if (e.trigger) {
     $(e.target).closest('.form-item, .form-submit, .form-wrapper')[e.value ? 'slideDown' : 'slideUp'](e.effect.speed);
   }
 })
 // Empty/Filled.
-.bind('state:empty', function(e) {
+.bind('state:empty', function (e) {
   if (e.trigger) {
     var fields = $(e.target).find('input, select, textarea');
-    fields.each(function() {
+    fields.each(function () {
       if (typeof $(this).data('conditionalFieldsSavedValue') === 'undefined') {
         $(this).data('conditionalFieldsSavedValue', $(this).val());
       }
@@ -74,7 +74,7 @@ $(document).bind('state:visible-fade', function(e) {
   }
 })
 // On invisible make empty and unrequired.
-.bind('state:visible', function(e) {
+.bind('state:visible', function (e) {
   if (e.trigger) {
     // Save required property.
     if (typeof $(e.target).data('conditionalFieldsSavedRequired') === 'undefined') {
@@ -103,7 +103,7 @@ $(document).bind('state:visible-fade', function(e) {
       var fields_supporting_required = $(e.target).find('input, textarea');
       var labels = $(e.target).find(':not(.form-item--editor-format, .form-type-radio)>label');
       if (e.value) {
-        fields_supporting_required.filter(`[name*="[0]"]`).attr('required', 'required');
+        fields_supporting_required.filter(`[name *= "[0]"]`).attr('required', 'required');
         labels.addClass("form-required");
       } else {
         fields_supporting_required.removeAttr('required');
@@ -112,7 +112,7 @@ $(document).bind('state:visible-fade', function(e) {
     }
 })
 // Unchanged state. Do nothing.
-.bind('state:unchanged', function() {});
+.bind('state:unchanged', function () {});
 
 Drupal.behaviors.conditionalFields = {
   attach: function (context, settings) {
@@ -123,10 +123,10 @@ Drupal.behaviors.conditionalFields = {
     }
     // Override state change handlers for dependents with special effects.
     var eventsData = $.hasOwnProperty('_data') ? $._data(document, 'events') : $(document).data('events');
-    $.each(eventsData, function(i, events) {
+    $.each(eventsData, function (i, events) {
       if (i.substring(0, 6) === 'state:') {
         var originalHandler = events[0].handler;
-        events[0].handler = function(e) {
+        events[0].handler = function (e) {
           var effect = conditionalFields.effects['#' + e.target.id];
           if (typeof effect !== 'undefined') {
             var effectEvent = i + '-' + effect.effect;
@@ -143,7 +143,7 @@ Drupal.behaviors.conditionalFields = {
 };
 
 Drupal.behaviors.ckeditorTextareaFix = {
-    attach: function(context, settings) {
+    attach: function (context, settings) {
         if(CKEDITOR) {
             CKEDITOR.on('instanceReady', function () {
                 $(context).find('.form-textarea-wrapper textarea').each(function () {
@@ -172,7 +172,6 @@ Drupal.behaviors.autocompleteChooseTrigger = {
         });
     }
 };
-
 
 Drupal.behaviors.statesModification = {
   weight: -10,
@@ -247,7 +246,7 @@ Drupal.behaviors.statesModification = {
         }
       }
       //The fix for compare strings wrapped by control symbols
-      Drupal.states.Dependent.comparisons.String = function( reference, value ) {
+      Drupal.states.Dependent.comparisons.String = function ( reference, value ) {
         if ( value && value.constructor.name == 'Array' ) {
          for (var index in value) {
            if (_compare2(reference, value[index])) {

@@ -15,7 +15,7 @@ class ManageDisplayTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'node',
     'field_ui',
     'field_test',
@@ -46,7 +46,7 @@ class ManageDisplayTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->drupalPlaceBlock('system_breadcrumb_block');
 
@@ -110,7 +110,7 @@ class ManageDisplayTest extends WebDriverTestBase {
     $field_test_settings = $page->find('css', 'input[name="field_test_settings_edit"]');
     $weight_toggle = $page->find('css', '.tabledrag-toggle-weight');
 
-    // Assert the format typr field is visible and contains the expected
+    // Assert the format type field is visible and contains the expected
     // formatter.
     $this->assertTrue($field_test_format_type->isVisible());
     $this->assertEquals($format, $field_test_format_type->getValue());
@@ -182,7 +182,7 @@ class ManageDisplayTest extends WebDriverTestBase {
     $id = 'node.' . $this->type . '.default';
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
     $display = $display_storage->loadUnchanged($id);
-    $this->assertEquals($display->getRenderer('field_test')->getThirdPartySetting('field_third_party_test', 'field_test_field_formatter_third_party_settings_form'), 'foo');
+    $this->assertEquals('foo', $display->getRenderer('field_test')->getThirdPartySetting('field_third_party_test', 'field_test_field_formatter_third_party_settings_form'));
     $this->assertContains('field_third_party_test', $display->calculateDependencies()->getDependencies()['module'], 'The display has a dependency on field_third_party_test module.');
 
     // Change the formatter to an empty setting and validate it's initialized
@@ -329,7 +329,7 @@ class ManageDisplayTest extends WebDriverTestBase {
 
     /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $display */
     $display = $form_storage->loadUnchanged('node.' . $this->type . '.default');
-    $this->assertEquals($display->getRenderer('field_test')->getThirdPartySetting('field_third_party_test', 'field_test_widget_third_party_settings_form'), 'foo');
+    $this->assertEquals('foo', $display->getRenderer('field_test')->getThirdPartySetting('field_third_party_test', 'field_test_widget_third_party_settings_form'));
     $this->assertContains('field_third_party_test', $display->calculateDependencies()->getDependencies()['module'], 'Form display does not have a dependency on field_third_party_test module.');
 
     // Creates a new field that can not be used with the multiple formatter.
@@ -395,7 +395,7 @@ class ManageDisplayTest extends WebDriverTestBase {
     $select_options = $field->findAll('xpath', 'option');
 
     // Validate the number of options.
-    $this->assertCount(count($expected_options), $select_options);
+    $this->assertSameSize($expected_options, $select_options);
 
     // Validate the options and expected order.
     foreach ($select_options as $key => $option) {

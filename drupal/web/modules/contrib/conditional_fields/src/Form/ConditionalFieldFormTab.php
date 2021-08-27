@@ -3,14 +3,20 @@
 namespace Drupal\conditional_fields\Form;
 
 /**
- * Class ConditionalFieldFormTab.
+ * A conditional fields form designed to appear in a tab.
  *
  * @package Drupal\conditional_fields\Form
  */
 class ConditionalFieldFormTab extends ConditionalFieldForm {
 
+  /**
+   * {@inheritdoc}
+   */
   protected $editPath = 'conditional_fields.edit_form.tab';
 
+  /**
+   * {@inheritdoc}
+   */
   protected $deletePath = 'conditional_fields.delete_form.tab';
 
   /**

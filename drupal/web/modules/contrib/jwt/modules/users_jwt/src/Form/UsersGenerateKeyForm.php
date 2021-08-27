@@ -85,7 +85,7 @@ class UsersGenerateKeyForm extends FormBase {
       '#type' => 'actions',
       '#weight' => 30,
     ];
-    $form['actions']['save'] = [
+    $form['actions']['download'] = [
       '#type' => 'submit',
       '#value' => $this->t('Generate'),
     ];
@@ -96,6 +96,7 @@ class UsersGenerateKeyForm extends FormBase {
       '#attributes' => ['class' => ['button']],
       '#url' => $cancel_url,
     ];
+    $form['#attached']['library'][] = 'users_jwt/download_redirect';
 
     return $form;
   }
@@ -125,6 +126,8 @@ class UsersGenerateKeyForm extends FormBase {
     $filename = $user->getAccountName() . '__private-key__' . $key->id . '.key';
     $response = Response::create($out);
     $response->setPrivate();
+    // Clear the cookie from the browser that is set in JavaScript.
+    $response->headers->clearCookie('users_jwt_download', '/', NULL, FALSE, FALSE);
     $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
     $response->headers->set('Content-Disposition', $disposition);
     $form_state->setResponse($response);

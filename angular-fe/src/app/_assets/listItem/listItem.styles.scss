@@ -85,6 +85,9 @@ $grid-columns: 12;
       &:last-child {
         border-bottom: 0;
       }
+      &.overflow-hidden {
+        overflow: hidden;
+      }
       &:hover {
         .list__item__title {
           text-decoration: underline;
@@ -254,9 +257,9 @@ $grid-columns: 12;
         .list__item__picto-wrapper {
           display: flex;
           justify-content: center;
-          margin-right: -3rem;
-          margin-top: -2rem;
-          height: 7rem;
+          @include break-on(xs, max) {
+            margin-top: 1rem;
+          }
         }
 
         &+ .list__item {
@@ -266,10 +269,6 @@ $grid-columns: 12;
         @include break-on(xs, max) {
           flex-direction: column !important;
 
-          .list__item__picto-wrapper {
-            margin-right: 0;
-            margin-top: 0;
-          }
           .list__item__titlebox a > h1 {
             white-space: normal !important;
           }
@@ -437,7 +436,7 @@ $grid-columns: 12;
     margin: 0 -1.5rem;
     flex-wrap: wrap;
     box-sizing: border-box;
-    //flex-direction: column;
+    flex-direction: column;
     @for $i from 1 through $grid-columns {
       .col-#{$i} {
         width: percentage($i / $grid-columns);

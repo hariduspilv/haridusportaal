@@ -51,6 +51,7 @@ class ConfigFilterStorageFactoryTest extends KernelTestBase {
 
     $config = $this->config('system.site')->getRawData();
     $config['name'] .= ' Arrr';
+    $config['slogan'] .= ' Arrr';
 
     $this->assertEquals($config, $transformed_storage->read('system.site'));
   }

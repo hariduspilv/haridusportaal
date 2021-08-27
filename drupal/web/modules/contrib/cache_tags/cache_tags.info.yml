@@ -3,6 +3,7 @@ type: module
 description: 'Adds a configurable Cache-Tags header.'
 # core: 8.x
 package: Other
+core_version_requirement: ^8 || ^9
 
 # Information added by Drupal.org packaging script on 2016-09-28
 version: '8.x-1.0-beta1'

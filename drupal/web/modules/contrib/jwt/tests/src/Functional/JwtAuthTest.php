@@ -4,9 +4,7 @@ namespace Drupal\Tests\jwt\Functional;
 
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Url;
-use Drupal\jwt\JsonWebToken\JsonWebToken;
 use Drupal\Tests\BrowserTestBase;
-use Drupal\user\Entity\Role;
 
 /**
  * Tests for jwt authentication provider.
@@ -63,13 +61,13 @@ class JwtAuthTest extends BrowserTestBase {
           $header_name => 'Bearer ' . $token,
         ];
         $this->drupalGet($url, [], $headers);
-        $this->assertResponse('200', 'HTTP response is OK');
-        $this->assertText($account->getAccountName(), 'Account name is displayed.');
-        $this->assertNull($this->drupalGetHeader('X-Drupal-Cache'));
-        $this->assertFalse(strpos($this->drupalGetHeader('Cache-Control'), 'public'), 'Cache-Control is not set to public');
+        $this->assertSession()->statusCodeEquals(200);
+        $this->assertSession()->pageTextContains($account->getAccountName());
+        self::assertNull($this->drupalGetHeader('X-Drupal-Cache'));
+        self::assertFalse(strpos($this->drupalGetHeader('Cache-Control'), 'public'), 'Cache-Control is not set to public');
         $account->block()->save();
         $this->drupalGet($url, [], $headers);
-        $this->assertResponse('403', 'Access is not granted.');
+        $this->assertSession()->statusCodeEquals(403);
         $account->activate()->save();
         // This is needed to prevent the Authorization header from the last loop
         // being sent again by the mink session.
@@ -78,12 +76,23 @@ class JwtAuthTest extends BrowserTestBase {
           $header_name => 'Bearer ' . $this->randomMachineName(),
         ];
         $this->drupalGet($url, [], $headers);
-        $this->assertNoText($account->getAccountName(), 'Bad jwt token does not authenticate the user.');
-        $this->assertResponse('403', 'Access is not granted.');
+        // Bad jwt token does not authenticate the user.
+        $this->assertSession()->pageTextNotContains($account->getAccountName());
+        $this->assertSession()->statusCodeEquals(403);
         $this->mink->resetSessions();
       }
     }
-
+    // The front page should return a 200 even for an invalid JWT.
+    foreach (['Authorization', 'JWT-Authorization'] as $header_name) {
+      $headers = [
+        $header_name => 'Bearer ' . $this->randomMachineName(),
+      ];
+      $this->drupalGet('<front>', [], $headers);
+      // Bad jwt token does not authenticate the user.
+      $this->assertSession()->pageTextNotContains($account->getAccountName());
+      $this->assertSession()->statusCodeEquals(200);
+      $this->mink->resetSessions();
+    }
     // Ensure that pages already in the page cache aren't returned from page
     // cache if jwt credentials are provided.
     $url = Url::fromRoute('jwt_test.10');
@@ -96,7 +105,7 @@ class JwtAuthTest extends BrowserTestBase {
         $header_name => 'Bearer ' . $token,
       ];
       $this->drupalGet($url, [], $headers);
-      $this->assertResponse('200', 'HTTP response is OK');
+      $this->assertSession()->statusCodeEquals(200);
       $this->assertNull($this->drupalGetHeader('X-Drupal-Cache'));
       $this->assertFalse(strpos($this->drupalGetHeader('Cache-Control'), 'public'), 'No page cache response when requesting a cached page with jwt credentials.');
       // This is needed to prevent the Authorization header from the last loop
@@ -112,8 +121,9 @@ class JwtAuthTest extends BrowserTestBase {
     $url = Url::fromRoute('jwt_test.11.2');
     $headers = ['Authorization' => 'Basic ' . base64_encode("$username:$password")];
     $this->drupalGet($url, [], $headers);
-    $this->assertResponse('200', "HTTP response is OK on $route_name");
-    $this->assertText($account->getAccountName(), 'Account name is displayed.');
+    $this->assertSession()->statusCodeEquals(200);
+    // Account name is displayed.
+    $this->assertSession()->pageTextContains($account->getAccountName());
     $this->mink->resetSessions();
     // This simulates a site where the basic auth is validated by the
     // webserver or shield module or otherwise is not valid as a user login.
@@ -125,8 +135,9 @@ class JwtAuthTest extends BrowserTestBase {
     $this->mink->resetSessions();
     $headers += ['JWT-Authorization' => 'Bearer ' . $token];
     $this->drupalGet($url, [], $headers);
-    $this->assertResponse('200', 'HTTP response is OK');
-    $this->assertText($account->getAccountName(), 'Account name is displayed.');
+    $this->assertSession()->statusCodeEquals(200);
+    // Account name is displayed.
+    $this->assertSession()->pageTextContains($account->getAccountName());
   }
 
 }

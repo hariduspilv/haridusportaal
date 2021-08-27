@@ -3,7 +3,8 @@
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases;
 
 /**
- * Interface ConditionalFieldValueInterface
+ * Outline tests for field types that have visible values.
+ *
  * @package Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases
  */
 interface ConditionalFieldValueInterface {
@@ -14,27 +15,27 @@ interface ConditionalFieldValueInterface {
   public function testVisibleValueWidget();
 
   /**
-   * The target field is Visible when the control field has value from Regular expression.
+   * Target field is Visible when the control field has value from regex.
    */
   public function testVisibleValueRegExp();
 
   /**
-   * The target field is Visible when the control field has value with AND condition.
+   * Target field is Visible when control field has value with AND condition.
    */
   public function testVisibleValueAnd();
 
   /**
-   * The target field is Visible when the control field has value with OR condition.
+   * Target field is Visible when the control field has value with OR condition.
    */
   public function testVisibleValueOr();
 
   /**
-   * The target field is Visible when the control field has value with NOT condition.
+   * Target field is Visible when control field has value with NOT condition.
    */
   public function testVisibleValueNot();
 
   /**
-   * The target field is Visible when the control field has value with XOR condition.
+   * Target field is Visible when control field has value with XOR condition.
    */
   public function testVisibleValueXor();
 

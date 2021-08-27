@@ -5,10 +5,14 @@
  * Scheduling options for node forms.
  *
  * This content type contains the publish and unpublish scheduling date fields.
+ *
+ * @todo This file was introduced in Scheduler 7.x - is it still usable in 8.x?
+ * The Ctools module no longer has a path /plugins/content_types/node_form
  */
 
 use Drupal\Core\Form\FormStateInterface;
 
+// phpcs:ignore DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable
 $plugin = [
   'single' => TRUE,
   'edit form' => 'scheduler_form_pane_node_form_menu_content_type_edit_form',

@@ -1,0 +1,7 @@
+field_defaults.field_defaults_settings_form:
+  path: '/admin/config/system/field_defaults/settings'
+  defaults:
+    _form: '\Drupal\field_defaults\Form\SettingsForm'
+    _title: 'Field defaults settings'
+  requirements:
+    _permission: 'access configuration pages'

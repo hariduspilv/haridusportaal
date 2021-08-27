@@ -4,7 +4,7 @@
 	</div><!--/inline-->
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
-			<block-title>{{ 'oskaProfessions.fields' | translate }}</block-title>
+			<block-title><h1>{{ 'oskaProfessions.fields' | translate }}</h1></block-title>
 			<block-content class="block-content--no-padding" tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
 				<loader *ngIf=!data></loader>
 				<dropdown-list *ngIf="data" [data]="data"></dropdown-list>

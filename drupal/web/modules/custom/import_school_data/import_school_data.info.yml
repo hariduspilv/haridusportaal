@@ -2,4 +2,5 @@ name: 'Import School Data'
 type: module
 description: 'Module for importing school data'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'
