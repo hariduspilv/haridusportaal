@@ -36,14 +36,14 @@
   }
 
   h2 {
-    font-size: 1.5rem !important;
+    font-size: 1rem !important;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.33;
     letter-spacing: normal;
     text-align: left;
-    margin-top: 1.8rem !important;
+    margin-top: 1.5rem !important;
     margin-bottom: 1rem !important;
   }
 
@@ -115,7 +115,7 @@
       }
     }
     &__table {
-      margin: 1rem 0rem;
+      margin-bottom: 1rem;
     }
     @include break-on(sm, min) {
       border-radius: $half-gutter;
@@ -1010,9 +1010,6 @@
   }
   .disabled-step table .round-input__field-wrapper {
     border: 0px solid transparent;
-  }
-  h1 {
-    margin-bottom: 1rem;
   }
   .row {
     formItem {
