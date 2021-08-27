@@ -1,11 +1,11 @@
 <?php
-    require_once "vendor/autoload.php";
+    require_once __DIR__."/vendor/autoload.php";
 
     // Load some properties from the composer file
     $composer = json_decode(file_get_contents(__DIR__."/composer.json"));
 
     // Start building up a RDF graph
-    $doap = new EasyRdf_Graph($composer->homepage.'doap.rdf');
+    $doap = new \EasyRdf\Graph($composer->homepage.'doap.rdf');
     $easyrdf = $doap->resource('#easyrdf', 'doap:Project', 'foaf:Project');
     $easyrdf->addLiteral('doap:name',  'EasyRDF');
     $easyrdf->addLiteral('doap:shortname', 'easyrdf');
@@ -20,9 +20,8 @@
         'It is written in Object Oriented PHP and has been tested extensively using PHPUnit.', 'en'
     );
     $easyrdf->addResource('doap:license', 'http://usefulinc.com/doap/licenses/bsd');
-    $easyrdf->addResource('doap:download-page', 'http://github.com/njh/easyrdf/downloads');
-    $easyrdf->addResource('doap:download-page', 'http://github.com/njh/easyrdf/downloads');
-    $easyrdf->addResource('doap:bug-database', 'http://github.com/njh/easyrdf/issues');
+    $easyrdf->addResource('doap:download-page', 'http://github.com/easyrdf/easyrdf/downloads');
+    $easyrdf->addResource('doap:bug-database', 'http://github.com/easyrdf/easyrdf/issues');
     $easyrdf->addResource('doap:mailing-list', 'http://groups.google.com/group/easyrdf');
 
     $easyrdf->addResource('doap:category', 'http://dbpedia.org/resource/Resource_Description_Framework');
@@ -31,8 +30,8 @@
     $easyrdf->addResource('doap:category', 'http://www.dbpedialite.org/things/53847#id');
 
     $repository = $doap->newBNode('doap:GitRepository');
-    $repository->addResource('doap:browse', 'http://github.com/njh/easyrdf');
-    $repository->addResource('doap:location', 'git://github.com/njh/easyrdf.git');
+    $repository->addResource('doap:browse', 'http://github.com/easyrdf/easyrdf');
+    $repository->addResource('doap:location', 'git://github.com/easyrdf/easyrdf.git');
     $easyrdf->addResource('doap:repository', $repository);
 
     $njh = $doap->resource('http://njh.me/', 'foaf:Person');

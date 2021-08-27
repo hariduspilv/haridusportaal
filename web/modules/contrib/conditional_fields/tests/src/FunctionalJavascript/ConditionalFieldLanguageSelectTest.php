@@ -102,7 +102,7 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-language-select-post-add-list-options-filed-conditions.png');
 
@@ -113,7 +113,6 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-language-select-body-visible-when-controlled-field-has-default-value.png');
@@ -149,12 +148,12 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
-      "regex" => '^'. $this->langcodes[0] . '$',
+      "regex" => '^' . $this->langcodes[0] . '$',
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-language-select-post-add-list-options-filed-conditions.png');
 
@@ -165,7 +164,6 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-language-select-body-visible-when-controlled-field-has-default-value.png');
@@ -201,12 +199,12 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
-      "values" => implode( "\r\n", $this->langcodes ),
+      "values" => implode("\r\n", $this->langcodes),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-language-select-post-add-list-options-filed-conditions.png');
 
@@ -217,7 +215,6 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-language-select-body-visible-when-controlled-field-has-default-value.png');
@@ -253,12 +250,12 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
-      "values" => implode( "\r\n", $this->langcodes ),
+      "values" => implode("\r\n", $this->langcodes),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-language-select-post-add-list-options-filed-conditions.png');
 
@@ -269,7 +266,6 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-language-select-body-visible-when-controlled-field-has-default-value.png');
@@ -305,12 +301,12 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
-      "values" => implode( "\r\n", $this->langcodes ),
+      "values" => implode("\r\n", $this->langcodes),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-language-select-post-add-list-options-filed-conditions.png');
 
@@ -321,7 +317,6 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-language-select-body-visible-when-controlled-field-has-default-value.png');
@@ -357,12 +352,12 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
-      "values" => implode( "\r\n", $this->langcodes ),
+      "values" => implode("\r\n", $this->langcodes),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-language-select-post-add-list-options-filed-conditions.png');
 
@@ -373,7 +368,6 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-language-select-body-visible-when-controlled-field-has-default-value.png');

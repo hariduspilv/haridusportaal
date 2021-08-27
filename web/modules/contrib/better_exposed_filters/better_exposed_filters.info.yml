@@ -10,7 +10,7 @@ dependencies:
   - jquery_ui_touch_punch:jquery_ui_touch_punch
   - jquery_ui_datepicker:jquery_ui_datepicker
 
-# Information added by Drupal.org packaging script on 2020-07-07
-version: '8.x-5.0-beta1'
+# Information added by Drupal.org packaging script on 2021-07-07
+version: '8.x-5.0-beta3'
 project: 'better_exposed_filters'
-datestamp: 1594141894
+datestamp: 1625665749

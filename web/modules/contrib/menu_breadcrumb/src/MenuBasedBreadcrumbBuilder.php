@@ -24,6 +24,7 @@ use Drupal\Core\Url;
 use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
 use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * {@inheritdoc}
@@ -413,8 +414,13 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
     // If we got here, the current page is missing from the breadcrumb links.
     // This can happen if the active trail is only partial, and doesn't reach
     // the current page, or if a taxonomy attachment is used.
-    $title = $this->titleResolver->getTitle($this->currentRequest,
-      $route_match->getRouteObject());
+    $route = $route_match->getRouteObject();
+    $request = Request::create($route->getPath());
+    // Performance optimization: set a short accept header to reduce overhead in
+    // AcceptHeaderMatcher when matching the request.
+    $request->headers->set('Accept', 'text/html');
+    $request->attributes->add($route_match->getParameters()->all());
+    $title = $this->titleResolver->getTitle($request, $route);
     if (isset($title)) {
       $links[] = Link::fromTextAndUrl($title,
         Url::fromRouteMatch($route_match));

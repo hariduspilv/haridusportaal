@@ -37,7 +37,7 @@ class DatabaseCacheTagsChecksum implements CacheTagsChecksumInterface, CacheTags
       foreach ($tags as $tag) {
         $this->connection->merge('cachetags')
           ->insertFields(['invalidations' => 1])
-          ->expression('invalidations', 'invalidations + 1')
+          ->expression('invalidations', '[invalidations] + 1')
           ->key('tag', $tag)
           ->execute();
       }
@@ -57,7 +57,7 @@ class DatabaseCacheTagsChecksum implements CacheTagsChecksumInterface, CacheTags
    */
   protected function getTagInvalidationCounts(array $tags) {
     try {
-      return $this->connection->query('SELECT tag, invalidations FROM {cachetags} WHERE tag IN ( :tags[] )', [':tags[]' => $tags])
+      return $this->connection->query('SELECT [tag], [invalidations] FROM {cachetags} WHERE [tag] IN ( :tags[] )', [':tags[]' => $tags])
         ->fetchAllKeyed();
     }
     catch (\Exception $e) {

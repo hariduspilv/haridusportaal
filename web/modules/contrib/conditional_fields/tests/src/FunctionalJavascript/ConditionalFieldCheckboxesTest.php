@@ -94,20 +94,18 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
       ->pageTextContains('body field_' . $this->taxonomyName . ' visible value');
-    $this->clickLink( 'Edit' );
-    $this->createScreenshot($this->screenshotPath . '01. Checkboxes' . __FUNCTION__ .  '.jpg');
+    $this->clickLink('Edit');
+    $this->createScreenshot($this->screenshotPath . '01. Checkboxes' . __FUNCTION__ . '.jpg');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
-    $this->createScreenshot($this->screenshotPath . '02. Checkboxes' . __FUNCTION__ .  '.jpg');
+    $this->createScreenshot($this->screenshotPath . '02. Checkboxes' . __FUNCTION__ . '.jpg');
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
     // Change a select value set to show the body.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
@@ -143,7 +141,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
@@ -151,7 +148,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
@@ -190,7 +186,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
@@ -198,7 +193,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
@@ -238,7 +232,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
@@ -246,7 +239,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
@@ -287,7 +279,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
@@ -295,7 +286,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilVisible('.field--name-body', 0, '01. Article Body field is not visible');
@@ -336,7 +326,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
@@ -344,7 +333,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');

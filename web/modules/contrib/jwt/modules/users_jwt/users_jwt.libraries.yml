@@ -1,0 +1,5 @@
+download_redirect:
+  version: "8.x-1.0-beta5"
+  js:
+    js/download-redirect.js: {preprocess: false}
+  dependencies: {}

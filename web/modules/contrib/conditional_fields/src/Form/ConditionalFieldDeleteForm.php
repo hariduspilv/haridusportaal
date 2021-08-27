@@ -2,22 +2,43 @@
 
 namespace Drupal\conditional_fields\Form;
 
-use Drupal\Core\Entity\Entity\EntityFormDisplay;
-use Drupal\Core\Entity\EntityFormBuilder;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Url;
 
 /**
- * Class ConditionalFieldDeleteForm.
+ * A form to delete a conditional field.
  *
  * @package Drupal\conditional_fields\Form
  */
 class ConditionalFieldDeleteForm extends ConfirmFormBase {
 
+  /**
+   * The entity type this conditional field is attached to.
+   *
+   * @var string
+   */
   private $entityType;
+
+  /**
+   * The bundle type this conditional field is attached to.
+   *
+   * @var string
+   */
   private $bundle;
+
+  /**
+   * The name of the conditional field to delete.
+   *
+   * @var string
+   */
   private $fieldName;
+
+  /**
+   * The UUID of the conditional field to delete.
+   *
+   * @var string
+   */
   private $uuid;
 
   /**
@@ -53,9 +74,7 @@ class ConditionalFieldDeleteForm extends ConfirmFormBase {
     if (empty($this->entityType) || empty($this->bundle) || empty($this->fieldName) || empty($this->uuid)) {
       return;
     }
-    /**
-     * @var EntityFormDisplay $entity
-     */
+    /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $entity */
     $entity = \Drupal::entityTypeManager()
       ->getStorage('entity_form_display')
       ->load($this->entityType . '.' . $this->bundle . '.default');

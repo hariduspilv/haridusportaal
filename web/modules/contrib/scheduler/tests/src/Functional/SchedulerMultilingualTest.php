@@ -35,7 +35,7 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // Create a user with the required translation permissions.

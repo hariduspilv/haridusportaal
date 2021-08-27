@@ -16,7 +16,7 @@ abstract class FileTestBase extends KernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['system'];
+  protected static $modules = ['system'];
 
   /**
    * A stream wrapper scheme to register for the test.
@@ -108,7 +108,7 @@ abstract class FileTestBase extends KernelTestBase {
     if (!isset($message)) {
       $message = t('Expected file permission to be %expected, actually were %actual.', ['%actual' => decoct($actual_mode), '%expected' => decoct($expected_mode)]);
     }
-    $this->assertEqual($actual_mode, $expected_mode, $message);
+    $this->assertEquals($expected_mode, $actual_mode, $message);
   }
 
   /**
@@ -144,7 +144,7 @@ abstract class FileTestBase extends KernelTestBase {
     if (!isset($message)) {
       $message = t('Expected directory permission to be %expected, actually were %actual.', ['%actual' => decoct($actual_mode), '%expected' => decoct($expected_mode)]);
     }
-    $this->assertEqual($actual_mode, $expected_mode, $message);
+    $this->assertEquals($expected_mode, $actual_mode, $message);
   }
 
   /**
@@ -187,6 +187,7 @@ abstract class FileTestBase extends KernelTestBase {
     if (!isset($filepath)) {
       // Prefix with non-latin characters to ensure that all file-related
       // tests work with international filenames.
+      // cSpell:disable-next-line
       $filepath = 'Файл для тестирования ' . $this->randomMachineName();
     }
     if (!isset($scheme)) {

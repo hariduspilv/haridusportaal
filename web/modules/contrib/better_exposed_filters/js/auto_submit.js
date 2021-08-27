@@ -100,7 +100,7 @@
         var $submit = $target.closest('form').find('[data-bef-auto-submit-click]');
 
         // Don't submit on changes to excluded elements or a submit element.
-        if ($target.is('[data-bef-auto-submit-exclude], :submit')) {
+        if ($target.is('[data-bef-auto-submit-exclude], :submit') || $target.attr('autocomplete') == 'off') {
           return true;
         }
 

@@ -17,7 +17,7 @@ class SessionExistsCacheContextTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['session_exists_cache_context_test'];
+  protected static $modules = ['session_exists_cache_context_test'];
 
   /**
    * {@inheritdoc}
@@ -64,7 +64,7 @@ class SessionExistsCacheContextTest extends BrowserTestBase {
    * Asserts whether a session cookie is present on the client or not.
    */
   public function assertSessionCookieOnClient($expected_present) {
-    $this->assertEqual($expected_present, (bool) $this->getSession()->getCookie($this->getSessionName()), 'Session cookie exists.');
+    $this->assertEquals($expected_present, (bool) $this->getSession()->getCookie($this->getSessionName()), 'Session cookie exists.');
   }
 
 }

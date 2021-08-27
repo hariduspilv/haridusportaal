@@ -38,7 +38,7 @@ abstract class SchedulerJavascriptTestBase extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     // Call the common set-up function defined in the trait.
     $this->schedulerSetUp();

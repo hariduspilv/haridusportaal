@@ -83,6 +83,16 @@ function editor_advanced_link_form_editor_link_dialog_alter(&$form, FormStateInt
     '#weight' => 2,
   ];
 
+  $form['attributes']['aria-label'] = [
+    '#type' => 'textfield',
+    '#title' => t('ARIA label'),
+    '#description' => t('Provide an alternative text value/label for assistive technologies.'),
+    '#default_value' => $get_default_value('aria-label'),
+    '#maxlength' => 512,
+    '#access' => $is_accessible('aria-label'),
+    '#group' => 'advanced',
+  ];
+
   $form['attributes']['class'] = [
     '#type' => 'textfield',
     '#title' => t('CSS classes'),
@@ -116,7 +126,7 @@ function editor_advanced_link_form_editor_link_dialog_alter(&$form, FormStateInt
   $form['attributes']['rel'] = [
     '#type' => 'textfield',
     '#title' => t('Relation (rel)'),
-    '#description' => t('Often used by JS galleries.'),
+    '#description' => t('Often used by JS galleries. When opening links in new windows/tabs, it is advised to add the noopener attribute due to security concerns.'),
     '#default_value' => $get_default_value('rel'),
     '#maxlength' => 512,
     '#access' => $is_accessible('rel'),

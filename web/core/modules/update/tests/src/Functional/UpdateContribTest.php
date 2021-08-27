@@ -30,7 +30,7 @@ class UpdateContribTest extends UpdateTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'update_test',
     'update',
     'aaa_update_test',
@@ -43,7 +43,7 @@ class UpdateContribTest extends UpdateTestBase {
    */
   protected $defaultTheme = 'stark';
 
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $admin_user = $this->drupalCreateUser(['administer site configuration']);
     $this->drupalLogin($admin_user);
@@ -68,12 +68,12 @@ class UpdateContribTest extends UpdateTestBase {
     $this->drupalGet('admin/reports/updates');
     // Cannot use $this->standardTests() because we need to check for the
     // 'No available releases found' string.
-    $this->assertRaw('<h3>' . t('Drupal core') . '</h3>');
+    $this->assertSession()->responseContains('<h3>Drupal core</h3>');
     $this->assertRaw(Link::fromTextAndUrl(t('Drupal'), Url::fromUri('http://example.com/project/drupal'))->toString());
-    $this->assertText(t('Up to date'));
-    $this->assertRaw('<h3>' . t('Modules') . '</h3>');
-    $this->assertNoText(t('Update available'));
-    $this->assertText(t('No available releases found'));
+    $this->assertSession()->pageTextContains('Up to date');
+    $this->assertSession()->responseContains('<h3>Modules</h3>');
+    $this->assertNoText('Update available');
+    $this->assertSession()->pageTextContains('No available releases found');
     $this->assertNoRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString());
 
     $available = update_get_available();
@@ -103,10 +103,10 @@ class UpdateContribTest extends UpdateTestBase {
       ]
     );
     $this->standardTests();
-    $this->assertText(t('Up to date'));
-    $this->assertRaw('<h3>' . t('Modules') . '</h3>');
-    $this->assertNoText(t('Update available'));
-    $this->assertRaw($project_link, 'Link to aaa_update_test project appears.');
+    $this->assertSession()->pageTextContains('Up to date');
+    $this->assertSession()->responseContains('<h3>Modules</h3>');
+    $this->assertNoText('Update available');
+    $this->assertRaw($project_link);
 
     // Since aaa_update_test is installed the fact it is hidden and in the
     // Testing package means it should not appear.
@@ -118,7 +118,7 @@ class UpdateContribTest extends UpdateTestBase {
         'aaa_update_test' => '1_0',
       ]
     );
-    $this->assertNoRaw($project_link, 'Link to aaa_update_test project does not appear.');
+    $this->assertNoRaw($project_link);
 
     // A hidden and installed project not in the Testing package should appear.
     $system_info['aaa_update_test']['package'] = 'aaa_update_test';
@@ -129,7 +129,7 @@ class UpdateContribTest extends UpdateTestBase {
         'aaa_update_test' => '1_0',
       ]
     );
-    $this->assertRaw($project_link, 'Link to aaa_update_test project appears.');
+    $this->assertRaw($project_link);
   }
 
   /**
@@ -181,19 +181,19 @@ class UpdateContribTest extends UpdateTestBase {
     $this->refreshUpdateStatus(['drupal' => '0.0', '#all' => '1_0']);
     $this->standardTests();
     // We're expecting the report to say all projects are up to date.
-    $this->assertText(t('Up to date'));
-    $this->assertNoText(t('Update available'));
+    $this->assertSession()->pageTextContains('Up to date');
+    $this->assertNoText('Update available');
     // We want to see all 3 module names listed, since they'll show up either
     // as project names or as modules under the "Includes" listing.
-    $this->assertText(t('AAA Update test'));
-    $this->assertText(t('BBB Update test'));
-    $this->assertText(t('CCC Update test'));
+    $this->assertSession()->pageTextContains('AAA Update test');
+    $this->assertSession()->pageTextContains('BBB Update test');
+    $this->assertSession()->pageTextContains('CCC Update test');
     // We want aaa_update_test included in the ccc_update_test project, not as
     // its own project on the report.
-    $this->assertNoRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString(), 'Link to aaa_update_test project does not appear.');
+    $this->assertNoRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString());
     // The other two should be listed as projects.
-    $this->assertRaw(Link::fromTextAndUrl(t('BBB Update test'), Url::fromUri('http://example.com/project/bbb_update_test'))->toString(), 'Link to bbb_update_test project appears.');
-    $this->assertRaw(Link::fromTextAndUrl(t('CCC Update test'), Url::fromUri('http://example.com/project/ccc_update_test'))->toString(), 'Link to bbb_update_test project appears.');
+    $this->assertRaw(Link::fromTextAndUrl(t('BBB Update test'), Url::fromUri('http://example.com/project/bbb_update_test'))->toString());
+    $this->assertRaw(Link::fromTextAndUrl(t('CCC Update test'), Url::fromUri('http://example.com/project/ccc_update_test'))->toString());
 
     // We want to make sure we see the BBB project before the CCC project.
     // Instead of just searching for 'BBB Update test' or something, we want
@@ -201,7 +201,9 @@ class UpdateContribTest extends UpdateTestBase {
     // we're really testing that the project listings are in the right order.
     $bbb_project_link = '<div class="project-update__title"><a href="http://example.com/project/bbb_update_test">BBB Update test</a>';
     $ccc_project_link = '<div class="project-update__title"><a href="http://example.com/project/ccc_update_test">CCC Update test</a>';
-    $this->assertTrue(strpos($this->getSession()->getPage()->getContent(), $bbb_project_link) < strpos($this->getSession()->getPage()->getContent(), $ccc_project_link), "'BBB Update test' project is listed before the 'CCC Update test' project");
+    // Verify that the 'BBB Update test' project is listed before the
+    // 'CCC Update test' project.
+    $this->assertLessThan(strpos($this->getSession()->getPage()->getContent(), $ccc_project_link), strpos($this->getSession()->getPage()->getContent(), $bbb_project_link));
   }
 
   /**
@@ -209,7 +211,7 @@ class UpdateContribTest extends UpdateTestBase {
    */
   public function testUpdateBaseThemeSecurityUpdate() {
     // @todo https://www.drupal.org/node/2338175 base themes have to be
-    //  installed.
+    //   installed.
     // Only install the subtheme, not the base theme.
     \Drupal::service('theme_installer')->install(['update_test_subtheme']);
 
@@ -239,8 +241,9 @@ class UpdateContribTest extends UpdateTestBase {
       'update_test_basetheme' => '1_1-sec',
     ];
     $this->refreshUpdateStatus($xml_mapping);
-    $this->assertText(t('Security update required!'));
-    $this->assertRaw(Link::fromTextAndUrl(t('Update test base theme'), Url::fromUri('http://example.com/project/update_test_basetheme'))->toString(), 'Link to the Update test base theme project appears.');
+    $this->assertSession()->pageTextContains('Security update required!');
+    $this->updateProject = 'update_test_basetheme';
+    $this->assertVersionUpdateLinks('Security update', '8.x-1.1');
   }
 
   /**
@@ -393,16 +396,16 @@ class UpdateContribTest extends UpdateTestBase {
       $this->refreshUpdateStatus($xml_mapping);
       // In neither case should we see the "Themes" heading for installed
       // themes.
-      $this->assertNoText(t('Themes'));
+      $this->assertNoText('Themes');
       if ($check_disabled) {
-        $this->assertText(t('Uninstalled themes'));
-        $this->assertRaw($base_theme_project_link, 'Link to the Update test base theme project appears.');
-        $this->assertRaw($sub_theme_project_link, 'Link to the Update test subtheme project appears.');
+        $this->assertSession()->pageTextContains('Uninstalled themes');
+        $this->assertRaw($base_theme_project_link);
+        $this->assertRaw($sub_theme_project_link);
       }
       else {
-        $this->assertNoText(t('Uninstalled themes'));
-        $this->assertNoRaw($base_theme_project_link, 'Link to the Update test base theme project does not appear.');
-        $this->assertNoRaw($sub_theme_project_link, 'Link to the Update test subtheme project does not appear.');
+        $this->assertNoText('Uninstalled themes');
+        $this->assertNoRaw($base_theme_project_link);
+        $this->assertNoRaw($sub_theme_project_link);
       }
     }
   }
@@ -475,26 +478,26 @@ class UpdateContribTest extends UpdateTestBase {
     ];
     $this->refreshUpdateStatus($xml_mapping);
 
-    $this->assertText(t('Up to date'));
+    $this->assertSession()->pageTextContains('Up to date');
     // We're expecting the report to say most projects are up to date, so we
     // hope that 'Up to date' is not unique.
-    $this->assertNoUniqueText(t('Up to date'));
+    $this->assertSession()->pageTextMatchesCount(3, '/Up to date/');
     // It should say we failed to get data, not that we're missing an update.
-    $this->assertNoText(t('Update available'));
+    $this->assertNoText('Update available');
 
     // We need to check that this string is found as part of a project row, not
     // just in the "Failed to get available update data" message at the top of
     // the page.
-    $this->assertRaw('<div class="project-update__status">' . t('Failed to get available update data'));
+    $this->assertSession()->responseContains('<div class="project-update__status">Failed to get available update data');
 
     // We should see the output messages from fetching manually.
-    $this->assertUniqueText(t('Checked available update data for 3 projects.'));
-    $this->assertUniqueText(t('Failed to get available update data for one project.'));
+    $this->assertSession()->pageTextContainsOnce('Checked available update data for 3 projects.');
+    $this->assertSession()->pageTextContainsOnce('Failed to get available update data for one project.');
 
     // The other two should be listed as projects.
-    $this->assertRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString(), 'Link to aaa_update_test project appears.');
-    $this->assertNoRaw(Link::fromTextAndUrl(t('BBB Update test'), Url::fromUri('http://example.com/project/bbb_update_test'))->toString(), 'Link to bbb_update_test project does not appear.');
-    $this->assertRaw(Link::fromTextAndUrl(t('CCC Update test'), Url::fromUri('http://example.com/project/ccc_update_test'))->toString(), 'Link to bbb_update_test project appears.');
+    $this->assertRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString());
+    $this->assertNoRaw(Link::fromTextAndUrl(t('BBB Update test'), Url::fromUri('http://example.com/project/bbb_update_test'))->toString());
+    $this->assertRaw(Link::fromTextAndUrl(t('CCC Update test'), Url::fromUri('http://example.com/project/ccc_update_test'))->toString());
   }
 
   /**
@@ -537,27 +540,27 @@ class UpdateContribTest extends UpdateTestBase {
       ]
     );
     $this->drupalGet('admin/reports/updates');
-    $this->assertRaw('<h3>' . t('Modules') . '</h3>');
-    $this->assertText(t('Security update required!'));
-    $this->assertRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString(), 'Link to aaa_update_test project appears.');
+    $this->assertSession()->responseContains('<h3>Modules</h3>');
+    $this->assertSession()->pageTextContains('Security update required!');
+    $this->assertRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString());
 
     // Visit the reports page again without the altering and make sure the
     // status is back to normal.
     $update_test_config->set('update_status', [])->save();
     $this->drupalGet('admin/reports/updates');
-    $this->assertRaw('<h3>' . t('Modules') . '</h3>');
-    $this->assertNoText(t('Security update required!'));
-    $this->assertRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString(), 'Link to aaa_update_test project appears.');
+    $this->assertSession()->responseContains('<h3>Modules</h3>');
+    $this->assertNoText('Security update required!');
+    $this->assertRaw(Link::fromTextAndUrl(t('AAA Update test'), Url::fromUri('http://example.com/project/aaa_update_test'))->toString());
 
     // Turn the altering back on and visit the Update manager UI.
     $update_test_config->set('update_status', $update_status)->save();
     $this->drupalGet('admin/modules/update');
-    $this->assertText(t('Security update'));
+    $this->assertSession()->pageTextContains('Security update');
 
     // Turn the altering back off and visit the Update manager UI.
     $update_test_config->set('update_status', [])->save();
     $this->drupalGet('admin/modules/update');
-    $this->assertNoText(t('Security update'));
+    $this->assertNoText('Security update');
   }
 
   /**
@@ -870,8 +873,8 @@ class UpdateContribTest extends UpdateTestBase {
       $this->assertFalse($compatibility_details->hasAttribute('open'));
       $this->assertSame('Compatible', $details_summary_element->getText());
       $this->assertEquals(
-        $update_element->findLink('Download')->getAttribute('href'),
-        "http://example.com/{$this->updateProject}-$download_version.tar.gz"
+        "http://example.com/{$this->updateProject}-$download_version.tar.gz",
+        $update_element->findLink('Download')->getAttribute('href')
       );
     }
     else {

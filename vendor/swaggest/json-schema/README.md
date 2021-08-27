@@ -1,8 +1,8 @@
 # Swaggest JSON-schema implementation for PHP
 
 [![Build Status](https://travis-ci.org/swaggest/php-json-schema.svg?branch=master)](https://travis-ci.org/swaggest/php-json-schema)
-[![Code Climate](https://codeclimate.com/github/swaggest/php-json-schema/badges/gpa.svg)](https://codeclimate.com/github/swaggest/php-json-schema)
 [![codecov](https://codecov.io/gh/swaggest/php-json-schema/branch/master/graph/badge.svg)](https://codecov.io/gh/swaggest/php-json-schema)
+[![time tracker](https://wakatime.com/badge/github/swaggest/php-json-schema.svg)](https://wakatime.com/badge/github/swaggest/php-json-schema)
 ![Code lines](https://sloc.xyz/github/swaggest/php-json-schema/?category=code)
 ![Comments](https://sloc.xyz/github/swaggest/php-json-schema/?category=comments)
 
@@ -70,6 +70,7 @@ JSON;
 
 Load it
 ```php
+use Swaggest\JsonSchema\Schema;
 $schema = Schema::import(json_decode($schemaJson));
 ```
 
@@ -248,10 +249,18 @@ class Order implements ClassStructureContract
         $properties->dateTime->format = Format::DATE_TIME;
         $properties->price = Schema::number();
 
-        $ownerSchema->required[] = self::names()->id;
+        $ownerSchema->setFromRef('#/definitions/order');
 
         // Define default mapping if any
         $ownerSchema->addPropertyMapping('date_time', Order::names()->dateTime);
+
+        // Use mapped name references after the default mapping was configured.
+        $names = self::names($ownerSchema->properties);
+        $ownerSchema->required = array(
+            $names->id,
+            $names->dateTime,
+            $names->price
+        );
 
         // Define additional mapping
         $ownerSchema->addPropertyMapping('DaTe_TiMe', Order::names()->dateTime, self::FANCY_MAPPING);
@@ -478,3 +487,10 @@ Some code quality best practices are deliberately violated here
 Those violations are secured by comprehensive test coverage:
  * draft-04, draft-06, draft-07 of [JSON-Schema-Test-Suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite)
  * test cases (excluding `$data` and few tests) of [epoberezkin/ajv](https://github.com/epoberezkin/ajv/tree/master/spec) (a mature js implementation)
+
+## Contributing
+
+Issues and pull requests are welcome!
+
+[![](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/images/0)](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/links/0)[![](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/images/1)](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/links/1)[![](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/images/2)](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/links/2)[![](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/images/3)](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/links/3)[![](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/images/4)](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/links/4)[![](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/images/5)](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/links/5)[![](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/images/6)](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/links/6)[![](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/images/7)](https://sourcerer.io/fame/vearutop/swaggest/php-json-schema/links/7)
+

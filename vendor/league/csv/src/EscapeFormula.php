@@ -22,7 +22,6 @@ use function array_unique;
 use function is_object;
 use function is_string;
 use function method_exists;
-use function sprintf;
 
 /**
  * A Formatter to tackle CSV Formula Injection.
@@ -64,8 +63,7 @@ class EscapeFormula
             $special_chars = $this->filterSpecialCharacters(...$special_chars);
         }
 
-        $chars = array_merge(self::FORMULA_STARTING_CHARS, $special_chars);
-        $chars = array_unique($chars);
+        $chars = array_unique(array_merge(self::FORMULA_STARTING_CHARS, $special_chars));
         $this->special_chars = array_fill_keys($chars, 1);
     }
 
@@ -82,7 +80,7 @@ class EscapeFormula
     {
         foreach ($characters as $str) {
             if (1 != strlen($str)) {
-                throw new InvalidArgumentException(sprintf('The submitted string %s must be a single character', $str));
+                throw new InvalidArgumentException('The submitted string '.$str.' must be a single character');
             }
         }
 
@@ -126,7 +124,11 @@ class EscapeFormula
     }
 
     /**
-     * Escape a CSV cell.
+     * Escape a CSV cell if its content is stringable.
+     *
+     * @param mixed $cell the content of the cell
+     *
+     * @return mixed|string the escaped content
      */
     protected function escapeField($cell)
     {
@@ -143,10 +145,13 @@ class EscapeFormula
     }
 
     /**
-     * Tell whether the submitted value is stringable.
+     * Tells whether the submitted value is stringable.
+     *
+     * @param mixed $value value to check if it is stringable
      */
     protected function isStringable($value): bool
     {
-        return is_string($value) || (is_object($value) && method_exists($value, '__toString'));
+        return is_string($value)
+            || (is_object($value) && method_exists($value, '__toString'));
     }
 }

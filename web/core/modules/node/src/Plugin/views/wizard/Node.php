@@ -62,18 +62,10 @@ class Node extends WizardPluginBase {
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
    *   The entity field manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeBundleInfoInterface $bundle_info_service, EntityDisplayRepositoryInterface $entity_display_repository = NULL, EntityFieldManagerInterface $entity_field_manager = NULL) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeBundleInfoInterface $bundle_info_service, EntityDisplayRepositoryInterface $entity_display_repository, EntityFieldManagerInterface $entity_field_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $bundle_info_service);
 
-    if (!$entity_display_repository) {
-      @trigger_error('The entity_display.repository service must be passed to ' . __METHOD__ . ', it is required before Drupal 9.0.0. See https://www.drupal.org/node/2835616.', E_USER_DEPRECATED);
-      $entity_display_repository = \Drupal::service('entity_display.repository');
-    }
     $this->entityDisplayRepository = $entity_display_repository;
-    if (!$entity_field_manager) {
-      @trigger_error('The entity_field.manager service must be passed to ' . __METHOD__ . ', it is required before Drupal 9.0.0. See https://www.drupal.org/node/2835616.', E_USER_DEPRECATED);
-      $entity_field_manager = \Drupal::service('entity_field.manager');
-    }
     $this->entityFieldManager = $entity_field_manager;
   }
 
@@ -216,7 +208,7 @@ class Node extends WizardPluginBase {
   /**
    * Set the row style and row style plugins to the display_options.
    */
-  protected  function display_options_row(&$display_options, $row_plugin, $row_options) {
+  protected function display_options_row(&$display_options, $row_plugin, $row_options) {
     switch ($row_plugin) {
       case 'full_posts':
         $display_options['row']['type'] = 'entity:node';
@@ -287,7 +279,7 @@ class Node extends WizardPluginBase {
         $widget = $display->getComponent($field_name);
         // We define "tag-like" taxonomy fields as ones that use the
         // "Autocomplete (Tags style)" widget.
-        if ($widget['type'] == 'entity_reference_autocomplete_tags') {
+        if (!empty($widget) && $widget['type'] == 'entity_reference_autocomplete_tags') {
           $tag_fields[$field_name] = $field;
         }
       }
@@ -306,16 +298,19 @@ class Node extends WizardPluginBase {
         $tag_field_name = key($tag_fields);
       }
       // Add the autocomplete textfield to the wizard.
-      $target_bundles = $tag_fields[$tag_field_name]->getSetting('handler_settings')['target_bundles'];
       $form['displays']['show']['tagged_with'] = [
         '#type' => 'entity_autocomplete',
         '#title' => $this->t('tagged with'),
         '#target_type' => 'taxonomy_term',
-        '#selection_settings' => ['target_bundles' => $target_bundles],
         '#tags' => TRUE,
         '#size' => 30,
         '#maxlength' => 1024,
       ];
+      $target_bundles = $tag_fields[$tag_field_name]->getSetting('handler_settings')['target_bundles'] ?? FALSE;
+      if (!$target_bundles) {
+        $target_bundles = array_keys($this->bundleInfoService->getBundleInfo('taxonomy_term'));
+      }
+      $form['displays']['show']['tagged_with']['#selection_settings']['target_bundles'] = $target_bundles;
     }
   }
 

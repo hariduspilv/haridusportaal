@@ -1244,16 +1244,9 @@ abstract class ContentEntityBase extends EntityBase implements \IteratorAggregat
    * {@inheritdoc}
    */
   public function label() {
-    $label = NULL;
-    $entity_type = $this->getEntityType();
-    if (($label_callback = $entity_type->get('label_callback')) && is_callable($label_callback)) {
-      @trigger_error('Entity type ' . $this->getEntityTypeId() . ' defines a label callback. Support for that is deprecated in drupal:8.0.0 and will be removed in drupal:9.0.0. Override the EntityInterface::label() method instead. See https://www.drupal.org/node/3050794', E_USER_DEPRECATED);
-      $label = call_user_func($label_callback, $this);
+    if ($this->getEntityType()->getKey('label')) {
+      return $this->getEntityKey('label');
     }
-    elseif (($label_key = $entity_type->getKey('label'))) {
-      $label = $this->getEntityKey('label');
-    }
-    return $label;
   }
 
   /**
@@ -1431,7 +1424,7 @@ abstract class ContentEntityBase extends EntityBase implements \IteratorAggregat
     $translation = $original->getTranslation($this->activeLangcode);
     $langcode = $this->language()->getId();
 
-    // The list of fields to skip from the comparision.
+    // The list of fields to skip from the comparison.
     $skip_fields = $this->getFieldsToSkipFromTranslationChangesCheck();
 
     // We also check untranslatable fields, so that a change to those will mark
@@ -1441,7 +1434,7 @@ abstract class ContentEntityBase extends EntityBase implements \IteratorAggregat
 
     foreach ($this->getFieldDefinitions() as $field_name => $definition) {
       // @todo Avoid special-casing the following fields. See
-      //    https://www.drupal.org/node/2329253.
+      //   https://www.drupal.org/node/2329253.
       if (in_array($field_name, $skip_fields, TRUE) || ($skip_untranslatable_fields && !$definition->isTranslatable())) {
         continue;
       }
