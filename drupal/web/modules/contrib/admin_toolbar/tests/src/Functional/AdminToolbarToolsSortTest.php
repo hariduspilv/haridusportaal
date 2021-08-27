@@ -221,7 +221,7 @@ class AdminToolbarToolsSortTest extends BrowserTestBase {
 
     foreach ($links as $key => $link) {
       // Using assert contains because prefaces the urls with "/subdirectory".
-      $this->assertContains($expected[$key], $link);
+      $this->assertStringContainsString($expected[$key], $link);
     }
   }
 

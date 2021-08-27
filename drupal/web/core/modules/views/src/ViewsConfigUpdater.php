@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @internal
  *   This class is only meant to fix outdated views configuration and its
  *   methods should not be invoked directly. It will be removed once all the
- *   public methods have been deprecated and removed.
+ *   deprecated methods have been removed.
  */
 class ViewsConfigUpdater implements ContainerInjectionInterface {
 
@@ -58,6 +58,20 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
   protected $multivalueBaseFieldsUpdateTableInfo;
 
   /**
+   * Flag determining whether deprecations should be triggered.
+   *
+   * @var bool
+   */
+  protected $deprecationsEnabled = TRUE;
+
+  /**
+   * Stores which deprecations were triggered.
+   *
+   * @var bool
+   */
+  protected $triggeredDeprecations = [];
+
+  /**
    * ViewsConfigUpdater constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -94,6 +108,16 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
   }
 
   /**
+   * Sets the deprecations enabling status.
+   *
+   * @param bool $enabled
+   *   Whether deprecations should be enabled.
+   */
+  public function setDeprecationsEnabled($enabled) {
+    $this->deprecationsEnabled = $enabled;
+  }
+
+  /**
    * Performs all required updates.
    *
    * @param \Drupal\views\ViewEntityInterface $view
@@ -105,10 +129,10 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
   public function updateAll(ViewEntityInterface $view) {
     return $this->processDisplayHandlers($view, FALSE, function (&$handler, $handler_type, $key, $display_id) use ($view) {
       $changed = FALSE;
-      if ($this->processEntityLinkUrlHandler($handler, $handler_type)) {
+      if ($this->processEntityLinkUrlHandler($handler, $handler_type, $view)) {
         $changed = TRUE;
       }
-      if ($this->processOperatorDefaultsHandler($handler, $handler_type)) {
+      if ($this->processOperatorDefaultsHandler($handler, $handler_type, $view)) {
         $changed = TRUE;
       }
       if ($this->processMultivalueBaseFieldHandler($handler, $handler_type, $key, $display_id, $view)) {
@@ -167,10 +191,16 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
    *
    * @return bool
    *   Whether the view was updated.
+   *
+   * @deprecated in drupal:9.0.0 and is removed from drupal:10.0.0.
+   *   Module-provided Views configuration should be updated to accommodate the
+   *   changes described below.
+   *
+   * @see https://www.drupal.org/node/2857891
    */
   public function needsEntityLinkUrlUpdate(ViewEntityInterface $view) {
-    return $this->processDisplayHandlers($view, TRUE, function (&$handler, $handler_type) {
-      return $this->processEntityLinkUrlHandler($handler, $handler_type);
+    return $this->processDisplayHandlers($view, TRUE, function (&$handler, $handler_type) use ($view) {
+      return $this->processEntityLinkUrlHandler($handler, $handler_type, $view);
     });
   }
 
@@ -181,11 +211,13 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
    *   A display handler.
    * @param string $handler_type
    *   The handler type.
+   * @param \Drupal\views\ViewEntityInterface $view
+   *   The View being updated.
    *
    * @return bool
    *   Whether the handler was updated.
    */
-  protected function processEntityLinkUrlHandler(array &$handler, $handler_type) {
+  protected function processEntityLinkUrlHandler(array &$handler, $handler_type, ViewEntityInterface $view) {
     $changed = FALSE;
 
     if ($handler_type === 'field') {
@@ -209,6 +241,12 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
       }
     }
 
+    $deprecations_triggered = &$this->triggeredDeprecations['2857891'][$view->id()];
+    if ($this->deprecationsEnabled && $changed && !$deprecations_triggered) {
+      $deprecations_triggered = TRUE;
+      @trigger_error(sprintf('The entity link url update for the "%s" view is deprecated in drupal:9.0.0 and is removed from drupal:10.0.0. Module-provided Views configuration should be updated to accommodate the changes described at https://www.drupal.org/node/2857891.', $view->id()), E_USER_DEPRECATED);
+    }
+
     return $changed;
   }
 
@@ -220,10 +258,16 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
    *
    * @return bool
    *   Whether the view was updated.
+   *
+   * @deprecated in drupal:9.0.0 and is removed from drupal:10.0.0.
+   *   Module-provided Views configuration should be updated to accommodate the
+   *   changes described below.
+   *
+   * @see https://www.drupal.org/node/2869168
    */
   public function needsOperatorDefaultsUpdate(ViewEntityInterface $view) {
-    return $this->processDisplayHandlers($view, TRUE, function (&$handler, $handler_type) {
-      return $this->processOperatorDefaultsHandler($handler, $handler_type);
+    return $this->processDisplayHandlers($view, TRUE, function (&$handler, $handler_type) use ($view) {
+      return $this->processOperatorDefaultsHandler($handler, $handler_type, $view);
     });
   }
 
@@ -234,11 +278,13 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
    *   A display handler.
    * @param string $handler_type
    *   The handler type.
+   * @param \Drupal\views\ViewEntityInterface $view
+   *   The View being updated.
    *
    * @return bool
    *   Whether the handler was updated.
    */
-  protected function processOperatorDefaultsHandler(array &$handler, $handler_type) {
+  protected function processOperatorDefaultsHandler(array &$handler, $handler_type, ViewEntityInterface $view) {
     $changed = FALSE;
 
     if ($handler_type === 'filter') {
@@ -252,6 +298,12 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
       }
     }
 
+    $deprecations_triggered = &$this->triggeredDeprecations['2869168'][$view->id()];
+    if ($this->deprecationsEnabled && $changed && !$deprecations_triggered) {
+      $deprecations_triggered = TRUE;
+      @trigger_error(sprintf('The operator defaults update for the "%s" view is deprecated in drupal:9.0.0 and is removed from drupal:10.0.0. Module-provided Views configuration should be updated to accommodate the changes described at https://www.drupal.org/node/2869168.', $view->id()), E_USER_DEPRECATED);
+    }
+
     return $changed;
   }
 
@@ -263,6 +315,12 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
    *
    * @return bool
    *   Whether the view was updated.
+   *
+   * @deprecated in drupal:9.0.0 and is removed from drupal:10.0.0.
+   *   Module-provided Views configuration should be updated to accommodate the
+   *   changes described below.
+   *
+   * @see https://www.drupal.org/node/2900684
    */
   public function needsMultivalueBaseFieldUpdate(ViewEntityInterface $view) {
     if ($this->getMultivalueBaseFieldUpdateTableInfo()) {
@@ -386,6 +444,12 @@ class ViewsConfigUpdater implements ContainerInjectionInterface {
           unset($handler[$handler_key]);
         }
       }
+    }
+
+    $deprecations_triggered = &$this->triggeredDeprecations['2900684'][$view->id()];
+    if ($this->deprecationsEnabled && $changed && !$deprecations_triggered) {
+      $deprecations_triggered = TRUE;
+      @trigger_error(sprintf('The multivalue base field update for the "%s" view is deprecated in drupal:9.0.0 and is removed from drupal:10.0.0. Module-provided Views configuration should be updated to accommodate the changes described at https://www.drupal.org/node/2900684.', $view->id()), E_USER_DEPRECATED);
     }
 
     return $changed;

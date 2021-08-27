@@ -3,7 +3,6 @@
 namespace Drupal\content_translation;
 
 use Drupal\Core\Config\Entity\ThirdPartySettingsInterface;
-use Drupal\Core\DependencyInjection\DeprecatedServicePropertyTrait;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
@@ -13,12 +12,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  * Provides field translation synchronization capabilities.
  */
 class FieldTranslationSynchronizer implements FieldTranslationSynchronizerInterface {
-  use DeprecatedServicePropertyTrait;
-
-  /**
-   * {@inheritdoc}
-   */
-  protected $deprecatedProperties = ['entityManager' => 'entity.manager'];
 
   /**
    * The entity type manager.
@@ -149,7 +142,7 @@ class FieldTranslationSynchronizer implements FieldTranslationSynchronizerInterf
 
         // If a group was selected has the require_all_groups_for_translation
         // flag set, there are no untranslatable columns. This is done because
-        // the UI adds Javascript that disables the other checkboxes, so their
+        // the UI adds JavaScript that disables the other checkboxes, so their
         // values are not saved.
         foreach (array_filter($translation_sync) as $group) {
           if (!empty($column_groups[$group]['require_all_groups_for_translation'])) {

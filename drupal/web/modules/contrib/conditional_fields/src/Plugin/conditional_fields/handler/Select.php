@@ -26,7 +26,7 @@ class Select extends ConditionalFieldsHandlerBase {
     $state = [];
     $select_states = [];
 
-    $values_array = $this->getConditionValues( $options );
+    $values_array = $this->getConditionValues($options);
 
     switch ($options['values_set']) {
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
@@ -43,18 +43,20 @@ class Select extends ConditionalFieldsHandlerBase {
 
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
         $input_states[$options['selector']] = [
-          $options['condition'] => [ 'xor' => $values_array],
+          $options['condition'] => ['xor' => $values_array],
         ];
         $state[$options['state']] = $input_states;
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
-          $select_states[$options['state']][] = [
-            $options['selector'] => [
-              $options['condition'] => [ 'regex' => $options['regex']],
-            ],
-          ];
+        $select_states[$options['state']][] = [
+          $options['selector'] => [
+            $options['condition'] => ['regex' => $options['regex']],
+          ],
+        ];
         $state = $select_states;
         break;
+
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $options['state'] = '!' . $options['state'];
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:

@@ -12,18 +12,18 @@ use Drupal\Tests\migrate_drupal\Kernel\d7\MigrateDrupal7TestBase;
  */
 class MigrateActionsTest extends MigrateDrupal7TestBase {
 
-  public static $modules = ['action', 'comment', 'node'];
+  protected static $modules = ['action', 'comment', 'node'];
 
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->executeMigration('d7_action');
   }
 
   /**
-   * Test Drupal 7 action migration to Drupal 8.
+   * Tests Drupal 7 action migration to Drupal 8.
    */
   public function testActions() {
     // Test default actions.
@@ -63,10 +63,10 @@ class MigrateActionsTest extends MigrateDrupal7TestBase {
 
     $this->assertInstanceOf(Action::class, $action);
     /** @var \Drupal\system\Entity\Action $action */
-    $this->assertIdentical($id, $action->id());
-    $this->assertIdentical($label, $action->label());
-    $this->assertIdentical($type, $action->getType());
-    $this->assertIdentical($configuration, $action->get('configuration'));
+    $this->assertSame($id, $action->id());
+    $this->assertSame($label, $action->label());
+    $this->assertSame($type, $action->getType());
+    $this->assertSame($configuration, $action->get('configuration'));
   }
 
 }

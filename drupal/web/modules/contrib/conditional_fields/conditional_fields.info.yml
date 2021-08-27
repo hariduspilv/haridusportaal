@@ -3,11 +3,15 @@ type: module
 description: Define dependencies between fields based on their states and values.
 core: 8.x
 core_version_requirement: ^8 || ^9
+configure: conditional_fields
 package: Fields
 dependencies:
   - drupal:field
 
-# Information added by Drupal.org packaging script on 2021-01-08
-version: '8.x-1.0-alpha10'
+test_dependencies:
+  - paragraphs:paragraphs
+
+# Information added by Drupal.org packaging script on 2021-05-20
+version: '4.0.0-alpha1'
 project: 'conditional_fields'
-datestamp: 1610130229
+datestamp: 1621481940

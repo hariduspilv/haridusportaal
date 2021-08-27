@@ -72,7 +72,7 @@ class MmmfFixCommand extends DrushCommands {
    */
   public function fixCommand($name = NULL, array $options = ['all' => NULL]) {
     $modules = [];
-    $rows = $this->fixer->checkModules(TRUE);
+    $rows = $this->fixer->getTableRows();
     if ($options['all'] !== NULL) {
       if (!empty($rows)) {
         foreach ($rows as $row) {

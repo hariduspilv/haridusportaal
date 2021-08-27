@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class LightweightCronController.
+ * Controller for the lightweight cron.
  *
  * @package Drupal\scheduler\Controller
  */

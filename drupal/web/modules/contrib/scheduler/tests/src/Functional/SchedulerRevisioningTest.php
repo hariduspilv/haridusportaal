@@ -42,17 +42,12 @@ class SchedulerRevisioningTest extends SchedulerBrowserTestBase {
    *   The value with which the number of revisions will be compared.
    * @param string $message
    *   The message to display along with the assertion.
-   *
-   * @return bool
-   *   TRUE if the assertion succeeded, FALSE otherwise.
    */
   protected function assertRevisionCount($nid, $value, $message = '') {
-    $count = \Drupal::database()->select('node_revision', 'r')
-      ->condition('nid', $nid)
-      ->countQuery()
-      ->execute()
-      ->fetchColumn();
-    return $this->assertEquals($value, (int) $count, $message);
+    // Because we are not deleting any revisions we can take a short cut and use
+    // getLatestRevisionId() which will effectively be the number of revisions.
+    $count = $this->nodeStorage->getLatestRevisionId($nid);
+    $this->assertEquals($value, (int) $count, $message);
   }
 
   /**
@@ -76,7 +71,7 @@ class SchedulerRevisioningTest extends SchedulerBrowserTestBase {
       ->orderBy('vid', 'DESC')
       ->range(0, 1)
       ->execute()
-      ->fetchColumn();
+      ->fetchField();
 
     return $this->assertEquals($value, $log_message, $message);
   }

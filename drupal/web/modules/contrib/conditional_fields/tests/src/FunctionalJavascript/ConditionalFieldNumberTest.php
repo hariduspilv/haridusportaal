@@ -77,7 +77,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
         'min' => '',
         'max' => '',
         'prefix' => '',
-      ]
+      ],
     ])->save();
 
     EntityFormDisplay::load('node.article.default')
@@ -109,7 +109,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -121,7 +121,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -167,7 +166,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -179,7 +178,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -225,7 +223,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -237,7 +235,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -283,7 +280,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -295,7 +292,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -341,7 +337,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -353,7 +349,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -399,7 +394,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -411,7 +406,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -459,7 +453,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
     $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
@@ -495,7 +488,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -533,7 +525,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
     $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
@@ -569,7 +560,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');

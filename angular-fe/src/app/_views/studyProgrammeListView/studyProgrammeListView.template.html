@@ -166,38 +166,38 @@
                         </formItem>
                     </div>
 
-                    <div class="col-6 align-end text-right sm-12 inline-flex">
-                        <div class="align-center filter-state sm-hide filter-buttons">
-                            <a role="button" class="pointer" (keyup.enter)="resetFilters()"
-                               (click)="resetFilters()" tabindex="0" aria-expanded="false">
-                                <icon glyph="x"></icon>
-                                <span>{{ 'button.clear_fields' | translate}}</span>
-                            </a>
-                            <span class="separator">|</span>
-                            <a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-                               (click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
-                                <span>{{ 'button.search_brief' | translate}}</span>
-                            </a>
-                        </div>
-                        <div class="button-row">
-                            <a role="button" class="pointer sm-show" (keyup.enter)="resetFilters()"
-                               (click)="resetFilters()" tabindex="0" aria-expanded="false">
-                                <icon glyph="x"></icon>
-                                <span>{{ 'button.clear_fields' | translate}}</span>
-                            </a>
-                            <button htm-button>{{ 'button.search' | translate }}</button>
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
-        </div><!--/inline-->
-    </form>
-    <div class="inline">
-        <block titleBorder="true">
-            <block-title><h1>{{ 'studyProgramme.label' | translate }}</h1></block-title>
-            <block-content>
-                <searchResults type="studyProgramme" compare="studyProgrammeComparison" limit="24"></searchResults>
-            </block-content>
-        </block>
-    </div><!--/inline-->
+					<div class="col-6 align-end text-right sm-12 inline-flex">
+						<div class="align-center filter-state sm-hide filter-buttons">
+							<a role="button" class="pointer" (keyup.enter)="resetFilters()"
+								(click)="resetFilters()" tabindex="0" aria-expanded="false">
+								<icon glyph="x"></icon>
+								<span>{{ 'button.clear_fields' | translate}}</span>
+							</a>
+							<span class="separator">|</span>
+							<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
+								(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
+								<span>{{ 'button.search_brief' | translate}}</span>
+							</a>
+						</div>
+						<div class="button-row">
+							<a role="button" class="pointer sm-show" (keyup.enter)="resetFilters()"
+								(click)="resetFilters()" tabindex="0" aria-expanded="false">
+								<icon glyph="x"></icon>
+								<span>{{ 'button.clear_fields' | translate}}</span>
+							</a>
+							<button htm-button>{{ 'button.search' | translate }}</button>
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</div><!--/inline-->
+	</form>
+	<div class="inline">
+		<block titleBorder="true">
+			<block-title><h1>{{ 'studyProgramme.label' | translate }}</h1></block-title>
+			<block-content>
+				<searchResults type="studyProgramme" compare="studyProgrammeComparison" limit="24"></searchResults>
+			</block-content>
+		</block>
+	</div><!--/inline-->
 </base-layout>

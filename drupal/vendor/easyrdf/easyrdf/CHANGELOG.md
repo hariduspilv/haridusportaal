@@ -1,10 +1,111 @@
+EasyRdf 1.1.1
+=============
+
+Bug fix release that fixes parsing very large RDF/XML files.
+
+* Use chunked parsing to parse Large XML files using xml_parse (#350)
+* Fix Resource- and Graph->label claim wrong return type (#254)
+
+
+EasyRdf 1.1.0
+=============
+
+Bug fix release with a few improvements and changes in Composer dependencies.
+
+Overview
+--------
+
+* Composer:
+  * changed ARC2 from `~2.2` to `^2.4` (#347)
+  * replaced `sami/sami` with `code-lts/doctum`
+  * added the following required PHP extensions: ext-pcre, ext-xmlreader, lib-libxml
+* Accept an array of properties in get/getLiteral/getResource methods, fixes #325 (#326)
+* Add support for parsing large SPARQL XML Results (#357)
+* Made `Parser` class abstract, to be in line with `Serialiser` class (#328)
+* Fixed "Sparql\Client uses invalid parameters for Zend\Http\Client->setHeaders" (#335)
+* Fixed undefined index path in Http\Client::request (#271, #368)
+
+Highlights for EasyRdf developers
+---------------------------------
+
+* added .editorconfig (#340)
+* added a basic Docker setup to improve local development and testing (#334)
+* added `CONTRIBUTING.md`
+
+
+EasyRdf 1.0.0
+=============
+
+Major new features
+------------------
+
+* Minimum version of PHP is now PHP version 7.1, PHP 5.x is no-longer supported
+* Usage without composer is not supported anymore
+* Library is loaded via PSR-4 autoloader now
+* The Redland PHP extension is no-longer supported
+
+Enhancements
+------------
+
+* `$graph->isA()` can take full IRIs as second parameter (only qname was accepted earlier, see issue #215)
+* `Accept` HTTP-header depends on SPARQL-query type (see issues #231, #226)
+* It is possible to set alternate default `Resource` class via `Graph::setDefaultResourceClass()` (see issue #243)
+* When calling `Graph::load()` set the HTTP Accept header to the desired format
+* The RDF/PHP and RDF/JSON specifications were added to the documentation
+* Added text/xml and application/xml MIME types to RDF/XML format
+* Added additional namespaces from W3C RDFa context
+* Speeding up the turtle parser by optimising the mb_substr calls
+* Added support for compressed response body in HTTP client
+* Updated to PHP CodeSniffer v3
+* Updated to Sami v4 for API documentation
+* Updated to PHPUnit v7
+
+API changes
+-----------
+
+* Classes are renamed like this: `EasyRdf_Parser_Turtle` → `EasyRdf\Parser\Turtle`. With a single exception: `EasyRdf_Namespace` → `EasyRdf\RdfNamespace` (because `namespace` is a keyword in PHP)
+* EasyRdf expects HTTP-client objects compatible with ZendFramework 2.x instead of 1.x now. (zend-http is added to require-dev so tests for it are always run)
+* `Resource` implements `ArrayAccess` interface now (see #242)
+* Now using PHP Type Hints in some classes, which avoids having to do type checks
+* Serialiser class is now abstract
+* Implement the ArrayAccess Interface in Resource
+
+Bug Fixes
+---------
+
+* Fixes that add compatibility for PHP 7.4
+* Unicode-strings are properly encoded in n-triples documents (see #219)
+* `RdfPhp` parser validates its input (see #227)
+* Timeout is applied to response-times, not only connection-times (see #202)
+* `$graph->get()` is reliable after `$graph->delete()` now (see #239, #241)
+* Fix for running Graphviz tests against newer versions of Graphviz
+* Fixed for when the HTTP server doesn't return Reason-Phrase in the status (see #321)
+* Corrections to RDF format URIs
+* Fixes for format guessing, so it works with SPARQL-style PREFIX and BASE
+* Turtle serialiser improvements and fixes
+* Fix for unescaping URIs while parsing ntriples
+* Fixed encoding of unicode literals in ntriples
+
+Changes to Examples
+-------------------
+
+* Added index.php to examples folder, to make them easier to navigate
+* Removed artistinfo.php example (BBC Music no longer publishes RDF)
+* Replaced Dbpedialite Villages example with Wikidata Villages example
+* Added Open Graph Protocol example
+* Changed default URI for converter example
+* Fixed namespace for dbpedia categories
+* Fixes for UK Postcode example and changed it to use Open Street Map
+
+
 EasyRdf 0.9.1
 =============
 
 Bug Fixes
 ---------
+* Support timeouts for HTTP requests where the server takes a long time to answer. Fixes #202
+* Fixed Google Map on UK Postcode example
 
-* Timeout is applied to response-times, not only connection-times (see #202)
 
 EasyRdf 0.9.0
 =============

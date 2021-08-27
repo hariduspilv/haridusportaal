@@ -52,16 +52,23 @@ class DatePickers extends FilterWidgetBase {
       && 'date_text' == $form[$field_id]['min']['#type']
       && 'date_text' == $form[$field_id]['max']['#type'];
 
+    // @todo lots of repetition of code. Let's re-organize and clean up.
     if ($is_single_date || $is_double_date) {
       if (isset($form[$field_id]['value'])) {
         $format = $form[$field_id]['value']['#date_format'];
         $form[$field_id]['value']['#attributes']['class'][] = 'bef-datepicker';
+        $form[$field_id]['value']['#attributes']['type'] = 'date';
+        $form[$field_id]['value']['#attributes']['autocomplete'] = 'off';
       }
       else {
         // Both min and max share the same format.
         $format = $form[$field_id]['min']['#date_format'];
         $form[$field_id]['min']['#attributes']['class'][] = 'bef-datepicker';
         $form[$field_id]['max']['#attributes']['class'][] = 'bef-datepicker';
+        $form[$field_id]['min']['#attributes']['type'] = 'date';
+        $form[$field_id]['max']['#attributes']['type'] = 'date';
+        $form[$field_id]['min']['#attributes']['autocomplete'] = 'off';
+        $form[$field_id]['max']['#attributes']['autocomplete'] = 'off';
       }
 
       // Convert Date API format to jQuery UI date format.
@@ -77,14 +84,19 @@ class DatePickers extends FilterWidgetBase {
        */
       $fields = ['min', 'max', 'value'];
       if (count(array_intersect($fields, array_keys($form[$field_id])))) {
+        $form[$field_id]['#type'] = 'container';
         foreach ($fields as $field) {
           if (isset($form[$field_id][$field])) {
             $form[$field_id][$field]['#attributes']['class'][] = 'bef-datepicker';
+            $form[$field_id][$field]['#attributes']['type'] = 'date';
+            $form[$field_id][$field]['#attributes']['autocomplete'] = 'off';
           }
         }
       }
       else {
         $form[$field_id]['#attributes']['class'][] = 'bef-datepicker';
+        $form[$field_id]['#attributes']['type'] = 'date';
+        $form[$field_id]['#attributes']['autocomplete'] = 'off';
       }
     }
   }
@@ -92,7 +104,7 @@ class DatePickers extends FilterWidgetBase {
   /**
    * Convert Date API formatting to jQuery formatDate formatting.
    *
-   * @TODO: To be honest, I'm not sure this is needed.  Can you set a
+   * @todo To be honest, I'm not sure this is needed.  Can you set a
    * Date API field to accept anything other than Y-m-d? Well, better
    * safe than sorry...
    *

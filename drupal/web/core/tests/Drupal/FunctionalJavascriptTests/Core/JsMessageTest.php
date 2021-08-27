@@ -15,7 +15,7 @@ class JsMessageTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['js_message_test'];
+  protected static $modules = ['js_message_test'];
 
   /**
    * {@inheritdoc}
@@ -25,7 +25,7 @@ class JsMessageTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // Enable the theme.
@@ -36,7 +36,7 @@ class JsMessageTest extends WebDriverTestBase {
   }
 
   /**
-   * Test click on links to show messages and remove messages.
+   * Tests click on links to show messages and remove messages.
    */
   public function testAddRemoveMessages() {
     $web_assert = $this->assertSession();

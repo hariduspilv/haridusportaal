@@ -3,7 +3,7 @@
  * Attaches behavior for updating filter_html's settings automatically.
  */
 
-(function($, Drupal, _, document) {
+(function ($, Drupal, _, document) {
   if (Drupal.filterConfiguration) {
     /**
      * Implement a live setting parser to prevent text editors from automatically
@@ -20,9 +20,8 @@
         const currentValue = $(
           '#edit-filters-filter-html-settings-allowed-html',
         ).val();
-        const rules = Drupal.behaviors.filterFilterHtmlUpdating._parseSetting(
-          currentValue,
-        );
+        const rules =
+          Drupal.behaviors.filterFilterHtmlUpdating._parseSetting(currentValue);
 
         // Build a FilterHTMLRule that reflects the hard-coded behavior that
         // strips all "style" attribute and all "on*" attributes.
@@ -71,7 +70,7 @@
       $(context)
         .find('[name="filters[filter_html][settings][allowed_html]"]')
         .once('filter-filter_html-updating')
-        .each(function() {
+        .each(function () {
           that.$allowedHTMLFormItem = $(this);
           that.$allowedHTMLDescription = that.$allowedHTMLFormItem
             .closest('.js-form-item')
@@ -98,7 +97,7 @@
             });
 
           // When the allowed tags list is manually changed, update userTags.
-          that.$allowedHTMLFormItem.on('change.updateUserTags', function() {
+          that.$allowedHTMLFormItem.on('change.updateUserTags', function () {
             that.userTags = _.difference(
               that._parseSetting(this.value),
               that.autoTags,
@@ -161,7 +160,7 @@
 
       // Map the newly added Text Editor features to Drupal.FilterHtmlRule
       // objects (to allow comparing userTags with autoTags).
-      Object.keys(newFeatures || {}).forEach(featureName => {
+      Object.keys(newFeatures || {}).forEach((featureName) => {
         const feature = newFeatures[featureName];
         let featureRule;
         let filterRule;
@@ -181,12 +180,10 @@
               //   always disallows the "style" attribute, so we only need to
               //   support "class" attribute value restrictions. Fix once
               //   https://www.drupal.org/node/2567801 lands.
-              filterRule.restrictedTags.allowed.attributes = featureRule.required.attributes.slice(
-                0,
-              );
-              filterRule.restrictedTags.allowed.classes = featureRule.required.classes.slice(
-                0,
-              );
+              filterRule.restrictedTags.allowed.attributes =
+                featureRule.required.attributes.slice(0);
+              filterRule.restrictedTags.allowed.classes =
+                featureRule.required.classes.slice(0);
               editorRequiredTags[tag] = filterRule;
             }
             // The tag is already allowed, add any additionally allowed
@@ -213,7 +210,7 @@
       // - any tags in editorRequiredTags that already exists in userAllowedTags
       //   but does not allow all attributes or attribute values
       const autoAllowedTags = {};
-      Object.keys(editorRequiredTags).forEach(tag => {
+      Object.keys(editorRequiredTags).forEach((tag) => {
         // If userAllowedTags does not contain a rule for this editor-required
         // tag, then add it to the list of automatically allowed tags.
         if (!_.has(userAllowedTags, tag)) {
@@ -360,11 +357,10 @@
    * @return {string}
    *   The corresponding HTML.
    */
-  Drupal.theme.filterFilterHTMLUpdateMessage = function(tags) {
+  Drupal.theme.filterFilterHTMLUpdateMessage = function (tags) {
     let html = '';
-    const tagList = Drupal.behaviors.filterFilterHtmlUpdating._generateSetting(
-      tags,
-    );
+    const tagList =
+      Drupal.behaviors.filterFilterHtmlUpdating._generateSetting(tags);
     html += '<p class="editor-update-message">';
     html += Drupal.t(
       'Based on the text editor configuration, these tags have automatically been added: <strong>@tag-list</strong>.',

@@ -65,6 +65,7 @@ function node_view_permissions_node_access_records(NodeInterface $node) {
       if ($translation->isPublished()) {
         $grants[] = [
           'realm' => "view_any_{$node->getType()}_{$langcode}_content",
+          'langcode' => $langcode,
           'gid' => 1,
           'grant_view' => 1,
           'grant_update' => 0,
@@ -73,6 +74,7 @@ function node_view_permissions_node_access_records(NodeInterface $node) {
         ];
         $grants[] = [
           'realm' => "view_own_{$node->getType()}_{$langcode}_content",
+          'langcode' => $langcode,
           'gid' => $node->getOwnerId(),
           'grant_view' => 1,
           'grant_update' => 0,
@@ -82,6 +84,7 @@ function node_view_permissions_node_access_records(NodeInterface $node) {
       } else {
         $grants[] = [
           'realm' => "view_any_unpublished_{$node->getType()}_{$langcode}_content",
+          'langcode' => $langcode,
           'gid' => 1,
           'grant_view' => 1,
           'grant_update' => 0,
@@ -90,6 +93,7 @@ function node_view_permissions_node_access_records(NodeInterface $node) {
         ];
         $grants[] = [
           'realm' => "view_own_unpublished_{$node->getType()}_{$langcode}_content",
+          'langcode' => $langcode,
           'gid' => $node->getOwnerId(),
           'grant_view' => 1,
           'grant_update' => 0,
@@ -110,33 +114,35 @@ function node_view_permissions_node_grants(AccountInterface $account, $op) {
   $grants = [];
   if ($op == 'view') {
     // Get current langcode.
+    $node = \Drupal::routeMatch()->getParameter('node');
     $language_manager = \Drupal::languageManager();
-    $language = $language_manager->getCurrentLanguage();
-    $langcode = $language->getId();
-    foreach (NodeType::loadMultiple() as $type) {
-      $type_id = $type->id();
-      if ($account->hasPermission("view any $type_id content")) {
-        $grants["view_any_{$type_id}_content"] = [1];
-        // Also set grants for the current language.
-        $grants["view_any_{$type_id}_{$langcode}_content"] = [1];
-      }
-      if ($account->hasPermission("view own $type_id content")) {
-        $grants["view_own_{$type_id}_content"] = [$account->id()];
-        // Also set grants for the current language.
-        $grants["view_own_{$type_id}_{$langcode}_content"] = [$account->id()];
-      }
-      // Add integration for Content Moderation.
-      if (($account->hasPermission("view any unpublished content")) &&
-        ($account->hasPermission("view any $type_id content"))) {
-        $grants["view_any_unpublished_{$type_id}_content"] = [1];
-        // Also set grants for the current language.
-        $grants["view_any_unpublished_{$type_id}_{$langcode}_content"] = [1];
-      }
-      if (($account->hasPermission("view own unpublished content")) &&
-        ($account->hasPermission("view own $type_id content"))) {
-        $grants["view_own_unpublished_{$type_id}_content"] = [$account->id()];
-        // Also set grants for the current language.
-        $grants["view_own_unpublished_{$type_id}_{$langcode}_content"] = [$account->id()];
+    $languages = \Drupal::languageManager()->getLanguages();
+    foreach ($languages as $langcode => $language) {
+      foreach (NodeType::loadMultiple() as $type) {
+        $type_id = $type->id();
+        if ($account->hasPermission("view any $type_id content")) {
+          $grants["view_any_{$type_id}_content"] = [1];
+          // Also set grants for the current language.
+          $grants["view_any_{$type_id}_{$langcode}_content"] = [1];
+        }
+        if ($account->hasPermission("view own $type_id content")) {
+          $grants["view_own_{$type_id}_content"] = [$account->id()];
+          // Also set grants for the current language.
+          $grants["view_own_{$type_id}_{$langcode}_content"] = [$account->id()];
+        }
+        // Add integration for Content Moderation.
+        if (($account->hasPermission("view any unpublished content")) &&
+          ($account->hasPermission("view any $type_id content"))) {
+          $grants["view_any_unpublished_{$type_id}_content"] = [1];
+          // Also set grants for the current language.
+          $grants["view_any_unpublished_{$type_id}_{$langcode}_content"] = [1];
+        }
+        if (($account->hasPermission("view own unpublished content")) &&
+          ($account->hasPermission("view own $type_id content"))) {
+          $grants["view_own_unpublished_{$type_id}_content"] = [$account->id()];
+          // Also set grants for the current language.
+          $grants["view_own_unpublished_{$type_id}_{$langcode}_content"] = [$account->id()];
+        }
       }
     }
   }

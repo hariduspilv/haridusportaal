@@ -26,7 +26,7 @@ class NodeTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['node', 'path'];
+  protected static $modules = ['node', 'path'];
 
   /**
    * {@inheritdoc}
@@ -407,7 +407,7 @@ class NodeTest extends ResourceTestBase {
       ],
     ]);
     $cached_fields = $cache['#data']['fields'];
-    $this->assertCount(count($field_names), $cached_fields);
+    $this->assertSameSize($field_names, $cached_fields);
     array_walk($field_names, function ($field_name) use ($cached_fields) {
       $this->assertInstanceOf(
         CacheableNormalization::class,

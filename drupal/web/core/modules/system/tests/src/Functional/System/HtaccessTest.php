@@ -16,7 +16,7 @@ class HtaccessTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['node', 'path'];
+  protected static $modules = ['node', 'path'];
 
   /**
    * {@inheritdoc}
@@ -113,7 +113,7 @@ class HtaccessTest extends BrowserTestBase {
     // Test that it is possible to have path aliases containing .php.
     $type = $this->drupalCreateContentType();
 
-    // Create an node aliased to test.php.
+    // Create a node aliased to test.php.
     $node = $this->drupalCreateNode([
       'title' => 'This is a node',
       'type' => $type->id(),
@@ -122,14 +122,14 @@ class HtaccessTest extends BrowserTestBase {
     $node->save();
     $this->drupalGet('test.php');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertText('This is a node');
+    $this->assertSession()->pageTextContains('This is a node');
 
     // Update node's alias to test.php/test.
     $node->path = '/test.php/test';
     $node->save();
     $this->drupalGet('test.php/test');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertText('This is a node');
+    $this->assertSession()->pageTextContains('This is a node');
   }
 
   /**
@@ -155,8 +155,7 @@ class HtaccessTest extends BrowserTestBase {
 
     // Use x-encoded-content-encoding because of Content-Encoding responses
     // (gzip, deflate, etc.) are automatically decoded by Guzzle.
-    $header = $this->drupalGetHeader('x-encoded-content-encoding');
-    $this->assertEqual($header, 'gzip');
+    $this->assertSession()->responseHeaderEquals('x-encoded-content-encoding', 'gzip');
   }
 
 }

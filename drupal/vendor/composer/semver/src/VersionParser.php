@@ -12,7 +12,7 @@
 namespace Composer\Semver;
 
 use Composer\Semver\Constraint\ConstraintInterface;
-use Composer\Semver\Constraint\EmptyConstraint;
+use Composer\Semver\Constraint\MatchAllConstraint;
 use Composer\Semver\Constraint\MultiConstraint;
 use Composer\Semver\Constraint\Constraint;
 
@@ -50,7 +50,7 @@ class VersionParser
      */
     public static function parseStability($version)
     {
-        $version = preg_replace('{#.+$}i', '', $version);
+        $version = (string) preg_replace('{#.+$}', '', $version);
 
         if (strpos($version, 'dev-') === 0 || '-dev' === substr($version, -4)) {
             return 'dev';
@@ -117,9 +117,9 @@ class VersionParser
             $version = substr($version, 0, strlen($version) - strlen($match[0]));
         }
 
-        // match master-like branches
-        if (preg_match('{^(?:dev-)?(?:master|trunk|default)$}i', $version)) {
-            return '9999999-dev';
+        // normalize master/trunk/default branches to dev-name for BC with 1.x as these used to be valid constraints
+        if (\in_array($version, array('master', 'trunk', 'default'), true)) {
+            $version = 'dev-' . $version;
         }
 
         // if requirement is branch-like, use full name
@@ -212,10 +212,6 @@ class VersionParser
     {
         $name = trim($name);
 
-        if (in_array($name, array('master', 'trunk', 'default'))) {
-            return $this->normalize($name);
-        }
-
         if (preg_match('{^v?(\d++)(\.(?:\d++|[xX*]))?(\.(?:\d++|[xX*]))?(\.(?:\d++|[xX*]))?$}i', $name, $matches)) {
             $version = '';
             for ($i = 1; $i < 5; ++$i) {
@@ -226,6 +222,22 @@ class VersionParser
         }
 
         return 'dev-' . $name;
+    }
+
+    /**
+     * Normalizes a default branch name (i.e. master on git) to 9999999-dev.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function normalizeDefaultBranch($name)
+    {
+        if ($name === 'dev-master' || $name === 'dev-default' || $name === 'dev-trunk') {
+            return '9999999-dev';
+        }
+
+        return $name;
     }
 
     /**
@@ -240,11 +252,17 @@ class VersionParser
         $prettyConstraint = $constraints;
 
         $orConstraints = preg_split('{\s*\|\|?\s*}', trim($constraints));
+        if (false === $orConstraints) {
+            throw new \RuntimeException('Failed to preg_split string: '.$constraints);
+        }
         $orGroups = array();
 
         foreach ($orConstraints as $constraints) {
             $andConstraints = preg_split('{(?<!^|as|[=>< ,]) *(?<!-)[, ](?!-) *(?!,|as|$)}', $constraints);
-            if (count($andConstraints) > 1) {
+            if (false === $andConstraints) {
+                throw new \RuntimeException('Failed to preg_split string: '.$constraints);
+            }
+            if (\count($andConstraints) > 1) {
                 $constraintObjects = array();
                 foreach ($andConstraints as $constraint) {
                     foreach ($this->parseConstraint($constraint) as $parsedConstraint) {
@@ -255,7 +273,7 @@ class VersionParser
                 $constraintObjects = $this->parseConstraint($andConstraints[0]);
             }
 
-            if (1 === count($constraintObjects)) {
+            if (1 === \count($constraintObjects)) {
                 $constraint = $constraintObjects[0];
             } else {
                 $constraint = new MultiConstraint($constraintObjects);
@@ -264,28 +282,7 @@ class VersionParser
             $orGroups[] = $constraint;
         }
 
-        if (1 === count($orGroups)) {
-            $constraint = $orGroups[0];
-        } elseif (2 === count($orGroups)
-            // parse the two OR groups and if they are contiguous we collapse
-            // them into one constraint
-            && $orGroups[0] instanceof MultiConstraint
-            && $orGroups[1] instanceof MultiConstraint
-            && 2 === count($orGroups[0]->getConstraints())
-            && 2 === count($orGroups[1]->getConstraints())
-            && ($a = (string) $orGroups[0])
-            && strpos($a, '[>=') === 0 && (false !== ($posA = strpos($a, '<', 4)))
-            && ($b = (string) $orGroups[1])
-            && strpos($b, '[>=') === 0 && (false !== ($posB = strpos($b, '<', 4)))
-            && substr($a, $posA + 2, -1) === substr($b, 4, $posB - 5)
-        ) {
-            $constraint = new MultiConstraint(array(
-                new Constraint('>=', substr($a, 4, $posA - 5)),
-                new Constraint('<', substr($b, $posB + 2, -1)),
-            ));
-        } else {
-            $constraint = new MultiConstraint($orGroups, false);
-        }
+        $constraint = MultiConstraint::create($orGroups, false);
 
         $constraint->setPrettyString($prettyConstraint);
 
@@ -298,6 +295,8 @@ class VersionParser
      * @throws \UnexpectedValueException
      *
      * @return array
+     *
+     * @phpstan-return non-empty-array<ConstraintInterface>
      */
     private function parseConstraint($constraint)
     {
@@ -319,8 +318,12 @@ class VersionParser
             $constraint = $match[1];
         }
 
-        if (preg_match('{^v?[xX*](\.[xX*])*$}i', $constraint)) {
-            return array(new EmptyConstraint());
+        if (preg_match('{^(v)?[xX*](\.[xX*])*$}i', $constraint, $match)) {
+            if (!empty($match[1]) || !empty($match[2])) {
+                return array(new Constraint('>=', '0.0.0.0-dev'));
+            }
+
+            return array(new MatchAllConstraint());
         }
 
         $versionRegex = 'v?(\d++)(?:\.(\d++))?(?:\.(\d++))?(?:\.(\d++))?(?:' . self::$modifierRegex . '|\.([xX*][.-]?dev))(?:\+[^\s]+)?';
@@ -526,8 +529,10 @@ class VersionParser
      * @param string $pad       The string to pad version parts after $position
      *
      * @return string|null The new version
+     *
+     * @phpstan-param string[] $matches
      */
-    private function manipulateVersionString($matches, $position, $increment = 0, $pad = '0')
+    private function manipulateVersionString(array $matches, $position, $increment = 0, $pad = '0')
     {
         for ($i = 4; $i > 0; --$i) {
             if ($i > $position) {

@@ -17,11 +17,24 @@
 
   <rule ref="DrupalPractice">
     <!-- Allow empty lines after comments, we don't like this rule. -->
-    <exclude name="DrupalPractice.Commenting.CommentEmptyLine"/>
+    <exclude name="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter"/>
+  </rule>
+  <rule ref="Drupal">
+    <!-- There appears to be two rules checking nearly the same thing. -->
+    <exclude name="Drupal.Commenting.InlineComment.SpacingAfter"/>
   </rule>
 
-  <!-- ignore these files -->
-  <exclude-pattern>_ignore*</exclude-pattern>
-  <exclude-pattern>*interdif*</exclude-pattern>
+  <!-- Ignore all files that match these patterns. By default the full file -->
+  <!-- path is checked, unless type=relative is used. There is an implied * -->
+  <!-- wildcard at each end and periods and slashes must be escaped using \ -->
+  <exclude-pattern>\/_+ignore</exclude-pattern>
+  <exclude-pattern>interdif</exclude-pattern>
+
+  <!-- Increase the allowed line length for inline array declarations. -->
+  <rule ref="Drupal.Arrays.Array">
+    <properties>
+      <property name="lineLimit" value="120"/>
+    </properties>
+  </rule>
 
 </ruleset>

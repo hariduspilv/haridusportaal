@@ -1,0 +1,6 @@
+services:
+  field_defaults.commands:
+    class: \Drupal\field_defaults\Commands\FieldDefaultsBulkCommands
+    tags:
+      - { name: drush.command }
+    arguments: ['@entity_type.manager', '@logger.factory']

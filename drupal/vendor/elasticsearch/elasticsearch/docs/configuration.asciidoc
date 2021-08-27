@@ -9,8 +9,11 @@ Custom configuration is accomplished before the client is instantiated, through
 the ClientBuilder helper object. You can find all the configuration options and 
 check sample code that helps you replace the various components.
 
+To learn more about JSON in PHP, read <<php_json_objects>>.
+
 * <<host-config>>
 * <<set-retries>>
+* <<http-meta-data>>
 * <<enabling_logger>>
 * <<http-handler-config>>
 * <<namespaces>>
@@ -24,9 +27,13 @@ check sample code that helps you replace the various components.
 * <<future_mode>>
 
 
+include::php_json_objects.asciidoc[]
+
 include::host-config.asciidoc[]
 
 include::set-retries.asciidoc[]
+
+include::http-meta-data.asciidoc[]
 
 include::logger.asciidoc[]
 

@@ -2,35 +2,17 @@
 
 namespace Drupal\scheduler;
 
-use Drupal\Core\Entity\EntityInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Drupal\node\NodeInterface;
 
 /**
  * Wraps a scheduler event for event listeners.
  */
-class SchedulerEvent extends Event {
-
-  /**
-   * Node object.
-   *
-   * @var \Drupal\Core\Entity\EntityInterface
-   */
-  protected $node;
-
-  /**
-   * Constructs a scheduler event object.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $node
-   *   The node object that caused the event to fire.
-   */
-  public function __construct(EntityInterface $node) {
-    $this->node = $node;
-  }
+class SchedulerEvent extends EventBase {
 
   /**
    * Gets node object.
    *
-   * @return \Drupal\Core\Entity\EntityInterface
+   * @return \Drupal\node\NodeInterface
    *   The node object that caused the event to fire.
    */
   public function getNode() {
@@ -40,10 +22,10 @@ class SchedulerEvent extends Event {
   /**
    * Sets the node object.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $node
+   * @param \Drupal\node\NodeInterface $node
    *   The node object that caused the event to fire.
    */
-  public function setNode(EntityInterface $node) {
+  public function setNode(NodeInterface $node) {
     $this->node = $node;
   }
 

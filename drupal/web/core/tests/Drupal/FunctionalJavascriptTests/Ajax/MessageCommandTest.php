@@ -22,7 +22,7 @@ class MessageCommandTest extends WebDriverTestBase {
   protected $defaultTheme = 'stark';
 
   /**
-   * Test AJAX MessageCommand use in a form.
+   * Tests AJAX MessageCommand use in a form.
    */
   public function testMessageCommand() {
     $page = $this->getSession()->getPage();
@@ -56,7 +56,7 @@ class MessageCommandTest extends WebDriverTestBase {
 
       $page->pressButton('Make Warning Message');
       $this->waitForMessageVisible('I am a warning message in the default location.', NULL, 'warning');
-      // Test that setting MessageCommand::$option['announce'] => '' supresses
+      // Test that setting MessageCommand::$option['announce'] => '' suppresses
       // screen reader announcement.
       $this->assertAnnounceNotContains('I am a warning message in the default location.');
       $this->waitForMessageRemoved('I am a message in the default location.');

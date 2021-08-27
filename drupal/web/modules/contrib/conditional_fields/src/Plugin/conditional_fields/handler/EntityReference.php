@@ -25,7 +25,7 @@ class EntityReference extends ConditionalFieldsHandlerBase {
     switch ($values_set) {
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $value_form = $this->getWidgetValue($options['value_form']);
-        if ( empty( $value_form )) {
+        if (empty($value_form)) {
           break;
         }
         if ($options['field_cardinality'] == 1) {
@@ -57,18 +57,19 @@ class EntityReference extends ConditionalFieldsHandlerBase {
   /**
    * Get a variants of node title for autocomplete.
    *
-   * @param $node
+   * @param \Drupal\node\Entity\Node $node
    *   A node object.
+   *
    * @return array
    *   An array with a few relevant suggestions for autocomplete.
    */
-  private function getAutocompleteSuggestions($node) {
-    /** @var Node $node */
+  private function getAutocompleteSuggestions(Node $node) {
+    /** @var \Drupal\node\Entity\Node $node */
     return [
       // Node title (nid).
       ['value' => $node->label() . ' (' . $node->id() . ')'],
       // Node title.
-      ['value' => $node->label()]
+      ['value' => $node->label()],
     ];
   }
 

@@ -4,7 +4,7 @@
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
-        "drupal/rules": "^3.x",
+        "drupal/rules": "^3",
         "drupal/scheduler": "^1.0"
     }
 }
