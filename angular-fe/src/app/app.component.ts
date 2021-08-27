@@ -9,7 +9,7 @@ import {
   SettingsService,
   SidemenuService,
 } from './_services';
-import {Router, NavigationEnd} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {AmpService} from './_services/ampService';
 import {TranslateService} from './_modules/translate/translate.service';
