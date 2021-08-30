@@ -16,14 +16,8 @@
 				</div>
 				<div class="row first">
 					<div class="col-5 sm-12">
-						<formItem
-                                type="autocomplete"
-																query="professionsAutoComplete"
-                                title="{{ 'search.keyword' | translate }}"
-                                attr.aria-label="{{ 'search.keyword' | translate }}"
-                                ariaLabel="{{ 'search.keyword' | translate }}"
-                                name="title"
-						        [(ngModel)]="searchTitle"></formItem>
+						<formItem type="autocomplete" query="professionsAutoComplete" title="{{ 'search.keyword' | translate }}"  ariaLabel="{{ 'search.keyword' | translate }}" name="title"
+						[(ngModel)]="searchTitle"></formItem>
 					</div>
 					<div class="col-5 sm-12">						
 						<formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" ariaLabel="{{ 'oska.title_field' | translate }}" name="oskaField"
