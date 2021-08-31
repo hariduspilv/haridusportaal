@@ -200,8 +200,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           if (strlen($searchvalue) > 2) {
             $functions[] = array(
               'filter' => array(
-                'match' => array(
-                  $condition['field'] => str_replace(',', '', $searchvalue)
+                'wildcard' => array(
+                  $condition['field'] => '*'.str_replace(',', '', $searchvalue).'*'
                 )
               ),
               'weight' => $condition['weight']
