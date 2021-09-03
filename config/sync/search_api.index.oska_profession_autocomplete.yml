@@ -1,0 +1,112 @@
+uuid: b4268841-9bc7-448d-8a4c-51714e486fa2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sidebar
+    - field.storage.paragraph.field_job_name
+    - field.storage.paragraph.field_jobs
+    - search_api.server.elasticsearch_server
+  module:
+    - paragraphs
+    - node
+    - search_api
+id: oska_profession_autocomplete
+name: 'Oska Profession Autocomplete'
+description: ''
+read_only: false
+field_settings:
+  field_job_name:
+    label: 'Küljeriba » Paragraph » Ametid » Paragraph » Ameti nimetus'
+    datasource_id: 'entity:node'
+    property_path: 'field_sidebar:entity:field_jobs:entity:field_job_name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_sidebar
+        - field.storage.paragraph.field_job_name
+        - field.storage.paragraph.field_jobs
+      module:
+        - paragraphs
+  langcode:
+    label: Language
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+    dependencies:
+      module:
+        - node
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
+  status:
+    label: Published
+    datasource_id: 'entity:node'
+    property_path: status
+    type: integer
+    dependencies:
+      module:
+        - node
+  status_1:
+    label: null
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: !!float 5
+    dependencies:
+      module:
+        - node
+  uid:
+    label: null
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    indexed_locked: true
+    type_locked: true
+    dependencies:
+      module:
+        - node
+  url:
+    label: URI
+    property_path: search_api_url
+    type: text
+    configuration:
+      absolute: false
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - oska_main_profession_page
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  content_access:
+    weights:
+      preprocess_query: -30
+  language_with_fallback: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server
