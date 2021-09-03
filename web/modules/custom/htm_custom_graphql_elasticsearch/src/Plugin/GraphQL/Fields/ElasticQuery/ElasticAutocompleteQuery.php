@@ -209,11 +209,12 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                 if(isset($array_locations) && $matches_count <= 4){
 
                     if($matches_count == 1){
+
                         foreach($array_locations as $location){
                             $location_position = $location;
                             $location_count = 0;
                             if($location != $item_length && $location != 0){
-                                $array_locations[] = $location-1;
+//                                $array_locations[] = $location-1;
                                 $array_locations[] = $location+1;
                             }elseif($location == $item_length){
                                 while($location_position >= 0 && $location_count <= 2){
@@ -229,6 +230,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                                 }
                             }
                         }
+
                     }else{
                         $range_start = reset($array_locations);
                         $range_end = end($array_locations);
@@ -241,6 +243,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                             }
                             $array_locations = range($range_start, $range_end);
                         }
+
                     }
 
                     if(count($array_locations) > $this->autocomplete_limit){
@@ -266,6 +269,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                     if($correct_value == true && !in_array($autocomplete_value, $this->autocomplete_values)){
                         $this->autocomplete_values[] = trim($autocomplete_value);
                     }
+
                 }
             }
         }
