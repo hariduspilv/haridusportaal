@@ -295,8 +295,11 @@ export const parseFieldData = (inputData, translate) => {
     title: translate.get('oska.go_to_results'),
     url: {
       path: '/oska-tulemused/ettepanekute-elluviimine',
+      params: {
+        field: inputData.title,
+      },
       routed: true,
-    }
+    },
   }];
 
   try {
