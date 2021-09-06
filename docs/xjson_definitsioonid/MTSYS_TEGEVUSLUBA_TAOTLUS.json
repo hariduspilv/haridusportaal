@@ -161,8 +161,7 @@
                 },
                 "readonly": true
               }
-            },
-            "hidden": true
+            }
           },
           "aadressiPealkiri": {
             "type": "heading",
