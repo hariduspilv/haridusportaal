@@ -1882,6 +1882,10 @@ public class MtsysWorker extends Worker {
         .putNull("value")
         .put("required", klOkLiik.equals(18055L))
         .put("hidden", !klOkLiik.equals(18055L));
+    stepAndmedDataElements.putObject("menetlejaKommentaar")
+        .putNull("value")
+        .put("required", false)
+        .put("hidden", true);
 
     stepAndmedDataElements.putObject("oppeTasemed")
         .put("required", klOkLiik.equals(18057L) || klOkLiik.equals(18102L))
@@ -1986,6 +1990,10 @@ public class MtsysWorker extends Worker {
     ((ObjectNode) stepAndmedDataElements.get("soidukiteKategooria"))
         .put("value", response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
             response.getTegevusloaAndmed().getKlSoidukiKategooria().longValue() : null);
+    ((ObjectNode) stepAndmedDataElements.get("menetlejaKommentaar"))
+        .put("hidden", !response.getTegevusloaAndmed().isSetKlStaatus()
+            || response.getTegevusloaAndmed().getKlStaatus().intValue() != 15669)
+        .put("value", response.getTegevusloaAndmed().getMenetlejaKommentaar());
 
     ((ArrayNode) stepAndmedDataElements.get("oppeTasemed").get("value")).removeAll();
     response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList()
