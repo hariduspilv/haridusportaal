@@ -38,7 +38,7 @@ export class HomeSearchListViewComponent {
       { name: 'news.label', sumLabel: 'news', value: false, sum: 0 },
       { name: 'event.label', sumLabel: 'event', value: false, sum: 0 },
       { name: 'school.label', sumLabel: 'school', value: false, sum: 0 },
-      { name: 'studyProgramme.label', sumLabel: 'studyprogramme', value: false, sum: 0 },
+      { name: 'studyProgramme.label', sumLabel: 'study_programme', value: false, sum: 0 },
       { name: 'oska.future_job_opportunities', sumLabel: 'Oska', value: false, sum: 0 },
     ],
   };
