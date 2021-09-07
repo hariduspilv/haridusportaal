@@ -6,7 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Url;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientBase;
-use Drupal\openid_connect\StateToken;
+use Drupal\openid_connect\OpenIDConnectStateToken;
 use Exception;
 
 /**
@@ -70,7 +70,7 @@ class Tara extends OpenIDConnectClientBase {
 				'response_type' => 'code',
 				'scope' => 'openid',
 				'redirect_uri' => $redirect_uri,
-				'state' => StateToken::create(),
+				'state' => OpenIDConnectStateToken::create(),
 			],
 		];
 
@@ -108,8 +108,6 @@ class Tara extends OpenIDConnectClientBase {
 		$request_options = [
 			'form_params' => [
 				'code' => $authorization_code,
-//				'client_id' => $this->configuration['client_id'],
-//				'client_secret' => $this->configuration['client_secret'],
 				'redirect_uri' => $redirect_uri,
 				'grant_type' => 'authorization_code',
 			],

@@ -85,7 +85,7 @@ function material_admin_form_node_form_alter(&$form, FormStateInterface $form_st
 
   $form['#theme'] = array('node_edit_form');
   $form['advanced']['#type'] = 'container';
-  $is_new = !$node->isNew() ? format_date($node->getChangedTime(), 'short') : t('Not saved yet');
+  $is_new = !$node->isNew() ? \Drupal::service('date.formatter')->format($node->getChangedTime(), 'short') : t('Not saved yet');
   $form['meta'] = array(
     '#attributes' => array('class' => array('entity-meta__header')),
     '#type' => 'container',

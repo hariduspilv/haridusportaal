@@ -34,8 +34,8 @@ interface AuthmapInterface {
    * @param string $provider
    *   The name of the service providing external authentication.
    *
-   * @return string
-   *   The external authname / ID.
+   * @return string|bool
+   *   The external authname / ID, or FALSE.
    */
   public function get($uid, $provider);
 

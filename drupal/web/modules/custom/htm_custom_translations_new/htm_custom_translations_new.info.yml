@@ -2,4 +2,5 @@ name: 'HTM Translations new'
 type: module
 description: 'Custom translation module with REST endpoint'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'HTM'

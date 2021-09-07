@@ -16,8 +16,8 @@ use Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases\ConditionalFi
  * @group conditional_fields
  */
 class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
-  ConditionalFieldValueInterface,
-  ConditionalFieldCheckedUncheckedInterface {
+    ConditionalFieldValueInterface,
+    ConditionalFieldCheckedUncheckedInterface {
 
   use EntityReferenceTestTrait;
 
@@ -100,7 +100,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/conditional_fields/node/article');
     $this->assertSession()
@@ -109,17 +108,14 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
     // Change a select value set to show the body.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id, $term_id);
     $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
-//    $this->createScreenshot('sites/simpletest/scr1BodyVisTerm.jpg');
     // Change a select value set to hide the body again.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id);
     $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
-//    $this->createScreenshot('sites/simpletest/scr2BodyHid.jpg');
   }
 
   /**
@@ -143,7 +139,7 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/conditional_fields/node/article');
@@ -153,7 +149,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
     // Change a select value set to show the body.
@@ -162,7 +157,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
 
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id);
     $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
-//    $this->createScreenshot('sites/simpletest/scr1BodyVisTerm.jpg');
     // Change a select value set to hide the body again.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_f, $term_id_f);
     $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is visible');
@@ -182,7 +176,7 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
     } while ($term_id_2 == $term_id);
     // Visit a ConditionalFields configuration page for `Article` Content type.
     $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
-    $this->createScreenshot($this->screenshotPath . '01-' . $this->testName .  __FUNCTION__ . '.png');
+    $this->createScreenshot($this->screenshotPath . '01-' . $this->testName . __FUNCTION__ . '.png');
     $data = [
       'condition' => 'value',
       'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
@@ -191,7 +185,7 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/conditional_fields/node/article');
@@ -201,7 +195,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
@@ -239,8 +232,7 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
-
+    $this->submitForm($data, 'Save settings');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/conditional_fields/node/article');
@@ -249,7 +241,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
@@ -288,8 +279,7 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
-
+    $this->submitForm($data, 'Save settings');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/conditional_fields/node/article');
@@ -298,7 +288,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilVisible('.field--name-body', 0, '01. Article Body field is not visible');
@@ -336,8 +325,7 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
-
+    $this->submitForm($data, 'Save settings');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/conditional_fields/node/article');
@@ -346,7 +334,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
@@ -385,14 +372,12 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, 'Article Body field is visible');
     for ($term_id = 1; $term_id < $this->termsCount; $term_id++) {
       // Change a select value set to show the body.
       $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id, $term_id);
       $this->waitUntilVisible('.field--name-body', 50, $term_id . '. Article Body field is not visible');
-//      $this->createScreenshot('sites/simpletest/scr1BodyVisTerm'.$term_id.'.jpg');
     }
   }
 
@@ -412,7 +397,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is not visible');
@@ -439,7 +423,6 @@ class ConditionalFieldRadiosTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');

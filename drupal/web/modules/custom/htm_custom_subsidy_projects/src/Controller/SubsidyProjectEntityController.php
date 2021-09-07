@@ -25,8 +25,8 @@ class SubsidyProjectEntityController extends ControllerBase implements Container
    *   An array suitable for drupal_render().
    */
   public function revisionShow($subsidy_project_entity_revision) {
-    $subsidy_project_entity = $this->entityManager()->getStorage('subsidy_project_entity')->loadRevision($subsidy_project_entity_revision);
-    $view_builder = $this->entityManager()->getViewBuilder('subsidy_project_entity');
+    $subsidy_project_entity = $this->entityTypeManager()->getStorage('subsidy_project_entity')->loadRevision($subsidy_project_entity_revision);
+    $view_builder = $this->entityTypeManager()->getViewBuilder('subsidy_project_entity');
 
     return $view_builder->view($subsidy_project_entity);
   }
@@ -41,7 +41,7 @@ class SubsidyProjectEntityController extends ControllerBase implements Container
    *   The page title.
    */
   public function revisionPageTitle($subsidy_project_entity_revision) {
-    $subsidy_project_entity = $this->entityManager()->getStorage('subsidy_project_entity')->loadRevision($subsidy_project_entity_revision);
+    $subsidy_project_entity = $this->entityTypeManager()->getStorage('subsidy_project_entity')->loadRevision($subsidy_project_entity_revision);
     return $this->t('Revision of %title from %date', ['%title' => $subsidy_project_entity->label(), '%date' => format_date($subsidy_project_entity->getRevisionCreationTime())]);
   }
 
@@ -60,7 +60,7 @@ class SubsidyProjectEntityController extends ControllerBase implements Container
     $langname = $subsidy_project_entity->language()->getName();
     $languages = $subsidy_project_entity->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
-    $subsidy_project_entity_storage = $this->entityManager()->getStorage('subsidy_project_entity');
+    $subsidy_project_entity_storage = $this->entityTypeManager()->getStorage('subsidy_project_entity');
 
     $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => $subsidy_project_entity->label()]) : $this->t('Revisions for %title', ['%title' => $subsidy_project_entity->label()]);
     $header = [$this->t('Revision'), $this->t('Operations')];

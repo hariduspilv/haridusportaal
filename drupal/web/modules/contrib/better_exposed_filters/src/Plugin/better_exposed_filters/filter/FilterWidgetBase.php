@@ -31,7 +31,7 @@ abstract class FilterWidgetBase extends BetterExposedFiltersWidgetBase implement
     }
 
     // Check various filter types and determine what options are available.
-    if (is_a($filter, 'Drupal\views\Plugin\views\filter\String') || is_a($filter, 'Drupal\views\Plugin\views\filter\InOperator')) {
+    if (is_a($filter, 'Drupal\views\Plugin\views\filter\StringFilter') || is_a($filter, 'Drupal\views\Plugin\views\filter\InOperator')) {
       if (in_array($filter->operator, ['in', 'or', 'and', 'not'])) {
         $is_applicable = TRUE;
       }
@@ -54,6 +54,10 @@ abstract class FilterWidgetBase extends BetterExposedFiltersWidgetBase implement
     }
 
     if ($filter->isAGroup()) {
+      $is_applicable = TRUE;
+    }
+
+    if (is_a($filter, 'Drupal\search_api\Plugin\views\filter\SearchApiFulltext')) {
       $is_applicable = TRUE;
     }
 
@@ -109,14 +113,14 @@ abstract class FilterWidgetBase extends BetterExposedFiltersWidgetBase implement
         '#type' => 'textfield',
         '#title' => $this->t('Placeholder text'),
         '#description' => $this->t('Text to be shown in the text field until it is edited. Leave blank for no placeholder to be set.'),
-        '#default_value' => $this->configuration['advanced']['placeholder_text'],
+        '#default_value' => $this->t($this->configuration['advanced']['placeholder_text']),
       ];
     }
 
     // Allow rewriting of filter options for any filter. String and numeric
     // filters allow unlimited filter options via textfields, so we can't
     // offer rewriting for those.
-    // @TODO: check other core filter types
+    // @todo check other core filter types
     if ((!$filter instanceof StringFilter && !$filter instanceof NumericFilter) || $filter->isAGroup()) {
       $form['advanced']['rewrite']['filter_rewrite_values'] = [
         '#type' => 'textarea',
@@ -177,15 +181,17 @@ abstract class FilterWidgetBase extends BetterExposedFiltersWidgetBase implement
 
     // Check for placeholder text.
     if (!empty($this->configuration['advanced']['placeholder_text'])) {
-      // @todo: Add token replacement for placeholder text.
-      $form[$field_id]['#placeholder'] = $this->configuration['advanced']['placeholder_text'];
+      // @todo Add token replacement for placeholder text.
+      $form[$field_id]['#placeholder'] = $this->t($this->configuration['advanced']['placeholder_text']);
     }
 
     // Handle filter value rewrites.
     if ($this->configuration['advanced']['rewrite']['filter_rewrite_values']) {
-      $form[$field_id]['#options'] = BetterExposedFiltersHelper::rewriteOptions($form[$field_id]['#options'], $this->configuration['advanced']['rewrite']['filter_rewrite_values']);
+      // Reorder options based on rewrite values, if sort options is disabled.
+      $form[$field_id]['#options'] = BetterExposedFiltersHelper::rewriteOptions($form[$field_id]['#options'], $this->configuration['advanced']['rewrite']['filter_rewrite_values'], !$this->configuration['advanced']['sort_options']);
       // @todo what is $selected?
-      // if (isset($selected) && !isset($form[$field_id]['#options'][$selected])) {
+      // if (isset($selected) &&
+      // !isset($form[$field_id]['#options'][$selected])) {
       // Avoid "Illegal choice" errors.
       // $form[$field_id]['#default_value'] = NULL;
       // }
@@ -208,11 +214,12 @@ abstract class FilterWidgetBase extends BetterExposedFiltersWidgetBase implement
       $form[$field_id . '_collapsible'] = [
         '#type' => 'details',
         '#title' => $exposed_label,
+        '#description' => $exposed_description,
       ];
 
       if ($is_secondary) {
         // Move secondary elements.
-        $form[$field_id . '_collapsible']['#group'] = 'secondary';
+        $this->addElementToGroup($form, $form_state, $field_id . '_collapsible', 'secondary');
       }
     }
 
@@ -323,6 +330,7 @@ abstract class FilterWidgetBase extends BetterExposedFiltersWidgetBase implement
     $form_state->set('exposed', TRUE);
     /** @var \Drupal\views\Plugin\views\filter\FilterPluginBase $filter */
     $filter = $this->handler;
+    $filter->buildExposedForm($form, $form_state);
     $filter_id = $filter->options['expose']['identifier'];
 
     return $form[$filter_id]['#type'] ?? $form[$filter_id]['value']['#type'] ?? '';

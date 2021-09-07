@@ -1,3 +1,5 @@
+@import 'typography.scss';
+
 :host {
   ul {
     list-style: none;
@@ -15,5 +17,10 @@
   }
   icon {
     margin-right: 12px;
+  }
+
+  h2 {
+    font-size: $small + $half-gutter;
+    margin: 0;
   }
 }

@@ -186,7 +186,7 @@ class SvgImageFieldFormatter extends FormatterBase implements ContainerFactoryPl
 
       if ($this->getSetting('inline')) {
         $svg_file = file_get_contents($uri);
-        $dom = new \DomDocument();
+        $dom = new \DOMDocument();
         libxml_use_internal_errors(TRUE);
         $dom->loadXML($svg_file);
         $svg_data = $dom->saveXML();

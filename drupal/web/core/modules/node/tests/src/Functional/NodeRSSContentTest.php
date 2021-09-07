@@ -20,14 +20,14 @@ class NodeRSSContentTest extends NodeTestBase {
    *
    * @var array
    */
-  public static $modules = ['node_test', 'views'];
+  protected static $modules = ['node_test', 'views'];
 
   /**
    * {@inheritdoc}
    */
   protected $defaultTheme = 'stark';
 
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // Use bypass node access permission here, because the test class uses
@@ -51,24 +51,24 @@ class NodeRSSContentTest extends NodeTestBase {
     $this->drupalGet('rss.xml');
 
     // Check that content added in 'rss' view mode appear in RSS feed.
-    $rss_only_content = t('Extra data that should appear only in the RSS feed for node @nid.', ['@nid' => $node->id()]);
-    $this->assertText($rss_only_content, 'Node content designated for RSS appear in RSS feed.');
+    $rss_only_content = 'Extra data that should appear only in the RSS feed for node ' . $node->id() . '.';
+    $this->assertSession()->responseContains($rss_only_content);
 
     // Check that content added in view modes other than 'rss' doesn't
     // appear in RSS feed.
-    $non_rss_content = t('Extra data that should appear everywhere except the RSS feed for node @nid.', ['@nid' => $node->id()]);
-    $this->assertNoText($non_rss_content, 'Node content not designed for RSS does not appear in RSS feed.');
+    $non_rss_content = 'Extra data that should appear everywhere except the RSS feed for node ' . $node->id() . '.';
+    $this->assertNoText($non_rss_content);
 
     // Check that extra RSS elements and namespaces are added to RSS feed.
     $test_element = '<testElement>' . t('Value of testElement RSS element for node @nid.', ['@nid' => $node->id()]) . '</testElement>';
     $test_ns = 'xmlns:drupaltest="http://example.com/test-namespace"';
-    $this->assertRaw($test_element, 'Extra RSS elements appear in RSS feed.');
-    $this->assertRaw($test_ns, 'Extra namespaces appear in RSS feed.');
+    $this->assertRaw($test_element);
+    $this->assertRaw($test_ns);
 
     // Check that content added in 'rss' view mode doesn't appear when
     // viewing node.
     $this->drupalGet('node/' . $node->id());
-    $this->assertNoText($rss_only_content, 'Node content designed for RSS does not appear when viewing node.');
+    $this->assertNoText($rss_only_content);
   }
 
   /**
@@ -109,9 +109,12 @@ class NodeRSSContentTest extends NodeTestBase {
     ]);
 
     $this->drupalGet('rss.xml');
-    $this->assertRaw(file_create_url('public://root-relative'), 'Root-relative URL is transformed to absolute.');
-    $this->assertRaw($protocol_relative_url, 'Protocol-relative URL is left untouched.');
-    $this->assertRaw($absolute_url, 'Absolute URL is left untouched.');
+    // Verify that root-relative URL is transformed to absolute.
+    $this->assertRaw(file_create_url('public://root-relative'));
+    // Verify that protocol-relative URL is left untouched.
+    $this->assertRaw($protocol_relative_url);
+    // Verify that absolute URL is left untouched.
+    $this->assertRaw($absolute_url);
   }
 
 }

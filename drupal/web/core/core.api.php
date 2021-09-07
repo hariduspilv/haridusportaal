@@ -75,8 +75,8 @@
  * Integrating third-party applications using REST and related operations.
  *
  * @section sec_overview Overview of web services
- * Web services make it possible for applications and web sites to read and
- * update information from other web sites. There are several standard
+ * Web services make it possible for applications and websites to read and
+ * update information from other websites. There are several standard
  * techniques for providing web services, including:
  * - SOAP: http://wikipedia.org/wiki/SOAP
  * - XML-RPC: http://wikipedia.org/wiki/XML-RPC
@@ -151,7 +151,7 @@
  * @ref sec_rest above.
  *
  * @section sec_integrate Integrating data from other sites into Drupal
- * If you want to integrate data from other web sites into Drupal, here are
+ * If you want to integrate data from other websites into Drupal, here are
  * some notes:
  * - There are contributed modules available for integrating many third-party
  *   sites into Drupal. Search on https://www.drupal.org/project/project_module
@@ -381,10 +381,10 @@
  *   be an admin path). Here's an example using the configurable_language config
  *   entity:
  *   @code
- *   mymodule.myroute:
- *     path: '/admin/mypath/{configurable_language}'
+ *   my_module.my_route:
+ *     path: '/admin/my-path/{configurable_language}'
  *     defaults:
- *       _controller: '\Drupal\mymodule\MyController::myMethod'
+ *       _controller: '\Drupal\my_module\MyController::myMethod'
  *     options:
  *       parameters:
  *         configurable_language:
@@ -476,7 +476,7 @@
  *   class: Drupal\Core\Cache\CacheBackendInterface
  *   tags:
  *     - { name: cache.bin }
- *   factory: cache_factory:get
+ *   factory: ['@cache_factory', 'get']
  *   arguments: [nameofbin]
  * @endcode
  * See the @link container Services topic @endlink for more on defining
@@ -771,7 +771,7 @@
  *     class: Drupal\Core\Cache\CacheBackendInterface
  *     tags:
  *       - { name: cache.bin }
- *     factory: cache_factory:get
+ *     factory: ['@cache_factory', 'get']
  *     arguments: [entity]
  * @endcode
  *
@@ -808,7 +808,7 @@
  *   arguments, but they all include an argument $container of type
  *   \Symfony\Component\DependencyInjection\ContainerInterface.
  *   If you are defining one of these classes, in the create() or
- *   createInstance() method, call $container->get('myservice.name') to
+ *   createInstance() method, call $container->get('my_service.name') to
  *   instantiate a service. The results of these calls are generally passed to
  *   the class constructor and saved as member variables in the class.
  * - For functions and class methods that do not have access to either of
@@ -817,8 +817,8 @@
  *   special methods for accessing commonly-used services, or you can call a
  *   generic method to access any service. Examples:
  *   @code
- *   // Retrieve the entity.manager service object (special method exists).
- *   $manager = \Drupal::entityManager();
+ *   // Retrieve the entity_type.manager service object (special method exists).
+ *   $entity_type_manager = \Drupal::entityTypeManager();
  *   // Retrieve the service object for machine name 'foo.bar'.
  *   $foobar = \Drupal::service('foo.bar');
  *   @endcode
@@ -836,7 +836,7 @@
  * @section sec_define Defining a service
  * If your module needs to define a new service, here are the steps:
  * - Choose a unique machine name for your service. Typically, this should
- *   start with your module name. Example: mymodule.myservice.
+ *   start with your module name. Example: my_module.my_service.
  * - Create a PHP interface to define what your service does.
  * - Create a default class implementing your interface that provides your
  *   service. If your class needs to use existing services (such as database
@@ -2036,7 +2036,7 @@ function hook_mail_alter(&$message) {
 }
 
 /**
- * Prepares a message based on parameters;
+ * Prepares a message based on parameters.
  *
  * This hook is called from MailManagerInterface->mail(). Note that hook_mail(),
  * unlike hook_mail_alter(), is only called on the $module argument to
@@ -2276,7 +2276,7 @@ function hook_config_schema_info_alter(&$definitions) {
  * @see \Drupal\Core\Validation\Annotation\Constraint
  */
 function hook_validation_constraint_alter(array &$definitions) {
-  $definitions['Null']['class'] = '\Drupal\mymodule\Validator\Constraints\MyClass';
+  $definitions['Null']['class'] = '\Drupal\mymodule\Plugin\Validation\Constraints\MyClass';
 }
 
 /**
@@ -2502,14 +2502,14 @@ function hook_validation_constraint_alter(array &$definitions) {
  *
  * @section sec_dispatch Dispatching events
  * To dispatch an event, call the
- * \Symfony\Component\EventDispatcher\EventDispatcherInterface::dispatch()
+ * \Symfony\Contracts\EventDispatcher\EventDispatcherInterface::dispatch()
  * method on the 'event_dispatcher' service (see the
  * @link container Services topic @endlink for more information about how to
  * interact with services). The first argument is the unique event name, which
  * you should normally define as a constant in a separate static class (see
  * \Symfony\Component\HttpKernel\KernelEvents and
  * \Drupal\Core\Config\ConfigEvents for examples). The second argument is a
- * \Symfony\Component\EventDispatcher\Event object; normally you will need to
+ * \Drupal\Component\EventDispatcher\Event object; normally you will need to
  * extend this class, so that your event class can provide data to the event
  * subscribers.
  *

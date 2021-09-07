@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Url;
+use Drupal\views\Entity\View;
 
 /**
  * Implements hook_requirements().
@@ -89,7 +90,7 @@ function scheduler_uninstall() {
  * Reset date and time formats to default.
  */
 function scheduler_update_8001() {
-  // See https://www.drupal.org/node/2799869
+  // See https://www.drupal.org/project/scheduler/issues/2799869
   $config = \Drupal::configFactory()->getEditable('scheduler.settings');
   $config
     ->set('date_format', 'Y-m-d H:i:s')
@@ -109,4 +110,20 @@ function scheduler_update_8101() {
     ->set('default_show_message_after_update', TRUE)
     ->save();
   return t('Default set on for new option "Show a message after updating content"');
+}
+
+/**
+ * Update view - Move 'Scheduled' tab to be a local task under 'Content'.
+ */
+function scheduler_update_8102() {
+  // The text in the doc block above is shown on the update.php list.
+  // See https://www.drupal.org/project/scheduler/issues/3167193
+  $view = View::load('scheduler_scheduled_content');
+  if ($view) {
+    $display =& $view->getDisplay('overview');
+    $display['display_options']['menu']['description'] = 'Content scheduled for publishing and unpublishing';
+    $display['display_options']['menu']['type'] = 'normal';
+    $view->save();
+    return t('The "Scheduled" tab is now a "Scheduled content" sub-task under the "Content" tab');
+  }
 }

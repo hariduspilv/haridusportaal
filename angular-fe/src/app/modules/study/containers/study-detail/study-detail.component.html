@@ -3,10 +3,10 @@
     <article-layout *ngIf="study$ | async as study">
         <breadcrumbs [path]="studyPath"></breadcrumbs>
         <block [titleBorder]="false" *ngIf="study">
-            <block-title>{{ 'study.label' | translate }}</block-title>
+            <block-title><h1>{{ 'study.label' | translate }}</h1></block-title>
             <block-content [noPaddingTop]="true">
 
-                <h1>{{study.title}}</h1>
+                <h2>{{study.title}}</h2>
 
                 <labels
                         *ngIf="study.fieldCustomBoolean"

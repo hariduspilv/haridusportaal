@@ -13,7 +13,7 @@ use Drupal\rules\Core\RulesActionBase;
  *   id = "scheduler_remove_publishing_date_action",
  *   label = @Translation("Remove date for scheduled publishing"),
  *   category = @Translation("Scheduler"),
- *   context = {
+ *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node",
  *       label = @Translation("Node"),
  *       description = @Translation("The node from which to remove the scheduled publishing date"),
@@ -48,11 +48,11 @@ class RemovePublishingDate extends RulesActionBase {
         '%action_label' => $action_label,
         '%condition' => $condition,
         '@url' => $url->toString(),
-        'link' => Link::fromTextAndUrl($this->t('@type settings', ['@type' => $type_name]), $url)->toString(),
       ];
 
+      $link = Link::fromTextAndUrl($this->t('@type settings', ['@type' => $type_name]), $url)->toString();
       \Drupal::logger('scheduler')->warning('Action "%action_label" is not valid because scheduled publishing is not enabled for %type content. Add the condition "%condition" to your Reaction Rule, or enable scheduled publishing via the %type settings.',
-        $arguments);
+        $arguments + ['link' => $link]);
 
       \Drupal::messenger()->addMessage($this->t('Action "%action_label" is not valid because scheduled publishing is not enabled for %type content. Add the condition "%condition" to your Reaction Rule, or enable scheduled publishing via the <a href="@url">%type</a> settings.',
         $arguments), 'warning', FALSE);

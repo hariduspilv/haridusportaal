@@ -24,7 +24,7 @@ class Number extends ConditionalFieldsHandlerBase {
       case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         if ($options['field_cardinality'] == 1) {
           $state[$options['state']][$options['selector']] = [
-            'value' => $this->getWidgetValue($options['value_form'])
+            'value' => $this->getWidgetValue($options['value_form']),
           ];
         }
         else {
@@ -35,7 +35,7 @@ class Number extends ConditionalFieldsHandlerBase {
             }
             $selector = str_replace('[0]', "[{$key}]", $options['selector']);
             $state[$options['state']][$selector] = [
-              'value' => $value
+              'value' => $value,
             ];
           }
         }

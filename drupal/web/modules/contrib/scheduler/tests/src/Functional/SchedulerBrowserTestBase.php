@@ -36,7 +36,7 @@ abstract class SchedulerBrowserTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->schedulerSetUp();

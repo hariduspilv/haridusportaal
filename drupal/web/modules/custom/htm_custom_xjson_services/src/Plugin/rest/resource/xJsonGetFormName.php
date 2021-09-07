@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *   id = "x_json_form_name_rest_resource",
  *   label = @Translation("X json form name rest resource"),
  *   uri_paths = {
- *     "https://www.drupal.org/link-relations/create" = "/xjson_service/form_name"
+ *     "create" = "/xjson_service/form_name"
  *   }
  * )
  */

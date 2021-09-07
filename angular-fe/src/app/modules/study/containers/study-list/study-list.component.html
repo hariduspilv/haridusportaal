@@ -11,7 +11,7 @@
   </study-list-filter>
   <max-width-wrapper>
     <block [titleBorder]="false" [loading]="loading?.list">
-      <block-title>{{ 'study.label' | translate }}</block-title>
+      <block-title><h1>{{ 'study.label' | translate }}</h1></block-title>
       <block-content [noPaddingTop]="true">
         <label-count
           *ngIf="list?.length && offsetParameters.count"

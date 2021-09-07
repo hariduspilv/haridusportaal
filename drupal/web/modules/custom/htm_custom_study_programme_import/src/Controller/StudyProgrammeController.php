@@ -94,7 +94,7 @@ class StudyProgrammeController extends ControllerBase {
             ->condition('type', 'school')
             ->execute();
         foreach($nid_result as $nodeid){
-            $programmeitem = entity_load('node', $nodeid);
+            $programmeitem = \Drupal::entityTypeManager()->getStorage('node')->load($nodeid);
             $ehisid = $programmeitem->get('field_ehis_id')->getValue()[0]['value'];
             $programmeehisids[$ehisid] = $nodeid;
         }
@@ -272,7 +272,7 @@ class StudyProgrammeController extends ControllerBase {
                 }
             }
 
-            $programmenode['programme_field']['field_created_from_ehis_datetime'] = REQUEST_TIME;
+            $programmenode['programme_field']['field_created_from_ehis_datetime'] = \Drupal::time()->getRequestTime();
             $programmenode['programme_field']['field_update_from_ehis'] = '1';
             $programmenode['programme_field']['status'] = '1';
         }
@@ -309,14 +309,14 @@ class StudyProgrammeController extends ControllerBase {
 
     public function save_programme($programme){
         if(isset($programme['programme_field']['nid'])){
-            $node_storage = \Drupal::entityManager()->getStorage('node');
+            $node_storage = \Drupal::entityTypeManager()->getStorage('node');
             $node = $node_storage->load($programme['programme_field']['nid']);
         }else{
             $node = Node::create([
                 'type' => 'study_programme',
                 'langcode' => 'et',
-                'created' => REQUEST_TIME,
-                'changed' => REQUEST_TIME,
+                'created' => \Drupal::time()->getRequestTime(),
+                'changed' => \Drupal::time()->getRequestTime(),
                 'uid' => 1,
                 'title' => sprintf('%s', $programme['programme_field']['title']),
             ]);
@@ -346,10 +346,10 @@ class StudyProgrammeController extends ControllerBase {
             }
 
             if(isset($programme['programme_field']['field_educational_institution'])){
-                $schoolitem = entity_load('node', $programme['programme_field']['field_educational_institution']);
+                $schoolitem = \Drupal::entityTypeManager()->getStorage('node')->load($programme['programme_field']['field_educational_institution']);
                 if(count($schoolitem->toArray()['field_school_location']) > 0){
                     $schoolitem->toArray()['field_school_location'][0]['target_id'];
-                    $paragraph = entity_load('paragraph', $schoolitem->toArray()['field_school_location'][0]['target_id']);
+                    $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load($schoolitem->toArray()['field_school_location'][0]['target_id']);
                     $programme['programme_field']['field_school_address'] = $paragraph->get('field_address')->value;
                 }
                 if(count($schoolitem->toArray()['field_school_webpage_address']) > 0){

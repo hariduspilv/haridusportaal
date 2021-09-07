@@ -18,7 +18,7 @@ class ResourceTypeRepositoryTest extends JsonapiKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'field',
     'node',
     'serialization',
@@ -37,7 +37,7 @@ class ResourceTypeRepositoryTest extends JsonapiKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     // Add the entity schemas.
     $this->installEntitySchema('node');
@@ -117,8 +117,8 @@ class ResourceTypeRepositoryTest extends JsonapiKernelTestBase {
    * Ensures that a naming conflict in the mapping causes an exception to be
    * thrown.
    *
-   * @covers ::getFieldMapping
-   * @dataProvider getFieldMappingProvider
+   * @covers ::getFields
+   * @dataProvider getFieldsProvider
    */
   public function testMappingNameConflictCheck($field_name_list) {
     $entity_type = \Drupal::entityTypeManager()->getDefinition('node');
@@ -133,7 +133,7 @@ class ResourceTypeRepositoryTest extends JsonapiKernelTestBase {
   }
 
   /**
-   * Data provider for testGetFieldMapping.
+   * Data provider for testMappingNameConflictCheck.
    *
    * These field name lists are designed to trigger a naming conflict in the
    * mapping: the special-cased names "type" or "id", and the name
@@ -142,7 +142,7 @@ class ResourceTypeRepositoryTest extends JsonapiKernelTestBase {
    * @returns array
    *   The data for the test method.
    */
-  public function getFieldMappingProvider() {
+  public function getFieldsProvider() {
     return [
       [['type', 'node_type']],
       [['id', 'node_id']],
@@ -185,6 +185,16 @@ class ResourceTypeRepositoryTest extends JsonapiKernelTestBase {
     Cache::invalidateTags(['jsonapi_resource_types']);
     $this->assertSame($this->resourceTypeRepository->getByTypeName('node--article')->getPublicName('uid'), 'author');
     $this->assertSame($this->resourceTypeRepository->getByTypeName('node--page')->getPublicName('uid'), 'owner');
+  }
+
+  /**
+   * Tests that resource type fields can be aliased per resource type.
+   */
+  public function testResourceTypeNameAliasing() {
+    // When this test is implemented, ensure the the tested behaviors in
+    // ResourceTypeNameAliasTest have been covered and remove it. Then remove
+    // the jsonapi_test_resource_type_aliasing test module.
+    $this->markTestSkipped('Remove in https://www.drupal.org/project/drupal/issues/3105318');
   }
 
   /**

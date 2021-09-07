@@ -3,7 +3,7 @@
 </div>
 <label-count *ngIf="searchWithParams && listCount && list?.length" [count]="listCount">{{ 'search.results_of' | translate }}: </label-count>
 <listItems
-  *ngIf="list?.length"
+  *ngIf="!loading"
   [type]="type"
   [list]="list"
 ></listItems>

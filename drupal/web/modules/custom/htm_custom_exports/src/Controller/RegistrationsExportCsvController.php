@@ -41,7 +41,7 @@ class RegistrationsExportCsvController extends ControllerBase {
 
 		$enids = $query->execute();
 
-		$entities = \Drupal::entityManager()->getStorage('event_reg_entity')->loadMultiple($enids);
+		$entities = \Drupal::entityTypeManager()->getStorage('event_reg_entity')->loadMultiple($enids);
 
 		//dump($entities);
 

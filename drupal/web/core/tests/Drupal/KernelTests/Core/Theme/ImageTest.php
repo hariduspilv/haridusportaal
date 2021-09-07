@@ -17,16 +17,16 @@ class ImageTest extends KernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['system'];
+  protected static $modules = ['system'];
 
-  /*
+  /**
    * The images to test with.
    *
    * @var array
    */
   protected $testImages;
 
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // The code under test uses file_url_transform_relative(), which relies on
