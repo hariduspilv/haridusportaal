@@ -108,7 +108,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       return NULL;
     }else{
       $response = $client->search($params);
-
       if($args['offset'] == null && $args['limit'] == null){
         while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
           $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
@@ -125,10 +124,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       }else{
         $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
       }
-      \Drupal::logger('elasticresponese')->notice('<pre><code>Post request: ' . print_r($responsevalues, TRUE) . '</code></pre>' );
-
-      $responsevalues =  $this->getContentTypeLabels($responsevalues);
-
       yield ['count'=> $response['hits']['total'], 'values' => $responsevalues];
     }
   }
@@ -140,7 +135,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         $language = \Drupal::languageManager()->getLanguage($value['_source']['langcode'][0]);
         \Drupal::languageManager()->setConfigOverrideLanguage($language);
         $contentTypes = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadByProperties(['type' => $value['_source']['content_type'][0]]);
-
         foreach ($contentTypes as $type) {
           $value['_source']['content_type'][0] = $type->label();
           $response[] = $value;
