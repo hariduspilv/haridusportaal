@@ -89,7 +89,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     $elasticsearch_indexes =  \Drupal::entityTypeManager()->getStorage('search_api_index')->loadMultiple();
     $index_out = '';
     foreach ($elasticsearch_indexes as $elasticsearch_index_name=> $elasticsearch_index){
-      if ($elasticsearch_index_name == 'oska_main_profession'){
+      if ($elasticsearch_index_name == 'oska_profession_autocomplete' ){
         continue;
       }
       if (empty($index_out)){
