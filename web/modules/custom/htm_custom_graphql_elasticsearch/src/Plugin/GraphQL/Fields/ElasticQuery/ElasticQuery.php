@@ -61,8 +61,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
    */
   public function __construct(
     array $configuration,
-    $pluginId,
-    $pluginDefinition,
+          $pluginId,
+          $pluginDefinition,
     SubRequestBuffer $subRequestBuffer
   )
   {
@@ -86,9 +86,23 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       ]
     ];
     $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
+    $elasticsearch_indexes =  \Drupal::entityTypeManager()->getStorage('search_api_index')->loadMultiple();
+    $index_out = '';
+    foreach ($elasticsearch_indexes as $elasticsearch_index_name=> $elasticsearch_index){
+      if ($elasticsearch_index_name == 'oska_main_profession'){
+        continue;
+      }
+      if (empty($index_out)){
+        $index_out.='elasticsearch_index_drupaldb_'.$elasticsearch_index_name;
+      }
+      else{
+        $index_out.=',elasticsearch_index_drupaldb_'.$elasticsearch_index_name;
+      }
+    }
 
     if (isset($args['sort'])) $args = $this->parseElasticSort($args, $client);
     $params = $this->getElasticQuery($args);
+    $params['index'] = $index_out;
     // add sort if set
     if($params == NULL){
       return NULL;
@@ -120,7 +134,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       if (isset($value['_source'])) {
         $language = \Drupal::languageManager()->getLanguage($value['_source']['langcode'][0]);
         \Drupal::languageManager()->setConfigOverrideLanguage($language);
-        $contentTypes = \Drupal::service('entity.manager')->getStorage('node_type')->loadByProperties(['type' => $value['_source']['content_type'][0]]);
+        $contentTypes = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadByProperties(['type' => $value['_source']['content_type'][0]]);
         foreach ($contentTypes as $type) {
           $value['_source']['content_type'][0] = $type->label();
           $response[] = $value;
@@ -200,8 +214,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           if (strlen($searchvalue) > 2) {
             $functions[] = array(
               'filter' => array(
-                'match' => array(
-                  $condition['field'] => str_replace(',', '', $searchvalue)
+                'wildcard' => array(
+                  $condition['field'] => '*'. str_replace(',', '', $searchvalue).'*'
                 )
               ),
               'weight' => $condition['weight']
