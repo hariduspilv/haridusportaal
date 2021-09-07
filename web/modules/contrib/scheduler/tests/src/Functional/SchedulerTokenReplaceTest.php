@@ -29,7 +29,7 @@ class SchedulerTokenReplaceTest extends SchedulerBrowserTestBase {
     $this->drupalGet('admin/content/scheduled');
 
     // Create array of test case data.
-    // @TODO Convert this test to use @dataProvider instead of array and loop?
+    // @todo Convert this test to use @dataProvider instead of array and loop?
     $test_cases = [
       ['token_format' => '', 'date_format' => 'medium', 'custom' => ''],
       ['token_format' => ':long', 'date_format' => 'long', 'custom' => ''],

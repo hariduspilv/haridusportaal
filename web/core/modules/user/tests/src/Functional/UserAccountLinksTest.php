@@ -16,7 +16,7 @@ class UserAccountLinksTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['menu_ui', 'block', 'test_page_test'];
+  protected static $modules = ['menu_ui', 'block', 'test_page_test'];
 
   /**
    * {@inheritdoc}
@@ -26,7 +26,7 @@ class UserAccountLinksTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->drupalPlaceBlock('system_menu_block:account');
     // Make test-page default.
@@ -97,11 +97,12 @@ class UserAccountLinksTest extends BrowserTestBase {
     // the consistent label text.
     $this->drupalGet('admin/structure/menu/manage/account');
     $label = $this->xpath('//label[contains(.,:text)]/@for', [':text' => 'Enable My account menu link']);
-    $this->assertFieldChecked($label[0]->getText(), "The 'My account' link is enabled by default.");
+    $this->assertSession()->checkboxChecked($label[0]->getText());
 
     // Disable the 'My account' link.
     $edit['links[menu_plugin_id:user.page][enabled]'] = FALSE;
-    $this->drupalPostForm('admin/structure/menu/manage/account', $edit, t('Save'));
+    $this->drupalGet('admin/structure/menu/manage/account');
+    $this->submitForm($edit, 'Save');
 
     // Get the homepage.
     $this->drupalGet('<front>');
@@ -123,22 +124,36 @@ class UserAccountLinksTest extends BrowserTestBase {
     $title_suffix = ' | Drupal';
 
     $this->drupalGet('user');
-    $this->assertTitle('Log in' . $title_suffix);
+    $this->assertSession()->titleEquals('Log in' . $title_suffix);
 
     $this->drupalGet('user/login');
-    $this->assertTitle('Log in' . $title_suffix);
+    $this->assertSession()->titleEquals('Log in' . $title_suffix);
 
     $this->drupalGet('user/register');
-    $this->assertTitle('Create new account' . $title_suffix);
+    $this->assertSession()->titleEquals('Create new account' . $title_suffix);
 
     $this->drupalGet('user/password');
-    $this->assertTitle('Reset your password' . $title_suffix);
+    $this->assertSession()->titleEquals('Reset your password' . $title_suffix);
 
     // Check the page title for registered users is "My Account" in menus.
     $this->drupalLogin($this->drupalCreateUser());
     // After login, the client is redirected to /user.
-    $this->assertSession()->linkExists(t('My account'), 0, "Page title of /user is 'My Account' in menus for registered users");
-    $this->assertLinkByHref(\Drupal::urlGenerator()->generate('user.page'), 0);
+    $this->assertSession()->linkExists('My account', 0, "Page title of /user is 'My Account' in menus for registered users");
+    $this->assertSession()->linkByHrefExists(\Drupal::urlGenerator()->generate('user.page'), 0);
+  }
+
+  /**
+   * Ensures that logout url redirects an anonymous user to the front page.
+   */
+  public function testAnonymousLogout() {
+    $this->drupalGet('user/logout');
+    $this->assertSession()->addressEquals('/');
+    $this->assertSession()->statusCodeEquals(200);
+
+    // The redirection shouldn't affect other pages.
+    $this->drupalGet('admin');
+    $this->assertSession()->addressEquals('/admin');
+    $this->assertSession()->statusCodeEquals(403);
   }
 
 }

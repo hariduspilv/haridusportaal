@@ -2,4 +2,5 @@ name: 'HTM Custom OSKA'
 type: module
 description: 'Module for OSKA graphs'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'TWN-Custom'

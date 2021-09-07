@@ -49,6 +49,9 @@ better_exposed_filters.filter.bef:
     select_all_none_nested:
       type: boolean
       label: 'Add select all/none links to hierarchical lists'
+    display_inline:
+      type: boolean
+      label: 'Display checkbox/radio options inline'
 
 better_exposed_filters.filter.bef_links:
   label: 'Links'

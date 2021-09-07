@@ -27,6 +27,7 @@ RUN	apk update && \
 	zlib \
 	apache2 \
 	postgresql-client \
+	patch \
 	php7 \
 	php7-apache2 \
         php7-bcmath \
@@ -111,8 +112,6 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 ADD httpd.conf /httpd.conf
 RUN mv httpd.conf /etc/apache2/httpd.conf
-
-ADD plumbr-agent-installer /plumbr-agent-installer
 
 ADD run.sh /run.sh
 RUN chmod +x /run.sh

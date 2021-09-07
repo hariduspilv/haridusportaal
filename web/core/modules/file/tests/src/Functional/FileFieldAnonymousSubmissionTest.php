@@ -21,7 +21,7 @@ class FileFieldAnonymousSubmissionTest extends FileFieldTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     // Set up permissions for anonymous attacker user.
     user_role_change_permissions(RoleInterface::ANONYMOUS_ID, [
@@ -41,22 +41,22 @@ class FileFieldAnonymousSubmissionTest extends FileFieldTestBase {
     $this->drupalLogout();
     $this->drupalGet('node/add/article');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertText(strip_tags(t('Create @name', ['@name' => $bundle_label])));
+    $this->assertSession()->pageTextContains(strip_tags(t('Create @name', ['@name' => $bundle_label])));
 
     $edit = [
       'title[0][value]' => $node_title,
       'body[0][value]' => 'Test article',
     ];
-    $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->submitForm($edit, 'Save');
     $this->assertSession()->statusCodeEquals(200);
     $t_args = ['@type' => $bundle_label, '%title' => $node_title];
-    $this->assertText(strip_tags(t('@type %title has been created.', $t_args)), 'The node was created.');
+    $this->assertSession()->pageTextContains(strip_tags(t('@type %title has been created.', $t_args)));
     $matches = [];
     if (preg_match('@node/(\d+)$@', $this->getUrl(), $matches)) {
       $nid = end($matches);
-      $this->assertNotEqual($nid, 0, 'The node ID was extracted from the URL.');
+      $this->assertNotEquals(0, $nid, 'The node ID was extracted from the URL.');
       $node = Node::load($nid);
-      $this->assertNotEqual($node, NULL, 'The node was loaded successfully.');
+      $this->assertNotNull($node, 'The node was loaded successfully.');
     }
   }
 
@@ -72,7 +72,7 @@ class FileFieldAnonymousSubmissionTest extends FileFieldTestBase {
     $this->drupalLogout();
     $this->drupalGet('node/add/article');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertText(strip_tags(t('Create @name', ['@name' => $bundle_label])));
+    $this->assertSession()->pageTextContains(strip_tags(t('Create @name', ['@name' => $bundle_label])));
 
     // Generate an image file.
     $image = $this->getTestFile('image');
@@ -83,16 +83,16 @@ class FileFieldAnonymousSubmissionTest extends FileFieldTestBase {
       'body[0][value]' => 'Test article',
       'files[field_image_0]' => $this->container->get('file_system')->realpath($image->getFileUri()),
     ];
-    $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->submitForm($edit, 'Save');
     $this->assertSession()->statusCodeEquals(200);
     $t_args = ['@type' => $bundle_label, '%title' => $node_title];
-    $this->assertText(strip_tags(t('@type %title has been created.', $t_args)), 'The node was created.');
+    $this->assertSession()->pageTextContains(strip_tags(t('@type %title has been created.', $t_args)));
     $matches = [];
     if (preg_match('@node/(\d+)$@', $this->getUrl(), $matches)) {
       $nid = end($matches);
-      $this->assertNotEqual($nid, 0, 'The node ID was extracted from the URL.');
+      $this->assertNotEquals(0, $nid, 'The node ID was extracted from the URL.');
       $node = Node::load($nid);
-      $this->assertNotEqual($node, NULL, 'The node was loaded successfully.');
+      $this->assertNotNull($node, 'The node was loaded successfully.');
       $this->assertFileExists(File::load($node->field_image->target_id)->getFileUri());
     }
   }
@@ -129,7 +129,7 @@ class FileFieldAnonymousSubmissionTest extends FileFieldTestBase {
     // Load the node form.
     $this->drupalGet('node/add/article');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertText(strip_tags(t('Create @name', ['@name' => $bundle_label])));
+    $this->assertSession()->pageTextContains(strip_tags(t('Create @name', ['@name' => $bundle_label])));
 
     // Generate an image file.
     $image = $this->getTestFile('image');
@@ -145,28 +145,28 @@ class FileFieldAnonymousSubmissionTest extends FileFieldTestBase {
     else {
       $label = 'Save';
     }
-    $this->drupalPostForm(NULL, $edit, $label);
+    $this->submitForm($edit, $label);
     $this->assertSession()->statusCodeEquals(200);
     $t_args = ['@type' => $bundle_label, '%title' => $node_title];
-    $this->assertNoText(strip_tags(t('@type %title has been created.', $t_args)), 'The node was created.');
-    $this->assertText('Title field is required.');
+    $this->assertNoText(strip_tags(t('@type %title has been created.', $t_args)));
+    $this->assertSession()->pageTextContains('Title field is required.');
 
     // Submit the form again but this time with the missing title field. This
     // should still work.
     $edit = [
       'title[0][value]' => $node_title,
     ];
-    $this->drupalPostForm(NULL, $edit, $label);
+    $this->submitForm($edit, $label);
 
     // Confirm the final submission actually worked.
     $t_args = ['@type' => $bundle_label, '%title' => $node_title];
-    $this->assertText(strip_tags(t('@type %title has been created.', $t_args)), 'The node was created.');
+    $this->assertSession()->pageTextContains(strip_tags(t('@type %title has been created.', $t_args)));
     $matches = [];
     if (preg_match('@node/(\d+)$@', $this->getUrl(), $matches)) {
       $nid = end($matches);
-      $this->assertNotEqual($nid, 0, 'The node ID was extracted from the URL.');
+      $this->assertNotEquals(0, $nid, 'The node ID was extracted from the URL.');
       $node = Node::load($nid);
-      $this->assertNotEqual($node, NULL, 'The node was loaded successfully.');
+      $this->assertNotNull($node, 'The node was loaded successfully.');
       $this->assertFileExists(File::load($node->field_image->target_id)->getFileUri());
     }
   }

@@ -26,7 +26,7 @@ class ContentTranslationFieldSyncRevisionTest extends EntityKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'file',
     'image',
     'language',
@@ -58,7 +58,7 @@ class ContentTranslationFieldSyncRevisionTest extends EntityKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $entity_type_id = 'entity_test_mulrev';
@@ -374,7 +374,7 @@ class ContentTranslationFieldSyncRevisionTest extends EntityKernelTestBase {
   }
 
   /**
-   * Test changing the default language of an entity.
+   * Tests changing the default language of an entity.
    */
   public function testChangeDefaultLanguageNonTranslatableFieldsHidden() {
     $this->setUntranslatableFieldWidgetsDisplay(FALSE);

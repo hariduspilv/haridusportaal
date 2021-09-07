@@ -129,7 +129,7 @@ class SchoolImportController extends ControllerBase {
     ->execute();
 
     foreach($nid_result as $nodeid){
-      $schoolitem = entity_load('node', $nodeid);
+      $schoolitem = \Drupal::entityTypeManager()->getStorage('node')->load( $nodeid);
       $schoolehisids[$nodeid] = $schoolitem->get('field_ehis_id')->getValue()[0]['value'];
     }
 
@@ -230,7 +230,7 @@ class SchoolImportController extends ControllerBase {
         }
       }
       $schoolnode['school_field']['field_ehis_id'] = $school->koolId;
-      $schoolnode['school_field']['field_created_from_ehis_datetime'] = REQUEST_TIME;
+      $schoolnode['school_field']['field_created_from_ehis_datetime'] = \Drupal::time()->getRequestTime();
       $schoolnode['school_field']['field_update_from_ehis'] = '1';
       $schoolnode['school_field']['status'] = '1';
     }
@@ -302,22 +302,22 @@ class SchoolImportController extends ControllerBase {
       }else{
         $action = 'unpublish';
       }
-      $node_storage = \Drupal::entityManager()->getStorage('node');
+      $node_storage = \Drupal::entityTypeManager()->getStorage('node');
       $node = $node_storage->load($school['school_field']['nid']);
     }else if(!isset($school['school_field']['nid'])){
       $action = 'create';
       $node = Node::create([
         'type' => 'school',
         'langcode' => 'et',
-        'created' => REQUEST_TIME,
-        'changed' => REQUEST_TIME,
+        'created' => \Drupal::time()->getRequestTime(),
+        'changed' => \Drupal::time()->getRequestTime(),
         'uid' => 1,
         'title' => sprintf('%s', $school['school_field']['title']),
       ]);
     }
     if(isset($school['school_location_paragraph'])){
       if(isset($node->toArray()['field_school_location'][0]['target_id'])){
-        $paragraph = entity_load('paragraph', $node->toArray()['field_school_location'][0]['target_id']);
+        $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load($node->toArray()['field_school_location'][0]['target_id']);
       }else{
         $paragraph = Paragraph::create(['type' => 'school_location',]);
       }
@@ -342,7 +342,7 @@ class SchoolImportController extends ControllerBase {
           ->condition('name', $county['name'])
           ->execute();
           $key = key($termid);
-          $countyterm = entity_load('taxonomy_term', $termid[$key]);
+          $countyterm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termid[$key]);
         }
         $countyterm->save();
         $terms[] = $countyterm->get('tid')->getValue()[0]['value'];
@@ -360,7 +360,7 @@ class SchoolImportController extends ControllerBase {
           ->condition('name', $localgov['name'])
           ->execute();
           $key = key($termid);
-          $localgovterm = entity_load('taxonomy_term', $termid[$key]);
+          $localgovterm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termid[$key]);
         }
         $localgovterm->save();
         $terms[] = $localgovterm->get('tid')->getValue()[0]['value'];
@@ -379,7 +379,7 @@ class SchoolImportController extends ControllerBase {
             ->condition('name', $setunit['name'])
             ->execute();
             $key = key($termid);
-            $setunitterm = entity_load('taxonomy_term', $termid[$key]);
+            $setunitterm = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termid[$key]);
           }
           $setunitterm->save();
           $terms[] = $setunitterm->get('tid')->getValue()[0]['value'];

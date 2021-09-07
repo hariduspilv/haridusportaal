@@ -36,7 +36,7 @@ class EntityReferenceSelectionAccessTest extends KernelTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'comment',
     'field',
     'file',
@@ -52,7 +52,7 @@ class EntityReferenceSelectionAccessTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->installSchema('system', 'sequences');
@@ -98,7 +98,7 @@ class EntityReferenceSelectionAccessTest extends KernelTestBase {
     foreach ($tests as $test) {
       foreach ($test['arguments'] as $arguments) {
         $result = call_user_func_array([$handler, 'getReferenceableEntities'], $arguments);
-        $this->assertEqual($result, $test['result'], new FormattableMarkup('Valid result set returned by @handler.', ['@handler' => $handler_name]));
+        $this->assertEquals($test['result'], $result, new FormattableMarkup('Valid result set returned by @handler.', ['@handler' => $handler_name]));
 
         $result = call_user_func_array([$handler, 'countReferenceableEntities'], $arguments);
         if (!empty($test['result'])) {
@@ -109,13 +109,13 @@ class EntityReferenceSelectionAccessTest extends KernelTestBase {
           $count = 0;
         }
 
-        $this->assertEqual($result, $count, new FormattableMarkup('Valid count returned by @handler.', ['@handler' => $handler_name]));
+        $this->assertEquals($count, $result, new FormattableMarkup('Valid count returned by @handler.', ['@handler' => $handler_name]));
       }
     }
   }
 
   /**
-   * Test the node-specific overrides of the entity handler.
+   * Tests the node-specific overrides of the entity handler.
    */
   public function testNodeHandler() {
     $selection_options = [
@@ -239,7 +239,7 @@ class EntityReferenceSelectionAccessTest extends KernelTestBase {
   }
 
   /**
-   * Test the user-specific overrides of the entity handler.
+   * Tests the user-specific overrides of the entity handler.
    */
   public function testUserHandler() {
     $selection_options = [
@@ -257,14 +257,14 @@ class EntityReferenceSelectionAccessTest extends KernelTestBase {
         'name' => 'non_admin <&>',
         'mail' => 'non_admin@example.com',
         'roles' => [],
-        'pass' => user_password(),
+        'pass' => \Drupal::service('password_generator')->generate(),
         'status' => 1,
       ],
       'blocked' => [
         'name' => 'blocked <&>',
         'mail' => 'blocked@example.com',
         'roles' => [],
-        'pass' => user_password(),
+        'pass' => \Drupal::service('password_generator')->generate(),
         'status' => 0,
       ],
     ];
@@ -398,7 +398,7 @@ class EntityReferenceSelectionAccessTest extends KernelTestBase {
   }
 
   /**
-   * Test the comment-specific overrides of the entity handler.
+   * Tests the comment-specific overrides of the entity handler.
    */
   public function testCommentHandler() {
     $selection_options = [
@@ -556,7 +556,7 @@ class EntityReferenceSelectionAccessTest extends KernelTestBase {
   }
 
   /**
-   * Test the term-specific overrides of the selection handler.
+   * Tests the term-specific overrides of the selection handler.
    */
   public function testTermHandler() {
     // Create a 'Tags' vocabulary.

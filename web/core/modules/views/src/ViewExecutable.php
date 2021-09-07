@@ -1467,7 +1467,7 @@ class ViewExecutable {
 
     $module_handler = \Drupal::moduleHandler();
 
-    // @TODO In the longrun, it would be great to execute a view without
+    // @todo In the long run, it would be great to execute a view without
     //   the theme system at all. See https://www.drupal.org/node/2322623.
     $active_theme = \Drupal::theme()->getActiveTheme();
     $themes = array_keys($active_theme->getBaseThemeExtensions());
@@ -1722,8 +1722,8 @@ class ViewExecutable {
     // Find out which other displays attach to the current one.
     foreach ($this->display_handler->getAttachedDisplays() as $id) {
       $display_handler = $this->displayHandlers->get($id);
-      // Only attach enabled attachments.
-      if ($display_handler->isEnabled()) {
+      // Only attach enabled attachments that the user has access to.
+      if ($display_handler->isEnabled() && $display_handler->access()) {
         $cloned_view = Views::executableFactory()->get($this->storage);
         $display_handler->attachTo($cloned_view, $this->current_display, $this->element);
       }
@@ -1848,7 +1848,7 @@ class ViewExecutable {
   /**
    * Overrides the view's current title.
    *
-   * The tokens in the title get's replaced before rendering.
+   * The tokens in the title gets replaced before rendering.
    *
    * @return true
    *   Always returns TRUE.
@@ -2210,7 +2210,7 @@ class ViewExecutable {
   }
 
   /**
-   * Generates a unique ID for an handler instance.
+   * Generates a unique ID for a handler instance.
    *
    * These handler instances are typically fields, filters, sort criteria, or
    * arguments.

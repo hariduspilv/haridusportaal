@@ -11,13 +11,17 @@
     {
       "name": "Martin Keereman",
       "homepage": "https://www.drupal.org/u/etroid"
+    },
+    {
+      "name": "Neslee Canil Pinto",
+      "homepage": "https://www.drupal.org/u/neslee-canil-pinto"
     }
   ],
   "support": {
     "issues": "https://www.drupal.org/project/issues/better_exposed_filters",
     "source": "https://git.drupalcode.org/project/better_exposed_filters"
   },
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "repositories": [
     {
       "type": "composer",

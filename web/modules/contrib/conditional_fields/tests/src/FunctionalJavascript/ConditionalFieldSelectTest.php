@@ -305,7 +305,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       'select_single_list_float' => "1.5\n2.5",
       'select_single_list_string' => "one\ntwo",
     ];
-     $test_values = [
+    $test_values = [
       'select_single_entity_reference' => 1,
       'select_single_list_integer' => 1,
       'select_single_list_float' => 1.5,
@@ -327,7 +327,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
         'state' => 'visible',
         'effect' => 'show',
       ];
-      $this->submitForm( $data, 'Save settings' );
+      $this->submitForm($data, 'Save settings');
       $this->createScreenshot($this->screenshotPath . '02-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Check if that configuration is saved.
@@ -335,7 +335,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       $this->createScreenshot($this->screenshotPath . '03-' . $fieldName . '_' . __FUNCTION__ . '.png');
       $this->assertSession()
         ->pageTextContains('body ' . $fieldName . ' visible value');
-      $this->clickLink( 'Edit');
+      $this->clickLink('Edit');
       $this->createScreenshot($this->screenshotPath . '03.5-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Visit Article Add form to check that conditions are applied.
@@ -405,7 +405,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
         'state' => 'visible',
         'effect' => 'show',
       ];
-      $this->submitForm( $data, 'Save settings' );
+      $this->submitForm($data, 'Save settings');
       $this->createScreenshot($this->screenshotPath . '02-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Check if that configuration is saved.
@@ -486,7 +486,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
         'state' => 'visible',
         'effect' => 'show',
       ];
-      $this->submitForm( $data, 'Save settings' );
+      $this->submitForm($data, 'Save settings');
       $this->createScreenshot($this->screenshotPath . '02-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Check if that configuration is saved.
@@ -545,12 +545,6 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       'select_single_list_float' => 1.5,
       'select_single_list_string' => 'one',
     ];
-    $wrong_values = [
-      'select_single_entity_reference' => 3,
-      'select_single_list_integer' => 3,
-      'select_single_list_float' => 3.5,
-      'select_single_list_string' => 'tree',
-    ];
 
     // Visit a ConditionalFields configuration page for Content bundles.
     foreach ($this->fieldNames as $fieldName) {
@@ -567,7 +561,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
         'state' => 'visible',
         'effect' => 'show',
       ];
-      $this->submitForm( $data, 'Save settings' );
+      $this->submitForm($data, 'Save settings');
       $this->createScreenshot($this->screenshotPath . '02-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Check if that configuration is saved.

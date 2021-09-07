@@ -66,7 +66,7 @@ class ViewAjaxControllerTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     $this->viewStorage = $this->createMock('Drupal\Core\Entity\EntityStorageInterface');
     $this->executableFactory = $this->getMockBuilder('Drupal\views\ViewExecutableFactory')
       ->disableOriginalConstructor()
@@ -74,10 +74,11 @@ class ViewAjaxControllerTest extends UnitTestCase {
     $this->renderer = $this->createMock('\Drupal\Core\Render\RendererInterface');
     $this->renderer->expects($this->any())
       ->method('render')
-      ->will($this->returnCallback(function (array &$elements) {
+      ->willReturnCallback(function (array &$elements) {
         $elements['#attached'] = [];
+
         return isset($elements['#markup']) ? $elements['#markup'] : '';
-      }));
+      });
     $this->renderer->expects($this->any())
       ->method('executeInRenderContext')
       ->willReturnCallback(function (RenderContext $context, callable $callable) {
@@ -117,7 +118,7 @@ class ViewAjaxControllerTest extends UnitTestCase {
   }
 
   /**
-   * Tests missing view_name and view_display_id
+   * Tests missing view_name and view_display_id.
    */
   public function testMissingViewName() {
     $request = new Request();
@@ -126,7 +127,7 @@ class ViewAjaxControllerTest extends UnitTestCase {
   }
 
   /**
-   * Tests with view_name and view_display_id but not existing view.
+   * Tests non-existent view with view_name and view_display_id.
    */
   public function testMissingView() {
     $request = new Request();
@@ -192,6 +193,38 @@ class ViewAjaxControllerTest extends UnitTestCase {
     $this->redirectDestination->expects($this->atLeastOnce())
       ->method('set')
       ->with('/test-page?type=article');
+    $this->currentPath->expects($this->once())
+      ->method('setPath')
+      ->with('/test-page', $request);
+
+    $response = $this->viewAjaxController->ajaxView($request);
+    $this->assertTrue($response instanceof ViewAjaxResponse);
+
+    $this->assertSame($response->getView(), $executable);
+
+    $this->assertViewResultCommand($response);
+  }
+
+  /**
+   * Tests a valid view with a view_path with no slash.
+   */
+  public function testAjaxViewViewPathNoSlash() {
+    $request = new Request();
+    $request->request->set('view_name', 'test_view');
+    $request->request->set('view_display_id', 'page_1');
+    $request->request->set('view_path', 'test-page');
+    $request->request->set('_wrapper_format', 'ajax');
+    $request->request->set('ajax_page_state', 'drupal.settings[]');
+    $request->request->set('type', 'article');
+
+    list($view, $executable) = $this->setupValidMocks();
+
+    $this->redirectDestination->expects($this->atLeastOnce())
+      ->method('set')
+      ->with('test-page?type=article');
+    $this->currentPath->expects($this->once())
+      ->method('setPath')
+      ->with('/test-page');
 
     $response = $this->viewAjaxController->ajaxView($request);
     $this->assertInstanceOf(ViewAjaxResponse::class, $response);

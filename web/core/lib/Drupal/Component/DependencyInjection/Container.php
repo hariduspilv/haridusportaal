@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
+use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * Provides a container optimized for Drupal's needs.
@@ -41,12 +42,9 @@ use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceExce
  * - The function getServiceIds() was added as it has a use-case in core and
  *   contrib.
  *
- * @todo Implement Symfony\Contracts\Service\ResetInterface once Symfony 4
- *   is being used. See https://www.drupal.org/project/drupal/issues/3032605
- *
  * @ingroup container
  */
-class Container implements ContainerInterface {
+class Container implements ContainerInterface, ResetInterface {
 
   /**
    * The parameters of the container.
@@ -130,6 +128,11 @@ class Container implements ContainerInterface {
    * {@inheritdoc}
    */
   public function get($id, $invalid_behavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE) {
+    if ($this->hasParameter('_deprecated_service_list')) {
+      if ($deprecation = $this->getParameter('_deprecated_service_list')[$id] ?? '') {
+        @trigger_error($deprecation, E_USER_DEPRECATED);
+      }
+    }
     if (isset($this->aliases[$id])) {
       $id = $this->aliases[$id];
     }

@@ -30,7 +30,7 @@ class DumpServer
 
     public function __construct(string $host, LoggerInterface $logger = null)
     {
-        if (false === strpos($host, '://')) {
+        if (!str_contains($host, '://')) {
             $host = 'tcp://'.$host;
         }
 
@@ -52,6 +52,10 @@ class DumpServer
         }
 
         foreach ($this->getMessages() as $clientId => $message) {
+            if ($this->logger) {
+                $this->logger->info('Received a payload from client {clientId}', ['clientId' => $clientId]);
+            }
+
             $payload = @unserialize(base64_decode($message), ['allowed_classes' => [Data::class, Stub::class]]);
 
             // Impossible to decode the message, give up.

@@ -82,10 +82,10 @@ class xJsonGetDocument extends ResourceBase {
 
 	/**
 	 * @param $form_name
-	 * @param $file_id
+	 * @param $id
 	 * @return ResourceResponse
 	 */
-	public function get($form_name, $file_id) {
+	public function get($form_name, $id) {
 		// You must to implement the logic of your REST Resource here.
 		// Use current user after pass authentication to validate access.
 		if (!$this->currentUser->hasPermission('access content')) {
@@ -93,7 +93,7 @@ class xJsonGetDocument extends ResourceBase {
 		}
 
 		//build params
-		$params['url'] = [$form_name, $file_id];
+		$params['url'] = [$form_name, $id];
 		$response = $this->ehisService->getDocument($params);
 		$response['header'] += [
 			'endpoint' => 'empty'

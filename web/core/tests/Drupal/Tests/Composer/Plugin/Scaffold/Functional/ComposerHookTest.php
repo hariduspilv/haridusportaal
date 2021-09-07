@@ -6,7 +6,6 @@ use Composer\Util\Filesystem;
 use Drupal\Tests\Composer\Plugin\Scaffold\AssertUtilsTrait;
 use Drupal\Tests\Composer\Plugin\Scaffold\ExecTrait;
 use Drupal\Tests\Composer\Plugin\Scaffold\Fixtures;
-use Drupal\Tests\PhpunitCompatibilityTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,7 +25,6 @@ use PHPUnit\Framework\TestCase;
 class ComposerHookTest extends TestCase {
   use ExecTrait;
   use AssertUtilsTrait;
-  use PhpunitCompatibilityTrait;
 
   /**
    * Directory to perform the tests in.
@@ -52,7 +50,7 @@ class ComposerHookTest extends TestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     $this->fileSystem = new Filesystem();
     $this->fixtures = new Fixtures();
     $this->fixtures->createIsolatedComposerCacheDir();
@@ -64,13 +62,13 @@ class ComposerHookTest extends TestCase {
   /**
    * {@inheritdoc}
    */
-  protected function tearDown() {
+  protected function tearDown(): void {
     // Remove any temporary directories et. al. that were created.
     $this->fixtures->tearDown();
   }
 
   /**
-   * Test to see if scaffold operation runs at the correct times.
+   * Tests to see if scaffold operation runs at the correct times.
    */
   public function testComposerHooks() {
     $topLevelProjectDir = 'composer-hooks-fixture';
@@ -91,20 +89,20 @@ class ComposerHookTest extends TestCase {
     // Delete one scaffold file, just for test purposes, then run
     // 'composer update' and see if the scaffold file is replaced.
     @unlink($sut . '/sites/default/default.settings.php');
-    $this->assertFileNotExists($sut . '/sites/default/default.settings.php');
+    $this->assertFileDoesNotExist($sut . '/sites/default/default.settings.php');
     $this->mustExec("composer update --no-ansi", $sut);
     $this->assertScaffoldedFile($sut . '/sites/default/default.settings.php', FALSE, 'scaffolded from the scaffold-override-fixture');
     // Delete the same test scaffold file again, then run
     // 'composer drupal:scaffold' and see if the scaffold file is
     // re-scaffolded.
     @unlink($sut . '/sites/default/default.settings.php');
-    $this->assertFileNotExists($sut . '/sites/default/default.settings.php');
+    $this->assertFileDoesNotExist($sut . '/sites/default/default.settings.php');
     $this->mustExec("composer install --no-ansi", $sut);
     $this->assertScaffoldedFile($sut . '/sites/default/default.settings.php', FALSE, 'scaffolded from the scaffold-override-fixture');
     // Delete the same test scaffold file yet again, then run
     // 'composer install' and see if the scaffold file is re-scaffolded.
     @unlink($sut . '/sites/default/default.settings.php');
-    $this->assertFileNotExists($sut . '/sites/default/default.settings.php');
+    $this->assertFileDoesNotExist($sut . '/sites/default/default.settings.php');
     $this->mustExec("composer drupal:scaffold --no-ansi", $sut);
     $this->assertScaffoldedFile($sut . '/sites/default/default.settings.php', FALSE, 'scaffolded from the scaffold-override-fixture');
     // Run 'composer create-project' to create a new test project called
@@ -123,12 +121,12 @@ class ComposerHookTest extends TestCase {
     // Require a project that is not allowed to scaffold and confirm that we
     // get a warning, and it does not scaffold.
     $stdout = $this->mustExec("composer require --no-ansi --no-interaction fixtures/scaffold-override-fixture:dev-master", $sut);
-    $this->assertFileNotExists($sut . '/sites/default/default.settings.php');
+    $this->assertFileDoesNotExist($sut . '/sites/default/default.settings.php');
     $this->assertStringContainsString("Not scaffolding files for fixtures/scaffold-override-fixture, because it is not listed in the element 'extra.drupal-scaffold.allowed-packages' in the root-level composer.json file.", $stdout);
   }
 
   /**
-   * Test to see if scaffold messages are omitted when running scaffold twice.
+   * Tests to see if scaffold messages are omitted when running scaffold twice.
    */
   public function testScaffoldMessagesDoNotPrintTwice() {
     $topLevelProjectDir = 'drupal-drupal';

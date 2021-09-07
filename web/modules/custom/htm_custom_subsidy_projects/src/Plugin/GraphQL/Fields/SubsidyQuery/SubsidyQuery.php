@@ -257,7 +257,7 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
             ->condition('field_ehis_id', $ehis_ids, 'IN')
             ->execute();
 
-        $schools = \Drupal::entityManager()->getStorage('node')->loadMultiple($nid_result);
+        $schools = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nid_result);
 
         return $schools;
     }

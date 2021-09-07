@@ -27,15 +27,8 @@ class SchedulerPermissionsTest extends SchedulerBrowserTestBase {
 
     // Check that neither of the fields are displayed when creating a node.
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertNoFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is not shown for users who do not have permission to schedule content');
-    $this->assertNoFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is not shown for users who do not have permission to schedule content');
-
-    // At core 8.4 an enhancement will be committed to change the 'save and ...'
-    // button into a 'save' with a corresponding status checkbox. This test has
-    // to pass at 8.3 but the core change will not be backported. Hence derive
-    // the button text and whether we need a 'status'field.
-    // @see https://www.drupal.org/node/2873108
-    $checkbox = $this->xpath('//input[@type="checkbox" and @id="edit-status-value"]');
+    $this->assertSession()->fieldNotExists('publish_on[0][value][date]');
+    $this->assertSession()->fieldNotExists('unpublish_on[0][value][date]');
 
     // Initially run tests when publishing and unpublishing are not required.
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_required', FALSE)
@@ -44,21 +37,15 @@ class SchedulerPermissionsTest extends SchedulerBrowserTestBase {
 
     // Check that a new node can be saved and published.
     $title = $this->randomString(15);
-    $edit = ['title[0][value]' => $title];
-    if ($checkbox) {
-      $edit['status[value]'] = TRUE;
-    }
-    $this->drupalPostForm('node/add/' . $this->type, $edit, $checkbox ? 'Save' : 'Save and publish');
+    $edit = ['title[0][value]' => $title, 'status[value]' => TRUE];
+    $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $this->assertSession()->pageTextContains(sprintf('%s %s has been created.', $this->typeName, $title));
     $this->assertTrue($this->drupalGetNodeByTitle($title)->isPublished(), 'The new node is published');
 
     // Check that a new node can be saved as unpublished.
     $title = $this->randomString(15);
-    $edit = ['title[0][value]' => $title];
-    if ($checkbox) {
-      $edit['status[value]'] = FALSE;
-    }
-    $this->drupalPostForm('node/add/' . $this->type, $edit, $checkbox ? 'Save' : 'Save as unpublished');
+    $edit = ['title[0][value]' => $title, 'status[value]' => FALSE];
+    $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $this->assertSession()->pageTextContains(sprintf('%s %s has been created.', $this->typeName, $title));
     $this->assertFalse($this->drupalGetNodeByTitle($title)->isPublished(), 'The new node is unpublished');
 
@@ -67,7 +54,7 @@ class SchedulerPermissionsTest extends SchedulerBrowserTestBase {
       ->setThirdPartySetting('scheduler', 'unpublish_required', TRUE)
       ->save();
 
-    // @TODO Add tests when scheduled publishing and unpublishing are required.
+    // @todo Add tests when scheduled publishing and unpublishing are required.
     // Cannot be done until we make a decision on what 'required'  means.
     // @see https://www.drupal.org/node/2707411
     // "Conflict between 'required publishing' and not having scheduler

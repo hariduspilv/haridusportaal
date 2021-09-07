@@ -63,3 +63,9 @@ better_exposed_filters.general:
     secondary_open:
       type: boolean
       label: 'Secondary options is open'
+    text_input_required:
+      type: text
+      label: 'Text shown if a filter option has not been selected'
+    text_input_required_format:
+      type: text
+      label: 'Text format for the text_input_required field'

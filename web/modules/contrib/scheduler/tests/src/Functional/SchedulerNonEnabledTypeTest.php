@@ -10,48 +10,56 @@ namespace Drupal\Tests\scheduler\Functional;
 class SchedulerNonEnabledTypeTest extends SchedulerBrowserTestBase {
 
   /**
-   * Helper function for testNonEnabledNodeType().
+   * Tests the publish_enable and unpublish_enable node type settings.
    *
-   * This function is called four times.
-   * Check that the date fields are correctly shown or not shown in /node/add.
-   * Check that a node is not processed if it is not enabled for the action.
+   * @dataProvider dataNonEnabledType()
    */
-  protected function checkNonEnabledTypes($publishing_enabled, $unpublishing_enabled, $run_number) {
+  public function testNonEnabledType($id, $description, $publishing_enabled, $unpublishing_enabled) {
+    $this->drupalLogin($this->adminUser);
 
-    // Create title to show what combinations are being tested. Store base info
-    // then add secondary details.
-    $details = [
-      1 => 'by default',
-      2 => 'after disabling both settings',
-      3 => 'after enabling publishing only',
-      4 => 'after enabling unpublishing only',
-    ];
-    $info = $run_number >= 2 ?
-      'Publishing ' . ($publishing_enabled ? 'enabled' : 'not enabled')
-      . ', Unpublishing ' . ($unpublishing_enabled ? 'enabled' : 'not enabled') . ', ' . $details[$run_number]
-      : $details[$run_number];
+    // The first test case specifically checks the behavior of the default
+    // unchanged settings, so only change these settings for later runs.
+    if ($id > 0) {
+      $this->nonSchedulerNodeType->setThirdPartySetting('scheduler', 'publish_enable', $publishing_enabled)
+        ->setThirdPartySetting('scheduler', 'unpublish_enable', $unpublishing_enabled)
+        ->save();
+    }
+
+    // Create info string to show what combinations are being tested.
+    $info = 'Publishing ' . ($publishing_enabled ? 'enabled' : 'not enabled')
+      . ', Unpublishing ' . ($unpublishing_enabled ? 'enabled' : 'not enabled')
+      . ', ' . $description;
 
     // Check that the field(s) are displayed only for the correct settings.
-    $title = $info . ' (' . $run_number . 'a)';
+    $title = $id . 'a - ' . $info;
     $this->drupalGet('node/add/' . $this->nonSchedulerNodeType->id());
     if ($publishing_enabled) {
-      $this->assertFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is shown - ' . $title);
+      $this->assertSession()->fieldExists('publish_on[0][value][date]');
     }
     else {
-      $this->assertNoFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is not shown - ' . $title);
+      $this->assertSession()->fieldNotExists('publish_on[0][value][date]');
     }
 
     if ($unpublishing_enabled) {
-      $this->assertFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is shown - ' . $title);
+      $this->assertSession()->fieldExists('unpublish_on[0][value][date]');
     }
     else {
-      $this->assertNoFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is not shown - ' . $title);
+      $this->assertSession()->fieldNotExists('unpublish_on[0][value][date]');
     }
+
+    // When publishing and/or unpublishing are not enabled but the 'required'
+    // setting remains on, the node must be able to be saved without a date.
+    $this->nonSchedulerNodeType->setThirdPartySetting('scheduler', 'publish_required', !$publishing_enabled)->save();
+    $this->nonSchedulerNodeType->setThirdPartySetting('scheduler', 'unpublish_required', !$unpublishing_enabled)->save();
+    $this->drupalPostForm('node/add/' . $this->nonSchedulerNodeType->id(), ['title[0][value]' => $title], 'Save');
+    // Check that the node has saved OK.
+    $string = sprintf('%s %s has been created.', $this->nonSchedulerNodeType->get('name'), $title);
+    $this->assertSession()->pageTextContains($string);
 
     // Create an unpublished node with a publishing date, which mimics what
     // could be done by a third-party module, or a by-product of the node type
     // being enabled for publishing then being disabled before it got published.
-    $title = $info . ' (' . $run_number . 'b)';
+    $title = $id . 'b - ' . $info;
     $edit = [
       'title' => $title,
       'status' => 0,
@@ -74,11 +82,9 @@ class SchedulerNonEnabledTypeTest extends SchedulerBrowserTestBase {
     else {
       $this->assertFalse($node->isPublished(), 'The unpublished node remains unpublished - ' . $title);
     }
-    // Delete the node to avoid affecting subsequent tests.
-    $node->delete();
 
     // Do the same for unpublishing.
-    $title = $info . ' (' . $run_number . 'c)';
+    $title = $id . 'c - ' . $info;
     $edit = [
       'title' => $title,
       'status' => 1,
@@ -101,40 +107,46 @@ class SchedulerNonEnabledTypeTest extends SchedulerBrowserTestBase {
     else {
       $this->assertTrue($node->isPublished(), 'The published node remains published - ' . $title);
     }
-    // Delete the node to avoid affecting subsequent tests.
-    $node->delete();
+
+    // Display the full content list and the scheduled list. Calls to these
+    // pages are for information and debug only. They could be removed.
+    $this->drupalGet('admin/content');
+    $this->drupalGet('admin/content/scheduled');
   }
 
   /**
-   * Tests that a non-enabled node type cannot be scheduled.
+   * Provides data for testNonEnabledType().
    *
-   * The case when both options are enabled is covered in the main tests. Here
-   * we need to check each of the other combinations, to ensure that the
-   * settings work independently.
+   * @return array
+   *   Each item in the test data array has the follow elements:
+   *     id                   - (in) a sequential id for use in node titles
+   *     description          - (string) describing the scenario being checked
+   *     publishing_enabled   - (bool) whether publishing is enabled
+   *     unpublishing_enabled - (bool) whether unpublishing is enabled
    */
-  public function testNonEnabledNodeType() {
-    // Log in.
-    $this->drupalLogin($this->adminUser);
+  public function dataNonEnabledType() {
+    $data = [
+      // By default check that the scheduler date fields are not displayed.
+      0 => [0, 'Default', FALSE, FALSE],
 
-    // 1. By default check that the scheduler date fields are not displayed.
-    $this->checkNonEnabledTypes(FALSE, FALSE, 1);
+      // Explicitly disable this content type for both settings.
+      1 => [1, 'Disabling both settings', FALSE, FALSE],
 
-    // 2. Explicitly disable this content type for both settings and test again.
-    $this->nonSchedulerNodeType->setThirdPartySetting('scheduler', 'publish_enable', FALSE)
-      ->setThirdPartySetting('scheduler', 'unpublish_enable', FALSE)
-      ->save();
-    $this->checkNonEnabledTypes(FALSE, FALSE, 2);
+      // Turn on scheduled publishing only.
+      2 => [2, 'Enabling publishing only', TRUE, FALSE],
 
-    // 3. Turn on scheduled publishing only and test again.
-    $this->nonSchedulerNodeType->setThirdPartySetting('scheduler', 'publish_enable', TRUE)
-      ->save();
-    $this->checkNonEnabledTypes(TRUE, FALSE, 3);
+      // Turn on scheduled unpublishing only.
+      3 => [3, 'Enabling unpublishing only', FALSE, TRUE],
 
-    // 4. Turn on scheduled unpublishing only and test again.
-    $this->nonSchedulerNodeType->setThirdPartySetting('scheduler', 'publish_enable', FALSE)
-      ->setThirdPartySetting('scheduler', 'unpublish_enable', TRUE)
-      ->save();
-    $this->checkNonEnabledTypes(FALSE, TRUE, 4);
+      // For completeness turn on bothbscheduled publishing and unpublishing.
+      4 => [4, 'Enabling both publishing and unpublishing', TRUE, TRUE],
+    ];
+
+    // Use unset($data[n]) to remove a temporarily unwanted item, use
+    // return [$data[n]] to selectively test just one item, or have the
+    // default return $data to test everything.
+    return $data;
+
   }
 
 }

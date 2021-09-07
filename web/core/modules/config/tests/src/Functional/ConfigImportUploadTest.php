@@ -27,14 +27,14 @@ class ConfigImportUploadTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['config'];
+  protected static $modules = ['config'];
 
   /**
    * {@inheritdoc}
    */
   protected $defaultTheme = 'stark';
 
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->webUser = $this->drupalCreateUser(['import configuration']);
@@ -52,8 +52,9 @@ class ConfigImportUploadTest extends BrowserTestBase {
     // Attempt to upload a non-tar file.
     $text_file = $this->getTestFiles('text')[0];
     $edit = ['files[import_tarball]' => \Drupal::service('file_system')->realpath($text_file->uri)];
-    $this->drupalPostForm('admin/config/development/configuration/full/import', $edit, t('Upload'));
-    $this->assertText(t('Could not extract the contents of the tar file'));
+    $this->drupalGet('admin/config/development/configuration/full/import');
+    $this->submitForm($edit, 'Upload');
+    $this->assertSession()->pageTextContains('Could not extract the contents of the tar file');
 
     // Make the sync directory read-only.
     $directory = Settings::get('config_sync_directory');

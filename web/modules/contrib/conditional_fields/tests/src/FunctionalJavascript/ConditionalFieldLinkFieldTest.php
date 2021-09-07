@@ -16,8 +16,8 @@ use Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases\ConditionalFi
  * @group conditional_fields
  */
 class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
-  ConditionalFieldValueInterface,
-  ConditionalFieldFilledEmptyInterface {
+    ConditionalFieldValueInterface,
+    ConditionalFieldFilledEmptyInterface {
 
   /**
    * {@inheritdoc}
@@ -123,7 +123,7 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testFieldLinkVisibleValueWidget.png');
 
@@ -135,7 +135,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Change a link that should not show the body.
     $this->changeField($this->fieldSelector, '');
@@ -178,7 +177,7 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testFieldLinkVisibleValueWidget.png');
 
@@ -227,7 +226,7 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-link-field-post-add-list-options-filed-conditions.png');
 
@@ -239,7 +238,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-link-field-body-invisible-when-controlled-field-has-no-value.png');
@@ -286,7 +284,7 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-link-field-post-add-list-options-filed-conditions.png');
 
@@ -298,7 +296,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-link-field-body-invisible-when-controlled-field-has-no-value.png');
@@ -345,7 +342,7 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testFieldLinkVisibleValueNot.png');
 
@@ -357,7 +354,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-testFieldLinkVisibleValueNot.png');
@@ -399,7 +395,7 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testFieldLinkVisibleValueNot.png');
 
@@ -411,7 +407,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testFieldLinkVisibleValueNot.png');
@@ -461,7 +456,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-testFieldLinkVisibleValueNot.png');
     $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
@@ -499,7 +493,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-testFieldLinkVisibleValueNot.png');
@@ -539,7 +532,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-testFieldLinkVisibleValueNot.png');
     $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
@@ -577,7 +569,6 @@ class ConditionalFieldLinkFieldTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-testFieldLinkVisibleValueNot.png');
