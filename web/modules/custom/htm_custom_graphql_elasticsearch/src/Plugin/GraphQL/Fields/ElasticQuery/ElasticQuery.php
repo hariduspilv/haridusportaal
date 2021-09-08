@@ -102,7 +102,10 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     if (isset($args['sort'])) $args = $this->parseElasticSort($args, $client);
     $params = $this->getElasticQuery($args);
-    $params['index'] = $index_out;
+    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($params, TRUE) . '</code></pre>' );
+    if (empty($params['index'])) {
+      $params['index'] = $index_out;
+    }
     // add sort if set
     if($params == NULL){
       return NULL;
