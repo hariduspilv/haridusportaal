@@ -113,29 +113,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	addPlumbrScript() {
-		const prodDomains = [
-			'haridusportaal.edu.ee',
-			'test.edu.ee',
-			'localhost',
-		];
-		const data = `{
-      "accountId":"43h3pmh6v5en84nqkms3m3ikge",
-      "appName":"edu.ee",
-      "serverUrl":"https://bdr.plumbr.io"
-    }`;
-
-    if (prodDomains.includes(document.domain)) {
-      const script = document.createElement('script');
-      script.src = 'https://browser.plumbr.io/pa.js';
-      script.setAttribute('crossorigin', 'anonymous');
-      script.setAttribute('data-plumbr', data.replace(/\s/g, ''));
-
-      const head = document.getElementsByTagName('head')[0];
-      head.appendChild(script);
-    }
-  }
-
   gaPageTrack():void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
