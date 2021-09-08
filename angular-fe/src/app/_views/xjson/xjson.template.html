@@ -46,7 +46,7 @@
               </div>
 
               <!-- STEP BODY -->
-              <div *ngIf="activityButtons && activityButtons['primary']" class="row button-list button-list-top">
+              <div *ngIf="activityButtons && activityButtons['primary']?.length" class="row button-list button-list-top">
                 <ng-container *ngFor="let activity of activityButtons['primary']">
                   <button htm-button *ngIf="activity.action == 'EDIT'" theme="default"
                     (click)="submitForm(activity.action)">
