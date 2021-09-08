@@ -61,8 +61,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
    */
   public function __construct(
     array $configuration,
-    $pluginId,
-    $pluginDefinition,
+          $pluginId,
+          $pluginDefinition,
     SubRequestBuffer $subRequestBuffer
   )
   {
@@ -86,9 +86,26 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       ]
     ];
     $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
+    $elasticsearch_indexes =  \Drupal::entityTypeManager()->getStorage('search_api_index')->loadMultiple();
+    $index_out = '';
+    foreach ($elasticsearch_indexes as $elasticsearch_index_name=> $elasticsearch_index){
+      if ($elasticsearch_index_name == 'oska_profession_autocomplete' ){
+        continue;
+      }
+      if (empty($index_out)){
+        $index_out.='elasticsearch_index_drupaldb_'.$elasticsearch_index_name;
+      }
+      else{
+        $index_out.=',elasticsearch_index_drupaldb_'.$elasticsearch_index_name;
+      }
+    }
 
     if (isset($args['sort'])) $args = $this->parseElasticSort($args, $client);
     $params = $this->getElasticQuery($args);
+    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($params, TRUE) . '</code></pre>' );
+    if (empty($params['index'])) {
+      $params['index'] = $index_out;
+    }
     // add sort if set
     if($params == NULL){
       return NULL;
@@ -200,8 +217,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           if (strlen($searchvalue) > 2) {
             $functions[] = array(
               'filter' => array(
-                'match' => array(
-                  $condition['field'] => str_replace(',', '', $searchvalue)
+                'wildcard' => array(
+                  $condition['field'] => '*'. str_replace(',', '', $searchvalue).'*'
                 )
               ),
               'weight' => $condition['weight']

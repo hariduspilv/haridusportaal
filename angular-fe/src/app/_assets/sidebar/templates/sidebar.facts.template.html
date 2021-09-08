@@ -20,9 +20,9 @@
       </span>
     </ng-template>
     <div class="list" aria-hidden="true">
-      <div class="image" *ngFor="let item of createArr(indicator.icon)"><img
+      <div class="list__icon" *ngFor="let item of createArr(indicator.icon)"><img
         alt="inimese ikoon (värvitud)" src="/assets/img/person_filled.svg" /></div>
-      <div class="image" *ngFor="let elem of createArr(11 - indicator.icon)"><img
+      <div class="list__icon" *ngFor="let elem of createArr(11 - indicator.icon)"><img
         alt="inimese ikoon" src="/assets/img/person.svg" /></div>
     </div>
     <hr aria-hidden="true" *ngIf="!last">
@@ -49,12 +49,12 @@
       {{ 'oska.wage' | translate }}: {{ indicator.value | localeNumber }} €
     </h2>
     <div class="list label__tag--pointer">
-      <div class="image" aria-hidden="true"
+      <div class="list__icon" aria-hidden="true"
            *ngFor="let item of createArr((indicator.icon - (indicator.icon % 2)) / 2)"><img
         alt="euromüntide ikoon (värvitud)" src="/assets/img/coin_full.svg" /></div>
-      <div class="image" aria-hidden="true" *ngFor="let item of createArr(indicator.icon % 2)"><img
+      <div class="list__icon" aria-hidden="true" *ngFor="let item of createArr(indicator.icon % 2)"><img
         alt="euromüntide ikoon (pooleldi värvitud)" src="/assets/img/coin_half.svg" /></div>
-      <div class="image" aria-hidden="true" *ngFor="let elem of createArr((20 - indicator.icon) / 2)"><img
+      <div class="list__icon" aria-hidden="true" *ngFor="let elem of createArr((20 - indicator.icon) / 2)"><img
         alt="euromüntide ikoon" src="/assets/img/coin.svg" /></div>
     </div>
     <hr aria-hidden="true" *ngIf="!last">

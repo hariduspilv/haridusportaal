@@ -16,24 +16,44 @@
 				</div>
 				<div class="row first">
 					<div class="col-5 sm-12">
-						<formItem type="text" title="{{ 'search.keyword' | translate }}"  ariaLabel="{{ 'search.keyword' | translate }}" name="title"
-						[(ngModel)]="searchTitle"></formItem>
+						<formItem
+                                type="autocomplete"
+																query="professionsAutoComplete"
+                                title="{{ 'search.keyword' | translate }}"
+                                ariaLabel="{{ 'search.keyword' | translate }}"
+                                name="title"
+						        [(ngModel)]="searchTitle"></formItem>
 					</div>
-					<div class="col-5 sm-12">						
-						<formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" ariaLabel="{{ 'oska.title_field' | translate }}" name="oskaField"
-							[options]="oskaFields"></formItem>
+					<div class="col-5 sm-12">
+						<formItem
+                                type="multi-select"
+                                title="{{ 'oska.title_field' | translate }}"
+                                ariaLabel="{{ 'oska.title_field' | translate }}"
+                                name="oskaField"
+							    [options]="oskaFields"
+                        ></formItem>
 					</div>
 				</div>
 				<!--/row-->
 				<div class="row">
 					<div class="col-5 sm-12">
-						<formItem type="multi-select" title="{{ 'oska.competition_by_professions' | translate }}" ariaLabel="{{ 'oska.competition_by_professions' | translate }}" name="fillingBar"
-							[sortOptions]="false" [options]="competitionFilters">
+						<formItem
+                                type="multi-select"
+                                title="{{ 'oska.competition_by_professions' | translate }}"
+                                ariaLabel="{{ 'oska.competition_by_professions' | translate }}"
+                                name="fillingBar"
+							    [sortOptions]="false"
+                                [options]="competitionFilters">
 						</formItem>
 					</div>
 					<div class="col-5 sm-12">
-						<formItem type="select" title="{{ 'oska.professions_or_jobs' | translate }}" ariaLabel="{{ 'oska.professions_or_jobs' | translate }}" name="fieldProfession"
-						[sortOptions]="false" [options]="sortedBy">
+						<formItem
+                                type="select"
+                                title="{{ 'oska.professions_or_jobs' | translate }}"
+                                ariaLabel="{{ 'oska.professions_or_jobs' | translate }}"
+                                name="fieldProfession"
+						        [sortOptions]="false"
+                                [options]="sortedBy">
 						</formItem>
 					</div>
 					<div class="col-2 align-end text-right sm-12 inline-flex">

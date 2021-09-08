@@ -147,6 +147,22 @@
               }
             }
           },
+          "menetlejaKommentaar": {
+            "type": "table",
+            "title": {
+              "et": "Menetleja kommentaar"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "nimetus": {
+                "type": "text",
+                "title": {
+                  "et": "Menetleja kommentaar"
+                },
+                "readonly": true
+              }
+            }
+          },
           "aadressiPealkiri": {
             "type": "heading",
             "title": {

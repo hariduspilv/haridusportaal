@@ -23,8 +23,8 @@ class ElasticQueryCount extends FieldPluginBase {
      * {@inheritdoc}
      */
     public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
-        #dump($value);
-        yield (int) $value['count'];
+
+        yield (int) $value['count']['value'];
     }
 
 }
