@@ -25,9 +25,6 @@ settings:
     target_bundles:
       contact_section: contact_section
     target_bundles_drag_drop:
-      job:
-        weight: 15
-        enabled: false
       accordion:
         weight: 16
         enabled: false
@@ -49,6 +46,9 @@ settings:
       iscedf_search:
         weight: 22
         enabled: false
+      job:
+        weight: 15
+        enabled: false
       link:
         weight: 23
         enabled: false
@@ -58,14 +58,14 @@ settings:
       main_profession_sidebar:
         weight: 25
         enabled: false
+      oska_field_sidebar:
+        weight: 28
+        enabled: false
       registration_period:
         weight: 26
         enabled: false
       right_sidebar_section_info:
         weight: 27
-        enabled: false
-      oska_field_sidebar:
-        weight: 28
         enabled: false
       school_location:
         weight: 28

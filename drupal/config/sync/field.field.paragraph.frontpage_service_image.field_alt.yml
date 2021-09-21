@@ -12,7 +12,7 @@ bundle: frontpage_service_image
 label: Alt
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

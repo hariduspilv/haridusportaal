@@ -14,7 +14,7 @@ bundle: study_programme
 label: 'Õppekava kirjeldava veebilehe aadress'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

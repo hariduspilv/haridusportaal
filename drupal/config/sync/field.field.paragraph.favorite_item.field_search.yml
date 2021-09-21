@@ -14,7 +14,7 @@ bundle: favorite_item
 label: 'Search parameters'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
