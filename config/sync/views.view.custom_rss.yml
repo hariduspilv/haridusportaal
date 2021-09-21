@@ -526,7 +526,12 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{%if type == 'news'%}\n   {{ field_author }}\n{%else%}\n   {{ 'Author missing' |t }}\n{%endif%}"
+            text: |-
+              {%if type == 'news'%}
+                 {{ field_author }}
+              {%else%}
+                 {{ 'Author missing' |t }}
+              {%endif%}
             make_link: false
             path: ''
             absolute: false
@@ -642,7 +647,12 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{%if type == 'news'%}\n   {{ field_news_description }}\n{%else%}\n  {{ field_description_summary }}\n{%endif%}"
+            text: |-
+              {%if type == 'news'%}
+                 {{ field_news_description }}
+              {%else%}
+                {{ field_description_summary }}
+              {%endif%}
             make_link: false
             path: ''
             absolute: false
@@ -1614,7 +1624,12 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{%if type == 'news'%}\n   {{ field_author }}\n{%else%}\n   {{ 'Author missing' |t }}\n{%endif%}"
+            text: |-
+              {%if type == 'news'%}
+                 {{ field_author }}
+              {%else%}
+                 {{ 'Author missing' |t }}
+              {%endif%}
             make_link: false
             path: ''
             absolute: false
@@ -1730,7 +1745,12 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "{%if type == 'news'%}\n   {{ field_short_description }}\n{%else%}\n  {{ field_description_summary }}\n{%endif%}"
+            text: |-
+              {%if type == 'news'%}
+                 {{ field_short_description }}
+              {%else%}
+                {{ field_description_summary }}
+              {%endif%}
             make_link: false
             path: ''
             absolute: false
