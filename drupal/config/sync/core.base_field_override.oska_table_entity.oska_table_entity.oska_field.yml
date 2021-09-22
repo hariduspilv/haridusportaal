@@ -1,0 +1,20 @@
+uuid: c088e094-28a5-4fc4-8271-90cffe2cac57
+langcode: en
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_table_entity.oska_table_entity.oska_field
+field_name: oska_field
+entity_type: oska_table_entity
+bundle: oska_table_entity
+label: 'Oska field'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

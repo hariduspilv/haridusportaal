@@ -1,0 +1,18 @@
+uuid: 1e5c434f-420e-48f5-b69a-1d90d819af15
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.title
+field_name: title
+entity_type: node
+bundle: mingi_content_type
+label: Title
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

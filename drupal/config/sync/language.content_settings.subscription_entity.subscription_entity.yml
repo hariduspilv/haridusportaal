@@ -1,0 +1,17 @@
+uuid: 7acadc8f-3c20-4b49-843b-96cde0e63726
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_translation
+    - htm_custom_subscriptions
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: subscription_entity.subscription_entity
+target_entity_type_id: subscription_entity
+target_bundle: subscription_entity
+default_langcode: site_default
+language_alterable: false

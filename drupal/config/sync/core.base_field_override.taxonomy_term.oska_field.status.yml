@@ -1,0 +1,22 @@
+uuid: da48f196-497c-4ded-8b58-f15d5afb95c5
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_field
+id: taxonomy_term.oska_field.status
+field_name: status
+entity_type: taxonomy_term
+bundle: oska_field
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
