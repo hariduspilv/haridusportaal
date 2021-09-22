@@ -1,0 +1,20 @@
+uuid: fa2fda71-b9a4-42a2-b6c4-4250bb25c524
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytag
+  module:
+    - text
+id: taxonomy_term.studytag.description
+field_name: description
+entity_type: taxonomy_term
+bundle: studytag
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

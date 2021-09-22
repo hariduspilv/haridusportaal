@@ -1,0 +1,18 @@
+uuid: 47a3f47b-aa10-4683-87bb-73a50599ed63
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.unpublish_on
+field_name: unpublish_on
+entity_type: node
+bundle: job_offer
+label: 'Unpublish on'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

@@ -1,0 +1,18 @@
+uuid: c297fbd6-977b-4646-8f63-9611de30ec0e
+langcode: en
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_table_entity.oska_table_entity.expert_commentary
+field_name: expert_commentary
+entity_type: oska_table_entity
+bundle: oska_table_entity
+label: 'Expert body commentary'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
