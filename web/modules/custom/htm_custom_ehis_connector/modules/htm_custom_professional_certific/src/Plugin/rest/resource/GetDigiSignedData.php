@@ -78,10 +78,18 @@ class GetDigiSignedData extends ResourceBase {
   }
 
   /**
-   * @param $params
-   * @return ModifiedResourceResponse
+   * Responds to POST requests.
+   *
+   * @param array
+   *   The data object.
+   *
+   * @return \Drupal\rest\ModifiedResourceResponse
+   *   The HTTP response object.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+   *
    */
-	public function post($params) {
+  public function post($data) {
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
@@ -89,7 +97,7 @@ class GetDigiSignedData extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
 
-    $response = $this->ehisConnector->getDigiSigned($params);
+    $response = $this->ehisConnector->getDigiSigned($data);
     return new ModifiedResourceResponse($response);
   }
 
