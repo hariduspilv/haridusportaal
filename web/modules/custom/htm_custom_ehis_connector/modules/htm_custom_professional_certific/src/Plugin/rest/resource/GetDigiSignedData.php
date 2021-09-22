@@ -78,16 +78,8 @@ class GetDigiSignedData extends ResourceBase {
   }
 
   /**
-   * Responds to POST requests.
-   *
    * @param $params
-   *   The params array.
-   *
-   * @return \Drupal\rest\ModifiedResourceResponse
-   *   The HTTP response object.
-   *
-   * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-   *
+   * @return ModifiedResourceResponse
    */
 	public function post($params) {
 
