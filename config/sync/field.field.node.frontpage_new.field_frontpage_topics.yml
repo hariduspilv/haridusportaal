@@ -37,6 +37,9 @@ settings:
       contact_section:
         weight: 26
         enabled: false
+      ehis_links:
+        weight: 31
+        enabled: false
       event_date:
         weight: 27
         enabled: false
@@ -46,12 +49,18 @@ settings:
       file_mandatory_description:
         weight: 29
         enabled: false
+      frontpage_service_image:
+        weight: 35
+        enabled: false
+      frontpage_services:
+        weight: 36
+        enabled: false
       homepage_topics:
         weight: 30
         enabled: false
-      ehis_links:
-        weight: 31
-        enabled: false
+      homepage_topics_new:
+        enabled: true
+        weight: 38
       information_system_accordion:
         weight: 31
         enabled: false
@@ -64,14 +73,8 @@ settings:
       iscedf_search:
         weight: 34
         enabled: false
-      frontpage_service_image:
-        weight: 35
-        enabled: false
       job:
         weight: 35
-        enabled: false
-      frontpage_services:
-        weight: 36
         enabled: false
       link:
         weight: 36
@@ -79,9 +82,6 @@ settings:
       main_profession_accordion:
         weight: 37
         enabled: false
-      homepage_topics_new:
-        enabled: true
-        weight: 38
       main_profession_sidebar:
         weight: 38
         enabled: false

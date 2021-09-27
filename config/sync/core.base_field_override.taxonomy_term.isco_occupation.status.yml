@@ -1,0 +1,22 @@
+uuid: f059a1b6-dd44-4764-aed7-020d1149dae7
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.isco_occupation
+id: taxonomy_term.isco_occupation.status
+field_name: status
+entity_type: taxonomy_term
+bundle: isco_occupation
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

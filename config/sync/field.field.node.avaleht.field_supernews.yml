@@ -25,9 +25,6 @@ settings:
     target_bundles:
       supernews: supernews
     target_bundles_drag_drop:
-      supernews:
-        enabled: true
-        weight: 18
       accordion:
         weight: 19
         enabled: false
@@ -73,6 +70,9 @@ settings:
       school_location:
         weight: 33
         enabled: false
+      supernews:
+        enabled: true
+        weight: 18
       survey_page_accordion:
         weight: 34
         enabled: false
