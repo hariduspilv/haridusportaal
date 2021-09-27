@@ -1,0 +1,18 @@
+uuid: 13ee0e31-762e-4210-8d1d-3979e3c55ccc
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.ehis_icon_link
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.ehis_icon_link
+target_entity_type_id: paragraph
+target_bundle: ehis_icon_link
+default_langcode: site_default
+language_alterable: true
