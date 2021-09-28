@@ -1991,7 +1991,7 @@ public class MtsysWorker extends Worker {
       ((ObjectNode) stepAndmedDataElements.get("menetlejaKommentaar"))
           .put("hidden", !response.getTegevusloaAndmed().isSetKlStaatus()
               || response.getTegevusloaAndmed().getKlStaatus().intValue() != 15669);
-      ((ArrayNode) stepAndmedDataElements.get("menetlejaKommentaar").get("value"))
+      ((ArrayNode) stepAndmedDataElements.get("menetlejaKommentaar").get("value")).removeAll()
           .addObject().put("nimetus", response.getTegevusloaAndmed().getMenetlejaKommentaar());
 
     ((ArrayNode) stepAndmedDataElements.get("oppeTasemed").get("value")).removeAll();
