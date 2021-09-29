@@ -11,7 +11,7 @@ export class TranslatePipe implements PipeTransform {
     private translate: TranslateService,
   ) {}
   transform(value: any): any {
-    return this.translate.get(value);
+    return value !== '' ? this.translate.get(value) : '';
   }
 
 }
