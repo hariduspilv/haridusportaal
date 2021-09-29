@@ -375,7 +375,6 @@ class xJsonService implements xJsonServiceInterface {
     if(isset($return['header']['acceptable_forms'])){
       $return = $this->checkAcceptableForms($return);
     }
-    \Drupal::logger('xjson')->notice('<pre><code>xjson RES ' . print_r($return, TRUE) . '</code></pre>' );
 
     return $return;
   }
