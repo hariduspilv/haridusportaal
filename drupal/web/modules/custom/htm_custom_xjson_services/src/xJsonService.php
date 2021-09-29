@@ -330,8 +330,6 @@ class xJsonService implements xJsonServiceInterface {
         if (isset($response_body['steps'][$step_key])) {
           foreach ($definition_body['steps'][$step_key]['data_elements'] as $element_key => $element) {
             $return_element = $element;
-            \Drupal::logger('xjson')->notice('<pre><code>xjson response' . print_r($element, TRUE) . '</code></pre>' );
-
 
             if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
               $response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
@@ -377,6 +375,7 @@ class xJsonService implements xJsonServiceInterface {
     if(isset($return['header']['acceptable_forms'])){
       $return = $this->checkAcceptableForms($return);
     }
+    \Drupal::logger('xjson')->notice('<pre><code>xjson RES ' . print_r($return, TRUE) . '</code></pre>' );
 
     return $return;
   }
