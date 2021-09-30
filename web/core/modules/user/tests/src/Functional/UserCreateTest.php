@@ -81,18 +81,18 @@ class UserCreateTest extends BrowserTestBase {
     $this->assertSession()->checkboxChecked('edit-status-1');
 
     // Test that browser autocomplete behavior does not occur.
-    $this->assertNoRaw('data-user-info-from-browser');
+    $this->assertSession()->responseNotContains('data-user-info-from-browser');
 
     // Test that the password strength indicator displays.
     $config = $this->config('user.settings');
 
     $config->set('password_strength', TRUE)->save();
     $this->drupalGet('admin/people/create');
-    $this->assertRaw(t('Password strength:'));
+    $this->assertSession()->responseContains("Password strength:");
 
     $config->set('password_strength', FALSE)->save();
     $this->drupalGet('admin/people/create');
-    $this->assertNoRaw(t('Password strength:'));
+    $this->assertSession()->responseNotContains("Password strength:");
 
     // We create two users, notifying one and not notifying the other, to
     // ensure that the tests work in both cases.
@@ -136,7 +136,7 @@ class UserCreateTest extends BrowserTestBase {
     $this->drupalGet('admin/people/create');
     $this->submitForm($edit, 'Create new account');
     $this->assertSession()->pageTextContains("Created a new user account for $name. No email has been sent");
-    $this->assertNoText('Password field is required');
+    $this->assertSession()->pageTextNotContains('Password field is required');
   }
 
 }

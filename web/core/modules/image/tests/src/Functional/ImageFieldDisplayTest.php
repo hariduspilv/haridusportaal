@@ -315,14 +315,8 @@ class ImageFieldDisplayTest extends ImageFieldTestBase {
     $this->drupalGet('node/' . $nid . '/edit');
     $this->submitForm($edit, 'Save');
     $schema = $field->getFieldStorageDefinition()->getSchema();
-    $this->assertRaw(t('Alternative text cannot be longer than %max characters but is currently %length characters long.', [
-      '%max' => $schema['columns']['alt']['length'],
-      '%length' => $test_size,
-    ]));
-    $this->assertRaw(t('Title cannot be longer than %max characters but is currently %length characters long.', [
-      '%max' => $schema['columns']['title']['length'],
-      '%length' => $test_size,
-    ]));
+    $this->assertSession()->pageTextContains("Alternative text cannot be longer than {$schema['columns']['alt']['length']} characters but is currently {$test_size} characters long.");
+    $this->assertSession()->pageTextContains("Title cannot be longer than {$schema['columns']['title']['length']} characters but is currently {$test_size} characters long.");
 
     // Set cardinality to unlimited and add upload a second image.
     // The image widget is extending on the file widget, but the image field
@@ -433,7 +427,7 @@ class ImageFieldDisplayTest extends ImageFieldTestBase {
     // Verify that no image style cache tags are found.
     $this->assertSession()->responseHeaderNotContains('X-Drupal-Cache-Tags', 'image_style:');
     // Default image should not be displayed.
-    $this->assertNoRaw($default_output);
+    $this->assertSession()->responseNotContains($default_output);
     // User supplied image should be displayed.
     $this->assertRaw($image_output);
 

@@ -225,7 +225,7 @@ class NodeEditFormTest extends NodeTestBase {
     // can not see the meta information.
     $this->drupalLogin($this->webUser);
     $this->drupalGet('node/add/page');
-    $this->assertNoText('Not saved yet');
+    $this->assertSession()->pageTextNotContains('Not saved yet');
 
     // Create node to edit.
     $edit['title[0][value]'] = $this->randomMachineName(8);
@@ -234,8 +234,8 @@ class NodeEditFormTest extends NodeTestBase {
 
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
     $this->drupalGet("node/" . $node->id() . "/edit");
-    $this->assertNoText('Published');
-    $this->assertNoText($this->container->get('date.formatter')->format($node->getChangedTime(), 'short'));
+    $this->assertSession()->pageTextNotContains('Published');
+    $this->assertSession()->pageTextNotContains($this->container->get('date.formatter')->format($node->getChangedTime(), 'short'));
 
     // Check that users with the 'administer nodes' permission can see the meta
     // information.
@@ -269,7 +269,7 @@ class NodeEditFormTest extends NodeTestBase {
     ];
     $this->drupalGet('node/' . $node->id() . '/edit');
     $this->submitForm($edit, 'Save');
-    $this->assertRaw(t('There are no users matching "%name".', ['%name' => 'invalid-name']));
+    $this->assertSession()->pageTextContains('There are no users matching "invalid-name".');
 
     // Change the authored by field to an empty string, which should assign
     // authorship to the anonymous user (uid 0).

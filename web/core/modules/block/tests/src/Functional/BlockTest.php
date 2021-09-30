@@ -56,16 +56,16 @@ class BlockTest extends BlockTestBase {
     // Confirm that the block is not displayed according to block visibility
     // rules.
     $this->drupalGet('user');
-    $this->assertNoText($title);
+    $this->assertSession()->pageTextNotContains($title);
 
     // Confirm that the block is not displayed to anonymous users.
     $this->drupalLogout();
     $this->drupalGet('');
-    $this->assertNoText($title);
+    $this->assertSession()->pageTextNotContains($title);
 
     // Confirm that an empty block is not displayed.
-    $this->assertNoText('Powered by Drupal');
-    $this->assertNoRaw('sidebar-first');
+    $this->assertSession()->pageTextNotContains('Powered by Drupal');
+    $this->assertSession()->responseNotContains('sidebar-first');
   }
 
   /**
@@ -129,17 +129,17 @@ class BlockTest extends BlockTestBase {
     // Confirm that block was not displayed according to block visibility
     // rules.
     $this->drupalGet('user');
-    $this->assertNoText($title);
+    $this->assertSession()->pageTextNotContains($title);
 
     // Confirm that block was not displayed according to block visibility
     // rules regardless of path case.
     $this->drupalGet('USER');
-    $this->assertNoText($title);
+    $this->assertSession()->pageTextNotContains($title);
 
     // Confirm that the block is not displayed to anonymous users.
     $this->drupalLogout();
     $this->drupalGet('');
-    $this->assertNoText($title);
+    $this->assertSession()->pageTextNotContains($title);
   }
 
   /**
@@ -162,11 +162,14 @@ class BlockTest extends BlockTestBase {
         'plugin_id' => $block_name,
         'theme' => $default_theme,
       ]);
-      $links = $this->xpath('//a[contains(@href, :href)]', [':href' => $add_url->toString()]);
-      $this->assertCount(1, $links, 'Found one matching link.');
-      $this->assertEquals(t('Place block'), $links[0]->getText(), 'Found the expected link text.');
 
-      list($path, $query_string) = explode('?', $links[0]->getAttribute('href'), 2);
+      // Verify that one link is found, with the the expected link text.
+      $xpath = $this->assertSession()->buildXPathQuery('//a[contains(@href, :href)]', [':href' => $add_url->toString()]);
+      $this->assertSession()->elementsCount('xpath', $xpath, 1);
+      $this->assertSession()->elementTextEquals('xpath', $xpath, 'Place block');
+
+      $link = $this->getSession()->getPage()->find('xpath', $xpath);
+      list($path, $query_string) = explode('?', $link->getAttribute('href'), 2);
       parse_str($query_string, $query_parts);
       $this->assertEquals($weight, $query_parts['weight'], 'Found the expected weight query string.');
 
@@ -178,7 +181,7 @@ class BlockTest extends BlockTestBase {
         'settings[label]' => $title,
       ];
       // Create the block using the link parsed from the library page.
-      $this->drupalGet($this->getAbsoluteUrl($links[0]->getAttribute('href')));
+      $this->drupalGet($this->getAbsoluteUrl($link->getAttribute('href')));
       $this->submitForm($edit, 'Save block');
 
       // Ensure that the block was created with the expected weight.
@@ -235,7 +238,7 @@ class BlockTest extends BlockTestBase {
 
     // Confirm that the block instance title and markup are not displayed.
     $this->drupalGet('node');
-    $this->assertNoText($block['settings[label]']);
+    $this->assertSession()->pageTextNotContains($block['settings[label]']);
     // Check for <div id="block-my-block-instance-name"> if the machine name
     // is my_block_instance_name.
     $xpath = $this->assertSession()->buildXPathQuery('//div[@id=:id]/*', [':id' => 'block-' . str_replace('_', '-', strtolower($block['id']))]);
@@ -244,19 +247,19 @@ class BlockTest extends BlockTestBase {
     // Test deleting the block from the edit form.
     $this->drupalGet('admin/structure/block/manage/' . $block['id']);
     $this->clickLink('Remove block');
-    $this->assertRaw(t('Are you sure you want to remove the block @name?', ['@name' => $block['settings[label]']]));
+    $this->assertSession()->pageTextContains('Are you sure you want to remove the block ' . $block['settings[label]'] . '?');
     $this->submitForm([], 'Remove');
-    $this->assertRaw(t('The block %name has been removed.', ['%name' => $block['settings[label]']]));
+    $this->assertSession()->pageTextContains('The block ' . $block['settings[label]'] . ' has been removed.');
 
     // Test deleting a block via "Configure block" link.
     $block = $this->drupalPlaceBlock('system_powered_by_block');
     $this->drupalGet('admin/structure/block/manage/' . $block->id(), ['query' => ['destination' => 'admin']]);
     $this->clickLink('Remove block');
-    $this->assertRaw(t('Are you sure you want to remove the block @name?', ['@name' => $block->label()]));
+    $this->assertSession()->pageTextContains('Are you sure you want to remove the block ' . $block->label() . '?');
     $this->submitForm([], 'Remove');
-    $this->assertRaw(t('The block %name has been removed.', ['%name' => $block->label()]));
+    $this->assertSession()->pageTextContains('The block ' . $block->label() . ' has been removed.');
     $this->assertSession()->addressEquals('admin');
-    $this->assertNoRaw($block->id());
+    $this->assertSession()->responseNotContains($block->id());
   }
 
   /**
@@ -324,7 +327,7 @@ class BlockTest extends BlockTestBase {
 
     // Confirm that the block is not displayed by default.
     $this->drupalGet('user');
-    $this->assertNoText($title);
+    $this->assertSession()->pageTextNotContains($title);
 
     $edit = [
       'settings[label_display]' => TRUE,
@@ -532,7 +535,7 @@ class BlockTest extends BlockTestBase {
     $this->drupalPlaceBlock('test_access', ['region' => 'help']);
 
     $this->drupalGet('<front>');
-    $this->assertNoText('Hello test world');
+    $this->assertSession()->pageTextNotContains('Hello test world');
 
     \Drupal::state()->set('test_block_access', TRUE);
     $this->drupalGet('<front>');

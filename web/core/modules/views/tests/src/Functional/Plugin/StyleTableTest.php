@@ -157,8 +157,8 @@ class StyleTableTest extends ViewTestBase {
     $this->drupalGet('test-table');
 
     // Test that only one of the job columns still shows.
-    $result = $this->xpath('//thead/tr/th/a[text()="Job"]');
-    $this->assertCount(1, $result, 'Ensure that empty column header is hidden.');
+    // Ensure that empty column header is hidden.
+    $this->assertSession()->elementsCount('xpath', '//thead/tr/th/a[text()="Job"]', 1);
 
     $result = $this->xpath('//tbody/tr/td[contains(concat(" ", @class, " "), " views-field-job-1 ")]');
     $this->assertCount(0, $result, 'Ensure the empty table cells are hidden.');
@@ -210,7 +210,7 @@ class StyleTableTest extends ViewTestBase {
     ];
 
     // Ensure that we don't find the caption containing unsafe markup.
-    $this->assertNoRaw($unsafe_markup);
+    $this->assertSession()->responseNotContains($unsafe_markup);
     // Ensure that the summary isn't shown.
     $this->assertEmpty($this->xpath('//caption/details'));
 
@@ -234,7 +234,7 @@ class StyleTableTest extends ViewTestBase {
     ];
 
     // Ensure that we don't find the caption containing unsafe markup.
-    $this->assertNoRaw($unsafe_markup);
+    $this->assertSession()->responseNotContains($unsafe_markup);
 
     // Ensure that all expected captions are found.
     foreach ($expected_captions as $raw_caption) {
