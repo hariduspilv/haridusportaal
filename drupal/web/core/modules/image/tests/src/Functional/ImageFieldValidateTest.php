@@ -145,20 +145,16 @@ class ImageFieldValidateTest extends ImageFieldTestBase {
       }
     }
     $this->uploadNodeImage($image_that_is_too_small, $field_names[0], 'article');
-    $this->assertRaw(t('The specified file %name could not be uploaded.', ['%name' => $image_that_is_too_small->filename]));
-    $this->assertRaw(t('The image is too small. The minimum dimensions are %dimensions pixels and the image size is %widthx%height pixels.', [
-      '%dimensions' => '50x50',
-      '%width' => $image_that_is_too_small_file->getWidth(),
-      '%height' => $image_that_is_too_small_file->getHeight(),
-      ]));
+    $this->assertSession()->pageTextContains("The specified file {$image_that_is_too_small->filename} could not be uploaded.");
+    $this->assertSession()->pageTextContains("The image is too small. The minimum dimensions are 50x50 pixels and the image size is {$image_that_is_too_small_file->getWidth()}x{$image_that_is_too_small_file->getHeight()} pixels.");
     $this->uploadNodeImage($image_that_is_too_big, $field_names[0], 'article');
     $this->assertSession()->pageTextContains('The image was resized to fit within the maximum allowed dimensions of 100x100 pixels.');
     $this->uploadNodeImage($image_that_is_too_small, $field_names[1], 'article');
-    $this->assertRaw(t('The specified file %name could not be uploaded.', ['%name' => $image_that_is_too_small->filename]));
+    $this->assertSession()->pageTextContains("The specified file {$image_that_is_too_small->filename} could not be uploaded.");
     $this->uploadNodeImage($image_that_is_too_big, $field_names[1], 'article');
     $this->assertSession()->pageTextContains('The image was resized to fit within the maximum allowed width of 100 pixels.');
     $this->uploadNodeImage($image_that_is_too_small, $field_names[2], 'article');
-    $this->assertRaw(t('The specified file %name could not be uploaded.', ['%name' => $image_that_is_too_small->filename]));
+    $this->assertSession()->pageTextContains("The specified file {$image_that_is_too_small->filename} could not be uploaded.");
     $this->uploadNodeImage($image_that_is_too_big, $field_names[2], 'article');
     $this->assertSession()->pageTextContains('The image was resized to fit within the maximum allowed height of 100 pixels.');
   }
@@ -197,8 +193,8 @@ class ImageFieldValidateTest extends ImageFieldTestBase {
     $this->drupalGet('node/add/article');
     $this->submitForm($edit, 'Save');
 
-    $this->assertNoText('Alternative text field is required.');
-    $this->assertNoText('Title field is required.');
+    $this->assertSession()->pageTextNotContains('Alternative text field is required.');
+    $this->assertSession()->pageTextNotContains('Title field is required.');
 
     $instance->setSetting('required', 0);
     $instance->setSetting('alt_field_required', 1);
@@ -211,8 +207,8 @@ class ImageFieldValidateTest extends ImageFieldTestBase {
     $this->drupalGet('node/add/article');
     $this->submitForm($edit, 'Save');
 
-    $this->assertNoText('Alternative text field is required.');
-    $this->assertNoText('Title field is required.');
+    $this->assertSession()->pageTextNotContains('Alternative text field is required.');
+    $this->assertSession()->pageTextNotContains('Title field is required.');
   }
 
   /**

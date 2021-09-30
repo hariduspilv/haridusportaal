@@ -91,7 +91,7 @@ class UpdateUploadTest extends UpdateTestBase {
     $this->assertSession()->titleEquals('Update manager | Drupal');
     // Check for a success message on the page, and check that the installed
     // module now exists in the expected place in the filesystem.
-    $this->assertRaw(t('Added / updated %project_name successfully', ['%project_name' => 'update_test_new_module']));
+    $this->assertSession()->pageTextContains("Added / updated update_test_new_module successfully");
     $this->assertFileExists($installedInfoFilePath);
     // Ensure the links are relative to the site root and not
     // core/authorize.php.
@@ -138,7 +138,7 @@ class UpdateUploadTest extends UpdateTestBase {
     $this->submitForm(['projects[update_test_new_module]' => TRUE], 'Download these updates');
     $this->submitForm(['maintenance_mode' => FALSE], 'Continue');
     $this->assertSession()->pageTextContains('Update was completed successfully.');
-    $this->assertRaw(t('Added / updated %project_name successfully', ['%project_name' => 'update_test_new_module']));
+    $this->assertSession()->pageTextContains("Added / updated update_test_new_module successfully");
 
     // Parse the info file again to check that the module has been updated to
     // 8.x-1.1.
@@ -180,25 +180,25 @@ class UpdateUploadTest extends UpdateTestBase {
     // about core missing a security update.
 
     $this->drupalGet('admin/modules/install');
-    $this->assertNoText('There is a security update available for your version of Drupal.');
+    $this->assertSession()->pageTextNotContains('There is a security update available for your version of Drupal.');
 
     $this->drupalGet('admin/modules/update');
-    $this->assertNoText('There is a security update available for your version of Drupal.');
+    $this->assertSession()->pageTextNotContains('There is a security update available for your version of Drupal.');
 
     $this->drupalGet('admin/appearance/install');
-    $this->assertNoText('There is a security update available for your version of Drupal.');
+    $this->assertSession()->pageTextNotContains('There is a security update available for your version of Drupal.');
 
     $this->drupalGet('admin/appearance/update');
-    $this->assertNoText('There is a security update available for your version of Drupal.');
+    $this->assertSession()->pageTextNotContains('There is a security update available for your version of Drupal.');
 
     $this->drupalGet('admin/reports/updates/install');
-    $this->assertNoText('There is a security update available for your version of Drupal.');
+    $this->assertSession()->pageTextNotContains('There is a security update available for your version of Drupal.');
 
     $this->drupalGet('admin/reports/updates/update');
-    $this->assertNoText('There is a security update available for your version of Drupal.');
+    $this->assertSession()->pageTextNotContains('There is a security update available for your version of Drupal.');
 
     $this->drupalGet('admin/update/ready');
-    $this->assertNoText('There is a security update available for your version of Drupal.');
+    $this->assertSession()->pageTextNotContains('There is a security update available for your version of Drupal.');
   }
 
   /**

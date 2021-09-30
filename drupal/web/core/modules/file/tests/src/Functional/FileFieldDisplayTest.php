@@ -57,7 +57,7 @@ class FileFieldDisplayTest extends FileFieldTestBase {
       $this->submitForm($edit, 'Save');
       $this->drupalGet('node/' . $node->id());
       // Verify that the field label is hidden when no file is attached.
-      $this->assertNoText($field_name);
+      $this->assertSession()->pageTextNotContains($field_name);
     }
 
     $this->generateFile('escaped-&-text', 64, 10, 'text');
@@ -87,7 +87,7 @@ class FileFieldDisplayTest extends FileFieldTestBase {
     $this->drupalGet('node/' . $nid . '/edit');
     $this->submitForm($edit, 'Save');
 
-    $this->assertNoRaw($default_output);
+    $this->assertSession()->responseNotContains($default_output);
 
     // Add a description and make sure that it is displayed.
     $description = $this->randomMachineName();

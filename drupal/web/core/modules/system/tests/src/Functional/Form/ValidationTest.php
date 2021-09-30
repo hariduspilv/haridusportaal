@@ -72,7 +72,7 @@ class ValidationTest extends BrowserTestBase {
       ->setValue('invalid_token');
     $this->submitForm(['name' => 'validate'], 'Save');
     $this->assertSession()->fieldValueNotEquals('name', '#value changed by #validate');
-    $this->assertNoText('Name value: value changed by setValueForElement() in #validate');
+    $this->assertSession()->pageTextNotContains('Name value: value changed by setValueForElement() in #validate');
     $this->assertSession()->pageTextContains('The form has become outdated.');
   }
 
@@ -115,7 +115,7 @@ class ValidationTest extends BrowserTestBase {
     // is triggered.
     $this->drupalGet($path);
     $this->submitForm($edit, 'Partial validate');
-    $this->assertNoText('Title field is required.');
+    $this->assertSession()->pageTextNotContains('Title field is required.');
     $this->assertSession()->pageTextContains('Test element is invalid');
 
     // Edge case of #limit_validation_errors containing numeric indexes: same
@@ -123,13 +123,13 @@ class ValidationTest extends BrowserTestBase {
     // 'test_numeric_index' field.
     $this->drupalGet($path);
     $this->submitForm($edit, 'Partial validate (numeric index)');
-    $this->assertNoText('Title field is required.');
+    $this->assertSession()->pageTextNotContains('Title field is required.');
     $this->assertSession()->pageTextContains('Test (numeric index) element is invalid');
 
     // Ensure something like 'foobar' isn't considered "inside" 'foo'.
     $this->drupalGet($path);
     $this->submitForm($edit, 'Partial validate (substring)');
-    $this->assertNoText('Title field is required.');
+    $this->assertSession()->pageTextNotContains('Title field is required.');
     $this->assertSession()->pageTextContains('Test (substring) foo element is invalid');
 
     // Ensure not validated values are not available to submit handlers.
@@ -152,9 +152,9 @@ class ValidationTest extends BrowserTestBase {
    * Tests #pattern validation.
    */
   public function testPatternValidation() {
-    $textfield_error = t('%name field is not in the right format.', ['%name' => 'One digit followed by lowercase letters']);
-    $tel_error = t('%name field is not in the right format.', ['%name' => 'Everything except numbers']);
-    $password_error = t('%name field is not in the right format.', ['%name' => 'Password']);
+    $textfield_error = 'One digit followed by lowercase letters field is not in the right format.';
+    $tel_error = 'Everything except numbers field is not in the right format.';
+    $password_error = 'Password field is not in the right format.';
 
     // Invalid textfield, valid tel.
     $edit = [
@@ -163,9 +163,9 @@ class ValidationTest extends BrowserTestBase {
     ];
     $this->drupalGet('form-test/pattern');
     $this->submitForm($edit, 'Submit');
-    $this->assertRaw($textfield_error);
-    $this->assertNoRaw($tel_error);
-    $this->assertNoRaw($password_error);
+    $this->assertSession()->pageTextContains($textfield_error);
+    $this->assertSession()->pageTextNotContains($tel_error);
+    $this->assertSession()->pageTextNotContains($password_error);
 
     // Valid textfield, invalid tel, valid password.
     $edit = [
@@ -175,9 +175,9 @@ class ValidationTest extends BrowserTestBase {
     ];
     $this->drupalGet('form-test/pattern');
     $this->submitForm($edit, 'Submit');
-    $this->assertNoRaw($textfield_error);
-    $this->assertRaw($tel_error);
-    $this->assertNoRaw($password_error);
+    $this->assertSession()->pageTextNotContains($textfield_error);
+    $this->assertSession()->pageTextContains($tel_error);
+    $this->assertSession()->pageTextNotContains($password_error);
 
     // Non required fields are not validated if empty.
     $edit = [
@@ -186,9 +186,9 @@ class ValidationTest extends BrowserTestBase {
     ];
     $this->drupalGet('form-test/pattern');
     $this->submitForm($edit, 'Submit');
-    $this->assertNoRaw($textfield_error);
-    $this->assertNoRaw($tel_error);
-    $this->assertNoRaw($password_error);
+    $this->assertSession()->pageTextNotContains($textfield_error);
+    $this->assertSession()->pageTextNotContains($tel_error);
+    $this->assertSession()->pageTextNotContains($password_error);
 
     // Invalid password.
     $edit = [
@@ -196,9 +196,9 @@ class ValidationTest extends BrowserTestBase {
     ];
     $this->drupalGet('form-test/pattern');
     $this->submitForm($edit, 'Submit');
-    $this->assertNoRaw($textfield_error);
-    $this->assertNoRaw($tel_error);
-    $this->assertRaw($password_error);
+    $this->assertSession()->pageTextNotContains($textfield_error);
+    $this->assertSession()->pageTextNotContains($tel_error);
+    $this->assertSession()->pageTextContains($password_error);
 
     // The pattern attribute overrides #pattern and is not validated on the
     // server side.
@@ -209,7 +209,7 @@ class ValidationTest extends BrowserTestBase {
     ];
     $this->drupalGet('form-test/pattern');
     $this->submitForm($edit, 'Submit');
-    $this->assertNoRaw(t('%name field is not in the right format.', ['%name' => 'Client side validation']));
+    $this->assertSession()->pageTextNotContains('Client side validation field is not in the right format.');
   }
 
   /**
@@ -227,15 +227,15 @@ class ValidationTest extends BrowserTestBase {
 
     foreach (Element::children($form) as $key) {
       if (isset($form[$key]['#required_error'])) {
-        $this->assertNoText($form[$key]['#title'] . ' field is required.');
+        $this->assertSession()->pageTextNotContains($form[$key]['#title'] . ' field is required.');
         $this->assertSession()->pageTextContains((string) $form[$key]['#required_error']);
       }
       elseif (isset($form[$key]['#form_test_required_error'])) {
-        $this->assertNoText($form[$key]['#title'] . ' field is required.');
+        $this->assertSession()->pageTextNotContains($form[$key]['#title'] . ' field is required.');
         $this->assertSession()->pageTextContains((string) $form[$key]['#form_test_required_error']);
       }
     }
-    $this->assertNoText('An illegal choice has been detected. Please contact the site administrator.');
+    $this->assertSession()->pageTextNotContains('An illegal choice has been detected. Please contact the site administrator.');
 
     // Verify that no custom validation error appears with valid values.
     $edit = [
@@ -248,15 +248,15 @@ class ValidationTest extends BrowserTestBase {
 
     foreach (Element::children($form) as $key) {
       if (isset($form[$key]['#required_error'])) {
-        $this->assertNoText($form[$key]['#title'] . ' field is required.');
-        $this->assertNoText((string) $form[$key]['#required_error']);
+        $this->assertSession()->pageTextNotContains($form[$key]['#title'] . ' field is required.');
+        $this->assertSession()->pageTextNotContains((string) $form[$key]['#required_error']);
       }
       elseif (isset($form[$key]['#form_test_required_error'])) {
-        $this->assertNoText($form[$key]['#title'] . ' field is required.');
-        $this->assertNoText((string) $form[$key]['#form_test_required_error']);
+        $this->assertSession()->pageTextNotContains($form[$key]['#title'] . ' field is required.');
+        $this->assertSession()->pageTextNotContains((string) $form[$key]['#form_test_required_error']);
       }
     }
-    $this->assertNoText('An illegal choice has been detected. Please contact the site administrator.');
+    $this->assertSession()->pageTextNotContains('An illegal choice has been detected. Please contact the site administrator.');
   }
 
 }

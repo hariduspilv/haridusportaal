@@ -300,7 +300,7 @@ class LinkFieldTest extends BrowserTestBase {
 
       if ($title_setting === DRUPAL_DISABLED) {
         $this->assertSession()->fieldNotExists("{$field_name}[0][title]");
-        $this->assertNoRaw('placeholder="Enter the text for this link"');
+        $this->assertSession()->responseNotContains('placeholder="Enter the text for this link"');
       }
       else {
         $this->assertRaw('placeholder="Enter the text for this link"');
@@ -327,7 +327,7 @@ class LinkFieldTest extends BrowserTestBase {
             "{$field_name}[0][uri]" => '',
           ];
           $this->submitForm($edit, 'Save');
-          $this->assertNoText('Link text field is required.');
+          $this->assertSession()->pageTextNotContains('Link text field is required.');
 
           // Verify that a URL and link text meets requirements.
           $this->drupalGet('entity_test/add');
@@ -336,7 +336,7 @@ class LinkFieldTest extends BrowserTestBase {
             "{$field_name}[0][title]" => 'Example',
           ];
           $this->submitForm($edit, 'Save');
-          $this->assertNoText('Link text field is required.');
+          $this->assertSession()->pageTextNotContains('Link text field is required.');
         }
       }
     }
