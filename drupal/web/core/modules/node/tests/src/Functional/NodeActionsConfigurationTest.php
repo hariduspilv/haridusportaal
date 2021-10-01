@@ -72,7 +72,7 @@ class NodeActionsConfigurationTest extends BrowserTestBase {
     $this->assertSession()->pageTextContains('The action has been successfully saved.');
     // Check that the old label for the node_assign_owner_action action does not
     // appear on the actions administration page after updating.
-    $this->assertNoText($action_label);
+    $this->assertSession()->pageTextNotContains($action_label);
     // Check that the new label for the node_assign_owner_action action appears
     // on the actions administration page after updating.
     $this->assertSession()->pageTextContains($new_action_label);
@@ -86,12 +86,12 @@ class NodeActionsConfigurationTest extends BrowserTestBase {
     $this->assertSession()->statusCodeEquals(200);
 
     // Make sure that the action was actually deleted.
-    $this->assertRaw(t('The action %action has been deleted.', ['%action' => $new_action_label]));
+    $this->assertSession()->pageTextContains("The action {$new_action_label} has been deleted.");
     $this->drupalGet('admin/config/system/actions');
     $this->assertSession()->statusCodeEquals(200);
     // Check that the label for the node_assign_owner_action action does not
     // appear on the actions administration page after deleting.
-    $this->assertNoText($new_action_label);
+    $this->assertSession()->pageTextNotContains($new_action_label);
 
     $action = Action::load($action_id);
     $this->assertNull($action, 'The node_assign_owner_action action is not available after being deleted.');

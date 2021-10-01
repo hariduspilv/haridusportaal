@@ -101,7 +101,7 @@ class LanguageConfigurationTest extends BrowserTestBase {
       'prefix[fr]' => '',
     ];
     $this->submitForm($edit, 'Save configuration');
-    $this->assertNoText('The prefix may only be left blank for the selected detection fallback language.');
+    $this->assertSession()->pageTextNotContains('The prefix may only be left blank for the selected detection fallback language.');
 
     // Change default negotiation language.
     $this->config('language.negotiation')->set('selected_langcode', 'fr')->save();
@@ -125,7 +125,7 @@ class LanguageConfigurationTest extends BrowserTestBase {
     $this->drupalGet('admin/config/regional/language/delete/en');
     $this->submitForm([], 'Delete');
     $this->rebuildContainer();
-    $this->assertRaw(t('The %language (%langcode) language has been removed.', ['%language' => 'English', '%langcode' => 'en']));
+    $this->assertSession()->pageTextContains("The English (en) language has been removed.");
 
     // Ensure that French language has a weight of 1 after being created through
     // the UI.

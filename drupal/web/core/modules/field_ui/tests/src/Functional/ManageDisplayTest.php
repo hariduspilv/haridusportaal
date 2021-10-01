@@ -193,7 +193,7 @@ class ManageDisplayTest extends BrowserTestBase {
    */
   public function testSingleViewMode() {
     $this->drupalGet('admin/structure/taxonomy/manage/' . $this->vocabulary . '/display');
-    $this->assertNoText('Use custom display settings for the following view modes');
+    $this->assertSession()->pageTextNotContains('Use custom display settings for the following view modes');
 
     // This may not trigger a notice when 'view_modes_custom' isn't available.
     $this->drupalGet('admin/structure/taxonomy/manage/' . $this->vocabulary . '/overview/display');
@@ -211,7 +211,8 @@ class ManageDisplayTest extends BrowserTestBase {
     ])->save();
 
     $this->drupalGet('admin/structure/types/manage/no_fields/display');
-    $this->assertRaw(t('There are no fields yet added. You can add new fields on the <a href=":link">Manage fields</a> page.', [':link' => Url::fromRoute('entity.node.field_ui_fields', ['node_type' => 'no_fields'])->toString()]));
+    $this->assertSession()->pageTextContains("There are no fields yet added. You can add new fields on the Manage fields page.");
+    $this->assertSession()->linkByHrefExists(Url::fromRoute('entity.node.field_ui_fields', ['node_type' => 'no_fields'])->toString());
   }
 
   /**

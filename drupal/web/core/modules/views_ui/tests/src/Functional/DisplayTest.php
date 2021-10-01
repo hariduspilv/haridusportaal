@@ -36,12 +36,14 @@ class DisplayTest extends UITestBase {
    */
   public function testAddDisplay() {
     $view = $this->randomView();
-    $this->assertNoText('Block');
-    $this->assertNoText('Block 2');
+    $this->assertSession()->elementNotExists('xpath', '//li[@data-drupal-selector="edit-displays-top-tabs-block-1"]');
+    $this->assertSession()->elementNotExists('xpath', '//li[@data-drupal-selector="edit-displays-top-tabs-block-2"]');
+    $this->assertSession()->pageTextMatchesCount(0, '/Block name:/');
 
     $this->submitForm([], 'Add Block');
-    $this->assertSession()->pageTextContains('Block');
-    $this->assertNoText('Block 2');
+    $this->assertSession()->elementTextContains('xpath', '//li[@data-drupal-selector="edit-displays-top-tabs-block-1"]', 'Block*');
+    $this->assertSession()->elementNotExists('xpath', '//li[@data-drupal-selector="edit-displays-top-tabs-block-2"]');
+    $this->assertSession()->pageTextMatchesCount(1, '/Block name:/');
   }
 
   /**
@@ -159,8 +161,7 @@ class DisplayTest extends UITestBase {
 
     // Test the link text displays 'None' and not 'Block 1'
     $this->drupalGet($path);
-    $result = $this->xpath("//a[contains(@href, :path)]", [':path' => $link_display_path]);
-    $this->assertEquals(t('None'), $result[0]->getHtml(), 'Make sure that the link option summary shows "None" by default.');
+    $this->assertSession()->elementTextEquals('xpath', "//a[contains(@href, '{$link_display_path}')]", 'None');
 
     $this->drupalGet($link_display_path);
     $this->assertSession()->checkboxChecked('edit-link-display-0');
@@ -171,8 +172,8 @@ class DisplayTest extends UITestBase {
     // The form redirects to the default display.
     $this->drupalGet($path);
 
-    $result = $this->xpath("//a[contains(@href, :path)]", [':path' => $link_display_path]);
-    $this->assertEquals('Page', $result[0]->getHtml(), 'Make sure that the link option summary shows the right linked display.');
+    // Test that the link option summary shows the right linked display.
+    $this->assertSession()->elementTextEquals('xpath', "//a[contains(@href, '{$link_display_path}')]", 'Page');
 
     $this->drupalGet($link_display_path);
     $this->submitForm([
@@ -227,15 +228,15 @@ class DisplayTest extends UITestBase {
       $this->drupalGet("admin/structure/views/view/{$view->id()}");
       $escaped = views_ui_truncate($input, 25);
       $this->assertSession()->assertEscaped($escaped);
-      $this->assertNoRaw($xss_markup);
+      $this->assertSession()->responseNotContains($xss_markup);
 
       $this->drupalGet("admin/structure/views/view/{$view->id()}/edit/page_1");
       $this->assertSession()->assertEscaped("View $escaped");
-      $this->assertNoRaw("View $xss_markup");
+      $this->assertSession()->responseNotContains("View $xss_markup");
       $this->assertSession()->assertEscaped("Duplicate $escaped");
-      $this->assertNoRaw("Duplicate $xss_markup");
+      $this->assertSession()->responseNotContains("Duplicate $xss_markup");
       $this->assertSession()->assertEscaped("Delete $escaped");
-      $this->assertNoRaw("Delete $xss_markup");
+      $this->assertSession()->responseNotContains("Delete $xss_markup");
     }
   }
 
@@ -253,7 +254,7 @@ class DisplayTest extends UITestBase {
 
     // Ensure that the title is escaped as expected.
     $this->assertSession()->assertEscaped($display_title);
-    $this->assertNoRaw($display_title);
+    $this->assertSession()->responseNotContains($display_title);
 
     // Ensure that the dropdown buttons are displayed correctly.
     $this->assertSession()->buttonExists('Duplicate ' . $display_title);
@@ -268,7 +269,7 @@ class DisplayTest extends UITestBase {
 
     // Ensure that the title is escaped as expected.
     $this->assertSession()->assertEscaped($display_title);
-    $this->assertNoRaw($display_title);
+    $this->assertSession()->responseNotContains($display_title);
   }
 
   /**
@@ -285,7 +286,7 @@ class DisplayTest extends UITestBase {
     $this->submitForm([], 'Save');
 
     $this->drupalGet('admin/structure/views/nojs/handler/test_display/page_1/field/title');
-    $this->assertNoText('All displays');
+    $this->assertSession()->pageTextNotContains('All displays');
 
     // Test that the override option is shown when default display is on.
     \Drupal::configFactory()->getEditable('views.settings')->set('ui.show.default_display', TRUE)->save();
