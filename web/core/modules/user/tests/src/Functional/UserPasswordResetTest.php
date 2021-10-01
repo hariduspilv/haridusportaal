@@ -170,7 +170,7 @@ class UserPasswordResetTest extends BrowserTestBase {
     $this->drupalGet($resetURL);
     $this->submitForm([], 'Log in');
     $this->drupalGet('user/' . $this->account->id() . '/edit');
-    $this->assertNoText('Expected user_string to be a string, NULL given');
+    $this->assertSession()->pageTextNotContains('Expected user_string to be a string, NULL given');
     $this->drupalLogout();
 
     // Create a password reset link as if the request time was 60 seconds older than the allowed limit.
@@ -378,8 +378,9 @@ class UserPasswordResetTest extends BrowserTestBase {
     ];
     $this->drupalGet('user/login');
     $this->submitForm($edit, 'Log in');
-    $this->assertRaw(t('Unrecognized username or password. <a href=":password">Forgot your password?</a>',
-      [':password' => Url::fromRoute('user.pass', [], ['query' => ['name' => $edit['name']]])->toString()]));
+    $this->assertSession()->pageTextContains("Unrecognized username or password. Forgot your password?");
+    $this->assertSession()->linkExists("Forgot your password?");
+    $this->assertSession()->linkByHrefExists(Url::fromRoute('user.pass', [], ['query' => ['name' => $edit['name']]])->toString());
     unset($edit['pass']);
     $this->drupalGet('user/password', ['query' => ['name' => $edit['name']]]);
     $this->assertSession()->fieldValueEquals('name', $edit['name']);
@@ -518,7 +519,7 @@ class UserPasswordResetTest extends BrowserTestBase {
    * Makes assertions about a password reset not triggering IP flood control.
    */
   public function assertNoPasswordIpFlood() {
-    $this->assertNoText('Too many password recovery requests from your IP address. It is temporarily blocked. Try again later or contact the site administrator.');
+    $this->assertSession()->pageTextNotContains('Too many password recovery requests from your IP address. It is temporarily blocked. Try again later or contact the site administrator.');
   }
 
   /**
@@ -557,7 +558,7 @@ class UserPasswordResetTest extends BrowserTestBase {
     $this->drupalGet($attack_reset_url);
     $this->submitForm([], 'Log in');
     // Verify that the invalid password reset page does not show the user name.
-    $this->assertNoText($user2->getAccountName());
+    $this->assertSession()->pageTextNotContains($user2->getAccountName());
     $this->assertSession()->addressEquals('user/password');
     $this->assertSession()->pageTextContains('You have tried to use a one-time login link that has either been used or is no longer valid. Please request a new one using the form below.');
   }

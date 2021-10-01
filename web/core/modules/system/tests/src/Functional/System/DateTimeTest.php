@@ -144,7 +144,7 @@ class DateTimeTest extends BrowserTestBase {
     $this->submitForm([], 'Delete');
     // Verify that the user is redirected to the correct page.
     $this->assertSession()->addressEquals(Url::fromRoute('entity.date_format.collection'));
-    $this->assertRaw(t('The date format %format has been deleted.', ['%format' => $name]));
+    $this->assertSession()->pageTextContains("The date format {$name} has been deleted.");
 
     // Make sure the date does not exist in config.
     $date_format = DateFormat::load($date_format_id);
@@ -263,7 +263,7 @@ class DateTimeTest extends BrowserTestBase {
     $edit['field_dt[0][value][day]'] = '29';
     $this->drupalGet('node/add/page_with_date');
     $this->submitForm($edit, 'Save');
-    $this->assertNoText('Selected combination of day and month is not valid.');
+    $this->assertSession()->pageTextNotContains('Selected combination of day and month is not valid.');
 
     $this->drupalGet('node/1');
     $this->assertSession()->pageTextContains('Mon, 02/29/2016 - 01:30');

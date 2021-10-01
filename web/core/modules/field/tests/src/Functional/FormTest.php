@@ -128,17 +128,17 @@ class FormTest extends FieldTestBase {
 
     // Check that hook_field_widget_single_element_form_alter() does not believe
     // this is the default value form.
-    $this->assertNoText('From hook_field_widget_single_element_form_alter(): Default form is true.');
+    $this->assertSession()->pageTextNotContains('From hook_field_widget_single_element_form_alter(): Default form is true.');
     // Check that hook_field_widget_single_element_form_alter() does not believe
     // this is the default value form.
-    $this->assertNoText('From hook_field_widget_complete_form_alter(): Default form is true.');
+    $this->assertSession()->pageTextNotContains('From hook_field_widget_complete_form_alter(): Default form is true.');
 
     // Submit with invalid value (field-level validation).
     $edit = [
       "{$field_name}[0][value]" => -1,
     ];
     $this->submitForm($edit, 'Save');
-    $this->assertRaw(t('%name does not accept the value -1.', ['%name' => $this->field['label']]));
+    $this->assertSession()->pageTextContains("{$this->field['label']} does not accept the value -1.");
     // TODO : check that the correct field is flagged for error.
 
     // Create an entity
@@ -233,7 +233,7 @@ class FormTest extends FieldTestBase {
     $edit = [];
     $this->drupalGet('entity_test/add');
     $this->submitForm($edit, 'Save');
-    $this->assertRaw(t('@name field is required.', ['@name' => $this->field['label']]));
+    $this->assertSession()->pageTextContains("{$this->field['label']} field is required.");
 
     // Create an entity
     $value = mt_rand(1, 127);
@@ -254,7 +254,7 @@ class FormTest extends FieldTestBase {
     ];
     $this->drupalGet('entity_test/manage/' . $id . '/edit');
     $this->submitForm($edit, 'Save');
-    $this->assertRaw(t('@name field is required.', ['@name' => $this->field['label']]));
+    $this->assertSession()->pageTextContains("{$this->field['label']} field is required.");
   }
 
   public function testFieldFormUnlimited() {
@@ -465,7 +465,7 @@ class FormTest extends FieldTestBase {
     // Submit the form with more values than the field accepts.
     $edit = [$field_name => '1, 2, 3, 4, 5'];
     $this->submitForm($edit, 'Save');
-    $this->assertRaw('this field cannot hold more than 4 values');
+    $this->assertSession()->pageTextContains('this field cannot hold more than 4 values');
     // Check that the field values were not submitted.
     $this->assertFieldValues($entity_init, $field_name, [1, 2, 3]);
 

@@ -109,7 +109,7 @@ class ThemeTest extends BrowserTestBase {
       ];
       $this->drupalGet('admin/appearance/settings');
       $this->submitForm($edit, 'Save configuration');
-      $this->assertNoText('The custom logo path is invalid.');
+      $this->assertSession()->pageTextNotContains('The custom logo path is invalid.');
       $this->assertSession()->fieldValueEquals('logo_path', $expected['form']);
 
       // Verify logo path examples.
@@ -142,11 +142,7 @@ class ThemeTest extends BrowserTestBase {
       // branding block.
       $this->drupalPlaceBlock('system_branding_block', ['region' => 'header']);
       $this->drupalGet('');
-      $elements = $this->xpath('//header//a[@rel=:rel]/img', [
-          ':rel' => 'home',
-        ]
-      );
-      $this->assertEquals($expected['src'], $elements[0]->getAttribute('src'));
+      $this->assertSession()->elementAttributeContains('xpath', '//header//a[@rel="home"]/img', 'src', $expected['src']);
     }
     $unsupported_paths = [
       // Stream wrapper URI to non-existing file.
@@ -194,11 +190,7 @@ class ThemeTest extends BrowserTestBase {
 
     $this->drupalPlaceBlock('system_branding_block', ['region' => 'header']);
     $this->drupalGet('');
-    $elements = $this->xpath('//header//a[@rel=:rel]/img', [
-        ':rel' => 'home',
-      ]
-    );
-    $this->assertEquals(file_url_transform_relative(file_create_url($uploaded_filename)), $elements[0]->getAttribute('src'));
+    $this->assertSession()->elementAttributeContains('xpath', '//header//a[@rel="home"]/img', 'src', file_url_transform_relative(file_create_url($uploaded_filename)));
 
     $this->container->get('theme_installer')->install(['bartik']);
 
@@ -229,8 +221,8 @@ class ThemeTest extends BrowserTestBase {
     ];
     $this->drupalGet('admin/appearance/settings');
     $this->submitForm($edit, 'Save configuration');
-    $this->assertNoText('The custom logo path is invalid.');
-    $this->assertNoText('The custom favicon path is invalid.');
+    $this->assertSession()->pageTextNotContains('The custom logo path is invalid.');
+    $this->assertSession()->pageTextNotContains('The custom favicon path is invalid.');
   }
 
   /**
@@ -253,8 +245,8 @@ class ThemeTest extends BrowserTestBase {
     // module is not enabled.
     \Drupal::service('module_installer')->uninstall(['file']);
     $this->drupalGet('admin/appearance/settings');
-    $this->assertNoText('Logo image settings');
-    $this->assertNoText('Shortcut icon settings');
+    $this->assertSession()->pageTextNotContains('Logo image settings');
+    $this->assertSession()->pageTextNotContains('Shortcut icon settings');
   }
 
   /**
@@ -420,12 +412,12 @@ class ThemeTest extends BrowserTestBase {
     $this->clickLink('Set as default');
 
     // Check that seven cannot be uninstalled as it is the admin theme.
-    $this->assertNoRaw('Uninstall Seven theme');
+    $this->assertSession()->responseNotContains('Uninstall Seven theme');
     // Check that bartik cannot be uninstalled as it is the default theme.
-    $this->assertNoRaw('Uninstall Bartik theme');
+    $this->assertSession()->responseNotContains('Uninstall Bartik theme');
     // Check that the classy theme cannot be uninstalled as it is a base theme
     // of seven and bartik.
-    $this->assertNoRaw('Uninstall Classy theme');
+    $this->assertSession()->responseNotContains('Uninstall Classy theme');
 
     // Install Stark and set it as the default theme.
     \Drupal::service('theme_installer')->install(['stark']);
@@ -441,7 +433,7 @@ class ThemeTest extends BrowserTestBase {
     $this->assertRaw('Uninstall Seven theme');
     // Check that the classy theme still cannot be uninstalled as it is a
     // base theme of bartik.
-    $this->assertNoRaw('Uninstall Classy theme');
+    $this->assertSession()->responseNotContains('Uninstall Classy theme');
 
     // Change the default theme to stark, stark is second in the list.
     $this->clickLink('Set as default', 1);
@@ -451,7 +443,7 @@ class ThemeTest extends BrowserTestBase {
 
     // Check that the classy theme still can't be uninstalled as neither of its
     // base themes have been.
-    $this->assertNoRaw('Uninstall Classy theme');
+    $this->assertSession()->responseNotContains('Uninstall Classy theme');
 
     // Uninstall each of the three themes starting with Bartik.
     $this->clickLink('Uninstall');
@@ -461,7 +453,7 @@ class ThemeTest extends BrowserTestBase {
     $this->assertRaw('The <em class="placeholder">Seven</em> theme has been uninstalled');
 
     // Check that the classy theme still can't be uninstalled as it is hidden.
-    $this->assertNoRaw('Uninstall Classy theme');
+    $this->assertSession()->responseNotContains('Uninstall Classy theme');
   }
 
   /**
@@ -481,7 +473,7 @@ class ThemeTest extends BrowserTestBase {
       $this->assertEquals($theme_machine_name, $this->config('system.theme')->get('default'));
 
       // This checks for a regression. See https://www.drupal.org/node/2498691.
-      $this->assertNoText("The $theme_machine_name theme was not found.");
+      $this->assertSession()->pageTextNotContains("The $theme_machine_name theme was not found.");
 
       $themes = \Drupal::service('theme_handler')->rebuildThemeData();
       $version = $themes[$theme_machine_name]->info['version'];
