@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\migrate_drupal\Kernel\Plugin\migrate\source;
 
-use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Language\LanguageInterface;
@@ -11,8 +10,6 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\media\Entity\Media;
 use Drupal\migrate\Plugin\MigrateSourceInterface;
-use Drupal\migrate\Plugin\MigrationInterface;
-use Drupal\migrate_drupal\Plugin\migrate\source\ContentEntity;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\taxonomy\Entity\Term;
@@ -130,6 +127,7 @@ class ContentEntityTest extends KernelTestBase {
       ['target_bundles' => [$this->vocabulary]],
       FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED
     );
+
     // Create a term reference field on user.
     $this->createEntityReferenceField(
       'user',
@@ -142,7 +140,8 @@ class ContentEntityTest extends KernelTestBase {
       FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED
     );
 
-    // Create some data.
+    // Create a node, with data in a term reference field, and then add a French
+    // translation of the node.
     $this->user = User::create([
       'name' => 'user123',
       'uid' => 1,
@@ -150,11 +149,12 @@ class ContentEntityTest extends KernelTestBase {
     ]);
     $this->user->save();
 
-    $this->anon = User::create([
+    // Add the anonymous user so we can test later that it is not provided in a
+    // source row.
+    User::create([
       'name' => 'anon',
       'uid' => 0,
-    ]);
-    $this->anon->save();
+    ])->save();
 
     $term = Term::create([
       'vid' => $this->vocabulary,
@@ -177,66 +177,6 @@ class ContentEntityTest extends KernelTestBase {
     ])->save();
 
     $this->migrationPluginManager = $this->container->get('plugin.manager.migration');
-  }
-
-  /**
-   * Tests the constructor for missing entity_type.
-   */
-  public function testConstructorEntityTypeMissing() {
-    $migration = $this->prophesize(MigrationInterface::class)->reveal();
-    $configuration = [];
-    $plugin_definition = [
-      'entity_type' => '',
-    ];
-    $this->expectException(InvalidPluginDefinitionException::class);
-    $this->expectExceptionMessage('Missing required "entity_type" definition.');
-    ContentEntity::create($this->container, $configuration, 'content_entity', $plugin_definition, $migration);
-  }
-
-  /**
-   * Tests the constructor for non content entity.
-   */
-  public function testConstructorNonContentEntity() {
-    $migration = $this->prophesize(MigrationInterface::class)->reveal();
-    $configuration = [];
-    $plugin_definition = [
-      'entity_type' => 'node_type',
-    ];
-    $this->expectException(InvalidPluginDefinitionException::class);
-    $this->expectExceptionMessage('The entity type (node_type) is not supported. The "content_entity" source plugin only supports content entities.');
-    ContentEntity::create($this->container, $configuration, 'content_entity:node_type', $plugin_definition, $migration);
-  }
-
-  /**
-   * Tests the constructor for not bundleable entity.
-   */
-  public function testConstructorNotBundable() {
-    $migration = $this->prophesize(MigrationInterface::class)->reveal();
-    $configuration = [
-      'bundle' => 'foo',
-    ];
-    $plugin_definition = [
-      'entity_type' => 'user',
-    ];
-    $this->expectException(\InvalidArgumentException::class);
-    $this->expectExceptionMessage('A bundle was provided but the entity type (user) is not bundleable');
-    ContentEntity::create($this->container, $configuration, 'content_entity:user', $plugin_definition, $migration);
-  }
-
-  /**
-   * Tests the constructor for invalid entity bundle.
-   */
-  public function testConstructorInvalidBundle() {
-    $migration = $this->prophesize(MigrationInterface::class)->reveal();
-    $configuration = [
-      'bundle' => 'foo',
-    ];
-    $plugin_definition = [
-      'entity_type' => 'node',
-    ];
-    $this->expectException(\InvalidArgumentException::class);
-    $this->expectExceptionMessage('The provided bundle (foo) is not valid for the (node) entity type.');
-    ContentEntity::create($this->container, $configuration, 'content_entity:node', $plugin_definition, $migration);
   }
 
   /**
@@ -279,7 +219,9 @@ class ContentEntityTest extends KernelTestBase {
     $user_source = $migration->getSourcePlugin();
     $this->assertSame('users', $user_source->__toString());
     if (!$configuration['include_translations']) {
-      // Confirm that the query does not return a row for the anonymous user.
+      // Confirm that the anonymous user is in the source database but not
+      // included in the rows returned by the content_entity.
+      $this->assertNotNull(User::load(0));
       $this->assertEquals(1, $user_source->count());
     }
     $this->assertIds($user_source, $configuration);
