@@ -1,0 +1,111 @@
+<?php
+
+/**
+ * @file
+ * Contains quick_node_clone.module.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\group\Entity\GroupContent;
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function quick_node_clone_entity_type_build(array &$entity_types) {
+  if (isset($entity_types['node'])) {
+    $entity_types['node']->setFormClass('quick_node_clone', 'Drupal\quick_node_clone\Form\QuickNodeCloneNodeForm');
+  }
+
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function quick_node_clone_entity_operation(EntityInterface $entity) {
+  $operations = [];
+
+  // Only add an operation for node entities.
+  if ($entity->getEntityTypeId() !== 'node') {
+    return $operations;
+  }
+
+  if (!_quick_node_clone_has_clone_permission($entity)) {
+    return $operations;
+  }
+
+  $operations['quick_clone'] = [
+    'title' => t('Clone'),
+    'weight' => '100',
+    'url' => Url::fromRoute('quick_node_clone.node.quick_clone', ['node' => $entity->id()]),
+  ];
+
+  return $operations;
+}
+
+/**
+ * Implements hook_help().
+ */
+function quick_node_clone_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.quick_node_clone':
+      $text = file_get_contents(dirname(__FILE__) . '/README.md');
+      if (!\Drupal::moduleHandler()->moduleExists('markdown')) {
+        return '<pre>' . Html::escape($text) . '</pre>';
+      }
+      else {
+        // Use the Markdown filter to render the README.
+        $filter_manager = \Drupal::service('plugin.manager.filter');
+        $settings = \Drupal::configFactory()
+          ->get('markdown.settings')
+          ->getRawData();
+        $config = ['settings' => $settings];
+        $filter = $filter_manager->createInstance('markdown', $config);
+        return $filter->process($text, 'en');
+      }
+  }
+  return NULL;
+}
+
+/**
+ * Determine if the current user has permission to clone a specified node.
+ *
+ * @param \Drupal\Core\Entity\ContentEntityInterface $node
+ *   The node to examine.
+ *
+ * @return bool
+ *   TRUE or FALSE
+ */
+function _quick_node_clone_has_clone_permission(ContentEntityInterface $node) {
+  $current_user = \Drupal::currentUser();
+  $bundle = $node->bundle();
+  if ($current_user->hasPermission("clone $bundle content")) {
+    if (\Drupal::moduleHandler()->moduleExists('gnode')) {
+      $group_contents = GroupContent::loadByEntity($node);
+      foreach ($group_contents as $group_content) {
+        // We check via createEntityAccess() for "create group entity", not via
+        // createAccess() for "relate existing entity to group", as we do in
+        // fact create a new entity.
+        // @see \Drupal\group\Access\GroupContentCreateAnyEntityAccessCheck::access
+        // @todo Use group access control handler when we can rely on group 1.0.
+        $access = $group_content->getContentPlugin()
+          ->createEntityAccess($group_content->getGroup(), $current_user);
+        if ($access) {
+          return TRUE;
+        }
+      }
+    }
+
+    // Only check global access if we there is no group module enabled, or
+    // content does not have group(s).
+    if (empty($group_contents)) {
+      if ($node->access('create')) {
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
