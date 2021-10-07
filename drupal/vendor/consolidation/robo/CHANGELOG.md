@@ -1,20 +1,23 @@
 # Changelog
 
-### 2.2.2 12/18/2020
+### 3.0.4 08/28/2021
 
-* Restore symfony/yaml dependency by Dan Untenzu (#1010)
-* Backport Logfile tasks from Robo 3.x by Christin Gruber (#995)
-* TaskInterface::Run() should always return a Result by Pieter Frenssen (#986)
-* PHP 7.3 compatibility issues by Yogesh Pawar (#984)
-* Fix Parallel Exec example.
-* Stopped using deprecated "printed()" method in taskExec and used recommended "printOutput()" instead. (#980)
-* Removed problematic annotation in try:capture-exec
+* Undeprecate escapeArgument() by Mark Dorison (#1039)
+* Add setProcessInput and deprecate setInput by Rodrigo(#1034)
+* Add array as a type accepted for argv parameter by Rodrigo (#1032)
+* Fix null return in createContainer by Rodrigo (#1031)
+* Fix mkdir error in taskExtract on PHP 8 by wxa (#1028)
+* refactor: Remove hardcoded namespace by Pol Dellaiera refactor (#1026)
+* refactor: Use proper use imports by Pol Dellaiera refactor (#1025)
+* Run linter in parallel by Viktor Szépe (#1020)
+* Fix task pack (#1044)
 
-### 2.2.1 09/08/2020
+### 3.0.0 02/21/2021
 
-* Do not call ignorelist on the archive if it is empty. (#979)
-* Backport #977
-* Make sure that output from ExecTrait is passed through when "printOutput(false)" is called. (#977)
+* PHP 8 support
+* Update to league/container ^3
+* Prefer passing `ConsoleIO $io` to commands over `$this->io()`, which is now deprecated.
+* `loadTasks` renamed to `Tasks`
 
 ### 2.2.0 09/05/2020
 
