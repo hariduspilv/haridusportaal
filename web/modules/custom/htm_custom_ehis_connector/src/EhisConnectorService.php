@@ -369,7 +369,7 @@ class EhisConnectorService {
     $tab = $params['tab'];
     switch ($tab){
       case 'studies':
-        $keys = ['OPPIMINE_ALUS', 'OPPIMINE_HUVI', 'OPPIMINE_POHI', 'OPPIMINE_KUTSE', 'OPPIMINE_KORG', 'OPPELAENUOIGUSLIK'];
+        $keys = ['OPPIMINE_ALUS', 'OPPIMINE_HUVI', 'OPPIMINE_POHI', 'OPPIMINE_KUTSE', 'OPPIMINE_KORG', 'OPPELAENUOIGUSLIK', 'VALISMAA', 'ENNE_2004_EESTI'];
         break;
       case 'teachings':
         $keys = ['TOOTAMINE_HUVI', 'TOOTAMINE_ALUS', 'TOOTAMINE_POHI', 'TOOTAMINE_KUTSE', 'TOOTAMINE_KORG', 'TAIENDKOOLITUS', 'TASEMEKOOLITUS', 'KVALIFIKATSIOON'];
