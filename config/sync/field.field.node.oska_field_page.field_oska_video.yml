@@ -11,7 +11,7 @@ id: node.oska_field_page.field_oska_video
 field_name: field_oska_video
 entity_type: node
 bundle: oska_field_page
-label: 'OSKA valdkonna video'
+label: 'Galerii esivideo'
 description: ''
 required: false
 translatable: true

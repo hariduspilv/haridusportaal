@@ -1,27 +1,20 @@
-uuid: 778a344e-87bc-4a2b-8306-796869955b86
+uuid: b6b15652-5792-4da9-b955-ea5f5ad31dfe
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_oska_field_picture
-    - node.type.oska_field_page
+    - field.storage.paragraph.field_media_img
+    - paragraphs.paragraphs_type.media_img
   module:
-    - content_translation
     - image
-third_party_settings:
-  content_translation:
-    translation_sync:
-      alt: alt
-      title: title
-      file: '0'
-id: node.oska_field_page.field_oska_field_picture
-field_name: field_oska_field_picture
-entity_type: node
-bundle: oska_field_page
-label: 'Galerii esipilt'
+id: paragraph.media_img.field_media_img
+field_name: field_media_img
+entity_type: paragraph
+bundle: media_img
+label: Pilt
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -33,7 +26,7 @@ settings:
   alt_field: true
   alt_field_required: true
   title_field: true
-  title_field_required: true
+  title_field_required: false
   default_image:
     uuid: ''
     alt: ''
