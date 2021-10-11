@@ -173,7 +173,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     ];
     foreach ($table_headers as $table_header) {
       // We check that the label appear in the table headings.
-      $this->assertRaw($table_header . '</th>');
+      $this->assertSession()->responseContains($table_header . '</th>');
     }
 
     // Test the "Add field" action link.
@@ -255,7 +255,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
   public function addExistingField() {
     // Check "Re-use existing field" appears.
     $this->drupalGet('admin/structure/types/manage/page/fields/add-field');
-    $this->assertRaw(t('Re-use an existing field'));
+    $this->assertSession()->pageTextContains('Re-use an existing field');
 
     // Check that fields of other entity types (here, the 'comment_body' field)
     // do not show up in the "Re-use existing field" list.
@@ -317,7 +317,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     ];
     $this->drupalGet($field_edit_path);
     $this->submitForm($edit, 'Save field settings');
-    $this->assertRaw(t('There is @count entity with @delta or more values in this field.', ['@count' => 1, '@delta' => 2]));
+    $this->assertSession()->pageTextContains("There is 1 entity with 2 or more values in this field.");
 
     // Create a second entity with three values.
     $edit = ['title[0][value]' => 'Cardinality 3', 'body[0][value]' => 'Body 1', 'body[1][value]' => 'Body 2', 'body[2][value]' => 'Body 3'];
@@ -343,7 +343,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     ];
     $this->drupalGet($field_edit_path);
     $this->submitForm($edit, 'Save field settings');
-    $this->assertRaw(t('There are @count entities with @delta or more values in this field.', ['@count' => 2, '@delta' => 2]));
+    $this->assertSession()->pageTextContains("There are 2 entities with 2 or more values in this field.");
 
     $edit = [
       'cardinality' => 'number',
@@ -351,7 +351,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     ];
     $this->drupalGet($field_edit_path);
     $this->submitForm($edit, 'Save field settings');
-    $this->assertRaw(t('There is @count entity with @delta or more values in this field.', ['@count' => 1, '@delta' => 3]));
+    $this->assertSession()->pageTextContains("There is 1 entity with 3 or more values in this field.");
 
     $edit = [
       'cardinality' => 'number',
@@ -389,14 +389,14 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     ];
     $this->drupalGet($field_edit_path);
     $this->submitForm($edit, 'Save field settings');
-    $this->assertRaw(t('There are @count entities with @delta or more values in this field.', ['@count' => 2, '@delta' => 3]));
+    $this->assertSession()->pageTextContains("There are 2 entities with 3 or more values in this field.");
     $edit = [
       'cardinality' => 'number',
       'cardinality_number' => 3,
     ];
     $this->drupalGet($field_edit_path);
     $this->submitForm($edit, 'Save field settings');
-    $this->assertRaw(t('There is @count entity with @delta or more values in this field.', ['@count' => 1, '@delta' => 4]));
+    $this->assertSession()->pageTextContains("There is 1 entity with 4 or more values in this field.");
     $edit = [
       'cardinality' => 'number',
       'cardinality_number' => 4,
@@ -432,7 +432,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     }
     // Check "Re-use existing field" appears.
     $this->drupalGet('admin/structure/types/manage/page/fields/add-field');
-    $this->assertRaw(t('Re-use an existing field'));
+    $this->assertSession()->pageTextContains("Re-use an existing field");
 
     // Ensure that we test with a label that contains HTML.
     $label = $this->randomString(4) . '<br/>' . $this->randomString(4);
@@ -750,7 +750,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     // The external redirect should not fire.
     $this->assertSession()->addressEquals('admin/structure/types/manage/article/fields/node.article.body/storage?destinations%5B0%5D=http%3A//example.com');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertRaw('Attempt to update field <em class="placeholder">Body</em> failed: <em class="placeholder">The internal path component &#039;http://example.com&#039; is external. You are not allowed to specify an external URL together with internal:/.</em>.');
+    $this->assertSession()->responseContains('Attempt to update field <em class="placeholder">Body</em> failed: <em class="placeholder">The internal path component &#039;http://example.com&#039; is external. You are not allowed to specify an external URL together with internal:/.</em>.');
   }
 
   /**
@@ -812,8 +812,8 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     $this->submitForm($edit, 'Save settings');
 
     $this->drupalGet('node/add/article');
-    $this->assertRaw('<strong>Test with an upload field.</strong>');
-    $this->assertRaw('<em>Test with a non upload field.</em>');
+    $this->assertSession()->responseContains('<strong>Test with an upload field.</strong>');
+    $this->assertSession()->responseContains('<em>Test with a non upload field.</em>');
   }
 
   /**

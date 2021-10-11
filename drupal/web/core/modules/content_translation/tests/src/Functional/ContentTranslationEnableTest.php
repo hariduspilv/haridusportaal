@@ -41,12 +41,11 @@ class ContentTranslationEnableTest extends BrowserTestBase {
 
     // No pending updates should be available.
     $this->drupalGet('admin/reports/status');
-    $requirement_value = $this->cssSelect("details.system-status-report__entry summary:contains('Entity/field definitions') + div");
-    $this->assertEquals(t('Up to date'), trim($requirement_value[0]->getText()));
+    $this->assertSession()->elementTextEquals('css', "details.system-status-report__entry summary:contains('Entity/field definitions') + div", 'Up to date');
 
     $this->drupalGet('admin/config/regional/content-language');
     // The node entity type should not be an option because it has no bundles.
-    $this->assertNoRaw('entity_types[node]');
+    $this->assertSession()->responseNotContains('entity_types[node]');
     // Enable content translation on entity types that have will have a
     // content_translation_uid.
     $edit = [
@@ -59,8 +58,7 @@ class ContentTranslationEnableTest extends BrowserTestBase {
 
     // No pending updates should be available.
     $this->drupalGet('admin/reports/status');
-    $requirement_value = $this->cssSelect("details.system-status-report__entry summary:contains('Entity/field definitions') + div");
-    $this->assertEquals(t('Up to date'), trim($requirement_value[0]->getText()));
+    $this->assertSession()->elementTextEquals('css', "details.system-status-report__entry summary:contains('Entity/field definitions') + div", 'Up to date');
 
     // Create a node type and check the content translation settings are now
     // available for nodes.
@@ -72,7 +70,7 @@ class ContentTranslationEnableTest extends BrowserTestBase {
     $this->drupalGet('admin/structure/types/add');
     $this->submitForm($edit, 'Save content type');
     $this->drupalGet('admin/config/regional/content-language');
-    $this->assertRaw('entity_types[node]');
+    $this->assertSession()->responseContains('entity_types[node]');
   }
 
 }

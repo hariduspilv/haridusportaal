@@ -94,8 +94,8 @@ class DisplayPathTest extends UITestBase {
     $this->assertSession()->assertEscaped('/<script>alert("hello");</script>');
     $this->assertSession()->assertEscaped('/<script>alert("hello I have placeholders %");</script>');
     // Links should be url-encoded.
-    $this->assertRaw('/%3Cobject%3Emalformed_path%3C/object%3E');
-    $this->assertRaw('/%3Cscript%3Ealert%28%22hello%22%29%3B%3C/script%3E');
+    $this->assertSession()->responseContains('/%3Cobject%3Emalformed_path%3C/object%3E');
+    $this->assertSession()->responseContains('/%3Cscript%3Ealert%28%22hello%22%29%3B%3C/script%3E');
   }
 
   /**
@@ -123,7 +123,7 @@ class DisplayPathTest extends UITestBase {
     $this->submitForm([], 'Add Page');
     $this->submitForm([], 'Delete Page');
     $this->submitForm([], 'Save');
-    $this->assertRaw(t('The view %view has been saved.', ['%view' => 'Test view']));
+    $this->assertSession()->pageTextContains("The view Test view has been saved.");
   }
 
   /**

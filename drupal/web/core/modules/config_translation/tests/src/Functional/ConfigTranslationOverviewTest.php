@@ -122,7 +122,7 @@ class ConfigTranslationOverviewTest extends BrowserTestBase {
 
       $title = $test_entity->label() . ' ' . $entity_type->getSingularLabel();
       $title = 'Translations for <em class="placeholder">' . Html::escape($title) . '</em>';
-      $this->assertRaw($title);
+      $this->assertSession()->responseContains($title);
       $this->assertSession()->responseContains('<th>Language</th>');
 
       $this->drupalGet($base_url);
@@ -173,7 +173,7 @@ class ConfigTranslationOverviewTest extends BrowserTestBase {
     // Test that the original label on the listing page is intact.
     $this->drupalGet('admin/config/regional/config-translation/config_test');
     $this->assertSession()->pageTextContains($original_label);
-    $this->assertNoText($overridden_label);
+    $this->assertSession()->pageTextNotContains($overridden_label);
   }
 
   /**

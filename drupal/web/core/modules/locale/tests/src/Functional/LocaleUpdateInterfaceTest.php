@@ -49,10 +49,11 @@ class LocaleUpdateInterfaceTest extends LocaleUpdateBase {
     // No language added.
     // Check status page and Available translation updates page.
     $this->drupalGet('admin/reports/status');
-    $this->assertNoText('Translation update status');
+    $this->assertSession()->pageTextNotContains('Translation update status');
 
     $this->drupalGet('admin/reports/translations');
-    $this->assertRaw(t('No translatable languages available. <a href=":add_language">Add a language</a> first.', [':add_language' => Url::fromRoute('entity.configurable_language.collection')->toString()]));
+    $this->assertSession()->pageTextContains("No translatable languages available. Add a language first.");
+    $this->assertSession()->linkByHrefExists(Url::fromRoute('entity.configurable_language.collection')->toString());
 
     // Add German language.
     $this->addLanguage('de');
@@ -77,7 +78,8 @@ class LocaleUpdateInterfaceTest extends LocaleUpdateBase {
     // Check if updates are available for German.
     $this->drupalGet('admin/reports/status');
     $this->assertSession()->pageTextContains('Translation update status');
-    $this->assertRaw(t('Updates available for: @languages. See the <a href=":updates">Available translation updates</a> page for more information.', ['@languages' => t('German'), ':updates' => Url::fromRoute('locale.translate_status')->toString()]));
+    $this->assertSession()->pageTextContains("Updates available for: German. See the Available translation updates page for more information.");
+    $this->assertSession()->linkByHrefExists(Url::fromRoute('locale.translate_status')->toString());
     $this->drupalGet('admin/reports/translations');
     $this->assertSession()->pageTextContains('Updates for: Locale test translate');
 
@@ -91,7 +93,8 @@ class LocaleUpdateInterfaceTest extends LocaleUpdateBase {
     // Check if no updates were found.
     $this->drupalGet('admin/reports/status');
     $this->assertSession()->pageTextContains('Translation update status');
-    $this->assertRaw(t('Missing translations for: @languages. See the <a href=":updates">Available translation updates</a> page for more information.', ['@languages' => t('German'), ':updates' => Url::fromRoute('locale.translate_status')->toString()]));
+    $this->assertSession()->pageTextContains("Missing translations for: German. See the Available translation updates page for more information.");
+    $this->assertSession()->linkByHrefExists(Url::fromRoute('locale.translate_status')->toString());
     $this->drupalGet('admin/reports/translations');
     $this->assertSession()->pageTextContains('Missing translations for one project');
     $release_details = new FormattableMarkup('@module (@version). @info', [
@@ -99,7 +102,7 @@ class LocaleUpdateInterfaceTest extends LocaleUpdateBase {
       '@version' => '1.3-dev',
       '@info' => t('File not found at %local_path', ['%local_path' => 'core/modules/locale/tests/test.de.po']),
     ]);
-    $this->assertRaw($release_details->__toString());
+    $this->assertSession()->responseContains($release_details->__toString());
 
     // Override Drupal core translation status as 'no translations found'.
     $status = locale_translation_get_status();

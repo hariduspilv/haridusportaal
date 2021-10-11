@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\system\Functional\System;
 
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\Tests\system\Functional\Cache\AssertPageCacheContextsAndTagsTrait;
 use Drupal\user\RoleInterface;
@@ -56,7 +55,7 @@ class PageNotFoundTest extends BrowserTestBase {
     ];
     $this->drupalGet('admin/config/system/site-information');
     $this->submitForm($edit, 'Save configuration');
-    $this->assertRaw(new FormattableMarkup("The path '%path' has to start with a slash.", ['%path' => $edit['site_404']]));
+    $this->assertSession()->pageTextContains("The path '{$edit['site_404']}' has to start with a slash.");
 
     // Use a custom 404 page.
     $edit = [
@@ -77,7 +76,7 @@ class PageNotFoundTest extends BrowserTestBase {
     $this->config('system.site')->set('page.404', '/system-test/custom-4xx')->save();
 
     $this->drupalGet('/this-path-does-not-exist');
-    $this->assertNoText('Admin-only 4xx response');
+    $this->assertSession()->pageTextNotContains('Admin-only 4xx response');
     $this->assertSession()->pageTextContains('The requested page could not be found.');
     $this->assertSession()->statusCodeEquals(404);
     // Verify the access cacheability metadata for custom 404 is bubbled.
@@ -86,7 +85,7 @@ class PageNotFoundTest extends BrowserTestBase {
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('/this-path-does-not-exist');
     $this->assertSession()->pageTextContains('Admin-only 4xx response');
-    $this->assertNoText('The requested page could not be found.');
+    $this->assertSession()->pageTextNotContains('The requested page could not be found.');
     $this->assertSession()->statusCodeEquals(404);
     // Verify the access cacheability metadata for custom 404 is bubbled.
     $this->assertCacheContext('user.roles');

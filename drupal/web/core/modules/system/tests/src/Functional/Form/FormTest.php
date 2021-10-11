@@ -232,7 +232,7 @@ class FormTest extends BrowserTestBase {
     // Verify that no error message is displayed when all required fields are
     // filled.
     $this->assertSession()->elementNotExists('xpath', '//div[contains(@class, "error")]');
-    $this->assertRaw("The form_test_validate_required_form form was submitted successfully.");
+    $this->assertSession()->pageTextContains("The form_test_validate_required_form form was submitted successfully.");
   }
 
   /**
@@ -333,7 +333,7 @@ class FormTest extends BrowserTestBase {
     $this->drupalLogin($account);
 
     $this->drupalGet(Url::fromRoute('form_test.get_form'));
-    $this->assertNoRaw('form_token');
+    $this->assertSession()->responseNotContains('form_token');
   }
 
   /**
@@ -351,7 +351,7 @@ class FormTest extends BrowserTestBase {
     $edit = [];
     $this->drupalGet('form-test/validate-required-no-title');
     $this->submitForm($edit, 'Submit');
-    $this->assertNoRaw("The form_test_validate_required_form_no_title form was submitted successfully.");
+    $this->assertSession()->pageTextNotContains("The form_test_validate_required_form_no_title form was submitted successfully.");
 
     // Check the page for the error class on the textfield.
     $this->assertSession()->elementExists('xpath', '//input[contains(@class, "error")]');
@@ -367,7 +367,7 @@ class FormTest extends BrowserTestBase {
     $this->submitForm($edit, 'Submit');
     // Verify that no error input form element class is present.
     $this->assertSession()->elementNotExists('xpath', '//input[contains(@class, "error")]');
-    $this->assertRaw("The form_test_validate_required_form_no_title form was submitted successfully.");
+    $this->assertSession()->pageTextContains("The form_test_validate_required_form_no_title form was submitted successfully.");
   }
 
   /**
@@ -380,7 +380,7 @@ class FormTest extends BrowserTestBase {
     $edit = [];
     $this->drupalGet('form-test/checkbox');
     $this->submitForm($edit, 'Submit');
-    $this->assertRaw(t('@name field is required.', ['@name' => 'required_checkbox']));
+    $this->assertSession()->pageTextContains("required_checkbox field is required.");
 
     // Now try to submit the form correctly.
     $this->submitForm(['required_checkbox' => 1], 'Submit');
@@ -411,7 +411,7 @@ class FormTest extends BrowserTestBase {
 
     // Verify that the options are escaped as expected.
     $this->assertSession()->assertEscaped('<strong>four</strong>');
-    $this->assertNoRaw('<strong>four</strong>');
+    $this->assertSession()->responseNotContains('<strong>four</strong>');
 
     // Posting without any values should throw validation errors.
     $this->submitForm([], 'Submit');
@@ -428,7 +428,7 @@ class FormTest extends BrowserTestBase {
         'multiple_no_default',
     ];
     foreach ($no_errors as $key) {
-      $this->assertNoText($form[$key]['#title'] . ' field is required.');
+      $this->assertSession()->pageTextNotContains($form[$key]['#title'] . ' field is required.');
     }
 
     $expected_errors = [
@@ -659,10 +659,10 @@ class FormTest extends BrowserTestBase {
           // Check if the error exists on the page, if the current message ID is
           // expected. Otherwise ensure that the error message is not present.
           if ($id === $error) {
-            $this->assertRaw(new FormattableMarkup($message, $placeholders));
+            $this->assertSession()->responseContains(new FormattableMarkup($message, $placeholders));
           }
           else {
-            $this->assertNoRaw(new FormattableMarkup($message, $placeholders));
+            $this->assertSession()->responseNotContains(new FormattableMarkup($message, $placeholders));
           }
         }
       }
@@ -721,7 +721,7 @@ class FormTest extends BrowserTestBase {
       ];
       $this->drupalGet('form-test/color');
       $this->submitForm($edit, 'Submit');
-      $this->assertRaw(t('%name must be a valid color.', ['%name' => 'Color']));
+      $this->assertSession()->pageTextContains("Color must be a valid color.");
     }
   }
 

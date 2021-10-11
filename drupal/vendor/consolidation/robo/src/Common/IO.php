@@ -2,13 +2,13 @@
 
 namespace Robo\Common;
 
+use Robo\Symfony\ConsoleIO;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Consolidation\AnnotatedCommand\State\SavableState;
 use Consolidation\AnnotatedCommand\State\State;
 
 trait IO
@@ -86,7 +86,7 @@ trait IO
     protected function io()
     {
         if (!$this->io) {
-            $this->io = new SymfonyStyle($this->input(), $this->output());
+            $this->io = new ConsoleIO($this->input(), $this->output());
         }
         return $this->io;
     }

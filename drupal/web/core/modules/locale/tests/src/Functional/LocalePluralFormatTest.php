@@ -248,21 +248,21 @@ class LocalePluralFormatTest extends BrowserTestBase {
     $this->drupalGet('admin/config/regional/translate/export');
     $this->submitForm(['langcode' => 'fr'], 'Export');
     // Ensure we have a translation file.
-    $this->assertRaw('# French translation of Drupal');
+    $this->assertSession()->pageTextContains('# French translation of Drupal');
     // Ensure our imported translations exist in the file.
-    $this->assertRaw("msgid \"Monday\"\nmsgstr \"lundi\"");
+    $this->assertSession()->responseContains("msgid \"Monday\"\nmsgstr \"lundi\"");
     // Check for plural export specifically.
-    $this->assertRaw("msgid \"1 hour\"\nmsgid_plural \"@count hours\"\nmsgstr[0] \"@count heure\"\nmsgstr[1] \"@count heures\"");
+    $this->assertSession()->responseContains("msgid \"1 hour\"\nmsgid_plural \"@count hours\"\nmsgstr[0] \"@count heure\"\nmsgstr[1] \"@count heures\"");
 
     // Get the Croatian translations.
     $this->drupalGet('admin/config/regional/translate/export');
     $this->submitForm(['langcode' => 'hr'], 'Export');
     // Ensure we have a translation file.
-    $this->assertRaw('# Croatian translation of Drupal');
+    $this->assertSession()->pageTextContains('# Croatian translation of Drupal');
     // Ensure our imported translations exist in the file.
-    $this->assertRaw("msgid \"Monday\"\nmsgstr \"Ponedjeljak\"");
+    $this->assertSession()->responseContains("msgid \"Monday\"\nmsgstr \"Ponedjeljak\"");
     // Check for plural export specifically.
-    $this->assertRaw("msgid \"1 hour\"\nmsgid_plural \"@count hours\"\nmsgstr[0] \"@count sat\"\nmsgstr[1] \"@count sata\"\nmsgstr[2] \"@count sati\"");
+    $this->assertSession()->responseContains("msgid \"1 hour\"\nmsgid_plural \"@count hours\"\nmsgstr[0] \"@count sat\"\nmsgstr[1] \"@count sata\"\nmsgstr[2] \"@count sati\"");
 
     // Check if the source appears on the translation page.
     $this->drupalGet('admin/config/regional/translate');
@@ -280,7 +280,7 @@ class LocalePluralFormatTest extends BrowserTestBase {
     $this->assertSession()->pageTextContains('Singular form');
     $this->assertSession()->pageTextContains('First plural form');
     $this->assertSession()->pageTextContains('2. plural form');
-    $this->assertNoText('3. plural form');
+    $this->assertSession()->pageTextNotContains('3. plural form');
 
     // Plural values for langcode hr.
     $this->assertSession()->pageTextContains('@count sat');
@@ -309,7 +309,7 @@ class LocalePluralFormatTest extends BrowserTestBase {
     // Plural values for the langcode fr.
     $this->assertSession()->pageTextContains('@count heure');
     $this->assertSession()->pageTextContains('@count heures');
-    $this->assertNoText('2. plural form');
+    $this->assertSession()->pageTextNotContains('2. plural form');
 
     // Edit langcode fr translations and see if that took effect.
     $edit = [
@@ -365,15 +365,15 @@ class LocalePluralFormatTest extends BrowserTestBase {
     $this->drupalGet('admin/config/regional/translate/export');
     $this->submitForm(['langcode' => 'fr'], 'Export');
     // Check for plural export specifically.
-    $this->assertRaw("msgid \"1 hour\"\nmsgid_plural \"@count hours\"\nmsgstr[0] \"@count heure edited\"\nmsgstr[1] \"@count heures\"");
-    $this->assertRaw("msgid \"1 day\"\nmsgid_plural \"@count days\"\nmsgstr[0] \"1 jour\"\nmsgstr[1] \"@count jours\"");
+    $this->assertSession()->responseContains("msgid \"1 hour\"\nmsgid_plural \"@count hours\"\nmsgstr[0] \"@count heure edited\"\nmsgstr[1] \"@count heures\"");
+    $this->assertSession()->responseContains("msgid \"1 day\"\nmsgid_plural \"@count days\"\nmsgstr[0] \"1 jour\"\nmsgstr[1] \"@count jours\"");
 
     // Get the Croatian translations.
     $this->drupalGet('admin/config/regional/translate/export');
     $this->submitForm(['langcode' => 'hr'], 'Export');
     // Check for plural export specifically.
-    $this->assertRaw("msgid \"1 hour\"\nmsgid_plural \"@count hours\"\nmsgstr[0] \"@count sat\"\nmsgstr[1] \"@count sata edited\"\nmsgstr[2] \"@count sati\"");
-    $this->assertRaw("msgid \"1 day\"\nmsgid_plural \"@count days\"\nmsgstr[0] \"@count dan\"\nmsgstr[1] \"@count dana\"\nmsgstr[2] \"@count dana\"");
+    $this->assertSession()->responseContains("msgid \"1 hour\"\nmsgid_plural \"@count hours\"\nmsgstr[0] \"@count sat\"\nmsgstr[1] \"@count sata edited\"\nmsgstr[2] \"@count sati\"");
+    $this->assertSession()->responseContains("msgid \"1 day\"\nmsgid_plural \"@count days\"\nmsgstr[0] \"@count dan\"\nmsgstr[1] \"@count dana\"\nmsgstr[2] \"@count dana\"");
   }
 
   /**

@@ -88,11 +88,11 @@ class DistributionProfileTranslationTest extends InstallerTestBase {
     $this->assertEquals('ltr', $direction);
 
     // Verify that the distribution name appears.
-    $this->assertRaw($this->info['distribution']['name']);
+    $this->assertSession()->pageTextContains($this->info['distribution']['name']);
     // Verify that the requested theme is used.
-    $this->assertRaw($this->info['distribution']['install']['theme']);
+    $this->assertSession()->responseContains($this->info['distribution']['install']['theme']);
     // Verify that the "Choose profile" step does not appear.
-    $this->assertNoText('profile');
+    $this->assertSession()->pageTextNotContains('profile');
 
     parent::setUpSettings();
   }
@@ -110,7 +110,7 @@ class DistributionProfileTranslationTest extends InstallerTestBase {
     // Verify German was configured but not English.
     $this->drupalGet('admin/config/regional/language');
     $this->assertSession()->pageTextContains('German');
-    $this->assertNoText('English');
+    $this->assertSession()->pageTextNotContains('English');
   }
 
   /**

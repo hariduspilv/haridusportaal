@@ -123,7 +123,7 @@ class BlockContentTypeTest extends BlockContentTestBase {
 
     // Verify that title and body fields are displayed.
     $this->drupalGet('block/add/basic');
-    $this->assertRaw('Block description');
+    $this->assertSession()->pageTextContains('Block description');
     $this->assertNotEmpty($this->cssSelect('#edit-body-0-value'), 'Body field was found.');
 
     // Change the block type name.
@@ -143,7 +143,7 @@ class BlockContentTypeTest extends BlockContentTestBase {
     \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
 
     $this->drupalGet('block/add');
-    $this->assertRaw('Bar');
+    $this->assertSession()->pageTextContains('Bar');
     $this->clickLink('Bar');
     // Verify that the original machine name was used in the URL.
     $this->assertSession()->addressEquals(Url::fromRoute('block_content.add_form', ['block_content_type' => 'basic']));
@@ -175,18 +175,14 @@ class BlockContentTypeTest extends BlockContentTestBase {
     $block = $this->createBlockContent(FALSE, 'foo');
     // Attempt to delete the block type, which should not be allowed.
     $this->drupalGet('admin/structure/block/block-content/manage/' . $type->id() . '/delete');
-    $this->assertRaw(
-      t('%label is used by 1 custom block on your site. You can not remove this block type until you have removed all of the %label blocks.', ['%label' => $type->label()])
-    );
-    $this->assertNoText('This action cannot be undone.');
+    $this->assertSession()->pageTextContains($type->label() . ' is used by 1 custom block on your site. You can not remove this block type until you have removed all of the ' . $type->label() . ' blocks.');
+    $this->assertSession()->pageTextNotContains('This action cannot be undone.');
 
     // Delete the block.
     $block->delete();
     // Attempt to delete the block type, which should now be allowed.
     $this->drupalGet('admin/structure/block/block-content/manage/' . $type->id() . '/delete');
-    $this->assertRaw(
-      t('Are you sure you want to delete the custom block type %type?', ['%type' => $type->id()])
-    );
+    $this->assertSession()->pageTextContains('Are you sure you want to delete the custom block type ' . $type->id() . '?');
     $this->assertSession()->pageTextContains('This action cannot be undone.');
   }
 

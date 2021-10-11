@@ -239,7 +239,7 @@ class CommentNonNodeTest extends BrowserTestBase {
 
     if ($operation == 'delete') {
       $this->submitForm([], 'Delete');
-      $this->assertRaw(\Drupal::translation()->formatPlural(1, 'Deleted 1 comment.', 'Deleted @count comments.'));
+      $this->assertSession()->pageTextContains('Deleted 1 comment.');
     }
     else {
       $this->assertSession()->pageTextContains('The update has been performed.');
@@ -314,17 +314,17 @@ class CommentNonNodeTest extends BrowserTestBase {
     // Unpublish the comment.
     $this->performCommentOperation($comment1, 'unpublish');
     $this->drupalGet('admin/content/comment/approval');
-    $this->assertRaw('comments[' . $comment1->id() . ']');
+    $this->assertSession()->responseContains('comments[' . $comment1->id() . ']');
 
     // Publish the comment.
     $this->performCommentOperation($comment1, 'publish', TRUE);
     $this->drupalGet('admin/content/comment');
-    $this->assertRaw('comments[' . $comment1->id() . ']');
+    $this->assertSession()->responseContains('comments[' . $comment1->id() . ']');
 
     // Delete the comment.
     $this->performCommentOperation($comment1, 'delete');
     $this->drupalGet('admin/content/comment');
-    $this->assertNoRaw('comments[' . $comment1->id() . ']');
+    $this->assertSession()->responseNotContains('comments[' . $comment1->id() . ']');
 
     // Post another comment.
     $comment1 = $this->postComment($this->entity, $this->randomMachineName(), $this->randomMachineName());
@@ -332,7 +332,7 @@ class CommentNonNodeTest extends BrowserTestBase {
 
     // Check that the comment was found.
     $this->drupalGet('admin/content/comment');
-    $this->assertRaw('comments[' . $comment1->id() . ']');
+    $this->assertSession()->responseContains('comments[' . $comment1->id() . ']');
 
     // Check that entity access applies to administrative page.
     $this->assertSession()->pageTextContains($this->entity->label());
@@ -341,7 +341,7 @@ class CommentNonNodeTest extends BrowserTestBase {
     ]);
     $this->drupalLogin($limited_user);
     $this->drupalGet('admin/content/comment');
-    $this->assertNoText($this->entity->label());
+    $this->assertSession()->pageTextNotContains($this->entity->label());
 
     $this->drupalLogout();
 
@@ -396,7 +396,7 @@ class CommentNonNodeTest extends BrowserTestBase {
 
     $this->drupalGet('comment/reply/entity_test/' . $this->entity->id() . '/comment/' . $comment1->id());
     $this->assertSession()->statusCodeEquals(403);
-    $this->assertNoText($comment1->getSubject());
+    $this->assertSession()->pageTextNotContains($comment1->getSubject());
 
     // Test comment field widget changes.
     $limited_user = $this->drupalCreateUser([

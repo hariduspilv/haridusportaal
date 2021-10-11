@@ -54,8 +54,10 @@
 .button:hover,
   .button:focus {
     text-decoration: none;
-    color: #2494db;
-    border-color: #2494db;
+    color: #0f6292;
+    border: solid 2px #0f6292;
+    background: none;
+    font-weight: 700;
   }
 
 .button:focus {
@@ -139,7 +141,8 @@
 .button--primary:hover,
   .button--primary:focus {
     color: #fff;
-    background-color: #2494db;
+    border-color: #0f6292;
+    background-color: #0f6292;
   }
 
 .button--primary:active {

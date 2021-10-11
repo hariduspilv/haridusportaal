@@ -45,9 +45,8 @@ class DisplayAttachmentTest extends UITestBase {
     $this->submitForm(['displays[page_1]' => 1], 'Apply');
     // Options summary should be escaped.
     $this->assertSession()->assertEscaped('<em>Page</em>');
-    $this->assertNoRaw('<em>Page</em>');
-    $result = $this->xpath('//a[@id = :id]', [':id' => 'views-attachment-1-displays']);
-    $this->assertEquals(t('Page'), $result[0]->getAttribute('title'));
+    $this->assertSession()->responseNotContains('<em>Page</em>');
+    $this->assertSession()->elementAttributeContains('xpath', '//a[@id = "views-attachment-1-displays"]', 'title', 'Page');
     $this->submitForm([], 'Save');
 
     $view = Views::getView('test_attachment_ui');
@@ -59,8 +58,7 @@ class DisplayAttachmentTest extends UITestBase {
       'displays[default]' => 1,
       'displays[page_1]' => 1,
     ], 'Apply');
-    $result = $this->xpath('//a[@id = :id]', [':id' => 'views-attachment-1-displays']);
-    $this->assertEquals(t('Multiple displays'), $result[0]->getAttribute('title'));
+    $this->assertSession()->elementAttributeContains('xpath', '//a[@id = "views-attachment-1-displays"]', 'title', 'Multiple displays');
     $this->submitForm([], 'Save');
 
     $view = Views::getView('test_attachment_ui');
@@ -98,7 +96,7 @@ class DisplayAttachmentTest extends UITestBase {
     $this->submitForm([], 'Save');
 
     // Check that there is no warning for the removed page display.
-    $this->assertNoText("Plugin ID &#039;page_1&#039; was not found.");
+    $this->assertSession()->pageTextNotContains("Plugin ID 'page_1' was not found.");
 
     // Check that the attachment is no longer linked to the removed display.
     $this->assertSession()->pageTextContains('Not defined');

@@ -209,9 +209,12 @@ class ExposedFormTest extends ViewTestBase {
     $block->getPlugin()->setConfigurationValue('label_display', TRUE);
     $block->save();
 
-    // Test that the block label is found.
+    // Assert that the only two occurrences of `$view->getTitle()` are the title
+    // and h2 tags.
     $this->drupalGet('test_exposed_block');
-    $this->assertSession()->pageTextContains($view->getTitle());
+    $this->assertSession()->elementContains('css', 'title', $view->getTitle());
+    $this->assertSession()->elementExists('xpath', '//h2[text()="' . $view->getTitle() . '"]');
+    $this->assertSession()->pageTextMatchesCount(2, '/' . $view->getTitle() . '/');
 
     // Set a custom label on the exposed filter form block.
     $block->getPlugin()->setConfigurationValue('views_label', '<strong>Custom</strong> title<script>alert("hacked!");</script>');
@@ -219,16 +222,19 @@ class ExposedFormTest extends ViewTestBase {
 
     // Test that the custom block label is found.
     $this->drupalGet('test_exposed_block');
-    $this->assertRaw('<strong>Custom</strong> titlealert("hacked!");');
+    $this->assertSession()->responseContains('<strong>Custom</strong> titlealert("hacked!");');
 
     // Set label to hidden on the exposed filter form block.
     $block->getPlugin()->setConfigurationValue('label_display', FALSE);
     $block->save();
 
     // Test that the label is removed.
+    // Assert that the only occurrence of `$view->getTitle()` is the title tag
+    // now that label has been removed.
     $this->drupalGet('test_exposed_block');
-    $this->assertNoRaw('<strong>Custom</strong> titlealert("hacked!");');
-    $this->assertNoText($view->getTitle());
+    $this->assertSession()->responseNotContains('<strong>Custom</strong> titlealert("hacked!");');
+    $this->assertSession()->elementContains('css', 'title', $view->getTitle());
+    $this->assertSession()->pageTextMatchesCount(1, '/' . $view->getTitle() . '/');
 
     // Test there is an exposed form in a block.
     $xpath = $this->assertSession()->buildXPathQuery('//div[@id=:id]/form/@id', [':id' => Html::getUniqueId('block-' . $block->id())]);
@@ -300,7 +306,7 @@ class ExposedFormTest extends ViewTestBase {
     // Ensure that the "on demand text" is not displayed when an exposed filter
     // is applied.
     $this->drupalGet('test_exposed_form_buttons', ['query' => ['type' => 'article']]);
-    $this->assertNoText($on_demand_text);
+    $this->assertSession()->pageTextNotContains($on_demand_text);
   }
 
   /**
@@ -350,11 +356,11 @@ class ExposedFormTest extends ViewTestBase {
     $escape_1 = Html::escape($expected_label);
     $escape_2 = Html::escape($escape_1);
     // Make sure we see the single-escaped string in the raw output.
-    $this->assertRaw($escape_1);
+    $this->assertSession()->responseContains($escape_1);
     // But no double-escaped string.
-    $this->assertNoRaw($escape_2);
+    $this->assertSession()->responseNotContains($escape_2);
     // And not the raw label, either.
-    $this->assertNoRaw($expected_label);
+    $this->assertSession()->responseNotContains($expected_label);
   }
 
   /**
@@ -395,16 +401,16 @@ class ExposedFormTest extends ViewTestBase {
     $form = $this->cssSelect('form.views-exposed-form');
     $this->assertNotEmpty($form, 'The exposed form element was found.');
     // Ensure the exposed form is rendered before submitting the normal form.
-    $this->assertRaw(t('Apply'));
-    $this->assertRaw('<div class="views-row">');
+    $this->assertSession()->responseContains("Apply");
+    $this->assertSession()->responseContains('<div class="views-row">');
 
     $this->submitForm([], 'Submit');
     $this->assertSession()->statusCodeEquals(200);
     $form = $this->cssSelect('form.views-exposed-form');
     $this->assertNotEmpty($form, 'The exposed form element was found.');
     // Ensure the exposed form is rendered after submitting the normal form.
-    $this->assertRaw(t('Apply'));
-    $this->assertRaw('<div class="views-row">');
+    $this->assertSession()->responseContains("Apply");
+    $this->assertSession()->responseContains('<div class="views-row">');
   }
 
   /**

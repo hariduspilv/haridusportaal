@@ -29,9 +29,7 @@ class InstallerTest extends InstallerTestBase {
 
     // Verify that the confirmation message appears.
     require_once $this->root . '/core/includes/install.inc';
-    $this->assertRaw(t('Congratulations, you installed @drupal!', [
-      '@drupal' => drupal_install_profile_distribution_name(),
-    ]));
+    $this->assertSession()->pageTextContains('Congratulations, you installed Drupal!');
 
     // Ensure that the timezone is correct for sites under test after installing
     // interactively.
@@ -53,8 +51,8 @@ class InstallerTest extends InstallerTestBase {
   protected function setUpLanguage() {
     // Test that \Drupal\Core\Render\BareHtmlPageRenderer adds assets and
     // metatags as expected to the first page of the installer.
-    $this->assertRaw("core/themes/seven/css/components/buttons.css");
-    $this->assertRaw('<meta charset="utf-8" />');
+    $this->assertSession()->responseContains("core/themes/seven/css/components/buttons.css");
+    $this->assertSession()->responseContains('<meta charset="utf-8" />');
 
     // Assert that the expected title is present.
     $this->assertEquals('Choose language', $this->cssSelect('main h2')[0]->getText());

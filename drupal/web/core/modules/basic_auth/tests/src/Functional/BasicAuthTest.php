@@ -57,7 +57,7 @@ class BasicAuthTest extends BrowserTestBase {
 
     // Ensure that invalid authentication details give access denied.
     $this->basicAuthGet($url, $account->getAccountName(), $this->randomMachineName());
-    $this->assertNoText($account->getAccountName());
+    $this->assertSession()->pageTextNotContains($account->getAccountName());
     $this->assertSession()->statusCodeEquals(403);
     $this->mink->resetSessions();
 
@@ -179,7 +179,7 @@ class BasicAuthTest extends BrowserTestBase {
     // unauthorized message is displayed.
     $this->drupalGet($url);
     $this->assertSession()->statusCodeEquals(401);
-    $this->assertNoText('Exception');
+    $this->assertSession()->pageTextNotContains('Exception');
     $this->assertSession()->pageTextContains('Please log in to access this page.');
 
     // Case when empty credentials are passed, a user friendly access denied
@@ -253,17 +253,17 @@ class BasicAuthTest extends BrowserTestBase {
     $this->assertSession()->statusCodeEquals(401);
     $this->drupalGet('/basic_auth_test/state/read');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertRaw('nope');
+    $this->assertSession()->pageTextContains('nope');
 
     $account = $this->drupalCreateUser();
     $this->basicAuthGet('/basic_auth_test/state/modify', $account->getAccountName(), $account->pass_raw);
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertRaw('Done');
+    $this->assertSession()->pageTextContains('Done');
 
     $this->mink->resetSessions();
     $this->drupalGet('/basic_auth_test/state/read');
     $this->assertSession()->statusCodeEquals(200);
-    $this->assertRaw('yep');
+    $this->assertSession()->pageTextContains('yep');
   }
 
 }

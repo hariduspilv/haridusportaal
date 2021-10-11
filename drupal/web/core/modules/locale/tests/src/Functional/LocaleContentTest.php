@@ -107,7 +107,7 @@ class LocaleContentTest extends BrowserTestBase {
     ];
     $this->drupalGet("admin/structure/types/manage/{$type2->id()}");
     $this->submitForm($edit, 'Save content type');
-    $this->assertRaw(t('The content type %type has been updated.', ['%type' => $type2->label()]));
+    $this->assertSession()->pageTextContains("The content type {$type2->label()} has been updated.");
     $this->drupalLogout();
     \Drupal::languageManager()->reset();
 
@@ -137,7 +137,7 @@ class LocaleContentTest extends BrowserTestBase {
     // Edit the content and ensure correct language is selected.
     $path = 'node/' . $node->id() . '/edit';
     $this->drupalGet($path);
-    $this->assertRaw('<option value="' . $langcode . '" selected="selected">' . $name . '</option>');
+    $this->assertSession()->responseContains('<option value="' . $langcode . '" selected="selected">' . $name . '</option>');
     // Ensure we can change the node language.
     $edit = [
       'langcode[0][value]' => 'en',
@@ -196,7 +196,7 @@ class LocaleContentTest extends BrowserTestBase {
     ];
     $this->drupalGet("admin/structure/types/manage/{$type->id()}");
     $this->submitForm($edit, 'Save content type');
-    $this->assertRaw(t('The content type %type has been updated.', ['%type' => $type->label()]));
+    $this->assertSession()->pageTextContains("The content type {$type->label()} has been updated.");
     $this->drupalLogout();
 
     // Log in as web user to add new node.

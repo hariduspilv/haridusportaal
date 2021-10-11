@@ -100,10 +100,10 @@ class MenuLinkContentTranslationUITest extends ContentTranslationUITestBase {
     $this->submitForm($edit, 'Save configuration');
     // Check that edit uses the admin theme.
     $this->drupalGet('admin/structure/menu/item/' . $entityId . '/edit');
-    $this->assertRaw('core/themes/seven/css/base/elements.css');
+    $this->assertSession()->responseContains('core/themes/seven/css/base/elements.css');
     // Check that translation uses admin theme as well.
     $this->drupalGet('admin/structure/menu/item/' . $entityId . '/edit/translations');
-    $this->assertRaw('core/themes/seven/css/base/elements.css');
+    $this->assertSession()->responseContains('core/themes/seven/css/base/elements.css');
   }
 
   /**
@@ -122,12 +122,7 @@ class MenuLinkContentTranslationUITest extends ContentTranslationUITestBase {
         $options = ['language' => $languages[$langcode]];
         $url = $entity->toUrl('edit-form', $options);
         $this->drupalGet($url);
-
-        $title = t('@title [%language translation]', [
-          '@title' => $entity->getTranslation($langcode)->label(),
-          '%language' => $languages[$langcode]->getName(),
-        ]);
-        $this->assertRaw($title);
+        $this->assertSession()->pageTextContains("{$entity->getTranslation($langcode)->label()} [{$languages[$langcode]->getName()} translation]");
       }
     }
   }

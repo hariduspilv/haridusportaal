@@ -230,8 +230,8 @@ class PagePreviewTest extends NodeTestBase {
     $view_mode_edit = ['view_mode' => 'teaser'];
     $this->drupalGet('node/preview/' . $uuid . '/full');
     $this->submitForm($view_mode_edit, 'Switch');
-    $this->assertRaw('view-mode-teaser');
-    $this->assertNoText($edit[$body_key]);
+    $this->assertSession()->responseContains('view-mode-teaser');
+    $this->assertSession()->pageTextNotContains($edit[$body_key]);
 
     // Check that the title, body and term fields are displayed with the
     // values after going back to the content edit page.
@@ -280,8 +280,8 @@ class PagePreviewTest extends NodeTestBase {
     $edit[$term_key] = $this->term->getName() . ', ' . $newterm1 . ', ' . $newterm2;
     $this->drupalGet('node/' . $node->id() . '/edit');
     $this->submitForm($edit, 'Preview');
-    $this->assertRaw('>' . $newterm1 . '<');
-    $this->assertRaw('>' . $newterm2 . '<');
+    $this->assertSession()->responseContains('>' . $newterm1 . '<');
+    $this->assertSession()->responseContains('>' . $newterm2 . '<');
     // The first term should be displayed as link, the others not.
     $this->assertSession()->linkExists($this->term->getName());
     $this->assertSession()->linkNotExists($newterm1);
@@ -297,10 +297,10 @@ class PagePreviewTest extends NodeTestBase {
     $edit[$term_key] = $newterm1 . ', ' . $newterm3 . ', ' . $newterm2;
     $this->drupalGet('node/' . $node->id() . '/edit');
     $this->submitForm($edit, 'Preview');
-    $this->assertRaw('>' . $newterm1 . '<');
-    $this->assertRaw('>' . $newterm2 . '<');
-    $this->assertRaw('>' . $newterm3 . '<');
-    $this->assertNoText($this->term->getName());
+    $this->assertSession()->responseContains('>' . $newterm1 . '<');
+    $this->assertSession()->responseContains('>' . $newterm2 . '<');
+    $this->assertSession()->responseContains('>' . $newterm3 . '<');
+    $this->assertSession()->pageTextNotContains($this->term->getName());
     $this->assertSession()->linkExists($newterm1);
     $this->assertSession()->linkExists($newterm2);
     $this->assertSession()->linkNotExists($newterm3);
@@ -326,11 +326,11 @@ class PagePreviewTest extends NodeTestBase {
     $node_type->setPreviewMode(DRUPAL_REQUIRED);
     $node_type->save();
     $this->drupalGet('node/add/page');
-    $this->assertNoRaw('edit-submit');
+    $this->assertSession()->responseNotContains('edit-submit');
     $this->drupalGet('node/add/page');
     $this->submitForm([$title_key => 'Preview'], 'Preview');
     $this->clickLink('Back to content editing');
-    $this->assertRaw('edit-submit');
+    $this->assertSession()->responseContains('edit-submit');
 
     // Check that destination is remembered when clicking on preview. When going
     // back to the edit form and clicking save, we should go back to the
@@ -383,10 +383,10 @@ class PagePreviewTest extends NodeTestBase {
       'title[0][value]' => $title,
       'field_test_multi[0][value]' => $example_text_1,
     ];
-    $this->assertRaw('Storage is not set');
+    $this->assertSession()->pageTextContains('Storage is not set');
     $this->submitForm($edit, 'Preview');
     $this->clickLink('Back to content editing');
-    $this->assertRaw('Storage is set');
+    $this->assertSession()->pageTextContains('Storage is set');
     $this->assertSession()->fieldExists('field_test_multi[0][value]');
     $this->submitForm([], 'Save');
     $this->assertSession()->pageTextContains('Basic page ' . $title . ' has been created.');

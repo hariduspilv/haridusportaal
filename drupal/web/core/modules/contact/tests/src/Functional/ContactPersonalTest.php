@@ -110,13 +110,13 @@ class ContactPersonalTest extends BrowserTestBase {
     // Verify that the correct watchdog message has been logged.
     $this->drupalGet('/admin/reports/dblog');
     $placeholders = [
-      '@sender_name' => $this->webUser->username,
+      '@sender_name' => $this->webUser->getAccountName(),
       '@sender_email' => $this->webUser->getEmail(),
       '@recipient_name' => $this->contactUser->getAccountName(),
     ];
-    $this->assertRaw(new FormattableMarkup('@sender_name (@sender_email) sent @recipient_name an email.', $placeholders));
+    $this->assertSession()->responseContains(new FormattableMarkup('@sender_name (@sender_email) sent @recipient_name an email.', $placeholders));
     // Ensure an unescaped version of the email does not exist anywhere.
-    $this->assertNoRaw($this->webUser->getEmail());
+    $this->assertSession()->responseNotContains($this->webUser->getEmail());
 
     // Test HTML mails.
     $mail_config = $this->config('system.mail');
@@ -142,7 +142,7 @@ class ContactPersonalTest extends BrowserTestBase {
     $this->drupalGet('user/' . $this->adminUser->id() . '/contact');
     $this->assertSession()->statusCodeEquals(200);
     // Check the page title is properly displayed.
-    $this->assertRaw(t('Contact @username', ['@username' => $this->adminUser->getDisplayName()]));
+    $this->assertSession()->pageTextContains('Contact ' . $this->adminUser->getDisplayName());
 
     // Test denied access to admin user's own contact form.
     $this->drupalLogout();
@@ -272,12 +272,13 @@ class ContactPersonalTest extends BrowserTestBase {
     // Submit contact form one over limit.
     $this->submitPersonalContact($this->contactUser);
     // Normal user should be denied access to flooded contact form.
-    $this->assertRaw(t('You cannot send more than %number messages in @interval. Try again later.', ['%number' => $flood_limit, '@interval' => \Drupal::service('date.formatter')->formatInterval($this->config('contact.settings')->get('flood.interval'))]));
+    $interval = \Drupal::service('date.formatter')->formatInterval($this->config('contact.settings')->get('flood.interval'));
+    $this->assertSession()->pageTextContains("You cannot send more than 3 messages in {$interval}. Try again later.");
 
     // Test that the admin user can still access the contact form even though
     // the flood limit was reached.
     $this->drupalLogin($this->adminUser);
-    $this->assertNoText('Try again later.');
+    $this->assertSession()->pageTextNotContains('Try again later.');
   }
 
   /**

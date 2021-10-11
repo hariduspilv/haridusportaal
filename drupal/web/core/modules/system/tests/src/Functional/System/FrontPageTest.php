@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\system\Functional\System;
 
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Tests\BrowserTestBase;
 
 /**
@@ -66,7 +65,7 @@ class FrontPageTest extends BrowserTestBase {
     $this->drupalGet('node');
     $this->assertSession()->pageTextContains('On front page.');
     $this->drupalGet($this->nodePath);
-    $this->assertNoText('On front page.');
+    $this->assertSession()->pageTextNotContains('On front page.');
 
     // Change the front page to an invalid path.
     $edit = ['site_frontpage' => '/kittens'];
@@ -78,7 +77,7 @@ class FrontPageTest extends BrowserTestBase {
     $edit = ['site_frontpage' => $this->nodePath];
     $this->drupalGet('admin/config/system/site-information');
     $this->submitForm($edit, 'Save configuration');
-    $this->assertRaw(new FormattableMarkup("The path '%path' has to start with a slash.", ['%path' => $edit['site_frontpage']]));
+    $this->assertSession()->pageTextContains("The path '{$edit['site_frontpage']}' has to start with a slash.");
 
     // Change the front page to a valid path.
     $edit['site_frontpage'] = '/' . $this->nodePath;
@@ -90,7 +89,7 @@ class FrontPageTest extends BrowserTestBase {
     $this->drupalGet('');
     $this->assertSession()->pageTextContains('On front page.');
     $this->drupalGet('node');
-    $this->assertNoText('On front page.');
+    $this->assertSession()->pageTextNotContains('On front page.');
     $this->drupalGet($this->nodePath);
     $this->assertSession()->pageTextContains('On front page.');
   }

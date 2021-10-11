@@ -57,7 +57,7 @@ class FileFieldDisplayTest extends FileFieldTestBase {
       $this->submitForm($edit, 'Save');
       $this->drupalGet('node/' . $node->id());
       // Verify that the field label is hidden when no file is attached.
-      $this->assertNoText($field_name);
+      $this->assertSession()->pageTextNotContains($field_name);
     }
 
     $this->generateFile('escaped-&-text', 64, 10, 'text');
@@ -80,14 +80,14 @@ class FileFieldDisplayTest extends FileFieldTestBase {
       '#file' => $node_file,
     ];
     $default_output = \Drupal::service('renderer')->renderRoot($file_link);
-    $this->assertRaw($default_output);
+    $this->assertSession()->responseContains($default_output);
 
     // Turn the "display" option off and check that the file is no longer displayed.
     $edit = [$field_name . '[0][display]' => FALSE];
     $this->drupalGet('node/' . $nid . '/edit');
     $this->submitForm($edit, 'Save');
 
-    $this->assertNoRaw($default_output);
+    $this->assertSession()->responseNotContains($default_output);
 
     // Add a description and make sure that it is displayed.
     $description = $this->randomMachineName();
@@ -100,7 +100,7 @@ class FileFieldDisplayTest extends FileFieldTestBase {
     $this->assertSession()->pageTextContains($description);
 
     // Ensure the filename in the link's title attribute is escaped.
-    $this->assertRaw('title="escaped-&amp;-text.txt"');
+    $this->assertSession()->responseContains('title="escaped-&amp;-text.txt"');
 
     // Test that fields appear as expected after during the preview.
     // Add a second file.
@@ -115,9 +115,9 @@ class FileFieldDisplayTest extends FileFieldTestBase {
     $this->submitForm($edit, 'Preview');
     $this->clickLink('Back to content editing');
     // First file.
-    $this->assertRaw($field_name . '[0][display]');
+    $this->assertSession()->responseContains($field_name . '[0][display]');
     // Second file.
-    $this->assertRaw($field_name . '[1][display]');
+    $this->assertSession()->responseContains($field_name . '[1][display]');
     $this->assertSession()->responseContains($field_name . '[1][description]');
 
     // Check that the file fields don't contain duplicate HTML IDs.

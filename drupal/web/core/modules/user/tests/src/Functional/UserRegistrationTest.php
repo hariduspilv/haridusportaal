@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\user\Functional;
 
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\Entity\FieldConfig;
@@ -293,12 +292,12 @@ class UserRegistrationTest extends BrowserTestBase {
     $edit = ['mail' => 'test@example.com', 'name' => $account->getAccountName()];
     $this->drupalGet('user/register');
     $this->submitForm($edit, 'Create new account');
-    $this->assertRaw(new FormattableMarkup('The username %value is already taken.', ['%value' => $account->getAccountName()]));
+    $this->assertSession()->pageTextContains("The username {$account->getAccountName()} is already taken.");
 
     $edit = ['mail' => $account->getEmail(), 'name' => $this->randomString()];
     $this->drupalGet('user/register');
     $this->submitForm($edit, 'Create new account');
-    $this->assertRaw(new FormattableMarkup('The email address %value is already taken.', ['%value' => $account->getEmail()]));
+    $this->assertSession()->pageTextContains("The email address {$account->getEmail()} is already taken.");
   }
 
   /**
@@ -332,7 +331,7 @@ class UserRegistrationTest extends BrowserTestBase {
 
     // Check that the field does not appear on the registration form.
     $this->drupalGet('user/register');
-    $this->assertNoText($field->label());
+    $this->assertSession()->pageTextNotContains($field->label());
     $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:core.entity_form_display.user.user.register');
     $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', 'config:user.settings');
 
@@ -353,12 +352,12 @@ class UserRegistrationTest extends BrowserTestBase {
     $edit['test_user_field[0][value]'] = '';
     $this->submitForm($edit, 'Create new account');
     $this->assertRegistrationFormCacheTagsWithUserFields();
-    $this->assertRaw(t('@name field is required.', ['@name' => $field->label()]));
+    $this->assertSession()->pageTextContains("{$field->label()} field is required.");
     // Invalid input.
     $edit['test_user_field[0][value]'] = '-1';
     $this->submitForm($edit, 'Create new account');
     $this->assertRegistrationFormCacheTagsWithUserFields();
-    $this->assertRaw(t('%name does not accept the value -1.', ['%name' => $field->label()]));
+    $this->assertSession()->pageTextContains("{$field->label()} does not accept the value -1.");
 
     // Submit with valid data.
     $value = rand(1, 255);

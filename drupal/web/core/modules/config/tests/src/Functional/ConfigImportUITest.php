@@ -119,20 +119,20 @@ class ConfigImportUITest extends BrowserTestBase {
 
     // Verify that both appear as ready to import.
     $this->drupalGet('admin/config/development/configuration');
-    $this->assertRaw('<td>' . $name);
-    $this->assertRaw('<td>' . $dynamic_name);
-    $this->assertRaw('<td>core.extension');
-    $this->assertRaw('<td>system.theme');
-    $this->assertRaw('<td>automated_cron.settings');
+    $this->assertSession()->responseContains('<td>' . $name);
+    $this->assertSession()->responseContains('<td>' . $dynamic_name);
+    $this->assertSession()->responseContains('<td>core.extension');
+    $this->assertSession()->responseContains('<td>system.theme');
+    $this->assertSession()->responseContains('<td>automated_cron.settings');
     $this->assertSession()->buttonExists('Import all');
 
     // Import and verify that both do not appear anymore.
     $this->submitForm([], 'Import all');
-    $this->assertNoRaw('<td>' . $name);
-    $this->assertNoRaw('<td>' . $dynamic_name);
-    $this->assertNoRaw('<td>core.extension');
-    $this->assertNoRaw('<td>system.theme');
-    $this->assertNoRaw('<td>automated_cron.settings');
+    $this->assertSession()->responseNotContains('<td>' . $name);
+    $this->assertSession()->responseNotContains('<td>' . $dynamic_name);
+    $this->assertSession()->responseNotContains('<td>core.extension');
+    $this->assertSession()->responseNotContains('<td>system.theme');
+    $this->assertSession()->responseNotContains('<td>automated_cron.settings');
 
     $this->assertSession()->buttonNotExists('Import all');
 
@@ -193,15 +193,15 @@ class ConfigImportUITest extends BrowserTestBase {
 
     // Verify that both appear as ready to import.
     $this->drupalGet('admin/config/development/configuration');
-    $this->assertRaw('<td>core.extension');
-    $this->assertRaw('<td>system.theme');
-    $this->assertRaw('<td>automated_cron.settings');
+    $this->assertSession()->responseContains('<td>core.extension');
+    $this->assertSession()->responseContains('<td>system.theme');
+    $this->assertSession()->responseContains('<td>automated_cron.settings');
 
     // Import and verify that both do not appear anymore.
     $this->submitForm([], 'Import all');
-    $this->assertNoRaw('<td>core.extension');
-    $this->assertNoRaw('<td>system.theme');
-    $this->assertNoRaw('<td>automated_cron.settings');
+    $this->assertSession()->responseNotContains('<td>core.extension');
+    $this->assertSession()->responseNotContains('<td>system.theme');
+    $this->assertSession()->responseNotContains('<td>automated_cron.settings');
 
     $this->rebuildContainer();
     $this->assertFalse(\Drupal::moduleHandler()->moduleExists('ban'), 'Ban module uninstalled during import.');
@@ -236,7 +236,7 @@ class ConfigImportUITest extends BrowserTestBase {
 
     // Verify that there are configuration differences to import.
     $this->drupalGet('admin/config/development/configuration');
-    $this->assertNoText('There are no configuration changes to import.');
+    $this->assertSession()->pageTextNotContains('There are no configuration changes to import.');
 
     // Acquire a fake-lock on the import mechanism.
     $config_importer = $this->configImporter();
@@ -298,7 +298,7 @@ class ConfigImportUITest extends BrowserTestBase {
 
     // Load the diff UI and verify that the diff reflects the change.
     $this->drupalGet('admin/config/development/configuration/sync/diff/' . $config_name);
-    $this->assertNoRaw('&amp;nbsp;');
+    $this->assertSession()->responseNotContains('&amp;nbsp;');
     $this->assertSession()->titleEquals("View changes of $config_name | Drupal");
 
     // The following assertions do not use
@@ -360,7 +360,7 @@ class ConfigImportUITest extends BrowserTestBase {
     $this->prepareSiteNameUpdate($new_site_name);
 
     $this->drupalGet('admin/config/development/configuration');
-    $this->assertNoText('There are no configuration changes to import.');
+    $this->assertSession()->pageTextNotContains('There are no configuration changes to import.');
     $this->submitForm([], 'Import all');
 
     // Verify that the validation messages appear.
@@ -437,13 +437,13 @@ class ConfigImportUITest extends BrowserTestBase {
     $sync->write($name_secondary, $values_secondary);
     // Verify that there are configuration differences to import.
     $this->drupalGet('admin/config/development/configuration');
-    $this->assertNoText('There are no configuration changes to import.');
+    $this->assertSession()->pageTextNotContains('There are no configuration changes to import.');
 
     // Attempt to import configuration and verify that an error message appears.
     $this->submitForm([], 'Import all');
     $this->assertSession()->pageTextContains('Deleted and replaced configuration entity "' . $name_secondary . '"');
     $this->assertSession()->pageTextContains('The configuration was imported with errors.');
-    $this->assertNoText('The configuration was imported successfully.');
+    $this->assertSession()->pageTextNotContains('The configuration was imported successfully.');
     $this->assertSession()->pageTextContains('There are no configuration changes to import.');
   }
 
@@ -471,8 +471,8 @@ class ConfigImportUITest extends BrowserTestBase {
     // and the node type, body field and entity displays are still scheduled for
     // removal.
     $this->submitForm([], 'Import all');
-    $validation_message = t('Entities exist of type %entity_type and %bundle_label %bundle. These entities need to be deleted before importing.', ['%entity_type' => $node->getEntityType()->getLabel(), '%bundle_label' => $node->getEntityType()->getBundleLabel(), '%bundle' => $node_type->label()]);
-    $this->assertRaw($validation_message);
+    $validation_message = "Entities exist of type {$node->getEntityType()->getLabel()} and {$node->getEntityType()->getBundleLabel()} {$node_type->label()}. These entities need to be deleted before importing.";
+    $this->assertSession()->pageTextContains($validation_message);
     $this->assertSession()->pageTextContains('node.type.' . $node_type->id());
     $this->assertSession()->pageTextContains('field.field.node.' . $node_type->id() . '.body');
     $this->assertSession()->pageTextContains('core.entity_view_display.node.' . $node_type->id() . '.teaser');
@@ -482,13 +482,13 @@ class ConfigImportUITest extends BrowserTestBase {
     // Delete the node and try to import again.
     $node->delete();
     $this->submitForm([], 'Import all');
-    $this->assertNoRaw($validation_message);
+    $this->assertSession()->pageTextNotContains($validation_message);
     $this->assertSession()->pageTextContains('There are no configuration changes to import.');
-    $this->assertNoText('node.type.' . $node_type->id());
-    $this->assertNoText('field.field.node.' . $node_type->id() . '.body');
-    $this->assertNoText('core.entity_view_display.node.' . $node_type->id() . '.teaser');
-    $this->assertNoText('core.entity_view_display.node.' . $node_type->id() . '.default');
-    $this->assertNoText('core.entity_form_display.node.' . $node_type->id() . '.default');
+    $this->assertSession()->pageTextNotContains('node.type.' . $node_type->id());
+    $this->assertSession()->pageTextNotContains('field.field.node.' . $node_type->id() . '.body');
+    $this->assertSession()->pageTextNotContains('core.entity_view_display.node.' . $node_type->id() . '.teaser');
+    $this->assertSession()->pageTextNotContains('core.entity_view_display.node.' . $node_type->id() . '.default');
+    $this->assertSession()->pageTextNotContains('core.entity_form_display.node.' . $node_type->id() . '.default');
   }
 
   /**

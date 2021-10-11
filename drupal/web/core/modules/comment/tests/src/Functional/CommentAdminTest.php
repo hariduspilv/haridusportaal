@@ -116,7 +116,7 @@ class CommentAdminTest extends CommentTestBase {
     $this->assertSession()->pageTextContains(Html::escape($this->node->label()));
     $this->node->setUnpublished()->save();
     $this->drupalGet('admin/content/comment');
-    $this->assertNoText(Html::escape($this->node->label()));
+    $this->assertSession()->pageTextNotContains(Html::escape($this->node->label()));
   }
 
   /**
@@ -279,8 +279,8 @@ class CommentAdminTest extends CommentTestBase {
     ];
     $this->drupalGet('admin/content/comment');
     $this->submitForm($edit, 'Update');
-    $this->assertRaw(new FormattableMarkup('@label (Original translation) - <em>The following comment translations will be deleted:</em>', ['@label' => $comment1->label()]));
-    $this->assertRaw(new FormattableMarkup('@label (Original translation) - <em>The following comment translations will be deleted:</em>', ['@label' => $comment2->label()]));
+    $this->assertSession()->responseContains(new FormattableMarkup('@label (Original translation) - <em>The following comment translations will be deleted:</em>', ['@label' => $comment1->label()]));
+    $this->assertSession()->responseContains(new FormattableMarkup('@label (Original translation) - <em>The following comment translations will be deleted:</em>', ['@label' => $comment2->label()]));
     $this->assertSession()->pageTextContains('English');
     $this->assertSession()->pageTextContains('Urdu');
     $this->submitForm([], 'Delete');

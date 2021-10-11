@@ -198,7 +198,7 @@ class CommentInterfaceTest extends CommentTestBase {
     $this->node = $this->drupalCreateNode(['type' => 'article', 'promote' => 1, 'comment' => [['status' => CommentItemInterface::OPEN]]]);
     $this->assertNotNull($this->node, 'Article node created.');
     $this->drupalGet('comment/reply/node/' . $this->node->id() . '/comment');
-    $this->assertNoText('This discussion is closed');
+    $this->assertSession()->pageTextNotContains('This discussion is closed');
     // Ensure that the comment body field exists.
     $this->assertSession()->fieldExists('edit-comment-body-0-value');
 
@@ -318,7 +318,7 @@ class CommentInterfaceTest extends CommentTestBase {
     // Comment displayed in 'default' display mode found and has body text.
     $comment_element = $this->cssSelect('.comment-wrapper');
     $this->assertTrue(!empty($comment_element));
-    $this->assertRaw('<p>' . $comment_text . '</p>');
+    $this->assertSession()->responseContains('<p>' . $comment_text . '</p>');
 
     // Create a new comment entity view mode.
     $mode = mb_strtolower($this->randomMachineName());
@@ -351,7 +351,7 @@ class CommentInterfaceTest extends CommentTestBase {
     // mode this time.
     $comment_element = $this->cssSelect('.comment-wrapper');
     $this->assertTrue(!empty($comment_element));
-    $this->assertNoRaw('<p>' . $comment_text . '</p>');
+    $this->assertSession()->responseNotContains('<p>' . $comment_text . '</p>');
   }
 
 }

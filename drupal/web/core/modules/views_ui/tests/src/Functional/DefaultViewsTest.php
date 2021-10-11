@@ -90,7 +90,7 @@ class DefaultViewsTest extends UITestBase {
     // $this->drupalGet($revert_href);
     // $this->submitForm(array(), 'Revert');
     // $this->drupalGet('glossary');
-    // $this->assertNoText($new_title);
+    // $this->assertSession()->pageTextNotContains($new_title);
 
     // Duplicate the view and check that the normal schema of duplicated views is used.
     $this->drupalGet('admin/structure/views');
@@ -214,7 +214,7 @@ class DefaultViewsTest extends UITestBase {
     $this->assertSession()->linkByHrefExists('test_page_display_menu/local');
 
     // Check that a dynamic path is shown as text.
-    $this->assertRaw('test_route_with_suffix/%/suffix');
+    $this->assertSession()->responseContains('test_route_with_suffix/%/suffix');
     $this->assertSession()->linkByHrefNotExists(Url::fromUri('base:test_route_with_suffix/%/suffix')->toString());
   }
 

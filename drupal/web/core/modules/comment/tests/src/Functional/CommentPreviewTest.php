@@ -58,7 +58,7 @@ class CommentPreviewTest extends CommentTestBase {
     $this->submitForm($edit, 'Preview');
     $this->assertInstanceOf(MarkupInterface::class, $this->webUser->getDisplayName());
     $this->assertSession()->assertNoEscaped('<em>' . $this->webUser->id() . '</em>');
-    $this->assertRaw('<em>' . $this->webUser->id() . '</em>');
+    $this->assertSession()->responseContains('<em>' . $this->webUser->id() . '</em>');
 
     // Add a user picture.
     $image = current($this->drupalGetTestFiles('image'));
@@ -125,8 +125,7 @@ class CommentPreviewTest extends CommentTestBase {
     $submit_button = $this->assertSession()->buttonExists('Save');
     $submit_button->click();
     $this->assertSession()->pageTextContains('Your comment has been posted.');
-    $elements = $this->xpath('//section[contains(@class, "comment-wrapper")]/article');
-    $this->assertCount(2, $elements);
+    $this->assertSession()->elementsCount('xpath', '//section[contains(@class, "comment-wrapper")]/article', 2);
   }
 
   /**

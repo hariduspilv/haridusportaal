@@ -70,8 +70,8 @@ class NodeAccessPagerTest extends BrowserTestBase {
     $this->drupalGet('node/' . $node->id());
     $this->assertSession()->pageTextContains($node->label());
     $this->assertSession()->pageTextContains('Comments');
-    $this->assertRaw('page=1');
-    $this->assertNoRaw('page=2');
+    $this->assertSession()->responseContains('page=1');
+    $this->assertSession()->responseNotContains('page=2');
   }
 
   /**
@@ -102,8 +102,8 @@ class NodeAccessPagerTest extends BrowserTestBase {
     // page there should be two pages for 30 nodes, no more.
     $this->drupalLogin($this->webUser);
     $this->drupalGet('forum/' . $tid);
-    $this->assertRaw('page=1');
-    $this->assertNoRaw('page=2');
+    $this->assertSession()->responseContains('page=1');
+    $this->assertSession()->responseNotContains('page=2');
   }
 
 }

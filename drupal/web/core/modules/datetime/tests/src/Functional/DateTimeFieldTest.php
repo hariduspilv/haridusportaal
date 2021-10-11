@@ -78,8 +78,8 @@ class DateTimeFieldTest extends DateTestBase {
       preg_match('|entity_test/manage/(\d+)|', $this->getUrl(), $match);
       $id = $match[1];
       $this->assertSession()->pageTextContains('entity_test ' . $id . ' has been created.');
-      $this->assertRaw($date->format($date_format));
-      $this->assertNoRaw($date->format($time_format));
+      $this->assertSession()->responseContains($date->format($date_format));
+      $this->assertSession()->responseNotContains($date->format($time_format));
 
       // Verify the date doesn't change if using a timezone that is UTC+12 when
       // the entity is edited through the form.
@@ -273,8 +273,8 @@ class DateTimeFieldTest extends DateTestBase {
     preg_match('|entity_test/manage/(\d+)|', $this->getUrl(), $match);
     $id = $match[1];
     $this->assertSession()->pageTextContains('entity_test ' . $id . ' has been created.');
-    $this->assertRaw($date->format($date_format));
-    $this->assertRaw($date->format($time_format));
+    $this->assertSession()->responseContains($date->format($date_format));
+    $this->assertSession()->responseContains($date->format($time_format));
 
     /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
     $display_repository = \Drupal::service('entity_display.repository');

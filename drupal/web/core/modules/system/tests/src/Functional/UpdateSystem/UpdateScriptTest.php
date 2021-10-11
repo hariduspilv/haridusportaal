@@ -146,7 +146,7 @@ class UpdateScriptTest extends BrowserTestBase {
     $this->drupalGet($this->updateUrl, ['external' => TRUE]);
     $this->assertSession()->pageTextContains('This is a requirements warning provided by the update_script_test module.');
     $this->clickLink('try again');
-    $this->assertNoText('This is a requirements warning provided by the update_script_test module.');
+    $this->assertSession()->pageTextNotContains('This is a requirements warning provided by the update_script_test module.');
     $this->clickLink('Continue');
     $this->clickLink('Apply pending updates');
     $this->checkForMetaRefresh();
@@ -158,7 +158,7 @@ class UpdateScriptTest extends BrowserTestBase {
     $this->drupalGet($this->updateUrl, ['external' => TRUE]);
     $this->assertSession()->pageTextContains('This is a requirements warning provided by the update_script_test module.');
     $this->clickLink('try again');
-    $this->assertNoText('This is a requirements warning provided by the update_script_test module.');
+    $this->assertSession()->pageTextNotContains('This is a requirements warning provided by the update_script_test module.');
     $this->clickLink('Continue');
     $this->assertSession()->pageTextContains('No pending updates.');
     // Confirm that all caches were cleared.
@@ -507,7 +507,7 @@ class UpdateScriptTest extends BrowserTestBase {
     $this->clickLink('Continue');
     $this->assertSession()->pageTextContains('No pending updates.');
     $this->assertSession()->linkNotExists('Administration pages');
-    $this->assertEmpty($this->xpath('//main//a[contains(@href, :href)]', [':href' => 'update.php']));
+    $this->assertSession()->elementNotExists('xpath', '//main//a[contains(@href, "update.php")]');
     $this->clickLink('Front page');
     $this->assertSession()->statusCodeEquals(200);
 
@@ -522,7 +522,7 @@ class UpdateScriptTest extends BrowserTestBase {
     $this->clickLink('Continue');
     $this->assertSession()->pageTextContains('No pending updates.');
     $this->assertSession()->linkExists('Administration pages');
-    $this->assertEmpty($this->xpath('//main//a[contains(@href, :href)]', [':href' => 'update.php']));
+    $this->assertSession()->elementNotExists('xpath', '//main//a[contains(@href, "update.php")]');
     $this->clickLink('Administration pages');
     $this->assertSession()->statusCodeEquals(200);
   }
@@ -563,7 +563,7 @@ class UpdateScriptTest extends BrowserTestBase {
     $this->assertSession()->pageTextContains('Updates were attempted.');
     $this->assertSession()->linkExists('logged');
     $this->assertSession()->linkExists('Administration pages');
-    $this->assertEmpty($this->xpath('//main//a[contains(@href, :href)]', [':href' => 'update.php']));
+    $this->assertSession()->elementNotExists('xpath', '//main//a[contains(@href, "update.php")]');
     $this->clickLink('Administration pages');
     $this->assertSession()->statusCodeEquals(200);
   }
@@ -637,7 +637,7 @@ class UpdateScriptTest extends BrowserTestBase {
     $this->assertSession()->pageTextContains('Updates were attempted.');
     $this->assertSession()->linkExists('logged');
     $this->assertSession()->linkExists('Administration pages');
-    $this->assertEmpty($this->xpath('//main//a[contains(@href, :href)]', [':href' => 'update.php']));
+    $this->assertSession()->elementNotExists('xpath', '//main//a[contains(@href, "update.php")]');
     $this->clickLink('Administration pages');
     $this->assertSession()->statusCodeEquals(200);
   }
@@ -686,7 +686,7 @@ class UpdateScriptTest extends BrowserTestBase {
       $this->assertSession()->pageTextContains('Operating in maintenance mode.');
     }
     else {
-      $this->assertNoText('Operating in maintenance mode.');
+      $this->assertSession()->pageTextNotContains('Operating in maintenance mode.');
     }
     $this->drupalGet($this->updateUrl, ['external' => TRUE]);
     $this->updateRequirementsProblem();
@@ -700,12 +700,12 @@ class UpdateScriptTest extends BrowserTestBase {
     $this->assertSession()->pageTextContains('The update_script_test_update_8001() update was executed successfully.');
 
     // Verify that no 7.x updates were run.
-    $this->assertNoText('The update_script_test_update_7200() update was executed successfully.');
-    $this->assertNoText('The update_script_test_update_7201() update was executed successfully.');
+    $this->assertSession()->pageTextNotContains('The update_script_test_update_7200() update was executed successfully.');
+    $this->assertSession()->pageTextNotContains('The update_script_test_update_7201() update was executed successfully.');
 
     // Verify that there are no links to different parts of the workflow.
     $this->assertSession()->linkNotExists('Administration pages');
-    $this->assertEmpty($this->xpath('//main//a[contains(@href, :href)]', [':href' => 'update.php']));
+    $this->assertSession()->elementNotExists('xpath', '//main//a[contains(@href, "update.php")]');
     $this->assertSession()->linkNotExists('logged');
 
     // Verify the front page can be visited following the upgrade.
