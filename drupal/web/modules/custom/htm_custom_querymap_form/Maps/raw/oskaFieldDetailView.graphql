@@ -23,6 +23,7 @@ query oskaFieldDetailView($path: String!) {
           nid
           entityLabel
           fieldIntroduction
+          fieldGalleryBtn
           fieldOskaFieldPicture {
             derivative(style: CROPLARGE) {
               url
@@ -40,6 +41,35 @@ query oskaFieldDetailView($path: String!) {
             videoDescription
             videoId
             videoThumbnail
+          }
+          fieldMediaGallery {
+            entity {
+              ... on ParagraphMediaImg {
+                fieldMediaImg {
+                  derivative(style: CROPLARGE) {
+                    url
+                    __typename
+                  }
+                  width
+                  height
+                  alt
+                  title
+                  __typename
+                }
+                __typename
+              }
+              ... on ParagraphMediaVid {
+                fieldMediaVid {
+                  input
+                  videoDomain
+                  videoDescription
+                  videoId
+                  videoThumbnail
+                }
+                __typename
+              }
+              __typename
+            }
           }
           body {
             value

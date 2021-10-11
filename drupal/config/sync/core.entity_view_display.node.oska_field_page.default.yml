@@ -5,7 +5,9 @@ dependencies:
   config:
     - field.field.node.oska_field_page.body
     - field.field.node.oska_field_page.field_dynamic_graph
+    - field.field.node.oska_field_page.field_gallery_btn
     - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_media_gallery
     - field.field.node.oska_field_page.field_oska_attachment_file
     - field.field.node.oska_field_page.field_oska_field_accordion
     - field.field.node.oska_field_page.field_oska_field_picture
@@ -18,8 +20,9 @@ dependencies:
     - file
     - htm_custom_oska
     - htm_custom_video_field
-    - image
     - link
+    - options
+    - svg_image
     - text
     - user
 id: node.oska_field_page.default
@@ -41,12 +44,28 @@ content:
     third_party_settings: {  }
     type: oska_graph_formatter_type
     region: content
+  field_gallery_btn:
+    weight: 118
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
   field_introduction:
     weight: 102
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_media_gallery:
+    weight: 119
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
     region: content
   field_oska_attachment_file:
     weight: 114
@@ -109,3 +128,4 @@ content:
     third_party_settings: {  }
 hidden:
   langcode: true
+  search_api_excerpt: true
