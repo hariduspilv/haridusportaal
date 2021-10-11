@@ -5,7 +5,9 @@ dependencies:
   config:
     - field.field.node.oska_field_page.body
     - field.field.node.oska_field_page.field_dynamic_graph
+    - field.field.node.oska_field_page.field_gallery_btn
     - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_media_gallery
     - field.field.node.oska_field_page.field_oska_attachment_file
     - field.field.node.oska_field_page.field_oska_field_accordion
     - field.field.node.oska_field_page.field_oska_field_picture
@@ -15,6 +17,7 @@ dependencies:
     - image.style.crop_result_thumb
     - node.type.oska_field_page
   module:
+    - conditional_fields
     - file
     - htm_custom_oska
     - htm_custom_video_field
@@ -32,7 +35,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 13
+    weight: 16
     settings:
       rows: 9
       summary_rows: 3
@@ -47,10 +50,16 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_dynamic_graph:
-    weight: 28
+    weight: 22
     settings: {  }
     third_party_settings: {  }
     type: oska_dynamic_graph_widget_type
+    region: content
+  field_gallery_btn:
+    weight: 12
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
     region: content
   field_introduction:
     weight: 11
@@ -65,8 +74,20 @@ content:
         maxlength_js_truncate_html: false
     type: string_textarea
     region: content
-  field_oska_attachment_file:
+  field_media_gallery:
     weight: 15
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    type: entity_reference_paragraphs
+    region: content
+  field_oska_attachment_file:
+    weight: 18
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
@@ -74,7 +95,7 @@ content:
     region: content
   field_oska_field_accordion:
     type: entity_reference_paragraphs
-    weight: 17
+    weight: 19
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -85,7 +106,7 @@ content:
     third_party_settings: {  }
     region: content
   field_oska_field_picture:
-    weight: 16
+    weight: 13
     settings:
       show_default_crop: true
       warn_multiple_usages: true
@@ -96,12 +117,30 @@ content:
       progress_indicator: throbber
       crop_types_required: {  }
       show_crop_area: false
-    third_party_settings: {  }
+    third_party_settings:
+      conditional_fields:
+        62e653c2-a01f-462f-9905-0427633000fa:
+          dependee: field_gallery_btn
+          settings:
+            state: '!visible'
+            condition: value
+            grouping: OR
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: '2'
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: node
+          bundle: oska_field_page
     type: image_widget_crop
     region: content
   field_oska_field_sidebar:
     type: entity_reference_paragraphs
-    weight: 26
+    weight: 21
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -112,15 +151,33 @@ content:
     third_party_settings: {  }
     region: content
   field_oska_video:
-    weight: 12
+    weight: 14
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      conditional_fields:
+        9ca92772-5b22-424d-82ae-baa535536de0:
+          dependee: field_gallery_btn
+          settings:
+            state: '!visible'
+            condition: value
+            grouping: OR
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: '1'
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: node
+          bundle: oska_field_page
     type: custom_video_widget_type
     region: content
   field_oska_web_page:
-    weight: 14
+    weight: 17
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -155,9 +212,9 @@ content:
     third_party_settings: {  }
   scheduler_settings:
     weight: 20
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   status:
     type: boolean_checkbox
     settings:

@@ -1,0 +1,23 @@
+uuid: d5f893fc-903f-42b4-b3a8-9c65e279a55f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_gallery_btn
+    - node.type.oska_field_page
+  module:
+    - options
+id: node.oska_field_page.field_gallery_btn
+field_name: field_gallery_btn
+entity_type: node
+bundle: oska_field_page
+label: 'Vali galerii esipilt/video'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: '2'
+default_value_callback: ''
+settings: {  }
+field_type: list_string
