@@ -207,6 +207,10 @@ export class DetailViewComponent {
         [this.data.image, ...this.data?.additionalImages] :
         this.data.image;
 
+    if (this.data.gallery?.length) {
+      this.data.gallery = this.flattenGalleryData(this.data.gallery);
+    }
+
     this.data['fieldAccordion'] = this.data.reverseFieldOskaFieldParagraph &&
       this.data.reverseFieldOskaFieldParagraph.entities.length ?
       this.data.reverseFieldOskaFieldParagraph.entities : false;
@@ -257,6 +261,12 @@ export class DetailViewComponent {
     if (!this.data) {
       this.getData();
     }
+  }
+
+  private flattenGalleryData(gallery) {
+    return gallery.map(
+      (item) => (item.entity?.fieldMediaImg || item.entity?.fieldMediaVid || null),
+    ).filter((item) => item);
   }
 
   ngOnInit() {
