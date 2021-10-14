@@ -30,6 +30,10 @@ export class ImageComponent implements OnInit {
   @Input() videoThumb: string;
   @Input() limit = 1;
   @Input() prioritizeVideos = false;
+
+  @Input() galleryType: string | null;
+  @Input() mediaGallery: (ResponseVideo | ResponseImage)[] | null;
+
   @HostBinding('class') className = 'image';
 
   public images: ResolvedList[];
@@ -43,20 +47,45 @@ export class ImageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const originalImages = this.image || [];
-    this.images = Array.isArray(originalImages) ? originalImages : [originalImages];
+    this.initializeGallery();
+  }
 
-    if (this.videos && (Array.isArray(this.videos) || Object.keys(this.videos).length)) {
-      this.mergeVideosToList();
-    }
+  initializeGallery(): void {
+    let finalList = [];
 
-    if (this.images.length > 0) {
-      this.initGalleryImages();
-      // Hide the gallery button unless the first image has already loaded
-      if (!this.loadBounce) {
-        this.firstImageLoaded = false;
+    // Prioritize image
+    if (!this.galleryType || this.galleryType === '1') {
+      const originalImages = this.image || [];
+      finalList = Array.isArray(originalImages) ? originalImages : [originalImages];
+
+      // Old gallery logic
+      if (!this.galleryType && this.videos && (Array.isArray(this.videos) || Object.keys(this.videos).length)) {
+        const orignalVideos = this.videos || [];
+        const videoArray = Array.isArray(orignalVideos) ? orignalVideos : [orignalVideos];
+        const videos = this.videoService.mapVideoList(videoArray, this.videoThumb) as ResponseVideo[];
+
+        // Legacy prioritization code
+        finalList = this.prioritizeVideos ? [...videos, ...finalList] : [...finalList, ...videos];
       }
+    // Prioritize video
+    } else if (this.galleryType === '2') {
+      const orignalVideos = this.videos || [];
+      const videoArray = Array.isArray(orignalVideos) ? orignalVideos : [orignalVideos];
+      finalList = this.videoService.mapVideoList(videoArray) as ResponseVideo[];
     }
+
+    // Append gallery in order
+    if (this.mediaGallery) {
+      finalList.push(...this.mediaGallery.map((item) => {
+        if ((item as ResponseVideo).input) {
+          return this.videoService.mapVideo(item as ResponseVideo);
+        }
+        return item;
+      }));
+    }
+
+    this.images = finalList;
+    this.initGalleryImages();
   }
 
   coverImageLoaded(): void {
@@ -65,18 +94,18 @@ export class ImageComponent implements OnInit {
     this.firstImageLoaded = true;
   }
 
-  mergeVideosToList(): void {
-    const orignalVideos = this.videos || [];
-    const videoArray = Array.isArray(orignalVideos) ? orignalVideos : [orignalVideos];
-    const videos = this.videoService.mapVideoList(videoArray, this.videoThumb) as ResponseVideo[];
-    this.images = this.prioritizeVideos ? [...videos, ...this.images] : [...this.images, ...videos];
-  }
-
   initGalleryImages(): void {
-    this.images = this.images.map((element, index) => ({
-      ...element, index,
-    }));
-    this.activeImage = this.images[0];
+    if (this.images.length > 0) {
+      this.images = this.images.map((element, index) => ({
+        ...element, index,
+      }));
+      this.activeImage = this.images[0];
+
+      // Hide the gallery button unless the first image has already loaded
+      if (!this.loadBounce) {
+        this.firstImageLoaded = false;
+      }
+    }
   }
 
   handlePrev(image: ResolvedList): void {

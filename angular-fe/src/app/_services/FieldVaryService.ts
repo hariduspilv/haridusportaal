@@ -30,6 +30,8 @@ const requestMap = {
   video: ['fieldNewsVideo', 'fieldOskaVideo', 'fieldSurveyPageVideo', 'fieldVideo', 'fieldEventVideo', 'fieldResultPageVideo', 'fieldOskaMainProfessionVideo'],
   videoThumb: ['fieldVideoThumbnail'],
   additionalImages: ['fieldAdditionalImages'],
+  gallery: ['fieldMediaGallery'],
+  galleryBtn: ['fieldGalleryBtn'],
   author: ['fieldAuthor'],
   person: ['fieldPerson', 'fieldContactPerson'],
   organizer: ['fieldOrganizer', 'fieldContactOrganizer', 'fieldOrganization', 'fieldContactOrganization'],
