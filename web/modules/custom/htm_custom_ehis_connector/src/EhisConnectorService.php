@@ -392,7 +392,12 @@ class EhisConnectorService {
     $params['hash'] = 'eeIsikukaart';
     $response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
     \Drupal::logger('xjson')->notice('<pre><code>Personal card response: '. print_r($response, TRUE). '</code></pre>' );
-    return $response;
+    if($params['tab'] !== 'eeIsikukaartGDPR') {
+      return $response;
+    } else {
+      $params['hash'] = 'eeIsikukaartGDPR';
+      return $this->invokeWithRedis('', $params, TRUE);
+    }
   }
 
   /**
