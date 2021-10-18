@@ -76,7 +76,9 @@ export class ModalService {
     const modal = this.modals.find(x => x.id === id);
     modal.stateChange(true);
     modal.contents.changes.pipe(take(1)).subscribe((val) => {
-      val.first.nativeElement.focus();
+      setTimeout(() => {
+        val.first.nativeElement.focus();
+      });
     });
   }
 
