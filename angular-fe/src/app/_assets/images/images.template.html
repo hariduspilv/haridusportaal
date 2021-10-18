@@ -17,7 +17,7 @@
 
 <htm-modal id="gallery" [bottomAction]="false" [blockModal]="false">
   <ng-template>
-    <div class="gallery-container" tabindex="0" attr.aria-label="{{ 'gallery.title' | translate }}">
+    <div class="gallery-container" attr.aria-label="{{ 'gallery.title' | translate }}">
       <div class="navigation-prev flex">
         <button attr.aria-label="{{ 'gallery.prev' | translate }}" htm-button theme="icon" (click)="handlePrev(activeImage)">
           <icon glyph="chevron-left" size="large" [bg]="true"></icon>
