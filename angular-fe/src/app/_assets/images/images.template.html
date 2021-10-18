@@ -47,15 +47,15 @@
           </div>
           <div class="gallery__items__navigation">
             <ng-container *ngFor="let image of images">
-              <a href="javascript:void(0)"
+              <a href="javascript:void(0)" (keyup)="handlePreviewEnter($event, image)"
                 attr.aria-current="{{ (!image.videoId && activeImage.derivative?.url === image.derivative?.url)
                   || (image.videoId && activeImage.input === image.input) ? true : false }}">
                 <img *ngIf="!image.videoId"
                   class="{{ activeImage.derivative?.url === image.derivative?.url ? 'active' : '' }}" [src]="image.derivative?.url"
-                  [alt]="image.alt" [title]="image.title ? image.title : ''" (click)="activeImage = image" />
+                  [alt]="image.alt" [title]="image.title || ''" (click)="activeImage = image" />
                 <img *ngIf="image.videoId"
                   class="{{ activeImage.input === image.input ? 'active' : '' }}" [src]="image.videoThumbnail"
-                  [alt]="image.alt" [title]="image.title ? image.title : ''" (click)="activeImage = image" />
+                  [alt]="image.videoDescription || ''" [title]="image.title || ''" (click)="activeImage = image"/>
               </a>
             </ng-container>
           </div>

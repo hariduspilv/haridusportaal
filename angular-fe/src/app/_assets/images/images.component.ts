@@ -130,6 +130,12 @@ export class ImageComponent implements OnInit {
     }
   }
 
+  handlePreviewEnter(event: KeyboardEvent, image: ResolvedList): void {
+    if (event.key === 'Enter') {
+      this.activeImage = image;
+    }
+  }
+
   handleNavigation(index: number): void {
     this.activeImage = this.images[index];
   }
