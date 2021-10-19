@@ -313,7 +313,7 @@ class EhisConnectorService {
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE)];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'eeIsikukaartGDPR';
-    return $this->invokeWithRedis('eeIsikukaartGDPR', $params, FALSE);
+    return $this->invokeWithRedis('GDPRLog', $params, FALSE);
   }
 
   /**
@@ -395,8 +395,7 @@ class EhisConnectorService {
     if($params['tab'] !== 'eeIsikukaartGDPR') {
       return $response;
     } else {
-      $params['hash'] = 'eeIsikukaartGDPR';
-      return $this->invokeWithRedis('', $params, TRUE);
+      return $this->getGdprLogs();
     }
   }
 
