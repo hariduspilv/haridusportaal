@@ -125,7 +125,7 @@ class KeyCommands extends DrushCommands {
       // Confirm that the key should be saved.
       $this->output->writeln(dt('The following key will be overwritten: !id', ['!id' => $values['id']]));
       if (!$this->io()->confirm(dt('Do you want to continue?'))) {
-        // Removing drush_user_abort(), no current implemenation of that.
+        // Removing drush_user_abort(), no current implementation of that.
         return;
       }
     }
@@ -211,7 +211,7 @@ class KeyCommands extends DrushCommands {
     $this->logger->warning('Be extremely careful when deleting a key! It may result in losing access to a service or making encrypted data unreadable.');
     $this->output->writeln(dt('The following key will be deleted: !id', ['!id' => $id]));
     if (!$this->io()->confirm(dt('Do you want to continue?'))) {
-      // Removing drush_user_abort(), no current implemenation of that.
+      // Removing drush_user_abort(), no current implementation of that.
       return;
     }
 
