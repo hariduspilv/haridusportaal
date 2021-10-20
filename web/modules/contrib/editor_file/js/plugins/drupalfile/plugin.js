@@ -90,14 +90,7 @@
               // Use the link title or the file name as text with a collapsed
               // cursor.
               if (range.collapsed) {
-                var text;
-                if (returnValues.attributes.title && returnValues.attributes.title.length) {
-                  text = returnValues.attributes.title;
-                }
-                else {
-                  text = returnValues.attributes.href;
-                  text = text.substr(text.lastIndexOf('/') + 1);
-                }
+                var text = returnValues.attributes.filename;
                 text = new CKEDITOR.dom.text(text, editor.document);
                 range.insertNode(text);
                 range.selectNodeContents(text);

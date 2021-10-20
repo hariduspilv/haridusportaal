@@ -291,6 +291,10 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
    * {@inheritdoc}
    */
   public function setKeyValue($key_value) {
+    $key_type = $this->getKeyType();
+    if ($key_type->getPluginDefinition()['multivalue']['enabled'] && is_array($key_value)) {
+      $key_value = $key_type->serialize($key_value);
+    }
     $this->keyValue = $key_value;
   }
 
