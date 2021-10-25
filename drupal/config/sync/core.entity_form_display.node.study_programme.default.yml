@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.node.study_programme.field_accreditation_status
     - field.field.node.study_programme.field_accreditation_valid_until
-    - field.field.node.study_programme.field_admission_status
     - field.field.node.study_programme.field_amount
     - field.field.node.study_programme.field_amount_unit
     - field.field.node.study_programme.field_created_from_ehis_datetime
@@ -60,14 +59,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: datetime_default
-    region: content
-  field_admission_status:
-    weight: 28
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
     region: content
   field_amount:
     weight: 22
