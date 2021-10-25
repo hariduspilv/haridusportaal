@@ -9,7 +9,6 @@ dependencies:
     - search_api
   config:
     - field.storage.node.field_accreditation_status
-    - field.storage.node.field_admission_status
     - field.storage.node.field_amount
     - field.storage.node.field_degree_or_diploma_awarded
     - field.storage.node.field_duration
@@ -54,14 +53,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_accreditation_status
-  field_admission_status:
-    label: 'Vastuvõtu olek'
-    datasource_id: 'entity:node'
-    property_path: field_admission_status
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_admission_status
   field_amount:
     label: 'Õppekava maht'
     datasource_id: 'entity:node'
