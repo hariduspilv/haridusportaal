@@ -12,7 +12,6 @@ query similarStudyProgrammes($nid: Int!, $address: String, $offset: Int, $limit:
       FieldIscedfDetailed
       FieldAccreditationStatus
       FieldDuration
-      FieldAdmissionStatus
       EntityPath
       Status
     }
