@@ -241,10 +241,6 @@ class StudyProgrammeController extends ControllerBase {
             }
             $programmenode['programme_field']['field_duration'] = array_sum($duration_values);
 
-            if(isset($programme->vastuvott)){
-                $programmenode['programme_field']['field_admission_status'] = $programme->vastuvott;
-            }
-
             if(isset($programme->akrediteerimisOtsus)){
                 $programmenode['programme_field']['field_accreditation_status'] = $programme->akrediteerimisOtsus;
             }
