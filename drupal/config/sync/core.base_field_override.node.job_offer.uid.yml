@@ -1,0 +1,20 @@
+uuid: 020125f3-41cb-4104-9e8d-3e953c1270fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.uid
+field_name: uid
+entity_type: node
+bundle: job_offer
+label: 'Authored by'
+description: 'The username of the content author.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\node\Entity\Node::getDefaultEntityOwner'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

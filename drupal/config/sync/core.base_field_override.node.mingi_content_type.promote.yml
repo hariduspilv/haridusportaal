@@ -1,0 +1,22 @@
+uuid: dc2802c0-68b5-430f-b1cd-90bc9439add0
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.promote
+field_name: promote
+entity_type: node
+bundle: mingi_content_type
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

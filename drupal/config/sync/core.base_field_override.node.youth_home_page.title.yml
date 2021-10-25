@@ -1,0 +1,18 @@
+uuid: 1d24dc94-383a-450b-bbf8-358dfa34e053
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.title
+field_name: title
+entity_type: node
+bundle: youth_home_page
+label: Title
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

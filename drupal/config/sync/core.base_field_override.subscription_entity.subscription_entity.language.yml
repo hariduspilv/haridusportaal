@@ -1,0 +1,18 @@
+uuid: 923e1d3e-aa77-4aef-9f95-69541b82da0d
+langcode: en
+status: true
+dependencies:
+  module:
+    - htm_custom_subscriptions
+id: subscription_entity.subscription_entity.language
+field_name: language
+entity_type: subscription_entity
+bundle: subscription_entity
+label: Language
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: language

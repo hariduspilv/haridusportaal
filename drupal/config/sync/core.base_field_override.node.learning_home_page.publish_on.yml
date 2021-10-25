@@ -1,0 +1,18 @@
+uuid: be1d838d-199c-4b4b-afaf-a2f58085ef9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.publish_on
+field_name: publish_on
+entity_type: node
+bundle: learning_home_page
+label: 'Publish on'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

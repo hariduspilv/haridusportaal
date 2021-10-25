@@ -15,7 +15,7 @@ bundle: information_system_accordion
 label: 'Juhendid alamosa'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

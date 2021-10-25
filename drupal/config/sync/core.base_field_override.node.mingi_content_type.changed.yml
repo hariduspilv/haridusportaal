@@ -1,0 +1,18 @@
+uuid: d2a917dc-fe12-4d9d-a416-5a6d5c4af623
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.changed
+field_name: changed
+entity_type: node
+bundle: mingi_content_type
+label: Changed
+description: 'The time that the node was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

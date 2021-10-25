@@ -1,0 +1,18 @@
+uuid: cecc9a25-2315-41dd-a17f-fc8303c03023
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.learning_to_teach
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.learning_to_teach
+target_entity_type_id: paragraph
+target_bundle: learning_to_teach
+default_langcode: site_default
+language_alterable: true

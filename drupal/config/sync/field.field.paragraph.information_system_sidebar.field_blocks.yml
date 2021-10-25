@@ -15,7 +15,7 @@ bundle: information_system_sidebar
 label: Teemaplokid
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -25,15 +25,15 @@ settings:
     target_bundles:
       block: block
     target_bundles_drag_drop:
-      block:
-        enabled: true
-        weight: 21
       accordion:
         weight: 22
         enabled: false
       additional_section:
         weight: 23
         enabled: false
+      block:
+        enabled: true
+        weight: 21
       contact_section:
         weight: 24
         enabled: false
