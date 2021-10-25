@@ -6,7 +6,6 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.study_programme.field_accreditation_status
     - field.field.node.study_programme.field_accreditation_valid_until
-    - field.field.node.study_programme.field_admission_status
     - field.field.node.study_programme.field_amount
     - field.field.node.study_programme.field_amount_unit
     - field.field.node.study_programme.field_created_from_ehis_datetime
@@ -45,7 +44,6 @@ content:
 hidden:
   field_accreditation_status: true
   field_accreditation_valid_until: true
-  field_admission_status: true
   field_amount: true
   field_amount_unit: true
   field_created_from_ehis_datetime: true
@@ -69,3 +67,4 @@ hidden:
   field_update_from_ehis: true
   field_web_page_address: true
   langcode: true
+  search_api_excerpt: true
