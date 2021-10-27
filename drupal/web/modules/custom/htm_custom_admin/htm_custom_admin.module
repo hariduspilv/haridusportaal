@@ -196,6 +196,19 @@ function htm_custom_admin_preprocess_views_view_row_rss(&$variables){
   }
 }
 
+/**
+ * Hide clone tab from every node type except for event.
+ */
+function htm_custom_admin_menu_local_tasks_alter(&$data, $route_name, \Drupal\Core\Cache\RefinableCacheableDependencyInterface $cacheability) {
+  // Get the currently displayed node
+  $node = \Drupal::routeMatch()->getParameter('node');
+  // check if node type is event
+  if(isset($node) && $node->bundle() !== 'event') {
+    // remove clone tab
+    unset($data['tabs'][0]['quick_node_clone.node.quick_clone']);
+  }
+}
+
 function htm_custom_admin_form_editor_file_dialog_alter(&$form, FormStateInterface $form_state){
   $form['actions']['save_modal']['#ajax']['callback'] = '_htm_custom_admin_form_editor_file_dialog_submit';
   #dump($form);
