@@ -198,6 +198,9 @@ function htm_custom_admin_preprocess_views_view_row_rss(&$variables){
 
 /**
  * Hide clone tab from every node type except for event.
+ *  * @param $data
+ *  * @param $route_name
+ *  * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $cacheability
  */
 function htm_custom_admin_menu_local_tasks_alter(&$data, $route_name, \Drupal\Core\Cache\RefinableCacheableDependencyInterface $cacheability) {
   // Get the currently displayed node
