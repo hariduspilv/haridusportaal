@@ -106,6 +106,7 @@ module:
   path: 0
   path_alias: 0
   queue_ui: 0
+  quick_node_clone: 0
   quickedit: 0
   rdf: 0
   readonly_field_widget: 0
