@@ -104,17 +104,15 @@ public class HPortalRestController {
           redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(oltWorker.getDocument(formName, personalCode, identifier), HttpStatus.OK);
     } else {
-      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
-          redisExpire, redisFileExpire, redisKlfExpire);
+      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+          redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
       if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
         return new ResponseEntity<>(
             mtsysWorker.getMtsysTegevusluba(formName, Long.valueOf(identifier), personalCode),
             HttpStatus.OK);
       } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
-        return new ResponseEntity<>(
-            mtsysWorker
-                .getMtsysTegevusNaitaja(formName, Long.valueOf(identifier), personalCode),
-            HttpStatus.OK);
+        return new ResponseEntity<>(mtsysWorker.getMtsysTegevusNaitaja(formName,
+            identifier, personalCode, educationalInstitutionsId), HttpStatus.OK);
       } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
         return new ResponseEntity<>(
             mtsysWorker
@@ -153,8 +151,8 @@ public class HPortalRestController {
           redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(oltWorker.postDocument(requestJson), HttpStatus.OK);
     } else if(formName.toUpperCase().startsWith("MTSYS_")) {
-      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
-          redisExpire, redisFileExpire, redisKlfExpire);
+      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+          redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
 
       if (requestJson.get("header").get("agents").get(0).get("owner_id") == null
           || requestJson.get("header").get("agents").get(0).get("owner_id")
@@ -204,7 +202,7 @@ public class HPortalRestController {
       @PathVariable("personalCode") String personalCode,
       @RequestParam(value = "identifier", required = false) String identifier,
       @RequestParam(value = "educationalInstitutionsId", required = false) Long educationalInstitutionsId) {
-    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
+    MtsysWorker mtsysWorker = new MtsysWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
         redisExpire, redisFileExpire, redisKlfExpire);
     if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
       return new ResponseEntity<>(mtsysWorker
@@ -315,8 +313,8 @@ public class HPortalRestController {
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getMtsysKlfTeenus() {
-    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
-        redisExpire, redisFileExpire, redisKlfExpire);
+    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+        redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
     return new ResponseEntity<>(mtsysWorker.getMtsysKlf(), HttpStatus.OK);
   }
 
@@ -404,7 +402,7 @@ public class HPortalRestController {
       @PathVariable("identifier") Long identifier,
       @PathVariable("institutionId") String institutionId,
       @PathVariable("personalCode") String personalCode) {
-    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
+    MtsysWorker mtsysWorker = new MtsysWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
         redisExpire, redisFileExpire, redisKlfExpire);
     return new ResponseEntity<>(
         mtsysWorker.getMtsysOppeasutus(identifier, institutionId, personalCode), HttpStatus.OK);
@@ -417,7 +415,7 @@ public class HPortalRestController {
   public ResponseEntity<?> postEducationalInstitution(
       @PathVariable("personalCode") String personalCode,
       @RequestBody ObjectNode requestJson) {
-    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
+    MtsysWorker mtsysWorker = new MtsysWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
         redisExpire, redisFileExpire, redisKlfExpire);
     return new ResponseEntity<>(mtsysWorker.postMtsysLaeOppeasutus(requestJson, personalCode),
         HttpStatus.OK);
