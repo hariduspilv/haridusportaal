@@ -90,22 +90,6 @@ public class MtsysWorker extends Worker {
 
   private RedisTemplate<String, String> redisFileTemplate;
 
-  public MtsysWorker(EhisXRoadService ehisXRoadService, RedisTemplate<String, Object> redisTemplate,
-      RedisTemplate<String, String> redisFileTemplate, Long redisExpire, Long redisFileExpire,
-      Long redisKlfExpire) {
-    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
-    this.ehisXRoadService = ehisXRoadService;
-    this.redisFileTemplate = redisFileTemplate;
-  }
-
-  public MtsysWorker(Ehis2XRoadService ehis2XRoadService, RedisTemplate<String, Object> redisTemplate,
-      RedisTemplate<String, String> redisFileTemplate, Long redisExpire, Long redisFileExpire,
-      Long redisKlfExpire) {
-    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
-    this.ehis2XRoadService = ehis2XRoadService;
-    this.redisFileTemplate = redisFileTemplate;
-  }
-
   public MtsysWorker(EhisXRoadService ehisXRoadService, Ehis2XRoadService ehis2XRoadService, RedisTemplate<String, Object> redisTemplate,
       RedisTemplate<String, String> redisFileTemplate, Long redisExpire, Long redisFileExpire,
       Long redisKlfExpire) {
@@ -158,7 +142,7 @@ public class MtsysWorker extends Worker {
               .put("valid", item.getOnKehtiv()));
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "soidukiKategooriad", soidukiKategooriadNode);
 
-      ObjectNode oppeasutuseOmandivormidNode = mtsysKlfResponse
+/*      ObjectNode oppeasutuseOmandivormidNode = mtsysKlfResponse
           .putObject("oppeasutuseOmandivormid");
       response.getOppeasutuseOmandivormid().getOppeasutuseOmandivormList().forEach(
           item -> oppeasutuseOmandivormidNode.putObject(item.getId().toString())
@@ -179,7 +163,7 @@ public class MtsysWorker extends Worker {
           item -> pidajaLiigidNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
               .put("valid", false));
-      redisTemplate.opsForHash().put(MTSYSKLF_KEY, "pidajaLiigid", pidajaLiigidNode);
+      redisTemplate.opsForHash().put(MTSYSKLF_KEY, "pidajaLiigid", pidajaLiigidNode);*/
 
       ObjectNode failiTyybidNode = mtsysKlfResponse.putObject("failiTyybid");
       response.getFailiTyybid().getFailiTyypList().forEach(item -> {
@@ -223,7 +207,7 @@ public class MtsysWorker extends Worker {
       response.getOpperyhmad().getOpperyhmList().forEach(
           item -> opperyhmadNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
-              .put("valid", false));
+              .put("valid", item.getOnKehtiv()));
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "opperyhmad", opperyhmadNode);
 
       ObjectNode tegevusnaitajaTyybidNode = mtsysKlfResponse.putObject("tegevusnaitajaTyybid");
@@ -285,6 +269,7 @@ public class MtsysWorker extends Worker {
         }
 
         if (classifiers.isSetOppeasutuseOmandivormid()) {
+          ObjectNode oppeasutuseOmandivormidNode = mtsysKlfResponse.putObject("oppeasutuseOmandivormid");
           classifiers.getOppeasutuseOmandivormid().getOppeasutuseOmandivormList().forEach(
               item -> oppeasutuseOmandivormidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -294,6 +279,7 @@ public class MtsysWorker extends Worker {
         }
 
         if (classifiers.isSetOppeasutuseLiigid()) {
+          ObjectNode oppeasutuseLiigidNode = mtsysKlfResponse.putObject("oppeasutuseLiigid");
           classifiers.getOppeasutuseLiigid().getOppeasutuseLiikList().forEach(
               item -> oppeasutuseLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -302,6 +288,7 @@ public class MtsysWorker extends Worker {
         }
 
         if (classifiers.isSetPidajaLiigid()) {
+          ObjectNode pidajaLiigidNode = mtsysKlfResponse.putObject("pidajaLiigid");
           classifiers.getPidajaLiigid().getPidajaLiikList().forEach(
               item -> pidajaLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -340,18 +327,24 @@ public class MtsysWorker extends Worker {
           redisTemplate.opsForHash().put(MTSYSKLF_KEY, "eestiKeeleTasemed", eestiKeeleTasemedNode);
         }
 
-        classifiers.getOpperyhmad().getOpperyhmList().forEach(
-            item -> opperyhmadNode.putObject(item.getId())
-                .put("et", item.getNimetus())
-                .put("valid", item.getOnKehtiv()));
-        redisTemplate.opsForHash().put(MTSYSKLF_KEY, "opperyhmad", opperyhmadNode);
+        //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
+        if (classifiers.isSetOpperyhmad()) {
+          classifiers.getOpperyhmad().getOpperyhmList().forEach(
+              item -> opperyhmadNode.putObject(item.getId())
+                  .put("et", item.getNimetus())
+                  .put("valid", false));
+          redisTemplate.opsForHash().put(MTSYSKLF_KEY, "opperyhmad", opperyhmadNode);
+        }
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
-        classifiers.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().forEach(
-            item -> tegevusnaitajaTyybidNode.putObject(item.getId())
-                .put("et", item.getNimetus())
-                .put("valid", false));
-        redisTemplate.opsForHash().put(MTSYSKLF_KEY, "tegevusnaitajaTyybid", tegevusnaitajaTyybidNode);
+        if (classifiers.isSetTegevusnaitajaTyybid()) {
+          classifiers.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().forEach(
+              item -> tegevusnaitajaTyybidNode.putObject(item.getId())
+                  .put("et", item.getNimetus())
+                  .put("valid", false));
+          redisTemplate.opsForHash()
+              .put(MTSYSKLF_KEY, "tegevusnaitajaTyybid", tegevusnaitajaTyybidNode);
+        }
 
         redisTemplate.expire(MTSYSKLF_KEY, redisKlfExpire, TimeUnit.MINUTES);
       }

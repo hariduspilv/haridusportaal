@@ -71,8 +71,8 @@ public class HPortalRestController {
       produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocuments(@PathVariable("identifier") String identifier) {
     if (identifier.length() == 8) {
-      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
-          redisExpire, redisFileExpire, redisKlfExpire);
+      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+          redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
       new Thread(() -> mtsysWorker.getMtsystegevusLoad(identifier)).start();
     } else {
       VPTWorker vptWorker = new VPTWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
@@ -202,8 +202,8 @@ public class HPortalRestController {
       @PathVariable("personalCode") String personalCode,
       @RequestParam(value = "identifier", required = false) String identifier,
       @RequestParam(value = "educationalInstitutionsId", required = false) Long educationalInstitutionsId) {
-    MtsysWorker mtsysWorker = new MtsysWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
-        redisExpire, redisFileExpire, redisKlfExpire);
+    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+        redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
     if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
       return new ResponseEntity<>(mtsysWorker
           .getMtsysEsitaTegevusNaitaja(Long.valueOf(identifier), educationalInstitutionsId,
@@ -221,8 +221,8 @@ public class HPortalRestController {
       @PathVariable("identifier") String identifier,
       @PathVariable("personalCode") String personalCode) {
     if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
-      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
-          redisExpire, redisFileExpire, redisKlfExpire);
+      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+          redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(
           mtsysWorker.deleteDocument(Integer.parseInt(identifier), personalCode), HttpStatus.OK);
     }
@@ -244,8 +244,8 @@ public class HPortalRestController {
       return new ResponseEntity<>(vptWorker.getDocumentFile(documentId, personalCode),
           HttpStatus.OK);
     } else if (documentId.startsWith("mtsysFile_")) {
-      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
-          redisExpire, redisFileExpire, redisKlfExpire);
+      MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+          redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(mtsysWorker.getDocumentFile(documentId, Long.valueOf(identifier),
           personalCode), HttpStatus.OK);
     } else if (documentId.startsWith("OLT_")) {
@@ -402,8 +402,8 @@ public class HPortalRestController {
       @PathVariable("identifier") Long identifier,
       @PathVariable("institutionId") String institutionId,
       @PathVariable("personalCode") String personalCode) {
-    MtsysWorker mtsysWorker = new MtsysWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
-        redisExpire, redisFileExpire, redisKlfExpire);
+    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+        redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
     return new ResponseEntity<>(
         mtsysWorker.getMtsysOppeasutus(identifier, institutionId, personalCode), HttpStatus.OK);
   }
@@ -415,8 +415,8 @@ public class HPortalRestController {
   public ResponseEntity<?> postEducationalInstitution(
       @PathVariable("personalCode") String personalCode,
       @RequestBody ObjectNode requestJson) {
-    MtsysWorker mtsysWorker = new MtsysWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
-        redisExpire, redisFileExpire, redisKlfExpire);
+    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
+        redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
     return new ResponseEntity<>(mtsysWorker.postMtsysLaeOppeasutus(requestJson, personalCode),
         HttpStatus.OK);
   }
