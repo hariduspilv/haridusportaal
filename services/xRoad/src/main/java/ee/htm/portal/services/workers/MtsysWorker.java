@@ -35,6 +35,7 @@ import ee.htm.portal.services.types.eu.x_road.ehis2.EducationalInstitutionExtend
 import ee.htm.portal.services.types.eu.x_road.ehis2.GetInstitutionsRequestDocument.GetInstitutionsRequest;
 import ee.htm.portal.services.types.eu.x_road.ehis2.GetInstitutionsRequestDocument.GetInstitutionsRequest.Action;
 import ee.htm.portal.services.types.eu.x_road.ehis2.GetInstitutionsResponseDocument.GetInstitutionsResponse;
+import ee.htm.portal.services.types.eu.x_road.ehis2.InstitutionOwner;
 import ee.htm.portal.services.types.eu.x_road.ehis2.InstitutionsAddressPost;
 import ee.htm.portal.services.types.eu.x_road.ehis2.InstitutionsAddressesPost;
 import ee.htm.portal.services.types.eu.x_road.ehis2.InstitutionsContactPost;
@@ -1082,12 +1083,17 @@ public class MtsysWorker extends Worker {
         EducationalInstitutionExtended educationalInstitution = response.getEducationalInstitution();
 
         educationalInstitutionNode.putObject("generalData")
-//              .put("owner", educationalInstitution.getOwners().)
             .put("name", educationalInstitution.getName())
             .put("nameENG", educationalInstitution.getNameEng())
             .put("ownerType", educationalInstitution.getOwnerTypeCl())
             .put("ownershipType", educationalInstitution.getOwnershipTypeCl())
             .put("studyInstitutionType", educationalInstitution.getTypeCl());
+        if (educationalInstitution.isSetOwners() && !educationalInstitution.getOwners().getOwnerList().isEmpty()) {
+          educationalInstitution.getOwners().getOwnerList().stream()
+              .filter(InstitutionOwner::getIsOwner)
+              .forEach(s -> ((ObjectNode) educationalInstitutionNode.get("generalData"))
+                  .put("owner", s.getInstitutionName() + " (" + s.getInstitutionRegNr() + ")"));
+        }
 
         if (educationalInstitution.isSetLegalAddress()) {
           educationalInstitutionNode.putObject("address")
@@ -1109,6 +1115,9 @@ public class MtsysWorker extends Worker {
             && educationalInstitution.getContacts().getContactList() != null
             && !educationalInstitution.getContacts().getContactList().isEmpty()) {
           ObjectNode contacts = educationalInstitutionNode.putObject("contacts");
+          contacts.putNull("contactEmail");
+          contacts.putNull("webpageAddress");
+          contacts.putNull("contactPhone");
 
           educationalInstitution.getContacts().getContactList().forEach(s -> {
             if (s.getTypeCl().equalsIgnoreCase("INSTITUTION_CONTACT_TYPE:PRIMARY_EMAIL")) {
