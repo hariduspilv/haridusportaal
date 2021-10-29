@@ -524,7 +524,7 @@ class EhisConnectorService {
     }
     $processedArray = [];
     foreach($return as $key => $value) {
-      if($key !== 'redis_hit' && ($value['valid'] || isset($value['okLiik']))){
+      if($key !== 'redis_hit' && (!$value['valid'] || isset($value['okLiik']))){
         $processedArray[] = [
           'key' => $value['et'],
           'value' => $key,
@@ -735,9 +735,9 @@ class EhisConnectorService {
           'owner' => ($edit) ? $existing_institution['generalData']['owner'] : '', //optional, uue õppeasutuse lisamiseks ei ole vaja, õppeasutuse andmete muutmisel saab väärtuse REST /api/getEducationalInstitution/ endpointist
           'name'  => ($edit) ? $existing_institution['generalData']['name'] : $data['general']['name'],
           'nameENG'  => ($edit) ? $existing_institution['generalData']['nameENG'] : $data['general']['nameENG'], //optional
-          'ownerType'  => ($edit) ? (int) $existing_institution['generalData']['ownerType'] : (int) $data['general']['ownerType'],
-          'ownershipType'  => ($edit) ? (int) $existing_institution['generalData']['ownershipType'] : (int) $data['general']['ownershipType'],
-          'studyInstitutionType' => ($edit) ? (int) $existing_institution['generalData']['studyInstitutionType'] : (int) $data['general']['studyInstitutionType']
+          'ownerType'  => ($edit) ? $existing_institution['generalData']['ownerType'] : $data['general']['ownerType'],
+          'ownershipType'  => ($edit) ? $existing_institution['generalData']['ownershipType'] : $data['general']['ownershipType'],
+          'studyInstitutionType' => ($edit) ? $existing_institution['generalData']['studyInstitutionType'] : $data['general']['studyInstitutionType']
         ],
         'address' => [
           'seqNo' => $data['address']['seqNo'],
@@ -761,7 +761,5 @@ class EhisConnectorService {
 
     return $map;
   }
-
-
 
 }
