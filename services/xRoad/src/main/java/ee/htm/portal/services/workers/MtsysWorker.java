@@ -1115,9 +1115,12 @@ public class MtsysWorker extends Worker {
             && educationalInstitution.getContacts().getContactList() != null
             && !educationalInstitution.getContacts().getContactList().isEmpty()) {
           ObjectNode contacts = educationalInstitutionNode.putObject("contacts");
-          contacts.putNull("contactEmail");
-          contacts.putNull("webpageAddress");
-          contacts.putNull("contactPhone");
+          contacts.putNull("contactEmail")
+              .putNull("webpageAddress")
+              .putNull("contactPhone")
+              .putNull("contactEmailUid")
+              .putNull("webpageAddressUid")
+              .putNull("contactPhoneUid");
 
           educationalInstitution.getContacts().getContactList().forEach(s -> {
             if (s.getTypeCl().equalsIgnoreCase("INSTITUTION_CONTACT_TYPE:PRIMARY_EMAIL")) {
@@ -1228,26 +1231,50 @@ public class MtsysWorker extends Worker {
         owner.setIsOwner(true);
         owner.setInstitutionRegNr(partyCode);
 
-        if (jsonNodeRequest.get("educationalInstitution").get("address") != null) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address") != null
+            || jsonNodeRequest.get("educationalInstitution").get("contacts") != null) {
           response = ehis2XRoadService.postInstitutions(xRoadMessage, personalCode, null, partyCode);
 
           if (response.isSetMessage() && response.getMessage().getType().equalsIgnoreCase("ERROR")
-              || response.isSetMessages() && response.getMessages().getMessageList() != null && response.getMessages().getMessageList().stream().anyMatch(s -> s.getType().equalsIgnoreCase("ERROR"))) {
+              || response.isSetMessages() && response.getMessages().getMessageList() != null
+              && response.getMessages().getMessageList().stream().anyMatch(s -> s.getType().equalsIgnoreCase("ERROR"))) {
             doXRoadRequest = false;
           } else {
             xRoadMessage = new XmlBeansXRoadMessage<PostInstitutionsRequest>(PostInstitutionsRequest.Factory.newInstance());
             xRoadMessage.getContent().setAction(PostInstitutionsRequest.Action.SAVE_CONTACTS);
             xRoadMessage.getContent().setEducationalInstitutionUid(response.getEducationalInstitution().getEducationalInstitutionUid());
             InstitutionsContactsPost contactRequest = xRoadMessage.getContent().addNewContacts();
-            InstitutionsContactPost contactAddress = contactRequest.addNewContact();
-            contactAddress.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_LEGAL_ADDRESS);
-            InstitutionsAddressesPost addresses = contactAddress.addNewAddresses();
-            InstitutionsAddressPost address = addresses.addNewAddress();
-            if (!jsonNodeRequest.get("educationalInstitution").get("address").get("adsOid").asText("").equals("")) {
-              address.setAdsOid(jsonNodeRequest.get("educationalInstitution").get("address").get("adsOid").asText());
+            if (jsonNodeRequest.get("educationalInstitution").get("address") != null ) {
+              InstitutionsContactPost contactAddress = contactRequest.addNewContact();
+              contactAddress.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_LEGAL_ADDRESS);
+              InstitutionsAddressesPost addresses = contactAddress.addNewAddresses();
+              InstitutionsAddressPost address = addresses.addNewAddress();
+              if (!jsonNodeRequest.get("educationalInstitution").get("address").get("adsOid").asText("").equals("")) {
+                address.setAdsOid(jsonNodeRequest.get("educationalInstitution").get("address").get("adsOid").asText());
+              }
+              if (!jsonNodeRequest.get("educationalInstitution").get("address").get("address").asText("").equals("")) {
+                address.setAddress(jsonNodeRequest.get("educationalInstitution").get("address").get("address").asText());
+              }
             }
-            if (!jsonNodeRequest.get("educationalInstitution").get("address").get("address").asText("").equals("")) {
-              address.setAddress(jsonNodeRequest.get("educationalInstitution").get("address").get("address").asText());
+            if (jsonNodeRequest.get("educationalInstitution").get("contacts") != null) {
+              if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactPhone") != null
+                  && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactPhone").asText("").equals("")) {
+                InstitutionsContactPost contactPhone = contactRequest.addNewContact();
+                contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PHONE);
+                contactPhone.setValue(jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactPhone").asText());
+              }
+              if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail") != null
+                  && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail").asText("").equals("")) {
+                InstitutionsContactPost contactPhone = contactRequest.addNewContact();
+                contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PHONE);
+                contactPhone.setValue(jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail").asText());
+              }
+              if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress") != null
+                  && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress").asText("").equals("")) {
+                InstitutionsContactPost contactPhone = contactRequest.addNewContact();
+                contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PHONE);
+                contactPhone.setValue(jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress").asText());
+              }
             }
           }
         }
