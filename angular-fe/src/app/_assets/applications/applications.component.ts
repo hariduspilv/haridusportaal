@@ -469,7 +469,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           Object.keys(this.formOptions).forEach((key) => {
             Object.values(response[key]).forEach((elem: any, index) => {
               elem['id'] = Object.keys(response[key])[index];
-              this.formOptions[key].push({ key: elem.et, value: elem.id });
+              if (elem.valid) {
+                this.formOptions[key].push({ key: elem.et, value: elem.id });
+              }
             });
           });
           this.formOptionsQueried = true;
