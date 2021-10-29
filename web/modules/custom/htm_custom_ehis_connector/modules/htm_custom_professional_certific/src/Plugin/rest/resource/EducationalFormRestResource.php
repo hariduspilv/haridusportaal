@@ -163,6 +163,9 @@ class EducationalFormRestResource extends ResourceBase {
 		  	'contactPhone' => '',
 			  'contactEmail' => '',
 			  'webpageAddress' => '',
+			  'contactPhoneUid' => '',
+			  'contactEmailUid' => '',
+			  'webpageAddressUid' => '',
 		  ]
 	  ];
 	  if($action === 'add') $required_keys = array_merge($required_keys, $required_add_keys);
