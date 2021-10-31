@@ -1,0 +1,29 @@
+uuid: 7963d848-3019-4aac-a3f3-e127e80f1dc2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_img.field_media_img
+    - paragraphs.paragraphs_type.media_img
+  module:
+    - svg_image
+id: paragraph.media_img.default
+targetEntityType: paragraph
+bundle: media_img
+mode: default
+content:
+  field_media_img:
+    weight: 0
+    label: above
+    settings:
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+hidden:
+  search_api_excerpt: true

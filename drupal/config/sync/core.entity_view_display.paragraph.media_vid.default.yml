@@ -1,0 +1,23 @@
+uuid: 7b6c9fe1-ca9d-410f-8a10-b73f9e064de0
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_vid.field_media_vid
+    - paragraphs.paragraphs_type.media_vid
+  module:
+    - htm_custom_video_field
+id: paragraph.media_vid.default
+targetEntityType: paragraph
+bundle: media_vid
+mode: default
+content:
+  field_media_vid:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
+    region: content
+hidden:
+  search_api_excerpt: true
