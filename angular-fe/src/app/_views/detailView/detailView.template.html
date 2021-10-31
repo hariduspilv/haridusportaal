@@ -39,7 +39,8 @@
 						<images
 							*ngIf="data.processedImages || data.video" [prioritizeVideos]="type === 'field'"
 							[videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"
-							[videoThumb]="data.videoThumb?.derivative?.url"></images>
+							[videoThumb]="data.videoThumb?.derivative?.url" [galleryType]="data?.galleryBtn" [mediaGallery]="data?.gallery"
+						></images>
 	
 						<div class="picto__wrapper">
 							<picto [insideText]="true" [class.shorterBottom]="type === 'profession'" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
