@@ -1,0 +1,10 @@
+uuid: 8671a0d7-d908-4c76-bbae-423d50d26db1
+langcode: et
+status: true
+dependencies: {  }
+id: media_img
+label: Pilt
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

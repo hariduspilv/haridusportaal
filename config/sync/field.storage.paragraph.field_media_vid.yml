@@ -1,0 +1,19 @@
+uuid: 61867a8f-a672-4dc9-ba13-e8270567affe
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_video_field
+    - paragraphs
+id: paragraph.field_media_vid
+field_name: field_media_vid
+entity_type: paragraph
+type: custom_video_field_type
+settings: {  }
+module: htm_custom_video_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

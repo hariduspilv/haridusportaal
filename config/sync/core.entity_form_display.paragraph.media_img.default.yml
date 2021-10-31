@@ -1,0 +1,26 @@
+uuid: aef50008-7ab8-4f52-94a8-baefb4ec141c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_img.field_media_img
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.media_img
+  module:
+    - svg_image
+id: paragraph.media_img.default
+targetEntityType: paragraph
+bundle: media_img
+mode: default
+content:
+  field_media_img:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+hidden:
+  created: true
+  status: true

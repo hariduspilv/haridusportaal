@@ -5,7 +5,10 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.oska_field_page.body
+    - field.field.node.oska_field_page.field_dynamic_graph
+    - field.field.node.oska_field_page.field_gallery_btn
     - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_media_gallery
     - field.field.node.oska_field_page.field_oska_attachment_file
     - field.field.node.oska_field_page.field_oska_field_accordion
     - field.field.node.oska_field_page.field_oska_field_picture
@@ -35,7 +38,10 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_dynamic_graph: true
+  field_gallery_btn: true
   field_introduction: true
+  field_media_gallery: true
   field_oska_attachment_file: true
   field_oska_field_accordion: true
   field_oska_field_picture: true
@@ -43,3 +49,4 @@ hidden:
   field_oska_video: true
   field_oska_web_page: true
   langcode: true
+  search_api_excerpt: true
