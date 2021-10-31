@@ -12,3 +12,8 @@ dependencies:
 # Tell CI to upload dependant project.
 test_dependencies:
   - queue_order:queue_order
+
+# Information added by Drupal.org packaging script on 2020-10-02
+version: '8.x-2.2'
+project: 'queue_ui'
+datestamp: 1601619132

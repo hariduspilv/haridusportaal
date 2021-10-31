@@ -29,6 +29,15 @@ use Drupal\key\KeyConfigOverrideInterface;
  *     "add-form" = "/admin/config/development/configuration/key-overrides/add",
  *     "delete-form" = "/admin/config/development/configuration/key-overrides/manage/{key_config_override}/delete",
  *     "collection" = "/admin/config/development/configuration/key-overrides"
+ *   },
+ *   config_export = {
+ *     "id",
+ *     "label",
+ *     "config_type",
+ *     "config_prefix",
+ *     "config_name",
+ *     "config_item",
+ *     "key_id"
  *   }
  * )
  */

@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\BaseFormIdInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
@@ -36,16 +37,26 @@ class EditorFileDialog extends FormBase implements BaseFormIdInterface {
   protected $entityRepository;
 
   /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * Constructs a form object for image dialog.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $file_storage
    *   The file storage service.
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository service.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer service.
    */
-  public function __construct(EntityStorageInterface $file_storage, EntityRepositoryInterface $entity_repository) {
+  public function __construct(EntityStorageInterface $file_storage, EntityRepositoryInterface $entity_repository, RendererInterface $renderer) {
     $this->fileStorage = $file_storage;
     $this->entityRepository = $entity_repository;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -54,7 +65,8 @@ class EditorFileDialog extends FormBase implements BaseFormIdInterface {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager')->getStorage('file'),
-      $container->get('entity.repository')
+      $container->get('entity.repository'),
+      $container->get('renderer')
     );
   }
 
@@ -130,6 +142,14 @@ class EditorFileDialog extends FormBase implements BaseFormIdInterface {
       '#required' => TRUE,
     ];
 
+    $file_upload_help = [
+      '#theme' => 'file_upload_help',
+      '#description' => '',
+      '#upload_validators' => $form['fid']['#upload_validators'],
+      '#cardinality' => 1,
+    ];
+    $form['fid']['#description'] = $this->renderer->renderPlain($file_upload_help);
+
     $form['attributes']['href'] = [
       '#title' => $this->t('URL'),
       '#type' => 'textfield',
@@ -180,6 +200,7 @@ class EditorFileDialog extends FormBase implements BaseFormIdInterface {
       // on multisite set-ups and prevent mixed content errors.
       $file_url = file_url_transform_relative($file_url);
       $form_state->setValue(['attributes', 'href'], $file_url);
+      $form_state->setValue(['attributes', 'filename'], urldecode(basename($file_url)));
       $form_state->setValue(['attributes', 'data-entity-uuid'], $file->uuid());
       $form_state->setValue(['attributes', 'data-entity-type'], 'file');
 
