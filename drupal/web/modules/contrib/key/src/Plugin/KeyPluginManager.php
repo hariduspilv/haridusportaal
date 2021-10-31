@@ -48,7 +48,7 @@ class KeyPluginManager extends DefaultPluginManager {
 
     parent::__construct($this->subdir, $namespaces, $module_handler, $plugin_interfaces[$type], $type_annotations[$type]);
     $this->alterInfo($type . '_info');
-    $this->setCacheBackend($cache_backend, $type);
+    $this->setCacheBackend($cache_backend, $type, ['key_plugins']);
   }
 
   /**
