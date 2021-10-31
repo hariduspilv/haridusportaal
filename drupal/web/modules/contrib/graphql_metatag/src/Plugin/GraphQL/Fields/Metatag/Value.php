@@ -26,7 +26,7 @@ class Value extends FieldPluginBase {
         yield $value['#attributes']['content'];
       }
       elseif ($value['#tag'] === 'link') {
-        if (isset($value['#attributes']['hreflang']) && $this->isModuleExternalHreflangActive()) {
+        if (isset($value['#attributes']['hreflang']) && $this->isModuleHreflangActive()) {
           yield $value['#attributes'];
         }
         else {
@@ -37,12 +37,35 @@ class Value extends FieldPluginBase {
   }
 
   /**
-   * Chec if module EXTERNAL_HREFLANG_MODULE_NAME is active.
+   * Check if module hreflang module is active.
    *
    * @return bool
+   *   Returns true if any hreflang modules is active.
+   */
+  private function isModuleHreflangActive(): bool {
+    return $this->isModuleExternalHreflangActive() || $this->isModuleMetatagHreflangActive();
+  }
+
+  /**
+   * Check if module EXTERNAL_HREFLANG_MODULE_NAME is active.
+   *
+   * @return bool
+   *   Returns true if EXTERNAL_HREFLANG_MODULE_NAME is active.
    */
   private function isModuleExternalHreflangActive(): bool {
-    return \Drupal::moduleHandler()->moduleExists(EXTERNAL_HREFLANG_MODULE_NAME);
+    return \Drupal::moduleHandler()
+      ->moduleExists(EXTERNAL_HREFLANG_MODULE_NAME);
+  }
+
+  /**
+   * Check if module METATAG_HREFLANG_MODULE_NAME is active.
+   *
+   * @return bool
+   *   Returns true if METATAG_HREFLANG_MODULE_NAME is active.
+   */
+  private function isModuleMetatagHreflangActive(): bool {
+    return \Drupal::moduleHandler()->moduleExists(METATAG_HREFLANG_MODULE_NAME);
   }
 
 }
+

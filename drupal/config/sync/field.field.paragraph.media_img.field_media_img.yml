@@ -1,0 +1,38 @@
+uuid: b6b15652-5792-4da9-b955-ea5f5ad31dfe
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_media_img
+    - paragraphs.paragraphs_type.media_img
+  module:
+    - image
+id: paragraph.media_img.field_media_img
+field_name: field_media_img
+entity_type: paragraph
+bundle: media_img
+label: Pilt
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: 1208x680
+  alt_field: true
+  alt_field_required: true
+  title_field: true
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image
