@@ -58,6 +58,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     drafts: [],
     educationalInstitutions: [],
   };
+  educationalInstitutionError = false;
   createdMessage = {};
   requestIterator;
   requestIteratorTimeout = 1000;
@@ -220,6 +221,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const delay = init ? 0 : this.requestIteratorTimeout;
 
     this.requestCounter = this.requestCounter + 1;
+    this.educationalInstitutionError = false;
 
     setTimeout(
       () => {
@@ -235,6 +237,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                 }
               } else {
                 if (response.error && response.error.message_text) {
+                  this.educationalInstitutionError = true;
                   this.alertsService
                     .info(response.error.message_text.et, 'general', 'applications', false, false);
                 } else if (this.currentRole === 'natural_person') {
@@ -568,6 +571,18 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   editInstitution() {
     this.error = false;
     this.modalLoading = true;
+    const contactPhoneUid: string = this.editableInstitution['contacts'] &&
+      this.editableInstitution['contacts']['contactPhoneUid']
+      ? this.editableInstitution['contacts']['contactPhoneUid']
+      : '';
+    const contactEmailUid: string = this.editableInstitution['contacts'] &&
+      this.editableInstitution['contacts']['contactEmailUid']
+      ? this.editableInstitution['contacts']['contactEmailUid']
+      : '';
+    const webpageAddressUid: string = this.editableInstitution['contacts'] &&
+      this.editableInstitution['contacts']['webpageAddressUid']
+      ? this.editableInstitution['contacts']['webpageAddressUid']
+      : '';
     if (!this.formGroup.valid) {
       Object.entries(this.formGroup.controls).map(([key, val]) => {
         const seq = Object.keys(this.formGroup.controls).indexOf(key);
@@ -590,6 +605,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           addressHumanReadable: '',
         },
         contacts: {
+          contactPhoneUid,
+          contactEmailUid,
+          webpageAddressUid,
           contactPhone: this.formGroup.value.contactPhone,
           contactEmail: this.formGroup.value.contactEmail,
           webpageAddress: this.formGroup.value.webpageAddress,
@@ -633,6 +651,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       const body = {
         address: this.formGroup.value.address,
         contacts: {
+          contactPhoneUid: '',
+          contactEmailUid: '',
+          webpageAddressUid: '',
           contactEmail: this.formGroup.value.contactEmail,
           contactPhone: this.formGroup.value.contactPhone,
           webpageAddress: this.formGroup.value.webpageAddress,
