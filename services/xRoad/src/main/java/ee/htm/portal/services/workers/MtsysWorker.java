@@ -1192,7 +1192,7 @@ public class MtsysWorker extends Worker {
         if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail") != null
             && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail").asText("").equals("")) {
           InstitutionsContactPost contactPhone = request.addNewContact();
-          contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PHONE);
+          contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PRIMARY_EMAIL);
           contactPhone.setValue(jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail").asText());
           if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmailUid") != null
               && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmailUid").asText("").equals("")) {
@@ -1202,7 +1202,7 @@ public class MtsysWorker extends Worker {
         if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress") != null
             && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress").asText("").equals("")) {
           InstitutionsContactPost contactPhone = request.addNewContact();
-          contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PHONE);
+          contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_WEBSITE);
           contactPhone.setValue(jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress").asText());
           if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddressUid") != null
               && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddressUid").asText("").equals("")) {
@@ -1266,13 +1266,13 @@ public class MtsysWorker extends Worker {
               if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail") != null
                   && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail").asText("").equals("")) {
                 InstitutionsContactPost contactPhone = contactRequest.addNewContact();
-                contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PHONE);
+                contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PRIMARY_EMAIL);
                 contactPhone.setValue(jsonNodeRequest.get("educationalInstitution").get("contacts").get("contactEmail").asText());
               }
               if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress") != null
                   && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress").asText("").equals("")) {
                 InstitutionsContactPost contactPhone = contactRequest.addNewContact();
-                contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_PHONE);
+                contactPhone.setTypeCl(TypeCl.INSTITUTION_CONTACT_TYPE_WEBSITE);
                 contactPhone.setValue(jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress").asText());
               }
             }
