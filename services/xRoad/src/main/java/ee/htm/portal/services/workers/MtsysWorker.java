@@ -1284,7 +1284,10 @@ public class MtsysWorker extends Worker {
         }
       }
 
-      if (response != null && response.isSetMessage()) {
+      if (response != null && (response.isSetMessage()
+          && response.getMessage().getType().equalsIgnoreCase("ERROR")
+          || response.isSetMessages() && response.getMessages().getMessageList() != null
+          && response.getMessages().getMessageList().stream().anyMatch(s -> s.getType().equalsIgnoreCase("ERROR")))) {
         logForDrupal.setSeverity("ERROR");
         logForDrupal.setMessage(response.getMessage().getText());
         logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
