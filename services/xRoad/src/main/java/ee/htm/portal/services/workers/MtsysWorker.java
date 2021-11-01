@@ -1285,7 +1285,12 @@ public class MtsysWorker extends Worker {
       }
 
       if (response != null && response.isSetMessage()) {
-        jsonNodeResponse.putObject("error").put("message_type", "ERROR").putObject("message_text").put("et", response.getMessage().getText());
+        logForDrupal.setSeverity("ERROR");
+        logForDrupal.setMessage(response.getMessage().getText());
+        logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+        log.info(logForDrupal.toString());
+        return jsonNodeResponse.putObject("error").put("message_type", "ERROR")
+            .putObject("message_text").put("et", "Tehniline viga!");
       }
 
       if (jsonNodeRequest.get("educationalInstitutionId") != null
