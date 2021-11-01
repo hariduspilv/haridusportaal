@@ -1289,7 +1289,13 @@ public class MtsysWorker extends Worker {
           || response.isSetMessages() && response.getMessages().getMessageList() != null
           && response.getMessages().getMessageList().stream().anyMatch(s -> s.getType().equalsIgnoreCase("ERROR")))) {
         logForDrupal.setSeverity("ERROR");
-        logForDrupal.setMessage(response.getMessage().getText());
+        String message = response.isSetMessage() ? response.getMessage().getText() : ";";
+        if(response.isSetMessages()) {
+          for (Message m : response.getMessages().getMessageList()) {
+            message += m.getText() + ";";
+          }
+        }
+        logForDrupal.setMessage(message);
         logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
         log.info(logForDrupal.toString());
         return jsonNodeResponse.putObject("error").put("message_type", "ERROR")
