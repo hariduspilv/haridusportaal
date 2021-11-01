@@ -59,6 +59,9 @@ import ee.htm.portal.services.types.eu.x_road.ehis2.PostEducationalInstitution;
 import ee.htm.portal.services.types.eu.x_road.ehis2.PostInstitutionsRequestDocument.PostInstitutionsRequest;
 import ee.htm.portal.services.types.eu.x_road.ehis2.PostInstitutionsResponseDocument.PostInstitutionsResponse;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -1167,6 +1170,17 @@ public class MtsysWorker extends Worker {
     logForDrupal.setUser("SYSTEM - XROAD");
     logForDrupal.setType("EHIS2 - postInstitutions.v1 (saveEducationalInstitution)");
     logForDrupal.setSeverity("notice");
+
+    if (jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress") != null
+        && !jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress").asText("").equals("")) {
+      try {
+        URL url = new URL(jsonNodeRequest.get("educationalInstitution").get("contacts").get("webpageAddress").asText());
+        url.toURI();
+      } catch (MalformedURLException | URISyntaxException e) {
+        return jsonNodeRequest.putObject("error").put("message_type", "ERROR")
+            .putObject("message_text").put("et", "Veebileht on vigane. Näide https://www.ehis.ee/");
+      }
+    }
 
     try {
       XRoadMessage<PostInstitutionsRequest> xRoadMessage = new XmlBeansXRoadMessage<PostInstitutionsRequest>(PostInstitutionsRequest.Factory.newInstance());
