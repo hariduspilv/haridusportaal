@@ -521,7 +521,7 @@ class EhisConnectorService {
     }
     $processedArray = [];
     foreach($return as $key => $value) {
-      if($key !== 'redis_hit' && (is_string($key) || isset($value['okLiik']))){
+      if($key !== 'redis_hit' && ($value['valid'] || isset($value['okLiik']))){
         $processedArray[] = [
           'key' => $value['et'],
           'value' => $key,
