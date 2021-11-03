@@ -6,8 +6,12 @@ import ee.htm.portal.services.types.eu.x_road.ehis2.GetFileRequestDocument.GetFi
 import ee.htm.portal.services.types.eu.x_road.ehis2.GetFileResponseDocument.GetFileResponse;
 import ee.htm.portal.services.types.eu.x_road.ehis2.GetGrantsRequestDocument.GetGrantsRequest;
 import ee.htm.portal.services.types.eu.x_road.ehis2.GetGrantsResponseDocument.GetGrantsResponse;
+import ee.htm.portal.services.types.eu.x_road.ehis2.GetInstitutionsRequestDocument.GetInstitutionsRequest;
+import ee.htm.portal.services.types.eu.x_road.ehis2.GetInstitutionsResponseDocument.GetInstitutionsResponse;
 import ee.htm.portal.services.types.eu.x_road.ehis2.PostGrantsRequestDocument.PostGrantsRequest;
 import ee.htm.portal.services.types.eu.x_road.ehis2.PostGrantsResponseDocument.PostGrantsResponse;
+import ee.htm.portal.services.types.eu.x_road.ehis2.PostInstitutionsRequestDocument.PostInstitutionsRequest;
+import ee.htm.portal.services.types.eu.x_road.ehis2.PostInstitutionsResponseDocument.PostInstitutionsResponse;
 
 public interface Ehis2XRoadService {
 
@@ -34,4 +38,18 @@ public interface Ehis2XRoadService {
 
   PostGrantsResponse postGrants(XRoadMessage<PostGrantsRequest> request, String userId)
       throws XRoadServiceConsumptionException;
+
+  PostInstitutionsResponse postInstitutions(XRoadMessage<PostInstitutionsRequest> request, String userId)
+          throws XRoadServiceConsumptionException;
+
+  PostInstitutionsResponse postInstitutions(XRoadMessage<PostInstitutionsRequest> request, String userId,
+                                            String partyClass, String partyCode) throws XRoadServiceConsumptionException;
+
+  GetInstitutionsResponse getInstitutions(GetInstitutionsRequest request, String userId)
+  throws XRoadServiceConsumptionException;
+
+  GetInstitutionsResponse getInstitutions(GetInstitutionsRequest request, String userId,
+                                          String partyClass, String partyCode) throws XRoadServiceConsumptionException;
+
+  GetInstitutionsResponse getMtsysKlf() throws XRoadServiceConsumptionException;
 }
