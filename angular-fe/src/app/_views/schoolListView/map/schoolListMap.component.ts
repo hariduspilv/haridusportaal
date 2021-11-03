@@ -173,11 +173,14 @@ export class SchoolListMapComponent implements AfterViewInit {
       studentHomeEnabled: params['studentHome'] ? true : false,
     };
 
+    this.markers = [];
     const path = this.settings.query('schoolMapQuery', variables);
     this.listSub = this.http.get(path).subscribe((response: any) => {
       const entities = response['data']['CustomElasticQuery'][0]['entities'];
       this.markers = this.fixCoordinates(entities);
-    },                                           () => {}, () => {
+    },                                           () => {
+      this.loading = false;
+    }, () => {
       this.loading = false;
       if (window['google'] && this.markers && this.markers.length) {
         this.mapService.setBounds(this.markers);
