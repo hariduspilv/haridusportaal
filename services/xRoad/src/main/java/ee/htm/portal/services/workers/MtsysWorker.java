@@ -1474,13 +1474,12 @@ public class MtsysWorker extends Worker {
       GetInstitutionsRequest request = GetInstitutionsRequest.Factory.newInstance();
       request.setEducationalInstitutionUid(educationalInstitutionsId.toString());
 
-      if (year != null) {
-        request.setAction(Action.GET_PERFORMANCE_REPORT_METRICS);
-        request.addNewGetPerformanceReportMetrics().setReportYear(year.intValue());
-      }
       if (identifier != null) {
         request.setAction(Action.GET_PERFORMANCE_REPORT);
         request.addNewGetPerformanceReport().setReportUid(identifier.toString());
+      } else if (year != null) {
+        request.setAction(Action.GET_PERFORMANCE_REPORT_METRICS);
+        request.addNewGetPerformanceReportMetrics().setReportYear(year.intValue());
       }
 
       GetInstitutionsResponse response = ehis2XRoadService.getInstitutions(request, null, null, ownerRegCode);
