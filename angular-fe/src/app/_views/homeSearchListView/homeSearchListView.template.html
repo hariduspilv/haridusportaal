@@ -50,10 +50,10 @@
 								{{ getContentLabel(item.ContentType) | translate }}
 							</div>
 							<div class="search__sub--title"
-								attr.aria-label="{{ item.ContentType }}{{ item.ContentType !== 'Õppekava' ? ':' : '' }} {{ item.Title }}{{ item.ContentType === 'Õppekava' ? ':' : '' }}">
+								attr.aria-label="{{ item.ContentType }}{{ item.ContentType !== 'study_programme' ? ':' : '' }} {{ item.Title }}{{ item.ContentType === 'study_programme' ? ':' : '' }}">
 								<h2>{{ item.Title }}</h2>
 							</div>
-							<div class="inline__items" *ngIf="item.ContentType === 'Õppekava'"
+							<div class="inline__items" *ngIf="item.ContentType === 'study_programme'"
 								attr.aria-label="{{ item.FieldSchoolName }} {{ item.FieldStudyProgrammeLevel }} {{ item.FieldDuration | monthsToYears }}">
 								<span class="item" *ngIf="item.FieldSchoolName"
 									aria-hidden="true">{{ item.FieldSchoolName }}</span>

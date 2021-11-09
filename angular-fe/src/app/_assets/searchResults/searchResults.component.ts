@@ -281,6 +281,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
             } else {
               this.list = tmpList;
             }
+
             this.scrollRestoration.restorationValues.next({
               ...this.scrollRestorationValues,
               [this.type]: {
@@ -289,6 +290,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
                 listItemCount: this.listItemCount,
               },
             });
+
             if (this.deviceService.isMobile() && paramsExist(this.route)) {
               scrollElementIntoView('block');
             }
@@ -356,5 +358,4 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     this.paramsWatcher.unsubscribe();
     this.httpWatcher.unsubscribe();
   }
-
 }
