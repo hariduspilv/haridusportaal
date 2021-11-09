@@ -62,27 +62,31 @@ export class HomeSearchListViewComponent {
   ) {}
 
   ngOnInit() {
-
     this.paramSubscription = this.route.queryParams.subscribe((params) => {
       this.types = this.typesByLang[this.lang];
+
       if (this.route.snapshot.queryParams['term'] !== this.param && this.param.length) {
         const queryTypes = this.route.snapshot.queryParams['type'];
+
         if (queryTypes && queryTypes instanceof Array) {
           this.typeArr = queryTypes;
         } else if (queryTypes) {
           this.typeArr.push(queryTypes);
         }
+
         this.getResults(this.route.snapshot.queryParams['term'], this.typeArr);
       }
     });
 
     if (this.route.snapshot.queryParams['term'] && !this.filteredResults) {
       const queryTypes = this.route.snapshot.queryParams['type'];
+
       if (queryTypes && queryTypes instanceof Array) {
         this.typeArr = queryTypes;
       } else if (queryTypes) {
         this.typeArr.push(queryTypes);
       }
+
       this.getResults(this.route.snapshot.queryParams['term'], this.typeArr);
     } else {
       this.loading = false;
@@ -112,6 +116,7 @@ export class HomeSearchListViewComponent {
     if (this.dataSubscription !== undefined) {
       this.dataSubscription.unsubscribe();
     }
+
     this.typeArr = type;
     this.filteredResults = false;
     this.results = false;
@@ -147,10 +152,12 @@ export class HomeSearchListViewComponent {
           }
         });
       });
+
       this.filteredResults = this.results.filter((res) => {
         return this.typeArr.includes(res.ContentType) ||
         (this.typeArr.includes('Oska') && this.oskaTypes.includes(res.ContentType));
       });
+
       this.filteredResults = !this.typeArr.length ? this.results : this.filteredResults;
 
       this.types.sort((a, b) => b.sum - a.sum);
@@ -158,9 +165,11 @@ export class HomeSearchListViewComponent {
       this.breadcrumbs = this.constructCrumbs();
       this.listLength = this.filteredResults.length;
       this.loading = false;
+
       if (this.deviceService.isMobile() && paramsExist(this.route)) {
         scrollElementIntoView('block');
       }
+
       this.dataSubscription.unsubscribe();
     });
   }
