@@ -139,7 +139,7 @@ export const parseData = (data) => {
         output = false;
       }
 
-      if (output.key === 'fieldSpecialization' && output.value === 'määramata') {
+      if (output.key === 'fieldSpecialization' && output.value.toLowerCase() === 'määramata') {
         output = false;
       }
     }

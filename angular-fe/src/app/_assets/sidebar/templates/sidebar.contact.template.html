@@ -1,7 +1,9 @@
 <div *ngIf="parsedData.organizer || parsedData.title"
      attr.aria-label="{{'event.organizer' | translate}} {{ parsedData.organizer || parsedData.title }}">{{ parsedData.organizer || parsedData.title }}</div>
-<div *ngIf="parsedData.person || parsedData.fieldRegistrationCode"
+<div *ngIf="(parsedData.person || parsedData.fieldRegistrationCode) && type !== 'studyProgramme'"
      attr.aria-label="{{'event.person' | translate}} {{ parsedData.person || parsedData.fieldRegistrationCode }}">{{ parsedData.person || parsedData.fieldRegistrationCode }}</div>
+<div *ngIf="parsedData.fieldSchoolWebsite && type === 'studyProgramme'"
+     attr.aria-label="{{'event.person' | translate}} {{ parsedData.fieldSchoolWebsite }}"><a href="{{ parsedData.fieldSchoolWebsite }}" target="_blank">{{ parsedData.fieldSchoolWebsite }}</a></div>
 <a *ngIf="parsedData.phone" href="tel:{{ parsedData.phone }}"
    attr.aria-label="{{'event.phone' | translate}} {{ parsedData.phone }}">{{ parsedData.phone }}</a>
 <a *ngIf="parsedData.email" href="mailto:{{ parsedData.email }}"
