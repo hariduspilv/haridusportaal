@@ -39,7 +39,6 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   sortDirection = '';
   sortField: any;
   sort: any;
-  openAdmission = true;
   isced;
 
   constructor(
@@ -52,16 +51,6 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   ) { }
 
   ngOnInit() {
-    if (!Object.keys(this.route.snapshot.queryParams).length) {
-
-      this.router.navigate(['.'], {
-        relativeTo: this.route,
-        queryParams: {
-          onlyOpenAdmission: true,
-        },
-        replaceUrl: true,
-      });
-    }
     this.getFilters();
     this.getSortOptions();
   }
@@ -94,8 +83,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
     Object.keys(params).forEach((item) => {
       if (
         item === 'title' ||
-        item === 'type' ||
-        item === 'onlyOpenAdmission'
+        item === 'type'
       ) {
         delete params[item];
       }
