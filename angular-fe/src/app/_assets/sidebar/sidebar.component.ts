@@ -179,8 +179,8 @@ export class SidebarComponent implements OnInit, OnChanges {
         this.mappedData = parseFieldData(this.mappedData, this.translate);
       }
 
-      if (this.type === 'studyProgramme') {
-        this.mappedData.educationalInstitution.entity.fieldSchoolWebsite = this.data.fieldSchoolWebsite;
+      if (this.type === 'studyProgramme' && this.mappedData?.educationalInstitution?.entity) {
+        this.mappedData.educationalInstitution.entity.fieldSchoolWebsite = this.data.fieldSchoolWebsite || '';
       }
 
       if (
