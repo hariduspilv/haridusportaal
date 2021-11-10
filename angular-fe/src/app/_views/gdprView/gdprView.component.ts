@@ -86,18 +86,21 @@ export class GdprViewComponent implements OnInit{
     .get(`${this.settings.url}/dashboard/eeIsikukaart/eeIsikukaartGDPR`)
     .subscribe(
       (response: any) => {
-        if (response.redis_hit && response.value) {
+        if (response.value) {
           this.loading = false;
           this.data = response;
           this.groupByReceiver();
         }
-        if (response.redis_hit && !response.value) {
+        if (!response.value) {
           this.loading = false;
           this.data = false;
         }
         if (this.groupedData.length === 0) {
+          this.loading = false;
           this.alerts.info(this.translate.get('xjson.data_missing'), 'no-results');
         }
+      }, () => {
+        this.loading = false;
       });
   }
   ngOnInit() {

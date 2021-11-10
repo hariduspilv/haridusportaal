@@ -18,6 +18,8 @@
 	<!--/center-->
 </ng-container>
 
+<alerts small="true" id="general"></alerts>
+
 <alerts
 	*ngIf="currentRole === 'natural_person'"
 	small="true"
@@ -197,12 +199,9 @@
 		</ng-container>
 	</ng-container>
 	<div *ngIf="loading.initial === false && currentRole === 'juridical_person'">
-		<div *ngIf="false" class="lg-top">
-			<alerts small="true" id="general"></alerts>
-		</div>
 		<!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
 		<div
-			*ngIf="data.educationalInstitutions && data.educationalInstitutions.length < 1"
+			*ngIf="data.educationalInstitutions && data.educationalInstitutions.length < 1 && !educationalInstitutionError"
 			class="block-btn--holder"
 		>
 			<button
