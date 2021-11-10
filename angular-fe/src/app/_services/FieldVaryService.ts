@@ -43,7 +43,7 @@ const requestMap = {
   additional: ['fieldAdditional', 'fieldPracticalInformation'],
   fieldPros: ['fieldOskaFieldPros'],
   fieldCons: ['fieldOskaFieldCons'],
-  admissionStatus: ['fieldAdmissionStatus', 'FieldAdmissionStatus', 'admissionStatus'],
+  admissionStatus: ['fieldAdmissionStatus', 'FieldAdmissionStatus', 'admissionStatus'], // TODO delete it?
   quoteAuthor: ['fieldQuoteAuthor', 'fieldLearningQuoteAuthor'],
   quoteText: ['fieldQuoteText', 'fieldLearningQuoteText', 'fieldFrontpageQuote'],
   quoteAuthorWork: ['fieldQuoteAuthorOccupation', 'fieldLearningQuoteWork'],

@@ -321,7 +321,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         this.watchParams();
       },
       0);
-
   }
 
   ngAfterViewChecked() {
