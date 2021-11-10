@@ -179,6 +179,10 @@ export class SidebarComponent implements OnInit, OnChanges {
         this.mappedData = parseFieldData(this.mappedData, this.translate);
       }
 
+      if (this.type === 'studyProgramme' && this.mappedData?.educationalInstitution?.entity) {
+        this.mappedData.educationalInstitution.entity.fieldSchoolWebsite = this.data.fieldSchoolWebsite || '';
+      }
+
       if (
         this.type === 'resultPage' ||
         this.type === 'surveyPage' ||
@@ -324,6 +328,7 @@ export class SidebarCategoriesComponent implements OnInit {
 })
 export class SidebarContactComponent {
   @Input() public data: any;
+  @Input() public type: string;
   public parsedData: any;
 
   public ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import {Component, Input, ViewChild, ElementRef, OnInit, OnDestroy} from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -15,7 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['detailView.styles.scss'],
 })
 
-export class DetailViewComponent {
+export class DetailViewComponent implements OnInit, OnDestroy {
   @Input() type: string;
   @Input() path: string;
   @Input() data: any;
