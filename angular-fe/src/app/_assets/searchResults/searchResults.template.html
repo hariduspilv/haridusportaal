@@ -1,7 +1,7 @@
 <div class="noResults" *ngIf="!list?.length && !loading">
   {{ noResultStringByType | translate }}
 </div>
-<label-count *ngIf="searchWithParams && listItemCount && list?.length" [count]="listItemCount">{{ 'search.results_of' | translate }}: </label-count>
+<label-count *ngIf="listItemCount && list?.length" [count]="listItemCount">{{ 'search.results_of' | translate }}: </label-count>
 <listItems
   *ngIf="list?.length"
   [type]="type"

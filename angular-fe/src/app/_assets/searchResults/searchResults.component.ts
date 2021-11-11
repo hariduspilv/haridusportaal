@@ -28,7 +28,7 @@ import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
   styleUrls: ['searchResults.styles.scss'],
 })
 
-export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChanges{
+export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChanges {
 
   @Input() type: string = '';
   @Input() limit: number = 10;
@@ -54,7 +54,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   private mobileOrTablet: boolean;
   private mobileOrTabletScrolled: boolean;
   public listItemCount: number;
-  public searchWithParams: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -225,8 +224,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           this.list = [];
         }
 
-        this.searchWithParams = !!Object.values(this.route.snapshot.queryParams)
-          .filter(val => val)?.length;
         if (listValue) {
           this.loading = false;
           this.loadingMore = false;
@@ -315,6 +312,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   ngAfterViewInit() {
     this.noResultStringByType = this.type !== 'mainProfession'
       ? `${this.type}.no_results` : 'news.no_results';
+
     setTimeout(
       () => {
         this.parsedType = this.type.toLowerCase();
@@ -323,7 +321,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         this.watchParams();
       },
       0);
-
   }
 
   ngAfterViewChecked() {
