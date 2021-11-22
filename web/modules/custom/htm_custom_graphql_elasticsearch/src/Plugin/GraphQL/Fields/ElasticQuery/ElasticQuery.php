@@ -111,6 +111,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     if($params == NULL){
       return NULL;
     }else{
+
       $response = $client->search($params);
       if($args['offset'] == null && $args['limit'] == null){
         while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
@@ -168,6 +169,9 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           switch ($condition['operator']) {
             case '=':
               foreach ($condition['value'] as $value) {
+                if ($condition['field']=='langcode'){
+                  $value = strtolower($value);
+                }
                 $elastic_must_filters[] = array(
                   'match' => array(
                     $condition['field'] => $value
@@ -178,6 +182,10 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
             case 'LIKE':
               $values = explode(" ", $condition['value'][0]);
               foreach ($values as $value) {
+
+                if ($condition['field']=='langcode'){
+                  $value = strtolower($value);
+                }
                 $elastic_must_filters[] = array(
                   'match' => array(
                     $condition['field'] => '*' . str_replace(',', '', strtolower($value)) . '*'
