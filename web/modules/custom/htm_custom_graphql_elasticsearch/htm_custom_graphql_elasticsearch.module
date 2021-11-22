@@ -1,0 +1,65 @@
+<?php
+
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
+ function htm_custom_graphql_elasticsearch_form_alter(&$form,$form_state,$form_id){
+   switch ($form_id){
+     case 'search_api_elasticsearch_synonym_settings':
+       $form['#submit'][] =  'htm_custom_graphql_elasticsearch_update_index';
+       break;
+   }
+ }
+ function htm_custom_graphql_elasticsearch_update_index($form,&$form_state){
+   $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
+   $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
+   $elasticsearch_pass = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['password'];
+   $hosts = [
+     [
+       'host' => parse_url($elasticsearch_path)['host'],
+       'user' => $elasticsearch_user,
+       'pass' => $elasticsearch_pass
+     ]
+   ];
+   $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
+//   $response = $client->indices()->;
+   $elasticsearch_indexes =  \Drupal::entityTypeManager()->getStorage('search_api_index')->loadMultiple();
+   $id = 1;
+   $config = \Drupal::config('search_api_elasticsearch_synonym.settings');
+   $synonyms_array = preg_split("/\r\n|\n|\r/",$config->get('synonyms'));
+   $synonyms = array();
+
+   foreach ($synonyms_array as $synonyms_line) {
+     $parts = explode("#", $synonyms_line);
+
+     if (!empty($parts[0])) {
+       $synonyms[] = $parts[0];
+     }
+   }
+   foreach ($elasticsearch_indexes as $elastic_key => $elasticsearch_index){
+     $index_full_name = 'elasticsearch_index_drupaldb_'.$elastic_key;
+     $params = [
+       'index' => $index_full_name,
+       'body'=>[],
+     ];
+
+        $params['body']['settings']['index']['analysis'] = array(
+          "filter" => array(
+            "synonym" => array(
+              "synonyms" => $synonyms
+            )
+          )
+        );
+        if (!empty($default)){
+          $params['body']['settings']['index']['analysis']['analyzer']['default'] = $default;
+        }
+      $client->indices()->close(['index'=>$index_full_name]);
+     try {
+       $updateSettings = $client->indices()->putSettings($params);
+     }
+     catch (Exception $e){
+     }
+
+     $client->indices()->open(['index'=>$index_full_name]);
+     $id++;
+   }
+ }

@@ -70,6 +70,7 @@
         "drupal/restui": "^1.15",
         "drupal/scheduler": "^1.0",
         "drupal/search_api": "^1.19",
+        "drupal/search_api_elasticsearch_synonym": "^1.2",
         "drupal/seckit": "^2.0",
         "drupal/session_limit": "^2.0@beta",
         "drupal/sitemap": "^2.0-beta2",
