@@ -187,7 +187,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
                   $value = strtolower($value);
                 }
                 $elastic_must_filters[] = array(
-                  'match' => array(
+                  'wildcard' => array(
                     $condition['field'] => '*' . str_replace(',', '', strtolower($value)) . '*'
                   )
                 );
