@@ -164,12 +164,12 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
                 $conditiongroups[] = array(
                     array(
                         'match' => array(
-                            'field_study_programme_type' => $studyprogrammetype
+                            'field_study_programme_type' => strtolower($studyprogrammetype)
                         )
                     ),
                     array(
                         'match' => array(
-                            'field_teaching_language' => $language
+                            'field_teaching_language' => strtolower($language)
                         )
                     ),
                     array(
@@ -177,12 +177,12 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
                             'should' => array(
                                 array(
                                     'match' => array(
-                                        'field_iscedf_detailed' => $iscedf_detailed
+                                        'field_iscedf_detailed' => strtolower($iscedf_detailed)
                                     )
                                 ),
                                 array(
                                     'match' => array(
-                                        'name' => $studyprogrammename
+                                        'name' => strtolower($studyprogrammename)
                                     )
                                 )
                             )
@@ -193,17 +193,17 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
                 $conditiongroups[] = array(
                     array(
                         'match' => array(
-                            'field_study_programme_type' => $studyprogrammetype
+                            'field_study_programme_type' => strtolower($studyprogrammetype)
                         )
                     ),
                     array(
                         'match' => array(
-                            'field_teaching_language' => $language
+                            'field_teaching_language' => strtolower($language)
                         )
                     ),
                     array(
                         'match' => array(
-                            'name' => $studyprogrammename
+                            'name' => strtolower($studyprogrammename)
                         )
                     )
                 );
@@ -213,7 +213,7 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
                 $conditiongroups[] = array(
                     array(
                         'match' => array(
-                            'field_study_programme_type' => $studyprogrammetype
+                            'field_study_programme_type' => strtolower($studyprogrammetype)
                         )
                     ),
                     array(
@@ -221,12 +221,12 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
                             'should' => array(
                                 array(
                                     'match' => array(
-                                        'field_iscedf_detailed' => $iscedf_detailed
+                                        'field_iscedf_detailed' => strtolower($iscedf_detailed)
                                     )
                                 ),
                                 array(
                                     'match' => array(
-                                        'name' => $studyprogrammename
+                                        'name' => strtolower($studyprogrammename)
                                     )
                                 )
                             )
@@ -237,12 +237,12 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
                 $conditiongroups[] = array(
                     array(
                         'match' => array(
-                            'field_study_programme_type' => $studyprogrammetype
+                            'field_study_programme_type' => strtolower($studyprogrammetype)
                         )
                     ),
                     array(
                         'match' => array(
-                            'name' => $studyprogrammename
+                            'name' => strtolower($studyprogrammename)
                         )
                     )
                 );
@@ -257,7 +257,7 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
             $functions[] = array(
                 'filter' => array(
                     'match' => array(
-                        'field_degree_or_diploma_awarded' => $degreeordiploma
+                        'field_degree_or_diploma_awarded' => strtolower($degreeordiploma)
                     )
                 ),
                 'weight' => 3
@@ -278,7 +278,7 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
             $functions[] = array(
                 'filter' => array(
                     'match' => array(
-                        'field_study_programme_level' => $studyprogrammelevel
+                        'field_study_programme_level' => strtolower($studyprogrammelevel)
                     )
                 ),
                 'weight' => 2
