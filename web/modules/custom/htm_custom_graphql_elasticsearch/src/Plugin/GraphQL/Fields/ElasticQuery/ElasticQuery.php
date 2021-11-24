@@ -228,10 +228,10 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
             $functions[] = array(
               'filter' => array(
                 'wildcard' => array(
-                  $condition['field'] => '*'. str_replace(',', '', $searchvalue).'*'
+                  $condition['field'] => '*'. str_replace(',', '', strtolower($searchvalue)).'*'
                 ),
               ),
-              "random_score"=> [],
+              'random_score' => [],
               'weight' => $condition['weight'],
             );
           }
@@ -272,6 +272,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     foreach ($args['score']['conditions'] as $condition) {
       $query['query']['function_score']['query']['bool']['should'][]['match'][$condition['field']] = ["query"=>$args['score']['search_value'],"analyzer"=>"synonym"];
     }
+
     $params['body'] = $query;
     return $params;
   }
