@@ -188,7 +188,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
                 }
                 $elastic_must_filters[] = array(
                   'wildcard' => array(
-                    $condition['field'] => '*' . str_replace(',', '', strtolower($value)) . '*'
+                    $condition['field'] => '*' . str_replace(',', '', mb_strtolower($value)) . '*'
                   )
                 );
               }
@@ -228,7 +228,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
             $functions[] = array(
               'filter' => array(
                 'wildcard' => array(
-                  $condition['field'] => '*'. str_replace(',', '', strtolower($searchvalue)).'*'
+                  $condition['field'] => '*'. str_replace(',', '', mb_strtolower($searchvalue)).'*'
                 ),
               ),
               'random_score' => [],
