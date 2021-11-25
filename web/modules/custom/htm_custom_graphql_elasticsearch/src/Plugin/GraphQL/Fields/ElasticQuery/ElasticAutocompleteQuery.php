@@ -156,7 +156,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         $query = [
             'query' => [
                 'query_string' => [
-                    'query' => '*'.$args['search_input'].'*',
+                    'query' => '*'.mb_strtolower($args['search_input']).'*',
                 ]
             ],
             'rescore' => [
@@ -165,7 +165,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                     'rescore_query' => [
                         'match_phrase' => [
                             'title' => [
-                                'query' => $args['search_input'],
+                                'query' => mb_strtolower($args['search_input']),
                                 'slop' => 5
                             ]
                         ]
