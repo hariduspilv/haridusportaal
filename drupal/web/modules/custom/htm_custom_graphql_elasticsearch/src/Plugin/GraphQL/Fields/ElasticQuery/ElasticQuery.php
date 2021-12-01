@@ -86,6 +86,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       ]
     ];
     $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
+
     $elasticsearch_indexes =  \Drupal::entityTypeManager()->getStorage('search_api_index')->loadMultiple();
     $index_out = '';
     foreach ($elasticsearch_indexes as $elasticsearch_index_name=> $elasticsearch_index){
@@ -110,6 +111,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     if($params == NULL){
       return NULL;
     }else{
+
       $response = $client->search($params);
       if($args['offset'] == null && $args['limit'] == null){
         while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
@@ -167,6 +169,9 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           switch ($condition['operator']) {
             case '=':
               foreach ($condition['value'] as $value) {
+                if ($condition['field']=='langcode'){
+                  $value = strtolower($value);
+                }
                 $elastic_must_filters[] = array(
                   'match' => array(
                     $condition['field'] => $value
@@ -177,9 +182,13 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
             case 'LIKE':
               $values = explode(" ", $condition['value'][0]);
               foreach ($values as $value) {
+
+                if ($condition['field']=='langcode'){
+                  $value = strtolower($value);
+                }
                 $elastic_must_filters[] = array(
                   'wildcard' => array(
-                    $condition['field'] => '*' . str_replace(',', '', strtolower($value)) . '*'
+                    $condition['field'] => '*' . str_replace(',', '', mb_strtolower($value)) . '*'
                   )
                 );
               }
@@ -199,7 +208,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
                   'match' => array(
                     $condition['field'] => array(
                       'query' => $value,
-                      'fuzziness' => 2
+                      'fuzziness' => 'AUTO',
+                      'analyzer'=>'synonym_analyzer'
                     )
                   )
                 );
@@ -218,14 +228,16 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
             $functions[] = array(
               'filter' => array(
                 'wildcard' => array(
-                  $condition['field'] => '*'. str_replace(',', '', $searchvalue).'*'
-                )
+                  $condition['field'] => '*'. str_replace(',', '', mb_strtolower($searchvalue)).'*'
+                ),
               ),
-              'weight' => $condition['weight']
+              'random_score' => [],
+              'weight' => $condition['weight'],
             );
           }
         }
       }
+
       $query = array(
         'query' => array(
           'function_score' => array(
@@ -237,8 +249,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
             'boost' => '1',
             'functions' => $functions,
             'score_mode' => 'sum',
-            'boost_mode' => 'replace',
-            'min_score' => 2
+            'boost_mode' => 'avg',
+            'min_score' => 2,
           )
         ),
         'sort' => array(
@@ -257,9 +269,27 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         $query['sort'] = $args['sort'];
       }
     }
-    #dump($query);
+    foreach ($args['score']['conditions'] as $condition) {
+      $query['query']['function_score']['query']['bool']['should'][]['match'][$condition['field']] = ["query"=>$args['score']['search_value'],"analyzer"=>"synonym"];
+    }
+
     $params['body'] = $query;
     return $params;
+  }
+  protected function getSynonyms() {
+    $config = \Drupal::config('search_api_elasticsearch_synonym.settings');
+    $synonyms_array = preg_split("/\r\n|\n|\r/",$config->get('synonyms'));
+    $synonyms = array();
+
+    foreach ($synonyms_array as $synonyms_line) {
+      $parts = explode("#", $synonyms_line);
+
+      if (!empty($parts[0])) {
+        $synonyms[] = $parts[0];
+      }
+    }
+
+    return $synonyms;
   }
   protected function parseElasticSort($args, Client $client)
   {

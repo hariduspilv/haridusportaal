@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.node.study_programme.field_accreditation_status
     - field.field.node.study_programme.field_accreditation_valid_until
-    - field.field.node.study_programme.field_admission_status
     - field.field.node.study_programme.field_amount
     - field.field.node.study_programme.field_amount_unit
     - field.field.node.study_programme.field_created_from_ehis_datetime
@@ -55,14 +54,6 @@ content:
       timezone_override: ''
     third_party_settings: {  }
     type: datetime_default
-    region: content
-  field_admission_status:
-    weight: 122
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
     region: content
   field_amount:
     weight: 115
@@ -256,3 +247,4 @@ content:
     third_party_settings: {  }
 hidden:
   langcode: true
+  search_api_excerpt: true

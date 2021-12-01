@@ -62,7 +62,7 @@ class StudyProgrammeController extends ControllerBase {
             $data = $response->getBody()->getContents();
             $data_from_json = json_decode(str_replace(array("\n", "\r"), '', $data));
             foreach($data_from_json->body->oppekavad->oppekava as $oppekava){
-                if($oppekava->vastuvott != 'Vastuvõttu ei toimu, õppimine keelatud' && isset($programmetype[$this->parse_key($oppekava->oppekavaLiik)])){
+                if($oppekava->vastuvott === 'Avatud' && isset($programmetype[$this->parse_key($oppekava->oppekavaLiik)])){
                     if(isset($schools[$oppekava->koolId]) && isset($oppekava->oppekavaNimetus) && !empty($oppekava->oppekavaNimetus) && isset($oppekava->oppekavaKood) && !empty($oppekava->oppekavaKood) && isset($oppekava->oppekavaLiik) && !empty($oppekava->oppekavaLiik)){
                         $programmes[] = $oppekava;
                     }else{
@@ -240,10 +240,6 @@ class StudyProgrammeController extends ControllerBase {
                 $duration_values[] = $programme->nominaalKestusKuud;
             }
             $programmenode['programme_field']['field_duration'] = array_sum($duration_values);
-
-            if(isset($programme->vastuvott)){
-                $programmenode['programme_field']['field_admission_status'] = $programme->vastuvott;
-            }
 
             if(isset($programme->akrediteerimisOtsus)){
                 $programmenode['programme_field']['field_accreditation_status'] = $programme->akrediteerimisOtsus;

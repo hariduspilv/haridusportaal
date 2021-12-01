@@ -15,11 +15,6 @@
                             <a [routerLink]="item?.url?.path ? item.url.path : item.url" attr.id="listItem-{{ i }}"class="list__item__title">
                                 <h2>{{ item.title }}</h2>
                             </a>
-                            <span
-                                *ngIf="type === 'studyProgramme' && item.admissionStatus !== 'avatud' && item.admissionStatus !== 'Avatud'">
-                                <labels [data]="[{entity: {entityLabel: 'studyProgramme.non_active'}}]">
-                                </labels>
-                            </span>
                         </div>
                         <div class="author" *ngIf="item.author || item.created">
                             {{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>

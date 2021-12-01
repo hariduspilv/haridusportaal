@@ -31,7 +31,6 @@ query ($lang: LanguageId!, $schoolId: String!, $offset: Int, $limit: Int) {
                 }
                 fieldAccreditationStatus
                 fieldDuration
-                fieldAdmissionStatus
             }
         }
     }

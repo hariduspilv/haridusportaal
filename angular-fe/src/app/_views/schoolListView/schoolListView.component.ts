@@ -38,6 +38,7 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
   ownershipFilters = [];
   paramsWatcher: Subscription = new Subscription();
   subPlaceholder: string = '';
+
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
@@ -63,7 +64,7 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
 
     if (this.selectedPrimaryTypes.length === 1) {
       this.isLanguageDisabled =
-        this.selectedPrimaryTypes.includes('3441') || this.selectedPrimaryTypes.includes('3440')
+        this.selectedPrimaryTypes.includes('3441') || this.selectedPrimaryTypes.includes('3440')
           ? true : false;
       if (this.isLanguageDisabled) {
         this.selectedLanguage = [];
@@ -73,16 +74,18 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
 
     if (this.selectedPrimaryTypes.length === 2) {
       this.isLanguageDisabled =
-        this.selectedPrimaryTypes.includes('3441') && this.selectedPrimaryTypes.includes('3440')
+        this.selectedPrimaryTypes.includes('3441') && this.selectedPrimaryTypes.includes('3440')
           ? true : false;
       if (this.isLanguageDisabled) {
         this.selectedLanguage = [];
       }
       return;
     }
+
     this.isLanguageDisabled = false;
     this.cdr.detectChanges();
   }
+
   ngAfterViewInit() {
     const responsive = this.filterToggle.nativeElement.clientWidth;
     this.showFilter = responsive ? false : true;
@@ -114,6 +117,7 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
     } else {
       this.selectedSecondaryTypes = [];
     }
+
     this.removeHangingTypes();
     this.setTypeValue();
     this.subtypePlaceholder();

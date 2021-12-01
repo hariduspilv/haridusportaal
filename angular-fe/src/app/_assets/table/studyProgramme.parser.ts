@@ -34,10 +34,6 @@ export const parseData = (data) => {
       label: 'school.institution_name',
     },
     {
-      key: 'fieldEducationalInstitution.entity.fieldRegistrationCode',
-      label: 'school.register_code',
-    },
-    {
       key: 'fieldStudyProgrammeLevel',
       label: 'studyProgramme.level',
     },
@@ -83,10 +79,6 @@ export const parseData = (data) => {
       key: 'fieldDuration',
       label: 'studyProgramme.nominal_time',
       transform: 'toYears',
-    },
-    {
-      key: 'fieldAdmissionStatus',
-      label: 'studyProgramme.admission_status',
     },
     {
       key: 'fieldWebPageAddress.uri',
@@ -144,6 +136,10 @@ export const parseData = (data) => {
     let output = item;
     if (output) {
       if (Array.isArray(output.value) && output.value.length === 0) {
+        output = false;
+      }
+
+      if (output.key === 'fieldSpecialization' && output.value.toLowerCase() === 'määramata') {
         output = false;
       }
     }
