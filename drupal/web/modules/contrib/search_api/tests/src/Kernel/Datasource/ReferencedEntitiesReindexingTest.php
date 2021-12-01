@@ -368,4 +368,51 @@ class ReferencedEntitiesReindexingTest extends KernelTestBase {
     $this->assertEquals([], $result);
   }
 
+  /**
+   * Tests that the tracking of changes in referenced entities can be disabled.
+   */
+  public function testDisableOption() {
+    $this->index->setOption('track_changes_in_references', FALSE);
+    $this->index->save();
+
+    $child_map = [
+      'child' => [
+        'title' => 'Child',
+        'indexed' => 'Original indexed value',
+        'not_indexed' => 'Original not indexed value.',
+      ],
+      'unrelated' => [
+        'title' => 'Unrelated child',
+        'indexed' => 'Original indexed value',
+        'not_indexed' => 'Original not indexed value.',
+      ],
+    ];
+    $children = $this->createEntitiesFromMap($child_map, [], 'child');
+    $parent_map = [
+      'parent' => [
+        'title' => 'Parent',
+        'entity_reference' => 'child',
+      ],
+    ];
+    $parents = $this->createEntitiesFromMap($parent_map, $children, 'parent');
+    $grandparent_map = [
+      'grandparent' => [
+        'title' => 'Grandparent',
+        'parent_reference' => 'parent',
+      ],
+    ];
+    $this->createEntitiesFromMap($grandparent_map, $parents, 'grandparent');
+
+    $this->index->indexItems();
+    $tracker = $this->index->getTrackerInstance();
+    $this->assertEquals([], $tracker->getRemainingItems());
+
+    // Now let's execute updates.
+    $i = 'child';
+    $children[$i]->get('indexed')->setValue(['New indexed value.']);
+    $children[$i]->save();
+
+    $this->assertEquals([], $tracker->getRemainingItems());
+  }
+
 }

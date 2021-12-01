@@ -105,6 +105,12 @@ class TrackingHelper implements TrackingHelperInterface {
     // Original entity, if available.
     $original = $deleted ? NULL : ($entity->original ?? NULL);
     foreach ($indexes as $index) {
+      // Do not track changes to referenced entities if the option has been
+      // disabled.
+      if (!$index->getOption('track_changes_in_references')) {
+        continue;
+      }
+
       // Map of foreign entity relations. Will get lazily populated as soon as
       // we actually need it.
       $map = NULL;

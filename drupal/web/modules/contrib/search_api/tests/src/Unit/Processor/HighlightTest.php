@@ -38,7 +38,7 @@ class HighlightTest extends UnitTestCase {
   /**
    * The index mock used for the tests.
    *
-   * @var \PHPUnit_Framework_MockObject_MockObject|\Drupal\search_api\IndexInterface
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\search_api\IndexInterface
    */
   protected $index;
 
@@ -932,7 +932,7 @@ END;
    * Tests that field extraction in the processor works correctly.
    */
   public function testFieldExtraction() {
-    /** @var \Drupal\Tests\search_api\Unit\TestComplexDataInterface|\PHPUnit_Framework_MockObject_MockObject $object */
+    /** @var \Drupal\Tests\search_api\Unit\TestComplexDataInterface|\PHPUnit\Framework\MockObject\MockObject $object */
     $object = $this->createMock(TestComplexDataInterface::class);
     $bar_foo_property = $this->createMock(TypedDataInterface::class);
     $bar_foo_property->method('getValue')
@@ -1012,7 +1012,7 @@ END;
       ]);
     $this->processor->setIndex($this->index);
 
-    /** @var \Drupal\search_api\Datasource\DatasourceInterface|\PHPUnit_Framework_MockObject_MockObject $datasource */
+    /** @var \Drupal\search_api\Datasource\DatasourceInterface|\PHPUnit\Framework\MockObject\MockObject $datasource */
     $datasource = $this->createMock(DatasourceInterface::class);
     $datasource->method('getPluginId')
       ->willReturn('entity:test1');
@@ -1030,7 +1030,7 @@ END;
     $item->setField('field5', $field);
 
     $this->processor->setConfiguration(['excerpt' => FALSE]);
-    /** @var \Drupal\search_api\Query\QueryInterface|\PHPUnit_Framework_MockObject_MockObject $query */
+    /** @var \Drupal\search_api\Query\QueryInterface|\PHPUnit\Framework\MockObject\MockObject $query */
     $query = $this->createMock(QueryInterface::class);
     $query->method('getOriginalKeys')
       ->willReturn('foo');

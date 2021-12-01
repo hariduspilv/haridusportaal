@@ -12,7 +12,8 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  * @see \Drupal\node\Plugin\migrate\source\d7\Node
  * @see \Drupal\user\Plugin\migrate\source\d7\User
  *
- * For available configuration keys, refer to the parent classes:
+ * For available configuration keys, refer to the parent classes.
+ *
  * @see \Drupal\migrate\Plugin\migrate\source\SqlBase
  * @see \Drupal\migrate\Plugin\migrate\source\SourcePluginBase
  */
@@ -20,6 +21,12 @@ abstract class FieldableEntity extends DrupalSqlBase {
 
   /**
    * Returns all non-deleted field instances attached to a specific entity type.
+   *
+   * Typically, getFields() is used in the prepareRow method of a source plugin
+   * to get a list of all the field instances of the entity. A source plugin can
+   * then loop through the list of fields to do any other preparation before
+   * processing the row. Typically, a source plugin will use getFieldValues()
+   * to get the values of each field.
    *
    * @param string $entity_type
    *   The entity type ID.
@@ -46,6 +53,9 @@ abstract class FieldableEntity extends DrupalSqlBase {
 
   /**
    * Retrieves field values for a single field of a single entity.
+   *
+   * Typically, getFieldValues() is used in the prepareRow method of a source
+   * plugin where the return values are placed on the row source.
    *
    * @param string $entity_type
    *   The entity type.

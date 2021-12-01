@@ -1,0 +1,10 @@
+services:
+  prepare_index:
+    class: '\Drupal\search_api_elasticsearch_synonym\EventSubscriber\PrepareIndexSubscriber'
+    tags:
+      - { name: 'event_subscriber' }
+  prepare_index_mapping:
+    class: '\Drupal\search_api_elasticsearch_synonym\EventSubscriber\PrepareIndexMappingSubscriber'
+    tags:
+      - { name: 'event_subscriber' }
+
