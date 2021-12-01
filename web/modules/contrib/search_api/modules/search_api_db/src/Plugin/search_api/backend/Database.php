@@ -4,6 +4,7 @@ namespace Drupal\search_api_db\Plugin\search_api\backend;
 
 use Drupal\Component\Utility\Crypt;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Database\Database as CoreDatabase;
 use Drupal\Core\Database\DatabaseException;
@@ -1641,41 +1642,56 @@ class Database extends BackendPluginBase implements PluginFormInterface {
 
     $results = $query->getResults();
 
-    $skip_count = $query->getOption('skip result count');
-    $count = NULL;
-    if (!$skip_count) {
-      $count_query = $db_query->countQuery();
-      $count = $count_query->execute()->fetchField();
-      $results->setResultCount($count);
+    try {
+      $skip_count = $query->getOption('skip result count');
+      $count = NULL;
+      if (!$skip_count) {
+        $count_query = $db_query->countQuery();
+        $count = $count_query->execute()->fetchField();
+        $results->setResultCount($count);
+      }
+
+      // With a "min_count" of 0, some facets can even be available if there are
+      // no results.
+      if ($query->getOption('search_api_facets')) {
+        $facets = $this->getFacets($query, clone $db_query, $count);
+        $results->setExtraData('search_api_facets', $facets);
+      }
+      // Everything else can be skipped if the count is 0.
+      if ($skip_count || $count) {
+        $query_options = $query->getOptions();
+        if (isset($query_options['offset']) || isset($query_options['limit'])) {
+          $offset = $query_options['offset'] ?? 0;
+          $limit = $query_options['limit'] ?? 1000000;
+          $db_query->range($offset, $limit);
+        }
+
+        $this->setQuerySort($query, $db_query, $fields);
+
+        $result = $db_query->execute();
+
+        foreach ($result as $row) {
+          $item = $this->getFieldsHelper()->createItem($index, $row->item_id);
+          $item->setScore($row->score / self::SCORE_MULTIPLIER);
+          $results->addResultItem($item);
+        }
+        if ($skip_count && !empty($item)) {
+          $results->setResultCount(1);
+        }
+      }
     }
-
-    // With a "min_count" of 0, some facets can even be available if there are
-    // no results.
-    if ($query->getOption('search_api_facets')) {
-      $facets = $this->getFacets($query, clone $db_query, $count);
-      $results->setExtraData('search_api_facets', $facets);
+    // @todo Replace with multi-catch once we depend on PHP 7.1+.
+    catch (DatabaseException $e) {
+      if ($query instanceof RefinableCacheableDependencyInterface) {
+        $query->mergeCacheMaxAge(0);
+      }
+      throw new SearchApiException('A database exception occurred while searching.', $e->getCode(), $e);
     }
-    // Everything else can be skipped if the count is 0.
-    if ($skip_count || $count) {
-      $query_options = $query->getOptions();
-      if (isset($query_options['offset']) || isset($query_options['limit'])) {
-        $offset = isset($query_options['offset']) ? $query_options['offset'] : 0;
-        $limit = isset($query_options['limit']) ? $query_options['limit'] : 1000000;
-        $db_query->range($offset, $limit);
+    catch (\PDOException $e) {
+      if ($query instanceof RefinableCacheableDependencyInterface) {
+        $query->mergeCacheMaxAge(0);
       }
-
-      $this->setQuerySort($query, $db_query, $fields);
-
-      $result = $db_query->execute();
-
-      foreach ($result as $row) {
-        $item = $this->getFieldsHelper()->createItem($index, $row->item_id);
-        $item->setScore($row->score / self::SCORE_MULTIPLIER);
-        $results->addResultItem($item);
-      }
-      if ($skip_count && !empty($item)) {
-        $results->setResultCount(1);
-      }
+      throw new SearchApiException('A database exception occurred while searching.', $e->getCode(), $e);
     }
 
     // Add additional warnings and ignored keys.

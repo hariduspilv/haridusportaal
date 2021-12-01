@@ -1,0 +1,5 @@
+search_api_elasticsearch_synonym.settings:
+  title: 'Search API Elasticsearch Synonym'
+  route_name: search_api_elasticsearch_synonym.settings
+  description: 'Create and configure synonyms for Elasticsearch.'
+  parent: system.admin_config_search
