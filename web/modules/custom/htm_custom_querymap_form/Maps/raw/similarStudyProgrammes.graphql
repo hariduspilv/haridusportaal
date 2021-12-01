@@ -11,7 +11,6 @@ query similarStudyProgrammes($nid: Int!, $address: String, $offset: Int, $limit:
     FieldAccreditationStatus
     FieldDurationYears
     FieldDurationMonths
-    FieldAdmissionStatus
     EntityPath
   }
 }
