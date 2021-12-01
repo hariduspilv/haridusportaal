@@ -6542,6 +6542,52 @@
             }
         },
         {
+            "name": "drupal/search_api_elasticsearch_synonym",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/search_api_elasticsearch_synonym.git",
+                "reference": "1.2.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/search_api_elasticsearch_synonym-1.2.0.zip",
+                "reference": "1.2.0",
+                "shasum": "28f09aa0e3fa3c4c06fcb799f470be01e0561c05"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9",
+                "drupal/elasticsearch_connector": "*",
+                "drupal/search_api": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.2.0",
+                    "datestamp": "1621359509",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "dealancer",
+                    "homepage": "https://www.drupal.org/user/243418"
+                }
+            ],
+            "description": "Provide synonym functionality for Elasticsearch powered by Search API",
+            "homepage": "https://www.drupal.org/project/search_api_elasticsearch_synonym",
+            "support": {
+                "source": "https://git.drupalcode.org/project/search_api_elasticsearch_synonym"
+            }
+        },
+        {
             "name": "drupal/seckit",
             "version": "2.0.0",
             "source": {
