@@ -1,0 +1,3 @@
+enable: 1
+token_filter_type: synonym
+synonyms: "vardjas , automaattest\r\njura, test\r\nautomaat test, automaattest\r\nautomaat test, Automaattest\r\nsitt, automaattest\r\nsitt, test\r\npersevest, automaattest\r\nkakaaaa, test\r\npask, test\r\nossa, test\r\nkakaa, test\r\npraaaavo, test\r\nossaraisk, test\r\nkillustik, test\r\nkakaa, test\r\nkakkk, test\r\nkastja,test\r\nkoolerm, test\r\nsitapott, test\r\ntestime, test\r\nkoolera, test"
