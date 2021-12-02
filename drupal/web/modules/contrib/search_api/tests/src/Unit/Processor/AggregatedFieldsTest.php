@@ -39,7 +39,7 @@ class AggregatedFieldsTest extends UnitTestCase {
   /**
    * A search index mock for the tests.
    *
-   * @var \Drupal\search_api\IndexInterface|\PHPUnit_Framework_MockObject_MockObject
+   * @var \Drupal\search_api\IndexInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $index;
 
@@ -110,7 +110,7 @@ class AggregatedFieldsTest extends UnitTestCase {
 
     // We want to check correct data type handling, so we need a somewhat more
     // complex mock-up for the datatype plugin handler.
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Drupal\search_api\DataType\DataTypePluginManager $data_type_manager */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\search_api\DataType\DataTypePluginManager $data_type_manager */
     $data_type_manager = $this->container->get('plugin.manager.search_api.data_type');
     $data_type_manager->method('hasDefinition')
       ->willReturn(TRUE);
@@ -321,7 +321,7 @@ class AggregatedFieldsTest extends UnitTestCase {
    * Tests that field extraction in the processor works correctly.
    */
   public function testFieldExtraction() {
-    /** @var \Drupal\Tests\search_api\Unit\TestComplexDataInterface|\PHPUnit_Framework_MockObject_MockObject $object */
+    /** @var \Drupal\Tests\search_api\Unit\TestComplexDataInterface|\PHPUnit\Framework\MockObject\MockObject $object */
     $object = $this->createMock(TestComplexDataInterface::class);
     $bar_foo_property = $this->createMock(TypedDataInterface::class);
     $bar_foo_property->method('getValue')
@@ -353,7 +353,7 @@ class AggregatedFieldsTest extends UnitTestCase {
         'foobar' => TRUE,
       ]);
 
-    /** @var \Drupal\search_api\IndexInterface|\PHPUnit_Framework_MockObject_MockObject $index */
+    /** @var \Drupal\search_api\IndexInterface|\PHPUnit\Framework\MockObject\MockObject $index */
     $index = $this->createMock(IndexInterface::class);
 
     $fields_helper = \Drupal::getContainer()->get('search_api.fields_helper');
@@ -413,7 +413,7 @@ class AggregatedFieldsTest extends UnitTestCase {
       ]);
     $this->processor->setIndex($index);
 
-    /** @var \Drupal\search_api\Datasource\DatasourceInterface|\PHPUnit_Framework_MockObject_MockObject $datasource */
+    /** @var \Drupal\search_api\Datasource\DatasourceInterface|\PHPUnit\Framework\MockObject\MockObject $datasource */
     $datasource = $this->createMock(DatasourceInterface::class);
     $datasource->method('getPluginId')
       ->willReturn('entity:test1');
