@@ -182,6 +182,10 @@ class ContentEntityDatasourceTest extends KernelTestBase {
 
     $item = $loaded_items['1:l0'];
     $build = $this->datasource->viewItem($item, 'foobar');
+    // Order of cache tags does not matter.
+    if (!empty($build['#cache']['tags'])) {
+      sort($build['#cache']['tags']);
+    }
     $expected = [
       '#entity_test_mulrev_changed' => $item->getValue(),
       '#view_mode' => 'foobar',
@@ -204,6 +208,10 @@ class ContentEntityDatasourceTest extends KernelTestBase {
     $this->assertTrue($build['#sorted']);
     $this->assertEquals([[$builder, 'buildMultiple']], $build['#pre_render']);
     foreach ($loaded_items as $item_id => $item) {
+      // Order of cache tags does not matter.
+      if (!empty($build[$item_id]['#cache']['tags'])) {
+        sort($build[$item_id]['#cache']['tags']);
+      }
       /** @var \Drupal\Core\Entity\EntityInterface $entity */
       $entity = $item->getValue();
       $expected = [
