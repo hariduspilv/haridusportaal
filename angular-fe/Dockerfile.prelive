@@ -12,7 +12,7 @@ RUN	apk update && \
 	zlib \
 	php \
 	nodejs \
-	nodejs-npm
+	npm
 
 RUN npm i -g @angular/cli
 
