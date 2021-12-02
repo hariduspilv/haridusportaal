@@ -124,7 +124,7 @@ class ViewsFieldTraitTest extends KernelTestBase {
     ]);
 
     $this->field = new ViewsTestField([], 'search_api', []);
-    /** @var \Drupal\search_api\Plugin\views\query\SearchApiQuery|\PHPUnit_Framework_MockObject_MockObject $query */
+    /** @var \Drupal\search_api\Plugin\views\query\SearchApiQuery|\PHPUnit\Framework\MockObject\MockObject $query */
     $query = $this->getMockBuilder(SearchApiQuery::class)
       ->disableOriginalConstructor()
       ->getMock();

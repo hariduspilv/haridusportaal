@@ -215,6 +215,9 @@ abstract class FilterWidgetBase extends BetterExposedFiltersWidgetBase implement
         '#type' => 'details',
         '#title' => $exposed_label,
         '#description' => $exposed_description,
+        '#attributes' => [
+          'class' => ['form-item'],
+        ],
       ];
 
       if ($is_secondary) {

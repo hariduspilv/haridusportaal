@@ -89,7 +89,7 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       'file' => 3,
       'filter_format' => 7,
       'image_style' => 7,
-      'language_content_settings' => 22,
+      'language_content_settings' => 24,
       'node' => 7,
       'node_type' => 8,
       'rdf_mapping' => 8,
@@ -237,7 +237,7 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
   protected function assertFollowUpMigrationResults() {
     $node = Node::load(2);
     $this->assertSame('4', $node->get('field_reference')->target_id);
-    $this->assertSame('4', $node->get('field_reference_2')->target_id);
+    $this->assertSame('6', $node->get('field_reference_2')->target_id);
     $translation = $node->getTranslation('is');
     $this->assertSame('4', $translation->get('field_reference')->target_id);
     $this->assertSame('4', $translation->get('field_reference_2')->target_id);
