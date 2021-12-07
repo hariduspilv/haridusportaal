@@ -159,7 +159,7 @@ class EhisConnectorService {
         #dump('lõime url', $this->loime_url.$service_name);
         #dump('parameetrid', $params);
         $response = $client->post($this->loime_url.$service_name, $params);
-        \Drupal::logger('xjson')->notice('<pre><code>Post response: ' . print_r(['url' => $response, 'params' => $params ], TRUE) . '</code></pre>' );
+        \Drupal::logger('xjson')->notice('<pre><code>Post response: ' . print_r($response, TRUE) . '</code></pre>' );
       }else{
         //TODO throw error
       }
