@@ -122,8 +122,10 @@ class EducationalFormRestResource extends ResourceBase {
 			  }
 				break;
 		  case 'edit':
-			  if($validation[0]){
-			  	$response = $this->ehisConnector->editInstitution(['data' => $data]);
+
+        if($validation[0]){
+          \Drupal::logger('xjson')->notice('<pre><code>Post request time (editForm > editInstitution): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+          $response = $this->ehisConnector->editInstitution(['data' => $data]);
 			  	if(isset($response['message'])){
             $this->ehisConnector->deleteKeyFromredis($this->ehisConnector->getCurrentUserIdRegCode(FALSE));
           }
