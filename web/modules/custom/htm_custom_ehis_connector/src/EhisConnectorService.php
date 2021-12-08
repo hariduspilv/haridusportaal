@@ -142,8 +142,6 @@ class EhisConnectorService {
    * @return mixed|\Psr\Http\Message\ResponseInterface
    */
   private function invoke($service_name, $params, $type = 'get'){
-    \Drupal::logger('xjson')->notice('<pre><code>Post request time (Start Invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
-
     $client = \Drupal::httpClient();
     try {
       /*TODO make post URL configurable*/
@@ -154,21 +152,26 @@ class EhisConnectorService {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/') . '?'. implode($params['params'], '&'));
         }
       }elseif($type === 'post'){
-        \Drupal::logger('xjson')->notice('<pre><code>Post request time (Start Invoke Post): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+        \Drupal::logger('xjson')->notice('<pre><code>Post request time (1 Start Invoke Post): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
 
         $params['headers'] = [
           'Content-Type' => 'application/json'
         ];
+        \Drupal::logger('xjson')->notice('<pre><code>Post request time (2 After Invoke Post Headers): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
         \Drupal::logger('xjson')->notice('<pre><code>Post request: ' . print_r(['url' => $this->loime_url.$service_name, 'params' => $params ], TRUE) . '</code></pre>' );
         #dump('lõime url', $this->loime_url.$service_name);
         #dump('parameetrid', $params);
+        \Drupal::logger('xjson')->notice('<pre><code>Post request time (3 Before Invoke Post Response Param): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
         $response = $client->post($this->loime_url.$service_name, $params);
-        \Drupal::logger('xjson')->notice('<pre><code>Post request time (Invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+        \Drupal::logger('xjson')->notice('<pre><code>Post request time (4 After Invoke Post Response Param): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
       }else{
         //TODO throw error
       }
       $response = json_decode($response->getBody()->getContents(), TRUE);
       #dump('liidese vastus', $response);
+      \Drupal::logger('xjson')->notice('<pre><code>Post request time (5 Return Invoke Post Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
       return $response;
     }catch (RequestException $e){
       \Drupal::logger('xjson')->notice('<pre><code>ehis response error' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
