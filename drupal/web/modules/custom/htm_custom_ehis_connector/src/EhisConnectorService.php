@@ -456,7 +456,7 @@ class EhisConnectorService {
       $hash = 'educationalInstitution_'.$params['data']['edId'];
       $this->deleteFromRedis($key, $hash);
     }
-
+    \Drupal::logger('xjson')->notice('<pre><code>Post request time (editInstitution): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
     return $return;
   }
 
