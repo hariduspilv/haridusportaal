@@ -159,7 +159,7 @@ class EhisConnectorService {
         #dump('lõime url', $this->loime_url.$service_name);
         #dump('parameetrid', $params);
         $response = $client->post($this->loime_url.$service_name, $params);
-        \Drupal::logger('xjson')->notice('<pre><code>Post response: ' . print_r(['response' => $response, 'params' => $params ], TRUE) . '</code></pre>' );
+        \Drupal::logger('xjson')->notice('<pre><code>Post request time (Invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
       }else{
         //TODO throw error
       }
@@ -451,6 +451,7 @@ class EhisConnectorService {
     $post_data = [
       'json' => $data
     ];
+    \Drupal::logger('xjson')->notice('<pre><code>Post request time (editInstitution invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
     $return = $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
 
     //everything is fine delete cache
@@ -459,7 +460,7 @@ class EhisConnectorService {
       $hash = 'educationalInstitution_'.$params['data']['edId'];
       $this->deleteFromRedis($key, $hash);
     }
-    \Drupal::logger('xjson')->notice('<pre><code>Post request time (editInstitution): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+    \Drupal::logger('xjson')->notice('<pre><code>Post request time (editInstitution delete from redis): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
     return $return;
   }
 
@@ -762,6 +763,7 @@ class EhisConnectorService {
         ]
       ]
     ];
+    \Drupal::logger('xjson')->notice('<pre><code>Post request time (buildInstitutionData): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
 
     return $map;
   }
