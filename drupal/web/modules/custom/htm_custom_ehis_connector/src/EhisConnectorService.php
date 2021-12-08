@@ -142,6 +142,8 @@ class EhisConnectorService {
    * @return mixed|\Psr\Http\Message\ResponseInterface
    */
   private function invoke($service_name, $params, $type = 'get'){
+    \Drupal::logger('xjson')->notice('<pre><code>Post request time (Start Invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
     $client = \Drupal::httpClient();
     try {
       /*TODO make post URL configurable*/
@@ -152,6 +154,8 @@ class EhisConnectorService {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/') . '?'. implode($params['params'], '&'));
         }
       }elseif($type === 'post'){
+        \Drupal::logger('xjson')->notice('<pre><code>Post request time (Start Invoke Post): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
         $params['headers'] = [
           'Content-Type' => 'application/json'
         ];
@@ -448,7 +452,6 @@ class EhisConnectorService {
     $post_data = [
       'json' => $data
     ];
-    \Drupal::logger('xjson')->notice('<pre><code>Post request time (editInstitution invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
     $return = $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
 
     //everything is fine delete cache
@@ -457,7 +460,7 @@ class EhisConnectorService {
       $hash = 'educationalInstitution_'.$params['data']['edId'];
       $this->deleteFromRedis($key, $hash);
     }
-    \Drupal::logger('xjson')->notice('<pre><code>Post request time (editInstitution delete from redis): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+    \Drupal::logger('xjson')->notice('<pre><code>Post request time (editInstitution > invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
     return $return;
   }
 
@@ -760,7 +763,6 @@ class EhisConnectorService {
         ]
       ]
     ];
-    \Drupal::logger('xjson')->notice('<pre><code>Post request time (buildInstitutionData): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
 
     return $map;
   }
