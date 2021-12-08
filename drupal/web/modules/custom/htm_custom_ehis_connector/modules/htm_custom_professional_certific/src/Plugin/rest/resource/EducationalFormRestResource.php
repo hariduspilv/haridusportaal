@@ -124,12 +124,14 @@ class EducationalFormRestResource extends ResourceBase {
 		  case 'edit':
 
         if($validation[0]){
-          \Drupal::logger('xjson')->notice('<pre><code>Post request time (editForm > editInstitution): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+          \Drupal::logger('xjson')->notice('<pre><code>Post request time (A editForm > editInstitution): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
           $response = $this->ehisConnector->editInstitution(['data' => $data]);
-			  	if(isset($response['message'])){
+          \Drupal::logger('xjson')->notice('<pre><code>Post request time (B After editForm Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
+          if(isset($response['message'])){
             $this->ehisConnector->deleteKeyFromredis($this->ehisConnector->getCurrentUserIdRegCode(FALSE));
           }
-          \Drupal::logger('xjson')->notice('<pre><code>Post request time (editForm Finish): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+          \Drupal::logger('xjson')->notice('<pre><code>Post request time (C editForm Finish): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
           return new ModifiedResourceResponse($response);
 			  }else{
 				  return new ModifiedResourceResponse($validation[1] . " missing from body", 400);
