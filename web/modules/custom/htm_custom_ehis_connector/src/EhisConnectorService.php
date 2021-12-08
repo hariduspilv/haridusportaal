@@ -68,6 +68,8 @@ class EhisConnectorService {
     $this->logger = $logger->get('ehis_connector_service');
     $this->currentRole = \Drupal::service('current_user.role_switcher')->getCurrentRole();
     $this->loime_url = settings::get('loime_default_url');
+    \Drupal::logger('xjson')->notice('<pre><code>Construct time: ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
   }
 
   /**
@@ -128,6 +130,8 @@ class EhisConnectorService {
             $redis_response['redis_hit'] = TRUE;
             return $redis_response;
           } else {
+            \Drupal::logger('xjson')->notice('<pre><code>1 Get request time (InvokeWithRedis > Invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
             return $this->invoke($service_name, $params);
           }
         }
@@ -147,31 +151,27 @@ class EhisConnectorService {
       /*TODO make post URL configurable*/
       if($type === 'get'){
         if($service_name === 'getDocument' || $service_name === 'changeDocument'){
+          \Drupal::logger('xjson')->notice('<pre><code>2 Get request time (Before Get Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
           $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
+          \Drupal::logger('xjson')->notice('<pre><code>3 Get request time (After Get Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
         } else {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/') . '?'. implode($params['params'], '&'));
         }
       }elseif($type === 'post'){
-        \Drupal::logger('xjson')->notice('<pre><code>Post request time (1 Start Invoke Post): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
-
         $params['headers'] = [
           'Content-Type' => 'application/json'
         ];
-        \Drupal::logger('xjson')->notice('<pre><code>Post request time (2 After Invoke Post Headers): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
-
         \Drupal::logger('xjson')->notice('<pre><code>Post request: ' . print_r(['url' => $this->loime_url.$service_name, 'params' => $params ], TRUE) . '</code></pre>' );
         #dump('lõime url', $this->loime_url.$service_name);
         #dump('parameetrid', $params);
-        \Drupal::logger('xjson')->notice('<pre><code>Post request time (3 Before Invoke Post Response Param): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
         $response = $client->post($this->loime_url.$service_name, $params);
-        \Drupal::logger('xjson')->notice('<pre><code>Post request time (4 After Invoke Post Response Param): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
       }else{
         //TODO throw error
       }
       $response = json_decode($response->getBody()->getContents(), TRUE);
       #dump('liidese vastus', $response);
-      \Drupal::logger('xjson')->notice('<pre><code>Post request time (5 Return Invoke Post Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
-
       return $response;
     }catch (RequestException $e){
       \Drupal::logger('xjson')->notice('<pre><code>ehis response error' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
