@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbae94aced3d6b60177354120780b120",
+    "content-hash": "66cf1840b76e20ba3c9749a6138f5b76",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2180,54 +2180,6 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/better_exposed_filters",
                 "issues": "https://www.drupal.org/project/issues/better_exposed_filters"
-            }
-        },
-        {
-            "name": "drupal/cache_tags",
-            "version": "1.0.0-beta1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/cache_tags.git",
-                "reference": "8.x-1.0-beta1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/cache_tags-8.x-1.0-beta1.zip",
-                "reference": "8.x-1.0-beta1",
-                "shasum": "9d9f4d086b52468e1d83df383e141befacf7d5ac"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.8"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0-beta1",
-                    "datestamp": "1475098139",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Mikke Schirén",
-                    "homepage": "https://www.drupal.org/u/misc"
-                }
-            ],
-            "description": "Adds a configurable Cache-Tags header.",
-            "homepage": "http://drupal.org/project/cache_tags",
-            "support": {
-                "source": "https://git.drupalcode.org/project/cache_tags",
-                "issues": "https://www.drupal.org/project/issues/cache_tags"
             }
         },
         {
@@ -17086,7 +17038,6 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/cache_tags": 10,
         "drupal/elasticsearch_connector_autocomp": 20,
         "drupal/entity_embed": 10,
         "drupal/hms_field": 10,
