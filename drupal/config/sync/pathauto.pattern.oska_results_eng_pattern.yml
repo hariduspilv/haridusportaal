@@ -12,20 +12,20 @@ pattern: 'oska-results/[node:title]'
 selection_criteria:
   d858edfd-5205-43b7-9329-82202b9045d4:
     id: node_type
-    bundles:
-      oska_result_page: oska_result_page
     negate: false
+    uuid: d858edfd-5205-43b7-9329-82202b9045d4
     context_mapping:
       node: node
-    uuid: d858edfd-5205-43b7-9329-82202b9045d4
+    bundles:
+      oska_result_page: oska_result_page
   19561c3b-08f1-416b-a480-2740d49e9f79:
     id: language
-    langcodes:
-      en: en
     negate: false
+    uuid: 19561c3b-08f1-416b-a480-2740d49e9f79
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 19561c3b-08f1-416b-a480-2740d49e9f79
+    langcodes:
+      en: en
 selection_logic: and
 weight: -10
 relationships:

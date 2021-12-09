@@ -6,7 +6,7 @@ use Drupal\node\Entity\Node;
 use Drupal\Tests\migrate_drupal_ui\Functional\MigrateUpgradeExecuteTestBase;
 use Drupal\user\Entity\User;
 
-// cspell:ignore Multiupload Imagefield
+// cspell:ignore Filefield Multiupload Imagefield
 
 /**
  * Tests Drupal 7 upgrade using the migrate UI.
@@ -25,6 +25,7 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
     'book',
     'config_translation',
     'content_translation',
+    'datetime_range',
     'forum',
     'language',
     'migrate_drupal_ui',
@@ -54,7 +55,7 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       ->getStorage('node');
     $this->nodeStorage->delete($this->nodeStorage->loadMultiple());
 
-    $this->loadFixture(drupal_get_path('module', 'migrate_drupal') . '/tests/fixtures/drupal7.php');
+    $this->loadFixture($this->getModulePath('migrate_drupal') . '/tests/fixtures/drupal7.php');
   }
 
   /**
@@ -84,8 +85,8 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       'contact_form' => 3,
       'contact_message' => 0,
       'editor' => 2,
-      'field_config' => 90,
-      'field_storage_config' => 69,
+      'field_config' => 91,
+      'field_storage_config' => 70,
       'file' => 3,
       'filter_format' => 7,
       'image_style' => 7,
@@ -96,14 +97,14 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       'search_page' => 2,
       'shortcut' => 6,
       'shortcut_set' => 2,
-      'action' => 19,
+      'action' => 21,
       'menu' => 7,
       'taxonomy_term' => 25,
       'taxonomy_vocabulary' => 8,
       'path_alias' => 8,
       'tour' => 6,
       'user' => 4,
-      'user_role' => 3,
+      'user_role' => 4,
       'menu_link_content' => 12,
       'view' => 16,
       'date_format' => 11,
@@ -233,8 +234,10 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
 
   /**
    * Tests that follow-up migrations have been run successfully.
+   *
+   * @internal
    */
-  protected function assertFollowUpMigrationResults() {
+  protected function assertFollowUpMigrationResults(): void {
     $node = Node::load(2);
     $this->assertSame('4', $node->get('field_reference')->target_id);
     $this->assertSame('6', $node->get('field_reference_2')->target_id);

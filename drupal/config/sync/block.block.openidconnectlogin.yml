@@ -15,6 +15,6 @@ plugin: openid_connect_login
 settings:
   id: openid_connect_login
   label: 'OpenID Connect login'
-  provider: openid_connect
   label_display: visible
+  provider: openid_connect
 visibility: {  }

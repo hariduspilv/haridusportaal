@@ -23,94 +23,94 @@ bundle: youth_home_page
 mode: default
 content:
   field_learning_contact:
-    weight: 107
+    type: entity_reference_revisions_entity_view
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
+    weight: 107
     region: content
   field_learning_external_links:
-    weight: 105
+    type: entity_reference_revisions_entity_view
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
+    weight: 105
     region: content
   field_learning_news:
-    weight: 106
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 106
     region: content
   field_learning_path:
-    weight: 108
+    type: entity_reference_revisions_entity_view
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
+    weight: 108
     region: content
   field_learning_quote_author:
-    weight: 102
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 102
     region: content
   field_learning_quote_text:
-    weight: 103
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 103
     region: content
   field_quote_author_occupation:
-    weight: 104
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 104
     region: content
   field_youth_content_page:
     type: entity_reference_revisions_entity_view
-    weight: 110
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 110
     region: content
   field_youth_foreground_content:
     type: entity_reference_revisions_entity_view
-    weight: 113
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 113
     region: content
   field_youth_themes_links:
     type: entity_reference_revisions_entity_view
-    weight: 112
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 112
     region: content
   links:
-    weight: 100
     settings: {  }
     third_party_settings: {  }
+    weight: 100
     region: content
 hidden:
   langcode: true

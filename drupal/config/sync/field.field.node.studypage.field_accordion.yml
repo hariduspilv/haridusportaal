@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       study_page_accordion: study_page_accordion
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 39
@@ -125,8 +125,8 @@ settings:
         weight: 74
         enabled: false
       study_page_accordion:
-        enabled: true
         weight: 76
+        enabled: true
       studypage_right_column:
         weight: 75
         enabled: false

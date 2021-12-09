@@ -21,19 +21,19 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       registration_period: registration_period
+    negate: 0
     target_bundles_drag_drop:
-      registration_period:
-        enabled: true
-        weight: 2
       event_date:
         weight: 3
         enabled: false
       link:
         weight: 5
         enabled: false
+      registration_period:
+        weight: 2
+        enabled: true
       school_location:
         weight: 8
         enabled: false

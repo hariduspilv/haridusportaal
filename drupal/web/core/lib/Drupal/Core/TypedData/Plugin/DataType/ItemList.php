@@ -100,7 +100,7 @@ class ItemList extends TypedData implements \IteratorAggregate, ListInterface {
     if (!is_numeric($index)) {
       throw new \InvalidArgumentException('Unable to get a value with a non-numeric delta in a list.');
     }
-    return isset($this->list[$index]) ? $this->list[$index] : NULL;
+    return $this->list[$index] ?? NULL;
   }
 
   /**
@@ -120,7 +120,7 @@ class ItemList extends TypedData implements \IteratorAggregate, ListInterface {
       $value = $value->getValue();
     }
     // If needed, create the item at the next position.
-    $item = isset($this->list[$index]) ? $this->list[$index] : $this->appendItem();
+    $item = $this->list[$index] ?? $this->appendItem();
     $item->setValue($value);
     return $this;
   }
@@ -168,6 +168,7 @@ class ItemList extends TypedData implements \IteratorAggregate, ListInterface {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function offsetExists($offset) {
     // We do not want to throw exceptions here, so we do not use get().
     return isset($this->list[$offset]);
@@ -176,6 +177,7 @@ class ItemList extends TypedData implements \IteratorAggregate, ListInterface {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function offsetUnset($offset) {
     $this->removeItem($offset);
   }
@@ -183,6 +185,7 @@ class ItemList extends TypedData implements \IteratorAggregate, ListInterface {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function offsetGet($offset) {
     return $this->get($offset);
   }
@@ -190,6 +193,7 @@ class ItemList extends TypedData implements \IteratorAggregate, ListInterface {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function offsetSet($offset, $value) {
     if (!isset($offset)) {
       // The [] operator has been used.
@@ -229,6 +233,7 @@ class ItemList extends TypedData implements \IteratorAggregate, ListInterface {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function getIterator() {
     return new \ArrayIterator($this->list);
   }
@@ -236,6 +241,7 @@ class ItemList extends TypedData implements \IteratorAggregate, ListInterface {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function count() {
     return count($this->list);
   }

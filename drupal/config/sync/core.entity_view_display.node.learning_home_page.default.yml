@@ -23,84 +23,84 @@ mode: default
 content:
   field_learning_contact:
     type: entity_reference_revisions_entity_view
-    weight: 108
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 108
     region: content
   field_learning_content_links:
     type: entity_reference_revisions_entity_view
-    weight: 101
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 101
     region: content
   field_learning_external_links:
     type: entity_reference_revisions_entity_view
-    weight: 109
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 109
     region: content
   field_learning_news:
-    weight: 104
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 104
     region: content
   field_learning_path:
     type: entity_reference_revisions_entity_view
-    weight: 102
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 102
     region: content
   field_learning_quote_author:
-    weight: 106
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 106
     region: content
   field_learning_quote_text:
-    weight: 105
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 105
     region: content
   field_learning_quote_work:
-    weight: 107
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 107
     region: content
   field_learning_to_teach:
     type: entity_reference_revisions_entity_view
-    weight: 103
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 103
     region: content
   links:
-    weight: 100
     settings: {  }
     third_party_settings: {  }
+    weight: 100
     region: content
 hidden:
   langcode: true

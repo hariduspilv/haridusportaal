@@ -21,75 +21,75 @@ bundle: career_home_page
 mode: default
 content:
   field_career:
-    weight: 102
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 102
     region: content
   field_career_contact:
     type: entity_reference_revisions_entity_view
-    weight: 107
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 107
     region: content
   field_content_page_link:
     type: entity_reference_revisions_entity_view
-    weight: 101
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 101
     region: content
   field_external_links:
     type: entity_reference_revisions_entity_view
-    weight: 108
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 108
     region: content
   field_frontpage_news:
-    weight: 103
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 103
     region: content
   field_quote_author:
-    weight: 105
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 105
     region: content
   field_quote_author_occupation:
-    weight: 106
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 106
     region: content
   field_quote_text:
-    weight: 104
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 104
     region: content
   links:
-    weight: 100
     settings: {  }
     third_party_settings: {  }
+    weight: 100
     region: content
 hidden:
   langcode: true

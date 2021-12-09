@@ -130,9 +130,11 @@ abstract class AccountForm extends ContentEntityForm implements TrustedCallbackI
       // To skip the current password field, the user must have logged in via a
       // one-time link and have the token in the URL. Store this in $form_state
       // so it persists even on subsequent Ajax requests.
-      if (!$form_state->get('user_pass_reset') && ($token = $this->getRequest()->query->get('pass-reset-token'))) {
+      $request = $this->getRequest();
+      if (!$form_state->get('user_pass_reset') && ($token = $request->query->get('pass-reset-token'))) {
         $session_key = 'pass_reset_' . $account->id();
-        $user_pass_reset = isset($_SESSION[$session_key]) && hash_equals($_SESSION[$session_key], $token);
+        $session_value = $request->getSession()->get($session_key);
+        $user_pass_reset = isset($session_value) && hash_equals($session_value, $token);
         $form_state->set('user_pass_reset', $user_pass_reset);
       }
 
@@ -372,7 +374,7 @@ abstract class AccountForm extends ContentEntityForm implements TrustedCallbackI
     }
 
     // Set existing password if set in the form state.
-    $current_pass = trim($form_state->getValue('current_pass'));
+    $current_pass = trim($form_state->getValue('current_pass', ''));
     if (strlen($current_pass) > 0) {
       $account->setExistingPassword($current_pass);
     }
@@ -416,7 +418,7 @@ abstract class AccountForm extends ContentEntityForm implements TrustedCallbackI
       'preferred_admin_langcode',
     ];
     foreach ($violations->getByFields($field_names) as $violation) {
-      list($field_name) = explode('.', $violation->getPropertyPath(), 2);
+      [$field_name] = explode('.', $violation->getPropertyPath(), 2);
       $form_state->setErrorByName($field_name, $violation->getMessage());
     }
     parent::flagViolations($violations, $form, $form_state);
@@ -431,9 +433,7 @@ abstract class AccountForm extends ContentEntityForm implements TrustedCallbackI
     $user = $this->getEntity($form_state);
     // If there's a session set to the users id, remove the password reset tag
     // since a new password was saved.
-    if (isset($_SESSION['pass_reset_' . $user->id()])) {
-      unset($_SESSION['pass_reset_' . $user->id()]);
-    }
+    $this->getRequest()->getSession()->remove('pass_reset_' . $user->id());
   }
 
 }

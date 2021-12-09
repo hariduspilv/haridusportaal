@@ -153,19 +153,51 @@ class UserLoginTest extends BrowserTestBase {
   }
 
   /**
+   * Tests with a browser that denies cookies.
+   */
+  public function testCookiesNotAccepted() {
+    $this->drupalGet('user/login');
+    $form_build_id = $this->getSession()->getPage()->findField('form_build_id');
+
+    $account = $this->drupalCreateUser([]);
+    $post = [
+      'form_id' => 'user_login_form',
+      'form_build_id' => $form_build_id,
+      'name' => $account->getAccountName(),
+      'pass' => $account->passRaw,
+      'op' => 'Log in',
+    ];
+    $url = $this->buildUrl(Url::fromRoute('user.login'));
+
+    /** @var \Psr\Http\Message\ResponseInterface $response */
+    $response = $this->getHttpClient()->post($url, [
+      'form_params' => $post,
+      'http_errors' => FALSE,
+      'cookies' => FALSE,
+      'allow_redirects' => FALSE,
+    ]);
+
+    // Follow the location header.
+    $this->drupalGet($response->getHeader('location')[0]);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertSession()->pageTextContains('To log in to this site, your browser must accept cookies from the domain');
+  }
+
+  /**
    * Make an unsuccessful login attempt.
    *
    * @param \Drupal\user\Entity\User $account
    *   A user object with name and passRaw attributes for the login attempt.
-   * @param mixed $flood_trigger
+   * @param string $flood_trigger
    *   (optional) Whether or not to expect that the flood control mechanism
    *    will be triggered. Defaults to NULL.
    *   - Set to 'user' to expect a 'too many failed logins error.
-   *   - Set to any value to expect an error for too many failed logins per IP
-   *   .
+   *   - Set to any value to expect an error for too many failed logins per IP.
    *   - Set to NULL to expect a failed login.
+   *
+   * @internal
    */
-  public function assertFailedLogin($account, $flood_trigger = NULL) {
+  public function assertFailedLogin(User $account, string $flood_trigger = NULL): void {
     $database = \Drupal::database();
     $edit = [
       'name' => $account->getAccountName(),

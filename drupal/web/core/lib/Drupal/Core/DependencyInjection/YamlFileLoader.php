@@ -119,7 +119,7 @@ class YamlFileLoader
         }
         else {
             $basename = basename($file);
-            list($provider, ) = explode('.', $basename, 2);
+            [$provider, ] = explode('.', $basename, 2);
         }
         foreach ($content['services'] as $id => $service) {
             if (is_array($service)) {
@@ -145,6 +145,10 @@ class YamlFileLoader
             $this->container->setAlias($id, substr($service, 1));
 
             return;
+        }
+
+        if (null === $service) {
+            $service = [];
         }
 
         if (!is_array($service)) {
@@ -307,8 +311,8 @@ class YamlFileLoader
         }
 
         if (isset($service['decorates'])) {
-            $renameId = isset($service['decoration_inner_name']) ? $service['decoration_inner_name'] : null;
-            $priority = isset($service['decoration_priority']) ? $service['decoration_priority'] : 0;
+            $renameId = $service['decoration_inner_name'] ?? null;
+            $priority = $service['decoration_priority'] ?? 0;
             $definition->setDecoratedService($service['decorates'], $renameId, $priority);
         }
 

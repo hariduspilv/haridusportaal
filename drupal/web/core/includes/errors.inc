@@ -58,7 +58,7 @@ function drupal_error_levels() {
 function _drupal_error_handler_real($error_level, $message, $filename, $line) {
   if ($error_level & error_reporting()) {
     $types = drupal_error_levels();
-    list($severity_msg, $severity_level) = $types[$error_level];
+    [$severity_msg, $severity_level] = $types[$error_level];
     $backtrace = debug_backtrace();
     $caller = Error::getLastCaller($backtrace);
 
@@ -323,7 +323,7 @@ function _drupal_get_error_level() {
     $error_level = \Drupal::config('system.logging')->get('error_level');
   }
   catch (\Exception $e) {
-    $error_level = isset($GLOBALS['config']['system.logging']['error_level']) ? $GLOBALS['config']['system.logging']['error_level'] : ERROR_REPORTING_HIDE;
+    $error_level = $GLOBALS['config']['system.logging']['error_level'] ?? ERROR_REPORTING_HIDE;
   }
 
   // If there is no container or if it has no config.factory service, we are

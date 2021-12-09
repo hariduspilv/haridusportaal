@@ -25,18 +25,18 @@ mode: teaser
 content:
   field_image:
     type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: medium
+    third_party_settings: {  }
     weight: -1
     region: content
-    settings:
-      image_style: medium
-      image_link: content
-    third_party_settings: {  }
-    label: hidden
   links:
-    weight: 100
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 100
+    region: content
 hidden:
   field_accordion_section: true
   field_additional_info: true

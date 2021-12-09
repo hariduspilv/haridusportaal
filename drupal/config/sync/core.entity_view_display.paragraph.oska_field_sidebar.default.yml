@@ -22,53 +22,53 @@ bundle: oska_field_sidebar
 mode: default
 content:
   field_employment_change:
-    weight: 9
+    type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: list_default
+    weight: 9
     region: content
   field_neutral:
-    weight: 8
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 8
     region: content
   field_number_employed:
-    weight: 0
+    type: number_integer
     label: above
     settings:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    type: number_integer
+    weight: 0
     region: content
   field_oska_field_cons:
-    weight: 3
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 3
     region: content
   field_oska_field_contact:
     type: entity_reference_revisions_entity_view
-    weight: 7
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 7
     region: content
   field_oska_field_pros:
-    weight: 2
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 2
     region: content
   field_oska_field_quick_find:
-    weight: 5
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -77,10 +77,10 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 5
     region: content
   field_related_pages:
-    weight: 6
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -89,6 +89,6 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 6
     region: content
 hidden: {  }

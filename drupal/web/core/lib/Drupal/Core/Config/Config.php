@@ -91,7 +91,7 @@ class Config extends StorableConfigBase {
     else {
       $parts = explode('.', $key);
       if (count($parts) == 1) {
-        return isset($this->overriddenData[$key]) ? $this->overriddenData[$key] : NULL;
+        return $this->overriddenData[$key] ?? NULL;
       }
       else {
         $value = NestedArray::getValue($this->overriddenData, $parts, $key_exists);
@@ -208,9 +208,7 @@ class Config extends StorableConfigBase {
       if ($this->typedConfigManager->hasConfigSchema($this->name)) {
         // Ensure that the schema wrapper has the latest data.
         $this->schemaWrapper = NULL;
-        foreach ($this->data as $key => $value) {
-          $this->data[$key] = $this->castValue($key, $value);
-        }
+        $this->data = $this->castValue(NULL, $this->data);
       }
       else {
         foreach ($this->data as $key => $value) {
@@ -295,7 +293,7 @@ class Config extends StorableConfigBase {
     else {
       $parts = explode('.', $key);
       if (count($parts) == 1) {
-        return isset($original_data[$key]) ? $original_data[$key] : NULL;
+        return $original_data[$key] ?? NULL;
       }
       else {
         $value = NestedArray::getValue($original_data, $parts, $key_exists);

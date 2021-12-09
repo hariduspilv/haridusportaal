@@ -12,20 +12,20 @@ pattern: 'uudised/[node:title]'
 selection_criteria:
   99d1076c-4e0f-4b66-9ad5-f6d0f5fd9fb7:
     id: node_type
-    bundles:
-      news: news
     negate: false
+    uuid: 99d1076c-4e0f-4b66-9ad5-f6d0f5fd9fb7
     context_mapping:
       node: node
-    uuid: 99d1076c-4e0f-4b66-9ad5-f6d0f5fd9fb7
+    bundles:
+      news: news
   85a69204-eb5f-414a-a934-f9794a79270e:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: 85a69204-eb5f-414a-a934-f9794a79270e
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 85a69204-eb5f-414a-a934-f9794a79270e
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

@@ -4,7 +4,7 @@ namespace Drupal\Tests\migrate_drupal_ui\Functional\d7;
 
 use Drupal\Tests\migrate_drupal_ui\Functional\NoMultilingualReviewPageTestBase;
 
-// cspell:ignore Multiupload Imagefield
+// cspell:ignore Filefield Multiupload Imagefield
 
 /**
  * Tests Drupal 7 upgrade without translations.
@@ -23,6 +23,7 @@ class NoMultilingualReviewPageTest extends NoMultilingualReviewPageTestBase {
     'book',
     'config_translation',
     'content_translation',
+    'datetime_range',
     'file',
     'forum',
     'language',
@@ -36,7 +37,7 @@ class NoMultilingualReviewPageTest extends NoMultilingualReviewPageTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
-    $this->loadFixture(drupal_get_path('module', 'migrate_drupal') . '/tests/fixtures/drupal7.php');
+    $this->loadFixture($this->getModulePath('migrate_drupal') . '/tests/fixtures/drupal7.php');
   }
 
   /**

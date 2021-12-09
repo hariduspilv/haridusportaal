@@ -21,13 +21,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       contact_section: contact_section
+    negate: 0
     target_bundles_drag_drop:
-      right_sidebar_section_info:
-        weight: 9
-        enabled: false
       accordion:
         weight: 10
         enabled: false
@@ -35,8 +32,8 @@ settings:
         weight: 11
         enabled: false
       contact_section:
-        enabled: true
         weight: 12
+        enabled: true
       event_date:
         weight: 13
         enabled: false
@@ -45,6 +42,9 @@ settings:
         enabled: false
       registration_period:
         weight: 15
+        enabled: false
+      right_sidebar_section_info:
+        weight: 9
         enabled: false
       school_location:
         weight: 16

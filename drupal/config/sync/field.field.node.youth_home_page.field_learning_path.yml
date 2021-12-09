@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       learning_carousel: learning_carousel
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 35
@@ -89,8 +89,8 @@ settings:
         weight: 55
         enabled: false
       learning_carousel:
-        enabled: true
         weight: 56
+        enabled: true
       learning_to_teach:
         weight: 57
         enabled: false

@@ -77,7 +77,7 @@ abstract class ModuleTestBase extends BrowserTestBase {
    *   The name of the module.
    */
   public function assertModuleConfig($module) {
-    $module_config_dir = drupal_get_path('module', $module) . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY;
+    $module_config_dir = $this->getModulePath($module) . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY;
     if (!is_dir($module_config_dir)) {
       return;
     }
@@ -93,7 +93,7 @@ abstract class ModuleTestBase extends BrowserTestBase {
     }
     $this->assertNotEmpty($all_names);
 
-    $module_config_dependencies = \Drupal::service('config.manager')->findConfigEntityDependents('module', [$module]);
+    $module_config_dependencies = \Drupal::service('config.manager')->findConfigEntityDependencies('module', [$module]);
     // Look up each default configuration object name in the active
     // configuration, and if it exists, remove it from the stack.
     $names = $module_file_storage->listAll();
