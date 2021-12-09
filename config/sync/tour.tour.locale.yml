@@ -25,48 +25,42 @@ tips:
     label: 'Tõlke keel'
     body: 'Vali keel, mida soovid tõlkida.'
     weight: 2
-    attributes:
-      data-id: edit-langcode
+    selector: '#edit-langcode'
   locale-search:
     id: locale-search
     plugin: text
     label: Search
     body: 'Sisesta sõna või lause, mida soovid tõlkida. Lubatud on ka sõnaosa kasutamine.'
     weight: 3
-    attributes:
-      data-id: edit-string
+    selector: '#edit-string'
   locale-filter:
     id: locale-filter
     plugin: text
     label: 'Filtreeri otsingutulemusi'
     body: 'You can search for untranslated strings if you want to translate something that isn''t translated yet. If you want to modify an existing translation, you might want to search only for translated strings.'
     weight: 4
-    attributes:
-      data-id: edit-translation
+    selector: '#edit-translation'
   locale-submit:
     id: locale-submit
     plugin: text
     label: 'Rakenda otsingutingimus'
     body: 'Otsingukriteeriumi rakendamiseks kliki <em>Filtreeri</em> nupul.'
     weight: 5
-    attributes:
-      data-id: edit-submit
+    selector: '#edit-submit'
   locale-translate:
     id: locale-translate
     plugin: text
     label: Tõlge
     body: 'Saad kirjutada oma isikliku tõlke paremas tulbas olevatele tekstiväljadele. Selleks, et teksti õigesti tõlkida ürita aru saada millises kontekstis seda kasutatakse.'
     weight: 6
-    attributes:
-      data-class: js-form-type-textarea
+    selector: .js-form-type-textarea
   locale-validate:
     id: locale-validate
     plugin: text
     label: 'Valideeri tõlge'
     body: 'Kui oled tõlkimise lõpetanud, vajuta <em>Salvesta tõlked</em> nuppu. Tõlked tuleb salvestada iga kord enne leheküljelt navigeerimist või uue otsingu teostamist.'
     weight: 7
-    attributes:
-      data-id: edit-submit--2
+    selector: '#edit-submit--2'
   locale-continue:
     id: locale-continue
     plugin: text
