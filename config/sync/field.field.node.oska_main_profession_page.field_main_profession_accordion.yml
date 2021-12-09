@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       main_profession_accordion: main_profession_accordion
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 12
@@ -43,12 +43,24 @@ settings:
       homepage_topics:
         weight: 17
         enabled: false
+      iscedf_search:
+        weight: 23
+        enabled: false
+      job:
+        weight: 24
+        enabled: false
       link:
         weight: 18
         enabled: false
       main_profession_accordion:
-        enabled: true
         weight: 19
+        enabled: true
+      main_profession_sidebar:
+        weight: 27
+        enabled: false
+      oska_field_sidebar:
+        weight: 28
+        enabled: false
       registration_period:
         weight: 20
         enabled: false
@@ -57,18 +69,6 @@ settings:
         enabled: false
       school_location:
         weight: 22
-        enabled: false
-      iscedf_search:
-        weight: 23
-        enabled: false
-      job:
-        weight: 24
-        enabled: false
-      main_profession_sidebar:
-        weight: 27
-        enabled: false
-      oska_field_sidebar:
-        weight: 28
         enabled: false
       survey_page_accordion:
         weight: 32

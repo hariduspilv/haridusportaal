@@ -66,6 +66,7 @@ class Tables implements TablesInterface {
 
   /**
    * @param \Drupal\Core\Database\Query\SelectInterface $sql_query
+   *   The SQL query.
    */
   public function __construct(SelectInterface $sql_query) {
     $this->sqlQuery = $sql_query;
@@ -284,7 +285,7 @@ class Tables implements TablesInterface {
         // Relationship specifier can also contain the entity type ID, i.e.
         // entity:node, entity:user or entity:taxonomy.
         if (strpos($relationship_specifier, ':') !== FALSE) {
-          list($relationship_specifier, $entity_type_id) = explode(':', $relationship_specifier, 2);
+          [$relationship_specifier, $entity_type_id] = explode(':', $relationship_specifier, 2);
         }
         // Check for a valid relationship.
         if (isset($propertyDefinitions[$relationship_specifier]) && $propertyDefinitions[$relationship_specifier] instanceof DataReferenceDefinitionInterface) {
@@ -454,6 +455,7 @@ class Tables implements TablesInterface {
    * @param string $table
    *   The table name.
    * @param string $entity_type_id
+   *   The entity type ID.
    *
    * @return array|false
    *   An associative array of table field mapping for the given table, keyed by

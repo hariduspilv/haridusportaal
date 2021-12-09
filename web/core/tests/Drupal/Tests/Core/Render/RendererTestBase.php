@@ -11,6 +11,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Cache\Context\ContextCacheKeys;
 use Drupal\Core\Cache\MemoryBackend;
+use Drupal\Core\Http\RequestStack;
 use Drupal\Core\Security\TrustedCallbackInterface;
 use Drupal\Core\Render\PlaceholderGenerator;
 use Drupal\Core\Render\PlaceholderingRenderCache;
@@ -18,7 +19,6 @@ use Drupal\Core\Render\Renderer;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Base class for the actual unit tests testing \Drupal\Core\Render\Renderer.
@@ -250,8 +250,18 @@ abstract class RendererTestBase extends UnitTestCase {
     $cached = $cache_backend->get($cid);
     $this->assertNotFalse($cached, sprintf('Expected cache item "%s" exists.', $cid));
     if ($cached !== FALSE) {
-      $this->assertEquals($data, $cached->data, sprintf('Cache item "%s" has the expected data.', $cid));
-      $this->assertSame(Cache::mergeTags($data['#cache']['tags'], ['rendered']), $cached->tags, "The cache item's cache tags also has the 'rendered' cache tag.");
+      $this->assertEqualsCanonicalizing(array_keys($data), array_keys($cached->data), 'The cache item contains the same parent array keys.');
+      foreach ($data as $key => $value) {
+        // We do not want to assert on the order of cacheability information.
+        // @see https://www.drupal.org/project/drupal/issues/3225328
+        if ($key === '#cache') {
+          $this->assertEqualsCanonicalizing($value, $cached->data[$key], sprintf('Cache item "%s" has the expected data.', $cid));
+        }
+        else {
+          $this->assertEquals($value, $cached->data[$key], sprintf('Cache item "%s" has the expected data.', $cid));
+        }
+      }
+      $this->assertEqualsCanonicalizing(Cache::mergeTags($data['#cache']['tags'], ['rendered']), $cached->tags, "The cache item's cache tags also has the 'rendered' cache tag.");
     }
   }
 

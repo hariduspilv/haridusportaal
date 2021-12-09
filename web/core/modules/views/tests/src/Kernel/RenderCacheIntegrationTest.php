@@ -87,8 +87,10 @@ class RenderCacheIntegrationTest extends ViewsKernelTestBase {
    *
    * @param bool $do_assert_views_caches
    *   Whether to check Views' result & output caches.
+   *
+   * @internal
    */
-  protected function assertCacheTagsForFieldBasedView($do_assert_views_caches) {
+  protected function assertCacheTagsForFieldBasedView(bool $do_assert_views_caches): void {
     $view = Views::getview('entity_test_fields');
 
     // Empty result (no entities yet).
@@ -229,8 +231,10 @@ class RenderCacheIntegrationTest extends ViewsKernelTestBase {
 
   /**
    * Tests cache tags on output & result cache items for an entity-based view.
+   *
+   * @internal
    */
-  protected function assertCacheTagsForEntityBasedView($do_assert_views_caches) {
+  protected function assertCacheTagsForEntityBasedView(bool $do_assert_views_caches): void {
     $view = Views::getview('entity_test_row');
 
     // Empty result (no entities yet).
@@ -285,7 +289,7 @@ class RenderCacheIntegrationTest extends ViewsKernelTestBase {
     $view = View::load('test_display');
     $view->save();
 
-    $this->assertEquals(['languages:' . LanguageInterface::TYPE_CONTENT, 'languages:' . LanguageInterface::TYPE_INTERFACE, 'url.query_args', 'user.node_grants:view', 'user.permissions'], $view->getDisplay('default')['cache_metadata']['contexts']);
+    $this->assertEqualsCanonicalizing(['languages:' . LanguageInterface::TYPE_CONTENT, 'languages:' . LanguageInterface::TYPE_INTERFACE, 'url.query_args', 'user.node_grants:view', 'user.permissions'], $view->getDisplay('default')['cache_metadata']['contexts']);
   }
 
 }

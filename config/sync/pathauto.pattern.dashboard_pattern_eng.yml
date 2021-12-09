@@ -12,20 +12,20 @@ pattern: '/dashboard/[node:title]'
 selection_criteria:
   13bea27c-f80b-4c40-ad99-a1df722d0565:
     id: node_type
-    bundles:
-      dashboard: dashboard
     negate: false
+    uuid: 13bea27c-f80b-4c40-ad99-a1df722d0565
     context_mapping:
       node: node
-    uuid: 13bea27c-f80b-4c40-ad99-a1df722d0565
+    bundles:
+      dashboard: dashboard
   d89c09cd-d8b5-4a75-bc4a-50d7523284c5:
     id: language
-    langcodes:
-      en: en
     negate: false
+    uuid: d89c09cd-d8b5-4a75-bc4a-50d7523284c5
     context_mapping:
       language: 'node:langcode:language'
-    uuid: d89c09cd-d8b5-4a75-bc4a-50d7523284c5
+    langcodes:
+      en: en
 selection_logic: and
 weight: -10
 relationships:

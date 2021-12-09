@@ -9,6 +9,7 @@ use Drupal\Core\Render\RenderContext;
 use Drupal\editor\EditorXssFilter\Standard;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\filter\FilterPluginCollection;
+use Drupal\filter\Plugin\FilterInterface;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
@@ -336,12 +337,14 @@ class FilterKernelTest extends KernelTestBase {
 <pre>aaa\nbbb\n\nccc</pre>
 <object>aaa\nbbb\n\nccc</object>
 <iframe>aaa\nbbb\n\nccc</iframe>
+<svg>aaa\nbbb\n\nccc</svg>
 " => [
         "<script>aaa\nbbb\n\nccc</script>" => TRUE,
         "<style>aaa\nbbb\n\nccc</style>" => TRUE,
         "<pre>aaa\nbbb\n\nccc</pre>" => TRUE,
         "<object>aaa\nbbb\n\nccc</object>" => TRUE,
         "<iframe>aaa\nbbb\n\nccc</iframe>" => TRUE,
+        "<svg>aaa\nbbb\n\nccc</svg>" => TRUE,
       ],
       // Skip comments entirely.
       "One. <!-- comment --> Two.\n<!--\nThree.\n-->\n" => [
@@ -858,7 +861,7 @@ www.example.com with a newline in comments -->
   /**
    * Asserts multiple filter output expectations for multiple input strings.
    *
-   * @param FilterInterface $filter
+   * @param \Drupal\filter\Plugin\FilterInterface $filter
    *   An input filter object.
    * @param array $tests
    *   An associative array, whereas each key is an arbitrary input string and
@@ -873,8 +876,10 @@ www.example.com with a newline in comments -->
    *     ),
    *   );
    *   @endcode
+   *
+   * @internal
    */
-  public function assertFilteredString($filter, $tests) {
+  public function assertFilteredString(FilterInterface $filter, array $tests): void {
     foreach ($tests as $source => $tasks) {
       $result = $filter->process($source, $filter)->getProcessedText();
       foreach ($tasks as $value => $is_expected) {
@@ -1139,8 +1144,10 @@ body {color:red}
    *   (optional) Message to display if failed. Defaults to an empty string.
    * @param string $group
    *   (optional) The group this message belongs to. Defaults to 'Other'.
+   *
+   * @internal
    */
-  public function assertNormalized($haystack, $needle, $message = '', $group = 'Other') {
+  public function assertNormalized(string $haystack, string $needle, string $message = '', string $group = 'Other'): void {
     $this->assertStringContainsString($needle, strtolower(Html::decodeEntities($haystack)), $message);
   }
 
@@ -1161,8 +1168,10 @@ body {color:red}
    *   (optional) Message to display if failed. Defaults to an empty string.
    * @param string $group
    *   (optional) The group this message belongs to. Defaults to 'Other'.
+   *
+   * @internal
    */
-  public function assertNoNormalized($haystack, $needle, $message = '', $group = 'Other') {
+  public function assertNoNormalized(string $haystack, string $needle, string $message = '', string $group = 'Other'): void {
     $this->assertStringNotContainsString($needle, strtolower(Html::decodeEntities($haystack)), $message);
   }
 

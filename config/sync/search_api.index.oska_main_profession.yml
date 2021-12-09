@@ -2,10 +2,6 @@ uuid: 97265ba9-5d63-4de1-9dad-1751f59f79fb
 langcode: et
 status: true
 dependencies:
-  module:
-    - node
-    - paragraphs
-    - search_api
   config:
     - field.storage.node.field_main_profession_accordion
     - field.storage.paragraph.field_body
@@ -17,6 +13,10 @@ dependencies:
     - field.storage.paragraph.field_jobs
     - field.storage.paragraph.field_oska_field
     - search_api.server.elasticsearch_server
+  module:
+    - node
+    - paragraphs
+    - search_api
 id: oska_main_profession
 name: 'OSKA Main Profession'
 description: ''
@@ -146,7 +146,7 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: true
   cron_limit: 50
+  index_directly: true
   track_changes_in_references: true
 server: elasticsearch_server

@@ -1,3 +1,6 @@
+_core:
+  default_config_hash: kli1Xws0l--Y-jy-9ZTGApFO_EFk9DMawoetjMk76Ro
+langcode: et
 always_save_userinfo: true
 connect_existing_users: false
 override_registration_settings: true
@@ -9,6 +12,3 @@ userinfo_mappings:
   field_lastname: family_name
   field_user_idcode: id_code
   user_picture: 0
-_core:
-  default_config_hash: kli1Xws0l--Y-jy-9ZTGApFO_EFk9DMawoetjMk76Ro
-langcode: et

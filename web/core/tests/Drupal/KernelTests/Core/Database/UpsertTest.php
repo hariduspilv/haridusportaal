@@ -3,6 +3,7 @@
 namespace Drupal\KernelTests\Core\Database;
 
 use Drupal\Core\Database\Database;
+use Drupal\Core\Database\DatabaseExceptionWrapper;
 
 /**
  * Tests the Upsert query builder.
@@ -104,6 +105,43 @@ class UpsertTest extends DatabaseTestBase {
     $this->assertSame(1, $return_value);
     $record = $this->connection->query('SELECT * FROM {select} WHERE [id] = :id', [':id' => 4])->fetch();
     $this->assertEquals('Another value', $record->update);
+  }
+
+  /**
+   * Upsert on a not existing table throws a DatabaseExceptionWrapper.
+   */
+  public function testUpsertNonExistingTable(): void {
+    $this->expectException(DatabaseExceptionWrapper::class);
+    $upsert = $this->connection->upsert('a-table-that-does-not-exist')
+      ->key('id')
+      ->fields(['id', 'update']);
+    $upsert->values([
+      'id' => 1,
+      'update' => 'Update value 1 updated',
+    ]);
+    $upsert->execute();
+  }
+
+  /**
+   * Tests that we can upsert a null into blob field.
+   */
+  public function testUpsertNullBlob() {
+    $id = $this->connection->insert('test_one_blob')
+      ->fields(['blob1' => 'test'])
+      ->execute();
+    $r = $this->connection->query('SELECT * FROM {test_one_blob} WHERE [id] = :id', [':id' => $id])->fetchAssoc();
+    $this->assertSame('test', $r['blob1']);
+
+    $this->connection->upsert('test_one_blob')
+      ->key('id')
+      ->fields(['id', 'blob1'])
+      ->values(['id' => $id, 'blob1' => NULL])
+      ->values(['id' => $id + 1, 'blob1' => NULL])
+      ->execute();
+    $r = $this->connection->query('SELECT * FROM {test_one_blob} WHERE [id] = :id', [':id' => $id])->fetchAssoc();
+    $this->assertNull($r['blob1']);
+    $r = $this->connection->query('SELECT * FROM {test_one_blob} WHERE [id] = :id', [':id' => $id + 1])->fetchAssoc();
+    $this->assertNull($r['blob1']);
   }
 
 }

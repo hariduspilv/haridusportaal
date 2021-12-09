@@ -135,7 +135,7 @@ class Variable extends DrupalSqlBase {
   /**
    * {@inheritdoc}
    */
-  public function count($refresh = FALSE) {
+  protected function doCount() {
     if (empty($this->variablesNoRowIfMissing)) {
       return 1;
     }

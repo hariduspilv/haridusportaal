@@ -28,36 +28,36 @@ bundle: news
 mode: default
 content:
   body:
-    label: hidden
     type: text_default
-    weight: 101
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 101
     region: content
   field_author:
-    weight: 102
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 102
     region: content
   field_metatags:
-    weight: 112
+    type: metatag_empty_formatter
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: metatag_empty_formatter
+    weight: 112
     region: content
   field_news_description:
-    weight: 104
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 104
     region: content
   field_news_link:
-    weight: 110
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -66,44 +66,44 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 110
     region: content
   field_news_video:
-    weight: 114
+    type: custom_video_formatter_type
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: custom_video_formatter_type
+    weight: 114
     region: content
   field_short_description:
-    weight: 111
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 111
     region: content
   field_tag:
-    weight: 113
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 113
     region: content
   field_video_thumbnail:
-    weight: 115
+    type: image
     label: above
     settings:
-      image_style: ''
       image_link: ''
+      image_style: ''
     third_party_settings: {  }
-    type: image
+    weight: 115
     region: content
   links:
-    weight: 100
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 100
+    region: content
 hidden:
   field_additional_images: true
   field_introduction_image: true

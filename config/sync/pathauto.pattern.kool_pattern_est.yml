@@ -12,20 +12,20 @@ pattern: 'kool/[node:title]'
 selection_criteria:
   1e456546-0243-4356-997f-58aef9c75818:
     id: node_type
-    bundles:
-      school: school
     negate: false
+    uuid: 1e456546-0243-4356-997f-58aef9c75818
     context_mapping:
       node: node
-    uuid: 1e456546-0243-4356-997f-58aef9c75818
+    bundles:
+      school: school
   44605906-7034-4d99-9ea3-28ce1fb48d11:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: 44605906-7034-4d99-9ea3-28ce1fb48d11
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 44605906-7034-4d99-9ea3-28ce1fb48d11
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

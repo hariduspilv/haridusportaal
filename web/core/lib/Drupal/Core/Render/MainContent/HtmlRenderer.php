@@ -129,7 +129,7 @@ class HtmlRenderer implements MainContentRendererInterface {
    * The entire HTML: takes a #type 'page' and wraps it in a #type 'html'.
    */
   public function renderResponse(array $main_content, Request $request, RouteMatchInterface $route_match) {
-    list($page, $title) = $this->prepare($main_content, $request, $route_match);
+    [$page, $title] = $this->prepare($main_content, $request, $route_match);
 
     if (!isset($page['#type']) || $page['#type'] !== 'page') {
       throw new \LogicException('Must be #type page');
@@ -205,7 +205,7 @@ class HtmlRenderer implements MainContentRendererInterface {
     // Determine the title: use the title provided by the main content if any,
     // otherwise get it from the routing information.
     $get_title = function (array $main_content) use ($request, $route_match) {
-      return isset($main_content['#title']) ? $main_content['#title'] : $this->titleResolver->getTitle($request, $route_match->getRouteObject());
+      return $main_content['#title'] ?? $this->titleResolver->getTitle($request, $route_match->getRouteObject());
     };
 
     // If the _controller result already is #type => page,
@@ -241,7 +241,7 @@ class HtmlRenderer implements MainContentRendererInterface {
           return $this->renderer->render($main_content, FALSE);
         });
         $main_content = $this->renderCache->getCacheableRenderArray($main_content) + [
-          '#title' => isset($main_content['#title']) ? $main_content['#title'] : NULL,
+          '#title' => $main_content['#title'] ?? NULL,
         ];
       }
 

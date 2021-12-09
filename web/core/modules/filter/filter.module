@@ -669,7 +669,7 @@ function _filter_url_trim($text, $length = NULL) {
     $_length = $length;
   }
 
-  if (isset($_length)) {
+  if (isset($text) && isset($_length)) {
     $text = Unicode::truncate($text, $_length, FALSE, TRUE);
   }
 
@@ -690,7 +690,7 @@ function _filter_autop($text) {
   // to avoid messing up code. We look for matched pairs and allow basic
   // nesting. For example:
   // "processed <pre> ignored <script> ignored </script> ignored </pre> processed"
-  $chunks = preg_split('@(<!--.*?-->|</?(?:pre|script|style|object|iframe|drupal-media|!--)[^>]*>)@i', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+  $chunks = preg_split('@(<!--.*?-->|</?(?:pre|script|style|object|iframe|drupal-media|svg|!--)[^>]*>)@i', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
   // Note: PHP ensures the array consists of alternating delimiters and literals
   // and begins and ends with a literal (inserting NULL as required).
   $ignore = FALSE;
@@ -706,7 +706,7 @@ function _filter_autop($text) {
       }
       // Opening or closing tag?
       $open = ($chunk[1] != '/');
-      list($tag) = preg_split('/[ >]/', substr($chunk, 2 - $open), 2);
+      [$tag] = preg_split('/[ >]/', substr($chunk, 2 - $open), 2);
       if (!$ignore) {
         if ($open) {
           $ignore = TRUE;
@@ -771,11 +771,14 @@ function _filter_html_image_secure_process($text) {
 
   $html_dom = Html::load($text);
   $images = $html_dom->getElementsByTagName('img');
+
+  /** @var \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator */
+  $file_url_generator = \Drupal::service('file_url_generator');
   foreach ($images as $image) {
     $src = $image->getAttribute('src');
     // Transform absolute image URLs to relative image URLs: prevent problems on
     // multisite set-ups and prevent mixed content errors.
-    $image->setAttribute('src', file_url_transform_relative($src));
+    $image->setAttribute('src', $file_url_generator->transformRelative($src));
 
     // Verify that $src starts with $base_path.
     // This also ensures that external images cannot be referenced.

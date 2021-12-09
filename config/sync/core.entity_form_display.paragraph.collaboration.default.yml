@@ -15,7 +15,9 @@ bundle: collaboration
 mode: default
 content:
   field_link_name:
+    type: string_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -23,10 +25,10 @@ content:
       maxlength:
         maxlength_js: 25
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
   field_offer_link:
+    type: link_default
     weight: 1
+    region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -34,8 +36,6 @@ content:
       maxlength:
         maxlength_js: null
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
-    type: link_default
-    region: content
 hidden:
   created: true
   status: true

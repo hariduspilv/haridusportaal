@@ -108,7 +108,7 @@ class NodeAccessBaseTableTest extends NodeTestBase {
       $this->drupalLogin($this->webUser);
       foreach ([0 => 'Public', 1 => 'Private'] as $is_private => $type) {
         $edit = [
-          'title[0][value]' => t('@private_public Article created by @user', ['@private_public' => $type, '@user' => $this->webUser->getAccountName()]),
+          'title[0][value]' => "$type Article created by " . $this->webUser->getAccountName(),
         ];
         if ($is_private) {
           $edit['private[0][value]'] = TRUE;
@@ -207,12 +207,14 @@ class NodeAccessBaseTableTest extends NodeTestBase {
   /**
    * Checks taxonomy/term listings to ensure only accessible nodes are listed.
    *
-   * @param $is_admin
+   * @param bool $is_admin
    *   A boolean indicating whether the current user is an administrator. If
    *   TRUE, all nodes should be listed. If FALSE, only public nodes and the
    *   user's own private nodes should be listed.
+   *
+   * @internal
    */
-  protected function assertTaxonomyPage($is_admin) {
+  protected function assertTaxonomyPage(bool $is_admin): void {
     foreach ([$this->publicTid, $this->privateTid] as $tid_is_private => $tid) {
       $this->drupalGet("taxonomy/term/$tid");
       $this->nidsVisible = [];

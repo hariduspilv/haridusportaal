@@ -21,13 +21,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       survey_page_accordion: survey_page_accordion
+    negate: 0
     target_bundles_drag_drop:
-      survey_page_accordion:
-        enabled: true
-        weight: 17
       accordion:
         weight: 18
         enabled: false
@@ -73,4 +70,7 @@ settings:
       school_location:
         weight: 32
         enabled: false
+      survey_page_accordion:
+        weight: 17
+        enabled: true
 field_type: entity_reference_revisions

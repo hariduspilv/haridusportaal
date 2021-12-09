@@ -91,7 +91,7 @@ class NumericFormatPluralTest extends ViewTestBase {
     $this->submitForm($edit, 'Add language');
     $formula = 'nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);';
     $header = new PoHeader();
-    list($nplurals, $formula) = $header->parsePluralForms($formula);
+    [$nplurals, $formula] = $header->parsePluralForms($formula);
     \Drupal::service('locale.plural.formula')->setPluralFormula('sl', $nplurals, $formula);
 
     // Change the view to Slovenian.
@@ -157,8 +157,8 @@ class NumericFormatPluralTest extends ViewTestBase {
       'filemime' => 'text/plain',
       'created' => 1,
       'changed' => 1,
-      'status' => FILE_STATUS_PERMANENT,
     ]);
+    $file->setPermanent();
     file_put_contents($file->getFileUri(), 'hello world');
 
     // Save it, inserting a new record.

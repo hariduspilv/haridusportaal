@@ -2,17 +2,17 @@ uuid: 75ca065d-a6f9-49df-b00c-7f0e581f3137
 langcode: et
 status: true
 dependencies:
-  module:
-    - elasticsearch_connector
-    - node
-    - taxonomy
-    - search_api
   config:
     - field.storage.node.field_author
     - field.storage.node.field_news_description
     - field.storage.node.field_short_description
     - field.storage.node.field_tag
     - search_api.server.elasticsearch_server
+  module:
+    - elasticsearch_connector
+    - node
+    - taxonomy
+    - search_api
 third_party_settings:
   elasticsearch_connector:
     ngram_filter_enabled: 0
@@ -121,7 +121,7 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: true
   cron_limit: 50
+  index_directly: true
   track_changes_in_references: true
 server: elasticsearch_server

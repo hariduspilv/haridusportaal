@@ -315,8 +315,10 @@ class UserTest extends ResourceTestBase {
    *   The username to log in with.
    * @param string $password
    *   The password to log in with.
+   *
+   * @internal
    */
-  protected function assertRpcLogin($username, $password) {
+  protected function assertRpcLogin(string $username, string $password): void {
     $request_body = [
       'name' => $username,
       'pass' => $password,
@@ -803,7 +805,9 @@ class UserTest extends ResourceTestBase {
 
   /**
    * @param \Drupal\user\UserInterface $account
+   *   The user account.
    * @param string $cancel_method
+   *   The cancel method.
    */
   private function sendDeleteRequestForUser(UserInterface $account, string $cancel_method) {
     $url = Url::fromRoute(sprintf('jsonapi.%s.individual', static::$resourceTypeName), ['entity' => $account->uuid()]);

@@ -22,9 +22,8 @@ function olivero_preprocess_html(&$variables) {
     $variables['attributes']['class'][] = 'is-always-mobile-nav';
   }
 
-  // So fonts can be preloaded from base theme in the event Olivero is used as a
-  // subtheme.
-  $variables['olivero_path'] = drupal_get_path('theme', 'olivero');
+  // So fonts can be preloaded from base theme in the event Olivero is used as a subtheme.
+  $variables['olivero_path'] = \Drupal::request()->getBasePath() . '/' . \Drupal::service('extension.list.theme')->getPath('olivero');
 
   $query_string = \Drupal::state()->get('system.css_js_query_string') ?: '0';
 
@@ -36,7 +35,7 @@ function olivero_preprocess_html(&$variables) {
     '#tag' => 'link',
     '#attributes' => [
       'rel' => 'stylesheet',
-      'href' => '/' . $variables['olivero_path'] . '/css/components/navigation/nav-primary-no-js.css?' . $query_string,
+      'href' => $variables['olivero_path'] . '/css/components/navigation/nav-primary-no-js.css?' . $query_string,
     ],
   ];
 }
@@ -83,7 +82,7 @@ function olivero_preprocess_maintenance_page(&$variables) {
   }
 
   // Olivero has custom styling for the maintenance page.
-  $variables['#attached']['library'][] = 'olivero/maintenance_page';
+  $variables['#attached']['library'][] = 'olivero/maintenance-page';
 }
 
 /**
@@ -188,7 +187,7 @@ function olivero_theme_suggestions_form_alter(array &$suggestions, array $variab
  * Implements hook_form_alter() for adding classes and placeholder text to the search forms.
  */
 function olivero_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  if (isset($form['actions']) && (count($form['actions'])) <= 2) {
+  if (isset($form['actions']['submit']) && (count($form['actions'])) <= 2) {
     $form['actions']['submit']['#attributes']['class'][] = 'button--primary';
   }
 
@@ -304,6 +303,8 @@ function olivero_preprocess_input(&$variables) {
     $variables['attributes']['class'][] = Html::getClass('form-element--type-' . $type_html);
     $variables['attributes']['class'][] = Html::getClass('form-element--api-' . $type_api);
 
+    // This logic is functioning as expected, but there is nothing in the theme that renders the result.
+    // As a result it can't currently be covered by a functional test.
     if (!empty($variables['element']['#autocomplete_route_name'])) {
       $variables['autocomplete_message'] = t('Loading…');
     }
@@ -370,7 +371,7 @@ function olivero_preprocess_field_multiple_value_form(&$variables) {
   // Make disabled available for the template.
   $variables['disabled'] = !empty($variables['element']['#disabled']);
 
-  if ($variables['multiple']) {
+  if (!empty($variables['multiple'])) {
     // Add an additional CSS class for the field label table cell.
     // This repeats the logic of template_preprocess_field_multiple_value_form()
     // without using '#prefix' and '#suffix' for the wrapper element.
@@ -483,20 +484,6 @@ function olivero_theme_suggestions_user_alter(&$suggestions, $variables) {
 function olivero_preprocess_field__node__created(&$variables) {
   foreach (Element::children($variables['items']) as $item) {
     unset($variables['items'][$item]['content']['#prefix']);
-  }
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function olivero_preprocess_field__node__field_image__article(&$variables) {
-  if ($variables['element']['#view_mode'] == 'full') {
-    $image_style = \Drupal::entityTypeManager()->getStorage('image_style')->load('wide');
-    if ($image_style) {
-      foreach (Element::children($variables['items']) as $key) {
-        $variables['items'][$key]['content']['#image_style'] = 'wide';
-      }
-    }
   }
 }
 
@@ -627,4 +614,11 @@ function olivero_preprocess_table(&$variables) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function olivero_form_views_exposed_form_alter(&$form) {
+  $form['#attributes']['class'][] = 'form--inline';
 }

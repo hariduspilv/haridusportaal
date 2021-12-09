@@ -210,8 +210,10 @@ class CommentPagerTest extends CommentTestBase {
    *   An array of comments, must be of the type CommentInterface.
    * @param array $expected_order
    *   An array of keys from $comments describing the expected order.
+   *
+   * @internal
    */
-  public function assertCommentOrder(array $comments, array $expected_order) {
+  public function assertCommentOrder(array $comments, array $expected_order): void {
     $expected_cids = [];
 
     // First, rekey the expected order by cid.
@@ -370,11 +372,8 @@ class CommentPagerTest extends CommentTestBase {
       // Set comments to one per page so that we are able to test paging without
       // needing to insert large numbers of comments.
       $this->setCommentsPerPage(1, $field_name);
-      for ($i = 0; $i < 3; $i++) {
-        $comment = t('Comment @count on field @field', [
-          '@count' => $i + 1,
-          '@field' => $field_name,
-        ]);
+      for ($i = 1; $i <= 4; $i++) {
+        $comment = "Comment $i on field $field_name";
         $comments[] = $this->postComment($node, $comment, $comment, TRUE, $field_name);
       }
     }

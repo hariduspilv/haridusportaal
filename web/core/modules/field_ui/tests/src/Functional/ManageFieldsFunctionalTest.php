@@ -85,6 +85,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     $admin_user = $this->drupalCreateUser([
       'access content',
       'administer content types',
+      'bypass node access',
       'administer node fields',
       'administer node form display',
       'administer node display',
@@ -165,12 +166,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
     $type = empty($type) ? $this->contentType : $type;
     $this->drupalGet('admin/structure/types/manage/' . $type . '/fields');
     // Check all table columns.
-    $table_headers = [
-      t('Label'),
-      t('Machine name'),
-      t('Field type'),
-      t('Operations'),
-    ];
+    $table_headers = ['Label', 'Machine name', 'Field type', 'Operations'];
     foreach ($table_headers as $table_header) {
       // We check that the label appear in the table headings.
       $this->assertSession()->responseContains($table_header . '</th>');
@@ -443,16 +439,18 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
   /**
    * Asserts field settings are as expected.
    *
-   * @param $bundle
+   * @param string $bundle
    *   The bundle name for the field.
-   * @param $field_name
+   * @param string $field_name
    *   The field name for the field.
-   * @param $string
+   * @param string $string
    *   The settings text.
-   * @param $entity_type
+   * @param string $entity_type
    *   The entity type for the field.
+   *
+   * @internal
    */
-  public function assertFieldSettings($bundle, $field_name, $string = 'dummy test string', $entity_type = 'node') {
+  public function assertFieldSettings(string $bundle, string $field_name, string $string = 'dummy test string', string $entity_type = 'node'): void {
     // Assert field storage settings.
     $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
     $this->assertSame($string, $field_storage->getSetting('test_field_storage_setting'), 'Field storage settings were found.');
@@ -687,7 +685,7 @@ class ManageFieldsFunctionalTest extends BrowserTestBase {
       'field_name' => $field_name,
       'bundle' => $this->contentType,
       'entity_type' => 'node',
-      'label' => t('Hidden field'),
+      'label' => 'Hidden field',
     ];
     FieldConfig::create($field)->save();
     \Drupal::service('entity_display.repository')

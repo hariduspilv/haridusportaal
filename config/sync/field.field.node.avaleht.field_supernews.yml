@@ -21,13 +21,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       supernews: supernews
+    negate: 0
     target_bundles_drag_drop:
-      supernews:
-        enabled: true
-        weight: 18
       accordion:
         weight: 19
         enabled: false
@@ -73,6 +70,9 @@ settings:
       school_location:
         weight: 33
         enabled: false
+      supernews:
+        weight: 18
+        enabled: true
       survey_page_accordion:
         weight: 34
         enabled: false

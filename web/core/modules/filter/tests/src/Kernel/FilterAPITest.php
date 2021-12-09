@@ -298,7 +298,7 @@ class FilterAPITest extends EntityKernelTestBase {
       // The cache tags set by the filter_test_cache_merge filter.
       'merge:tag',
     ];
-    $this->assertEquals($expected_cache_tags, $build['#cache']['tags'], 'Expected cache tags present.');
+    $this->assertEqualsCanonicalizing($expected_cache_tags, $build['#cache']['tags'], 'Expected cache tags present.');
     $expected_cache_contexts = [
       // The cache context set by the filter_test_cache_contexts filter.
       'languages:' . LanguageInterface::TYPE_CONTENT,
@@ -308,7 +308,7 @@ class FilterAPITest extends EntityKernelTestBase {
       // The cache tags set by the filter_test_cache_merge filter.
       'user.permissions',
     ];
-    $this->assertEquals($expected_cache_contexts, $build['#cache']['contexts'], 'Expected cache contexts present.');
+    $this->assertEqualsCanonicalizing($expected_cache_contexts, $build['#cache']['contexts'], 'Expected cache contexts present.');
     $expected_markup = '<p>Hello, world!</p><p>This is a dynamic llama.</p>';
     $this->assertEquals($expected_markup, $build['#markup'], 'Expected #lazy_builder callback has been applied.');
   }
@@ -430,10 +430,12 @@ class FilterAPITest extends EntityKernelTestBase {
    *
    * @param \Symfony\Component\Validator\ConstraintViolationListInterface $violations
    *   The violations to assert.
-   * @param mixed $invalid_value
+   * @param string $invalid_value
    *   The expected invalid value.
+   *
+   * @internal
    */
-  public function assertFilterFormatViolation(ConstraintViolationListInterface $violations, $invalid_value) {
+  public function assertFilterFormatViolation(ConstraintViolationListInterface $violations, string $invalid_value): void {
     $filter_format_violation_found = FALSE;
     foreach ($violations as $violation) {
       if ($violation->getRoot() instanceof FilterFormatDataType && $violation->getInvalidValue() === $invalid_value) {

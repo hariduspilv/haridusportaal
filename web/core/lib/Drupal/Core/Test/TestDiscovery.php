@@ -2,7 +2,7 @@
 
 namespace Drupal\Core\Test;
 
-use Doctrine\Common\Reflection\StaticReflectionParser;
+use Drupal\Component\Annotation\Doctrine\StaticReflectionParser;
 use Drupal\Component\Annotation\Reflection\MockFileFinder;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Extension\ExtensionDiscovery;
@@ -389,6 +389,7 @@ class TestDiscovery {
    * Parses the phpDoc summary line of a test class.
    *
    * @param string $doc_comment
+   *   The documentation comment.
    *
    * @return string
    *   The parsed phpDoc summary line. An empty string is returned if no summary
@@ -439,7 +440,7 @@ class TestDiscovery {
     // @see https://www.drupal.org/node/1273478
     if (isset($annotations['requires'])) {
       foreach ($annotations['requires'] as $i => $value) {
-        list($type, $value) = explode(' ', $value, 2);
+        [$type, $value] = explode(' ', $value, 2);
         if ($type === 'module') {
           $annotations['requires']['module'][$value] = $value;
           unset($annotations['requires'][$i]);

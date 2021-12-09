@@ -12,20 +12,20 @@ pattern: '/töölaud/[node:title]'
 selection_criteria:
   de9a439b-7c45-4706-ad09-40f6bf2eeb69:
     id: node_type
-    bundles:
-      dashboard: dashboard
     negate: false
+    uuid: de9a439b-7c45-4706-ad09-40f6bf2eeb69
     context_mapping:
       node: node
-    uuid: de9a439b-7c45-4706-ad09-40f6bf2eeb69
+    bundles:
+      dashboard: dashboard
   8eb550aa-4462-49b1-9abf-6975a8c9f50d:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: 8eb550aa-4462-49b1-9abf-6975a8c9f50d
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 8eb550aa-4462-49b1-9abf-6975a8c9f50d
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

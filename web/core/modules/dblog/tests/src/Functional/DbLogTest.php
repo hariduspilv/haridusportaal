@@ -3,7 +3,6 @@
 namespace Drupal\Tests\dblog\Functional;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Logger\RfcLogLevel;
@@ -378,8 +377,8 @@ class DbLogTest extends BrowserTestBase {
   private function verifyEvents() {
     // Invoke events.
     $this->doUser();
-    $this->drupalCreateContentType(['type' => 'article', 'name' => t('Article')]);
-    $this->drupalCreateContentType(['type' => 'page', 'name' => t('Basic page')]);
+    $this->drupalCreateContentType(['type' => 'article', 'name' => 'Article']);
+    $this->drupalCreateContentType(['type' => 'page', 'name' => 'Basic page']);
     $this->doNode('article');
     $this->doNode('page');
     $this->doNode('forum');
@@ -462,7 +461,7 @@ class DbLogTest extends BrowserTestBase {
     // Delete the user created at the start of this test.
     // We need to POST here to invoke batch_process() in the internal browser.
     $this->drupalGet('user/' . $user->id() . '/cancel');
-    $this->submitForm(['user_cancel_method' => 'user_cancel_reassign'], 'Cancel account');
+    $this->submitForm(['user_cancel_method' => 'user_cancel_reassign'], 'Confirm');
 
     // View the database log report.
     $this->drupalGet('admin/reports/dblog');
@@ -472,14 +471,14 @@ class DbLogTest extends BrowserTestBase {
     // Add user.
     // Default display includes name and email address; if too long, the email
     // address is replaced by three periods.
-    $this->assertLogMessage(t('New user: %name %email.', ['%name' => $name, '%email' => '<' . $user->getEmail() . '>']), 'DBLog event was recorded: [add user]');
+    $this->assertLogMessage("New user: $name <{$user->getEmail()}>.", 'DBLog event was recorded: [add user]');
     // Log in user.
-    $this->assertLogMessage(t('Session opened for %name.', ['%name' => $name]), 'DBLog event was recorded: [login user]');
+    $this->assertLogMessage("Session opened for $name.", 'DBLog event was recorded: [login user]');
     // Log out user.
-    $this->assertLogMessage(t('Session closed for %name.', ['%name' => $name]), 'DBLog event was recorded: [logout user]');
+    $this->assertLogMessage("Session closed for $name.", 'DBLog event was recorded: [logout user]');
     // Delete user.
-    $message = t('Deleted user: %name %email.', ['%name' => $name, '%email' => '<' . $user->getEmail() . '>']);
-    $message_text = Unicode::truncate(Html::decodeEntities(strip_tags($message)), 56, TRUE, TRUE);
+    $message = "Deleted user: $name <{$user->getEmail()}>.";
+    $message_text = Unicode::truncate($message, 56, TRUE, TRUE);
     // Verify that the full message displays on the details page.
     $link = FALSE;
     if ($links = $this->xpath('//a[text()="' . $message_text . '"]')) {
@@ -491,7 +490,7 @@ class DbLogTest extends BrowserTestBase {
       $link = mb_substr($value, strpos($value, 'admin/reports/dblog/event/'));
       $this->drupalGet($link);
       // Check for full message text on the details page.
-      $this->assertSession()->responseContains($message);
+      $this->assertSession()->pageTextContains($message);
     }
     $this->assertNotEmpty($link, 'DBLog event was recorded: [delete user]');
     // Visit random URL (to generate page not found event).
@@ -552,11 +551,11 @@ class DbLogTest extends BrowserTestBase {
 
     // Verify that node events were recorded.
     // Was node content added?
-    $this->assertLogMessage(t('@type: added %title.', ['@type' => $type, '%title' => $title]), 'DBLog event was recorded: [content added]');
+    $this->assertLogMessage("$type: added $title.", 'DBLog event was recorded: [content added]');
     // Was node content updated?
-    $this->assertLogMessage(t('@type: updated %title.', ['@type' => $type, '%title' => $title]), 'DBLog event was recorded: [content updated]');
+    $this->assertLogMessage("$type: updated $title.", 'DBLog event was recorded: [content updated]');
     // Was node content deleted?
-    $this->assertLogMessage(t('@type: deleted %title.', ['@type' => $type, '%title' => $title]), 'DBLog event was recorded: [content deleted]');
+    $this->assertLogMessage("$type: deleted $title.", 'DBLog event was recorded: [content deleted]');
 
     // View the database log access-denied report page.
     $this->drupalGet('admin/reports/access-denied');
@@ -820,9 +819,11 @@ class DbLogTest extends BrowserTestBase {
    *   The database log message to check.
    * @param string $message
    *   The message to pass to simpletest.
+   *
+   * @internal
    */
-  protected function assertLogMessage($log_message, $message) {
-    $message_text = Unicode::truncate(Html::decodeEntities(strip_tags($log_message)), 56, TRUE, TRUE);
+  protected function assertLogMessage(string $log_message, string $message): void {
+    $message_text = Unicode::truncate($log_message, 56, TRUE, TRUE);
     $this->assertSession()->linkExists($message_text, 0, $message);
   }
 
@@ -914,7 +915,7 @@ class DbLogTest extends BrowserTestBase {
       '%type' => 'User warning',
       '@message' => 'Drupal & awesome',
       '%function' => ErrorTestController::class . '->generateWarnings()',
-      '%file' => drupal_get_path('module', 'error_test') . '/error_test.module',
+      '%file' => $this->getModulePath('error_test') . '/error_test.module',
     ];
 
     // Check if the full message displays on the details page and backtrace is a

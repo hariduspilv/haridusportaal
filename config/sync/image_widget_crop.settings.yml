@@ -1,14 +1,14 @@
+_core:
+  default_config_hash: Yew0jAlVowXHCAcybHScr6viLQf_tvHwC48O16wkg2w
+langcode: et
 settings:
   library_url: 'https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js'
   css_url: 'https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css'
   crop_preview_image_style: crop_thumbnail
   crop_list: {  }
+  crop_types_required: {  }
   warn_multiple_usages: false
   show_default_crop: true
-  notify_update: true
-  notify_apply: false
   show_crop_area: true
-  crop_types_required: {  }
-_core:
-  default_config_hash: Yew0jAlVowXHCAcybHScr6viLQf_tvHwC48O16wkg2w
-langcode: et
+  notify_apply: false
+  notify_update: true

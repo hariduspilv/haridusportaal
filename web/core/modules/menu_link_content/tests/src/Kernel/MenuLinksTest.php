@@ -120,12 +120,14 @@ class MenuLinksTest extends KernelTestBase {
 
   /**
    * Assert that at set of links is properly parented.
+   *
+   * @internal
    */
-  public function assertMenuLinkParents($links, $expected_hierarchy) {
+  public function assertMenuLinkParents(array $links, array $expected_hierarchy): void {
     foreach ($expected_hierarchy as $id => $parent) {
       /** @var \Drupal\Core\Menu\MenuLinkInterface $menu_link_plugin  */
       $menu_link_plugin = $this->menuLinkManager->createInstance($links[$id]);
-      $expected_parent = isset($links[$parent]) ? $links[$parent] : '';
+      $expected_parent = $links[$parent] ?? '';
 
       $this->assertEquals($expected_parent, $menu_link_plugin->getParent(), new FormattableMarkup('Menu link %id has parent of %parent, expected %expected_parent.', ['%id' => $id, '%parent' => $menu_link_plugin->getParent(), '%expected_parent' => $expected_parent]));
     }
