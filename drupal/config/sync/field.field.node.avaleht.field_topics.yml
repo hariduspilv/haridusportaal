@@ -56,8 +56,8 @@ settings:
         weight: 36
         enabled: false
       homepage_topics:
-        enabled: true
         weight: 10
+        enabled: true
       homepage_topics_new:
         weight: 38
         enabled: false
