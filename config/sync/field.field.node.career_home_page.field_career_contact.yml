@@ -21,13 +21,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       career_contact: career_contact
+    negate: 0
     target_bundles_drag_drop:
-      career_contact:
-        enabled: true
-        weight: 29
       accordion:
         weight: 30
         enabled: false
@@ -37,6 +34,9 @@ settings:
       block:
         weight: 32
         enabled: false
+      career_contact:
+        weight: 29
+        enabled: true
       contact_section:
         weight: 33
         enabled: false

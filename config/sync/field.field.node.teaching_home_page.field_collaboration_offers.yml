@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       collaboration: collaboration
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 46
@@ -41,8 +41,8 @@ settings:
         weight: 50
         enabled: false
       collaboration:
-        enabled: true
         weight: 51
+        enabled: true
       contact_section:
         weight: 52
         enabled: false

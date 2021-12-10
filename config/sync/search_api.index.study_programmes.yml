@@ -2,11 +2,6 @@ uuid: 6f4c8f82-a919-4321-994d-e71f966d0f40
 langcode: et
 status: true
 dependencies:
-  module:
-    - elasticsearch_connector
-    - node
-    - taxonomy
-    - search_api
   config:
     - field.storage.node.field_accreditation_status
     - field.storage.node.field_amount
@@ -21,6 +16,11 @@ dependencies:
     - field.storage.node.field_study_programme_type
     - field.storage.node.field_teaching_language
     - search_api.server.elasticsearch_server
+  module:
+    - elasticsearch_connector
+    - node
+    - taxonomy
+    - search_api
 third_party_settings:
   elasticsearch_connector:
     ngram_filter_enabled: 0
@@ -210,6 +210,7 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: false
   cron_limit: 50
+  index_directly: false
+  track_changes_in_references: true
 server: elasticsearch_server

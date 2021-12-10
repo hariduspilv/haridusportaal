@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       homepage_reference: homepage_reference
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 39
@@ -65,8 +65,8 @@ settings:
         weight: 51
         enabled: false
       homepage_reference:
-        enabled: true
         weight: 52
+        enabled: true
       homepage_topics:
         weight: 53
         enabled: false

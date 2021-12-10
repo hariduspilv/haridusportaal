@@ -31,86 +31,86 @@ bundle: oska_field_page
 mode: default
 content:
   body:
-    label: hidden
     type: text_default
-    weight: 101
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 101
     region: content
   field_dynamic_graph:
-    weight: 117
+    type: oska_graph_formatter_type
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: oska_graph_formatter_type
+    weight: 117
     region: content
   field_gallery_btn:
-    weight: 118
+    type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: list_default
+    weight: 118
     region: content
   field_introduction:
-    weight: 102
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 102
     region: content
   field_media_gallery:
-    weight: 119
+    type: entity_reference_revisions_entity_view
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
+    weight: 119
     region: content
   field_oska_attachment_file:
-    weight: 114
+    type: file_default
     label: above
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    type: file_default
+    weight: 114
     region: content
   field_oska_field_accordion:
     type: entity_reference_revisions_entity_view
-    weight: 108
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 108
     region: content
   field_oska_field_picture:
-    weight: 110
+    type: image
     label: above
     settings:
-      image_style: ''
       image_link: ''
+      image_style: ''
     third_party_settings: {  }
-    type: image
+    weight: 110
     region: content
   field_oska_field_sidebar:
     type: entity_reference_revisions_entity_view
-    weight: 115
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 115
     region: content
   field_oska_video:
-    weight: 112
+    type: custom_video_formatter_type
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: custom_video_formatter_type
+    weight: 112
     region: content
   field_oska_web_page:
-    weight: 113
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -119,13 +119,13 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 113
     region: content
   links:
-    weight: 100
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 100
+    region: content
 hidden:
   langcode: true
   search_api_excerpt: true

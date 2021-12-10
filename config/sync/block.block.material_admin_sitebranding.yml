@@ -17,14 +17,14 @@ plugin: system_branding_block
 settings:
   id: system_branding_block
   label: 'Site branding (Material Admin)'
-  provider: system
   label_display: '0'
+  provider: system
   use_site_logo: true
   use_site_name: false
   use_site_slogan: false
 visibility:
   request_path:
     id: request_path
-    pages: "/user/login\r\n/user/password\r\n/user/register"
     negate: false
     context_mapping: {  }
+    pages: "/user/login\r\n/user/password\r\n/user/register"

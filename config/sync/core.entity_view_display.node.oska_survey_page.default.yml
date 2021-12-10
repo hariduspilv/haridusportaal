@@ -28,45 +28,45 @@ bundle: oska_survey_page
 mode: default
 content:
   body:
-    label: hidden
     type: text_default
-    weight: 101
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 101
     region: content
   field_dynamic_graph:
-    weight: 110
+    type: oska_graph_formatter_type
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: oska_graph_formatter_type
+    weight: 110
     region: content
   field_survey_page_accordion:
     type: entity_reference_revisions_entity_view
-    weight: 108
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 108
     region: content
   field_survey_page_attachment:
-    weight: 105
+    type: file_default
     label: above
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    type: file_default
+    weight: 105
     region: content
   field_survey_page_introduction:
-    weight: 102
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 102
     region: content
   field_survey_page_link:
-    weight: 104
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -75,37 +75,37 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 104
     region: content
   field_survey_page_picture:
-    weight: 106
+    type: image
     label: above
     settings:
-      image_style: ''
       image_link: ''
+      image_style: ''
     third_party_settings: {  }
-    type: image
+    weight: 106
     region: content
   field_survey_page_sidebar:
     type: entity_reference_revisions_entity_view
-    weight: 109
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 109
     region: content
   field_survey_page_video:
-    weight: 103
+    type: custom_video_formatter_type
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: custom_video_formatter_type
+    weight: 103
     region: content
   links:
-    weight: 100
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 100
+    region: content
 hidden:
   langcode: true

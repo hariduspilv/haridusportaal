@@ -128,6 +128,7 @@ class ExceptionHandlingTest extends KernelTestBase {
    * Sets the given path to use as the 404 page and triggers a 404.
    *
    * @param string $path
+   *   The path to test.
    *
    * @return \Drupal\Core\Render\HtmlResponse
    *
@@ -199,7 +200,7 @@ class ExceptionHandlingTest extends KernelTestBase {
     // final exception subscriber, it is printed as partial HTML, and hence
     // escaped.
     $this->assertEquals('text/plain; charset=UTF-8', $response->headers->get('Content-type'));
-    $this->assertStringStartsWith('The website encountered an unexpected error. Please try again later.</br></br><em class="placeholder">Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException</em>: Not acceptable format: json&lt;script&gt;alert(123);&lt;/script&gt; in <em class="placeholder">', $response->getContent());
+    $this->assertStringStartsWith('The website encountered an unexpected error. Please try again later.<br><br><em class="placeholder">Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException</em>: Not acceptable format: json&lt;script&gt;alert(123);&lt;/script&gt; in <em class="placeholder">', $response->getContent());
   }
 
 }

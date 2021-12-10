@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       contact_section: contact_section
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 17
@@ -32,8 +32,8 @@ settings:
         weight: 18
         enabled: false
       contact_section:
-        enabled: true
         weight: 19
+        enabled: true
       event_date:
         weight: 20
         enabled: false

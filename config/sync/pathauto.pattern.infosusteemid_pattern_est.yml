@@ -12,20 +12,20 @@ pattern: 'infosüsteemid/[node:title]'
 selection_criteria:
   8e2d528a-9955-47ac-82c7-da507643c894:
     id: node_type
-    bundles:
-      information_system_page: information_system_page
     negate: false
+    uuid: 8e2d528a-9955-47ac-82c7-da507643c894
     context_mapping:
       node: node
-    uuid: 8e2d528a-9955-47ac-82c7-da507643c894
+    bundles:
+      information_system_page: information_system_page
   41dea75b-6949-4750-8ef8-f90859423022:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: 41dea75b-6949-4750-8ef8-f90859423022
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 41dea75b-6949-4750-8ef8-f90859423022
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

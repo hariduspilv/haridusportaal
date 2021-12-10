@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       information_system_lower: information_system_lower
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 22
@@ -50,8 +50,8 @@ settings:
         weight: 29
         enabled: false
       information_system_lower:
-        enabled: true
         weight: 30
+        enabled: true
       information_system_sidebar:
         weight: 31
         enabled: false

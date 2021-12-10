@@ -1,8 +1,13 @@
+_core:
+  default_config_hash: WEa5Ex_IeAcm6Bm0hmQ4vU_nDwJDB8hW-vxT1qpGIbM
+langcode: et
 smtp_on: true
 smtp_host: smtp.office365.com
 smtp_hostbackup: ''
 smtp_port: '587'
 smtp_protocol: tls
+smtp_autotls: false
+smtp_timeout: 30
 smtp_username: teavitus@twn.ee
 smtp_password: wVQ8BaTRtcAGyB5U
 smtp_from: teavitus@twn.ee
@@ -13,9 +18,4 @@ smtp_allowhtml: '1'
 smtp_test_address: ''
 smtp_debugging: false
 prev_mail_system: php_mail
-_core:
-  default_config_hash: WEa5Ex_IeAcm6Bm0hmQ4vU_nDwJDB8hW-vxT1qpGIbM
-langcode: et
-smtp_timeout: 30
 smtp_keepalive: false
-smtp_autotls: false

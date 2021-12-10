@@ -18,15 +18,15 @@ mode: default
 content:
   field_blocks:
     type: entity_reference_revisions_entity_view
-    weight: 3
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 3
     region: content
   field_button:
-    weight: 4
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -35,19 +35,19 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 4
     region: content
   field_ehis_links:
     type: entity_reference_revisions_entity_view
-    weight: 5
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 5
     region: content
   field_legislation_block:
-    weight: 2
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -56,7 +56,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 2
     region: content
 hidden:
   search_api_excerpt: true

@@ -1,40 +1,40 @@
-definitions:
-  standard__front_page:
-    enabled: false
-    menu_name: main
-    parent: 'menu_link_content:6d8f74f2-d525-4b98-8d5a-16c41fd373e6'
-    expanded: false
-    weight: 2
-  config__conditional_field:
-    weight: -96
-    menu_name: admin
-    parent: system.admin_structure
-    enabled: true
-    expanded: false
-  entity__event_reg_entity__collection:
-    weight: -96
-    menu_name: admin
-    parent: system.admin_structure
-    expanded: false
-    enabled: true
-  entity__subscription_entity__collection:
-    enabled: true
-    menu_name: admin
-    parent: system.admin_structure
-    expanded: false
-    weight: -96
-  jwt__jwt_config_form:
-    weight: -96
-    menu_name: admin
-    parent: system.admin_config_system
-    expanded: false
-    enabled: true
-  custom_translation_module__custom_translation_form:
-    weight: -96
-    menu_name: admin
-    parent: system.admin_config_regional
-    expanded: false
-    enabled: true
 _core:
   default_config_hash: jdY7AU0tU-QsjmiOw3W8vwpYMb-By--_MSFgbqKUTYM
 langcode: et
+definitions:
+  standard__front_page:
+    menu_name: main
+    parent: 'menu_link_content:6d8f74f2-d525-4b98-8d5a-16c41fd373e6'
+    weight: 2
+    expanded: false
+    enabled: false
+  config__conditional_field:
+    menu_name: admin
+    parent: system.admin_structure
+    weight: -96
+    expanded: false
+    enabled: true
+  entity__event_reg_entity__collection:
+    menu_name: admin
+    parent: system.admin_structure
+    weight: -96
+    expanded: false
+    enabled: true
+  entity__subscription_entity__collection:
+    menu_name: admin
+    parent: system.admin_structure
+    weight: -96
+    expanded: false
+    enabled: true
+  jwt__jwt_config_form:
+    menu_name: admin
+    parent: system.admin_config_system
+    weight: -96
+    expanded: false
+    enabled: true
+  custom_translation_module__custom_translation_form:
+    menu_name: admin
+    parent: system.admin_config_regional
+    weight: -96
+    expanded: false
+    enabled: true

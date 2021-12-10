@@ -419,13 +419,13 @@ trait FunctionalTestSetupTrait {
     // not already specified.
     $profile = $container->getParameter('install_profile');
 
-    $default_sync_path = drupal_get_path('profile', $profile) . '/config/sync';
+    $default_sync_path = $container->get('extension.list.profile')->getPath($profile) . '/config/sync';
     $profile_config_storage = new FileStorage($default_sync_path, StorageInterface::DEFAULT_COLLECTION);
     if (!isset($this->defaultTheme) && $profile_config_storage->exists('system.theme')) {
       $this->defaultTheme = $profile_config_storage->read('system.theme')['default'];
     }
 
-    $default_install_path = drupal_get_path('profile', $profile) . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY;
+    $default_install_path = $container->get('extension.list.profile')->getPath($profile) . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY;
     $profile_config_storage = new FileStorage($default_install_path, StorageInterface::DEFAULT_COLLECTION);
     if (!isset($this->defaultTheme) && $profile_config_storage->exists('system.theme')) {
       $this->defaultTheme = $profile_config_storage->read('system.theme')['default'];
@@ -514,7 +514,6 @@ trait FunctionalTestSetupTrait {
   protected function installParameters() {
     $connection_info = Database::getConnectionInfo();
     $driver = $connection_info['default']['driver'];
-    $connection_info['default']['prefix'] = $connection_info['default']['prefix']['default'];
     unset($connection_info['default']['driver']);
     unset($connection_info['default']['namespace']);
     unset($connection_info['default']['pdo']);
@@ -544,8 +543,8 @@ trait FunctionalTestSetupTrait {
             'name' => $this->rootUser->name,
             'mail' => $this->rootUser->getEmail(),
             'pass' => [
-              'pass1' => isset($this->rootUser->pass_raw) ? $this->rootUser->pass_raw : $this->rootUser->passRaw,
-              'pass2' => isset($this->rootUser->pass_raw) ? $this->rootUser->pass_raw : $this->rootUser->passRaw,
+              'pass1' => $this->rootUser->pass_raw ?? $this->rootUser->passRaw,
+              'pass2' => $this->rootUser->pass_raw ?? $this->rootUser->passRaw,
             ],
           ],
           // form_type_checkboxes_value() requires NULL instead of FALSE values
@@ -586,7 +585,7 @@ trait FunctionalTestSetupTrait {
     $parsed_url = parse_url($base_url);
     $host = $parsed_url['host'] . (isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '');
     $path = isset($parsed_url['path']) ? rtrim(rtrim($parsed_url['path']), '/') : '';
-    $port = isset($parsed_url['port']) ? $parsed_url['port'] : 80;
+    $port = $parsed_url['port'] ?? 80;
 
     $valid_url_schemes = ['http', 'https'];
     if (!in_array(strtolower($parsed_url['scheme']), $valid_url_schemes, TRUE)) {

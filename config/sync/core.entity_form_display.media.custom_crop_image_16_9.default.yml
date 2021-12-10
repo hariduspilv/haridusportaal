@@ -14,19 +14,19 @@ bundle: custom_crop_image_16_9
 mode: default
 content:
   field_media_image_1:
+    type: image_widget_crop
     weight: 0
+    region: content
     settings:
-      show_default_crop: true
-      warn_multiple_usages: true
+      progress_indicator: throbber
       preview_image_style: thumbnail
       crop_preview_image_style: custom_crop_style_16_9_
       crop_list:
         - '16_9'
-      progress_indicator: throbber
+      warn_multiple_usages: true
       show_crop_area: false
+      show_default_crop: true
     third_party_settings: {  }
-    type: image_widget_crop
-    region: content
 hidden:
   created: true
   langcode: true

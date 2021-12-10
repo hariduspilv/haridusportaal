@@ -127,7 +127,6 @@ class DbDumpTest extends KernelTestBase {
       'config',
       'cache_bootstrap',
       'cache_config',
-      'cache_data',
       'cache_discovery',
       'cache_entity',
       'file_managed',
@@ -221,6 +220,7 @@ class DbDumpTest extends KernelTestBase {
    * Helper function to get a simplified schema for a given table.
    *
    * @param string $table
+   *   The table name.
    *
    * @return array
    *   Array keyed by field name, with the values being the field type.

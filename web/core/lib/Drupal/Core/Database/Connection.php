@@ -73,7 +73,7 @@ abstract class Connection {
   /**
    * The name of the Statement class for this connection.
    *
-   * @var string
+   * @var string|null
    *
    * @deprecated in drupal:9.1.0 and is removed from drupal:10.0.0. Database
    *   drivers should use or extend StatementWrapper instead, and encapsulate
@@ -86,7 +86,7 @@ abstract class Connection {
   /**
    * The name of the StatementWrapper class for this connection.
    *
-   * @var string
+   * @var string|null
    */
   protected $statementWrapperClass = NULL;
 
@@ -103,6 +103,11 @@ abstract class Connection {
    * An index used to generate unique temporary table names.
    *
    * @var int
+   *
+   * @deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. There is no
+   *   replacement.
+   *
+   * @see https://www.drupal.org/node/3211781
    */
   protected $temporaryNameIndex = 0;
 
@@ -222,6 +227,8 @@ abstract class Connection {
    *   - prefix
    *   - namespace
    *   - Other driver-specific options.
+   *   An 'extra_prefix' option may be present to allow BC for attaching
+   *   per-table prefixes, but it is meant for internal use only.
    */
   public function __construct(\PDO $connection, array $connection_options) {
     if ($this->identifierQuotes === NULL) {
@@ -230,11 +237,46 @@ abstract class Connection {
     }
 
     assert(count($this->identifierQuotes) === 2 && Inspector::assertAllStrings($this->identifierQuotes), '\Drupal\Core\Database\Connection::$identifierQuotes must contain 2 string values');
+
     // The 'transactions' option is deprecated.
     if (isset($connection_options['transactions'])) {
       @trigger_error('Passing a \'transactions\' connection option to ' . __METHOD__ . ' is deprecated in drupal:9.1.0 and is removed in drupal:10.0.0. All database drivers must support transactions. See https://www.drupal.org/node/2278745', E_USER_DEPRECATED);
       unset($connection_options['transactions']);
     }
+
+    // Manage the table prefix.
+    if (isset($connection_options['prefix']) && is_array($connection_options['prefix'])) {
+      if (count($connection_options['prefix']) > 1) {
+        // If there are keys left besides the 'default' one, we are in a
+        // multi-prefix scenario (for per-table prefixing, or migrations).
+        // In that case, we put the non-default keys in a 'extra_prefix' key
+        // to avoid mixing up with the normal 'prefix', which is a string since
+        // Drupal 9.1.0.
+        $prefix = $connection_options['prefix']['default'] ?? '';
+        unset($connection_options['prefix']['default']);
+        if (isset($connection_options['extra_prefix'])) {
+          $connection_options['extra_prefix'] = array_merge($connection_options['extra_prefix'], $connection_options['prefix']);
+        }
+        else {
+          $connection_options['extra_prefix'] = $connection_options['prefix'];
+        }
+      }
+      else {
+        $prefix = $connection_options['prefix']['default'] ?? '';
+      }
+      $connection_options['prefix'] = $prefix;
+    }
+
+    // Initialize and prepare the connection prefix.
+    if (!isset($connection_options['extra_prefix'])) {
+      $prefix = $connection_options['prefix'] ?? '';
+    }
+    else {
+      $default_prefix = $connection_options['prefix'] ?? '';
+      $prefix = $connection_options['extra_prefix'];
+      $prefix['default'] = $default_prefix;
+    }
+    $this->setPrefix($prefix);
 
     // Work out the database driver namespace if none is provided. This normally
     // written to setting.php by installer or set by
@@ -248,9 +290,6 @@ abstract class Connection {
     if (strpos($connection_options['namespace'], 'Drupal\Driver\Database') === 0) {
       @trigger_error('Support for database drivers located in the "drivers/lib/Drupal/Driver/Database" directory is deprecated in drupal:9.1.0 and is removed in drupal:10.0.0. Contributed and custom database drivers should be provided by modules and use the namespace "Drupal\MODULE_NAME\Driver\Database\DRIVER_NAME". See https://www.drupal.org/node/3123251', E_USER_DEPRECATED);
     }
-
-    // Initialize and prepare the connection prefix.
-    $this->setPrefix(isset($connection_options['prefix']) ? $connection_options['prefix'] : '');
 
     // Set a Statement class, unless the driver opted out.
     // @todo remove this in Drupal 10 https://www.drupal.org/node/3177490
@@ -399,11 +438,32 @@ abstract class Connection {
   }
 
   /**
+   * Allows the connection to access additional databases.
+   *
+   * Database systems usually group tables in 'databases' or 'schemas', that
+   * can be accessed with syntax like 'SELECT * FROM database.table'. Normally
+   * Drupal accesses tables in a single database/schema, but in some cases it
+   * may be necessary to access tables from other databases/schemas in the same
+   * database server. This method can be called to ensure that the additional
+   * database/schema is accessible.
+   *
+   * For MySQL, PostgreSQL and most other databases no action need to be taken
+   * to query data in another database or schema. For SQLite this is however
+   * necessary and the database driver for SQLite will override this method.
+   *
+   * @param string $database
+   *   The database to be attached to the connection.
+   *
+   * @internal
+   */
+  public function attachDatabase(string $database): void {
+  }
+
+  /**
    * Set the list of prefixes used by this database connection.
    *
    * @param array|string $prefix
-   *   Either a single prefix, or an array of prefixes, in any of the multiple
-   *   forms documented in default.settings.php.
+   *   Either a single prefix, or an array of prefixes.
    */
   protected function setPrefix($prefix) {
     if (is_array($prefix)) {
@@ -543,6 +603,9 @@ abstract class Connection {
    *   An associative array of options to control how the query is run. See
    *   the documentation for self::defaultOptions() for details. The content of
    *   the 'pdo' key will be passed to the prepared statement.
+   * @param bool $allow_row_count
+   *   (optional) A flag indicating if row count is allowed on the statement
+   *   object. Defaults to FALSE.
    *
    * @return \Drupal\Core\Database\StatementInterface
    *   A PDO prepared statement ready for its execute() method.
@@ -552,14 +615,14 @@ abstract class Connection {
    *   not allowed in the query.
    * @throws \Drupal\Core\Database\DatabaseExceptionWrapper
    */
-  public function prepareStatement(string $query, array $options): StatementInterface {
+  public function prepareStatement(string $query, array $options, bool $allow_row_count = FALSE): StatementInterface {
     try {
       $query = $this->preprocessStatement($query, $options);
 
       // @todo in Drupal 10, only return the StatementWrapper.
       // @see https://www.drupal.org/node/3177490
       $statement = $this->statementWrapperClass ?
-        new $this->statementWrapperClass($this, $this->connection, $query, $options['pdo'] ?? []) :
+        new $this->statementWrapperClass($this, $this->connection, $query, $options['pdo'] ?? [], $allow_row_count) :
         $this->connection->prepare($query, $options['pdo'] ?? []);
     }
     catch (\Exception $e) {
@@ -887,12 +950,15 @@ abstract class Connection {
         case Database::RETURN_STATEMENT:
           return $stmt;
 
+        // Database::RETURN_AFFECTED should not be used; enable row counting
+        // by passing the appropriate argument to the constructor instead.
+        // @see https://www.drupal.org/node/3186368
         case Database::RETURN_AFFECTED:
           $stmt->allowRowCount = TRUE;
           return $stmt->rowCount();
 
         case Database::RETURN_INSERT_ID:
-          $sequence_name = isset($options['sequence_name']) ? $options['sequence_name'] : NULL;
+          $sequence_name = $options['sequence_name'] ?? NULL;
           return $this->connection->lastInsertId($sequence_name);
 
         case Database::RETURN_NULL:
@@ -1140,6 +1206,9 @@ abstract class Connection {
    * @see \Drupal\Core\Database\Query\Select
    */
   public function select($table, $alias = NULL, array $options = []) {
+    if (!is_null($alias) && !is_string($alias)) {
+      @trigger_error('Passing a non-string \'alias\' argument to ' . __METHOD__ . '() is deprecated in drupal:9.3.0 and will be required in drupal:10.0.0. Refactor your calling code. See https://www.drupal.org/project/drupal/issues/3216552', E_USER_DEPRECATED);
+    }
     $class = $this->getDriverClass('Select');
     return new $class($this, $table, $alias, $options);
   }
@@ -1670,8 +1739,14 @@ abstract class Connection {
    *
    * @return string
    *   A table name.
+   *
+   * @deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. There is no
+   *   replacement.
+   *
+   * @see https://www.drupal.org/node/3211781
    */
   protected function generateTemporaryTableName() {
+    @trigger_error('Connection::generateTemporaryTableName() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. There is no replacement. See https://www.drupal.org/node/3211781', E_USER_DEPRECATED);
     return "db_temporary_" . $this->temporaryNameIndex++;
   }
 
@@ -1699,6 +1774,11 @@ abstract class Connection {
    *
    * @return string
    *   The name of the temporary table.
+   *
+   * @deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. There is no
+   *   replacement.
+   *
+   * @see https://www.drupal.org/node/3211781
    */
   abstract public function queryTemporary($query, array $args = [], array $options = []);
 
@@ -1969,7 +2049,7 @@ abstract class Connection {
     }
 
     if (!empty($url_components['fragment'])) {
-      $database['prefix']['default'] = $url_components['fragment'];
+      $database['prefix'] = $url_components['fragment'];
     }
 
     return $database;
@@ -2025,8 +2105,8 @@ abstract class Connection {
       $db_url .= '?module=' . $connection_options['module'];
     }
 
-    if (isset($connection_options['prefix']['default']) && $connection_options['prefix']['default'] !== '') {
-      $db_url .= '#' . $connection_options['prefix']['default'];
+    if (isset($connection_options['prefix']) && $connection_options['prefix'] !== '') {
+      $db_url .= '#' . $connection_options['prefix'];
     }
 
     return $db_url;

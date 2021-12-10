@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       file_mandatory_description: file_mandatory_description
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 23
@@ -44,8 +44,8 @@ settings:
         weight: 28
         enabled: false
       file_mandatory_description:
-        enabled: true
         weight: 29
+        enabled: true
       homepage_topics:
         weight: 30
         enabled: false

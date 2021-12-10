@@ -302,7 +302,6 @@ class FormBuilder implements FormBuilderInterface, FormValidatorInterface, FormS
     }
 
     // If this form is an AJAX request, disable all form redirects.
-    $request = $this->requestStack->getCurrentRequest();
     if ($ajax_form_request = $request->query->has(static::AJAX_FORM_REQUEST)) {
       $form_state->disableRedirect();
     }
@@ -844,9 +843,9 @@ class FormBuilder implements FormBuilderInterface, FormValidatorInterface, FormS
    *   The URL to be used as the $form['#action'].
    */
   protected function buildFormAction() {
-    // @todo Use <current> instead of the master request in
+    // @todo Use <current> instead of the main request in
     //   https://www.drupal.org/node/2505339.
-    $request = $this->requestStack->getMasterRequest();
+    $request = $this->requestStack->getMainRequest();
     $request_uri = $request->getRequestUri();
 
     // Prevent cross site requests via the Form API by using an absolute URL
@@ -1281,7 +1280,7 @@ class FormBuilder implements FormBuilderInterface, FormValidatorInterface, FormS
         // value. Avoid image buttons (which come with garbage value), so we
         // only get value for the button actually clicked.
         if (!isset($element['#value']) && empty($element['#has_garbage_value'])) {
-          $element['#value'] = isset($element['#default_value']) ? $element['#default_value'] : '';
+          $element['#value'] = $element['#default_value'] ?? '';
         }
       }
     }

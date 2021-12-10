@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       homepage_topics: homepage_topics
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 11

@@ -12,20 +12,20 @@ pattern: 'uuringud/[node:title]'
 selection_criteria:
   69a8c03b-a380-4449-8ce4-791f3ed5b657:
     id: node_type
-    bundles:
-      studypage: studypage
     negate: false
+    uuid: 69a8c03b-a380-4449-8ce4-791f3ed5b657
     context_mapping:
       node: node
-    uuid: 69a8c03b-a380-4449-8ce4-791f3ed5b657
+    bundles:
+      studypage: studypage
   1b6e5ba6-396e-4099-bc14-9621f9210ddc:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: 1b6e5ba6-396e-4099-bc14-9621f9210ddc
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 1b6e5ba6-396e-4099-bc14-9621f9210ddc
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

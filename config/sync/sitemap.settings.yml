@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: f4sH8CGbEMFQXKFoGeaHbmIP_f6cOTi02EeFhHSbYyo
 langcode: et
 page_title: Sitemap
 message:
@@ -76,5 +78,3 @@ order:
   menus_devel: -50
   menus_admin: -50
   vocabularies_teaching_language: -50
-_core:
-  default_config_hash: f4sH8CGbEMFQXKFoGeaHbmIP_f6cOTi02EeFhHSbYyo

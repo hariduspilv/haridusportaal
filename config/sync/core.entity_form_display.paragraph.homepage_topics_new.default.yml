@@ -13,7 +13,9 @@ bundle: homepage_topics_new
 mode: default
 content:
   field_topic_link:
+    type: link_default
     weight: 3
+    region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -21,8 +23,6 @@ content:
       maxlength:
         maxlength_js: 25
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: link_default
-    region: content
 hidden:
   created: true
   status: true

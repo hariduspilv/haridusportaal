@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       ehis_links: ehis_links
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 26
@@ -38,8 +38,8 @@ settings:
         weight: 29
         enabled: false
       ehis_links:
-        enabled: true
         weight: 30
+        enabled: true
       event_date:
         weight: 31
         enabled: false

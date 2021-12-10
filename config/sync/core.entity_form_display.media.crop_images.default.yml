@@ -15,19 +15,19 @@ bundle: crop_images
 mode: default
 content:
   field_media_image_1:
+    type: image_widget_crop
     weight: 1
+    region: content
     settings:
-      show_default_crop: true
-      warn_multiple_usages: true
+      progress_indicator: throbber
       preview_image_style: thumbnail
       crop_preview_image_style: custom_crop_style
       crop_list:
         - 500x500
-      progress_indicator: throbber
+      warn_multiple_usages: true
       show_crop_area: false
+      show_default_crop: true
     third_party_settings: {  }
-    type: image_widget_crop
-    region: content
   name:
     type: string_textfield
     weight: 0
