@@ -181,8 +181,6 @@
 		</sequence>
 	</complexType>
 
-
-
 	<complexType name="GeneralEducation">
 		<sequence>
 			<element name="action" type="tns:Action">
@@ -208,7 +206,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="Certificate">
 		<sequence>
@@ -305,7 +302,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="TranscriptOfGrades">
 		<sequence>
 			<element maxOccurs="1" minOccurs="1" name="number" type="string">
@@ -373,8 +369,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
-
 
 	<complexType name="GraduationDocument">
 		<sequence>
@@ -532,7 +526,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="Diploma">
 		<sequence>
 			<element maxOccurs="1" minOccurs="0" name="academicDegree" type="string">
@@ -551,7 +544,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="DiplomaSupplement">
 		<sequence>
@@ -575,9 +567,90 @@
 					</appinfo>
 				</annotation>
 			</element>
+			<element maxOccurs="1" minOccurs="0" name="studySubjects" type="tns:DiplomaSupplementStudySubjects">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õpisoorituste nimistu.</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
 		</sequence>
 	</complexType>
 
+	<complexType name="DiplomaSupplementStudySubjects">
+		<sequence>
+			<element maxOccurs="unbounded" minOccurs="1" name="studySubject" type="tns:DiplomaSupplementStudySubject">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õpisoorituse andmed.</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="DiplomaSupplementStudySubject">
+		<sequence>
+			<element maxOccurs="1" minOccurs="1" name="subjectCode" type="string">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õppeaine kood. Nt "MTAT.03.291"</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+			<element maxOccurs="1" minOccurs="1" name="subjectName" type="string">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õppeaine nimetus. Nt "Sissejuhatus arvutuslikku neuroteadusesse"</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+			<element maxOccurs="1" minOccurs="0" name="volume" type="decimal">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õppeaine maht arvestuspunktides. Nt "6"</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+			<element maxOccurs="1" minOccurs="0" name="completionDate" type="date">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õppeaine läbimise kuupäev.</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+			<element maxOccurs="1" minOccurs="0" name="reportNr" type="string">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õppeaine protokolli number. Nt "LT2020/2021-00779"</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+			<element maxOccurs="1" minOccurs="0" name="resultNumeric" type="string">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õppeaine hinne numbrina/tähena. Nt "A"
+
+							Andmeelementi ei edastata kui tegemist arvestusliku õppeainega.</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+			<element maxOccurs="1" minOccurs="1" name="resultInWords" type="string">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õppeaine hinne sõnadega või hinnang. Nt "suurepärane", "arvestatud".</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+			<element maxOccurs="1" minOccurs="1" name="lecturer" type="string">
+				<annotation>
+					<appinfo>
+						<xrd:title>Õppeaine õppejõu nimi. Nt "Mari Maasikas".</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
 
 	<complexType name="Graduation">
 		<sequence>
@@ -640,7 +713,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="IssuingDuplicate">
 		<sequence>
 			<element maxOccurs="1" minOccurs="1" name="IdCode" type="string">
@@ -680,7 +752,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="CertificateRepealing">
 		<sequence>
@@ -741,7 +812,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="AdditionalDocument">
 		<sequence>
 			<element maxOccurs="1" minOccurs="1" name="language">
@@ -773,7 +843,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="CertificateOwner">
 		<sequence>
@@ -815,7 +884,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="Extras">
 		<sequence>
 			<element maxOccurs="unbounded" minOccurs="1" name="number" type="string">
@@ -827,7 +895,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="Specialization">
 		<sequence>
@@ -850,7 +917,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="DiplomaSupplementStudies">
 		<sequence>
 			<element maxOccurs="1" minOccurs="1" name="creditPoints" type="string">
@@ -869,7 +935,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="DiplomaOrderToIssue">
 		<sequence>
@@ -890,7 +955,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="VocationalTrainingGraduationExaminations">
 		<sequence>
 			<element maxOccurs="unbounded" minOccurs="1" name="graduationExamination" type="tns:VocationalTrainingGraduationExamination">
@@ -902,7 +966,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="VocationalTrainingGraduationExamination">
 		<sequence>
@@ -937,7 +1000,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="VocationalTrainingStudySubjects">
 		<sequence>
 			<element maxOccurs="unbounded" minOccurs="1" name="studySubject" type="tns:VocationalTrainingStudySubject">
@@ -959,7 +1021,7 @@
 					</appinfo>
 				</annotation>
 			</element>
-			<element maxOccurs="1" minOccurs="1" name="volume" type="integer">
+			<element maxOccurs="1" minOccurs="1" name="volume" type="decimal">
 				<annotation>
 					<appinfo>
 						<xrd:title>Mooduli maht arvestuspunktides</xrd:title>
@@ -997,7 +1059,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="VocationalTrainingTranscriptOfGradesStudies">
 		<sequence>
 			<element maxOccurs="1" minOccurs="1" name="creditPoints" type="string">
@@ -1031,7 +1092,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="HeadOfSchoolDirective">
 		<sequence>
 			<element maxOccurs="1" minOccurs="1" name="issueDate" type="date">
@@ -1050,7 +1110,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="RegisterOfOccupationalQualifications">
 		<sequence>
@@ -1153,7 +1212,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="HigherEducationIssuer">
 		<sequence>
 			<element maxOccurs="1" minOccurs="0" name="issuerId" type="string">
@@ -1220,7 +1278,6 @@
 			</choice>
 		</sequence>
 	</complexType>
-
 
 	<complexType name="CertificateIssuer">
 		<sequence>
@@ -1348,8 +1405,6 @@
 			</element>
 		</sequence>
 	</complexType>
-
-
 
 	<complexType name="GraduationExaminations">
 		<sequence>
@@ -1561,7 +1616,6 @@
 		</sequence>
 	</complexType>
 
-
 	<!-- Certificates -->
 	<element name="SendCertificateResponse">
 		<complexType>
@@ -1613,7 +1667,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="CertificateIndex">
 		<sequence>
 			<element minOccurs="0" name="certificateUid" type="string"/>
@@ -1655,7 +1708,6 @@
 		</sequence>
 	</complexType>
 
-
 	<complexType name="CertificateActions">
 		<sequence>
 			<element maxOccurs="unbounded" name="action" type="tns:CertificateAction"/>
@@ -1673,8 +1725,6 @@
 			<element minOccurs="0" name="reason" type="string"/>
 		</sequence>
 	</complexType>
-
-
 
 	<complexType name="ServiceErrors">
 		<sequence>
@@ -1832,7 +1882,7 @@
 	</complexType>
 	<complexType name="hasAccessList">
 		<sequence>
-			<element maxOccurs="unbounded" name="access" type="string"/>
+			<element maxOccurs="unbounded" minOccurs="0" name="access" type="string"/>
 		</sequence>
 	</complexType>
 
@@ -1948,6 +1998,13 @@
 				<annotation>
 					<appinfo>
 						<xrd:title>Toetuse staatuse hoidmiseks</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
+			<element minOccurs="0" name="warnings" type="tns:grantWarnings">
+				<annotation>
+					<appinfo>
+						<xrd:title>Toetuse taotlemise hoiatused</xrd:title>
 					</appinfo>
 				</annotation>
 			</element>
@@ -2523,13 +2580,6 @@
 					</appinfo>
 				</annotation>
 			</element>
-			<element minOccurs="0" name="grantNumber" type="string">
-				<annotation>
-					<appinfo>
-						<xrd:title>Viide toetusele</xrd:title>
-					</appinfo>
-				</annotation>
-			</element>
 			<element minOccurs="0" name="recoveryDate" type="date">
 				<annotation>
 					<appinfo>
@@ -2544,6 +2594,8 @@
 					</appinfo>
 				</annotation>
 			</element>
+			<element minOccurs="0" name="decisionFileReference" type="string"/>
+			<element minOccurs="0" name="decision" type="tns:grantFile"/>
 		</sequence>
 	</complexType>
 
@@ -2687,8 +2739,28 @@
           </appinfo>
         </annotation>
       </element>
+			<element minOccurs="0" name="estimatedEndDate" type="date">
+				<annotation>
+					<appinfo>
+						<xrd:title>Eeldatav toetuse lõppemise kuupäev</xrd:title>
+					</appinfo>
+				</annotation>
+			</element>
     </sequence>
   </complexType>
+
+	<complexType name="grantWarnings">
+		<sequence>
+			<element maxOccurs="unbounded" name="warning" type="tns:grantWarning"/>
+		</sequence>
+	</complexType>
+	<complexType name="grantWarning">
+		<sequence>
+			<element minOccurs="0" name="code" type="string"/>
+			<element minOccurs="0" name="type" type="string"/>
+			<element minOccurs="0" name="message" type="string"/>
+		</sequence>
+	</complexType>
 
   <!-- Institutions -->
   <element name="postInstitutionsRequest">

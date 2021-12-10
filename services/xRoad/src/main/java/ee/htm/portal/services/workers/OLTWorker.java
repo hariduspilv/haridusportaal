@@ -267,6 +267,20 @@ public class OLTWorker extends Worker {
         } else {
           ((ObjectNode) jsonNode.get("header"))
               .put("identifier", xRaodResponse.getGrants().getGrantList().get(0).getGrantNumber());
+
+          if (xRaodResponse.getGrants().getGrantList().get(0).isSetWarnings()) {
+            ((ArrayNode) jsonNode.get("body").get("steps").get("step_type_selection").get("messages")).removeAll();
+            jsonNode.putObject("messages").putObject("default");
+            xRaodResponse.getGrants().getGrantList().get(0).getWarnings().getWarningList().forEach(s -> {
+              ((ObjectNode) jsonNode.get("body").get("steps").get("step_type_selection"))
+                 .putArray("messages").add(s.getCode());
+              ((ObjectNode) jsonNode.get("messages")).putObject(s.getCode())
+                 .put("message_type", s.getType())
+                 .put("message_code", s.getCode())
+                 .putObject("message_text").put("et", s.getMessage());
+            });
+          }
+
           Application grantApplication = xRaodResponse.getGrants().getGrantList().get(0)
               .getApplication();
           stepApplicationDataElements.putObject("person_application_first_name")
@@ -489,6 +503,19 @@ public class OLTWorker extends Worker {
                     .put("file_identifier",
                         "OLT_" + postGrantsResponse.getGrant().getGrantNumber() + "_" + grantFile
                             .getUID()));
+          }
+
+          if (postGrantsResponse.getGrant().isSetWarnings()) {
+            ((ArrayNode) jsonNode.get("body").get("steps").get("step_type_selection").get("messages")).removeAll();
+            jsonNode.putObject("messages").putObject("default");
+            postGrantsResponse.getGrant().getWarnings().getWarningList().forEach(s -> {
+              ((ObjectNode) jsonNode.get("body").get("steps").get("step_type_selection"))
+                 .putArray("messages").add(s.getCode());
+              ((ObjectNode) jsonNode.get("messages")).putObject(s.getCode())
+                 .put("message_type", s.getType())
+                 .put("message_code", s.getCode())
+                 .putObject("message_text").put("et", s.getMessage());
+            });
           }
 
           ((ObjectNode) jsonNode.get("body").get("steps").get("step_response"))
