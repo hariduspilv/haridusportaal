@@ -21,6 +21,17 @@ class TermTranslationUITest extends ContentTranslationUITestBase {
   protected $vocabulary;
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultCacheContexts = [
+    'languages:language_interface',
+    'theme',
+    'url.query_args:_wrapper_format',
+    'user.permissions',
+    'url.site',
+  ];
+
+  /**
    * Modules to enable.
    *
    * @var array
@@ -30,7 +41,7 @@ class TermTranslationUITest extends ContentTranslationUITestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'classy';
+  protected $defaultTheme = 'stark';
 
   protected function setUp(): void {
     $this->entityTypeId = 'taxonomy_term';

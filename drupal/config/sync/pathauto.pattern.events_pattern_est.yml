@@ -12,20 +12,20 @@ pattern: 'sündmused/[node:title]'
 selection_criteria:
   42c07bc8-0851-4d2b-a170-66ccf50fbfd5:
     id: node_type
-    bundles:
-      event: event
     negate: false
+    uuid: 42c07bc8-0851-4d2b-a170-66ccf50fbfd5
     context_mapping:
       node: node
-    uuid: 42c07bc8-0851-4d2b-a170-66ccf50fbfd5
+    bundles:
+      event: event
   cf8ae7e1-6bb4-4a73-b986-41e4e64d975d:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: cf8ae7e1-6bb4-4a73-b986-41e4e64d975d
     context_mapping:
       language: 'node:langcode:language'
-    uuid: cf8ae7e1-6bb4-4a73-b986-41e4e64d975d
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

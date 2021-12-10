@@ -52,76 +52,76 @@ bundle: event
 mode: default
 content:
   field_attachment_file:
-    weight: 5
+    type: file_default
     label: above
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    type: file_default
+    weight: 5
     region: content
   field_contact_email:
-    weight: 11
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 11
     region: content
   field_contact_person:
-    weight: 9
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 9
     region: content
   field_contact_phone:
-    weight: 23
+    type: telephone_link
     label: above
     settings:
       title: ''
     third_party_settings: {  }
-    type: telephone_link
+    weight: 23
     region: content
   field_description:
-    weight: 21
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 21
     region: content
   field_description_summary:
-    weight: 20
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 20
     region: content
   field_entry_type:
-    weight: 12
+    type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: list_default
+    weight: 12
     region: content
   field_event_date:
     type: entity_reference_revisions_entity_view
-    weight: 16
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 16
     region: content
   field_event_group:
-    weight: 17
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 17
     region: content
   field_event_link:
-    weight: 19
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -130,17 +130,17 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 19
     region: content
   field_event_location:
-    weight: 7
+    type: google_map_field_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: google_map_field_default
+    weight: 7
     region: content
   field_event_location_link:
-    weight: 22
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -149,125 +149,125 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 22
     region: content
   field_event_main_date:
-    weight: 26
+    type: datetime_default
     label: above
     settings:
-      format_type: medium
       timezone_override: ''
+      format_type: medium
     third_party_settings: {  }
-    type: datetime_default
+    weight: 26
     region: content
   field_event_main_end_date:
-    weight: 31
+    type: datetime_default
     label: above
     settings:
-      format_type: medium
       timezone_override: ''
+      format_type: medium
     third_party_settings: {  }
-    type: datetime_default
+    weight: 31
     region: content
   field_event_main_end_time:
-    weight: 28
+    type: hms_default_formatter
     label: above
     settings:
       format: 'h:mm'
       leading_zero: true
     third_party_settings: {  }
-    type: hms_default_formatter
+    weight: 28
     region: content
   field_event_main_start_time:
-    weight: 27
+    type: hms_default_formatter
     label: above
     settings:
       format: 'h:mm'
       leading_zero: true
     third_party_settings: {  }
-    type: hms_default_formatter
+    weight: 27
     region: content
   field_event_type:
-    weight: 1
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 1
     region: content
   field_event_video:
-    weight: 32
+    type: custom_video_formatter_type
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: custom_video_formatter_type
+    weight: 32
     region: content
   field_external_id:
-    weight: 29
+    type: number_integer
     label: above
     settings:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    type: number_integer
+    weight: 29
     region: content
   field_max_number_of_participants:
-    weight: 14
+    type: number_integer
     label: above
     settings:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    type: number_integer
+    weight: 14
     region: content
   field_metatags:
-    weight: 24
+    type: metatag_empty_formatter
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: metatag_empty_formatter
+    weight: 24
     region: content
   field_organizer:
-    weight: 8
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 8
     region: content
   field_organizer_idcode:
-    weight: 25
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 25
     region: content
   field_practical_information:
-    weight: 15
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 15
     region: content
   field_registration_:
-    weight: 18
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 18
     region: content
   field_registration_date:
     type: entity_reference_revisions_entity_view
-    weight: 13
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 13
     region: content
   field_registration_url:
-    weight: 30
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -276,15 +276,15 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 30
     region: content
   field_tag:
-    weight: 2
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 2
     region: content
 hidden:
   field_picture: true

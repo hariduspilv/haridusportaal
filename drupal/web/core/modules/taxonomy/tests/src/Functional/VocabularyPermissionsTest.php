@@ -73,8 +73,9 @@ class VocabularyPermissionsTest extends TaxonomyTestBase {
     $this->createTerm($vocabulary1);
 
     // Assert expected help texts on first vocabulary.
-    $edit_help_text = t('You can reorganize the terms in @capital_name using their drag-and-drop handles, and group terms under a parent term by sliding them under and to the right of the parent.', ['@capital_name' => Unicode::ucfirst($vocabulary1->label())]);
-    $no_edit_help_text = t('@capital_name contains the following terms.', ['@capital_name' => Unicode::ucfirst($vocabulary1->label())]);
+    $vocabulary1_label = Unicode::ucfirst($vocabulary1->label());
+    $edit_help_text = "You can reorganize the terms in $vocabulary1_label using their drag-and-drop handles, and group terms under a parent term by sliding them under and to the right of the parent.";
+    $no_edit_help_text = "$vocabulary1_label contains the following terms.";
 
     $assert_session = $this->assertSession();
 
@@ -220,6 +221,11 @@ class VocabularyPermissionsTest extends TaxonomyTestBase {
     $assert_session->statusCodeEquals(200);
     $assert_session->pageTextContains('No terms available');
     $assert_session->linkExists('Add term');
+
+    // Ensure the dynamic vocabulary permissions have the correct dependencies.
+    $permissions = \Drupal::service('user.permissions')->getPermissions();
+    $this->assertTrue(isset($permissions['create terms in ' . $vocabulary1_id]));
+    $this->assertEquals(['config' => [$vocabulary1->getConfigDependencyName()]], $permissions['create terms in ' . $vocabulary1_id]['dependencies']);
   }
 
   /**
@@ -286,7 +292,7 @@ class VocabularyPermissionsTest extends TaxonomyTestBase {
     $edit['name[0][value]'] = $this->randomMachineName();
 
     $this->submitForm($edit, 'Save');
-    $assert_session->pageTextContains(t('Created new term @name.', ['@name' => $edit['name[0][value]']]));
+    $assert_session->pageTextContains("Created new term {$edit['name[0][value]']}.");
 
     $terms = \Drupal::entityTypeManager()
       ->getStorage('taxonomy_term')

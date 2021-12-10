@@ -11,6 +11,7 @@
 use Drupal\Component\Utility\Environment;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Database\Query\AlterableInterface;
 use Drupal\Core\Database\Query\SelectInterface;
@@ -66,7 +67,7 @@ function node_help($route_name, RouteMatchInterface $route_match) {
       $output .= '<dt>' . t('Creating revisions') . '</dt>';
       $output .= '<dd>' . t('The Node module also enables you to create multiple versions of any content, and revert to older versions using the <em>Revision information</em> settings.') . '</dd>';
       $output .= '<dt>' . t('User permissions') . '</dt>';
-      $output .= '<dd>' . t('The Node module makes a number of permissions available for each content type, which can be set by role on the <a href=":permissions">permissions page</a>.', [':permissions' => Url::fromRoute('user.admin_permissions', [], ['fragment' => 'module-node'])->toString()]) . '</dd>';
+      $output .= '<dd>' . t('The Node module makes a number of permissions available for each content type, which can be set by role on the <a href=":permissions">permissions page</a>.', [':permissions' => Url::fromRoute('user.admin_permissions.module', ['modules' => 'node'])->toString()]) . '</dd>';
       $output .= '</dl>';
       return $output;
 
@@ -114,6 +115,8 @@ function node_theme() {
     'node_edit_form' => [
       'render element' => 'form',
     ],
+    // @todo Delete the next three entries as part of
+    // https://www.drupal.org/node/3015623
     'field__node__title' => [
       'base hook' => 'field',
     ],
@@ -186,19 +189,14 @@ function node_title_list(StatementInterface $result, $title = NULL) {
  *   One of the MARK constants.
  */
 function node_mark($nid, $timestamp) {
-
-  $cache = &drupal_static(__FUNCTION__, []);
-
   if (\Drupal::currentUser()->isAnonymous() || !\Drupal::moduleHandler()->moduleExists('history')) {
     return MARK_READ;
   }
-  if (!isset($cache[$nid])) {
-    $cache[$nid] = history_read($nid);
-  }
-  if ($cache[$nid] == 0 && $timestamp > HISTORY_READ_LIMIT) {
+  $read_timestamp = history_read($nid);
+  if ($read_timestamp === 0 && $timestamp > HISTORY_READ_LIMIT) {
     return MARK_NEW;
   }
-  elseif ($timestamp > $cache[$nid] && $timestamp > HISTORY_READ_LIMIT) {
+  elseif ($timestamp > $read_timestamp && $timestamp > HISTORY_READ_LIMIT) {
     return MARK_UPDATED;
   }
   return MARK_READ;
@@ -428,6 +426,30 @@ function node_preprocess_block(&$variables) {
         $variables['attributes']['role'] = 'complementary';
         break;
     }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for node field templates.
+ */
+function node_preprocess_field__node(&$variables) {
+  // Set a variable 'is_inline' in cases where inline markup is required,
+  // without any block elements such as <div>.
+
+  if ($variables['element']['#is_page_title'] ?? FALSE) {
+    // Page title is always inline because it will be displayed inside <h1>.
+    $variables['is_inline'] = TRUE;
+  }
+  elseif (in_array($variables['field_name'], ['created', 'uid', 'title'], TRUE)) {
+    // Display created, uid and title fields inline because they will be
+    // displayed inline by node.html.twig. Skip this if the field
+    // display is configurable and skipping has been enabled.
+    // @todo Delete as part of https://www.drupal.org/node/3015623
+
+    /** @var \Drupal\node\NodeInterface $node */
+    $node = $variables['element']['#object'];
+    $skip_custom_preprocessing = $node->getEntityType()->get('enable_base_field_custom_preprocess_skipping');
+    $variables['is_inline'] = !$skip_custom_preprocessing || !$node->getFieldDefinition($variables['field_name'])->isDisplayConfigurable('view');
   }
 }
 
@@ -1046,14 +1068,11 @@ function node_access_rebuild($batch_mode = FALSE) {
   // Only recalculate if the site is using a node_access module.
   if (count(\Drupal::moduleHandler()->getImplementations('node_grants'))) {
     if ($batch_mode) {
-      $batch = [
-        'title' => t('Rebuilding content access permissions'),
-        'operations' => [
-          ['_node_access_rebuild_batch_operation', []],
-        ],
-        'finished' => '_node_access_rebuild_batch_finished',
-      ];
-      batch_set($batch);
+      $batch_builder = (new BatchBuilder())
+        ->setTitle(t('Rebuilding content access permissions'))
+        ->addOperation('_node_access_rebuild_batch_operation', [])
+        ->setFinishCallback('_node_access_rebuild_batch_finished');
+      batch_set($batch_builder->toArray());
     }
     else {
       // Try to allocate enough time to rebuild node grants

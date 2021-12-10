@@ -14,17 +14,19 @@ bundle: learning_to_teach
 mode: default
 content:
   field_learning_to_teach_sitelink:
+    type: entity_reference_autocomplete
     weight: 1
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_learning_to_teach_title:
+    type: string_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -32,8 +34,6 @@ content:
       maxlength:
         maxlength_js: 25
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
 hidden:
   created: true
   status: true

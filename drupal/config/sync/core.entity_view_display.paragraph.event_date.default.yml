@@ -16,30 +16,30 @@ bundle: event_date
 mode: default
 content:
   field_event_additional_date:
-    weight: 3
+    type: datetime_default
     label: above
     settings:
-      format_type: medium
       timezone_override: ''
+      format_type: medium
     third_party_settings: {  }
-    type: datetime_default
+    weight: 3
     region: content
   field_event_end_time:
-    weight: 2
+    type: hms_default_formatter
     label: above
     settings:
       format: 'hh:mm'
       leading_zero: '1'
     third_party_settings: {  }
-    type: hms_default_formatter
+    weight: 2
     region: content
   field_event_start_time:
-    weight: 1
+    type: hms_default_formatter
     label: above
     settings:
       format: 'hh:mm'
       leading_zero: '1'
     third_party_settings: {  }
-    type: hms_default_formatter
+    weight: 1
     region: content
 hidden: {  }

@@ -31,7 +31,7 @@ class HtaccessTest extends BrowserTestBase {
    *   for example, 200 or 403.
    */
   protected function getProtectedFiles() {
-    $path = drupal_get_path('module', 'system') . '/tests/fixtures/HtaccessTest';
+    $path = $this->getModulePath('system') . '/tests/fixtures/HtaccessTest';
 
     // Tests the FilesMatch directive which denies access to certain file
     // extensions.
@@ -139,8 +139,10 @@ class HtaccessTest extends BrowserTestBase {
    *   Path to file. Without leading slash.
    * @param int $response_code
    *   The expected response code. For example: 200, 403 or 404.
+   *
+   * @internal
    */
-  protected function assertFileAccess($path, $response_code) {
+  protected function assertFileAccess(string $path, int $response_code): void {
     $this->assertFileExists(\Drupal::root() . '/' . $path);
     $this->drupalGet($path);
     $this->assertEquals($response_code, $this->getSession()->getStatusCode(), "Response code to $path should be $response_code");

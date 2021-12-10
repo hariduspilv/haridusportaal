@@ -228,7 +228,7 @@ abstract class ContentTranslationUITestBase extends ContentTranslationTestBase {
         $language = new Language(['id' => $langcode]);
         // Test that label is correctly shown for translation.
         $view_url = $entity->toUrl('canonical', ['language' => $language])->toString();
-        $this->assertSession()->elementTextEquals('xpath', "//table//a[@href='{$view_url}']", $entity->getTranslation($langcode)->label() ?? '');
+        $this->assertSession()->elementTextEquals('xpath', "//table//a[@href='{$view_url}']", $entity->getTranslation($langcode)->label() ?? $entity->getTranslation($langcode)->id());
         // Test that edit link is correct for translation.
         $edit_path = $entity->toUrl('edit-form', ['language' => $language])->toString();
         $this->assertSession()->elementTextEquals('xpath', "//table//ul[@class='dropbutton']/li/a[@href='{$edit_path}']", 'Edit');
@@ -359,7 +359,7 @@ abstract class ContentTranslationUITestBase extends ContentTranslationTestBase {
     ];
     $this->drupalGet($entity->toUrl('edit-form'));
     $this->submitForm($edit, $this->getFormSubmitAction($entity, $langcode));
-    $this->assertSession()->elementExists('xpath', '//div[contains(@class, "error")]//ul');
+    $this->assertSession()->elementExists('xpath', '//div[@aria-label="Error message"]//ul');
     $metadata = $this->manager->getTranslationMetadata($entity->getTranslation($langcode));
     $this->assertEquals($values[$langcode]['uid'], $metadata->getAuthor()->id(), 'Translation author correctly kept.');
     $this->assertEquals($values[$langcode]['created'], $metadata->getCreatedTime(), 'Translation date correctly kept.');

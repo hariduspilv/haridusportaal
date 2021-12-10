@@ -69,7 +69,7 @@ class UserValidationTest extends KernelTestBase {
     ];
     // cSpell:enable
     foreach ($test_cases as $name => $test_case) {
-      list($description, $test) = $test_case;
+      [$description, $test] = $test_case;
       $result = user_validate_name($name);
       $this->$test($result, $description . ' (' . $name . ')');
     }
@@ -166,8 +166,8 @@ class UserValidationTest extends KernelTestBase {
     $this->assertAllowedValuesViolation($user, 'preferred_admin_langcode');
     $user->set('preferred_admin_langcode', NULL);
 
-    Role::create(['id' => 'role1'])->save();
-    Role::create(['id' => 'role2'])->save();
+    Role::create(['id' => 'role1', 'label' => 'Role 1'])->save();
+    Role::create(['id' => 'role2', 'label' => 'Role 2'])->save();
 
     // Test cardinality of user roles.
     $user = User::create([
@@ -198,8 +198,10 @@ class UserValidationTest extends KernelTestBase {
    *   (optional) The number of expected violations. Defaults to 1.
    * @param int $expected_index
    *   (optional) The index at which to expect the violation. Defaults to 0.
+   *
+   * @internal
    */
-  protected function assertLengthViolation(EntityInterface $entity, $field_name, $length, $count = 1, $expected_index = 0) {
+  protected function assertLengthViolation(EntityInterface $entity, string $field_name, int $length, int $count = 1, int $expected_index = 0): void {
     $violations = $entity->validate();
     $this->assertCount($count, $violations, "Violation found when $field_name is too long.");
     $this->assertEquals("{$field_name}.0.value", $violations[$expected_index]->getPropertyPath());
@@ -214,8 +216,10 @@ class UserValidationTest extends KernelTestBase {
    *   The entity object to validate.
    * @param string $field_name
    *   The name of the field to verify.
+   *
+   * @internal
    */
-  protected function assertAllowedValuesViolation(EntityInterface $entity, $field_name) {
+  protected function assertAllowedValuesViolation(EntityInterface $entity, string $field_name): void {
     $violations = $entity->validate();
     $this->assertCount(1, $violations, "Allowed values violation for $field_name found.");
     $this->assertEquals($field_name === 'langcode' ? "{$field_name}.0" : "{$field_name}.0.value", $violations[0]->getPropertyPath());

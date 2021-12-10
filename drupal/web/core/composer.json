@@ -23,13 +23,14 @@
         "symfony/event-dispatcher": "^4.4",
         "symfony/http-foundation": "^4.4.7",
         "symfony/http-kernel": "^4.4",
-        "symfony/mime": "^5.3.0",
+        "symfony/mime": "^5.4",
         "symfony/routing": "^4.4",
         "symfony/serializer": "^4.4",
         "symfony/translation": "^4.4",
         "symfony/validator": "^4.4",
         "symfony/process": "^4.4",
         "symfony/polyfill-iconv": "^1.0",
+        "symfony/polyfill-php80": "^1.16",
         "symfony/yaml": "^4.4.19",
         "typo3/phar-stream-wrapper": "^3.1.3",
         "twig/twig": "^2.12.0",
@@ -39,7 +40,7 @@
         "symfony-cmf/routing": "^2.1",
         "laminas/laminas-feed": "^2.12",
         "stack/builder": "^1.0",
-        "egulias/email-validator": "^2.0",
+        "egulias/email-validator": "^2.1.22|^3.0",
         "masterminds/html5": "^2.1",
         "symfony/psr-http-message-bridge": "^2.0",
         "laminas/laminas-diactoros": "^2.1",
@@ -64,6 +65,7 @@
         "drupal/book": "self.version",
         "drupal/breakpoint": "self.version",
         "drupal/ckeditor": "self.version",
+        "drupal/ckeditor5": "self.version",
         "drupal/claro": "self.version",
         "drupal/classy": "self.version",
         "drupal/color": "self.version",
@@ -202,7 +204,8 @@
             "lib/Drupal/Core/Site/Settings.php"
         ],
         "files": [
-            "includes/bootstrap.inc"
+            "includes/bootstrap.inc",
+            "includes/guzzle_php81_shim.php"
         ]
     },
     "config": {

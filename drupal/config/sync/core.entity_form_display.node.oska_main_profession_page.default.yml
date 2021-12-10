@@ -47,13 +47,13 @@ content:
   body:
     type: text_textarea_with_summary
     weight: 14
+    region: content
     settings:
       rows: 9
       summary_rows: 3
       placeholder: ''
       show_summary: false
     third_party_settings: {  }
-    region: content
   created:
     type: datetime_timestamp
     weight: 5
@@ -87,11 +87,11 @@ content:
       show_description: 0
     third_party_settings: {  }
   field_dynamic_graph:
+    type: oska_dynamic_graph_widget_type
     weight: 26
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: oska_dynamic_graph_widget_type
-    region: content
   field_education_indicator:
     type: readonly_field_widget
     weight: 30
@@ -113,27 +113,29 @@ content:
       show_description: false
     third_party_settings: {  }
   field_fixed_label:
+    type: options_buttons
     weight: 3
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_buttons
-    region: content
   field_further_info:
+    type: text_textarea
     weight: 27
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   field_gallery_btn:
+    type: options_select
     weight: 16
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_introduction:
+    type: string_textarea
     weight: 12
+    region: content
     settings:
       rows: 5
       placeholder: ''
@@ -143,11 +145,10 @@ content:
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
         maxlength_js_enforce: false
         maxlength_js_truncate_html: false
-    type: string_textarea
-    region: content
   field_main_profession_accordion:
     type: entity_reference_paragraphs
     weight: 23
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -156,22 +157,25 @@ content:
       form_display_mode: default
       default_paragraph_type: _none
     third_party_settings: {  }
-    region: content
   field_main_profession_picture:
+    type: image_widget_crop
     weight: 17
+    region: content
     settings:
-      show_default_crop: true
-      warn_multiple_usages: true
+      progress_indicator: throbber
       preview_image_style: crop_result_thumb
       crop_preview_image_style: crop_thumbnail
       crop_list:
         - 16_9_large
-      progress_indicator: throbber
       crop_types_required: {  }
+      warn_multiple_usages: true
       show_crop_area: false
+      show_default_crop: true
     third_party_settings:
       conditional_fields:
         ef621562-059d-442e-8f6d-9f78144a3d53:
+          entity_type: node
+          bundle: oska_main_profession_page
           dependee: field_gallery_btn
           settings:
             state: '!visible'
@@ -186,23 +190,20 @@ content:
             effect: show
             effect_options: {  }
             selector: ''
-          entity_type: node
-          bundle: oska_main_profession_page
-    type: image_widget_crop
-    region: content
   field_main_profession_tag:
+    type: entity_reference_autocomplete_tags
     weight: 22
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 100
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete_tags
-    region: content
   field_media_gallery:
     type: entity_reference_paragraphs
     weight: 19
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -211,7 +212,6 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-    region: content
   field_number_of_employees:
     type: readonly_field_widget
     weight: 32
@@ -223,28 +223,32 @@ content:
       show_description: false
     third_party_settings: {  }
   field_oska_main_profession_file:
+    type: file_generic
     weight: 21
+    region: content
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
-    type: file_generic
-    region: content
   field_oska_main_profession_links:
+    type: link_default
     weight: 20
+    region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
-    type: link_default
-    region: content
   field_oska_main_profession_video:
+    type: custom_video_widget_type
     weight: 18
+    region: content
     settings:
       placeholder: ''
       size: 60
     third_party_settings:
       conditional_fields:
         fff7b457-f341-49fd-ba5c-7e3ea6f06871:
+          entity_type: node
+          bundle: oska_main_profession_page
           dependee: field_gallery_btn
           settings:
             state: '!visible'
@@ -259,27 +263,24 @@ content:
             effect: show
             effect_options: {  }
             selector: ''
-          entity_type: node
-          bundle: oska_main_profession_page
-    type: custom_video_widget_type
-    region: content
   field_pictogram:
+    type: file_generic
     weight: 15
+    region: content
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
-    type: file_generic
-    region: content
   field_profession:
+    type: boolean_checkbox
     weight: 2
+    region: content
     settings:
       display_label: true
     third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
   field_sidebar:
     type: entity_reference_paragraphs
     weight: 24
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -288,7 +289,6 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-    region: content
   langcode:
     type: language_select
     weight: 1
@@ -304,10 +304,10 @@ content:
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 6
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
@@ -322,17 +322,17 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 11
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 7
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -353,12 +353,12 @@ content:
   uid:
     type: entity_reference_autocomplete
     weight: 4
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
-    region: content
     third_party_settings: {  }
   unpublish_on:
     type: datetime_timestamp_no_default

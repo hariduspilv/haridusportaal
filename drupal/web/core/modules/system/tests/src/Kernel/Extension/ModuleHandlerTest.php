@@ -5,6 +5,7 @@ namespace Drupal\Tests\system\Kernel\Extension;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Extension\MissingDependencyException;
 use Drupal\Core\Extension\ModuleUninstallValidatorException;
+use Drupal\Core\Extension\ProfileExtensionList;
 use Drupal\entity_test\Entity\EntityTest;
 use Drupal\KernelTests\KernelTestBase;
 
@@ -49,7 +50,7 @@ class ModuleHandlerTest extends KernelTestBase {
     ];
     $this->moduleHandler()->setModuleList($fixed_list);
     $new_module_list = array_combine(array_keys($fixed_list), array_keys($fixed_list));
-    $this->assertModuleList($new_module_list, t('When using a fixed list'));
+    $this->assertModuleList($new_module_list, 'When using a fixed list');
   }
 
   /**
@@ -57,9 +58,12 @@ class ModuleHandlerTest extends KernelTestBase {
    *
    * @param array $expected_values
    *   The expected values, sorted by weight and module name.
-   * @param $condition
+   * @param string $condition
+   *   The condition being tested, such as 'After adding a module'.
+   *
+   * @internal
    */
-  protected function assertModuleList(array $expected_values, $condition) {
+  protected function assertModuleList(array $expected_values, string $condition): void {
     $expected_values = array_values(array_unique($expected_values));
     $enabled_modules = array_keys($this->container->get('module_handler')->getModuleList());
     $this->assertEquals($expected_values, $enabled_modules, new FormattableMarkup('@condition: extension handler returns correct results', ['@condition' => $condition]));
@@ -125,8 +129,10 @@ class ModuleHandlerTest extends KernelTestBase {
     $result = $this->moduleInstaller()->uninstall(['config', 'help', 'color']);
     $this->assertTrue($result, 'ModuleInstaller::uninstall() returned TRUE.');
 
+    /** @var \Drupal\Core\Update\UpdateHookRegistry $update_registry */
+    $update_registry = \Drupal::service('update.update_hook_registry');
     foreach (['color', 'config', 'help'] as $module) {
-      $this->assertEquals(SCHEMA_UNINSTALLED, drupal_get_installed_schema_version($module), "{$module} module was uninstalled.");
+      $this->assertEquals($update_registry::SCHEMA_UNINSTALLED, $update_registry->getInstalledVersion($module), "{$module} module was uninstalled.");
     }
     $uninstalled_modules = \Drupal::state()->get('module_test.uninstall_order', []);
     $this->assertEquals(['color', 'config', 'help'], $uninstalled_modules, 'Modules were uninstalled in the correct order.');
@@ -160,12 +166,14 @@ class ModuleHandlerTest extends KernelTestBase {
     $dependency = 'dblog';
     $non_dependency = 'ban';
     $this->setInstallProfile($profile);
-    // Prime the drupal_get_filename() static cache with the location of the
-    // testing_install_profile_dependencies profile as it is not the currently
-    // active profile and we don't yet have any cached way to retrieve its
-    // location.
+    // Prime the \Drupal\Core\Extension\ExtensionList::getPathname() static
+    // cache with the location of the testing_install_profile_dependencies
+    // profile as it is not the currently active profile and we don't yet have
+    // any cached way to retrieve its location.
     // @todo Remove as part of https://www.drupal.org/node/2186491
-    drupal_get_filename('profile', $profile, 'core/profiles/' . $profile . '/' . $profile . '.info.yml');
+    $profile_list = \Drupal::service('extension.list.profile');
+    assert($profile_list instanceof ProfileExtensionList);
+    $profile_list->setPathname($profile, 'core/profiles/' . $profile . '/' . $profile . '.info.yml');
     $this->enableModules(['module_test', $profile]);
 
     $data = \Drupal::service('extension.list.module')->reset()->getList();
@@ -176,10 +184,12 @@ class ModuleHandlerTest extends KernelTestBase {
     $this->assertTrue($this->moduleHandler()->moduleExists($dependency));
 
     // Uninstall the profile module that is not a dependent.
+    /** @var \Drupal\Core\Update\UpdateHookRegistry $update_registry */
+    $update_registry = \Drupal::service('update.update_hook_registry');
     $result = $this->moduleInstaller()->uninstall([$non_dependency]);
     $this->assertTrue($result, 'ModuleInstaller::uninstall() returns TRUE.');
     $this->assertFalse($this->moduleHandler()->moduleExists($non_dependency));
-    $this->assertEquals(SCHEMA_UNINSTALLED, drupal_get_installed_schema_version($non_dependency), "$non_dependency module was uninstalled.");
+    $this->assertEquals($update_registry::SCHEMA_UNINSTALLED, $update_registry->getInstalledVersion($non_dependency), "$non_dependency module was uninstalled.");
 
     // Verify that the installation profile itself was not uninstalled.
     $uninstalled_modules = \Drupal::state()->get('module_test.uninstall_order', []);
@@ -198,14 +208,15 @@ class ModuleHandlerTest extends KernelTestBase {
   public function testProfileAllDependencies() {
     $profile = 'testing_install_profile_all_dependencies';
     $dependencies = ['dblog', 'ban'];
-
     $this->setInstallProfile($profile);
-    // Prime the drupal_get_filename() static cache with the location of the
-    // testing_install_profile_dependencies profile as it is not the currently
-    // active profile and we don't yet have any cached way to retrieve its
-    // location.
+    // Prime the \Drupal\Core\Extension\ExtensionList::getPathname() static
+    // cache with the location of the testing_install_profile_dependencies
+    // profile as it is not the currently active profile and we don't yet have
+    // any cached way to retrieve its location.
     // @todo Remove as part of https://www.drupal.org/node/2186491
-    drupal_get_filename('profile', $profile, 'core/profiles/' . $profile . '/' . $profile . '.info.yml');
+    $profile_list = \Drupal::service('extension.list.profile');
+    assert($profile_list instanceof ProfileExtensionList);
+    $profile_list->setPathname($profile, 'core/profiles/' . $profile . '/' . $profile . '.info.yml');
     $this->enableModules(['module_test', $profile]);
 
     $data = \Drupal::service('extension.list.module')->reset()->getList();
@@ -272,9 +283,11 @@ class ModuleHandlerTest extends KernelTestBase {
     // Deleting the entity.
     $entity->delete();
 
+    /** @var \Drupal\Core\Update\UpdateHookRegistry $update_registry */
+    $update_registry = \Drupal::service('update.update_hook_registry');
     $result = $this->moduleInstaller()->uninstall(['help']);
     $this->assertTrue($result, 'ModuleInstaller::uninstall() returns TRUE.');
-    $this->assertEquals(SCHEMA_UNINSTALLED, drupal_get_installed_schema_version('entity_test'), "entity_test module was uninstalled.");
+    $this->assertEquals($update_registry::SCHEMA_UNINSTALLED, $update_registry->getInstalledVersion('entity_test'), "entity_test module was uninstalled.");
   }
 
   /**

@@ -21,18 +21,18 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       information_system_sidebar: information_system_sidebar
+    negate: 0
     target_bundles_drag_drop:
-      block:
-        weight: 21
-        enabled: false
       accordion:
         weight: 22
         enabled: false
       additional_section:
         weight: 23
+        enabled: false
+      block:
+        weight: 21
         enabled: false
       contact_section:
         weight: 24
@@ -50,8 +50,8 @@ settings:
         weight: 28
         enabled: false
       information_system_sidebar:
-        enabled: true
         weight: 29
+        enabled: true
       iscedf_search:
         weight: 30
         enabled: false

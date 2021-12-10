@@ -11,12 +11,12 @@ bundle: isco_occupation
 mode: default
 content:
   field_isco_code:
+    type: number
     weight: 2
+    region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
-    type: number
-    region: content
   langcode:
     type: language_select
     weight: 1

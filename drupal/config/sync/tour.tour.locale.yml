@@ -17,59 +17,53 @@ tips:
     id: locale-overview
     plugin: text
     label: 'Kasutajaliidese tõlge'
-    body: 'This page allows you to translate the user interface or modify existing translations. If you have installed your site initially in English, you must first add another language on the <a href="[site:url]admin/config/regional/language">Languages page</a>, in order to use this page.'
     weight: 1
+    body: 'This page allows you to translate the user interface or modify existing translations. If you have installed your site initially in English, you must first add another language on the <a href="[site:url]admin/config/regional/language">Languages page</a>, in order to use this page.'
   locale-language:
     id: locale-language
     plugin: text
     label: 'Tõlke keel'
-    body: 'Vali keel, mida soovid tõlkida.'
     weight: 2
-    attributes:
-      data-id: edit-langcode
+    selector: '#edit-langcode'
+    body: 'Vali keel, mida soovid tõlkida.'
   locale-search:
     id: locale-search
     plugin: text
     label: Search
-    body: 'Sisesta sõna või lause, mida soovid tõlkida. Lubatud on ka sõnaosa kasutamine.'
     weight: 3
-    attributes:
-      data-id: edit-string
+    selector: '#edit-string'
+    body: 'Sisesta sõna või lause, mida soovid tõlkida. Lubatud on ka sõnaosa kasutamine.'
   locale-filter:
     id: locale-filter
     plugin: text
     label: 'Filtreeri otsingutulemusi'
-    body: 'You can search for untranslated strings if you want to translate something that isn''t translated yet. If you want to modify an existing translation, you might want to search only for translated strings.'
     weight: 4
-    attributes:
-      data-id: edit-translation
+    selector: '#edit-translation'
+    body: 'You can search for untranslated strings if you want to translate something that isn''t translated yet. If you want to modify an existing translation, you might want to search only for translated strings.'
   locale-submit:
     id: locale-submit
     plugin: text
     label: 'Rakenda otsingutingimus'
-    body: 'Otsingukriteeriumi rakendamiseks kliki <em>Filtreeri</em> nupul.'
     weight: 5
-    attributes:
-      data-id: edit-submit
+    selector: '#edit-submit'
+    body: 'Otsingukriteeriumi rakendamiseks kliki <em>Filtreeri</em> nupul.'
   locale-translate:
     id: locale-translate
     plugin: text
     label: Tõlge
-    body: 'Saad kirjutada oma isikliku tõlke paremas tulbas olevatele tekstiväljadele. Selleks, et teksti õigesti tõlkida ürita aru saada millises kontekstis seda kasutatakse.'
     weight: 6
-    attributes:
-      data-class: js-form-type-textarea
+    selector: .js-form-type-textarea
+    body: 'Saad kirjutada oma isikliku tõlke paremas tulbas olevatele tekstiväljadele. Selleks, et teksti õigesti tõlkida ürita aru saada millises kontekstis seda kasutatakse.'
   locale-validate:
     id: locale-validate
     plugin: text
     label: 'Valideeri tõlge'
-    body: 'Kui oled tõlkimise lõpetanud, vajuta <em>Salvesta tõlked</em> nuppu. Tõlked tuleb salvestada iga kord enne leheküljelt navigeerimist või uue otsingu teostamist.'
     weight: 7
-    attributes:
-      data-id: edit-submit--2
+    selector: '#edit-submit--2'
+    body: 'Kui oled tõlkimise lõpetanud, vajuta <em>Salvesta tõlked</em> nuppu. Tõlked tuleb salvestada iga kord enne leheküljelt navigeerimist või uue otsingu teostamist.'
   locale-continue:
     id: locale-continue
     plugin: text
     label: Jätkub
-    body: 'Antud tõlkeid kasutatakse saidi kasutajaliideses. Kui sa soovid neid kasutada mõnel teisel saidil või tõlkeprogrammis, saad need<a href="[site:url]admin/config/regional/translate/export">eksportida</a> .po failiks ja hiljem ka <a href="[site:url]admin/config/regional/translate/import">importida</a>.'
     weight: 8
+    body: 'Antud tõlkeid kasutatakse saidi kasutajaliideses. Kui sa soovid neid kasutada mõnel teisel saidil või tõlkeprogrammis, saad need<a href="[site:url]admin/config/regional/translate/export">eksportida</a> .po failiks ja hiljem ka <a href="[site:url]admin/config/regional/translate/import">importida</a>.'

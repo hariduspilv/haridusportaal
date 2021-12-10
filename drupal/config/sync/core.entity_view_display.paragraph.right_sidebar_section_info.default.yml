@@ -18,24 +18,24 @@ mode: default
 content:
   field_additional:
     type: entity_reference_revisions_entity_view
-    weight: 0
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 0
     region: content
   field_contact_section:
     type: entity_reference_revisions_entity_view
-    weight: 3
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 3
     region: content
   field_hyperlinks:
-    weight: 5
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -44,10 +44,10 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 5
     region: content
   field_related_article:
-    weight: 4
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -56,6 +56,6 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 4
     region: content
 hidden: {  }

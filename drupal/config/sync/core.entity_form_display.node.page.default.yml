@@ -16,14 +16,15 @@ bundle: page
 mode: default
 content:
   field_metatags:
+    type: metatag_firehose
     weight: 26
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: metatag_firehose
-    region: content
   field_page_introduction:
     type: entity_reference_paragraphs
     weight: 27
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -32,7 +33,6 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-    region: content
   langcode:
     type: language_select
     weight: 1

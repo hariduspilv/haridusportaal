@@ -1,3 +1,6 @@
+_core:
+  default_config_hash: D8I4H2qfzuGRreNVX9RdkdF_WgttfSH3Gmn0-HI5jhg
+langcode: et
 favicon:
   mimetype: image/vnd.microsoft.icon
   path: ''
@@ -21,6 +24,3 @@ material_admin_message_length: 88
 material_admin_message_prompt: true
 material_admin_datepicker_select_years: 20
 material_admin_select_default: false
-_core:
-  default_config_hash: D8I4H2qfzuGRreNVX9RdkdF_WgttfSH3Gmn0-HI5jhg
-langcode: et

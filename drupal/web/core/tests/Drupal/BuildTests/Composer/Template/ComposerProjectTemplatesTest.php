@@ -256,9 +256,13 @@ class ComposerProjectTemplatesTest extends BuildTestBase {
    * Assert that the VERSION constant in Drupal.php is the expected value.
    *
    * @param string $expectedVersion
+   *   The expected version.
    * @param string $dir
+   *   The path to the site root.
+   *
+   * @internal
    */
-  protected function assertDrupalVersion($expectedVersion, $dir) {
+  protected function assertDrupalVersion(string $expectedVersion, string $dir): void {
     $drupal_php_path = $dir . '/core/lib/Drupal.php';
     $this->assertFileExists($drupal_php_path);
 

@@ -17,15 +17,17 @@ bundle: study_page_accordion
 mode: default
 content:
   field_body:
+    type: text_textarea
     weight: 3
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   field_study_accordion_content:
+    type: string_textarea
     weight: 2
+    region: content
     settings:
       rows: 5
       placeholder: ''
@@ -35,10 +37,10 @@ content:
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
         maxlength_js_enforce: false
         maxlength_js_truncate_html: false
-    type: string_textarea
-    region: content
   field_study_accordion_intro:
+    type: string_textarea
     weight: 1
+    region: content
     settings:
       rows: 5
       placeholder: ''
@@ -48,10 +50,10 @@ content:
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
         maxlength_js_enforce: false
         maxlength_js_truncate_html: false
-    type: string_textarea
-    region: content
   field_study_page_accordion_title:
+    type: string_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -59,8 +61,6 @@ content:
       maxlength:
         maxlength_js: 100
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
 hidden:
   created: true
   status: true

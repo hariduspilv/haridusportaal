@@ -22,6 +22,7 @@ class Upgrade6Test extends MigrateUpgradeExecuteTestBase {
     'book',
     'config_translation',
     'content_translation',
+    'datetime_range',
     'forum',
     'language',
     'migrate_drupal_ui',
@@ -52,7 +53,7 @@ class Upgrade6Test extends MigrateUpgradeExecuteTestBase {
       ->getStorage('node');
     $this->nodeStorage->delete($this->nodeStorage->loadMultiple());
 
-    $this->loadFixture(drupal_get_path('module', 'migrate_drupal') . '/tests/fixtures/drupal6.php');
+    $this->loadFixture($this->getModulePath('migrate_drupal') . '/tests/fixtures/drupal6.php');
   }
 
   /**
@@ -94,14 +95,14 @@ class Upgrade6Test extends MigrateUpgradeExecuteTestBase {
       'search_page' => 2,
       'shortcut' => 2,
       'shortcut_set' => 1,
-      'action' => 25,
+      'action' => 27,
       'menu' => 8,
       'path_alias' => 8,
       'taxonomy_term' => 15,
       'taxonomy_vocabulary' => 7,
       'tour' => 6,
       'user' => 7,
-      'user_role' => 6,
+      'user_role' => 7,
       'menu_link_content' => 10,
       'view' => 16,
       'date_format' => 11,
@@ -209,8 +210,10 @@ class Upgrade6Test extends MigrateUpgradeExecuteTestBase {
 
   /**
    * Tests that follow-up migrations have been run successfully.
+   *
+   * @internal
    */
-  protected function assertFollowUpMigrationResults() {
+  protected function assertFollowUpMigrationResults(): void {
     $node = Node::load(10);
     $this->assertSame('12', $node->get('field_reference')->target_id);
     $this->assertSame('12', $node->get('field_reference_2')->target_id);

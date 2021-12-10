@@ -16,14 +16,14 @@ bundle: survey_page_accordion
 mode: default
 content:
   field_survey_accordion_content:
-    weight: 1
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 1
     region: content
   field_survey_accordion_link:
-    weight: 2
+    type: link
     label: above
     settings:
       trim_length: 80
@@ -32,14 +32,14 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link
+    weight: 2
     region: content
   field_survey_accordion_title:
-    weight: 0
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 0
     region: content
 hidden: {  }

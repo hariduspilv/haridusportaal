@@ -4,6 +4,8 @@ namespace Drupal\migrate_drupal\Plugin\migrate\source;
 
 use Drupal\migrate\Row;
 
+// cspell:ignore multirow
+
 /**
  * Drupal 6/7 multiple variables source from database.
  *

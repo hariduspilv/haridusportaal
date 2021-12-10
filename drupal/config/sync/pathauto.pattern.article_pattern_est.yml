@@ -12,20 +12,20 @@ pattern: 'artiklid/[node:title]'
 selection_criteria:
   2413cb47-95df-4f47-9214-071bc62fa897:
     id: node_type
-    bundles:
-      article: article
     negate: false
+    uuid: 2413cb47-95df-4f47-9214-071bc62fa897
     context_mapping:
       node: node
-    uuid: 2413cb47-95df-4f47-9214-071bc62fa897
+    bundles:
+      article: article
   ef97a481-c89a-4a49-a6a8-03c39775628f:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: ef97a481-c89a-4a49-a6a8-03c39775628f
     context_mapping:
       language: 'node:langcode:language'
-    uuid: ef97a481-c89a-4a49-a6a8-03c39775628f
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

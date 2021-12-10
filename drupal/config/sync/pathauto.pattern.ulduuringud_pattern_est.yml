@@ -12,20 +12,20 @@ pattern: 'tööjõuprognoos/[node:title]'
 selection_criteria:
   bca2be2c-5840-4951-909e-5563d24fea5f:
     id: node_type
-    bundles:
-      oska_survey_page: oska_survey_page
     negate: false
+    uuid: bca2be2c-5840-4951-909e-5563d24fea5f
     context_mapping:
       node: node
-    uuid: bca2be2c-5840-4951-909e-5563d24fea5f
+    bundles:
+      oska_survey_page: oska_survey_page
   1a835a92-a557-419d-9907-e188f3cc90ea:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: 1a835a92-a557-419d-9907-e188f3cc90ea
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 1a835a92-a557-419d-9907-e188f3cc90ea
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

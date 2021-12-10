@@ -8,7 +8,6 @@
     "source": "https://gitlab.com/drupalspoons/devel"
   },
   "license": "GPL-2.0-or-later",
-  "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
     "symfony/var-dumper": "^4 || ^5",

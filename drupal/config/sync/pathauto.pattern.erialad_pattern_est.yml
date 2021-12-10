@@ -12,20 +12,20 @@ pattern: 'erialad/[node:title]'
 selection_criteria:
   3eab9752-61a6-45c0-82a5-8e0ea93143c5:
     id: node_type
-    bundles:
-      study_programme: study_programme
     negate: false
+    uuid: 3eab9752-61a6-45c0-82a5-8e0ea93143c5
     context_mapping:
       node: node
-    uuid: 3eab9752-61a6-45c0-82a5-8e0ea93143c5
+    bundles:
+      study_programme: study_programme
   fe815b91-8898-4ad0-870c-75a3cb2366fc:
     id: language
-    langcodes:
-      et: et
     negate: false
+    uuid: fe815b91-8898-4ad0-870c-75a3cb2366fc
     context_mapping:
       language: 'node:langcode:language'
-    uuid: fe815b91-8898-4ad0-870c-75a3cb2366fc
+    langcodes:
+      et: et
 selection_logic: and
 weight: -10
 relationships:

@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       right_sidebar_section_info: right_sidebar_section_info
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 17
@@ -65,8 +65,8 @@ settings:
         weight: 29
         enabled: false
       right_sidebar_section_info:
-        enabled: true
         weight: 30
+        enabled: true
       school_location:
         weight: 31
         enabled: false

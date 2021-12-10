@@ -8,6 +8,7 @@ use Drupal\big_pipe\Render\BigPipe;
 use Drupal\big_pipe_test\BigPipePlaceholderTestCases;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Core\Url;
@@ -94,7 +95,7 @@ class BigPipeTest extends BrowserTestBase {
     $this->drupalLogin($this->rootUser);
     $this->assertSessionCookieExists(TRUE);
     $this->assertBigPipeNoJsCookieExists(FALSE);
-    $this->assertSession()->responseContains('<noscript><meta http-equiv="Refresh" content="0; URL=' . base_path() . 'big_pipe/no-js?destination=' . base_path() . 'user/1" />' . "\n" . '</noscript>');
+    $this->assertSession()->responseContains('<noscript><meta http-equiv="Refresh" content="0; URL=' . base_path() . 'big_pipe/no-js?destination=' . UrlHelper::encodePath(base_path() . 'user/1?check_logged_in=1') . '" />' . "\n" . '</noscript>');
     $this->assertSession()->responseNotContains($no_js_to_js_markup);
     $this->assertBigPipeNoJsMetaRefreshRedirect();
     $this->assertBigPipeNoJsCookieExists(TRUE);
@@ -326,7 +327,10 @@ class BigPipeTest extends BrowserTestBase {
     $this->assertSession()->responseNotContains('The count is 3.');
   }
 
-  protected function assertBigPipeResponseHeadersPresent() {
+  /**
+   * @internal
+   */
+  protected function assertBigPipeResponseHeadersPresent(): void {
     // Check that Cache-Control header set to "private".
     $this->assertSession()->responseHeaderContains('Cache-Control', 'private');
     $this->assertSession()->responseHeaderEquals('Surrogate-Control', 'no-store, content="BigPipe/1.0"');
@@ -339,8 +343,10 @@ class BigPipeTest extends BrowserTestBase {
    * @param array $expected_big_pipe_nojs_placeholders
    *   Keys: BigPipe no-JS placeholder markup. Values: expected replacement
    *   markup.
+   *
+   * @internal
    */
-  protected function assertBigPipeNoJsPlaceholders(array $expected_big_pipe_nojs_placeholders) {
+  protected function assertBigPipeNoJsPlaceholders(array $expected_big_pipe_nojs_placeholders): void {
     $this->assertSetsEqual(array_keys($expected_big_pipe_nojs_placeholders), array_map('rawurldecode', explode(' ', $this->getSession()->getResponseHeader('BigPipe-Test-No-Js-Placeholders'))));
     foreach ($expected_big_pipe_nojs_placeholders as $big_pipe_nojs_placeholder => $expected_replacement) {
       // Checking whether the replacement for the BigPipe no-JS placeholder
@@ -360,8 +366,10 @@ class BigPipeTest extends BrowserTestBase {
    * @param array $expected_big_pipe_placeholder_stream_order
    *   Keys: BigPipe placeholder IDs. Values: expected AJAX response. Keys are
    *   defined in the order that they are expected to be rendered & streamed.
+   *
+   * @internal
    */
-  protected function assertBigPipePlaceholders(array $expected_big_pipe_placeholders, array $expected_big_pipe_placeholder_stream_order) {
+  protected function assertBigPipePlaceholders(array $expected_big_pipe_placeholders, array $expected_big_pipe_placeholder_stream_order): void {
     $this->assertSetsEqual(array_keys($expected_big_pipe_placeholders), explode(' ', $this->getSession()->getResponseHeader('BigPipe-Test-Placeholders')));
     $placeholder_positions = [];
     $placeholder_replacement_positions = [];
@@ -436,36 +444,49 @@ class BigPipeTest extends BrowserTestBase {
 
   /**
    * Asserts whether arrays A and B are equal, when treated as sets.
+   *
+   * @todo This method is broken. Fix it in
+   *   https://www.drupal.org/project/drupal/issues/3144926
+   *
+   * @internal
    */
-  protected function assertSetsEqual(array $a, array $b) {
-    return count($a) == count($b) && !array_diff_assoc($a, $b);
+  protected function assertSetsEqual(array $a, array $b): void {
+    $result = count($a) == count($b) && !array_diff_assoc($a, $b);
   }
 
   /**
    * Asserts whether a BigPipe no-JS cookie exists or not.
+   *
+   * @internal
    */
-  protected function assertBigPipeNoJsCookieExists($expected) {
+  protected function assertBigPipeNoJsCookieExists(string $expected): void {
     $this->assertCookieExists('big_pipe_nojs', $expected, 'BigPipe no-JS');
   }
 
   /**
    * Asserts whether a session cookie exists or not.
+   *
+   * @internal
    */
-  protected function assertSessionCookieExists($expected) {
+  protected function assertSessionCookieExists(string $expected): void {
     $this->assertCookieExists($this->getSessionName(), $expected, 'Session');
   }
 
   /**
    * Asserts whether a cookie exists on the client or not.
+   *
+   * @internal
    */
-  protected function assertCookieExists($cookie_name, $expected, $cookie_label) {
+  protected function assertCookieExists(string $cookie_name, string $expected, string $cookie_label): void {
     $this->assertEquals($expected, !empty($this->getSession()->getCookie($cookie_name)), $expected ? "$cookie_label cookie exists." : "$cookie_label cookie does not exist.");
   }
 
   /**
    * Calls ::performMetaRefresh() and asserts the responses.
+   *
+   * @internal
    */
-  protected function assertBigPipeNoJsMetaRefreshRedirect() {
+  protected function assertBigPipeNoJsMetaRefreshRedirect(): void {
     $original_url = $this->getSession()->getCurrentUrl();
 
     // Disable automatic following of redirects by the HTTP client, so that this

@@ -503,9 +503,10 @@ class SqlContentEntityStorage extends ContentEntityStorageBase implements SqlEnt
 
     $entities = [];
     foreach ($values as $id => $entity_values) {
-      $bundle = $this->bundleKey ? $entity_values[$this->bundleKey][LanguageInterface::LANGCODE_DEFAULT] : FALSE;
+      $bundle = $this->bundleKey ? $entity_values[$this->bundleKey][LanguageInterface::LANGCODE_DEFAULT] : NULL;
       // Turn the record into an entity class.
-      $entities[$id] = new $this->entityClass($entity_values, $this->entityTypeId, $bundle, array_keys($translations[$id]));
+      $entity_class = $this->getEntityClass($bundle);
+      $entities[$id] = new $entity_class($entity_values, $this->entityTypeId, $bundle, array_keys($translations[$id]));
     }
 
     return $entities;
@@ -1047,7 +1048,7 @@ class SqlContentEntityStorage extends ContentEntityStorageBase implements SqlEnt
           $value = ($item = $entity->$field_name->first()) ? $item->getValue() : [];
         }
         else {
-          $value = isset($entity->$field_name->$column_name) ? $entity->$field_name->$column_name : NULL;
+          $value = $entity->$field_name->$column_name ?? NULL;
         }
         if (!empty($definition->getSchema()['columns'][$column_name]['serialize'])) {
           $value = serialize($value);
@@ -1057,7 +1058,14 @@ class SqlContentEntityStorage extends ContentEntityStorageBase implements SqlEnt
         // SQL database drivers.
         // @see https://www.drupal.org/node/2279395
         $value = SqlContentEntityStorageSchema::castValue($definition->getSchema()['columns'][$column_name], $value);
-        if (!(empty($value) && $this->isColumnSerial($table_name, $schema_name))) {
+        $empty_serial = empty($value) && $this->isColumnSerial($table_name, $schema_name);
+        // The user entity is a very special case where the ID field is a serial
+        // but we need to insert a row with an ID of 0 to represent the
+        // anonymous user.
+        // @todo https://drupal.org/i/3222123 implement a generic fix for all
+        //   entity types.
+        $user_zero = $this->entityTypeId === 'user' && $value === 0;
+        if (!$empty_serial || $user_zero) {
           $record->$schema_name = $value;
         }
       }

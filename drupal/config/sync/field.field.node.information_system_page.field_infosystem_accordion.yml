@@ -21,18 +21,18 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       information_system_accordion: information_system_accordion
+    negate: 0
     target_bundles_drag_drop:
-      block:
-        weight: 21
-        enabled: false
       accordion:
         weight: 22
         enabled: false
       additional_section:
         weight: 23
+        enabled: false
+      block:
+        weight: 21
         enabled: false
       contact_section:
         weight: 24
@@ -47,8 +47,8 @@ settings:
         weight: 27
         enabled: false
       information_system_accordion:
-        enabled: true
         weight: 28
+        enabled: true
       information_system_sidebar:
         weight: 29
         enabled: false
