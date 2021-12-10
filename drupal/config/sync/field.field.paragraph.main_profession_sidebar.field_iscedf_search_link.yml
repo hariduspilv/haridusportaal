@@ -25,6 +25,9 @@ settings:
     target_bundles:
       iscedf_search: iscedf_search
     target_bundles_drag_drop:
+      iscedf_search:
+        enabled: true
+        weight: 14
       accordion:
         weight: 15
         enabled: false
@@ -43,12 +46,6 @@ settings:
       homepage_topics:
         weight: 20
         enabled: false
-      iscedf_search:
-        enabled: true
-        weight: 14
-      job:
-        weight: 24
-        enabled: false
       link:
         weight: 21
         enabled: false
@@ -58,8 +55,8 @@ settings:
       main_profession_sidebar:
         weight: 23
         enabled: false
-      oska_field_sidebar:
-        weight: 28
+      job:
+        weight: 24
         enabled: false
       registration_period:
         weight: 24
@@ -69,6 +66,9 @@ settings:
         enabled: false
       school_location:
         weight: 26
+        enabled: false
+      oska_field_sidebar:
+        weight: 28
         enabled: false
       survey_page_accordion:
         weight: 32
