@@ -1,1 +1,1 @@
-{"query ($search_term: String!, $type: [String]) {\n  CustomElasticAutocompleteQuery(elasticsearch_index: [\"elasticsearch_index_drupaldb_autocomplete_index\"], content_type: $type, search_input: $search_term, limit: 10) {\n    Suggestion: Nid\n  }\n}\n":1}
+{"query ($search_term: String!, $type: [String], $field: String) {\n  CustomElasticAutocompleteQuery(elasticsearch_index: [\"elasticsearch_index_drupaldb_autocomplete_index\"], query_field: $field, content_type: $type, search_input: $search_term, limit: 100) {\n    Suggestion: Nid\n  }\n}\n":1}
