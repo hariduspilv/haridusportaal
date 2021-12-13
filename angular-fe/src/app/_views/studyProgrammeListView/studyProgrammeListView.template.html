@@ -14,7 +14,9 @@
                 <div class="row form-first-row">
                     <div class="col-4 sm-12">
                         <formItem
-                                type="text"
+                                type="autocomplete"
+                                query="testAutocomplete"
+                                queryType="study_programme"
                                 title="{{ 'studyProgramme.filter_title' | translate }}"
                                 name="title"
                                 [(ngModel)]="searchTitle"
@@ -98,7 +100,10 @@
 
                     <div class="col-4 sm-12">
                         <formItem
-                                type="text"
+                                type="autocomplete"
+                                query="testAutocomplete"
+                                queryType="study_programme"
+                                queryField="school_name"
                                 title="{{ 'studyProgramme.filter_school' | translate }}"
                                 name="school"
                                 ariaLabel="{{ 'studyProgramme.filter_school' | translate }}"
@@ -120,7 +125,10 @@
                     </div>
 
                     <div class="col-4 sm-12">
-                        <formItem type="text"
+                        <formItem type="autocomplete"
+                                  query="testAutocomplete"
+                                  queryType="study_programme"
+                                  queryField="field_school_address"
                                   title="{{ 'studyProgramme.filter_location' | translate }}"
                                   name="location"
                                   ariaLabel="{{ 'studyProgramme.filter_location' | translate }}"
