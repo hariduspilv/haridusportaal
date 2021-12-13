@@ -17,9 +17,10 @@ dependencies:
     - field.storage.node.field_oska_field_sidebar
     - field.storage.paragraph.field_cons
     - field.storage.paragraph.field_oska_field_cons
-    - field.storage.paragraph.field_oska_field_pros
     - field.storage.paragraph.field_pros
+    - field.storage.paragraph.field_oska_field_pros
     - field.storage.node.field_registration_code
+    - field.storage.node.field_school_address
     - field.storage.node.field_tag
     - field.storage.node.field_introduction
     - field.storage.node.field_short_description
@@ -178,6 +179,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_registration_code
+  field_school_address:
+    label: 'School address'
+    datasource_id: 'entity:node'
+    property_path: field_school_address
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_school_address
   field_short_description:
     label: Sissejuhatus
     datasource_id: 'entity:node'
@@ -281,6 +290,7 @@ processor_settings:
       - field_pros
       - field_publisher
       - field_registration_code
+      - field_school_address
       - field_short_description
       - field_survey_accordion_title
       - field_tag
