@@ -8,24 +8,29 @@ dependencies:
     - node
     - search_api
   config:
-    - field.storage.node.body
     - field.storage.node.field_accordion_section
+    - field.storage.paragraph.field_survey_accordion_title
     - field.storage.paragraph.field_body
+    - field.storage.node.field_school_location
+    - field.storage.paragraph.field_address
     - field.storage.node.field_author
-    - field.storage.node.field_body
-    - field.storage.node.field_body_summary
+    - field.storage.node.body
+    - field.storage.node.field_organizer
+    - field.storage.node.field_right_column
+    - field.storage.paragraph.field_publisher
+    - field.storage.paragraph.field_study
     - field.storage.node.field_oska_field_sidebar
     - field.storage.paragraph.field_cons
-    - field.storage.node.field_event_type
-    - field.storage.node.field_introduction
-    - field.storage.node.field_organizer
     - field.storage.paragraph.field_oska_field_cons
     - field.storage.paragraph.field_oska_field_pros
     - field.storage.paragraph.field_pros
     - field.storage.node.field_registration_code
-    - field.storage.node.field_short_description
-    - field.storage.paragraph.field_survey_accordion_title
     - field.storage.node.field_tag
+    - field.storage.node.field_introduction
+    - field.storage.node.field_short_description
+    - field.storage.node.field_body_summary
+    - field.storage.node.field_educational_institution
+    - field.storage.node.field_event_type
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:
@@ -58,6 +63,17 @@ field_settings:
         - field.storage.paragraph.field_body
       module:
         - paragraphs
+  field_address:
+    label: 'Asukoht » Paragraph » Aadress'
+    datasource_id: 'entity:node'
+    property_path: 'field_school_location:entity:field_address'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_address
+      module:
+        - paragraphs
   field_author:
     label: Avaldaja
     datasource_id: 'entity:node'
@@ -66,14 +82,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_author
-  field_body:
-    label: Sisu
-    datasource_id: 'entity:node'
-    property_path: field_body
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_body
   field_body_summary:
     label: Sissejuhatus
     datasource_id: 'entity:node'
@@ -150,6 +158,18 @@ field_settings:
         - field.storage.paragraph.field_pros
       module:
         - paragraphs
+  field_publisher:
+    label: 'Parema veeru elemendid » Paragraph » Uuringu andmed » Paragraph » Väljaandja'
+    datasource_id: 'entity:node'
+    property_path: 'field_right_column:entity:field_study:entity:field_publisher'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_right_column
+        - field.storage.paragraph.field_publisher
+        - field.storage.paragraph.field_study
+      module:
+        - paragraphs
   field_registration_code:
     label: Registrikood
     datasource_id: 'entity:node'
@@ -185,11 +205,37 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_tag
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  school_name:
+    label: 'Õppeasutus » Sisu » Pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_educational_institution:entity:title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_educational_institution
+      module:
+        - node
   title:
     label: Pealkiri
     datasource_id: 'entity:node'
     property_path: title
     type: text
+    dependencies:
+      module:
+        - node
+  type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
     dependencies:
       module:
         - node
@@ -207,6 +253,7 @@ datasource_settings:
         - oska_survey_page
         - school
         - study_programme
+        - studypage
     languages:
       default: true
       selected: {  }
@@ -219,8 +266,8 @@ processor_settings:
     fields:
       - body
       - field_accordion_body
+      - field_address
       - field_author
-      - field_body
       - field_body_summary
       - field_cons
       - field_event_type
@@ -229,11 +276,14 @@ processor_settings:
       - field_oska_field_cons
       - field_oska_field_pros
       - field_pros
+      - field_publisher
       - field_registration_code
       - field_short_description
       - field_survey_accordion_title
       - field_tag
+      - school_name
       - title
+      - type
     title: true
     alt: true
     tags:

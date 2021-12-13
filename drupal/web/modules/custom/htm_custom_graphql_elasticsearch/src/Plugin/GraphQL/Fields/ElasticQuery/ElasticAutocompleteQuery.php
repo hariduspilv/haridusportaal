@@ -27,6 +27,7 @@ use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
  *     },
  *     "search_input" = "String!",
  *     "content_type" = "[String]",
+ *     "query_field" = "String",
  *     "limit" = "Int",
  *   }
  * )
@@ -100,14 +101,39 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
     $response = $client->search($params);
 
+    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($response, TRUE) . '</code></pre>' );
     foreach($response['hits']['hits'] as $key => $value){
       if(isset($value['highlight'])){
+        if (isset($args['query_field'])){
+          if (!isset($value['highlight'][$args['query_field']])){
+            continue;
+          }
+          if (isset($value['highlight']['title'])&& $args['query_field']!='title'){
+            continue;
+          }
+
+      }
+        if (empty($args['query_field'])&&!empty($args['content_type'])){
+          if (!isset($value['highlight']['title'])){
+            continue;
+          }
+        }
+        if (empty($args['query_field'])&&empty($args['content_type'])){
+          if ($value['highlight']['field_address']){
+            continue;
+          }
+          if ($value['highlight']['field_publisher']){
+            continue;
+          }
+          if ($value['highlight']['school_name']){
+            continue;
+          }
+        }
         $highlights[] = $value['highlight'];
       }
     }
 
     $this->getAutocompleteValues($highlights);
-
     if(count($this->autocomplete_values) > 0){
       foreach($this->autocomplete_values as $value){
         yield ['Nid' => [$value]];
@@ -154,62 +180,72 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
       ];
     }
 
-    $query = [
-      'query' => [
-        'bool'=>[
-          'should'=>[
-            'query_string' => [
-              'query' => '*'.mb_strtolower($args['search_input']).'*',
-            ]
-          ]
-        ]
-      ],
-//            'rescore' => [
-//                'window_size' => 150,
-//                'query' => [
-//                    'rescore_query' => [
-//                        'match_phrase' => [
-//                            'title' => [
-//                                'query' => mb_strtolower($args['search_input']),
-//                                'slop' => 5
-//                            ]
-//                        ]
-//                    ]
-//                ]
-//            ],
-      'highlight' => [
-        'order' => 'score',
-        'fields' => $fields
-      ]
-    ];
-    $query = [
-      'query'=>[
-        'bool' => [
-          'should' => [
-            'query_string' => [
-              'query' => '*' . mb_strtolower($args['search_input']) . '*'
-            ]
-          ]
-        ]
-      ],
-      'rescore' => [
-        'window_size' => 150,
+//    $query = [
+//      'query' => [
+//        'bool'=>[
+//          'should'=>[
+//            'query_string' => [
+//              'query' => '*'.mb_strtolower($args['search_input']).'*',
+//            ]
+//          ]
+//        ]
+//      ],
+////            'rescore' => [
+////                'window_size' => 150,
+////                'query' => [
+////                    'rescore_query' => [
+////                        'match_phrase' => [
+////                            'title' => [
+////                                'query' => mb_strtolower($args['search_input']),
+////                                'slop' => 5
+////                            ]
+////                        ]
+////                    ]
+////                ]
+////            ],
+//      'highlight' => [
+//        'order' => 'score',
+//        'fields' => $fields
+//      ]
+//    ];
+    if (empty($args['query_field'])) {
+      $query = [
         'query' => [
-          'rescore_query' => [
-            'match_phrase' => [
-              'title' => [
-                'query' => mb_strtolower($args['search_input']),
-                'slop' => 5
+          'bool' => [
+            'should' => [
+              'query_string' => [
+                'query' => '*' . mb_strtolower($args['search_input']) . '*'
               ]
             ]
           ]
+        ],
+        'rescore' => [
+          'window_size' => 150,
+          'query' => [
+            'rescore_query' => [
+              'match_phrase' => [
+                'title' => [
+                  'query' => mb_strtolower($args['search_input']),
+                  'slop' => 5
+                ]
+              ]
+            ]
+          ]
+        ],
+        'highlight' => [
+          'order' => 'score',
+          'fields' => $fields
         ]
-      ],
-      'highlight' => [
+      ];
+    }
+    if (!empty($args['query_field'])){
+      $query['query']['bool']['should']['query_string']['query'] = '*'.mb_strtolower($args['search_input']).'*';
+      $query['query']['bool']['should']['query_string']['fields'] = [$args['query_field']];
+      $query['highlight'] = [
         'order' => 'score',
         'fields' => $fields
-      ]
-    ];
+      ];
+    }
     if ($args['content_type']){
       foreach ($args['content_type'] as $cont_type){
         $query['query']['bool']['filter']['terms']['type'][]=$cont_type;
