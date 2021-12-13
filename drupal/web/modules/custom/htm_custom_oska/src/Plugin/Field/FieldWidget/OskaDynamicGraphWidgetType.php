@@ -306,6 +306,16 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 ];
             }
 
+            $element['graph_options']['graph_y_max'] = [
+              '#title' => $this->t('Maximum Y'),
+              '#type' => 'textfield',
+              '#placeholder' => $this->t("Enter maximum Y value."),
+              '#default_value' => isset($data['graph_y_max']) ? $data['graph_y_max'] : 0,
+              '#maxlength' => 100,
+              '#element_validate' => array(array($this, 'validateChartYInput')),
+              '#delta' => $delta,
+            ];
+
             $element['graph_options']['graph_y_min'] = [
                 '#title' => $this->t('Minimum Y'),
                 '#type' => 'textfield',
