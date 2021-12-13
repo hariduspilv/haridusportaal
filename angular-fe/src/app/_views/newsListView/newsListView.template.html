@@ -13,10 +13,13 @@
 			<ng-container *ngIf="showFilter">
 				<div class="row">
 					<div class="col-4 sm-12">
-						<formItem type="text"
+						<formItem
                                   ariaLabel="{{ 'news.filter_name' | translate }}"
                                   title="{{ 'news.filter_name' | translate }}"
                                   name="title"
+																	type="autocomplete"
+																	query="testAutocomplete"
+																	queryType="news"
                                   [(ngModel)]="searchTitle"
                         ></formItem>
 					</div>

@@ -27,6 +27,8 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 export class AutocompleteComponent implements OnDestroy {
   @Input() type: string = '';
   @Input() valueType: string = 'string';
+  @Input() queryField: string;
+  @Input() queryType: string;
   public data: [] = [];
   public active: boolean = false;
   public loading: boolean = false;
@@ -63,9 +65,15 @@ export class AutocompleteComponent implements OnDestroy {
 
       this.activeItem = -1;
       this.active = true;
-      const variables = {
+      const variables: { search_term?: string; field?: string; type?: string } = {
         search_term: value,
       };
+      if (this.queryField) {
+        variables.field = this.queryField;
+      }
+      if (this.queryType) {
+        variables.type = this.queryType;
+      }
       const path = this.settings.query(this.type, variables);
       let params: HttpParams = new HttpParams();
       if (this.type === 'inaadress') {

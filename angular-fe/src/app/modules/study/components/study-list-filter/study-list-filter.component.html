@@ -4,7 +4,9 @@
     <div class="row">
       <div class="col-4 sm-12">
         <formItem
-          type="text"
+          type="autocomplete"
+          query="testAutocomplete"
+          queryType="studypage"
           title="{{ 'study.text_search' | translate }}"
           ariaLabel="{{ 'study.text_search' | translate }}"
           name="tekstiOtsing">
@@ -38,7 +40,10 @@
       </div>
       <div class="col-5 sm-12">						
         <formItem
-          type="text"
+          type="autocomplete"
+          query="testAutocomplete"
+          queryType="studypage"
+          queryField="publisher"
           title="{{ 'study.publisher' | translate }}"
           ariaLabel="{{ 'study.publisher' | translate }}"
           name="valjaandja">

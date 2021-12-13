@@ -275,6 +275,8 @@
         role="combobox"/>
       <autocomplete
         [valueType]="valueType"
+        [queryType]="queryType"
+        [queryField]="queryField"
         #autocompleteElem
         [type]="query"
         (onValueSelected)="autocompleteUpdate($event)">
