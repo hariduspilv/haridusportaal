@@ -36,7 +36,7 @@ class StatisticsTokenReplaceTest extends StatisticsTestBase {
     $tests = [];
     $tests['[node:total-count]'] = 0;
     $tests['[node:day-count]'] = 0;
-    $tests['[node:last-view]'] = t('never');
+    $tests['[node:last-view]'] = 'never';
     $tests['[node:last-view:short]'] = $date_formatter->format($request_time, 'short');
 
     foreach ($tests as $input => $expected) {
@@ -51,7 +51,7 @@ class StatisticsTokenReplaceTest extends StatisticsTestBase {
     $post = http_build_query(['nid' => $nid]);
     $headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
     global $base_url;
-    $stats_path = $base_url . '/' . drupal_get_path('module', 'statistics') . '/statistics.php';
+    $stats_path = $base_url . '/' . $this->getModulePath('statistics') . '/statistics.php';
     $client = \Drupal::httpClient();
     $client->post($stats_path, ['headers' => $headers, 'body' => $post]);
     /** @var \Drupal\statistics\StatisticsViewsResult $statistics */

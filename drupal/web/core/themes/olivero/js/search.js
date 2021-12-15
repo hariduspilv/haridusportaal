@@ -18,7 +18,7 @@
   function handleFocus() {
     if (searchIsVisible()) {
       searchWideWrapper.querySelector('input[type="search"]').focus();
-    } else {
+    } else if (searchWideWrapper.contains(document.activeElement)) {
       searchWideButton.focus();
     }
   }
@@ -43,10 +43,20 @@
       toggleSearchVisibility(false);
     }
   });
-  document.addEventListener('click', function (e) {
-    if (e.target.matches('[data-drupal-selector="block-search-wide-button"], [data-drupal-selector="block-search-wide-button"] *')) {
-      toggleSearchVisibility(!searchIsVisible());
-    } else if (searchIsVisible() && !e.target.matches('[data-drupal-selector="block-search-wide-wrapper"], [data-drupal-selector="block-search-wide-wrapper"] *')) {
+  searchWideButton.addEventListener('click', function () {
+    toggleSearchVisibility(!searchIsVisible());
+  });
+  Drupal.behaviors.searchWide = {
+    attach: function attach(context) {
+      var searchWideButton = once('search-wide', '[data-drupal-selector="block-search-wide-button"]', context).shift();
+
+      if (searchWideButton) {
+        searchWideButton.setAttribute('aria-expanded', 'false');
+      }
+    }
+  };
+  document.querySelector('[data-drupal-selector="search-block-form-2"]').addEventListener('focusout', function (e) {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
       toggleSearchVisibility(false);
     }
   });

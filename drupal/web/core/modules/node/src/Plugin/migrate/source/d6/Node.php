@@ -255,7 +255,7 @@ class Node extends DrupalSqlBase {
       }
     }
 
-    return isset($this->fieldInfo[$node_type]) ? $this->fieldInfo[$node_type] : [];
+    return $this->fieldInfo[$node_type] ?? [];
   }
 
   /**
@@ -297,6 +297,10 @@ class Node extends DrupalSqlBase {
 
     if (isset($query)) {
       $columns = array_keys($field['db_columns']);
+      // If there are no columns then there are no values to return.
+      if (empty($columns)) {
+        return [];
+      }
 
       // Add every column in the field's schema.
       foreach ($columns as $column) {

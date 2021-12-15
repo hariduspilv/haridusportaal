@@ -1,7 +1,44 @@
 uuid: 3d23f5c0-5f9a-481d-915d-c95bcc32c65e
 langcode: et
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - filter.format.custom_editor
+    - rest.resource.auth_methods_rest_resource
+    - rest.resource.dashboard_service_rest_resource
+    - rest.resource.download_certificate_rest_resource
+    - rest.resource.educational_form_rest_resource
+    - rest.resource.feedback_rest_resource
+    - rest.resource.get_certificate_public_rest_resource
+    - rest.resource.get_signed_file
+    - rest.resource.jwt_token_renew_rest_resource
+    - rest.resource.jwt_token_rest_resource
+    - rest.resource.mobile_id_rest_resource
+    - rest.resource.roles_rest_resource
+    - rest.resource.state_exams_rest_resource
+    - rest.resource.translations_rest_resource
+    - rest.resource.variables_rest_resource
+    - rest.resource.x_json_document_rest_resource
+    - rest.resource.x_json_file2rest_resource
+    - rest.resource.x_json_file_rest_resource
+    - rest.resource.x_json_form_name_rest_resource
+    - rest.resource.x_json_form_path_rest_resource
+    - rest.resource.xjson_rest_resource
+  module:
+    - contact
+    - filter
+    - graphql
+    - htm_custom_event_registration
+    - htm_custom_favorites
+    - htm_custom_oska
+    - htm_custom_subscriptions
+    - htm_custom_subsidy_projects
+    - htm_custom_xjson_services
+    - media
+    - node_view_permissions
+    - rest
+    - shortcut
+    - system
 _core:
   default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
 id: authenticated
@@ -14,26 +51,20 @@ permissions:
   - 'access site-wide contact form'
   - 'add event registration entities'
   - 'add favorite entities'
-  - 'add favorite entity entities'
   - 'add subscription entity entities'
   - 'delete favorite entities'
-  - 'delete favorite entity entities'
   - 'delete subscription entity entities'
   - 'edit favorite entities'
-  - 'edit favorite entity entities'
   - 'edit subscription entity entities'
   - 'execute graphql requests'
   - 'execute persisted graphql requests'
   - 'restful get auth_methods_rest_resource'
-  - 'restful get base_settings_rest_resource'
   - 'restful get dashboard_service_rest_resource'
   - 'restful get download_certificate_rest_resource'
   - 'restful get educational_form_rest_resource'
   - 'restful get get_certificate_public_rest_resource'
   - 'restful get jwt_token_renew_rest_resource'
-  - 'restful get professional_certificate_rest_resource'
   - 'restful get roles_rest_resource'
-  - 'restful get secondary_ehis_service_rest_resource'
   - 'restful get state_exams_rest_resource'
   - 'restful get translations_rest_resource'
   - 'restful get variables_rest_resource'
@@ -42,26 +73,17 @@ permissions:
   - 'restful get x_json_file_rest_resource'
   - 'restful get x_json_form_path_rest_resource'
   - 'restful post educational_form_rest_resource'
-  - 'restful post ehis_jwt_rest_resource'
   - 'restful post feedback_rest_resource'
   - 'restful post get_certificate_public_rest_resource'
   - 'restful post get_signed_file'
-  - 'restful post jwt_token_renew_rest_resource'
   - 'restful post jwt_token_rest_resource'
   - 'restful post mobile_id_rest_resource'
-  - 'restful post mobile_id_rest_response_resource'
-  - 'restful post personal_card_rest_resource'
   - 'restful post roles_rest_resource'
   - 'restful post x_json_file2rest_resource'
   - 'restful post x_json_file_rest_resource'
   - 'restful post x_json_form_name_rest_resource'
   - 'restful post xjson_rest_resource'
-  - 'search content'
-  - 'use text format basic_html'
   - 'use text format custom_editor'
-  - 'use text format default_editor'
-  - 'use text format default_html'
-  - 'use text format editor'
   - 'view any article content'
   - 'view any avaleht content'
   - 'view any career_home_page content'
@@ -107,7 +129,6 @@ permissions:
   - 'view own youth_home_page content'
   - 'view published event registration entities'
   - 'view published favorite entities'
-  - 'view published favorite entity entities'
   - 'view published oska entity entities'
   - 'view published oska filling bar entity entities'
   - 'view published oska indicator entity entities'

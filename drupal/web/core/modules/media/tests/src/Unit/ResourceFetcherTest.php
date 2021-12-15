@@ -3,6 +3,7 @@
 namespace Drupal\Tests\media\Unit;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Cache\NullBackend;
 use Drupal\media\OEmbed\ResourceException;
 use Drupal\media\OEmbed\ResourceFetcher;
 use Drupal\Tests\UnitTestCase;
@@ -10,6 +11,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\RequestOptions;
 
 /**
  * @group media
@@ -17,6 +19,34 @@ use GuzzleHttp\Psr7\Response;
  * @coversDefaultClass \Drupal\media\OEmbed\ResourceFetcher
  */
 class ResourceFetcherTest extends UnitTestCase {
+
+  /**
+   * Tests that resources are fetched with a hard-coded timeout.
+   */
+  public function testFetchTimeout(): void {
+    $url = 'https://example.com/oembed?url=resource';
+    $headers = [
+      'Content-Type' => ['text/javascript'],
+    ];
+    $body = Json::encode([
+      'version' => '1.0',
+      'type' => 'video',
+      'html' => 'test',
+    ]);
+    $response = new Response(200, $headers, $body);
+
+    $client = $this->prophesize(Client::class);
+    $client->request('GET', $url, [RequestOptions::TIMEOUT => 5])
+      ->shouldBeCalled()
+      ->willReturn($response);
+
+    $fetcher = new ResourceFetcher(
+      $client->reveal(),
+      $this->createMock('\Drupal\media\OEmbed\ProviderRepositoryInterface'),
+      new NullBackend('default')
+    );
+    $fetcher->fetchResource($url);
+  }
 
   /**
    * Tests how the resource fetcher handles unknown Content-Type headers.
@@ -50,7 +80,7 @@ class ResourceFetcherTest extends UnitTestCase {
     ]);
     $providers = $this->createMock('\Drupal\media\OEmbed\ProviderRepositoryInterface');
 
-    $fetcher = new ResourceFetcher($client, $providers);
+    $fetcher = new ResourceFetcher($client, $providers, new NullBackend('default'));
     /** @var \Drupal\media\OEmbed\Resource $resource */
     $resource = $fetcher->fetchResource('valid');
     // The resource should have been successfully decoded as JSON.

@@ -197,3 +197,20 @@ function system_post_update_service_advisory_settings() {
   $config = \Drupal::configFactory()->getEditable('system.advisories');
   $config->set('interval_hours', 6)->set('enabled', TRUE)->save();
 }
+
+/**
+ * Remove obsolete system.authorize configuration.
+ */
+function system_post_update_delete_authorize_settings() {
+  \Drupal::configFactory()->getEditable('system.authorize')->delete();
+}
+
+/**
+ * Sort all configuration according to its schema.
+ */
+function system_post_update_sort_all_config() {
+  $factory = \Drupal::configFactory();
+  foreach ($factory->listAll() as $name) {
+    $factory->getEditable($name)->save();
+  }
+}

@@ -16,31 +16,31 @@ bundle: school_location
 mode: default
 content:
   field_address:
+    type: string_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_coordinates:
-    weight: 2
-    settings: {  }
-    third_party_settings: {  }
     type: google_map_field_default
+    weight: 2
     region: content
+    settings: {  }
+    third_party_settings: {  }
   field_location_type:
+    type: options_select
     weight: 4
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_school_location:
+    type: options_select
     weight: 1
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
 hidden:
   created: true
   status: true

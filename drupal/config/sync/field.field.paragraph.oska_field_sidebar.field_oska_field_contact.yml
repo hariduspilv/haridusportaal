@@ -21,13 +21,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       contact_section: contact_section
+    negate: 0
     target_bundles_drag_drop:
-      oska_field_sidebar:
-        weight: 16
-        enabled: false
       accordion:
         weight: 17
         enabled: false
@@ -35,8 +32,8 @@ settings:
         weight: 18
         enabled: false
       contact_section:
-        enabled: true
         weight: 19
+        enabled: true
       event_date:
         weight: 20
         enabled: false
@@ -60,6 +57,9 @@ settings:
         enabled: false
       main_profession_sidebar:
         weight: 27
+        enabled: false
+      oska_field_sidebar:
+        weight: 16
         enabled: false
       registration_period:
         weight: 28

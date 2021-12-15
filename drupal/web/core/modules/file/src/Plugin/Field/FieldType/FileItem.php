@@ -188,7 +188,7 @@ class FileItem extends EntityReferenceItem {
     $element['description_field'] = [
       '#type' => 'checkbox',
       '#title' => t('Enable <em>Description</em> field'),
-      '#default_value' => isset($settings['description_field']) ? $settings['description_field'] : '',
+      '#default_value' => $settings['description_field'] ?? '',
       '#description' => t('The description field allows users to enter a description about the uploaded file.'),
       '#weight' => 11,
     ];
@@ -345,7 +345,9 @@ class FileItem extends EntityReferenceItem {
     // Generate a file entity.
     $destination = $dirname . '/' . $random->name(10, TRUE) . '.txt';
     $data = $random->paragraphs(3);
-    $file = file_save_data($data, $destination, FileSystemInterface::EXISTS_ERROR);
+    /** @var \Drupal\file\FileRepositoryInterface $file_repository */
+    $file_repository = \Drupal::service('file.repository');
+    $file = $file_repository->writeData($data, $destination, FileSystemInterface::EXISTS_ERROR);
     $values = [
       'target_id' => $file->id(),
       'display' => (int) $settings['display_default'],

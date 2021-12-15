@@ -22,10 +22,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       media_img: media_img
       media_vid: media_vid
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 49
@@ -121,11 +121,11 @@ settings:
         weight: 79
         enabled: false
       media_img:
-        enabled: true
         weight: 80
-      media_vid:
         enabled: true
+      media_vid:
         weight: 81
+        enabled: true
       oska_field_sidebar:
         weight: 82
         enabled: false

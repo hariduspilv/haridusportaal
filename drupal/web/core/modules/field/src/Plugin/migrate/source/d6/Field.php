@@ -8,7 +8,8 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 /**
  * Drupal 6 field source from database.
  *
- * For available configuration keys, refer to the parent classes:
+ * For available configuration keys, refer to the parent classes.
+ *
  * @see \Drupal\migrate\Plugin\migrate\source\SqlBase
  * @see \Drupal\migrate\Plugin\migrate\source\SourcePluginBase
  *
@@ -90,7 +91,8 @@ class Field extends DrupalSqlBase {
 
     // Unserialize data.
     $global_settings = unserialize($row->getSourceProperty('global_settings'));
-    $db_columns = unserialize($row->getSourceProperty('db_columns'));
+    $db_columns = $row->getSourceProperty('db_columns');
+    $db_columns = is_string($db_columns) ? unserialize($db_columns) : FALSE;
     $row->setSourceProperty('global_settings', $global_settings);
     $row->setSourceProperty('db_columns', $db_columns);
     return parent::prepareRow($row);

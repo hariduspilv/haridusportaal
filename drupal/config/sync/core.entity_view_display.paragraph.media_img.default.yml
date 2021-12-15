@@ -13,17 +13,17 @@ bundle: media_img
 mode: default
 content:
   field_media_img:
-    weight: 0
+    type: image
     label: above
     settings:
+      image_link: ''
+      image_style: ''
       svg_attributes:
         width: null
         height: null
       svg_render_as_image: true
-      image_style: ''
-      image_link: ''
     third_party_settings: {  }
-    type: image
+    weight: 0
     region: content
 hidden:
   search_api_excerpt: true

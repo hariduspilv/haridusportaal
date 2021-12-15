@@ -6,6 +6,7 @@
 @import "../../base/variables.pcss.css";
 
 .primary-nav__menu {
+  flex-wrap: wrap;
   list-style: none;
 }
 
@@ -165,6 +166,16 @@
     margin-inline-start: calc(-1 * var(--sp3));
     padding-inline-start: var(--sp3);
   }
+}
+
+/*
+ * Olivero doesn't officially support nested tertiary submenus, but this
+ * ensures that it doesn't break all the way.
+ *
+ * @see https://www.drupal.org/project/drupal/issues/3221399
+ */
+.primary-nav__menu--level-2 .primary-nav__menu-item--has-children {
+  display: block;
 }
 
 .primary-nav__menu-link--level-2 {

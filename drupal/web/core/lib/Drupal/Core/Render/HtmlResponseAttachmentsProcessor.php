@@ -316,7 +316,7 @@ class HtmlResponseAttachmentsProcessor implements AttachmentsResponseProcessorIn
     if (isset($placeholders['scripts']) || isset($placeholders['scripts_bottom'])) {
       // Optimize JS if necessary, but only during normal site operation.
       $optimize_js = !defined('MAINTENANCE_MODE') && !\Drupal::state()->get('system.maintenance_mode') && $this->config->get('js.preprocess');
-      list($js_assets_header, $js_assets_footer) = $this->assetResolver->getJsAssets($assets, $optimize_js);
+      [$js_assets_header, $js_assets_footer] = $this->assetResolver->getJsAssets($assets, $optimize_js);
       $variables['scripts'] = $this->jsCollectionRenderer->render($js_assets_header);
       $variables['scripts_bottom'] = $this->jsCollectionRenderer->render($js_assets_footer);
     }
@@ -393,7 +393,7 @@ class HtmlResponseAttachmentsProcessor implements AttachmentsResponseProcessorIn
   protected function processHtmlHead(array $html_head) {
     $head = [];
     foreach ($html_head as $item) {
-      list($data, $key) = $item;
+      [$data, $key] = $item;
       if (!isset($data['#type'])) {
         $data['#type'] = 'html_tag';
       }
@@ -429,14 +429,22 @@ class HtmlResponseAttachmentsProcessor implements AttachmentsResponseProcessorIn
 
     foreach ($html_head_link as $item) {
       $attributes = $item[0];
-      $should_add_header = isset($item[1]) ? $item[1] : FALSE;
+      $should_add_header = $item[1] ?? FALSE;
 
       $element = [
         '#tag' => 'link',
         '#attributes' => $attributes,
       ];
       $href = $attributes['href'];
-      $attached['html_head'][] = [$element, 'html_head_link:' . $attributes['rel'] . ':' . $href];
+      $rel = $attributes['rel'];
+
+      // Allow multiple hreflang tags to use the same href.
+      if (isset($attributes['hreflang'])) {
+        $attached['html_head'][] = [$element, 'html_head_link:' . $rel . ':' . $attributes['hreflang'] . ':' . $href];
+      }
+      else {
+        $attached['html_head'][] = [$element, 'html_head_link:' . $rel . ':' . $href];
+      }
 
       if ($should_add_header) {
         // Also add a HTTP header "Link:".

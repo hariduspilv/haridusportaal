@@ -2,18 +2,18 @@ uuid: 66cef68f-506a-4416-9393-e76303431920
 langcode: et
 status: true
 dependencies:
-  module:
-    - htm_custom_subsidy_projects
-    - node
-    - paragraphs
-    - taxonomy
-    - search_api
   config:
     - field.storage.node.field_school_location
     - field.storage.paragraph.field_coordinates
     - field.storage.node.field_ownership_type
     - field.storage.paragraph.field_school_location
     - search_api.server.elasticsearch_server
+  module:
+    - htm_custom_subsidy_projects
+    - node
+    - paragraphs
+    - taxonomy
+    - search_api
 id: subsidy_projects
 name: 'Subsidy projects'
 description: ''
@@ -126,6 +126,7 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: true
   cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
 server: elasticsearch_server

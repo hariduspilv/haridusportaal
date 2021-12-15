@@ -15,25 +15,25 @@ bundle: registration_period
 mode: default
 content:
   field_notification_email:
-    weight: 11
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
     type: email_default
+    weight: 11
     region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
   field_registration_first_date:
+    type: datetime_default
     weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: datetime_default
-    region: content
   field_registration_last_date:
+    type: datetime_default
     weight: 1
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: datetime_default
-    region: content
   translation:
     weight: 10
     region: content

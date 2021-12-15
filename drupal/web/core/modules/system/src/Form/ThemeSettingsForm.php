@@ -307,14 +307,14 @@ class ThemeSettingsForm extends ConfigFormBase {
           $local_file = strtr($original_path, ['public:/' => PublicStream::basePath()]);
         }
         elseif ($theme) {
-          $local_file = drupal_get_path('theme', $theme) . '/' . $default;
+          $local_file = $this->themeHandler->getTheme($theme)->getPath() . '/' . $default;
         }
         else {
           $local_file = $this->themeManager->getActiveTheme()->getPath() . '/' . $default;
         }
 
         $element['#description'] = $this->t('Examples: <code>@implicit-public-file</code> (for a file in the public filesystem), <code>@explicit-file</code>, or <code>@local-file</code>.', [
-          '@implicit-public-file' => isset($friendly_path) ? $friendly_path : $default,
+          '@implicit-public-file' => $friendly_path ?? $default,
           '@explicit-file' => StreamWrapperManager::getScheme($original_path) !== FALSE ? $original_path : 'public://' . $default,
           '@local-file' => $local_file,
         ]);
@@ -355,7 +355,7 @@ class ThemeSettingsForm extends ConfigFormBase {
       // Process the theme and all its base themes.
       foreach ($theme_keys as $theme) {
         // Include the theme-settings.php file.
-        $theme_path = drupal_get_path('theme', $theme);
+        $theme_path = $this->themeHandler->getTheme($theme)->getPath();
         $theme_settings_file = $theme_path . '/theme-settings.php';
         $theme_file = $theme_path . '/' . $theme . '.theme';
         $filenames = [$theme_settings_file, $theme_file];

@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       infosystem_support: infosystem_support
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 32
@@ -77,8 +77,8 @@ settings:
         weight: 48
         enabled: false
       infosystem_support:
-        enabled: true
         weight: 49
+        enabled: true
       iscedf_search:
         weight: 50
         enabled: false

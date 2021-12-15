@@ -10,7 +10,7 @@ use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\migrate_drupal\Traits\FieldDiscoveryTestTrait;
 use Drupal\field_discovery_test\FieldDiscoveryTestClass;
 
-// cspell:ignore imagelink
+// cspell:ignore filefield imagelink entityreference nodelink spamspan
 
 /**
  * Test FieldDiscovery Service against Drupal 7.
@@ -28,6 +28,7 @@ class FieldDiscoveryTest extends MigrateDrupal7TestBase {
   protected static $modules = [
     'comment',
     'datetime',
+    'datetime_range',
     'file',
     'image',
     'link',
@@ -251,6 +252,11 @@ class FieldDiscoveryTest extends MigrateDrupal7TestBase {
                   'image_nodelink' => 'image',
                   'image_imagelink' => 'image',
                 ],
+                'datetime' => [
+                  'date_default' => 'datetime_default',
+                  'format_interval' => 'datetime_time_ago',
+                  'date_plain' => 'datetime_plain',
+                ],
                 'email' => [
                   'email_formatter_default' => 'email_mailto',
                   'email_formatter_contact' => 'basic_string',
@@ -263,11 +269,6 @@ class FieldDiscoveryTest extends MigrateDrupal7TestBase {
                 ],
                 'phone' => [
                   'phone' => 'basic_string',
-                ],
-                'datetime' => [
-                  'date_default' => 'datetime_default',
-                  'format_interval' => 'datetime_time_ago',
-                  'date_plain' => 'datetime_plain',
                 ],
                 'telephone' => [
                   'text_plain' => 'string',
@@ -300,11 +301,11 @@ class FieldDiscoveryTest extends MigrateDrupal7TestBase {
                 'list' => 'list_default',
                 'file_mfw' => 'file_generic',
                 'filefield_widget' => 'file_generic',
-                'email_textfield' => 'email_default',
-                'phone' => 'phone_default',
                 'date' => 'datetime_default',
                 'datetime' => 'datetime_default',
                 'datestamp' => 'datetime_timestamp',
+                'email_textfield' => 'email_default',
+                'phone' => 'phone_default',
               ],
             ],
           ],

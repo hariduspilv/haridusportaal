@@ -11,6 +11,7 @@
  */
 
 .primary-nav__menu {
+  flex-wrap: wrap;
   list-style: none;
 }
 
@@ -313,6 +314,17 @@
     padding-right: 3.375rem;
   }
   }
+
+/*
+ * Olivero doesn't officially support nested tertiary submenus, but this
+ * ensures that it doesn't break all the way.
+ *
+ * @see https://www.drupal.org/project/drupal/issues/3221399
+ */
+
+.primary-nav__menu--level-2 .primary-nav__menu-item--has-children {
+  display: block;
+}
 
 .primary-nav__menu-link--level-2 {
   font-size: 1rem;

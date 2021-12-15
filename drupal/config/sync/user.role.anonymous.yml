@@ -1,7 +1,30 @@
 uuid: 4525b162-6a7f-4ccf-a786-0907e82d1e76
 langcode: et
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - rest.resource.auth_methods_rest_resource
+    - rest.resource.dashboard_service_rest_resource
+    - rest.resource.feedback_rest_resource
+    - rest.resource.get_certificate_public_rest_resource
+    - rest.resource.jwt_token_rest_resource
+    - rest.resource.mobile_id_rest_resource
+    - rest.resource.translations_rest_resource
+    - rest.resource.variables_rest_resource
+    - rest.resource.x_json_file_rest_resource
+    - rest.resource.xjson_rest_resource
+  module:
+    - contact
+    - graphql
+    - htm_custom_event_registration
+    - htm_custom_oska
+    - htm_custom_subscriptions
+    - htm_custom_subsidy_projects
+    - htm_custom_xjson_services
+    - media
+    - node_view_permissions
+    - rest
+    - system
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
 id: anonymous
@@ -18,7 +41,6 @@ permissions:
   - 'execute graphql requests'
   - 'execute persisted graphql requests'
   - 'restful get auth_methods_rest_resource'
-  - 'restful get base_settings_rest_resource'
   - 'restful get dashboard_service_rest_resource'
   - 'restful get get_certificate_public_rest_resource'
   - 'restful get translations_rest_resource'
@@ -27,11 +49,8 @@ permissions:
   - 'restful post get_certificate_public_rest_resource'
   - 'restful post jwt_token_rest_resource'
   - 'restful post mobile_id_rest_resource'
-  - 'restful post mobile_id_rest_response_resource'
-  - 'restful post personal_card_rest_resource'
   - 'restful post x_json_file_rest_resource'
   - 'restful post xjson_rest_resource'
-  - 'search content'
   - 'view any article content'
   - 'view any avaleht content'
   - 'view any career_home_page content'

@@ -17,6 +17,7 @@ content:
   field_ehis_block_links:
     type: entity_reference_paragraphs
     weight: 1
+    region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -25,9 +26,10 @@ content:
       form_display_mode: default
       default_paragraph_type: ''
     third_party_settings: {  }
-    region: content
   field_ehis_link_title:
+    type: string_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -35,8 +37,6 @@ content:
       maxlength:
         maxlength_js: 50
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
 hidden:
   created: true
   status: true

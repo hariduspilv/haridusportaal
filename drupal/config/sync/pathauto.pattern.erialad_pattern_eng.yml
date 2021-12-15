@@ -12,20 +12,20 @@ pattern: 'study-programmes/[node:title]'
 selection_criteria:
   1e0937ff-268c-49c2-90f8-3bcc08a29595:
     id: node_type
-    bundles:
-      study_programme: study_programme
     negate: false
+    uuid: 1e0937ff-268c-49c2-90f8-3bcc08a29595
     context_mapping:
       node: node
-    uuid: 1e0937ff-268c-49c2-90f8-3bcc08a29595
+    bundles:
+      study_programme: study_programme
   8cf0202a-844a-4739-b9be-7b2f3b4de815:
     id: language
-    langcodes:
-      en: en
     negate: false
+    uuid: 8cf0202a-844a-4739-b9be-7b2f3b4de815
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 8cf0202a-844a-4739-b9be-7b2f3b4de815
+    langcodes:
+      en: en
 selection_logic: and
 weight: -10
 relationships:

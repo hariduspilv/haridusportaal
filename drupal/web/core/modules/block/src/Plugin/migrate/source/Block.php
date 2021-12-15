@@ -5,10 +5,13 @@ namespace Drupal\block\Plugin\migrate\source;
 use Drupal\migrate\Row;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
+// cspell:ignore whois
+
 /**
- * Drupal block source from database.
+ * Drupal 6/7 block source from database.
  *
- * For available configuration keys, refer to the parent classes:
+ * For available configuration keys, refer to the parent classes.
+ *
  * @see \Drupal\migrate\Plugin\migrate\source\SqlBase
  * @see \Drupal\migrate\Plugin\migrate\source\SourcePluginBase
  *
@@ -132,7 +135,7 @@ class Block extends DrupalSqlBase {
     $settings = [];
     switch ($module) {
       case 'aggregator':
-        list($type, $id) = explode('-', $delta);
+        [$type, $id] = explode('-', $delta);
         if ($type == 'feed') {
           $item_count = $this->select('aggregator_feed', 'af')
             ->fields('af', ['block'])

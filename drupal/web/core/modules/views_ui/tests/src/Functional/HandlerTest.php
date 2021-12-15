@@ -73,8 +73,8 @@ class HandlerTest extends UITestBase {
   protected function viewsData() {
     $data = parent::viewsData();
     $data['views_test_data']['uid'] = [
-      'title' => t('UID'),
-      'help' => t('The test data UID'),
+      'title' => 'UID',
+      'help' => 'The test data UID',
       'relationship' => [
         'id' => 'standard',
         'base' => 'users_field_data',
@@ -84,7 +84,7 @@ class HandlerTest extends UITestBase {
 
     // Create a dummy field with no help text.
     $data['views_test_data']['no_help'] = $data['views_test_data']['name'];
-    $data['views_test_data']['no_help']['field']['title'] = t('No help');
+    $data['views_test_data']['no_help']['field']['title'] = 'No help';
     $data['views_test_data']['no_help']['field']['real field'] = 'name';
     unset($data['views_test_data']['no_help']['help']);
 
@@ -294,8 +294,10 @@ class HandlerTest extends UITestBase {
    *   The field name.
    * @param string $entity_type
    *   The entity type to which the field belongs.
+   *
+   * @internal
    */
-  public function assertNoDuplicateField($field_name, $entity_type) {
+  public function assertNoDuplicateField(string $field_name, string $entity_type): void {
     $elements = $this->xpath('//td[.=:entity_type]/preceding-sibling::td[@class="title" and .=:title]', [':title' => $field_name, ':entity_type' => $entity_type]);
     $this->assertCount(1, $elements, $field_name . ' appears just once in ' . $entity_type . '.');
   }

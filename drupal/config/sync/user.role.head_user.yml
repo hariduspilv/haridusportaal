@@ -1,7 +1,80 @@
 uuid: 2f163e35-094c-4032-bc59-060c821a93ff
 langcode: et
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - media.type.audio
+    - media.type.crop_images
+    - media.type.custom_crop_image_16_9
+    - media.type.file
+    - media.type.image
+    - media.type.video
+    - node.type.article
+    - node.type.avaleht
+    - node.type.career_home_page
+    - node.type.event
+    - node.type.frontpage_new
+    - node.type.information_system_page
+    - node.type.job_offer
+    - node.type.main_profession_comparison_page
+    - node.type.news
+    - node.type.oska_field_comparison_page
+    - node.type.oska_field_page
+    - node.type.oska_front_page
+    - node.type.oska_main_profession_page
+    - node.type.oska_result_page
+    - node.type.oska_survey_page
+    - node.type.page
+    - node.type.school
+    - node.type.study_programme
+    - node.type.studypage
+    - node.type.teaching_home_page
+    - node.type.youth_home_page
+    - taxonomy.vocabulary.accreditationstatus
+    - taxonomy.vocabulary.admissionstatus
+    - taxonomy.vocabulary.degreeordiploma
+    - taxonomy.vocabulary.educational_institution_location
+    - taxonomy.vocabulary.educational_institution_type
+    - taxonomy.vocabulary.event_group
+    - taxonomy.vocabulary.event_type
+    - taxonomy.vocabulary.investmentmeasure
+    - taxonomy.vocabulary.isced_f
+    - taxonomy.vocabulary.isco_occupation
+    - taxonomy.vocabulary.oska_field
+    - taxonomy.vocabulary.oska_indicator
+    - taxonomy.vocabulary.oska_main_profession
+    - taxonomy.vocabulary.ownership_type
+    - taxonomy.vocabulary.qualificationstandardid
+    - taxonomy.vocabulary.studylabel
+    - taxonomy.vocabulary.studyprogrammelevel
+    - taxonomy.vocabulary.studyprogrammetype
+    - taxonomy.vocabulary.studytag
+    - taxonomy.vocabulary.tags
+    - taxonomy.vocabulary.teaching_language
+  module:
+    - content_translation
+    - contextual
+    - file
+    - htm_custom_event_registration
+    - htm_custom_favorites
+    - htm_custom_oska
+    - htm_custom_subscriptions
+    - htm_custom_subsidy_projects
+    - htm_custom_translations_new
+    - htm_custom_xjson_services
+    - language
+    - locale
+    - media
+    - menu_item_role_access
+    - menu_link_content
+    - node
+    - node_view_permissions
+    - paragraphs
+    - scheduler
+    - shortcut
+    - system
+    - taxonomy
+    - toolbar
 id: head_user
 label: 'Head user'
 weight: 4
@@ -69,7 +142,6 @@ permissions:
   - 'create terms in educational_institution_location'
   - 'create terms in educational_institution_type'
   - 'create terms in event_group'
-  - 'create terms in event_tags'
   - 'create terms in event_type'
   - 'create terms in investmentmeasure'
   - 'create terms in isced_f'
@@ -172,7 +244,6 @@ permissions:
   - 'delete terms in educational_institution_location'
   - 'delete terms in educational_institution_type'
   - 'delete terms in event_group'
-  - 'delete terms in event_tags'
   - 'delete terms in event_type'
   - 'delete terms in investmentmeasure'
   - 'delete terms in isced_f'
@@ -252,7 +323,6 @@ permissions:
   - 'edit terms in educational_institution_location'
   - 'edit terms in educational_institution_type'
   - 'edit terms in event_group'
-  - 'edit terms in event_tags'
   - 'edit terms in event_type'
   - 'edit terms in investmentmeasure'
   - 'edit terms in isced_f'
@@ -307,7 +377,6 @@ permissions:
   - 'translate educational_institution_location taxonomy_term'
   - 'translate educational_institution_type taxonomy_term'
   - 'translate event node'
-  - 'translate event_tags taxonomy_term'
   - 'translate information_system_page node'
   - 'translate interface'
   - 'translate isced_f taxonomy_term'

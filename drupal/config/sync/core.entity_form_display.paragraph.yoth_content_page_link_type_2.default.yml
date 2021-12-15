@@ -18,24 +18,26 @@ bundle: yoth_content_page_link_type_2
 mode: default
 content:
   field_internal_link:
+    type: entity_reference_autocomplete
     weight: 2
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_learning_carousel_image:
+    type: file_generic
     weight: 1
+    region: content
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
-    type: file_generic
-    region: content
   field_text:
+    type: string_textarea
     weight: 4
+    region: content
     settings:
       rows: 5
       placeholder: ''
@@ -45,10 +47,10 @@ content:
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
         maxlength_js_enforce: false
         maxlength_js_truncate_html: false
-    type: string_textarea
-    region: content
   field_theme:
+    type: string_textfield
     weight: 3
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -56,10 +58,10 @@ content:
       maxlength:
         maxlength_js: 25
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
   field_title:
+    type: string_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -67,8 +69,6 @@ content:
       maxlength:
         maxlength_js: 25
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
 hidden:
   created: true
   status: true

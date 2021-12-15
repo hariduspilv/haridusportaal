@@ -15,23 +15,23 @@ bundle: main_profession_comparison_page
 mode: default
 content:
   field_dynamic_graph:
-    weight: 103
+    type: oska_graph_formatter_type
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: oska_graph_formatter_type
+    weight: 103
     region: content
   field_introduction:
-    weight: 102
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 102
     region: content
   links:
-    weight: 100
     settings: {  }
     third_party_settings: {  }
+    weight: 100
     region: content
 hidden:
   langcode: true

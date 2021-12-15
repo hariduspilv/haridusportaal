@@ -12,20 +12,20 @@ pattern: 'studies/[node:title]'
 selection_criteria:
   79509529-322b-41d6-9deb-5256d1c33fac:
     id: node_type
-    bundles:
-      studypage: studypage
     negate: false
+    uuid: 79509529-322b-41d6-9deb-5256d1c33fac
     context_mapping:
       node: node
-    uuid: 79509529-322b-41d6-9deb-5256d1c33fac
+    bundles:
+      studypage: studypage
   997c9855-54af-4154-9f22-6a1e87bae868:
     id: language
-    langcodes:
-      en: en
     negate: false
+    uuid: 997c9855-54af-4154-9f22-6a1e87bae868
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 997c9855-54af-4154-9f22-6a1e87bae868
+    langcodes:
+      en: en
 selection_logic: and
 weight: -10
 relationships:

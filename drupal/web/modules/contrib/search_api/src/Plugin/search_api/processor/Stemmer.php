@@ -3,6 +3,7 @@
 namespace Drupal\search_api\Plugin\search_api\processor;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\search_api\IndexInterface;
 use Drupal\search_api\Plugin\search_api\processor\Resources\Porter2;
 use Drupal\search_api\Processor\FieldsProcessorPluginBase;
 use Drupal\search_api\Query\QueryInterface;
@@ -44,6 +45,20 @@ class Stemmer extends FieldsProcessorPluginBase {
     ];
 
     return $configuration;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function supportsIndex(IndexInterface $index): bool {
+    $languages = \Drupal::languageManager()->getLanguages();
+    // Make processor available only if English is one of the site languages.
+    foreach ($languages as $language) {
+      if (substr($language->getId(), 0, 2) === 'en') {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   /**
