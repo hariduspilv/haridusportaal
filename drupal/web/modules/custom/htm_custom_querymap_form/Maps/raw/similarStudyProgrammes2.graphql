@@ -1,11 +1,12 @@
 query similarStudyProgrammes($nid: Int!, $address: String, $offset: Int, $limit: Int) {
-  CustomStudyProgrammeElasticQuery2(offset: $offset, limit: $limit, filter: {nid: $nid, school_address: $address}) {
+  CustomStudyProgrammeElasticQuery2(offset: $offset, limit: $limit, filter: {nid: $nid, school_search_address: $address}) {
     count
     entities {
       Nid
       Name
       FieldSchoolName
       FieldSchoolAddress
+      FieldSchoolSearchAddress
       FieldSchoolWebsite
       FieldStudyProgrammeLevel
       FieldTeachingLanguage

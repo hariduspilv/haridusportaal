@@ -3,28 +3,29 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.storage.node.field_adrid
     - field.storage.node.field_school_location
     - field.storage.paragraph.field_address
-    - field.storage.node.field_adrid
-    - field.storage.node.field_educational_institution_ty
-    - field.storage.node.field_ehis_id
     - field.storage.paragraph.field_location_type
+    - field.storage.paragraph.field_school_location
+    - field.storage.paragraph.field_coordinates
+    - field.storage.paragraph.field_search_address
+    - field.storage.node.field_school_contact_email
+    - field.storage.node.field_ehis_id
+    - field.storage.node.field_special_class
+    - field.storage.node.field_school_contact_phone
     - field.storage.node.field_ownership_type
     - field.storage.node.field_registration_code
-    - field.storage.node.field_school_contact_email
-    - field.storage.node.field_school_contact_phone
-    - field.storage.paragraph.field_school_location
     - field.storage.node.field_school_webpage_address
-    - field.storage.node.field_special_class
     - field.storage.node.field_student_home
+    - field.storage.node.field_educational_institution_ty
     - field.storage.node.field_teaching_language
-    - field.storage.paragraph.field_coordinates
     - search_api.server.elasticsearch_server
   module:
     - elasticsearch_connector
-    - node
     - paragraphs
     - taxonomy
+    - node
     - scheduler
     - search_api
 third_party_settings:
@@ -179,6 +180,17 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_school_webpage_address
+  field_search_address:
+    label: 'Asukoht » Paragraph » Otsingu aadress'
+    datasource_id: 'entity:node'
+    property_path: 'field_school_location:entity:field_search_address'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_search_address
+      module:
+        - paragraphs
   field_special_class:
     label: 'Hariduslikud erivajadused'
     datasource_id: 'entity:node'
