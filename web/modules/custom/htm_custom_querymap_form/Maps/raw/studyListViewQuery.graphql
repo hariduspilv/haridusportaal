@@ -36,7 +36,6 @@ query studyListViewQuery($nid: [String],
       {operator: IN, field: "field_study_topic", value: $studyTopicValue, language: $lang, enabled: $studyTopicEnabled},
       {operator: IN, field: "field_right_column.entity.field_study.entity.field_publication_type", value: $publicationTypeValue, language: $lang, enabled: $publicationTypeEnabled},
       {operator: IN, field: "field_right_column.entity.field_study.entity.field_publication_lang", value: $publicationLanguageValue, language: $lang, enabled: $publicationLanguageEnabled},
-      {operator: IN, field: "field_right_column.entity.field_study.entity.field_publisher", value: $publisherValue, language: $lang, enabled: $publisherEnabled},
       {operator: GREATER_THAN_OR_EQUAL, field: "field_right_column.entity.field_study.entity.field_year", value: [$dateFrom], enabled: $dateFromEnabled},
       {operator: SMALLER_THAN_OR_EQUAL, field: "field_right_column.entity.field_study.entity.field_year", value: [$dateTo], enabled: $dateToEnabled},
     ],
@@ -48,6 +47,7 @@ query studyListViewQuery($nid: [String],
         {operator: LIKE, field: "field_accordion.entity.field_study_accordion_intro", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_accordion.entity.field_study_accordion_content", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_accordion.entity.field_body", value: [$titleValue], language: $lang, enabled: $titleEnabled},
+      	{operator: LIKE, field: "field_right_column.entity.field_study.entity.field_publisher", value: $publisherValue, language: $lang, enabled: $publisherEnabled},
         {operator: LIKE, field: "field_right_column.entity.field_study.entity.field_author", value: [$titleValue], language: $lang, enabled: $titleEnabled}
       ]}]
     }) {

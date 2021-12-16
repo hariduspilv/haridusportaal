@@ -100,8 +100,15 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     $params = $this->getElasticQuery($args);
 
     $response = $client->search($params);
-
+    $fields_to_ignore = [
+      'field_publisher',
+      'field_address',
+      'school_name',
+      'field_school_address',
+      'field_school_address.keyword',
+    ];
     \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($response, TRUE) . '</code></pre>' );
+    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($args, TRUE) . '</code></pre>' );
     foreach($response['hits']['hits'] as $key => $value){
       if(isset($value['highlight'])){
         if (isset($args['query_field'])){
@@ -128,11 +135,39 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
           if ($value['highlight']['school_name']){
             continue;
           }
+          if ($value['highlight']['field_school_address']){
+            continue;
+          }
+        }
+        $ignore_field = false;
+        if (!empty($args['content_type'])&&empty($args['query_field'])){
+          foreach ($fields_to_ignore as $field_to_ignore) {
+            if (isset($value['highlight'][$field_to_ignore])){
+              unset($value['highlight'][$field_to_ignore]);
+              if (!isset($value['highlight']['title'])) {
+                $ignore_field = true;
+              }
+              else{
+
+              }
+            }
+          }
+        }
+        if ($ignore_field){
+          continue;
+        }
+        if (isset($args['query_field'])){
+          foreach ($value['highlight'] as $pos_highlight_key => $pos_highlight){
+            if ($args['query_field']!==$pos_highlight_key){
+              unset($value['highlight'][$pos_highlight_key]);
+            }
+          }
         }
         $highlights[] = $value['highlight'];
       }
     }
 
+    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($highlights, TRUE) . '</code></pre>' );
     $this->getAutocompleteValues($highlights);
     if(count($this->autocomplete_values) > 0){
       foreach($this->autocomplete_values as $value){
