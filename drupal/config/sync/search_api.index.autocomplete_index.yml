@@ -310,7 +310,7 @@ processor_settings:
       preprocess_index: -10
       preprocess_query: -10
     all_fields: false
-    ignorable: '[()''¿¡!?,:;]'
+    ignorable: '[()''¿¡!?,.:;]'
     ignorable_classes: {  }
   language_with_fallback: {  }
   rendered_item: {  }
