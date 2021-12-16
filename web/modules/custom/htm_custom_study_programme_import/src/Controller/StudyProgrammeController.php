@@ -347,6 +347,7 @@ class StudyProgrammeController extends ControllerBase {
                     $schoolitem->toArray()['field_school_location'][0]['target_id'];
                     $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load($schoolitem->toArray()['field_school_location'][0]['target_id']);
                     $programme['programme_field']['field_school_address'] = $paragraph->get('field_address')->value;
+                    $programme['programme_field']['field_school_search_address'] = $paragraph->get('field_search_address')->value;
                 }
                 if(count($schoolitem->toArray()['field_school_webpage_address']) > 0){
                     $programme['programme_field']['field_school_website'] = $schoolitem->toArray()['field_school_webpage_address'];
