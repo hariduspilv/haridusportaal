@@ -113,30 +113,30 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
       if(isset($value['highlight'])){
         if (isset($args['query_field'])){
           if (!isset($value['highlight'][$args['query_field']])){
-            continue;
+//            continue;
           }
           if (isset($value['highlight']['title'])&& $args['query_field']!='title'){
-            continue;
-          }
+//            continue;
+         }
 
       }
         if (empty($args['query_field'])&&!empty($args['content_type'])){
           if (!isset($value['highlight']['title'])){
-            continue;
+        //    continue;
           }
         }
         if (empty($args['query_field'])&&empty($args['content_type'])){
           if ($value['highlight']['field_address']){
-            continue;
+//            continue;
           }
           if ($value['highlight']['field_publisher']){
-            continue;
+//            continue;
           }
           if ($value['highlight']['school_name']){
-            continue;
+           // continue;
           }
           if ($value['highlight']['field_school_address']){
-            continue;
+           // continue;
           }
         }
         $ignore_field = false;
@@ -159,6 +159,17 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         if (isset($args['query_field'])){
           foreach ($value['highlight'] as $pos_highlight_key => $pos_highlight){
             if ($args['query_field']!==$pos_highlight_key){
+              unset($value['highlight'][$pos_highlight_key]);
+            }
+          }
+        }
+        $title_only = false;
+        if (in_array('oska_main_profession_page',$args['content_type']) && empty($args['query_field'])){
+          $title_only = true;
+        }
+        if ($title_only){
+          foreach ($value['highlight'] as $pos_highlight_key => $pos_highlight){
+            if ($pos_highlight_key!=='title'){
               unset($value['highlight'][$pos_highlight_key]);
             }
           }
