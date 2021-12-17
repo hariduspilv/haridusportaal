@@ -4,14 +4,15 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_accreditation_status
-    - field.storage.node.field_amount
-    - field.storage.node.field_degree_or_diploma_awarded
-    - field.storage.node.field_duration
-    - field.storage.node.field_iscedf_detailed
     - field.storage.node.field_qualification_standard_id
+    - field.storage.node.field_duration
+    - field.storage.node.field_degree_or_diploma_awarded
     - field.storage.node.field_school_address
-    - field.storage.node.field_educational_institution
+    - field.storage.node.field_school_search_address
     - field.storage.node.field_school_website
+    - field.storage.node.field_educational_institution
+    - field.storage.node.field_amount
+    - field.storage.node.field_iscedf_detailed
     - field.storage.node.field_study_programme_level
     - field.storage.node.field_study_programme_type
     - field.storage.node.field_teaching_language
@@ -115,6 +116,14 @@ field_settings:
         - field.storage.node.field_educational_institution
       module:
         - node
+  field_school_search_address:
+    label: 'school search address'
+    datasource_id: 'entity:node'
+    property_path: field_school_search_address
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_school_search_address
   field_school_website:
     label: 'School website'
     datasource_id: 'entity:node'

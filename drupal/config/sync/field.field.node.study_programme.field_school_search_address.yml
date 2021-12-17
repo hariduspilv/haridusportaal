@@ -1,0 +1,19 @@
+uuid: 51d85caa-9b5a-4345-af88-a3fb6042e0b5
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_school_search_address
+    - node.type.study_programme
+id: node.study_programme.field_school_search_address
+field_name: field_school_search_address
+entity_type: node
+bundle: study_programme
+label: 'School search address'
+description: 'Used only in search API for location searching purposes'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
