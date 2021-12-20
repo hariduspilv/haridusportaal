@@ -102,10 +102,10 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     $response = $client->search($params);
     $fields_to_ignore = [
       'field_publisher',
-      'field_address',
+      'field_search_address',
       'school_name',
-      'field_school_address',
-      'field_school_address.keyword',
+      'field_school_search_address',
+      'field_school_search_address.keyword',
     ];
     \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($response, TRUE) . '</code></pre>' );
     \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($args, TRUE) . '</code></pre>' );
@@ -126,7 +126,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
           }
         }
         if (empty($args['query_field'])&&empty($args['content_type'])){
-          if ($value['highlight']['field_address']){
+          if ($value['highlight']['field_search_address']){
 //            continue;
           }
           if ($value['highlight']['field_publisher']){
@@ -135,7 +135,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
           if ($value['highlight']['school_name']){
            // continue;
           }
-          if ($value['highlight']['field_school_address']){
+          if ($value['highlight']['field_school_search_address']){
            // continue;
           }
         }
