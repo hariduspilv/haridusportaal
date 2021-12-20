@@ -1529,6 +1529,14 @@ xjson:
     translation_type: textarea
     et: 'Staatuse muutmine ei ole lubatud.'
     en: ''
+  GRANT_WARNING_005:
+    translation_type: textarea
+    et: 'Taotleja ei vasta seaduses sätestatud taotluse esitamise aja nõuetele'
+    en: 'Taotleja ei vasta seaduses sätestatud taotluse esitamise aja nõuetele ENG'
+  GRANT_WARNING_004:
+    translation_type: textarea
+    et: 'Taotlejal puudub vastav erialane kvalifikatsioon'
+    en: 'Taotlejal puudub vastav erialane kvalifikatsioon ENG'
 article:
   label:
     translation_type: textarea
