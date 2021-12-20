@@ -270,13 +270,13 @@ public class OLTWorker extends Worker {
 
           if (xRaodResponse.getGrants().getGrantList().get(0).isSetWarnings()) {
             ((ArrayNode) jsonNode.get("body").get("steps").get("step_type_selection").get("messages")).removeAll();
-            jsonNode.putObject("messages").putObject("default");
+            jsonNode.putObject("messages").put("default", "default");
             xRaodResponse.getGrants().getGrantList().get(0).getWarnings().getWarningList().forEach(s -> {
               ((ObjectNode) jsonNode.get("body").get("steps").get("step_type_selection"))
                  .putArray("messages").add(s.getCode());
               ((ObjectNode) jsonNode.get("messages")).putObject(s.getCode())
-                 .put("message_type", s.getType())
-                 .put("message_code", s.getCode())
+                 .put("message_type", "WARNING")
+                 .put("message_code", "GRANT_WARNING_" + s.getCode())
                  .putObject("message_text").put("et", s.getMessage());
             });
           }
@@ -507,13 +507,13 @@ public class OLTWorker extends Worker {
 
           if (postGrantsResponse.getGrant().isSetWarnings()) {
             ((ArrayNode) jsonNode.get("body").get("steps").get("step_type_selection").get("messages")).removeAll();
-            jsonNode.putObject("messages").putObject("default");
+            jsonNode.putObject("messages").put("default", "default");
             postGrantsResponse.getGrant().getWarnings().getWarningList().forEach(s -> {
               ((ObjectNode) jsonNode.get("body").get("steps").get("step_type_selection"))
                  .putArray("messages").add(s.getCode());
               ((ObjectNode) jsonNode.get("messages")).putObject(s.getCode())
-                 .put("message_type", s.getType())
-                 .put("message_code", s.getCode())
+                 .put("message_type", "WARNING")
+                 .put("message_code", "GRANT_WARNING_" + s.getCode())
                  .putObject("message_text").put("et", s.getMessage());
             });
           }
