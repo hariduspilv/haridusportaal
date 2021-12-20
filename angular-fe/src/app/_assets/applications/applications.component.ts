@@ -28,6 +28,8 @@ const autocompleteValidator = (control: FormControl) => {
   return output;
 };
 
+const phoneNumberValidator = Validators.pattern(/^\+?[0-9\s]+$/);
+
 @Component({
   selector: 'applications',
   templateUrl: './applications.template.html',
@@ -357,7 +359,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'contactPhone',
           required: true,
           error: false,
-          formControl: this.formBuilder.control('', Validators.required),
+          errorMessage: this.translate.get('login.invalid_number'),
+          formControl: this.formBuilder.control('', [Validators.required, phoneNumberValidator]),
         },
         {
           col: 6,
@@ -431,7 +434,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'contactPhone',
           required: false,
           error: false,
-          formControl: this.formBuilder.control(''),
+          errorMessage: this.translate.get('login.invalid_number'),
+          formControl: this.formBuilder.control('', [phoneNumberValidator]),
         },
         {
           col: 12,
@@ -488,6 +492,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           if (item.query === 'inaadress') {
             this.getItemAddress(item);
           }
+          this.validateField(item.modelName);
         });
         this.modalLoading = false;
         sub.unsubscribe();
@@ -608,9 +613,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           contactPhoneUid,
           contactEmailUid,
           webpageAddressUid,
-          contactPhone: this.formGroup.value.contactPhone,
-          contactEmail: this.formGroup.value.contactEmail,
-          webpageAddress: this.formGroup.value.webpageAddress,
+          contactPhone: this.formGroup.value.contactPhone || '',
+          contactEmail: this.formGroup.value.contactEmail || '',
+          webpageAddress: this.formGroup.value.webpageAddress || '',
         },
       };
 
