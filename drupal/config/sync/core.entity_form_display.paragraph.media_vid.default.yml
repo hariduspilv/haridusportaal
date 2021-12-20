@@ -13,13 +13,13 @@ bundle: media_vid
 mode: default
 content:
   field_media_vid:
+    type: custom_video_widget_type
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: custom_video_widget_type
-    region: content
 hidden:
   created: true
   status: true

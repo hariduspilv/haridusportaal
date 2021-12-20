@@ -34,41 +34,47 @@ class DatePickers extends FilterWidgetBase {
   public function exposedFormAlter(array &$form, FormStateInterface $form_state) {
     $field_id = $this->getExposedFilterFieldId();
 
+    // Handle wrapper element added to exposed filters
+    // in https://www.drupal.org/project/drupal/issues/2625136.
+    $wrapper_id = $field_id . '_wrapper';
+    if (!isset($form[$field_id]) && isset($form[$wrapper_id])) {
+      $element = &$form[$wrapper_id][$field_id];
+    }
+    else {
+      $element = &$form[$field_id];
+    }
+
     parent::exposedFormAlter($form, $form_state);
 
     // Attach the JS (@see /js/datepickers.js)
     $form['#attached']['library'][] = 'better_exposed_filters/datepickers';
 
     // Date picker settings.
-    $form[$field_id]['#attached']['drupalSettings']['better_exposed_filters']['datepicker'] = TRUE;
-    $form[$field_id]['#attached']['drupalSettings']['better_exposed_filters']['datepicker_options'] = [];
-    $drupal_settings = &$form[$field_id]['#attached']['drupalSettings']['better_exposed_filters']['datepicker_options'];
+    $element['#attached']['drupalSettings']['better_exposed_filters']['datepicker'] = TRUE;
+    $element['#attached']['drupalSettings']['better_exposed_filters']['datepicker_options'] = [];
+    $drupal_settings = &$element['#attached']['drupalSettings']['better_exposed_filters']['datepicker_options'];
 
     // Single Date API-based input element.
-    $is_single_date = isset($form[$field_id]['value']['#type'])
-    && 'date_text' == $form[$field_id]['value']['#type'];
+    $is_single_date = isset($element['value']['#type'])
+      && 'date_text' == $element['value']['#type'];
     // Double Date-API-based input elements such as "in-between".
-    $is_double_date = isset($form[$field_id]['min']) && isset($form[$field_id]['max'])
-      && 'date_text' == $form[$field_id]['min']['#type']
-      && 'date_text' == $form[$field_id]['max']['#type'];
+    $is_double_date = isset($element['min']) && isset($element['max'])
+      && 'date_text' == $element['min']['#type']
+      && 'date_text' == $element['max']['#type'];
 
-    // @todo lots of repetition of code. Let's re-organize and clean up.
     if ($is_single_date || $is_double_date) {
-      if (isset($form[$field_id]['value'])) {
-        $format = $form[$field_id]['value']['#date_format'];
-        $form[$field_id]['value']['#attributes']['class'][] = 'bef-datepicker';
-        $form[$field_id]['value']['#attributes']['type'] = 'date';
-        $form[$field_id]['value']['#attributes']['autocomplete'] = 'off';
+      if (isset($element['value'])) {
+        $format = $element['value']['#date_format'];
+        $element['value']['#attributes']['class'][] = 'bef-datepicker';
+        $element['value']['#attributes']['autocomplete'] = 'off';
       }
       else {
         // Both min and max share the same format.
-        $format = $form[$field_id]['min']['#date_format'];
-        $form[$field_id]['min']['#attributes']['class'][] = 'bef-datepicker';
-        $form[$field_id]['max']['#attributes']['class'][] = 'bef-datepicker';
-        $form[$field_id]['min']['#attributes']['type'] = 'date';
-        $form[$field_id]['max']['#attributes']['type'] = 'date';
-        $form[$field_id]['min']['#attributes']['autocomplete'] = 'off';
-        $form[$field_id]['max']['#attributes']['autocomplete'] = 'off';
+        $format = $element['min']['#date_format'];
+        $element['min']['#attributes']['class'][] = 'bef-datepicker';
+        $element['max']['#attributes']['class'][] = 'bef-datepicker';
+        $element['min']['#attributes']['autocomplete'] = 'off';
+        $element['max']['#attributes']['autocomplete'] = 'off';
       }
 
       // Convert Date API format to jQuery UI date format.
@@ -78,25 +84,22 @@ class DatePickers extends FilterWidgetBase {
     else {
       /*
        * Standard Drupal date field.  Depending on the settings, the field
-       * can be at $form[$field_id] (single field) or
-       * $form[$field_id][subfield] for two-value date fields or filters
+       * can be at $element (single field) or
+       * $element[subfield] for two-value date fields or filters
        * with exposed operators.
        */
       $fields = ['min', 'max', 'value'];
-      if (count(array_intersect($fields, array_keys($form[$field_id])))) {
-        $form[$field_id]['#type'] = 'container';
+      if (count(array_intersect($fields, array_keys($element)))) {
         foreach ($fields as $field) {
-          if (isset($form[$field_id][$field])) {
-            $form[$field_id][$field]['#attributes']['class'][] = 'bef-datepicker';
-            $form[$field_id][$field]['#attributes']['type'] = 'date';
-            $form[$field_id][$field]['#attributes']['autocomplete'] = 'off';
+          if (isset($element[$field])) {
+            $element[$field]['#attributes']['class'][] = 'bef-datepicker';
+            $element[$field]['#attributes']['autocomplete'] = 'off';
           }
         }
       }
       else {
-        $form[$field_id]['#attributes']['class'][] = 'bef-datepicker';
-        $form[$field_id]['#attributes']['type'] = 'date';
-        $form[$field_id]['#attributes']['autocomplete'] = 'off';
+        $element['#attributes']['class'][] = 'bef-datepicker';
+        $element['#attributes']['autocomplete'] = 'off';
       }
     }
   }
@@ -104,7 +107,7 @@ class DatePickers extends FilterWidgetBase {
   /**
    * Convert Date API formatting to jQuery formatDate formatting.
    *
-   * @todo To be honest, I'm not sure this is needed.  Can you set a
+   * @todo: To be honest, I'm not sure this is needed.  Can you set a
    * Date API field to accept anything other than Y-m-d? Well, better
    * safe than sorry...
    *

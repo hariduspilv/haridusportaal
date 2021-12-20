@@ -1,15 +1,52 @@
 uuid: 8e5bfcb4-a810-4a23-aa3d-a48d7d4ac40a
 langcode: et
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - filter.format.custom_editor
+    - media.type.audio
+    - media.type.crop_images
+    - media.type.custom_crop_image_16_9
+    - media.type.file
+    - media.type.image
+    - media.type.video
+    - node.type.article
+    - node.type.career_home_page
+    - node.type.event
+    - node.type.information_system_page
+    - node.type.news
+    - node.type.studypage
+    - node.type.teaching_home_page
+    - node.type.youth_home_page
+    - taxonomy.vocabulary.event_group
+    - taxonomy.vocabulary.event_type
+    - taxonomy.vocabulary.oska_field
+    - taxonomy.vocabulary.oska_indicator
+    - taxonomy.vocabulary.oska_main_profession
+    - taxonomy.vocabulary.studylabel
+    - taxonomy.vocabulary.studytag
+    - taxonomy.vocabulary.tags
+  module:
+    - content_translation
+    - contextual
+    - file
+    - filter
+    - htm_custom_event_registration
+    - htm_custom_oska
+    - media
+    - node
+    - node_view_permissions
+    - paragraphs
+    - scheduler
+    - system
+    - taxonomy
+    - toolbar
 id: content_editor
 label: 'Content editor'
 weight: 3
 is_admin: null
 permissions:
   - 'access administration pages'
-  - 'access browse_files entity browser pages'
-  - 'access browse_files_modal entity browser pages'
   - 'access content'
   - 'access content overview'
   - 'access contextual links'
@@ -69,7 +106,6 @@ permissions:
   - 'delete studypage revisions'
   - 'delete teaching_home_page revisions'
   - 'delete terms in event_group'
-  - 'delete terms in event_tags'
   - 'delete terms in event_type'
   - 'delete terms in oska_field'
   - 'delete terms in oska_indicator'
@@ -77,7 +113,6 @@ permissions:
   - 'delete terms in studylabel'
   - 'delete terms in studytag'
   - 'delete terms in tags'
-  - 'dropzone upload files'
   - 'edit any article content'
   - 'edit any audio media'
   - 'edit any career_home_page content'
@@ -124,7 +159,6 @@ permissions:
   - 'translate article node'
   - 'translate career_home_page node'
   - 'translate event node'
-  - 'translate event_tags taxonomy_term'
   - 'translate information_system_page node'
   - 'translate news node'
   - 'translate paragraph'

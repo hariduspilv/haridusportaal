@@ -21,13 +21,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       teaching_themes: teaching_themes
+    negate: 0
     target_bundles_drag_drop:
-      teaching_themes:
-        enabled: true
-        weight: 30
       accordion:
         weight: 31
         enabled: false
@@ -112,4 +109,7 @@ settings:
       survey_page_accordion:
         weight: 58
         enabled: false
+      teaching_themes:
+        weight: 30
+        enabled: true
 field_type: entity_reference_revisions

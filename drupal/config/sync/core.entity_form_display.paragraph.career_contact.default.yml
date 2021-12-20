@@ -16,15 +16,17 @@ bundle: career_contact
 mode: default
 content:
   field_email:
-    weight: 2
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
     type: email_default
+    weight: 2
     region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
   field_institution:
+    type: string_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -32,10 +34,10 @@ content:
       maxlength:
         maxlength_js: 50
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
   field_name_occupation:
+    type: string_textfield
     weight: 1
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -43,10 +45,10 @@ content:
       maxlength:
         maxlength_js: 50
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
   field_skype:
+    type: string_textfield
     weight: 3
+    region: content
     settings:
       size: 60
       placeholder: ''
@@ -54,8 +56,6 @@ content:
       maxlength:
         maxlength_js: 50
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
 hidden:
   created: true
   status: true

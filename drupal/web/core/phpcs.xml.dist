@@ -68,7 +68,6 @@
   <rule ref="Drupal.Commenting.FunctionComment">
     <exclude name="Drupal.Commenting.FunctionComment.InvalidNoReturn"/>
     <exclude name="Drupal.Commenting.FunctionComment.Missing"/>
-    <exclude name="Drupal.Commenting.FunctionComment.MissingParamComment"/>
     <exclude name="Drupal.Commenting.FunctionComment.MissingParamType"/>
     <exclude name="Drupal.Commenting.FunctionComment.MissingReturnComment"/>
     <exclude name="Drupal.Commenting.FunctionComment.MissingReturnType"/>
@@ -79,19 +78,17 @@
   <rule ref="Drupal.Commenting.GenderNeutralComment"/>
   <rule ref="Drupal.Commenting.InlineVariableComment"/>
   <rule ref="Drupal.Commenting.VariableComment">
-    <!-- Sniff for: DuplicateVar, EmptyVar, InlineVariableName, WrongStyle -->
-    <exclude name="Drupal.Commenting.VariableComment.IncorrectVarType"/>
+    <!-- Sniff for: DuplicateVar, EmptyVar, IncorrectVarType, InlineVariableName, WrongStyle -->
     <exclude name="Drupal.Commenting.VariableComment.Missing"/>
     <exclude name="Drupal.Commenting.VariableComment.MissingVar"/>
     <exclude name="Drupal.Commenting.VariableComment.VarOrder"/>
   </rule>
   <rule ref="Drupal.Commenting.InlineComment">
-    <!-- Sniff for: NoSpaceBefore, WrongStyle -->
+    <!-- Sniff for: NoSpaceBefore, SpacingBefore, WrongStyle -->
     <exclude name="Drupal.Commenting.InlineComment.DocBlock"/>
     <exclude name="Drupal.Commenting.InlineComment.InvalidEndChar"/>
     <exclude name="Drupal.Commenting.InlineComment.NotCapital"/>
     <exclude name="Drupal.Commenting.InlineComment.SpacingAfter"/>
-    <exclude name="Drupal.Commenting.InlineComment.SpacingBefore"/>
   </rule>
   <rule ref="Drupal.Commenting.PostStatementComment"/>
   <rule ref="Drupal.ControlStructures.ElseIf"/>
@@ -163,6 +160,7 @@
     </properties>
   </rule>
   <rule ref="Drupal.NamingConventions.ValidClassName"/>
+  <rule ref="Drupal.NamingConventions.ValidGlobal"/>
   <rule ref="Generic.NamingConventions.ConstructorName"/>
   <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
   <rule ref="Generic.PHP.DeprecatedFunctions"/>

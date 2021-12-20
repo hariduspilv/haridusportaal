@@ -37,8 +37,8 @@ class BlockInterfaceTest extends KernelTestBase {
     $expected_configuration = [
       'id' => 'test_block_instantiation',
       'label' => 'Custom Display Message',
-      'provider' => 'block_test',
       'label_display' => BlockPluginInterface::BLOCK_LABEL_VISIBLE,
+      'provider' => 'block_test',
       'display_message' => 'no message set',
     ];
     // Initial configuration of the block at construction time.
@@ -59,7 +59,7 @@ class BlockInterfaceTest extends KernelTestBase {
       ],
       'admin_label' => [
         '#type' => 'item',
-        '#title' => t('Block description'),
+        '#title' => 'Block description',
         '#plain_text' => $definition['admin_label'],
       ],
       'label' => [
@@ -78,7 +78,7 @@ class BlockInterfaceTest extends KernelTestBase {
       'context_mapping' => [],
       'display_message' => [
         '#type' => 'textfield',
-        '#title' => t('Display message'),
+        '#title' => 'Display message',
         '#default_value' => 'My custom display message.',
       ],
     ];

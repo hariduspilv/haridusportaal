@@ -566,7 +566,7 @@ EOD;
 
     // Get the schema and tablename for the old table.
     $old_full_name = str_replace('"', '', $this->connection->prefixTables('{' . $table . '}'));
-    list($old_schema, $old_table_name) = strpos($old_full_name, '.') ? explode('.', $old_full_name) : ['public', $old_full_name];
+    [$old_schema, $old_table_name] = strpos($old_full_name, '.') ? explode('.', $old_full_name) : ['public', $old_full_name];
 
     // Index names and constraint names are global in PostgreSQL, so we need to
     // rename them when renaming the table.
@@ -1058,6 +1058,23 @@ EOD;
     $hash = base64_encode(hash('sha256', $data, TRUE));
     // Modify the hash so it's safe to use in PostgreSQL identifiers.
     return strtr($hash, ['+' => '_', '/' => '_', '=' => '']);
+  }
+
+  /**
+   * Determines whether the PostgreSQL extension is created.
+   *
+   * @param string $name
+   *   The name of the extension.
+   *
+   * @return bool
+   *   Return TRUE when the extension is created, FALSE otherwise.
+   *
+   * @internal
+   */
+  public function extensionExists($name): bool {
+    return (bool) $this->connection->query('SELECT installed_version FROM pg_available_extensions WHERE name = :name', [
+      ':name' => $name,
+    ])->fetchField();
   }
 
 }

@@ -1,0 +1,7 @@
+search_api_elasticsearch_synonym.settings:
+  path: '/admin/config/search/search-api-elasticsearch-synonym'
+  defaults:
+    _form: '\Drupal\search_api_elasticsearch_synonym\Form\SearchApiElasticsearchSynonymSettingsForm'
+    _title: 'Search API Elasticsearch Synonym'
+  requirements:
+    _permission: 'administer search api elasticsearch synonym'

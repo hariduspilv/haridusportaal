@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       youth_subject_links: youth_subject_links
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 37
@@ -131,6 +131,6 @@ settings:
         weight: 71
         enabled: false
       youth_subject_links:
-        enabled: true
         weight: 72
+        enabled: true
 field_type: entity_reference_revisions

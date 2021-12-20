@@ -21,9 +21,9 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       working_time: working_time
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 45
@@ -146,8 +146,8 @@ settings:
         weight: 84
         enabled: false
       working_time:
-        enabled: true
         weight: 85
+        enabled: true
       yoth_content_page_link_type_2:
         weight: 86
         enabled: false

@@ -334,9 +334,9 @@ class ServerTaskTest extends KernelTestBase {
    * Verifies that no more than 100 items will be executed at once.
    */
   public function testTaskCountLimit() {
-    // Create 100 tasks.
+    // Create 101 tasks.
     for ($i = 0; $i < 101; ++$i) {
-      $this->taskManager->addTask('deleteItems', $this->server, $this->index, ['']);
+      $this->taskManager->addTask('deleteItems', $this->server, $this->index, [$i]);
     }
 
     // Verify that a new operation cannot be executed.

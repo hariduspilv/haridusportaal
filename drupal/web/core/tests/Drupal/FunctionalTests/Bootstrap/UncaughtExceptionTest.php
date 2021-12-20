@@ -265,7 +265,7 @@ class UncaughtExceptionTest extends BrowserTestBase {
     $this->assertStringContainsString('Failed to log error', $errors[0], 'The error handling logs when an error could not be logged to the logger.');
 
     $expected_path = \Drupal::root() . '/core/modules/system/tests/modules/error_service_test/src/MonkeysInTheControlRoom.php';
-    $expected_line = 61;
+    $expected_line = 62;
     $expected_entry = "Failed to log error: Exception: Deforestation in Drupal\\error_service_test\\MonkeysInTheControlRoom->handle() (line ${expected_line} of ${expected_path})";
     $this->assertStringContainsString($expected_entry, $errors[0], 'Original error logged to the PHP error log when an exception is thrown by a logger');
 
@@ -282,8 +282,10 @@ class UncaughtExceptionTest extends BrowserTestBase {
    *
    * @see \Drupal\simpletest\TestBase::prepareEnvironment()
    * @see \Drupal\Core\DrupalKernel::bootConfiguration()
+   *
+   * @internal
    */
-  protected function assertErrorLogged($error_message) {
+  protected function assertErrorLogged(string $error_message): void {
     $error_log_filename = DRUPAL_ROOT . '/' . $this->siteDirectory . '/error.log';
     $this->assertFileExists($error_log_filename);
 
@@ -310,8 +312,10 @@ class UncaughtExceptionTest extends BrowserTestBase {
    *
    * @see \Drupal\simpletest\TestBase::prepareEnvironment()
    * @see \Drupal\Core\DrupalKernel::bootConfiguration()
+   *
+   * @internal
    */
-  protected function assertNoErrorsLogged() {
+  protected function assertNoErrorsLogged(): void {
     // Since PHP only creates the error.log file when an actual error is
     // triggered, it is sufficient to check whether the file exists.
     $this->assertFileDoesNotExist(DRUPAL_ROOT . '/' . $this->siteDirectory . '/error.log');

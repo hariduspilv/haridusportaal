@@ -47,8 +47,6 @@ abstract class LocalStream implements StreamWrapperInterface {
   /**
    * Gets the path that the wrapper is responsible for.
    *
-   * @todo Review this method name in D8 per https://www.drupal.org/node/701358.
-   *
    * @return string
    *   String specifying the path.
    */
@@ -89,7 +87,7 @@ abstract class LocalStream implements StreamWrapperInterface {
       $uri = $this->uri;
     }
 
-    list(, $target) = explode('://', $uri, 2);
+    [, $target] = explode('://', $uri, 2);
 
     // Remove erroneous leading or trailing, forward-slashes and backslashes.
     return trim($target, '\/');
@@ -317,7 +315,7 @@ abstract class LocalStream implements StreamWrapperInterface {
    * {@inheritdoc}
    */
   public function dirname($uri = NULL) {
-    list($scheme) = explode('://', $uri, 2);
+    [$scheme] = explode('://', $uri, 2);
     $target = $this->getTarget($uri);
     $dirname = dirname($target);
 

@@ -18,11 +18,14 @@ plugin: system_main_block
 settings:
   id: system_main_block
   label: 'Main page content'
-  provider: system
   label_display: '0'
+  provider: system
 visibility:
   'entity_bundle:node':
     id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
     bundles:
       article: article
       event: event
@@ -30,6 +33,3 @@ visibility:
       page: page
       school: school
       study_programme: study_programme
-    negate: false
-    context_mapping:
-      node: '@node.node_route_context:node'

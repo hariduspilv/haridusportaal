@@ -14,20 +14,20 @@ bundle: frontpage_service_image
 mode: default
 content:
   field_alt:
+    type: string_textfield
     weight: 1
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_service_img:
+    type: file_generic
     weight: 0
+    region: content
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
-    type: file_generic
-    region: content
 hidden:
   created: true
   status: true

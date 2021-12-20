@@ -222,15 +222,13 @@ class KeyValueEntityStorageTest extends UnitTestCase {
    * @covers ::doSave
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
    *
    * @return \Drupal\Core\Entity\EntityInterface
    *
    * @depends testCreate
    */
   public function testSaveInsert(EntityInterface $entity) {
-    $this->entityType->expects($this->once())
-      ->method('getClass')
-      ->will($this->returnValue(get_class($entity)));
     $this->setUpKeyValueEntityStorage();
 
     $expected = ['id' => 'foo'];
@@ -268,6 +266,7 @@ class KeyValueEntityStorageTest extends UnitTestCase {
    * @covers ::doSave
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
    *
    * @return \Drupal\Core\Entity\EntityInterface
    *
@@ -494,8 +493,6 @@ class KeyValueEntityStorageTest extends UnitTestCase {
    * @covers ::load
    */
   public function testLoadMissingEntity() {
-    $this->entityType->expects($this->once())
-      ->method('getClass');
     $this->setUpKeyValueEntityStorage();
 
     $this->keyValueStore->expects($this->once())
@@ -591,9 +588,6 @@ class KeyValueEntityStorageTest extends UnitTestCase {
   public function testDelete() {
     $entities['foo'] = $this->getMockEntity('Drupal\Core\Entity\EntityBase', [['id' => 'foo']]);
     $entities['bar'] = $this->getMockEntity('Drupal\Core\Entity\EntityBase', [['id' => 'bar']]);
-    $this->entityType->expects($this->once())
-      ->method('getClass')
-      ->will($this->returnValue(get_class(reset($entities))));
     $this->setUpKeyValueEntityStorage();
 
     $this->moduleHandler->expects($this->exactly(8))

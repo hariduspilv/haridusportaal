@@ -1,3 +1,6 @@
+_core:
+  default_config_hash: tEkqVdaa812lro0-CjtQGv-aeFNZ088m1F3yAbuy8hQ
+langcode: et
 seckit_xss:
   csp:
     checkbox: true
@@ -5,6 +8,7 @@ seckit_xss:
     default-src: ''
     script-src: ''
     object-src: ''
+    style-src: ''
     img-src: ''
     media-src: ''
     frame-src: ''
@@ -14,7 +18,6 @@ seckit_xss:
     connect-src: ''
     report-uri: /report-csp-violation
     policy-uri: ''
-    style-src: ''
   x_xss:
     seckit_x_xss_option_disable: Disabled
     seckit_x_xss_option_0: '0'
@@ -45,6 +48,3 @@ seckit_various:
   referrer_policy: false
   referrer_policy_policy: no-referrer-when-downgrade
   disable_autocomplete: false
-_core:
-  default_config_hash: tEkqVdaa812lro0-CjtQGv-aeFNZ088m1F3yAbuy8hQ
-langcode: et

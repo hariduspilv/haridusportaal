@@ -41,7 +41,8 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  * In this example field instances of page content type are retrieved from the
  * source database.
  *
- * For additional configuration keys, refer to the parent classes:
+ * For additional configuration keys, refer to the parent classes.
+ *
  * @see \Drupal\migrate\Plugin\migrate\source\SqlBase
  * @see \Drupal\migrate\Plugin\migrate\source\SourcePluginBase
  *
@@ -252,7 +253,7 @@ class FieldInstance extends DrupalSqlBase {
   /**
    * {@inheritdoc}
    */
-  public function count($refresh = FALSE) {
+  protected function doCount() {
     return $this->initializeIterator()->count();
   }
 

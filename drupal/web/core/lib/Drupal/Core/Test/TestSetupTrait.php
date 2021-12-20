@@ -153,7 +153,7 @@ trait TestSetupTrait {
       // Ensure no existing database gets in the way. If a default database
       // exists already it must be removed.
       Database::removeConnection('default');
-      $database = Database::convertDbUrlToConnectionInfo($db_url, isset($this->root) ? $this->root : DRUPAL_ROOT);
+      $database = Database::convertDbUrlToConnectionInfo($db_url, $this->root ?? DRUPAL_ROOT);
       Database::addConnectionInfo('default', 'default', $database);
     }
 
@@ -167,9 +167,7 @@ trait TestSetupTrait {
       foreach ($connection_info as $target => $value) {
         // Replace the full table prefix definition to ensure that no table
         // prefixes of the test runner leak into the test.
-        $connection_info[$target]['prefix'] = [
-          'default' => $value['prefix']['default'] . $this->databasePrefix,
-        ];
+        $connection_info[$target]['prefix'] = $value['prefix'] . $this->databasePrefix;
       }
       Database::addConnectionInfo('default', 'default', $connection_info['default']);
     }

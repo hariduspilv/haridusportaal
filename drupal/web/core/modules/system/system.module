@@ -13,9 +13,10 @@ use Drupal\Core\Asset\AttachedAssetsInterface;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Database\Query\AlterableInterface;
-use Drupal\Core\Extension\Extension;
 use Drupal\Core\Entity\ContentEntityTypeInterface;
+use Drupal\Core\Extension\Extension;
 use Drupal\Core\File\Exception\FileException;
+use Drupal\Core\File\Exception\InvalidStreamWrapperException;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\KeyValueStore\KeyValueDatabaseExpirableFactory;
@@ -432,7 +433,7 @@ function template_preprocess_entity_add_list(&$variables) {
  * Example (update_manager_install_form_submit()):
  * @code
  *  system_authorized_init('update_authorize_run_install',
- *    drupal_get_path('module', 'update') . '/update.authorize.inc',
+ *    \Drupal::service('extension.list.module')->getPath('update') . '/update.authorize.inc',
  *    $arguments, t('Update manager'));
  *  $form_state->setRedirectUrl(system_authorized_get_url());
  * @endcode
@@ -597,14 +598,14 @@ function system_page_attachments(array &$page) {
     $favicon = theme_get_setting('favicon.url');
     $type = theme_get_setting('favicon.mimetype');
     $page['#attached']['html_head_link'][][] = [
-      'rel' => 'shortcut icon',
+      'rel' => 'icon',
       'href' => UrlHelper::stripDangerousProtocols($favicon),
       'type' => $type,
     ];
   }
 
   // Get the major Drupal version.
-  list($version,) = explode('.', \Drupal::VERSION);
+  [$version] = explode('.', \Drupal::VERSION);
 
   // Attach default meta tags.
   $meta_default = [
@@ -700,9 +701,8 @@ function system_js_settings_build(&$settings, AttachedAssetsInterface $assets) {
  * as well as theme_token ajax state.
  */
 function system_js_settings_alter(&$settings, AttachedAssetsInterface $assets) {
-  // As this is being output in the final response always use the master
-  // request.
-  $request = \Drupal::requestStack()->getMasterRequest();
+  // As this is being output in the final response always use the main request.
+  $request = \Drupal::requestStack()->getMainRequest();
   $current_query = $request->query->all();
 
   // Let output path processors set a prefix.
@@ -892,8 +892,14 @@ function system_region_list($theme, $show = REGIONS_ALL) {
 
 /**
  * Array sorting callback; sorts modules by their name.
+ *
+ * @deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. Use
+ *   \Drupal\Core\Extension\ExtensionList::sortByName() instead.
+ *
+ * @see https://www.drupal.org/node/3225999
  */
 function system_sort_modules_by_info_name($a, $b) {
+  @trigger_error('system_sort_modules_by_info_name() is deprecated in drupal:9.3.0 and is removed from drupal:10.0.0. Use \Drupal\Core\Extension\ExtensionList::sortByName() instead. See https://www.drupal.org/node/3225999', E_USER_DEPRECATED);
   return strcasecmp($a->info['name'], $b->info['name']);
 }
 
@@ -903,7 +909,7 @@ function system_sort_modules_by_info_name($a, $b) {
  * Callback for uasort() within
  * \Drupal\system\Controller\SystemController::themesPage().
  *
- * @see system_sort_modules_by_info_name()
+ * @see \Drupal\Core\Extension\Extension::sortByName()
  */
 function system_sort_themes($a, $b) {
   if ($a->is_default) {
@@ -938,7 +944,7 @@ function system_system_info_alter(&$info, Extension $file, $type) {
  */
 function system_default_region($theme) {
   $regions = array_keys(system_region_list($theme, REGIONS_VISIBLE));
-  return isset($regions[0]) ? $regions[0] : '';
+  return $regions[0] ?? '';
 }
 
 /**
@@ -1019,10 +1025,9 @@ function system_get_module_admin_tasks($module, array $info) {
   if ($permission_handler->moduleProvidesPermissions($module)) {
     /** @var \Drupal\Core\Access\AccessManagerInterface $access_manager */
     $access_manager = \Drupal::service('access_manager');
-    if ($access_manager->checkNamedRoute('user.admin_permissions', [], \Drupal::currentUser())) {
+    if ($access_manager->checkNamedRoute('user.admin_permissions.module', ['modules' => $module], \Drupal::currentUser())) {
       /** @var \Drupal\Core\Url $url */
-      $url = new Url('user.admin_permissions');
-      $url->setOption('fragment', 'module-' . $module);
+      $url = new Url('user.admin_permissions.module', ['modules' => $module]);
       $admin_tasks["user.admin_permissions.$module"] = [
         'title' => t('Configure @module permissions', ['@module' => $info['name']]),
         'description' => '',
@@ -1176,7 +1181,9 @@ function system_retrieve_file($url, $destination = NULL, $managed = FALSE, $repl
   /** @var \Drupal\Core\File\FileSystemInterface $file_system */
   $file_system = \Drupal::service('file_system');
   if (!isset($destination)) {
-    $path = file_build_uri(\Drupal::service('file_system')->basename($parsed_url['path']));
+    $path = $file_system->basename($parsed_url['path']);
+    $path = \Drupal::config('system.file')->get('default_scheme') . '://' . $path;
+    $path = \Drupal::service('stream_wrapper_manager')->normalizeUri($path);
   }
   else {
     if (is_dir($file_system->realpath($destination))) {
@@ -1191,13 +1198,20 @@ function system_retrieve_file($url, $destination = NULL, $managed = FALSE, $repl
     $data = (string) \Drupal::httpClient()
       ->get($url)
       ->getBody();
-    $local = $managed ? file_save_data($data, $path, $replace) : $file_system->saveData($data, $path, $replace);
+    if ($managed) {
+      /** @var \Drupal\file\FileRepositoryInterface $file_repository */
+      $file_repository = \Drupal::service('file.repository');
+      $local = $file_repository->writeData($data, $path, $replace);
+    }
+    else {
+      $local = $file_system->saveData($data, $path, $replace);
+    }
   }
   catch (TransferException $exception) {
     \Drupal::messenger()->addError(t('Failed to fetch file due to error "%error"', ['%error' => $exception->getMessage()]));
     return FALSE;
   }
-  catch (FileException $e) {
+  catch (FileException | InvalidStreamWrapperException $e) {
     \Drupal::messenger()->addError(t('Failed to save file due to error "%error"', ['%error' => $e->getMessage()]));
     return FALSE;
   }

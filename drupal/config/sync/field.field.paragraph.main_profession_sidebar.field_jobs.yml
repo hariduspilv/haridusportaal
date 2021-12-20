@@ -21,13 +21,10 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    negate: 0
     target_bundles:
       job: job
+    negate: 0
     target_bundles_drag_drop:
-      job:
-        enabled: true
-        weight: 15
       accordion:
         weight: 16
         enabled: false
@@ -49,6 +46,9 @@ settings:
       iscedf_search:
         weight: 22
         enabled: false
+      job:
+        weight: 15
+        enabled: true
       link:
         weight: 23
         enabled: false
@@ -58,6 +58,9 @@ settings:
       main_profession_sidebar:
         weight: 25
         enabled: false
+      oska_field_sidebar:
+        weight: 29
+        enabled: false
       registration_period:
         weight: 26
         enabled: false
@@ -66,9 +69,6 @@ settings:
         enabled: false
       school_location:
         weight: 28
-        enabled: false
-      oska_field_sidebar:
-        weight: 29
         enabled: false
       supernews:
         weight: 33
