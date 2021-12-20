@@ -269,10 +269,9 @@ public class OLTWorker extends Worker {
               .put("identifier", xRaodResponse.getGrants().getGrantList().get(0).getGrantNumber());
 
           if (xRaodResponse.getGrants().getGrantList().get(0).isSetWarnings()) {
-            ((ArrayNode) jsonNode.get("body").get("steps").get("step_type_selection").get("messages")).removeAll();
             jsonNode.putObject("messages").put("default", "default");
             xRaodResponse.getGrants().getGrantList().get(0).getWarnings().getWarningList().forEach(s -> {
-              ((ObjectNode) jsonNode.get("body").get("steps").get("step_type_selection"))
+              ((ObjectNode) jsonNode.get("body").get("steps").get("step_application"))
                  .putArray("messages").add(s.getCode());
               ((ObjectNode) jsonNode.get("messages")).putObject(s.getCode())
                  .put("message_type", "WARNING")
@@ -506,10 +505,9 @@ public class OLTWorker extends Worker {
           }
 
           if (postGrantsResponse.getGrant().isSetWarnings()) {
-            ((ArrayNode) jsonNode.get("body").get("steps").get("step_type_selection").get("messages")).removeAll();
             jsonNode.putObject("messages").put("default", "default");
             postGrantsResponse.getGrant().getWarnings().getWarningList().forEach(s -> {
-              ((ObjectNode) jsonNode.get("body").get("steps").get("step_type_selection"))
+              ((ObjectNode) jsonNode.get("body").get("steps").get("step_response"))
                  .putArray("messages").add(s.getCode());
               ((ObjectNode) jsonNode.get("messages")).putObject(s.getCode())
                  .put("message_type", "WARNING")
