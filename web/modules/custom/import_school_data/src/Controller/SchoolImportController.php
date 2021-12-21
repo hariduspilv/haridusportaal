@@ -252,7 +252,6 @@ class SchoolImportController extends ControllerBase {
             if(isset($address->unik) && isset($address->liikVal)){
               if($address->unik === '1' && $address->liikVal === 'EHITIS'){
                 if(isset($address->maakond) && isset($address->omavalitsus) && isset($address->asustusyksus) && isset($address->ehakmk) && isset($address->ehakov) && isset($address->ehak)){
-                  $schoolnode['school_location_paragraph']['field_search_address'] = $address->asustusyksus.', '.$address->omavalitsus.', '.$address->maakond;
                   if($address->maakond != '' && $address->omavalitsus != '' && $address->ehakmk != '' && $address->ehakov != ''){
                     $schoolnode['school_location_taxonomy']['field_school_county']['code'] = $address->ehakmk;
                     $schoolnode['school_location_taxonomy']['field_school_county']['name'] = $address->maakond;
@@ -263,6 +262,7 @@ class SchoolImportController extends ControllerBase {
                   }
                 }
                 $schoolnode['school_location_paragraph']['field_address'] = $address->ipikkaadress;
+                $schoolnode['school_location_paragraph']['field_search_address'] = substr($address->ipikkaadress, strpos($address->ipikkaadress, ',') + 1);
                 $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->ipikkaadress;
                 $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
                 $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
@@ -274,7 +274,6 @@ class SchoolImportController extends ControllerBase {
           if(!isset($schoolnode['school_location_paragraph'])){
             foreach($data_from_json->addresses as $address){
               if(isset($address->maakond) && isset($address->omavalitsus) && isset($address->asustusyksus) && isset($address->ehakmk) && isset($address->ehakov) && isset($address->ehak)){
-                $schoolnode['school_location_paragraph']['field_search_address'] = $address->asustusyksus.', '.$address->omavalitsus.', '.$address->maakond;
                 if($address->maakond != '' && $address->omavalitsus != '' && $address->ehakmk != '' && $address->ehakov != ''){
                   $schoolnode['school_location_taxonomy']['field_school_county']['code'] = $address->ehakmk;
                   $schoolnode['school_location_taxonomy']['field_school_county']['name'] = $address->maakond;
@@ -285,6 +284,7 @@ class SchoolImportController extends ControllerBase {
                 }
               }
               $schoolnode['school_location_paragraph']['field_address'] = $address->ipikkaadress;
+              $schoolnode['school_location_paragraph']['field_search_address'] = substr($address->ipikkaadress, strpos($address->ipikkaadress, ',') + 1);
               $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->ipikkaadress;
               $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
               $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
