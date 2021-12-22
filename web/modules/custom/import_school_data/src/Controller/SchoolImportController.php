@@ -176,9 +176,12 @@ class SchoolImportController extends ControllerBase {
       $institutetypevalues = [];
       //$node->field_educational_institution_type;
       $activityforms = [];
-      if(isset($school->tegutsemisvormid->tegutsemisvorm)){
-        foreach($school->tegutsemisvormid->tegutsemisvorm as $activity){
-          $activityforms[$activity] = '';
+      $activitytype = $school->tegutsemiseOigused->tegutsemiseOigus[0]->tegevusloaLiigid->tegevusloaLiik;
+      if(isset($activitytype)){
+        foreach ($activitytype as $atype) {
+          foreach($atype->tegutsemisvormid->tegutsemisvorm as $activity){
+            $activityforms[$activity] = '';
+          }
         }
       }
       foreach($schooltypes as $type){
@@ -262,7 +265,7 @@ class SchoolImportController extends ControllerBase {
                   }
                 }
                 $schoolnode['school_location_paragraph']['field_address'] = $address->ipikkaadress;
-                $schoolnode['school_location_paragraph']['field_search_address'] = substr($address->ipikkaadress, strpos($address->ipikkaadress, ',') + 1);
+                $schoolnode['school_location_paragraph']['field_search_address'] = substr($address->ipikkaadress, strpos($address->ipikkaadress, ',') + 2);
                 $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->ipikkaadress;
                 $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
                 $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
@@ -284,7 +287,7 @@ class SchoolImportController extends ControllerBase {
                 }
               }
               $schoolnode['school_location_paragraph']['field_address'] = $address->ipikkaadress;
-              $schoolnode['school_location_paragraph']['field_search_address'] = substr($address->ipikkaadress, strpos($address->ipikkaadress, ',') + 1);
+              $schoolnode['school_location_paragraph']['field_search_address'] = substr($address->ipikkaadress, strpos($address->ipikkaadress, ',') + 2);
               $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->ipikkaadress;
               $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
               $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
