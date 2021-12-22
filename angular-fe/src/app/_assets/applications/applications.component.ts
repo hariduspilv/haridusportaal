@@ -29,6 +29,8 @@ const autocompleteValidator = (control: FormControl) => {
 };
 
 const phoneNumberValidator = Validators.pattern(/^\+?[0-9\s]+$/);
+const webPageValidator = Validators.pattern(/^https?:\/\/[^\s].*/);
+const emailValidator = Validators.pattern(/^[-a-zA-Z0-9_.+]+@[-a-zA-Z0-9.]+\.[a-zA-Z]{2,}$/);
 
 @Component({
   selector: 'applications',
@@ -370,7 +372,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           required: true,
           error: false,
           errorMessage: this.translate.get('form.invalid_email'),
-          formControl: this.formBuilder.control('', [Validators.required, Validators.email]),
+          formControl: this.formBuilder.control('', [Validators.required, emailValidator]),
         },
         {
           col: 12,
@@ -391,7 +393,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'webpageAddress',
           required: true,
           error: false,
-          formControl: this.formBuilder.control('', Validators.required),
+          errorMessage: this.translate.get('form.invalid_web_address'),
+          formControl: this.formBuilder.control('', [Validators.required, webPageValidator]),
         },
         {
           col: 6,
@@ -446,7 +449,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           required: false,
           error: false,
           errorMessage: this.translate.get('form.invalid_email'),
-          formControl: this.formBuilder.control('', [Validators.email]),
+          formControl: this.formBuilder.control('', [emailValidator]),
         },
         {
           col: 12,
@@ -456,7 +459,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'webpageAddress',
           required: false,
           error: false,
-          formControl: this.formBuilder.control(''),
+          errorMessage: this.translate.get('form.invalid_web_address'),
+          formControl: this.formBuilder.control('', [webPageValidator]),
         },
       ];
     }
