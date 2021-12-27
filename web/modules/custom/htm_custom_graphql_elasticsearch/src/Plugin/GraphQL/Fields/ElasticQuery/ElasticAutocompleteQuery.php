@@ -345,7 +345,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                   $array_locations[] = $location_position;
                 }
               }elseif($location == 0){
-                while($location_position <= $item_length && $location_count <= 2){
+                while($location_position <= $item_length && $location_count <= 1){
                   $location_position++;
                   $location_count++;
                   $array_locations[] = $location_position;
