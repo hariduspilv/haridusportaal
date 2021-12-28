@@ -42,7 +42,7 @@ class SchoolImportController extends ControllerBase {
   public function get_school_data($type){
     switch($type){
       case 'school':
-      $json_url = 'http://enda.ehis.ee/avaandmed/rest/oppeasutused/-/-/-/-/-/-/-/-/-/-/1/JSON';
+      $json_url = 'http://enda.ehis.ee/avaandmed/rest/oppeasutused/-/-/-/-/-/-/-/-/-/-/-/1/JSON';
       break;
       default:
       return [];
@@ -176,9 +176,12 @@ class SchoolImportController extends ControllerBase {
       $institutetypevalues = [];
       //$node->field_educational_institution_type;
       $activityforms = [];
-      if(isset($school->tegutsemisvormid->tegutsemisvorm)){
-        foreach($school->tegutsemisvormid->tegutsemisvorm as $activity){
-          $activityforms[$activity] = '';
+      $activitytype = $school->tegutsemiseOigused->tegutsemiseOigus[0]->tegevusloaLiigid->tegevusloaLiik;
+      if(isset($activitytype)){
+        foreach ($activitytype as $atype) {
+          foreach($atype->tegutsemisvormid->tegutsemisvorm as $activity){
+            $activityforms[$activity] = '';
+          }
         }
       }
       foreach($schooltypes as $type){
