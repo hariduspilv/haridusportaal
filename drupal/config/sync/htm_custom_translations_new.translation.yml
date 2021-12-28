@@ -1529,6 +1529,14 @@ xjson:
     translation_type: textarea
     et: 'Staatuse muutmine ei ole lubatud.'
     en: ''
+  GRANT_WARNING_005:
+    translation_type: textarea
+    et: 'Taotleja ei vasta seaduses sätestatud taotluse esitamise aja nõuetele'
+    en: 'Taotleja ei vasta seaduses sätestatud taotluse esitamise aja nõuetele ENG'
+  GRANT_WARNING_004:
+    translation_type: textarea
+    et: 'Taotlejal puudub vastav erialane kvalifikatsioon'
+    en: 'Taotlejal puudub vastav erialane kvalifikatsioon ENG'
 article:
   label:
     translation_type: textarea
@@ -4927,6 +4935,10 @@ form:
     translation_type: textarea
     et: 'Palun sisesta e-posti aadress kujul: info@info.ee'
     en: "\r\nPlease enter your email address in the form: info@info.ee"
+  invalid_web_address:
+    translation_type: textarea
+    et: 'Vale veebiaadress!'
+    en: 'Invalid website address!'
 wcag:
   suggestions_opened:
     translation_type: textarea
