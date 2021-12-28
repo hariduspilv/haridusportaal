@@ -4935,6 +4935,10 @@ form:
     translation_type: textarea
     et: 'Palun sisesta e-posti aadress kujul: info@info.ee'
     en: "\r\nPlease enter your email address in the form: info@info.ee"
+  invalid_web_address:
+    translation_type: textarea
+    et: 'Vale veebiaadress!'
+    en: 'Invalid website address!'
 wcag:
   suggestions_opened:
     translation_type: textarea
