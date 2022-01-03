@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   Output,
@@ -19,9 +20,6 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
   selector: 'autocomplete',
   templateUrl: 'autocomplete.template.html',
   styleUrls: ['autocomplete.styles.scss'],
-  host: {
-    class: 'autocomplete',
-  },
 })
 
 export class AutocompleteComponent implements OnDestroy {
@@ -35,8 +33,12 @@ export class AutocompleteComponent implements OnDestroy {
   private debounce;
   private delay: number = 300;
   private subscription: Subscription;
-  private minChars: number = 3;
+  private minChars: number = 2;
   private searched = false;
+
+	@HostBinding('class') get hostClass(): string {
+		return 'autocomplete';
+	}
 
   constructor(
     private settings: SettingsService,
