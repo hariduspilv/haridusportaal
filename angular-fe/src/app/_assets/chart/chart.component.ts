@@ -277,6 +277,12 @@ export class ChartComponent implements OnInit {
           = this.formatRangeValue(primaryFormat, current.options.graph_y_min);
       }
 
+      if (current.options.graph_y_max && current.options.graph_y_max > 0) {
+        tmp.options['vAxis']['viewWindow'] = {
+          max: current.options.graph_y_max
+        };
+      }
+
       if (isStacked === 'percent') {
         tmp.options['vAxis']['minValue'] = 0;
       }
