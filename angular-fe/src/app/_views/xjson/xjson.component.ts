@@ -1194,7 +1194,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (this.data_elements.aadressid) {
         this.data_elements.aadressid.value.forEach((item, index) => {
           const oid = item.aadress.adsOid;
-          const params = `ihist=1&appartment=1&adsoid=${oid}&results=10&callback=JSONP_CALLBACK`;
+          const params = `ihist=1&features=EHAK,EHITISHOONE&appartment=1&adsoid=${oid}&results=10&callback=JSONP_CALLBACK`;
           const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
           const subscription = this.http.jsonp(path, 'callback').subscribe((response: any) => {
             this.data_elements.aadressid.value[index].aadress = this.addressService.inAdsFormatValue(response.addresses[0]);

@@ -168,6 +168,7 @@
 
                       <ng-container *ngIf="data_elements[element].type == 'address'">
                         <formItem type="autocomplete" query="inaadress"
+                          inaadressFeatures="EHAK,EHITISHOONE"
                           [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           [(ngModel)]="data_elements[element].value" [name]="element"
                           title="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
@@ -334,7 +335,10 @@
                                               *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
                                               <formItem
                                                 *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplayAddress"
-                                                type="autocomplete" query="inaadress" valueType="object"
+                                                type="autocomplete"
+                                                query="inaadress"
+                                                inaadressFeatures="EHAK,EHITISHOONE"
+                                                valueType="object"
                                                 placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'placeholder'))}}"
                                                 [(ngModel)]="row[col]"
                                                 name="{{element + '_' + rowIndex + '_' + colIndex}}">

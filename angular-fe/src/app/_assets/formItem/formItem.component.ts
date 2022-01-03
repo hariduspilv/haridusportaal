@@ -89,6 +89,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() public query: string = '';
   @Input() public queryField: string;
   @Input() public queryType: string;
+  @Input() public inaadressFeatures = '';
   @Input() public disabled: boolean;
   @Input() public valueType: string = 'string';
   @Input() public browserAutocomplete: string = '';
