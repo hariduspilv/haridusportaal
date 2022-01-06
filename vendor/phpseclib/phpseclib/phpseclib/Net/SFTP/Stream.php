@@ -179,7 +179,7 @@ class Stream
 
         if ($host[0] == '$') {
             $host = substr($host, 1);
-            global ${$host};
+            global $$host;
             if (($$host instanceof SFTP) === false) {
                 return false;
             }
@@ -410,7 +410,7 @@ class Stream
     {
         switch ($whence) {
             case SEEK_SET:
-                if ($offset < 0) {
+                if ($offset >= $this->size || $offset < 0) {
                     return false;
                 }
                 break;
@@ -447,9 +447,7 @@ class Stream
         //     and https://github.com/php/php-src/blob/master/main/php_streams.h#L592
         switch ($option) {
             case 1: // PHP_STREAM_META_TOUCH
-                $time = isset($var[0]) ? $var[0] : null;
-                $atime = isset($var[1]) ? $var[1] : null;
-                return $this->sftp->touch($path, $time, $atime);
+                return $this->sftp->touch($path, $var[0], $var[1]);
             case 2: // PHP_STREAM_OWNER_NAME
             case 3: // PHP_STREAM_GROUP_NAME
                 return false;
@@ -628,6 +626,7 @@ class Stream
      * $options. What does 8 correspond to?
      *
      * @param string $path
+     * @param int $mode
      * @param int $options
      * @return bool
      * @access public
@@ -769,8 +768,8 @@ class Stream
      * If NET_SFTP_STREAM_LOGGING is defined all calls will be output on the screen and then (regardless of whether or not
      * NET_SFTP_STREAM_LOGGING is enabled) the parameters will be passed through to the appropriate method.
      *
-     * @param string $name
-     * @param array $arguments
+     * @param string
+     * @param array
      * @return mixed
      * @access public
      */

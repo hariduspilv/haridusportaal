@@ -575,46 +575,28 @@ class SSH1
 
         $this->_string_shift($response[self::RESPONSE_DATA], 4);
 
-        if (strlen($response[self::RESPONSE_DATA]) < 2) {
-            return false;
-        }
         $temp = unpack('nlen', $this->_string_shift($response[self::RESPONSE_DATA], 2));
         $server_key_public_exponent = new BigInteger($this->_string_shift($response[self::RESPONSE_DATA], ceil($temp['len'] / 8)), 256);
         $this->server_key_public_exponent = $server_key_public_exponent;
 
-        if (strlen($response[self::RESPONSE_DATA]) < 2) {
-            return false;
-        }
         $temp = unpack('nlen', $this->_string_shift($response[self::RESPONSE_DATA], 2));
         $server_key_public_modulus = new BigInteger($this->_string_shift($response[self::RESPONSE_DATA], ceil($temp['len'] / 8)), 256);
-
         $this->server_key_public_modulus = $server_key_public_modulus;
 
         $this->_string_shift($response[self::RESPONSE_DATA], 4);
 
-        if (strlen($response[self::RESPONSE_DATA]) < 2) {
-            return false;
-        }
         $temp = unpack('nlen', $this->_string_shift($response[self::RESPONSE_DATA], 2));
         $host_key_public_exponent = new BigInteger($this->_string_shift($response[self::RESPONSE_DATA], ceil($temp['len'] / 8)), 256);
         $this->host_key_public_exponent = $host_key_public_exponent;
 
-        if (strlen($response[self::RESPONSE_DATA]) < 2) {
-            return false;
-        }
         $temp = unpack('nlen', $this->_string_shift($response[self::RESPONSE_DATA], 2));
         $host_key_public_modulus = new BigInteger($this->_string_shift($response[self::RESPONSE_DATA], ceil($temp['len'] / 8)), 256);
-
         $this->host_key_public_modulus = $host_key_public_modulus;
 
         $this->_string_shift($response[self::RESPONSE_DATA], 4);
 
         // get a list of the supported ciphers
-        if (strlen($response[self::RESPONSE_DATA]) < 4) {
-            return false;
-        }
         extract(unpack('Nsupported_ciphers_mask', $this->_string_shift($response[self::RESPONSE_DATA], 4)));
-
         foreach ($this->supported_ciphers as $mask => $name) {
             if (($supported_ciphers_mask & (1 << $mask)) == 0) {
                 unset($this->supported_ciphers[$mask]);
@@ -622,9 +604,6 @@ class SSH1
         }
 
         // get a list of the supported authentications
-        if (strlen($response[self::RESPONSE_DATA]) < 4) {
-            return false;
-        }
         extract(unpack('Nsupported_authentications_mask', $this->_string_shift($response[self::RESPONSE_DATA], 4)));
         foreach ($this->supported_authentications as $mask => $name) {
             if (($supported_authentications_mask & (1 << $mask)) == 0) {
@@ -812,7 +791,6 @@ class SSH1
      * @see self::interactiveRead()
      * @see self::interactiveWrite()
      * @param string $cmd
-     * @param bool $block
      * @return mixed
      * @access public
      */
@@ -917,7 +895,7 @@ class SSH1
     /**
      * Returns the output of an interactive shell when there's a match for $expect
      *
-     * $expect can take the form of a string literal or, if $mode == self::READ_REGEX,
+     * $expect can take the form of a string literal or, if $mode == self::READ__REGEX,
      * a regular expression.
      *
      * @see self::write()
@@ -926,7 +904,7 @@ class SSH1
      * @return bool
      * @access public
      */
-    function read($expect, $mode = self::READ_SIMPLE)
+    function read($expect, $mode = self::READ__SIMPLE)
     {
         if (!($this->bitmap & self::MASK_LOGIN)) {
             user_error('Operation disallowed prior to login()');
@@ -940,7 +918,7 @@ class SSH1
 
         $match = $expect;
         while (true) {
-            if ($mode == self::READ_REGEX) {
+            if ($mode == self::READ__REGEX) {
                 preg_match($expect, $this->interactiveBuffer, $matches);
                 $match = isset($matches[0]) ? $matches[0] : '';
             }
@@ -1113,11 +1091,7 @@ class SSH1
         }
 
         $start = strtok(microtime(), ' ') + strtok(''); // http://php.net/microtime#61838
-        $data = fread($this->fsock, 4);
-        if (strlen($data) < 4) {
-            return false;
-        }
-        $temp = unpack('Nlength', $data);
+        $temp = unpack('Nlength', fread($this->fsock, 4));
 
         $padding_length = 8 - ($temp['length'] & 7);
         $length = $temp['length'] + $padding_length;
@@ -1125,9 +1099,6 @@ class SSH1
 
         while ($length > 0) {
             $temp = fread($this->fsock, $length);
-            if (strlen($temp) != $length) {
-                return false;
-            }
             $raw.= $temp;
             $length-= strlen($temp);
         }
@@ -1141,9 +1112,6 @@ class SSH1
         $type = $raw[$padding_length];
         $data = substr($raw, $padding_length + 1, -4);
 
-        if (strlen($raw) < 4) {
-            return false;
-        }
         $temp = unpack('Ncrc', substr($raw, -4));
 
         //if ( $temp['crc'] != $this->_crc($padding . $type . $data) ) {
@@ -1386,6 +1354,7 @@ class SSH1
      * named constants from it, using the value as the name of the constant and the index as the value of the constant.
      * If any of the constants that would be defined already exists, none of the constants will be defined.
      *
+     * @param array $array
      * @access private
      */
     function _define_array()
@@ -1584,8 +1553,7 @@ class SSH1
      *
      * Makes sure that only the last 1MB worth of packets will be logged
      *
-     * @param int $protocol_flags
-     * @param string $message
+     * @param string $data
      * @access private
      */
     function _append_log($protocol_flags, $message)
