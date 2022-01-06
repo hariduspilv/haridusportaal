@@ -1,0 +1,59 @@
+Index: modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexSubscriber.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexSubscriber.php b/drupal/web/modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexSubscriber.php
+--- a/modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexSubscriber.php	(revision 3c7df80a4c0829062ee8574f7bb26bb016f274da)
++++ b/modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexSubscriber.php	(date 1641421746570)
+@@ -54,15 +54,21 @@
+             "synonym" => array(
+               "tokenizer" => "whitespace",
+               "filter" => array(
+-                "synonym"
++                "synonym",
++              )
++            ),
++            "standard_hyphen" => array(
++              "tokenizer" => "whitespace",
++              "filter" => array(
++                "lowercase"
+               )
+             )
+           ),
+           "filter" => array(
+             "synonym" => array(
+-                "type" => $config->get('token_filter_type') ?? "synonym",
+-                "lenient" => true,
+-                "synonyms" => $this->getSynonyms()
++              "type" => $config->get('token_filter_type') ?? "synonym",
++              "lenient" => true,
++              "synonyms" => $this->getSynonyms()
+             )
+           )
+         )
+Index: modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexMappingSubscriber.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexMappingSubscriber.php b/drupal/web/modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexMappingSubscriber.php
+--- a/modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexMappingSubscriber.php	(revision 3c7df80a4c0829062ee8574f7bb26bb016f274da)
++++ b/modules/contrib/search_api_elasticsearch_synonym/src/EventSubscriber/PrepareIndexMappingSubscriber.php	(date 1641421772960)
+@@ -37,14 +37,14 @@
+         $indexKey = $mappingParams['type'];
+         foreach ($mappingParams['body'][$indexKey]['properties'] as $key => $property) {
+           if ($property['type'] == 'text') {
+-            $mappingParams['body'][$indexKey]['properties'][$key]['analyzer'] = $mappingParams['body'][$indexKey]['properties'][$key]['analyzer'] ?? 'standard';
++            $mappingParams['body'][$indexKey]['properties'][$key]['analyzer'] = $mappingParams['body'][$indexKey]['properties'][$key]['analyzer'] ?? 'standard_hyphen';
+             $mappingParams['body'][$indexKey]['properties'][$key]['search_analyzer'] = 'synonym';
+           }
+         }
+       } else {
+         foreach ($mappingParams['body']['properties'] as $key => $property) {
+           if ($property['type'] == 'text') {
+-            $mappingParams['body']['properties'][$key]['analyzer'] = $mappingParams['body']['properties'][$key]['analyzer'] ?? 'standard';
++            $mappingParams['body']['properties'][$key]['analyzer'] = $mappingParams['body']['properties'][$key]['analyzer'] ?? 'standard_hyphen';
+             $mappingParams['body']['properties'][$key]['search_analyzer'] = 'synonym';
+           }
+         }
