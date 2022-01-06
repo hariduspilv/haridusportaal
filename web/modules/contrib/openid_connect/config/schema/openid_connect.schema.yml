@@ -17,15 +17,10 @@ openid_connect.settings:
       type: string
       label: 'Show external providers in user login form'
     userinfo_mappings:
-      type: mapping
-      label: 'OpenID Connect settings'
-      mapping:
-        timezone:
-          type: string
-          label: 'Timezone'
-        picture:
-          type: string
-          label: 'Picture'
+      type: sequence
+      label: 'User claims mapping'
+      sequence:
+        type: string
 
 openid_connect.settings.facebook:
   type: config_object

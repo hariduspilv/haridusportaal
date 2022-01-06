@@ -2,17 +2,17 @@
 
 namespace Drupal\monolog\Logger\Processor;
 
+use Monolog\Processor\ProcessorInterface;
+
 /**
- * Class RequestUriProcessor.php
+ * Processor that adds request URI to the log records.
  */
-class RequestUriProcessor extends AbstractRequestProcessor {
+class RequestUriProcessor extends AbstractRequestProcessor implements ProcessorInterface {
 
   /**
-   * @param array $record
-   *
-   * @return array
+   * {@inheritdoc}
    */
-  public function __invoke(array $record) {
+  public function __invoke(array $record): array {
     if ($request = $this->getRequest()) {
       $record['extra']['request_uri'] = $request->getUri();
     }

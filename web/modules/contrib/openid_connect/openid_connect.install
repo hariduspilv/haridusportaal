@@ -5,6 +5,8 @@
  * Install, update and uninstall functions for the OpenID Connect module.
  */
 
+use \Drupal\Core\Url;
+
 /**
  * Implements hook_schema().
  */
@@ -53,6 +55,26 @@ function openid_connect_schema() {
   ];
 
   return $schema;
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function openid_connect_requirements($phase) {
+  $requirements = [];
+  if ($phase == 'runtime') {
+    if (\Drupal::config('openid_connect.settings')->get('connect_existing_users')) {
+      $requirements['openid_connect_connect_existing_users'] = [
+        'title' => t('OpenID Connect'),
+        'value' => t('Automatically connect existing users enabled'),
+        'description' => t('The "Automatically connect existing users" option is enabled. This can lead to security vulnerabilities. It is <strong>highly recommended</strong> to <a href=":url">disable this option</a>.',
+          [':url' => Url::fromRoute('openid_connect.admin_settings', [], ['fragment' => 'edit-connect-existing-users'])->toString()]
+        ),
+        'severity' => REQUIREMENT_WARNING,
+      ];
+    }
+  }
+  return $requirements;
 }
 
 /**

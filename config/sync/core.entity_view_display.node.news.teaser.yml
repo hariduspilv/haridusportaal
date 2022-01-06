@@ -48,4 +48,6 @@ hidden:
   field_shor: true
   field_short_description: true
   field_tag: true
+  field_video_thumbnail: true
   langcode: true
+  search_api_excerpt: true

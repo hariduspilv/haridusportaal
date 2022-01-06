@@ -30,7 +30,7 @@ use Drupal\Core\File\FileSystemInterface;
 use Psr\Log\InvalidArgumentException;
 
 /**
- * Class OpenIDConnectTest.
+ * Provides tests for the OpenID Connect module.
  *
  * @coversDefaultClass \Drupal\openid_connect\OpenIDConnect
  * @group openid_connect

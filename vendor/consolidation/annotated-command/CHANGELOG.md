@@ -1,5 +1,14 @@
 # Change Log
 
+### 4.5.1 - 29 December 2021
+
+- PHP 8.1
+
+### 4.5.0 - 27 December 2021
+
+- Symfony 6 / Symfony 5.2 compatibility
+- Make addUsageOrExample() public
+
 ### 4.4.0 - 29 September 2021
 
 - Add support for providing command information via php8 Attributes. (#239)

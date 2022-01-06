@@ -2,24 +2,37 @@
 
 namespace Drupal\monolog\Logger\Handler;
 
+use Drupal\Core\Mail\MailManagerInterface;
 use Monolog\Handler\MailHandler;
 use Monolog\Logger;
 
 /**
- * Class DrupalMailHandler.
+ * DrupalMailHandler uses the Drupal's core mail manager to send Log emails.
  */
 class DrupalMailHandler extends MailHandler {
 
-  private $to;
+  /**
+   * The mail address to send the log emails to.
+   *
+   * @var string
+   */
+  private string $to;
 
   /**
    * DrupalMailHandler constructor.
    *
-   * @param $to
+   * @param string $to
+   *   The mail address to send the log emails to.
    * @param int $level
+   *   The minimum logging level at which this handler will be triggered.
    * @param bool $bubble
+   *   The bubbling behavior.
    */
-  public function __construct($to, $level = Logger::ERROR, $bubble = TRUE) {
+  public function __construct(
+    $to,
+    $level = Logger::ERROR,
+    bool $bubble = TRUE
+  ) {
     parent::__construct($level, $bubble);
 
     $this->to = $to;
@@ -28,17 +41,18 @@ class DrupalMailHandler extends MailHandler {
   /**
    * {@inheritdoc}
    */
-  protected function send($content, array $records) {
-    /** @var \Drupal\Core\Mail\MailManagerInterface $mail */
+  protected function send(string $content, array $records): void {
     $mail = \Drupal::service('plugin.manager.mail');
-    /** @var \Drupal\Core\Language\LanguageInterface $default_language */
+    assert($mail instanceof MailManagerInterface);
+
     $default_language = \Drupal::languageManager()->getDefaultLanguage();
 
     $params = [
       'content' => $content,
       'records' => $records,
     ];
-    $mail->mail('monolog', 'default', $this->to, $default_language->getName(), $params);
+    $mail->mail('monolog', 'default', $this->to, $default_language->getName(),
+      $params);
   }
 
 }

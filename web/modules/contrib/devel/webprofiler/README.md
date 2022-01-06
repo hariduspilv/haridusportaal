@@ -35,12 +35,12 @@ If you use Composer to manage dependencies, edit [composer.json](composer.json) 
         "type": "package",
         "package": {
             "name": "highlightjs/highlightjs",
-            "version": "9.7.0",
+            "version": "11.2.0",
             "type": "drupal-library",
             "source": {
                 "url": "https://github.com/highlightjs/highlight.js.git",
                 "type": "git",
-                "reference": "tags/9.7.0"
+                "reference": "tags/11.2.0"
             }
         }
     }
