@@ -16,7 +16,7 @@ use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class OpenIDConnectAccountsForm.
+ * Provides the user-specific OpenID Connect settings form.
  *
  * @package Drupal\openid_connect\Form
  */
@@ -81,12 +81,12 @@ class OpenIDConnectAccountsForm extends FormBase implements ContainerInjectionIn
    *   The config factory.
    */
   public function __construct(
-      AccountProxy $current_user,
-      OpenIDConnectSession $session,
-      OpenIDConnectAuthmap $authmap,
-      OpenIDConnectClaims $claims,
-      OpenIDConnectClientManager $plugin_manager,
-      ConfigFactory $config_factory
+    AccountProxy $current_user,
+    OpenIDConnectSession $session,
+    OpenIDConnectAuthmap $authmap,
+    OpenIDConnectClaims $claims,
+    OpenIDConnectClientManager $plugin_manager,
+    ConfigFactory $config_factory
   ) {
 
     $this->currentUser = $current_user;
@@ -106,7 +106,7 @@ class OpenIDConnectAccountsForm extends FormBase implements ContainerInjectionIn
       $container->get('openid_connect.session'),
       $container->get('openid_connect.authmap'),
       $container->get('openid_connect.claims'),
-      $container->get('plugin.manager.openid_connect_client.processor'),
+      $container->get('plugin.manager.openid_connect_client'),
       $container->get('config.factory')
     );
   }

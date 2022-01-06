@@ -11,7 +11,7 @@ use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class OpenIDConnectLoginForm.
+ * Provides the OpenID Connect login form.
  *
  * @package Drupal\openid_connect\Form
  */
@@ -49,9 +49,9 @@ class OpenIDConnectLoginForm extends FormBase implements ContainerInjectionInter
    *   The OpenID Connect claims.
    */
   public function __construct(
-      OpenIDConnectSession $session,
-      OpenIDConnectClientManager $plugin_manager,
-      OpenIDConnectClaims $claims
+    OpenIDConnectSession $session,
+    OpenIDConnectClientManager $plugin_manager,
+    OpenIDConnectClaims $claims
   ) {
     $this->session = $session;
     $this->pluginManager = $plugin_manager;
@@ -64,7 +64,7 @@ class OpenIDConnectLoginForm extends FormBase implements ContainerInjectionInter
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('openid_connect.session'),
-      $container->get('plugin.manager.openid_connect_client.processor'),
+      $container->get('plugin.manager.openid_connect_client'),
       $container->get('openid_connect.claims')
     );
   }

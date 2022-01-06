@@ -1,0 +1,6 @@
+cache_tags.admin_config:
+  title: Cache tags
+  parent: system.admin_config_development
+  description: 'Configure Cache tags.'
+  route_name: cache_tags.settings
+  weight: 0

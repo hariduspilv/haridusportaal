@@ -1,0 +1,7 @@
+cache_tags.settings:
+  path: 'admin/config/development/cache_tags'
+  defaults:
+    _title: 'Cache tags'
+    _form: '\Drupal\cache_tags\Form\CacheTagsSettings'
+  requirements:
+    _permission: 'administer site configuration'

@@ -2,6 +2,7 @@
 
 namespace Drupal\monolog\Logger\Processor;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -10,27 +11,34 @@ use Symfony\Component\HttpFoundation\RequestStack;
 abstract class AbstractRequestProcessor {
 
   /**
+   * The Request stack.
+   *
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
-  private $requestStack;
+  private RequestStack $requestStack;
 
   /**
    * RequestProcessor constructor.
    *
-   * @param \Symfony\Component\HttpFoundation\RequestStack
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   *   The Request stack.
    */
   public function __construct(RequestStack $requestStack) {
     $this->requestStack = $requestStack;
   }
 
   /**
+   * Return the current request.
+   *
    * @return null|\Symfony\Component\HttpFoundation\Request
+   *   The current request.
    */
-  public function getRequest() {
-    if ($this->requestStack && $request = $this->requestStack->getCurrentRequest()) {
+  public function getRequest(): ?Request {
+    if ($request = $this->requestStack->getCurrentRequest()) {
       return $request;
     }
 
     return NULL;
   }
+
 }

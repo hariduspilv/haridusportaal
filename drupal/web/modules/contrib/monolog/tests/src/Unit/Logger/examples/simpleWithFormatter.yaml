@@ -1,0 +1,4 @@
+default:
+  handlers:
+    - name: 'rotating_file'
+      formatter: 'json'

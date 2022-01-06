@@ -26,5 +26,9 @@ content:
     weight: 0
     region: content
 hidden:
+  field_firstname: true
+  field_lastname: true
+  field_user_idcode: true
   langcode: true
   member_for: true
+  search_api_excerpt: true

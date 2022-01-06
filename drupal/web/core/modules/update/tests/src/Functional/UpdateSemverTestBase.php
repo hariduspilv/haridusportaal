@@ -41,9 +41,7 @@ abstract class UpdateSemverTestBase extends UpdateTestBase {
     parent::setUp();
     $admin_user = $this->drupalCreateUser([
       'administer site configuration',
-      'administer modules',
-      'administer themes',
-      ]);
+    ]);
     $this->drupalLogin($admin_user);
     $this->drupalPlaceBlock('local_actions_block');
   }
@@ -93,9 +91,6 @@ abstract class UpdateSemverTestBase extends UpdateTestBase {
         $full_version = "8.$minor_version.1$extra_version";
         $this->refreshUpdateStatus([$this->updateProject => "$minor_version.1" . $extra_version]);
         $this->standardTests();
-        $this->drupalGet('admin/reports/updates');
-        $this->clickLink('Check manually');
-        $this->checkForMetaRefresh();
         $this->assertUpdateTableTextNotContains('Security update required!');
         // The XML test fixtures for this method all contain the '8.2.0' release
         // but because '8.2.0' is not in a supported branch it will not be in
@@ -158,9 +153,6 @@ abstract class UpdateSemverTestBase extends UpdateTestBase {
           $this->setProjectInstalledVersion("8.$minor_version.$patch_version" . $extra_version);
           $this->refreshUpdateStatus([$this->updateProject => '9']);
           $this->standardTests();
-          $this->drupalGet('admin/reports/updates');
-          $this->clickLink('Check manually');
-          $this->checkForMetaRefresh();
           $this->assertUpdateTableTextNotContains('Security update required!');
           $this->assertUpdateTableElementContains(Link::fromTextAndUrl('9.0.0', Url::fromUri("http://example.com/{$this->updateProject}-9-0-0-release"))->toString());
           $this->assertUpdateTableElementContains(Link::fromTextAndUrl('Download', Url::fromUri("http://example.com/{$this->updateProject}-9-0-0.tar.gz"))->toString());

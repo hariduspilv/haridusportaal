@@ -14,7 +14,7 @@ class ContextKeyFilterProcessor implements ProcessorInterface {
    *
    * @var string[]
    */
-  protected $contextKeys;
+  protected array $contextKeys;
 
   /**
    * ContextKeyFilterProcessor constructor.
@@ -29,12 +29,13 @@ class ContextKeyFilterProcessor implements ProcessorInterface {
   /**
    * {@inheritdoc}
    */
-  public function __invoke(array $record) {
+  public function __invoke(array $record): array {
     foreach ($this->contextKeys as $key) {
       if (isset($record['context'][$key])) {
         unset($record['context'][$key]);
       }
     }
+
     return $record;
   }
 

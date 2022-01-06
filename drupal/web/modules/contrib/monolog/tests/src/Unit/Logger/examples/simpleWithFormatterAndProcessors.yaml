@@ -1,0 +1,5 @@
+default:
+  handlers:
+    - name: 'rotating_file'
+      formatter: 'json'
+      processors: ['current_user']

@@ -14,7 +14,7 @@ use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class OpenIDConnectSettingsForm.
+ * Provides the OpenID Connect settings form.
  *
  * @package Drupal\openid_connect\Form
  */
@@ -70,11 +70,11 @@ class OpenIDConnectSettingsForm extends ConfigFormBase implements ContainerInjec
    *   The claims.
    */
   public function __construct(
-      ConfigFactoryInterface $config_factory,
-      OpenIDConnect $openid_connect,
-      OpenIDConnectClientManager $plugin_manager,
-      EntityFieldManagerInterface $entity_field_manager,
-      OpenIDConnectClaims $claims
+    ConfigFactoryInterface $config_factory,
+    OpenIDConnect $openid_connect,
+    OpenIDConnectClientManager $plugin_manager,
+    EntityFieldManagerInterface $entity_field_manager,
+    OpenIDConnectClaims $claims
   ) {
     parent::__construct($config_factory);
     $this->openIDConnect = $openid_connect;
@@ -90,7 +90,7 @@ class OpenIDConnectSettingsForm extends ConfigFormBase implements ContainerInjec
     return new static(
       $container->get('config.factory'),
       $container->get('openid_connect.openid_connect'),
-      $container->get('plugin.manager.openid_connect_client.processor'),
+      $container->get('plugin.manager.openid_connect_client'),
       $container->get('entity_field.manager'),
       $container->get('openid_connect.claims')
     );
@@ -172,13 +172,6 @@ class OpenIDConnectSettingsForm extends ConfigFormBase implements ContainerInjec
       '#default_value' => $settings->get('always_save_userinfo'),
     ];
 
-    $form['connect_existing_users'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Automatically connect existing users'),
-      '#description' => $this->t('If disabled, authentication will fail for existing email addresses.'),
-      '#default_value' => $settings->get('connect_existing_users'),
-    ];
-
     $form['user_login_display'] = [
       '#type' => 'radios',
       '#title' => $this->t('OpenID buttons display in user login form'),
@@ -213,7 +206,7 @@ class OpenIDConnectSettingsForm extends ConfigFormBase implements ContainerInjec
         continue;
       }
       // Always map the timezone.
-      $default_value = 0;
+      $default_value = '';
       if ($property_name == 'timezone') {
         $default_value = 'zoneinfo';
       }
@@ -223,11 +216,23 @@ class OpenIDConnectSettingsForm extends ConfigFormBase implements ContainerInjec
         '#title' => $property->getLabel(),
         '#description' => $property->getDescription(),
         '#options' => (array) $claims,
-        '#empty_value' => 0,
+        '#empty_value' => '',
         '#empty_option' => $this->t('- No mapping -'),
         '#default_value' => isset($mappings[$property_name]) ? $mappings[$property_name] : $default_value,
       ];
     }
+
+    $form['advanced'] = [
+      '#title' => $this->t('Advanced'),
+      '#type' => 'details',
+      '#open' => $settings->get('connect_existing_users') ? TRUE : FALSE,
+    ];
+    $form['advanced']['connect_existing_users'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Automatically connect existing users'),
+      '#description' => $this->t('<strong><em>Please note:</em> This option has security implications, only use with trusted OpenID Connect providers.</strong><br />If disabled, authentication will fail for accounts with existing email addresses, users may connect existing accounts on their personal Connected Accounts page in a secure way.'),
+      '#default_value' => $settings->get('connect_existing_users'),
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -267,9 +272,12 @@ class OpenIDConnectSettingsForm extends ConfigFormBase implements ContainerInjec
 
     $this->config('openid_connect.settings')
       ->set('always_save_userinfo', $form_state->getValue('always_save_userinfo'))
-      ->set('connect_existing_users', $form_state->getValue('connect_existing_users'))
+      ->set('connect_existing_users', $form_state->getValue([
+        'advanced',
+        'connect_existing_users',
+      ]))
       ->set('override_registration_settings', $form_state->getValue('override_registration_settings'))
-      ->set('userinfo_mappings', $form_state->getValue('userinfo_mappings'))
+      ->set('userinfo_mappings', array_filter($form_state->getValue('userinfo_mappings')))
       ->set('user_login_display', $form_state->getValue('user_login_display'))
       ->save();
 
@@ -282,7 +290,7 @@ class OpenIDConnectSettingsForm extends ConfigFormBase implements ContainerInjec
     foreach ($clients_enabled as $plugin_id => $status) {
       $this->configFactory()
         ->getEditable('openid_connect.settings.' . $plugin_id)
-        ->set('enabled', $status)
+        ->set('enabled', (bool) $status)
         ->save();
 
       // Whether the client is not enabled.

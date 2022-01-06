@@ -226,4 +226,11 @@ class ConfigEntityStorageDecorator extends EntityDecorator implements ConfigEnti
     $this->getOriginalObject()->restore($entity);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityClass(?string $bundle = NULL) : string {
+    return $this->getOriginalObject()->getEntityClass($bundle);
+  }
+
 }
