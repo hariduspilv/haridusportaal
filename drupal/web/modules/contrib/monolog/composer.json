@@ -20,6 +20,7 @@
         "issues": "http://drupal.org/project/issues/monolog"
     },
     "require": {
+        "php": "^7.4|^8",
         "monolog/monolog": "^2.0.0"
     },
     "autoload": {

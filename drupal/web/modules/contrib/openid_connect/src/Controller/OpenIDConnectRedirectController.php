@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class OpenIDConnectRedirectController.
+ * Redirect controller.
  *
  * @package Drupal\openid_connect\Controller
  */
@@ -92,7 +92,7 @@ class OpenIDConnectRedirectController extends ControllerBase implements AccessIn
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('plugin.manager.openid_connect_client.processor'),
+      $container->get('plugin.manager.openid_connect_client'),
       $container->get('openid_connect.openid_connect'),
       $container->get('openid_connect.state_token'),
       $container->get('request_stack'),

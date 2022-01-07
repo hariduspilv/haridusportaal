@@ -8,14 +8,14 @@ parameters:
   # Enabled processors.
   monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer', 'filter_backtrace']
   # Logger levels.
-  monolog.level.emergency: 600
-  monolog.level.alert: 550
-  monolog.level.critical: 500
-  monolog.level.error: 400
-  monolog.level.warning: 300
-  monolog.level.notice: 250
-  monolog.level.info: 200
-  monolog.level.debug: 100
+  monolog.level.emergency: 'emergency'
+  monolog.level.alert: 'alert'
+  monolog.level.critical: 'critical'
+  monolog.level.error: 'error'
+  monolog.level.warning: 'warning'
+  monolog.level.notice: 'notice'
+  monolog.level.info: 'info'
+  monolog.level.debug: 'debug'
 
 services:
   # Monolog handlers.
@@ -40,6 +40,9 @@ services:
   monolog.processor.request_uri:
     class: Drupal\monolog\Logger\Processor\RequestUriProcessor
     arguments: ['@request_stack']
+  monolog.processor.server_host:
+    class: Drupal\monolog\Logger\Processor\ServerHostProcessor
+    arguments: [ '@request_stack' ]
   monolog.processor.referer:
     class: Drupal\monolog\Logger\Processor\RefererProcessor
     arguments: ['@request_stack']
@@ -48,6 +51,9 @@ services:
     arguments: ['@request_stack']
   monolog.processor.message_placeholder:
     class: Drupal\monolog\Logger\Processor\MessagePlaceholderProcessor
+    arguments: ['@logger.log_message_parser']
+  monolog.processor.drupal_message_placeholder:
+    class: Drupal\monolog\Logger\Processor\DrupalMessagePlaceholderProcessor
     arguments: ['@logger.log_message_parser']
   monolog.processor.filter_backtrace:
     class: Drupal\monolog\Logger\Processor\ContextKeyFilterProcessor
@@ -66,10 +72,6 @@ services:
   # Monolog formatters.
   monolog.formatter.chrome_php:
     class: Monolog\Formatter\ChromePHPFormatter
-  monolog.formatter.elastica:
-    class: Monolog\Formatter\ElasticaFormatter
-  monolog.formatter.flowdock:
-    class: Monolog\Formatter\FlowdockFormatter
   monolog.formatter.fluentd:
     class: Monolog\Formatter\FluentdFormatter
   monolog.formatter.gelf:
@@ -82,8 +84,6 @@ services:
     class: Monolog\Formatter\LineFormatter
   monolog.formatter.loggly:
     class: Monolog\Formatter\LogglyFormatter
-  monolog.formatter.logstash:
-    class: Monolog\Formatter\LogstashFormatter
   monolog.formatter.mongodb:
     class: Monolog\Formatter\MongoDBFormatter
   monolog.formatter.normalizer:

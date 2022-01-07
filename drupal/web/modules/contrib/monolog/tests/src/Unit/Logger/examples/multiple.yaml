@@ -1,0 +1,1 @@
+default: ['rotating_file', 'drupal.dblog']

@@ -9,7 +9,7 @@ d3:
     /libraries/d3/d3.min.js: {}
 highlightjs:
   remote: https://github.com/highlightjs/highlight.js
-  version: 9.7.0
+  version: 11.2.0
   license:
     name: BSD-3
     url: https://github.com/highlightjs/highlight.js/blob/master/LICENSE

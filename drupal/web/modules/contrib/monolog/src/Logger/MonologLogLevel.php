@@ -59,7 +59,7 @@ class MonologLogLevel {
    *
    * @var array
    */
-  protected static $levels;
+  protected static array $levels;
 
   /**
    * Returns a list of severity levels, as defined Monolog\Logger.
@@ -69,7 +69,7 @@ class MonologLogLevel {
    *
    * @ingroup logging_severity_levels
    */
-  public static function getLevels() {
+  public static function getLevels(): array {
     if (!static::$levels) {
       static::$levels = [
         static::EMERGENCY => new TranslatableMarkup('Emergency'),
