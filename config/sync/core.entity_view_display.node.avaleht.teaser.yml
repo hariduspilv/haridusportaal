@@ -33,3 +33,4 @@ hidden:
   field_supernews: true
   field_topics: true
   langcode: true
+  search_api_excerpt: true
