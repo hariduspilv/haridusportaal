@@ -18,7 +18,15 @@ class WriteService {
 
     private function createLogFile($type){
       // Create a directory to files/logs folder with apache:apache user-group
-      $logpath = '/app/drupal/web/sites/default/files/logs/'.date('Y').'/'.date('m');
+      // For year directory
+      $logpath_year = '/app/drupal/web/sites/default/files/logs/'.date('Y');
+      if(!file_exists($logpath_year)) {
+        mkdir($logpath_year, 0744, true);
+        chown($logpath_year, 'apache');
+        chgrp($logpath_year, 'apache');
+      }
+      // For month directory
+      $logpath = $logpath_year.'/'.date('m');
       if(!file_exists($logpath)) {
         mkdir($logpath, 0744, true);
         chown($logpath, 'apache');
@@ -26,7 +34,7 @@ class WriteService {
       }
       $logpath .= '/'.$type.'.log';
       fopen($logpath, 'a');
-      // If a ile in a directory exists and its user:group is not apache, then change it to apache
+      // If directory already exists and its user:group is not apache, then change it to apache
       if(file_exists($logpath)) {
         $user = fileowner($logpath);
         $userinfo = posix_getpwuid($user);
