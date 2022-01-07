@@ -2,7 +2,7 @@
 
 /**
  * @file
- * monolog.module.
+ * Hooks provided by the Monolog module.
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -14,11 +14,12 @@ function monolog_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the monolog module.
     case 'help.page.monolog':
-      $readme = file_get_contents(__DIR__ . "/README.md");
+      $readme = file_get_contents(__DIR__ . '/README.md');
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t("This module integrates Drupal with the fantastic Monolog library") . '</p>';
+      $output .= '<p>' . t('This module integrates Drupal with the fantastic Monolog library') . '</p>';
       $output .= '<pre>' . $readme . '</pre>';
+
       return $output;
   }
 }
@@ -30,6 +31,6 @@ function monolog_mail($key, &$message, $params) {
   $content = $params['content'];
   $records = $params['records'];
 
-  $message['subject'] = t('A new %level message has been logged', ['%level' => $records[0]['level_name']]);
+  $message['subject'] = t('A new @level message has been logged', ['@level' => $records[0]['level_name']]);
   $message['body'][] = $content;
 }

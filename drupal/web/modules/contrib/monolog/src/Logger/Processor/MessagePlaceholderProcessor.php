@@ -3,22 +3,23 @@
 namespace Drupal\monolog\Logger\Processor;
 
 use Drupal\Core\Logger\LogMessageParserInterface;
+use Monolog\Processor\ProcessorInterface;
 
 /**
  * Parse and replace message placeholders.
  */
-class MessagePlaceholderProcessor {
+class MessagePlaceholderProcessor implements ProcessorInterface {
 
   /**
    * The message's placeholders parser.
    *
    * @var \Drupal\Core\Logger\LogMessageParserInterface
    */
-  protected $parser;
+  protected LogMessageParserInterface $parser;
 
   /**
    * Construct default object.
-   * 
+   *
    * @param \Drupal\Core\Logger\LogMessageParserInterface $parser
    *   The parser to use when extracting message variables.
    */
@@ -29,14 +30,21 @@ class MessagePlaceholderProcessor {
   /**
    * {@inheritdoc}
    */
-  public function __invoke(array $record) {
+  public function __invoke(array $record): array {
     // Populate the message placeholders and then replace them in the message.
-    $message_placeholders = $this->parser->parseMessagePlaceholders($record['message'], $record['context']);
-    $record['message'] = empty($message_placeholders) ? $record['message'] : strtr($record['message'], $message_placeholders);
+    $message_placeholders = $this
+      ->parser
+      ->parseMessagePlaceholders(
+        $record['message'],
+        $record['context']
+      );
+    $record['message'] = empty($message_placeholders)
+      ? $record['message']
+      : strtr($record['message'], $message_placeholders);
 
     // Remove the replaced placeholders from the context to prevent logging the
     // same information twice.
-    foreach (array_keys($message_placeholders) as $placeholder) {
+    foreach ($message_placeholders as $placeholder => $value) {
       unset($record['context'][$placeholder]);
     }
 

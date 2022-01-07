@@ -73,7 +73,7 @@
 * Usage of PHPUnit 9 only + migrated xml configurations
   https://github.com/elastic/elasticsearch-php/commit/038b5dd043dc76b20b9f5f265ea914a38d33568d[038b5dd]
 
-
+  
 [discrete]
 [[rn-7-12-0]]
 === 7.12.0

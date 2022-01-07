@@ -32,9 +32,12 @@ class OpenIDConnectAuthmap {
    * @param \Drupal\Core\Database\Connection $connection
    *   A database connection.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity manager.
+   *   (optional) The entity manager. (deprecated) Will be mandatory in 2.0.
    */
   public function __construct(Connection $connection, EntityTypeManagerInterface $entity_type_manager = NULL) {
+    if ($entity_type_manager === NULL) {
+      @trigger_error('The second parameter optionality is deprecated in openid_connect:8.x-1.1 and will be mandatory in openid_connect:8.x-2.0. See https://www.drupal.org/project/openid_connect/issues/3201504', E_USER_DEPRECATED);
+    }
     $this->connection = $connection;
     $this->userStorage = $entity_type_manager ? $entity_type_manager->getStorage('user') : \Drupal::entityTypeManager()->getStorage('user');
   }

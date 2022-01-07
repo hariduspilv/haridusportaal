@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\monolog\Unit\Logger;
 
-use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Tests\UnitTestCase;
 use Drupal\monolog\Logger\Logger;
+use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\monolog\Logger\MonologLogLevel;
 
 /**
@@ -15,7 +15,7 @@ class LoggerTest extends UnitTestCase {
 
   /**
    * Make sure that the level gets translated before sent to processors.
-   * 
+   *
    * @covers ::addRecord
    * @dataProvider providerTestAddRecord
    */
@@ -38,7 +38,7 @@ class LoggerTest extends UnitTestCase {
   /**
    * Data provider for self::testAddRecord().
    */
-  public function providerTestAddRecord() {
+  public function providerTestAddRecord(): array {
     return [
       [RfcLogLevel::DEBUG, MonologLogLevel::DEBUG, 'apple'],
       [RfcLogLevel::CRITICAL, MonologLogLevel::CRITICAL, 'banana'],

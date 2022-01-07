@@ -1,0 +1,8 @@
+default:
+  handlers:
+    - name: 'rotating_file'
+      formatter: 'json'
+      processors: ['current_user']
+    - name: 'drupal.dblog'
+      formatter: 'line'
+      processors: ['request_uri']
