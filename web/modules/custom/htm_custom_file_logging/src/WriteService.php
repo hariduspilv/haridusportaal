@@ -26,7 +26,7 @@ class WriteService {
         chgrp($logpath_year, 'apache');
       }
       // For month directory
-      $logpath = '/app/drupal/web/sites/default/files/logs/'.date('Y').'/'.date('m');
+      $logpath = $logpath_year.'/'.date('m');
       if(!file_exists($logpath)) {
         mkdir($logpath, 0744, true);
         chown($logpath, 'apache');
