@@ -1,6 +1,0 @@
-services:
-  cache_tags:
-    class: '\Drupal\cache_tags\EventSubscriber\AddCacheTags'
-    arguments: ['@config.factory']
-    tags:
-      - { name: 'event_subscriber' }
