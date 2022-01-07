@@ -27,6 +27,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 export class AutocompleteComponent implements OnDestroy {
   @Input() type: string = '';
   @Input() valueType: string = 'string';
+  @Input() inaadressFeatures = '';
   public data: [] = [];
   public active: boolean = false;
   public loading: boolean = false;
@@ -73,6 +74,9 @@ export class AutocompleteComponent implements OnDestroy {
         params = params.set('ihist', '1');
         params = params.set('appartment', '1');
         params = params.set('results', '10');
+        if (this.inaadressFeatures) {
+          params = params.set('features', this.inaadressFeatures);
+        }
       }
       clearTimeout(this.debounce);
       if (this.subscription) this.subscription.unsubscribe();
