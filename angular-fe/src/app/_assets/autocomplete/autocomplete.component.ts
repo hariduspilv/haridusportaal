@@ -76,7 +76,9 @@ export class AutocompleteComponent implements OnDestroy {
         params = params.set('appartment', '1');
         params = params.set('results', '10');
       }
+
       clearTimeout(this.debounce);
+
       if (this.subscription) this.subscription.unsubscribe();
       this.debounce = setTimeout(
         () => {
