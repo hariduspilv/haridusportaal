@@ -267,6 +267,19 @@ public class OLTWorker extends Worker {
         } else {
           ((ObjectNode) jsonNode.get("header"))
               .put("identifier", xRaodResponse.getGrants().getGrantList().get(0).getGrantNumber());
+
+          if (xRaodResponse.getGrants().getGrantList().get(0).isSetWarnings()) {
+            jsonNode.putObject("messages").put("default", "default");
+            xRaodResponse.getGrants().getGrantList().get(0).getWarnings().getWarningList().forEach(s -> {
+              ((ObjectNode) jsonNode.get("body").get("steps").get("step_application"))
+                 .putArray("messages").add(s.getCode());
+              ((ObjectNode) jsonNode.get("messages")).putObject(s.getCode())
+                 .put("message_type", "WARNING")
+                 .put("message_code", "GRANT_WARNING_" + s.getCode())
+                 .putObject("message_text").put("et", s.getMessage());
+            });
+          }
+
           Application grantApplication = xRaodResponse.getGrants().getGrantList().get(0)
               .getApplication();
           stepApplicationDataElements.putObject("person_application_first_name")
@@ -489,6 +502,18 @@ public class OLTWorker extends Worker {
                     .put("file_identifier",
                         "OLT_" + postGrantsResponse.getGrant().getGrantNumber() + "_" + grantFile
                             .getUID()));
+          }
+
+          if (postGrantsResponse.getGrant().isSetWarnings()) {
+            jsonNode.putObject("messages").put("default", "default");
+            postGrantsResponse.getGrant().getWarnings().getWarningList().forEach(s -> {
+              ((ObjectNode) jsonNode.get("body").get("steps").get("step_response"))
+                 .putArray("messages").add(s.getCode());
+              ((ObjectNode) jsonNode.get("messages")).putObject(s.getCode())
+                 .put("message_type", "WARNING")
+                 .put("message_code", "GRANT_WARNING_" + s.getCode())
+                 .putObject("message_text").put("et", s.getMessage());
+            });
           }
 
           ((ObjectNode) jsonNode.get("body").get("steps").get("step_response"))
