@@ -15,23 +15,20 @@ dependencies:
     - field.storage.paragraph.field_search_address
     - field.storage.node.field_author
     - field.storage.node.body
-    - field.storage.node.field_organizer
     - field.storage.node.field_right_column
     - field.storage.paragraph.field_publisher
     - field.storage.paragraph.field_study
     - field.storage.node.field_oska_field_sidebar
-    - field.storage.paragraph.field_cons
     - field.storage.paragraph.field_oska_field_cons
+    - field.storage.paragraph.field_cons
     - field.storage.paragraph.field_oska_field_pros
     - field.storage.paragraph.field_pros
     - field.storage.node.field_registration_code
     - field.storage.node.field_school_search_address
-    - field.storage.node.field_tag
     - field.storage.node.field_introduction
     - field.storage.node.field_short_description
     - field.storage.node.field_body_summary
     - field.storage.node.field_educational_institution
-    - field.storage.node.field_event_type
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:
@@ -91,14 +88,6 @@ field_settings:
         - field.storage.paragraph.field_cons
       module:
         - paragraphs
-  field_event_type:
-    label: 'Ürituse tüüp'
-    datasource_id: 'entity:node'
-    property_path: field_event_type
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_event_type
   field_introduction:
     label: Sissejuhatus
     datasource_id: 'entity:node'
@@ -107,14 +96,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_introduction
-  field_organizer:
-    label: Organiseerija
-    datasource_id: 'entity:node'
-    property_path: field_organizer
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_organizer
   field_oska_field_cons:
     label: 'Parem veerg » Paragraph » Miinused'
     datasource_id: 'entity:node'
@@ -152,7 +133,7 @@ field_settings:
     label: 'Parema veeru elemendid » Paragraph » Uuringu andmed » Paragraph » Väljaandja'
     datasource_id: 'entity:node'
     property_path: 'field_right_column:entity:field_study:entity:field_publisher'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_right_column
@@ -206,14 +187,6 @@ field_settings:
         - field.storage.paragraph.field_survey_accordion_title
       module:
         - paragraphs
-  field_tag:
-    label: Sildid
-    datasource_id: 'entity:node'
-    property_path: field_tag
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_tag
   nid:
     label: ID
     datasource_id: 'entity:node'
@@ -281,9 +254,7 @@ processor_settings:
       - field_author
       - field_body_summary
       - field_cons
-      - field_event_type
       - field_introduction
-      - field_organizer
       - field_oska_field_cons
       - field_oska_field_pros
       - field_pros
@@ -293,7 +264,6 @@ processor_settings:
       - field_search_address
       - field_short_description
       - field_survey_accordion_title
-      - field_tag
       - school_name
       - title
       - type
