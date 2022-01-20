@@ -16,7 +16,6 @@ dependencies:
     - field.storage.node.field_educational_institution
     - field.storage.node.field_school_contact_email
     - field.storage.node.field_school_contact_phone
-    - field.storage.node.field_label
     - field.storage.node.field_amount
     - field.storage.node.field_iscedf_detailed
     - field.storage.node.field_study_programme_level
@@ -96,6 +95,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_duration
+  field_educational_institution:
+    label: Õppeasutus
+    datasource_id: 'entity:node'
+    property_path: field_educational_institution
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_educational_institution
   field_iscedf_board:
     label: Õppevaldkond
     datasource_id: 'entity:node'
@@ -246,28 +253,6 @@ field_settings:
     dependencies:
       module:
         - node
-  name_1:
-    label: 'Õppeasutus » Sisu » Silt » Taxonomy term » Nimi'
-    datasource_id: 'entity:node'
-    property_path: 'field_educational_institution:entity:field_label:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_educational_institution
-        - field.storage.node.field_label
-      module:
-        - node
-        - taxonomy
-  name_2:
-    label: 'Õppekava tüüp » Taxonomy term » Nimi'
-    datasource_id: 'entity:node'
-    property_path: 'field_study_programme_type:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_study_programme_type
-      module:
-        - taxonomy
   nid:
     label: ID
     datasource_id: 'entity:node'
