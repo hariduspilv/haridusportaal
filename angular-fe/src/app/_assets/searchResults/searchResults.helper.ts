@@ -9,7 +9,6 @@ export const queryList = {
 
 export const likeFields = {
   news: ['title', 'school', 'location'],
-  studyprogramme: ['title', 'school', 'location'],
   mainprofession: ['title'],
 };
 
