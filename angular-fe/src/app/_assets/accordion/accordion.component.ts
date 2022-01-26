@@ -102,10 +102,18 @@ export class AccordionItemComponent {
     if (!this.active) {
       this.styleState = false;
     }
+
+    const appContent = document.querySelector('.app-content');
+    const scrollPosition = appContent.scrollTop;
+    const elementScrollOffset = this.el.nativeElement.getBoundingClientRect().top;
+
     if (this.scroll) {
-      document.querySelector('.app-content').scrollTop =
-        this.el.nativeElement.getBoundingClientRect().top - 100;
+      appContent.scrollTop = elementScrollOffset - 100;
       this.scroll = false;
+    } else {
+      if (elementScrollOffset < 0 && this.active) {
+        appContent.scrollTop = scrollPosition + elementScrollOffset - 100;
+      }
     }
   }
 
