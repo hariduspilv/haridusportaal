@@ -141,8 +141,8 @@
                                     <ng-container *ngFor="let item of item[fieldName]; let i = index;">
                                         <span>
                                             <span *ngIf="i > 0">, </span>
-                                            <span *ngIf="i === 0">{{ item | ucfirst }}</span>
-                                            <span *ngIf="i !== 0">{{ item }}</span>
+                                            <span *ngIf="i === 0">{{ (item.entity ? item.entity.entityLabel : item) | ucfirst }}</span>
+                                            <span *ngIf="i !== 0">{{ item.entity ? item.entity.entityLabel : item }}</span>
                                         </span>
                                     </ng-container>
                                 </span>
