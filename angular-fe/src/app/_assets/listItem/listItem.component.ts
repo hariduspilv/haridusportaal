@@ -25,6 +25,7 @@ export class ListItemComponent implements OnInit, OnChanges{
   public clickedVideos = {};
   public footerFields = {
     studyProgramme: [
+      'educationalInstitution',
       'fieldSchoolName',
       'duration',
       'teachingLanguage',
