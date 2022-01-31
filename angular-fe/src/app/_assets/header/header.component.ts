@@ -250,12 +250,9 @@ export class HeaderComponent implements OnInit {
     this.auth.logout();
   }
 
-  private prepareHamburgerStyle() {
+  private setHamburgerStyles() {
     let outline: string;
-
-    this.deviceDetector.isDesktop()
-      ? outline = '1px solid black'
-      : outline = 'none';
+    this.deviceDetector.isDesktop() ? outline = '1px solid black' : outline = 'none';
 
     const btnHamburger = document.querySelector('.header__hamburger')?.querySelector('button');
     btnHamburger?.style.setProperty('--border', outline);
@@ -266,6 +263,6 @@ export class HeaderComponent implements OnInit {
     this.subscribeToAuth();
     this.subscribeToSidemenu();
     this.getAuthMethods();
-    this.prepareHamburgerStyle();
+    this.setHamburgerStyles();
   }
 }
