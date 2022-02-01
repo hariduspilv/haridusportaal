@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
+import { DeviceDetectorService } from "ngx-device-detector";
 
 @Component({
   selector: 'htm-header',
@@ -67,6 +68,7 @@ export class HeaderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private analytics: AnalyticsService,
+    private deviceDetector: DeviceDetectorService,
   ) {
   }
 
@@ -248,10 +250,19 @@ export class HeaderComponent implements OnInit {
     this.auth.logout();
   }
 
+  private setHamburgerStyles() {
+    let outline: string;
+    this.deviceDetector.isDesktop() ? outline = '1px solid black' : outline = 'none';
+
+    const btnHamburger = document.querySelector('.header__hamburger')?.querySelector('button');
+    btnHamburger?.style.setProperty('--border', outline);
+  }
+
   public ngOnInit(): void {
     this.loginStatus = this.auth.isAuthenticated.getValue();
     this.subscribeToAuth();
     this.subscribeToSidemenu();
     this.getAuthMethods();
+    this.setHamburgerStyles();
   }
 }
