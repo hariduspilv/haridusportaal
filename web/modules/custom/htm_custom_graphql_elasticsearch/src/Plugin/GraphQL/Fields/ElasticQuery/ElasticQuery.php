@@ -106,7 +106,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     if (isset($args['sort'])) $args = $this->parseElasticSort($args, $client);
     $params = $this->getElasticQuery($args);
-    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($params, TRUE) . '</code></pre>' );
+    \Drupal::logger('elastic')->notice('<pre><code>PARAMS: ' . print_r($params, TRUE) . '</code></pre>' );
     if (empty($params['index'])) {
       $params['index'] = $index_out;
     }
@@ -169,7 +169,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     if ($args['filter']['conjunction'] === 'AND') {
       foreach ($args['filter']['conditions'] as $condition) {
-        if (isset($condition['enabled']) && $condition['enabled'] == true || !isset($condition['enabled'])) {
+        if ((isset($condition['enabled']) && $condition['enabled'] === true) || (!isset($condition['enabled']))) {
           switch ($condition['operator']) {
             case '=':
               foreach ($condition['value'] as $value) {
@@ -184,18 +184,19 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
               }
               break;
             case 'LIKE':
-              $values = explode(" ", $condition['value'][0]);
-              foreach ($values as $value) {
-
-                if ($condition['field']=='langcode'){
-                  $value = strtolower($value);
-                }
-                $elastic_must_filters[] = array(
-                  'wildcard' => array(
-                    $condition['field'] => '*' . str_replace(',', '', mb_strtolower($value)) . '*'
-                  )
-                );
+              $value = $condition['value'][0];
+              if ($condition['field']=='langcode'){
+                $value = strtolower($value);
               }
+              $elastic_must_filters[] = array(
+                'query_string' => array(
+                  'query' => '*'.mb_strtolower($value).'*',
+                  'fields' => array(
+                    $condition['field']
+                  ),
+                  'default_operator' => 'AND'
+                )
+              );
               break;
             case 'IN':
               if (isset($condition['value'])) {
@@ -213,7 +214,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
                     $condition['field'] => array(
                       'query' => $value,
                       'fuzziness' => 'AUTO',
-                      'analyzer'=>'synonym_analyzer'
+                      'analyzer'=>'synonym'
                     )
                   )
                 );
@@ -226,23 +227,34 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     if ($args['filter']['groups'][0]['conjunction'] === 'OR') {
       foreach ($args['filter']['groups'][0]['conditions'] as $condition) {
-        if (isset($condition['enabled']) && $condition['enabled'] == true || !isset($condition['enabled'])) {
+        if ((isset($condition['enabled']) && $condition['enabled'] === true) || (!isset($condition['enabled']))) {
           switch ($condition['operator']) {
             case 'LIKE':
-              $values = explode(" ", $condition['value'][0]);
-              foreach ($values as $value) {
-
-                if ($condition['field']=='langcode'){
-                  $value = strtolower($value);
-                }
-                $elastic_should_filters[] = array(
-                  'wildcard' => array(
-                    $condition['field'] => '*' . str_replace(',', '', mb_strtolower($value)) . '*'
-                  )
-                );
-                \Drupal::logger('elastic')->notice('<pre><code>$elastic_should_filters: ' . print_r($elastic_should_filters, TRUE) . '</code></pre>' );
-
+              $value = $condition['value'][0];
+              if ($condition['field']=='langcode'){
+                $value = strtolower($value);
               }
+              // wildcard query string for OR conjunction
+              $elastic_should_filters[] = array(
+                'query_string' => array(
+                  'query' => '*'.mb_strtolower($value).'*',
+                  'fields' => array(
+                    $condition['field']
+                  ),
+                  'default_operator' => 'AND'
+                )
+              );
+              // synonym query for OR conjunction
+              $elastic_should_filters[] = array(
+                'match' => array(
+                  $condition['field'] => array(
+                    'query' => $value,
+                    'fuzziness' => 'AUTO',
+                    'analyzer'=>'synonym',
+                    'operator' => 'AND'
+                  )
+                )
+              );
               break;
             case 'IN':
               if (isset($condition['value'])) {
@@ -260,7 +272,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
                     $condition['field'] => array(
                       'query' => $value,
                       'fuzziness' => 'AUTO',
-                      'analyzer'=>'synonym_analyzer'
+                      'analyzer'=>'synonym'
                     )
                   )
                 );
@@ -271,46 +283,42 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       }
     }
 
-    $functions = [];
-    if (isset($args['score'])) {
-      $searchvalues = explode(" ", $args['score']['search_value']);
-      foreach ($args['score']['conditions'] as $condition) {
-        foreach ($searchvalues as $searchvalue) {
-          if (strlen($searchvalue) > 2) {
-            $functions[] = array(
-              'filter' => array(
-                'wildcard' => array(
-                  $condition['field'] => '*'. str_replace(',', '', mb_strtolower($searchvalue)).'*'
-                ),
-              ),
-              'random_score' => [],
-              'weight' => $condition['weight'],
-            );
-          }
-        }
-      }
+    // Filters & Synonyms for AND conjunction
+    foreach ($args['score']['conditions'] as $condition) {
+      $elastic_should_filters[] = array(
+        'query_string' => array(
+          'query' => '*'.mb_strtolower($args['score']['search_value']).'*',
+          'fields' => array(
+            $condition['field']
+          ),
+          'default_operator' => 'AND'
+        )
+      );
+      $elastic_should_filters[] = array(
+        'match' => array(
+          $condition['field'] => array(
+            'query' => $args['score']['search_value'],
+            'fuzziness' => 'AUTO',
+            'analyzer'=>'synonym',
+            'operator' => 'AND'
+          )
+        )
+      );
+    }
 
+    // If score is set (only applies to AND conjunction)
+    if (isset($args['score'])) {
       $query = array(
         'query' => array(
-          'function_score' => array(
-            'query' => array(
-              'bool' => array(
-                'must' => $elastic_must_filters
-              )
-            ),
-            'boost' => '1',
-            'functions' => $functions,
-            'score_mode' => 'sum',
-            'boost_mode' => 'avg',
-            'min_score' => 2,
+          'bool' => array(
+            'must' => $elastic_must_filters,
+            'should' => $elastic_should_filters,
+            'minimum_should_match' => 1
           )
-        ),
-        'sort' => array(
-          '_score'
         )
       );
 
-      // if conjunction === OR & possibly AND (search by must and should)
+      // if no score is set, conjunction === OR & possibly AND (search by must and should, ex. only text search or text search and filters together)
     } else if(!isset($args['score']) && isset($elastic_should_filters)) {
       $query = array(
         'query' => array(
@@ -321,12 +329,11 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           )
         ),
       );
-
       if ($args['sort']) {
         $query['sort'] = $args['sort'];
       }
     }
-    // if conjunction === AND, but not OR (only search by must)
+    // if no score is set & conjunction === AND, but not OR (only search by must, ex. only filters and no text search)
     else if(!isset($args['score']) && isset($elastic_must_filters) && !isset($elastic_should_filters)) {
       $query = array(
         'query' => array(
@@ -335,27 +342,18 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           )
         ),
       );
-
       if ($args['sort']) {
         $query['sort'] = $args['sort'];
       }
     }
 
-    // Synonyms: function_score query
-    foreach ($args['score']['conditions'] as $condition) {
-      $query['query']['function_score']['query']['bool']['should'][]['match'][$condition['field']] = ["query"=>$args['score']['search_value'],"analyzer"=>"synonym"];
-    }
-    // Synonyms: bool.should query
-    foreach ($args['filter']['groups'][0]['conditions'] as $condition) {
-      $query['query']['bool']['should'][]['match'][$condition['field']] = ["query"=>$args['filter']['groups'][0]['conditions'][0]['value'][0],"analyzer"=>"synonym"];
-    }
-
     $params['body'] = $query;
 
-    // Sort by sortfield, if it has value (works only with integer values)
+    // Sort by sortfield, if it has value (works only with integers)
     if($args['sortField'] !== 'title' && !empty($args['sortField'])) {
       $params['body']['sort'] = [$args['sortField'] => ['order' => $args['sortDirection']]];
     }
+    \Drupal::logger('elastic')->notice('<pre><code>PARAMS: ' . print_r($params, TRUE) . '</code></pre>' );
 
     return $params;
   }
