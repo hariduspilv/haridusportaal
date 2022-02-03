@@ -23,3 +23,4 @@ Noortevaldkonna, hariduse, õppe- ja karjäärinõustamise ning tööturgu
   3. docker-compose down
   4. docker-compose up -d
   5. docker image prune -a -f (eemaldab üleliigsed mitte-kasutusel image'id)
+
