@@ -172,7 +172,6 @@ export class ChartComponent implements OnInit {
       let chartType = this.capitalize(current.graphType);
       const graphIndicator = current.graphIndicator;
       const graphTitle = this.capitalize(current.graphTitle);
-      const graphYMax: number = current.options.graph_y_max ? parseInt(current.options.graph_y_max, 10) : null
       let secondaryGraphType = current.secondaryGraphType;
       let isStacked: any = false;
       let seriesType: any = false;
@@ -185,12 +184,7 @@ export class ChartComponent implements OnInit {
         if (chartType.toLowerCase() !== 'line') {
           const parsedArray = [];
           single.forEach((item, ind) => {
-            if (secondaryGraphType && graphYMax && ind === 1
-              && typeof item === 'number' && chartType.toLowerCase().includes('column')) {
-              parsedArray.push(graphYMax);
-            } else {
-              parsedArray.push(item);
-            }
+            parsedArray.push(item);
             if (index) {
               if ((secondaryGraphType && ind === 1) || (!secondaryGraphType && ind)) {
                 parsedArray.push('stroke-color: #333; stroke-width: 1px');
