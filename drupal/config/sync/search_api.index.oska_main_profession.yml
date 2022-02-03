@@ -1,43 +1,24 @@
-uuid: 6f4c8f82-a919-4321-994d-e71f966d0f40
+uuid: 97265ba9-5d63-4de1-9dad-1751f59f79fb
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_accreditation_status
-    - field.storage.node.field_accreditation_valid_until
-    - field.storage.node.field_qualification_standard_id
-    - field.storage.node.field_short_description
-    - field.storage.node.field_duration
-    - field.storage.node.field_degree_or_diploma_awarded
-    - field.storage.node.field_school_address
-    - field.storage.node.field_school_search_address
-    - field.storage.node.field_school_website
-    - field.storage.node.field_specialization
-    - field.storage.node.field_educational_institution
-    - field.storage.node.field_school_contact_email
-    - field.storage.node.field_school_contact_phone
-    - field.storage.node.field_amount
-    - field.storage.node.field_iscedf_detailed
-    - field.storage.node.field_study_programme_level
-    - field.storage.node.field_study_programme_type
-    - field.storage.node.field_teaching_language
-    - field.storage.node.field_iscedf_narrow
-    - field.storage.node.field_iscedf_board
+    - field.storage.node.field_main_profession_accordion
+    - field.storage.paragraph.field_body
+    - field.storage.paragraph.field_title
+    - field.storage.node.body
+    - field.storage.node.field_introduction
+    - field.storage.node.field_sidebar
+    - field.storage.paragraph.field_job_name
+    - field.storage.paragraph.field_jobs
+    - field.storage.paragraph.field_oska_field
     - search_api.server.elasticsearch_server
   module:
-    - elasticsearch_connector
     - node
-    - taxonomy
+    - paragraphs
     - search_api
-third_party_settings:
-  elasticsearch_connector:
-    ngram_filter_enabled: 0
-    ngram_config:
-      ngram_type: edge_ngram
-      min_gram: '3'
-      max_gram: '20'
-id: study_programmes
-name: 'Study programmes'
+id: oska_main_profession
+name: 'OSKA Main Profession'
 description: ''
 read_only: false
 field_settings:
@@ -45,7 +26,7 @@ field_settings:
     label: 'Sisu tüüp'
     datasource_id: 'entity:node'
     property_path: type
-    type: text
+    type: string
     dependencies:
       module:
         - node
@@ -53,202 +34,72 @@ field_settings:
     label: URI
     property_path: search_api_url
     type: string
-  field_accreditation_status:
-    label: 'Akrediteerimise otsus'
+  field_accordion_body:
+    label: 'Main Profession Accordion » Paragraph » Sisu'
     datasource_id: 'entity:node'
-    property_path: field_accreditation_status
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_accreditation_status
-  field_accreditation_valid_until:
-    label: 'Akrediteerimise otsuse kehtivuse lõpp'
-    datasource_id: 'entity:node'
-    property_path: field_accreditation_valid_until
-    type: date
-    dependencies:
-      config:
-        - field.storage.node.field_accreditation_valid_until
-  field_amount:
-    label: 'Õppekava maht'
-    datasource_id: 'entity:node'
-    property_path: field_amount
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_amount
-  field_degree_or_diploma_awarded:
-    label: 'Omistatav kraad või diplom  » Taxonomy term » Nimi'
-    datasource_id: 'entity:node'
-    property_path: 'field_degree_or_diploma_awarded:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_degree_or_diploma_awarded
-      module:
-        - taxonomy
-  field_duration:
-    label: 'Nominaalkestus (kuud)'
-    datasource_id: 'entity:node'
-    property_path: field_duration
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_duration
-  field_educational_institution:
-    label: Õppeasutus
-    datasource_id: 'entity:node'
-    property_path: field_educational_institution
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_educational_institution
-  field_iscedf_board:
-    label: Õppevaldkond
-    datasource_id: 'entity:node'
-    property_path: field_iscedf_board
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_iscedf_board
-  field_iscedf_detailed:
-    label: 'Õppekavarühm » Taxonomy term » Nimi'
-    datasource_id: 'entity:node'
-    property_path: 'field_iscedf_detailed:entity:name'
+    property_path: 'field_main_profession_accordion:entity:field_body'
     type: text
     dependencies:
       config:
-        - field.storage.node.field_iscedf_detailed
+        - field.storage.node.field_main_profession_accordion
+        - field.storage.paragraph.field_body
       module:
-        - taxonomy
-  field_iscedf_narrow:
-    label: 'Õppesuund '
+        - paragraphs
+  field_accordion_title:
+    label: 'Main Profession Accordion » Paragraph » Pealkiri'
     datasource_id: 'entity:node'
-    property_path: field_iscedf_narrow
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_iscedf_narrow
-  field_qualification_standard_id:
-    label: 'Kutsestandardi identifikaator'
-    datasource_id: 'entity:node'
-    property_path: field_qualification_standard_id
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_qualification_standard_id
-  field_school_address:
-    label: 'School address'
-    datasource_id: 'entity:node'
-    property_path: field_school_address
+    property_path: 'field_main_profession_accordion:entity:field_title'
     type: text
     dependencies:
       config:
-        - field.storage.node.field_school_address
-  field_school_contact_email:
-    label: 'Õppeasutus » Sisu » E-post'
+        - field.storage.node.field_main_profession_accordion
+        - field.storage.paragraph.field_title
+      module:
+        - paragraphs
+  field_body:
+    label: Sisu
     datasource_id: 'entity:node'
-    property_path: 'field_educational_institution:entity:field_school_contact_email'
-    type: string
+    property_path: body
+    type: text
     dependencies:
       config:
-        - field.storage.node.field_educational_institution
-        - field.storage.node.field_school_contact_email
+        - field.storage.node.body
+  field_body_summary:
+    label: Introduction
+    datasource_id: 'entity:node'
+    property_path: field_introduction
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_introduction
+  field_job_name:
+    label: 'Sidebar » Paragraph » Näidisametid » Paragraph » Ameti nimetus'
+    datasource_id: 'entity:node'
+    property_path: 'field_sidebar:entity:field_jobs:entity:field_job_name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_sidebar
+        - field.storage.paragraph.field_job_name
+        - field.storage.paragraph.field_jobs
+      module:
+        - paragraphs
+  field_oska_field:
+    label: 'Sidebar » Paragraph » OSKA Field » Sisu » Pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_sidebar:entity:field_oska_field:entity:title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_sidebar
+        - field.storage.paragraph.field_oska_field
       module:
         - node
-  field_school_contact_phone:
-    label: 'Õppeasutus » Sisu » Kontakttelefon'
-    datasource_id: 'entity:node'
-    property_path: 'field_educational_institution:entity:field_school_contact_phone'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_educational_institution
-        - field.storage.node.field_school_contact_phone
-      module:
-        - node
-  field_school_name:
-    label: 'Õppeasutus » Sisu » Pealkiri'
-    datasource_id: 'entity:node'
-    property_path: 'field_educational_institution:entity:title'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_educational_institution
-      module:
-        - node
-  field_school_search_address:
-    label: 'school search address'
-    datasource_id: 'entity:node'
-    property_path: field_school_search_address
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_school_search_address
-  field_school_website:
-    label: 'School website'
-    datasource_id: 'entity:node'
-    property_path: field_school_website
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_school_website
-  field_short_description:
-    label: Lühikirjeldus
-    datasource_id: 'entity:node'
-    property_path: field_short_description
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_short_description
-  field_specialization:
-    label: Spetsialiseerumine
-    datasource_id: 'entity:node'
-    property_path: field_specialization
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_specialization
-  field_study_programme_level:
-    label: 'Õppekava tase  » Taxonomy term » Nimi'
-    datasource_id: 'entity:node'
-    property_path: 'field_study_programme_level:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_study_programme_level
-      module:
-        - taxonomy
-  field_study_programme_type:
-    label: 'Õppekava tüüp » Taxonomy term » Nimi'
-    datasource_id: 'entity:node'
-    property_path: 'field_study_programme_type:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_study_programme_type
-      module:
-        - taxonomy
-  field_teaching_language:
-    label: Õppekeel
-    datasource_id: 'entity:node'
-    property_path: field_teaching_language
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_teaching_language
+        - paragraphs
   langcode:
     label: Keel
     datasource_id: 'entity:node'
     property_path: langcode
-    type: text
-    dependencies:
-      module:
-        - node
-  name:
-    label: Pealkiri
-    datasource_id: 'entity:node'
-    property_path: title
     type: text
     dependencies:
       module:
@@ -261,16 +112,6 @@ field_settings:
     dependencies:
       module:
         - node
-  nid_1:
-    label: 'Õppeasutus » Sisu » ID'
-    datasource_id: 'entity:node'
-    property_path: 'field_educational_institution:entity:nid'
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_educational_institution
-      module:
-        - node
   status:
     label: Avaldatud
     datasource_id: 'entity:node'
@@ -279,36 +120,6 @@ field_settings:
     dependencies:
       module:
         - node
-  tid:
-    label: 'Õppekava tüüp » Taxonomy term » Termini ID'
-    datasource_id: 'entity:node'
-    property_path: 'field_study_programme_type:entity:tid'
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_study_programme_type
-      module:
-        - taxonomy
-  tid_1:
-    label: 'Õppekava tase  » Taxonomy term » Termini ID'
-    datasource_id: 'entity:node'
-    property_path: 'field_study_programme_level:entity:tid'
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_study_programme_level
-      module:
-        - taxonomy
-  tid_2:
-    label: 'Õppekavarühm » Taxonomy term » Termini ID'
-    datasource_id: 'entity:node'
-    property_path: 'field_iscedf_detailed:entity:tid'
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_iscedf_detailed
-      module:
-        - taxonomy
   title:
     label: Pealkiri
     datasource_id: 'entity:node'
@@ -322,14 +133,13 @@ datasource_settings:
     bundles:
       default: false
       selected:
-        - study_programme
+        - oska_main_profession_page
     languages:
       default: true
       selected: {  }
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
-  entity_status: {  }
   language_with_fallback: {  }
   rendered_item: {  }
 tracker_settings:
@@ -337,6 +147,6 @@ tracker_settings:
     indexing_order: fifo
 options:
   cron_limit: 50
-  index_directly: false
+  index_directly: true
   track_changes_in_references: true
 server: elasticsearch_server
