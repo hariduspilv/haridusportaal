@@ -71,6 +71,7 @@ dependencies:
     - node_view_permissions
     - paragraphs
     - scheduler
+    - search_api_elasticsearch_synonym
     - shortcut
     - system
     - taxonomy
@@ -106,6 +107,7 @@ permissions:
   - 'administer oska indicator entity entities'
   - 'administer oska table entity entities'
   - 'administer scheduler'
+  - 'administer search api elasticsearch synonym'
   - 'administer subscription entity entities'
   - 'administer subsidy project entities'
   - 'administer taxonomy'

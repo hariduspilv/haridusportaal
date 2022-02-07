@@ -38,6 +38,7 @@ dependencies:
     - node_view_permissions
     - paragraphs
     - scheduler
+    - search_api_elasticsearch_synonym
     - system
     - taxonomy
     - toolbar
@@ -54,6 +55,7 @@ permissions:
   - 'access taxonomy overview'
   - 'access toolbar'
   - 'administer scheduler'
+  - 'administer search api elasticsearch synonym'
   - 'create audio media'
   - 'create career_home_page content'
   - 'create content translations'
