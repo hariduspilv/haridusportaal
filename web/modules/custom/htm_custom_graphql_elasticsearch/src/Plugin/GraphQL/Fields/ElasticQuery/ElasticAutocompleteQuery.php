@@ -107,8 +107,8 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
       'field_school_search_address',
       'field_school_search_address.keyword',
     ];
-    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($response, TRUE) . '</code></pre>' );
-    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($args, TRUE) . '</code></pre>' );
+    \Drupal::logger('elastic')->notice('<pre><code>Autocomplete: response: ' . print_r($response, TRUE) . '</code></pre>' );
+    \Drupal::logger('elastic')->notice('<pre><code>Autocomplete: args: ' . print_r($args, TRUE) . '</code></pre>' );
     foreach($response['hits']['hits'] as $key => $value){
       if(isset($value['highlight'])){
         if (isset($args['query_field'])){
@@ -156,6 +156,14 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         if ($ignore_field){
           continue;
         }
+
+        // Don't give suggestions if field = 'type'
+        foreach ($value['highlight'] as $pos_highlight_key => $pos_highlight){
+          if($pos_highlight_key === 'type') {
+            unset($value['highlight'][$pos_highlight_key]);
+          }
+        }
+
         if (isset($args['query_field'])){
           foreach ($value['highlight'] as $pos_highlight_key => $pos_highlight){
             if ($args['query_field']!==$pos_highlight_key){
@@ -178,7 +186,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
       }
     }
 
-    \Drupal::logger('elastic')->notice('<pre><code>Post request: ' . print_r($highlights, TRUE) . '</code></pre>' );
+    \Drupal::logger('elastic')->notice('<pre><code>Autocomplete: highlights: ' . print_r($highlights, TRUE) . '</code></pre>' );
     $this->getAutocompleteValues($highlights);
     if(count($this->autocomplete_values) > 0){
       foreach($this->autocomplete_values as $value){
