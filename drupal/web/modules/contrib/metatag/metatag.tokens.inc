@@ -28,7 +28,7 @@ function metatag_token_info() {
 
   foreach ($tag_definitions as $tag_id => $tag_definition) {
     $label = $tag_definition['label'];
-    $description = $tag_definition['description'];
+    $description = $tag_definition['description'] ?? '';
     $multiple = $tag_definition['multiple'];
     $metatag_token_name = 'metatag-' . $tag_id;
 
