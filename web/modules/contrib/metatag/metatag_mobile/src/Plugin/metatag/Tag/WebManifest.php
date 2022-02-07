@@ -31,7 +31,9 @@ class WebManifest extends LinkRelBase {
     // This attribute is required on the tag to avoid errors in Chrome.
     // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin
     // @see https://developer.chrome.com/docs/extensions/mv2/xhr/
-    $element['#attributes']['crossorigin'] = 'use-credentials';
+    if (!empty($element) && is_array($element)) {
+      $element['#attributes']['crossorigin'] = 'use-credentials';
+    }
 
     return $element;
   }

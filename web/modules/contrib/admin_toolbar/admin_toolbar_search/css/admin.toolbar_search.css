@@ -1,6 +1,43 @@
-#admin-toolbar-search-tab .js-form-item.form-item {
-  margin-top: 0.3rem;
-  margin-bottom: 0;
+#admin-toolbar-mobile-search-tab + #admin-toolbar-search-tab {
+  display: none;
+}
+
+#admin-toolbar-mobile-search-tab + #admin-toolbar-search-tab.visible {
+  display: block;
+  width: 100%;
+}
+
+#admin-toolbar-mobile-search-tab + #admin-toolbar-search-tab .js-form-item.form-item {
+  margin: 0.75rem 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#admin-toolbar-mobile-search-tab .toolbar-item::before {
+  background-image: url('../../misc/icons/bebebe/loupe.svg');
+}
+
+#admin-toolbar-mobile-search-tab + #admin-toolbar-search-tab #admin-toolbar-search-input {
+  width: 100%;
+}
+
+@media only screen and (min-width: 769px) {
+  #admin-toolbar-mobile-search-tab {
+    display: none;
+  }
+
+  #admin-toolbar-mobile-search-tab + #admin-toolbar-search-tab {
+    display: block;
+  }
+
+  #admin-toolbar-mobile-search-tab + #admin-toolbar-search-tab.visible {
+    width: auto;
+  }
+
+  #admin-toolbar-mobile-search-tab + #admin-toolbar-search-tab .js-form-item.form-item {
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+  }
 }
 
 #admin-toolbar-search-input {
