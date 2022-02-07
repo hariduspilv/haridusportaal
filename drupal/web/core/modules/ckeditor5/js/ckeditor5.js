@@ -198,6 +198,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           element.removeAttribute('required');
         }
 
+        $(document).on("drupalViewportOffsetChange.ckeditor5.".concat(id), function (event, offsets) {
+          editor.ui.viewportOffset = offsets;
+        });
         editor.model.document.on('change:data', function () {
           var callback = callbacks.get(id);
 
@@ -228,6 +231,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       if (!editor) {
         return;
       }
+
+      $(document).off("drupalViewportOffsetChange.ckeditor5.".concat(id));
 
       if (trigger === 'serialize') {
         editor.updateSourceElement();
@@ -328,6 +333,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       Drupal.ckeditor5.saveCallback = saveCallback;
     }
   };
+
+  function redirectTextareaFragmentToCKEditor5Instance() {
+    var hash = window.location.hash.substr(1);
+    var element = document.getElementById(hash);
+
+    if (element) {
+      var editorID = getElementId(element);
+      var editor = Drupal.CKEditor5Instances.get(editorID);
+
+      if (editor) {
+        editor.sourceElement.nextElementSibling.setAttribute('id', "cke_".concat(hash));
+        window.location.replace("#cke_".concat(hash));
+      }
+    }
+  }
+
+  $(window).on('hashchange.ckeditor', redirectTextareaFragmentToCKEditor5Instance);
   $(window).on('dialog:beforecreate', function () {
     $('.ckeditor5-dialog-loading').animate({
       top: '-40px'

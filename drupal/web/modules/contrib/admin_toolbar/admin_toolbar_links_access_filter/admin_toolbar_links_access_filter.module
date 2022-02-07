@@ -133,7 +133,7 @@ function admin_toolbar_links_access_filter_filter_non_accessible_links(array &$i
  *   FALSE otherwise.
  */
 function admin_toolbar_links_access_filter_is_overview_page($route_name) {
-  // @var \Drupal\Core\Routing\RouteProviderInterface $route_provider.
+  /** @var \Drupal\Core\Routing\RouteProviderInterface $route_provider. */
   $route_provider = \Drupal::service('router.route_provider');
   $overview_page_controllers = [
     '\Drupal\system\Controller\AdminController::index',

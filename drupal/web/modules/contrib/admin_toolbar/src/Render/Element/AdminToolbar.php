@@ -6,7 +6,7 @@ use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Security\TrustedCallbackInterface;
 
 /**
- * Class AdminToolbar.
+ * Render element element for AdminToolbar.
  *
  * @package Drupal\admin_toolbar\Render\Element
  */

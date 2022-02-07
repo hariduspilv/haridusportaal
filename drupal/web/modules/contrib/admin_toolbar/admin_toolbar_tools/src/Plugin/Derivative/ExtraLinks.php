@@ -534,6 +534,15 @@ class ExtraLinks extends DeriverBase implements ContainerDeriverInterface {
         'parent' => 'entity.view.collection',
         'weight' => -5,
       ] + $base_plugin_definition;
+      $views = $this->entityTypeManager->getStorage('view')->loadMultiple();
+      foreach ($views as $view) {
+        $links['views_ui.' . $view->id()] = [
+          'title' => $view->label(),
+          'route_name' => 'entity.view.edit_form',
+          'route_parameters' => ['view' => $view->id()],
+          'parent' => 'entity.view.collection',
+        ] + $base_plugin_definition;
+      }
       $links['views_ui.field_list'] = [
         'title' => $this->t('Used in views'),
         'route_name' => 'views_ui.reports_fields',

@@ -37,14 +37,17 @@ class MetatagViewsCachePluginManager implements PluginManagerInterface, CachedDi
    * {@inheritdoc}
    */
   public function createInstance($plugin_id, array $configuration = []) {
-    return $this->wrap($this->viewsPluginManager->createInstance($plugin_id, $configuration));
+    $plugin = $this->viewsPluginManager->createInstance($plugin_id, $configuration);
+    return $plugin_id === 'none' ? $plugin : $this->wrap($plugin);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getInstance(array $options) {
-    return $this->wrap($this->viewsPluginManager->getInstance($options));
+    /** @var \Drupal\views\Plugin\views\cache\CachePluginBase $plugin */
+    $plugin = $this->viewsPluginManager->getInstance($options);
+    return $plugin->getPluginId() === 'none' ? $plugin : $this->wrap($plugin);
   }
 
   /**
