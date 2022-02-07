@@ -248,8 +248,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
               $elastic_should_filters[] = array(
                 'match' => array(
                   $condition['field'] => array(
-                    'query' => $value,
-                    'fuzziness' => 'AUTO',
+                    'query' => mb_strtolower($value),
+//                    'fuzziness' => 'AUTO',
                     'analyzer'=>'synonym',
                     'operator' => 'AND'
                   )
@@ -297,8 +297,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       $elastic_should_filters[] = array(
         'match' => array(
           $condition['field'] => array(
-            'query' => $args['score']['search_value'],
-            'fuzziness' => 'AUTO',
+            'query' => mb_strtolower($args['score']['search_value']),
+//            'fuzziness' => 'AUTO',
             'analyzer'=>'synonym',
             'operator' => 'AND'
           )
@@ -349,11 +349,13 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     $params['body'] = $query;
 
-    // Sort by sortfield, if it has value (works only with integers)
-    if($args['sortField'] !== 'title' && !empty($args['sortField'])) {
+    // Sort by sortfield, if it has value. NB: to enable sorting for text fields, '.keyword' needs to be added to the end of the field name
+    if(!empty($args['sortField'])) {
+      if($args['sortField'] === 'title') {
+        $args['sortField'] = 'title.keyword';
+      }
       $params['body']['sort'] = [$args['sortField'] => ['order' => $args['sortDirection']]];
     }
-    \Drupal::logger('elastic')->notice('<pre><code>PARAMS: ' . print_r($params, TRUE) . '</code></pre>' );
 
     return $params;
   }
