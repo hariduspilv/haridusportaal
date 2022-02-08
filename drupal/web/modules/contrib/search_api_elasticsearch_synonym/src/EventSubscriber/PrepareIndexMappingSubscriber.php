@@ -37,14 +37,14 @@ class PrepareIndexMappingSubscriber implements EventSubscriberInterface {
         $indexKey = $mappingParams['type'];
         foreach ($mappingParams['body'][$indexKey]['properties'] as $key => $property) {
           if ($property['type'] == 'text') {
-            $mappingParams['body'][$indexKey]['properties'][$key]['analyzer'] = $mappingParams['body'][$indexKey]['properties'][$key]['analyzer'] ?? 'standard';
+            $mappingParams['body'][$indexKey]['properties'][$key]['analyzer'] = $mappingParams['body'][$indexKey]['properties'][$key]['analyzer'] ?? 'standard_hyphen';
             $mappingParams['body'][$indexKey]['properties'][$key]['search_analyzer'] = 'synonym';
           }
         }
       } else {
         foreach ($mappingParams['body']['properties'] as $key => $property) {
           if ($property['type'] == 'text') {
-            $mappingParams['body']['properties'][$key]['analyzer'] = $mappingParams['body']['properties'][$key]['analyzer'] ?? 'standard';
+            $mappingParams['body']['properties'][$key]['analyzer'] = $mappingParams['body']['properties'][$key]['analyzer'] ?? 'standard_hyphen';
             $mappingParams['body']['properties'][$key]['search_analyzer'] = 'synonym';
           }
         }
