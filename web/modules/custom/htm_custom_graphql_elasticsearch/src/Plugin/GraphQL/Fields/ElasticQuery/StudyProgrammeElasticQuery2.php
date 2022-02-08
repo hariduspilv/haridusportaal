@@ -91,11 +91,13 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
 
         $params = $this->getElasticQuery($args);
 
-        if($params == NULL){
+      if($params == NULL){
             return NULL;
         }else{
             $response = $client->search($params);
-            if($args['offset'] == null && $args['limit'] == null){
+
+
+          if($args['offset'] == null && $args['limit'] == null){
                 while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
                     $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
@@ -155,8 +157,8 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
         if(count($studyprogramme['field_amount']) > 0){
             $amount = $studyprogramme['field_amount'][0]['value'];
         }
-        if(isset($args['filter']['school_address']) && $args['filter']['school_address'] != ''){
-            $location = $args['filter']['school_address'];
+        if(isset($args['filter']['school_search_address']) && $args['filter']['school_search_address'] != ''){
+            $location = $args['filter']['school_search_address'];
         }
 
         if(isset($language, $studyprogrammetype)){
@@ -309,17 +311,17 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
         }
 
         if(isset($location)){
-            $values = explode(" ", $location);
-            foreach($conditions as $key => $condition){
+          $values = explode(" ", $location);
+          foreach($conditions as $key => $condition){
                 foreach($values as $value){
                     $condition['bool']['must'][0] = array(
                         'wildcard' => array(
-                            'field_school_address' => '*'.str_replace(',', '', mb_strtolower($value)).'*'
+                            'field_school_search_address' => '*'.str_replace(',', '', mb_strtolower($value)).'*'
                         )
                     );
                 }
                 $conditions[$key] = $condition;
-            }
+          }
         }
 
         $query = array(
@@ -347,8 +349,7 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
         );
 
         $params['body'] = $query;
-
-        return $params;
+      return $params;
     }
 
 }

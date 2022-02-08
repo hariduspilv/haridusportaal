@@ -265,6 +265,7 @@ class SchoolImportController extends ControllerBase {
                   }
                 }
                 $schoolnode['school_location_paragraph']['field_address'] = $address->ipikkaadress;
+                $schoolnode['school_location_paragraph']['field_search_address'] = substr($address->ipikkaadress, strpos($address->ipikkaadress, ',') + 2);
                 $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->ipikkaadress;
                 $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
                 $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
@@ -286,6 +287,7 @@ class SchoolImportController extends ControllerBase {
                 }
               }
               $schoolnode['school_location_paragraph']['field_address'] = $address->ipikkaadress;
+              $schoolnode['school_location_paragraph']['field_search_address'] = substr($address->ipikkaadress, strpos($address->ipikkaadress, ',') + 2);
               $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->ipikkaadress;
               $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
               $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
