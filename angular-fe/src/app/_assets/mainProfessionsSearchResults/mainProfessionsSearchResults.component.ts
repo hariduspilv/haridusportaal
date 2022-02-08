@@ -246,6 +246,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
               this.list = listData;
               this.selectArbitraryHighlightedJob();
             }
+
             this.canLoadMore = !!(this.listCount > this.list.length);
             this.dispatchListEmit(false, this.list);
             this.updateRestorationValues(values);
@@ -341,11 +342,12 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
             this.loading = false;
             this.loadingMore = false;
           });
+        return;
       }
-    } else {
-      this.loading = false;
-      this.loadingMore = false;
     }
+
+    this.loading = false;
+    this.loadingMore = false;
   }
 
   ngOnInit() {
