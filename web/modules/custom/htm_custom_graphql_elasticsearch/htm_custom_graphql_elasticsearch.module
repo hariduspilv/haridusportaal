@@ -62,4 +62,6 @@ use Elasticsearch\ClientBuilder;
      $client->indices()->open(['index'=>$index_full_name]);
      $id++;
    }
+   // Flush caches after adding synonyms and saving them (newly added synonyms won't be implemented before clearing drupal cache)
+   drupal_flush_all_caches();
  }
