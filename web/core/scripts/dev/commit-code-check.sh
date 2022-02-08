@@ -424,7 +424,7 @@ for FILE in $FILES; do
     # has a corresponding .pcss don't do stylelint.
     if [[ $FILE =~ \.pcss\.css$ ]] || [[ ! -f "$TOP_LEVEL/$BASENAME.pcss.css" ]]; then
       cd "$TOP_LEVEL/core"
-      node_modules/.bin/stylelint "$TOP_LEVEL/$FILE"
+      node_modules/.bin/stylelint --allow-empty-input "$TOP_LEVEL/$FILE"
       if [ "$?" -ne "0" ]; then
         STATUS=1
       else

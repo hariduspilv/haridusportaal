@@ -1,3 +1,16 @@
+Metatag 8.x-1.19, 2022-01-06
+----------------------------
+#3104170 by DamienMcKenna, tobiasb, marcoliver, hosterholz, Berdir: Do not send
+  empty Metatag descriptions through translation.
+#3255547 by Eugene Bocharov, Thomas Kaisuka, Stephen Ollman, glynster, oxy86,
+  Matthijs, Mahmoud Barhouma, DamienMcKenna, wells: View preview broken after
+  Metatag upgrade.
+#3255731 by acbramley, DamienMcKenna, tim.anderson: Undefined array key errors
+  from metatag_update_8109.
+#3256373 by DamienMcKenna, Kulturmensch: WebManifest::output() doesn't verify
+  output is array before adding new element.
+
+
 Metatag 8.x-1.18, 2021-12-21
 ----------------------------
 #3255342 by Eugene Bocharov, trickfun, DamienMcKenna, paulocs: Table

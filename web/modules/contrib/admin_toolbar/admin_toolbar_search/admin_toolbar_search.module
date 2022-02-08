@@ -38,9 +38,27 @@ function admin_toolbar_search_toolbar_alter(&$items) {
   $display_menu_item = $config->get('display_menu_item');
 
   if (!$display_menu_item) {
+    $items['administration_mobile_search'] = [
+      '#type' => 'toolbar_item',
+      '#weight' => 100,
+      'tab' => [
+        '#type' => 'link',
+        '#title' => new TranslatableMarkup('Search'),
+        '#url' => Url::fromRoute('system.admin'),
+        '#attributes' => [
+          'class' => [
+            'toolbar-icon',
+          ],
+        ],
+      ],
+      '#wrapper_attributes' => [
+        'id' => 'admin-toolbar-mobile-search-tab',
+      ],
+    ];
+
     $items['administration_search'] = [
       "#type" => "toolbar_item",
-      '#weight' => 100,
+      '#weight' => 101,
       'tab' => [
         'search' => [
           '#title' => t('Search'),
