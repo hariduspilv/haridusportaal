@@ -471,18 +471,7 @@ display:
       cache:
         type: none
         options: {  }
-      empty:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: 'Logis ei ole teateid.'
-          plugin_id: text
-          empty: true
-          content: 'Logis ei ole teateid.'
-          tokenize: false
+      empty: {  }
       sorts:
         wid:
           id: wid

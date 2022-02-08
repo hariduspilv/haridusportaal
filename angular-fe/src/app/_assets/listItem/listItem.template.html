@@ -17,7 +17,7 @@
                             </a>
                         </div>
                         <div class="author" *ngIf="item.author || item.created">
-                            {{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                            {{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                         <div class="tags" *ngIf="item.tags">
                             <labels [data]="item.tags" type="default"></labels>
                         </div>
@@ -66,7 +66,7 @@
                         <a [routerLink]="item.url.path ? item.url.path : item.url" class="mb-0">
                             <h3 class="title">{{ item.title }}</h3>
                         </a>
-                        <div class="author">{{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                        <div class="author">{{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                     </div>
                 </ng-container>
 
@@ -78,7 +78,7 @@
                             <ng-container *ngIf="ind < 2 && oskaField.entity">
                                 <span aria-hidden="true" class="bar" *ngIf="oskaField.entity.title && ind !== 0">|</span>
                                 <div class="item item--inline">
-                                    <a [href]="oskaField.entity.entityUrl.path" tabindex="0"
+                                    <a [href]="oskaField.entity.entityUrl.path || oskaField.entity.entityUrl" tabindex="0"
                                         attr.aria-label="{{ 'oska.title_field' | translate }} {{ oskaField.entity.title }}">{{ oskaField.entity.title }}</a>
                                 </div>
                             </ng-container>
@@ -102,7 +102,7 @@
                                 </ng-container>
                             </ng-container>
                         </ng-container>
-                    </ng-container>    
+                    </ng-container>
                 </div>
                 <div *ngIf="type === 'school'" class="sm-show inline__items inline__items--floating">
                     <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
@@ -131,16 +131,25 @@
                             <span role="separator" class="bar" *ngIf="i>0">|</span>
                             <span class="item" *ngIf="fieldName === 'duration'">{{ item.duration | monthsToYears }}</span>
                             <span class="item"
-                                *ngIf="fieldName === 'educationalInstitution' || fieldName === 'address' || fieldName === 'studyProgrammeLevel' || fieldName === 'fieldSchoolName'">{{ item[fieldName].entity ? item[fieldName].entity.entityLabel : item[fieldName] }}</span>
-                            <span class="item" *ngIf="fieldName === 'teachingLanguage' && item[fieldName].length">
-                                <ng-container *ngFor="let item of item[fieldName]; let i = index;">
-                                    <span>
-                                        <span *ngIf="i > 0">, </span>
-                                        <span *ngIf="i === 0">{{ item.entity.entityLabel | ucfirst }}</span>
-                                        <span *ngIf="i !== 0">{{ item.entity.entityLabel }}</span>
-                                    </span>
-                                </ng-container>
-                            </span>
+                                *ngIf="fieldName === 'educationalInstitution' ||
+                                       fieldName === 'address' ||
+                                       fieldName === 'studyProgrammeLevel' ||
+                                       fieldName === 'fieldSchoolName'"
+                                       >{{ item[fieldName].entity ? item[fieldName].entity.entityLabel : item[fieldName] }}</span>
+                            <ng-container *ngIf="fieldName === 'teachingLanguage' && item[fieldName].length">
+                                <span class="item" *ngIf="isArray(item[fieldName])">
+                                    <ng-container *ngFor="let item of item[fieldName]; let i = index;">
+                                        <span>
+                                            <span *ngIf="i > 0">, </span>
+                                            <span *ngIf="i === 0">{{ (item.entity ? item.entity.entityLabel : item) | ucfirst }}</span>
+                                            <span *ngIf="i !== 0">{{ item.entity ? item.entity.entityLabel : item }}</span>
+                                        </span>
+                                    </ng-container>
+                                </span>
+                                <span class="item" *ngIf="!isArray(item[fieldName])">
+                                    {{ item[fieldName] | ucfirst }}
+                                </span>
+                            </ng-container>
                             <span class="item" *ngIf="fieldName === 'webpage' && item[fieldName]">
                                 <a attr.aria-label="{{'event.webpage' | translate}} {{ item[fieldName] | removeProtocol }}"
                                     href="{{ item[fieldName] | url }}"

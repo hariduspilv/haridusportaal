@@ -1,0 +1,21 @@
+uuid: 1ff97e9b-5880-4291-8892-c4dcc2bbb95e
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_search_address
+field_name: field_search_address
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -14,7 +14,9 @@
         </div>
         <div class="row" *ngIf="showFilter">
           <div class="col-4 sm-12" [class.col-9]="hasCalendar">
-            <formItem type="text"
+            <formItem type="autocomplete"
+                      query="testAutocomplete"
+                      queryType="event"
                       title="{{ 'news.filter_name' | translate }}"
                       name="title"
                       [(ngModel)]="searchTitle"

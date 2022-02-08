@@ -20,6 +20,7 @@ dependencies:
     - field.field.node.study_programme.field_practical_training_amount
     - field.field.node.study_programme.field_qualification_standard_id
     - field.field.node.study_programme.field_school_address
+    - field.field.node.study_programme.field_school_search_address
     - field.field.node.study_programme.field_school_website
     - field.field.node.study_programme.field_short_description
     - field.field.node.study_programme.field_specialization
@@ -58,6 +59,7 @@ hidden:
   field_practical_training_amount: true
   field_qualification_standard_id: true
   field_school_address: true
+  field_school_search_address: true
   field_school_website: true
   field_short_description: true
   field_specialization: true

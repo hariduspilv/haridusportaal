@@ -322,6 +322,16 @@
             element.removeAttribute('required');
           }
 
+          // Integrate CKEditor 5 viewport offset with Drupal displace.
+          // @see \Drupal\Tests\ckeditor5\FunctionalJavascript\CKEditor5ToolbarTest
+          // @see https://ckeditor.com/docs/ckeditor5/latest/api/module_core_editor_editorui-EditorUI.html#member-viewportOffset
+          $(document).on(
+            `drupalViewportOffsetChange.ckeditor5.${id}`,
+            (event, offsets) => {
+              editor.ui.viewportOffset = offsets;
+            },
+          );
+
           editor.model.document.on('change:data', () => {
             const callback = callbacks.get(id);
             if (callback) {
@@ -372,6 +382,9 @@
       if (!editor) {
         return;
       }
+
+      $(document).off(`drupalViewportOffsetChange.ckeditor5.${id}`);
+
       if (trigger === 'serialize') {
         editor.updateSourceElement();
       } else {
@@ -533,6 +546,29 @@
       Drupal.ckeditor5.saveCallback = saveCallback;
     },
   };
+
+  // Redirect on hash change when the original hash has an associated CKEditor 5.
+  function redirectTextareaFragmentToCKEditor5Instance() {
+    const hash = window.location.hash.substr(1);
+    const element = document.getElementById(hash);
+    if (element) {
+      const editorID = getElementId(element);
+      const editor = Drupal.CKEditor5Instances.get(editorID);
+      if (editor) {
+        // Give the CKEditor 5 instance an ID.
+        editor.sourceElement.nextElementSibling.setAttribute(
+          'id',
+          `cke_${hash}`,
+        );
+        window.location.replace(`#cke_${hash}`);
+      }
+    }
+  }
+
+  $(window).on(
+    'hashchange.ckeditor',
+    redirectTextareaFragmentToCKEditor5Instance,
+  );
 
   // Respond to new dialogs that are opened by CKEditor, closing the AJAX loader.
   $(window).on('dialog:beforecreate', () => {

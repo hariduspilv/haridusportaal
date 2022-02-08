@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   Output,
@@ -19,15 +20,13 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
   selector: 'autocomplete',
   templateUrl: 'autocomplete.template.html',
   styleUrls: ['autocomplete.styles.scss'],
-  host: {
-    class: 'autocomplete',
-  },
 })
 
 export class AutocompleteComponent implements OnDestroy {
   @Input() type: string = '';
   @Input() valueType: string = 'string';
-  @Input() inaadressFeatures = '';
+  @Input() queryField: string;
+  @Input() queryType: string;
   public data: [] = [];
   public active: boolean = false;
   public loading: boolean = false;
@@ -36,8 +35,12 @@ export class AutocompleteComponent implements OnDestroy {
   private debounce;
   private delay: number = 300;
   private subscription: Subscription;
-  private minChars: number = 3;
+  private minChars: number = 2;
   private searched = false;
+
+	@HostBinding('class') get hostClass(): string {
+		return 'autocomplete';
+	}
 
   constructor(
     private settings: SettingsService,
@@ -64,9 +67,15 @@ export class AutocompleteComponent implements OnDestroy {
 
       this.activeItem = -1;
       this.active = true;
-      const variables = {
+      const variables: { search_term?: string; field?: string; type?: string } = {
         search_term: value,
       };
+      if (this.queryField) {
+        variables.field = this.queryField;
+      }
+      if (this.queryType) {
+        variables.type = this.queryType;
+      }
       const path = this.settings.query(this.type, variables);
       let params: HttpParams = new HttpParams();
       if (this.type === 'inaadress') {
@@ -74,11 +83,10 @@ export class AutocompleteComponent implements OnDestroy {
         params = params.set('ihist', '1');
         params = params.set('appartment', '1');
         params = params.set('results', '10');
-        if (this.inaadressFeatures) {
-          params = params.set('features', this.inaadressFeatures);
-        }
       }
+
       clearTimeout(this.debounce);
+
       if (this.subscription) this.subscription.unsubscribe();
       this.debounce = setTimeout(
         () => {

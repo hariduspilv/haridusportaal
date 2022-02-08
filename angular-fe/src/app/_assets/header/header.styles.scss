@@ -99,6 +99,11 @@
 		&__hamburger {
 			min-height: 1.25rem;
 			padding: 0;
+
+            button:focus {
+              outline: var(--border);
+            }
+
 			@include break-on(sm, min) {
 				&.active {
 					display: none;

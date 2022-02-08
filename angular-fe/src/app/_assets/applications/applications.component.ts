@@ -28,6 +28,10 @@ const autocompleteValidator = (control: FormControl) => {
   return output;
 };
 
+const phoneNumberValidator = Validators.pattern(/^\+?[0-9\s]+$/);
+const webPageValidator = Validators.pattern(/^https?:\/\/[^\s].*/);
+const emailValidator = Validators.pattern(/^[-a-zA-Z0-9_.+]+@[-a-zA-Z0-9.]+\.[a-zA-Z]{2,}$/);
+
 @Component({
   selector: 'applications',
   templateUrl: './applications.template.html',
@@ -357,7 +361,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'contactPhone',
           required: true,
           error: false,
-          formControl: this.formBuilder.control('', Validators.required),
+          errorMessage: this.translate.get('login.invalid_number'),
+          formControl: this.formBuilder.control('', [Validators.required, phoneNumberValidator]),
         },
         {
           col: 6,
@@ -367,7 +372,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           required: true,
           error: false,
           errorMessage: this.translate.get('form.invalid_email'),
-          formControl: this.formBuilder.control('', [Validators.required, Validators.email]),
+          formControl: this.formBuilder.control('', [Validators.required, emailValidator]),
         },
         {
           col: 12,
@@ -388,7 +393,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'webpageAddress',
           required: true,
           error: false,
-          formControl: this.formBuilder.control('', Validators.required),
+          errorMessage: this.translate.get('form.invalid_web_address'),
+          formControl: this.formBuilder.control('', [Validators.required, webPageValidator]),
         },
         {
           col: 6,
@@ -431,7 +437,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'contactPhone',
           required: false,
           error: false,
-          formControl: this.formBuilder.control(''),
+          errorMessage: this.translate.get('login.invalid_number'),
+          formControl: this.formBuilder.control('', [phoneNumberValidator]),
         },
         {
           col: 12,
@@ -442,7 +449,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           required: false,
           error: false,
           errorMessage: this.translate.get('form.invalid_email'),
-          formControl: this.formBuilder.control('', [Validators.email]),
+          formControl: this.formBuilder.control('', [emailValidator]),
         },
         {
           col: 12,
@@ -452,7 +459,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'webpageAddress',
           required: false,
           error: false,
-          formControl: this.formBuilder.control(''),
+          errorMessage: this.translate.get('form.invalid_web_address'),
+          formControl: this.formBuilder.control('', [webPageValidator]),
         },
       ];
     }
@@ -488,6 +496,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           if (item.query === 'inaadress') {
             this.getItemAddress(item);
           }
+          this.validateField(item.modelName);
         });
         this.modalLoading = false;
         sub.unsubscribe();
@@ -608,9 +617,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           contactPhoneUid,
           contactEmailUid,
           webpageAddressUid,
-          contactPhone: this.formGroup.value.contactPhone,
-          contactEmail: this.formGroup.value.contactEmail,
-          webpageAddress: this.formGroup.value.webpageAddress,
+          contactPhone: this.formGroup.value.contactPhone || '',
+          contactEmail: this.formGroup.value.contactEmail || '',
+          webpageAddress: this.formGroup.value.webpageAddress || '',
         },
       };
 

@@ -54,15 +54,21 @@ class PrepareIndexSubscriber implements EventSubscriberInterface {
             "synonym" => array(
               "tokenizer" => "whitespace",
               "filter" => array(
-                "synonym"
+                "synonym",
+              )
+            ),
+            "standard_hyphen" => array(
+              "tokenizer" => "whitespace",
+              "filter" => array(
+                "lowercase"
               )
             )
           ),
           "filter" => array(
             "synonym" => array(
-                "type" => $config->get('token_filter_type') ?? "synonym",
-                "lenient" => true,
-                "synonyms" => $this->getSynonyms()
+              "type" => $config->get('token_filter_type') ?? "synonym",
+              "lenient" => true,
+              "synonyms" => $this->getSynonyms()
             )
           )
         )

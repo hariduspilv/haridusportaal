@@ -113,7 +113,7 @@ export class StudyUtility {
       studyTopicEnabled: !!parameters.teema,
       publicationTypeValue: parameters.publikatsiooniLiik?.split(';'),
       publicationTypeEnabled: !!parameters.publikatsiooniLiik,
-      publisherValue: parameters.valjaandja?.split(';'),
+      publisherValue: parameters.valjaandja?.split(';').map((value) => `%${value}%`),
       publisherEnabled: !!parameters.valjaandja,
       publicationLanguageValue: parameters.publikatsiooniKeel?.split(';'),
       publicationLanguageEnabled: !!parameters.publikatsiooniKeel,
