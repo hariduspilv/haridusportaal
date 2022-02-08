@@ -289,6 +289,26 @@ field_settings:
         - field.storage.node.field_study_programme_type
       module:
         - taxonomy
+  tid_1:
+    label: 'Õppekava tase  » Taxonomy term » Termini ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_study_programme_level:entity:tid'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_study_programme_level
+      module:
+        - taxonomy
+  tid_2:
+    label: 'Õppekavarühm » Taxonomy term » Termini ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_iscedf_detailed:entity:tid'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_iscedf_detailed
+      module:
+        - taxonomy
   title:
     label: Pealkiri
     datasource_id: 'entity:node'
