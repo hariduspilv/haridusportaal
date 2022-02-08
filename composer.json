@@ -165,6 +165,9 @@
             },
             "drupal/menu_item_role_access": {
                 "Call to a member function hasField() on null": "https://www.drupal.org/files/issues/2021-02-09/hasField-on-null-3197539-2.patch"
+            },
+            "drupal/search_api_elasticsearch_synonym": {
+                "Recognize hyphen as part of the word": "web/patches/elasticsearch_synonym_hyphen.txt"
             }
         }
     }
