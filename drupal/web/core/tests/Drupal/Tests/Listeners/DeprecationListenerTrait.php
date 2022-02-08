@@ -70,7 +70,7 @@ trait DeprecationListenerTrait {
     }
     $dynamic_skipped_deprecations = [
       '%The "[^"]+" class extends "Symfony\\\\Component\\\\EventDispatcher\\\\Event" that is deprecated since Symfony 4\.3, use "Symfony\\\\Contracts\\\\EventDispatcher\\\\Event" instead\.$%',
-      '%The "Symfony\\\\Component\\\\Validator\\\\Context\\\\ExecutionContextInterface::.*\(\)" method is considered internal Used by the validator engine. Should not be called by user\s\*\s*code\. It may change without further notice\. You should not extend it from "[^"]+".%',
+      '%The "Symfony\\\\Component\\\\Validator\\\\Context\\\\ExecutionContextInterface::.*\(\)" method is considered internal Used by the validator engine\. Should not be called by user\W+code\. It may change without further notice\. You should not extend it from "[^"]+".%',
       '%The "PHPUnit\\\\Framework\\\\TestCase::addWarning\(\)" method is considered internal%',
       // The following deprecations were not added as part of the original
       // issues and thus were not addressed in time for the 9.0.0 release.
@@ -128,6 +128,7 @@ trait DeprecationListenerTrait {
       "The \"PHPUnit\Framework\TestSuite\" class is considered internal This class is not covered by the backward compatibility promise for PHPUnit. It may change without further notice. You should not use it from \"Drupal\Tests\TestSuites\TestSuiteBase\".",
       // PHPUnit 9.
       "The \"PHPUnit\TextUI\DefaultResultPrinter\" class is considered internal This class is not covered by the backward compatibility promise for PHPUnit. It may change without further notice. You should not use it from \"Drupal\Tests\Listeners\HtmlOutputPrinter\".",
+      "The \"Drupal\Tests\Listeners\DrupalListener\" class implements \"PHPUnit\Framework\TestListener\" that is deprecated.",
     ];
   }
 
