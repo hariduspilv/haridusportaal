@@ -26,6 +26,7 @@ export class ListItemComponent implements OnInit, OnChanges{
   public footerFields = {
     studyProgramme: [
       'educationalInstitution',
+      'fieldSchoolName',
       'duration',
       'teachingLanguage',
     ],
