@@ -48,9 +48,5 @@ display:
           expose:
             label: Severity
       title: 'Recent log messages'
-      empty:
-        area:
-          admin_label: 'No log messages available.'
-          content: 'No log messages available.'
   page:
     display_title: Page
