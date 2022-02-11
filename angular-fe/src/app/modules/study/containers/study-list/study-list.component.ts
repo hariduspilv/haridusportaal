@@ -53,7 +53,7 @@ export class StudyListComponent implements OnInit, OnDestroy {
   }
 
 	ngOnDestroy(): void {
-		this.componentDestroyed$.next();
+		this.componentDestroyed$.next(true);
 		this.componentDestroyed$.complete();
 	}
 

@@ -272,16 +272,12 @@ export class DigitalSignViewComponent implements OnInit {
   }
   saveFile(file) {
     const blob = this.b64toBlob(file.value, 'application/vnd.etsi.asic-e+zip');
-    if (window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveBlob(blob, file.fileName);
-    } else {
-      const elem = window.document.createElement('a');
-      elem.href = window.URL.createObjectURL(blob);
-      elem.download = file.fileName;
-      document.body.appendChild(elem);
-      elem.click();
-      document.body.removeChild(elem);
-    }
+    const elem = window.document.createElement('a');
+    elem.href = window.URL.createObjectURL(blob);
+    elem.download = file.fileName;
+    document.body.appendChild(elem);
+    elem.click();
+    document.body.removeChild(elem);
     this.loading = false;
   }
   b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {

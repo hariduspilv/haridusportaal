@@ -21,7 +21,6 @@ import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicke
 import { BlockComponent, BlockContentComponent } from '@app/_assets/block';
 import { Subscription, Subject } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { ThrowStmt } from '@angular/compiler';
 import { takeUntil } from 'rxjs/operators';
 const moment = _moment;
 @Component({

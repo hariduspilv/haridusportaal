@@ -1,9 +1,8 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, ModuleWithProviders } from '@angular/core';
 import { TranslatePipe } from './translate.pipe';
 import { TranslateService } from './translate.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders } from '@angular/compiler/src/core';
 
 export function translationsProviderFactory(provider: TranslateService) {
   return () => provider.load();
@@ -19,7 +18,7 @@ export function translationsProviderFactory(provider: TranslateService) {
 })
 
 export class TranslateModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<TranslateModule> {
     return {
       ngModule: TranslateModule,
       providers: [

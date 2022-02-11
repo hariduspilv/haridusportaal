@@ -20,11 +20,11 @@
  */
 
   // Run `npm install --save classlist.js`.
-import 'core-js/es6/reflect';
+import 'core-js/es/reflect';
   // Run `npm install --save web-animations-js`.
-import 'core-js/es7/object';
-import 'core-js/es7/array';
-import 'core-js/es7/string';
+import 'core-js/es/object';
+import 'core-js/es/array';
+import 'core-js/es/string';
 import './custom-polyfills/nodelist-foreach.js';
 
 /**
