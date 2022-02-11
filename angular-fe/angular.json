@@ -242,8 +242,9 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "haridusportaal-fe:serve:production"
-            }
+              "devServerTarget": "haridusportaal-fe:serve:production",
+							"protractorConfig": ""
+						}
           }
         }
       }

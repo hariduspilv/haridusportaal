@@ -19,23 +19,13 @@
  * BROWSER POLYFILLS
  */
 
-import 'classlist.js';  // Run `npm install --save classlist.js`.
+  // Run `npm install --save classlist.js`.
 import 'core-js/es6/reflect';
-import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+  // Run `npm install --save web-animations-js`.
 import 'core-js/es7/object';
 import 'core-js/es7/array';
 import 'core-js/es7/string';
 import './custom-polyfills/nodelist-foreach.js';
-
-/** IE10 and IE11 requires the following for NgClass support on SVG elements */
-// import 'classlist.js';  // Run `npm install --save classlist.js`.
-
-/**
- * Web Animations `@angular/platform-browser/animations`
- * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
- * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
- */
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
