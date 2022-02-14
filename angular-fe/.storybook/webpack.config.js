@@ -27,7 +27,10 @@ module.exports = async ({ config, mode }) => {
   ]);
 
   config.module.rules.push({
-    test: /stories\/.*\.html$/i,
+    test: /\.html$/i,
+    include: [
+      path.resolve(__dirname, '..', 'stories')
+    ],
     loader: "html-loader",
   });
   
