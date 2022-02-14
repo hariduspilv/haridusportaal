@@ -175,19 +175,23 @@ export class SchoolListMapComponent implements AfterViewInit {
 
     this.markers = [];
     const path = this.settings.query('schoolMapQuery', variables);
-    this.listSub = this.http.get(path).subscribe((response: any) => {
-      const entities = response['data']['CustomElasticQuery'][0]['entities'];
-      this.markers = this.fixCoordinates(entities);
-    },                                           () => {
-      this.loading = false;
-    }, () => {
-      this.loading = false;
-      if (window['google'] && this.markers && this.markers.length) {
-        this.mapService.setBounds(this.markers);
-      } else {
-        this.mapService.resetCenter();
+    this.listSub = this.http.get(path).subscribe({
+      next: (response: any) => {
+        const entities = response['data']['CustomElasticQuery'][0]['entities'];
+        this.markers = this.fixCoordinates(entities);
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+        if (window['google'] && this.markers && this.markers.length) {
+          this.mapService.setBounds(this.markers);
+        } else {
+          this.mapService.resetCenter();
+        }
+        this.listSub.unsubscribe();
       }
-      this.listSub.unsubscribe();
     });
   }
 

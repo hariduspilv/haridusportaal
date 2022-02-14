@@ -625,8 +625,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
       const sub = this.http
         .post(`${this.settings.url}/educational-institution/edit`, body)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
             this.alertsService.info(response.message, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.modalBottomAction = true;
@@ -637,12 +637,13 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.fetchData(true);
             sub.unsubscribe();
           },
-          (err) => {
+          error: (err) => {
             this.alertsService.error(err.error, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.error = true;
             this.modalBottomAction = true;
-          });
+          }
+        });
     }
 
   }
@@ -677,8 +678,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       };
       const sub = this.http
         .post(`${this.settings.url}/educational-institution/add`, body)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
             this.alertsService.info(response.message, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.modalBottomAction = true;
@@ -688,12 +689,13 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.fetchData(true);
             sub.unsubscribe();
           },
-          (err) => {
+          error: (err) => {
             this.alertsService.error(err.error, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.error = true;
             this.modalBottomAction = true;
-          });
+          }
+        });
     }
   }
 

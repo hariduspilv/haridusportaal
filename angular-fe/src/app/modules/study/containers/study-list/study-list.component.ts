@@ -71,16 +71,19 @@ export class StudyListComponent implements OnInit, OnDestroy {
       parameters, this.offsetParameters);
     this.api.studyListViewQuery(requestParameters)
       .pipe(takeUntil(this.componentDestroyed$))
-      .subscribe((response: StudyListViewQueryResponse) => {
-      const { entities, count } = response.data.nodeQuery;
-      const { list, highlight } = StudyUtility.studyListMappedData(this.list, entities, loadMoreContent);
-      this.offsetParameters.count = count;
-      this.list = list;
-      this.highlight = highlight;
-      this.resetLoading();
-    }, () => {
-      this.resetLoading();
-    });
+      .subscribe({
+        next: (response: StudyListViewQueryResponse) => {
+          const { entities, count } = response.data.nodeQuery;
+          const { list, highlight } = StudyUtility.studyListMappedData(this.list, entities, loadMoreContent);
+          this.offsetParameters.count = count;
+          this.list = list;
+          this.highlight = highlight;
+          this.resetLoading();
+        },
+        error: () => {
+          this.resetLoading();
+        }
+      });
   }
 
   private resetLoading(): void {

@@ -680,59 +680,61 @@ export class EventsListComponent extends FiltersService implements OnInit {
           scrollSub.unsubscribe();
         } else {
           const path = this.settings.query('getEventList', variables);
-          this.dataSubscription = this.http.get(path).subscribe((response) => {
-  
-            let data = response['data'];
-  
-            try {
-              data['nodeQuery']['entities'] = data['nodeQuery']['entities'].map((item) => {
-                const type = [{ ... item.fieldEventType.entity} ];
-                const tags = item.hashTags.map((tag) => {
-                  return tag.entity || false;
-                }).filter((tag) => {
-                  return tag;
+          this.dataSubscription = this.http.get(path).subscribe({
+            next: (response) => {
+              let data = response['data'];
+    
+              try {
+                data['nodeQuery']['entities'] = data['nodeQuery']['entities'].map((item) => {
+                  const type = [{ ... item.fieldEventType.entity} ];
+                  const tags = item.hashTags.map((tag) => {
+                    return tag.entity || false;
+                  }).filter((tag) => {
+                    return tag;
+                  });
+                  item.tags = [ ...type, ...tags];
+                  return item;
                 });
-                item.tags = [ ...type, ...tags];
-                return item;
-              });
-            } catch (err) {}
-            
-            if( this.status ){ return false; }
-  
-            this.status = false;
-  
-            if( this.view == "list" ){
-  
-              this.count = data['nodeQuery']['count'];
-              this.eventListRaw = data['nodeQuery']['entities'];
+              } catch (err) {}
               
-              this.eventList = this.organizeList( this.eventListRaw );
-              // if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
-              //   this.listEnd = true;
-              // }
-              if (this.eventListRaw && this.eventListRaw.length === this.count) {
-                this.listEnd = true;
+              if( this.status ){ return false; }
+    
+              this.status = false;
+    
+              if( this.view == "list" ){
+    
+                this.count = data['nodeQuery']['count'];
+                this.eventListRaw = data['nodeQuery']['entities'];
+                
+                this.eventList = this.organizeList( this.eventListRaw );
+                // if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
+                //   this.listEnd = true;
+                // }
+                if (this.eventListRaw && this.eventListRaw.length === this.count) {
+                  this.listEnd = true;
+                }
+                this.scrollRestoration.restorationValues.next({
+                  ...this.scrollRestorationValues,
+                  'eventsList': { values: this.params, list: this.eventListRaw, canLoadMore: !this.listEnd },
+                });
+              }else{
+                this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
               }
-              this.scrollRestoration.restorationValues.next({
-                ...this.scrollRestorationValues,
-                'eventsList': { values: this.params, list: this.eventListRaw, canLoadMore: !this.listEnd },
-              });
-            }else{
-              this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
+              
+              this.loadFlag = false;
+              this.dataSubscription.unsubscribe();
+              this.dataSubscription = false;
+              if (this.device.isMobile() && paramsExist(this.route)) {
+                scrollElementIntoView('block');
+              }
+            },
+            error: (err) => {
+              this.eventList = [];
+              this.listEnd = true;
+              this.loadFlag = false;
+              this.dataSubscription.unsubscribe();
+              this.dataSubscription = false;
             }
-            
-            this.loadFlag = false;
-            this.dataSubscription.unsubscribe();
-            this.dataSubscription = false;
-            if (this.device.isMobile() && paramsExist(this.route)) {
-              scrollElementIntoView('block');
-            }
-          }, (err) => {
-            this.eventList = [];
-            this.listEnd = true;
-            this.loadFlag = false;
-            this.dataSubscription.unsubscribe();
-            this.dataSubscription = false;
           });
         }
   }

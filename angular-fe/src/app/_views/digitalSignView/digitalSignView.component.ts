@@ -64,8 +64,8 @@ export class DigitalSignViewComponent implements OnInit {
       .get(
         `${this.settings.url}/dashboard/eeIsikukaart/digital_sign_data?_format=json`,
       )
-      .subscribe(
-        (response: DSVResponse) => {
+      .subscribe({
+        next: (response: DSVResponse) => {
           if (response.error) {
             this.error = true;
             const currentLang = 'et';
@@ -106,12 +106,13 @@ export class DigitalSignViewComponent implements OnInit {
           sub.unsubscribe();
           this.loading = false;
         },
-        (error) => {
+        error: (error) => {
           this.loading = false;
           this.error = true;
           this.alertsService
             .info('errors.studies_data_missing', 'studies');
-        });
+        }
+      });
   }
   initFormGroup() {
     const defaultValue = {};
