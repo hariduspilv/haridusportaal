@@ -241,7 +241,7 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "browserTarget": "haridusportaal-fe:build",
-            "output": "dist/storybook"
+            "outputDir": "dist/storybook"
           }
         }
       }
