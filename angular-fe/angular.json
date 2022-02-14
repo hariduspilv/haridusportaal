@@ -229,6 +229,19 @@
 							"protractorConfig": ""
 						}
           }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "browserTarget": "haridusportaal-fe:build",
+            "port": 4400
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "browserTarget": "haridusportaal-fe:build"
+          }
         }
       }
     }

@@ -1,6 +1,10 @@
 {
   "extends": "../tsconfig.app.json",
   "compilerOptions": {
-    "emitDecoratorMetadata": true
-  }
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+  },
+  "include": [
+    "../stories/**/**/*.stories.ts"
+  ]
 }
