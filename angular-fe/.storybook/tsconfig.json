@@ -5,6 +5,7 @@
     "allowSyntheticDefaultImports": true,
   },
   "include": [
-    "../stories/**/**/*.stories.ts"
+    "../stories/**/**/*.stories.ts",
+    "../src/**/*.ts"
   ]
 }
