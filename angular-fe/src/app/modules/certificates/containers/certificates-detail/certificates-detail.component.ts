@@ -78,18 +78,18 @@ export class CertificatesDetailComponent implements OnInit {
       ? `${this.settings.ehisUrl}/certificates/v1/certificate/ACCESS_CODE/${params.certificateNr}/${this.accessorCode}`
       : `${this.settings.ehisUrl}/certificates/v1/certificate/${params.id}?accessType=${this.accessType}`;
 
-    this.http.get(URL).subscribe(
-      (res: CertificateData) => {
+    this.http.get(URL).subscribe({
+      next: (res: CertificateData) => {
         this.certificateData = res;
         this.generalEducationDocumentType =
           CertificatesUtility.isGeneralEducationDocumentType(res.index);
         this.getLatestDocuments(res);
       },
-      (err) => {
+      error: (err) => {
         this.loading = false;
         this.notFound = true;
-      });
-
+      }
+    });
   }
 
   private getLatestDocuments(data: CertificateData) {

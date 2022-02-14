@@ -627,31 +627,34 @@ export class InfographComponent implements OnInit {
       }
       const path = this.settings.query('infographQuery', tmpVariables);
       this.requestSubscription[id]
-        = this.http.get(path).subscribe((response) => {
-          const data = response['data'].InfographQuery.map((item) => {
+        = this.http.get(path).subscribe({
+          next: (response) => {
+            const data = response['data'].InfographQuery.map((item) => {
 
-            const type = variables['graphType'];
+              const type = variables['graphType'];
 
-            return {
-              graphType: type,
-              /*graphIndicator: 'Mis ma siia panen? :O',*/
-              graphTitle: current.graphTitle,
-              value: item.ChartValue,
-              secondaryGraphType: variables['secondaryGraphType'],
-              secondaryGraphIndicator: null,
-              options: current['filterValues']['graph_options'],
-              id: current['id'],
-            };
-          });
+              return {
+                graphType: type,
+                /*graphIndicator: 'Mis ma siia panen? :O',*/
+                graphTitle: current.graphTitle,
+                value: item.ChartValue,
+                secondaryGraphType: variables['secondaryGraphType'],
+                secondaryGraphIndicator: null,
+                options: current['filterValues']['graph_options'],
+                id: current['id'],
+              };
+            });
 
-          this.filtersData[current.id] = this.compileData(data);
+            this.filtersData[current.id] = this.compileData(data);
 
-          this.filtersData[current.id].loading = false;
+            this.filtersData[current.id].loading = false;
 
-          this.requestSubscription[id].unsubscribe();
-          this.requestSubscription[id] = false;
-        },                              (err) => {
-          this.filtersData[current.id].loading = false;
+            this.requestSubscription[id].unsubscribe();
+            this.requestSubscription[id] = false;
+          },
+          error: (err) => {
+            this.filtersData[current.id].loading = false;
+          }
         });
     },                                    300);
 

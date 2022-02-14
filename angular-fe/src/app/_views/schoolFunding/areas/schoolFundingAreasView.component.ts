@@ -82,13 +82,16 @@ export class SchoolFundingAreasViewComponent {
       investmentDeadline: params.investmentDeadlineYear,
     };
     const query = this.settingsService.query('subsidyProjectQueryLocation', variables);
-    this.http.get(query).subscribe(({ data }: any) => {
-      this.polygonData = {
-        county: data.CustomSubsidyProjectQuery,
-        kov: data.CustomSubsidyProjectQuery,
-      };
-      this.mapService.polygonLayer.next(levelOfDetail);
-    },                             () => this.loading = false);
+    this.http.get(query).subscribe({
+      next: ({ data }: any) => {
+        this.polygonData = {
+          county: data.CustomSubsidyProjectQuery,
+          kov: data.CustomSubsidyProjectQuery,
+        };
+        this.mapService.polygonLayer.next(levelOfDetail);
+      },
+      error: () => this.loading = false
+    });
   }
 
   parseFilters(data) {

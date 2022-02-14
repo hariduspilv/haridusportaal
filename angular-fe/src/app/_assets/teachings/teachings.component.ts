@@ -51,8 +51,8 @@ export class TeachingsComponent implements OnInit {
         .get(
           `${this.settings.url}/dashboard/eeIsikukaart/teachings?_format=json`,
           { headers: this.headers })
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
             if (response['error']) {
               this.error = true;
               this.requestErr = true;
@@ -120,13 +120,14 @@ export class TeachingsComponent implements OnInit {
             sub.unsubscribe();
             this.loading = false;
           },
-          (error) => {
+          error: (error) => {
             this.loading = false;
             this.error = true;
             this.requestErr = true;
             this.alertsService
               .info('errors.teachings_data_request', 'teachings', 'teachings', false, false);
-          });
+          }
+        });
   }
 
   convertDates(dateA, dateB) {
