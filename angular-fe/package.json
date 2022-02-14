@@ -10,8 +10,8 @@
     "test": "ng test",
     "lint": "npx ng lint haridusportaal-fe",
     "e2e": "ng e2e",
-    "storybook": "start-storybook -p 4300",
-    "build-storybook": "build-storybook --quiet -c .storybook -o dist/storybook",
+    "storybook": "ng run haridusportaal-fe:storybook",
+    "build-storybook": "ng run haridusportaal-fe:build-storybook",
     "build-app-with-storybook": "npm run build && npm run build-storybook",
     "postinstall": "patch-package"
   },
@@ -69,6 +69,7 @@
     "@storybook/addon-notes": "^5.3.21",
     "@storybook/angular": "^6.4.19",
     "@storybook/builder-webpack5": "^6.4.19",
+    "@storybook/html": "^6.4.19",
     "@storybook/manager-webpack5": "^6.4.19",
     "@storybook/testing-library": "^0.0.9",
     "@types/googlemaps": "^3.39.8",

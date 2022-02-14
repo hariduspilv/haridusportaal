@@ -27,7 +27,7 @@ module.exports = async ({ config, mode }) => {
   ]);
 
   config.module.rules.push({
-    test: /\.html$/i,
+    test: /stories\/.*\.html$/i,
     loader: "html-loader",
   });
   
