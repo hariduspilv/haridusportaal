@@ -12,7 +12,7 @@ COPY ./angular-fe /app/angular-fe
 WORKDIR /app/angular-fe
 RUN npm ci
 RUN npm run build-dev
-#RUN npm run build-storybook
+RUN npm run build-storybook
 
 RUN apk --no-cache add --virtual native-deps \
     g++ gcc libgcc libstdc++ linux-headers make python2 && \

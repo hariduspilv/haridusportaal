@@ -31,7 +31,7 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
-              "path": "./.storybook/webpack.config.js",
+              "path": "./webpack.iconfont.config.js",
               "replaceDuplicatePlugins": true
             },
             "outputPath": "dist",
@@ -228,6 +228,20 @@
               "devServerTarget": "haridusportaal-fe:serve:production",
 							"protractorConfig": ""
 						}
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "browserTarget": "haridusportaal-fe:build",
+            "port": 4300
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "browserTarget": "haridusportaal-fe:build",
+            "outputDir": "dist/storybook"
           }
         }
       }
