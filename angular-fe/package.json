@@ -10,9 +10,9 @@
     "test": "ng test",
     "lint": "npx ng lint haridusportaal-fe",
     "e2e": "ng e2e",
-    "storybook": "start-storybook -p 4300",
-    "build-storybook": "build-storybook --quiet -c .storybook -o dist/storybook",
-    "build-app-with-storybook": "npm run build && npm run build-storybook",
+    "storybook": "echo \"disabled temporarily\"",
+    "build-storybook": "echo \"disabled temporarily\"",
+    "build-app-with-storybook": "npm run build",
     "postinstall": "patch-package"
   },
   "private": true,
