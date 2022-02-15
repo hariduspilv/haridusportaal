@@ -5,12 +5,16 @@ import imageMd from './image.md';
 import { TranslateModule } from '@app/_modules/translate';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
+import { ModalService } from "@app/_services";
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
   ],
+	providers: [
+		ModalService,
+	],
 };
 
 const stories = storiesOf('Assets/Images', module);

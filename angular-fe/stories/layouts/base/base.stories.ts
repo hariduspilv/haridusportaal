@@ -8,6 +8,7 @@ import { TranslateModule } from '@app/_modules/translate/translate.module';
 import { Alert, AlertType, SidemenuService, RippleService, ModalService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { TitleService } from "@app/_services/TitleService";
 
 const moduleMetadata = {
   imports: [
@@ -18,6 +19,7 @@ const moduleMetadata = {
 
   ],
   providers: [
+		TitleService,
   ],
 };
 
