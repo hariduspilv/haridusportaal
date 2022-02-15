@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_oska;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\htm_custom_oska\Entity\OskaIndicatorEntity;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,6 +29,7 @@ class ProcessOskaStudiesData {
     $results = [];
     $object = [
       'ametiala' => false,
+      'seotud_ametid' => false,
       'oppevaldkond' => false,
       'oppesuund' => false,
       'oppekavaruhm' => false,
@@ -46,6 +48,25 @@ class ProcessOskaStudiesData {
         }
       }
 
+      if($item['seotud_ametid']) {
+        $jobs = explode(',', $item['seotud_ametid']);
+        if(is_array($jobs) && count($jobs) > 1) {
+          // If there is more than one related job then loop through them and get node id of each
+          foreach($jobs as $job => $j) {
+            $object['seotud_ametid'][] = self::checkEntityReference('node', [
+              'type' => 'oska_main_profession_page',
+              'field_profession' => true,
+              'title' => $j
+            ]);
+          }
+        } else {
+          $object['seotud_ametid'] = self::checkEntityReference('node', [
+            'type' => 'oska_main_profession_page',
+            'field_profession' => true,
+            'title' =>  $item['seotud_ametid']
+          ]);
+        }
+      }
       $object['ametiala'] = self::checkEntityReference('node', ['type' => 'oska_main_profession_page', 'title' =>  $item['ametiala']]);
       $object['oppevaldkond'] = is_numeric($item['oppevaldkond']) ? self::checkEntityReference('taxonomy_term', ['vid' => 'isced_f', 'field_code' => strlen((string)$item['oppevaldkond']) === 1 ? '0'.$item['oppevaldkond'] : $item['oppevaldkond']]) : FALSE;
       $object['oppesuund'] =  is_numeric($item['oppesuund']) ? self::checkEntityReference('taxonomy_term', ['vid' => 'isced_f', 'field_code' => strlen((string)$item['oppesuund']) === 2 ? '0'.$item['oppesuund'] : $item['oppesuund']]) : FALSE;
@@ -53,7 +74,6 @@ class ProcessOskaStudiesData {
       $object['oppetase'] = self::checkEntityReference('taxonomy_term', ['vid' => 'studyprogrammelevel', 'field_ehis_output' => $item['oppetase']]);
 
       if(!$object['ametiala']){
-
         $error_messag_func = function($values, $required_fields) {
           foreach($values as $key => $value){
             if(in_array($key, $required_fields) && $value === FALSE){
@@ -62,12 +82,13 @@ class ProcessOskaStudiesData {
           }
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object, $required_fields));
-      }elseif($object['ametiala'] && !$object['oppevaldkond'] && !$object['oppesuund'] && !$object['oppekavaruhm'] && !$object['oppetase']){
+      }elseif($object['ametiala'] && !$object['seotud_ametid'] && !$object['oppevaldkond'] && !$object['oppesuund'] && !$object['oppekavaruhm'] && !$object['oppetase']){
         $error_messag_func = function() {
               return t('Only main profession entered');
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func());
       }else{
+        $results[$object['ametiala']]['field_job_link'][] = $object['seotud_ametid'];
         $results[$object['ametiala']]['field_iscedf_broad'][] = $object['oppevaldkond'];
         $results[$object['ametiala']]['field_iscedf_narrow'][] = $object['oppesuund'];
         $results[$object['ametiala']]['field_iscedf_search_term'][] = $object['oppekavaruhm'];
@@ -101,9 +122,17 @@ class ProcessOskaStudiesData {
           $sidebar_paragraph = Paragraph::load($main_profession_page->get('field_sidebar')->getValue()[0]['target_id']);
 
           $old_study_paragraphs = $sidebar_paragraph->get('field_iscedf_search_link')->getValue();
+          $old_job_paragraphs = $sidebar_paragraph->get('field_jobs')->getValue();
 
           #remove and delete old paragraphs from content
           $sidebar_paragraph->set('field_iscedf_search_link', null);
+          $sidebar_paragraph->set('field_jobs', null);
+          foreach($old_job_paragraphs as $paragraph){
+            $paragraph = Paragraph::load($paragraph['target_id']);
+            if($paragraph){
+              $paragraph->delete();
+            }
+          }
           foreach($old_study_paragraphs as $paragraph){
             $paragraph = Paragraph::load($paragraph['target_id']);
             if($paragraph){
@@ -114,11 +143,59 @@ class ProcessOskaStudiesData {
           $new_paragraphs = [];
 
           $paragraph = Paragraph::create([
-            'type' => 'iscedf_search'
+            'type' => 'iscedf_search',
           ]);
+
           foreach($paragraph_items as $label => $value){
-            $paragraph->set($label, array_unique($value));
+            if($label !== 'field_job_link') {
+              $paragraph->set($label, array_unique($value));
+              // For related jobs paragraph
+            } else {
+              // If there is more than one related job then loop through them and create paragraph for each
+              if(is_array($value[0])) {
+                foreach($value[0] as $job => $j_nid) {
+                  $node = Node::load($j_nid);
+                  $job_paragraph = Paragraph::create([
+                    'type' => 'job',
+                  ]);
+                  $job_paragraph->set($label, [
+                    'uri' => 'entity:node/'.$j_nid,
+                    'title' => $node->getTitle()
+                  ]);
+                  $job_paragraph->set('field_job_name', $node->getTitle());
+                  $job_paragraph->save();
+                  $new_paragraph = [
+                    'target_id' => $job_paragraph->id(),
+                    'target_revision_id' => $job_paragraph->getRevisionId()];
+                  $context['results']['processed'][] = $job_paragraph->id();
+
+                  $sidebar_paragraph->get('field_jobs')->appendItem($new_paragraph);
+                  $sidebar_paragraph->save();
+                }
+                // If there is only one related job then create only one paragraph
+              } else {
+                $node = Node::load(array_unique($value)[0]);
+                $job_paragraph = Paragraph::create([
+                  'type' => 'job',
+                ]);
+                $job_paragraph->set($label, [
+                  'uri' => 'entity:node/'.array_unique($value)[0],
+                  'title' => $node->getTitle()
+                ]);
+                $job_paragraph->set('field_job_name', $node->getTitle());
+                $job_paragraph->save();
+                $new_paragraph = [
+                  'target_id' => $job_paragraph->id(),
+                  'target_revision_id' => $job_paragraph->getRevisionId()];
+                $context['results']['processed'][] = $job_paragraph->id();
+
+                $sidebar_paragraph->get('field_jobs')->appendItem($new_paragraph);
+                $sidebar_paragraph->save();
+              }
+            }
           }
+
+          // For paragraphs that are not related jobs
           $paragraph->save();
           $new_paragraph = [
             'target_id' => $paragraph->id(),
@@ -169,9 +246,17 @@ class ProcessOskaStudiesData {
         $sidebar_paragraph = Paragraph::load($main_profession_page->get('field_sidebar')->getValue()[0]['target_id']);
 
         $old_study_paragraphs = $sidebar_paragraph->get('field_iscedf_search_link')->getValue();
+        $old_job_paragraphs = $sidebar_paragraph->get('field_jobs')->getValue();
 
         #remove and delete old paragraphs from content
-        $sidebar_paragraph->set('field_iscedf_search_link', NULL);
+        $sidebar_paragraph->set('field_iscedf_search_link', null);
+        $sidebar_paragraph->set('field_jobs', null);
+        foreach($old_job_paragraphs as $paragraph){
+          $paragraph = Paragraph::load($paragraph['target_id']);
+          if($paragraph){
+            $paragraph->delete();
+          }
+        }
         foreach($old_study_paragraphs as $paragraph){
           $paragraph = Paragraph::load($paragraph['target_id']);
           if($paragraph){
