@@ -13,6 +13,7 @@ dependencies:
     - field.field.paragraph.main_profession_sidebar.field_pros
     - field.field.paragraph.main_profession_sidebar.field_qualification_standard
     - field.field.paragraph.main_profession_sidebar.field_quick_find
+    - field.field.paragraph.main_profession_sidebar.field_related_profession
     - paragraphs.paragraphs_type.main_profession_sidebar
   module:
     - link
@@ -38,7 +39,7 @@ content:
         maxlength_js_truncate_html: false
   field_contact:
     type: entity_reference_paragraphs
-    weight: 9
+    weight: 10
     region: content
     settings:
       title: Paragraph
@@ -126,14 +127,24 @@ content:
     third_party_settings: {  }
   field_quick_find:
     type: link_default
-    weight: 8
+    weight: 9
     region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+  field_related_profession:
+    type: entity_reference_autocomplete
+    weight: 8
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }

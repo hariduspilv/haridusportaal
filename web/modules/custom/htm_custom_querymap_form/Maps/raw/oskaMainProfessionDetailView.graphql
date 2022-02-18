@@ -234,6 +234,18 @@ query oskaMainProfessionDetailView($path: String!) {
                   }
                   title
                 }
+                fieldRelatedProfession {
+                  entity {
+                    ... on NodeOskaMainProfessionPage {
+                      status
+                      entityLabel
+                      entityUrl {
+                        routed
+                        path
+                      }
+                    }
+                  }
+                }
                 fieldJobs {
                   entity {
                     ... on ParagraphJob {
