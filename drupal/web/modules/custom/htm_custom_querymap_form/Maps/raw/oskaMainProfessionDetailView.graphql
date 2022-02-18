@@ -243,6 +243,50 @@ query oskaMainProfessionDetailView($path: String!) {
                         routed
                         path
                       }
+                      fieldSidebar {
+                        entity {
+                          ... on ParagraphMainProfessionSidebar {
+                            fieldIscedfSearchLink {
+                              entity {
+                                ... on ParagraphIscedfSearch {
+                                  iscedf_detailed: fieldIscedfSearchTerm {
+                                    entity {
+                                      ... on TaxonomyTermIscedF {
+                                        entityId
+                                        entityLabel
+                                      }
+                                    }
+                                  }
+                                  iscedf_broad: fieldIscedfBroad {
+                                    entity {
+                                      ... on TaxonomyTermIscedF {
+                                        entityId
+                                        entityLabel
+                                      }
+                                    }
+                                  }
+                                  iscedf_narrow: fieldIscedfNarrow {
+                                    entity {
+                                      ... on TaxonomyTermIscedF {
+                                        entityId
+                                        entityLabel
+                                      }
+                                    }
+                                  }
+                                  level: fieldLevel {
+                                    entity {
+                                      ... on TaxonomyTermStudyprogrammelevel {
+                                        entityId
+                                        entityLabel
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
