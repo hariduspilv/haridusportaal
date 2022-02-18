@@ -3,7 +3,8 @@ langcode: et
 status: true
 dependencies: {  }
 id: job
-label: Amet
+label: 'Seotud amet'
 icon_uuid: null
+icon_default: null
 description: ''
 behavior_plugins: {  }

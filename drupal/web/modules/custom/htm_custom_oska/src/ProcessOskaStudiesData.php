@@ -14,7 +14,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ProcessOskaStudiesData {
 
-
   /**
    * {@inheritdoc}
    */
@@ -48,22 +47,15 @@ class ProcessOskaStudiesData {
         }
       }
 
+      // Since there can be several related jobs in one row then loop through them and get node id of each
+      $object['seotud_amet'] = [];
       if($item['seotud_ametid']) {
         $jobs = explode(',', $item['seotud_ametid']);
-        if(is_array($jobs) && count($jobs) > 1) {
-          // If there is more than one related job then loop through them and get node id of each
-          foreach($jobs as $job => $j) {
-            $object['seotud_ametid'][] = self::checkEntityReference('node', [
-              'type' => 'oska_main_profession_page',
-              'field_profession' => true,
-              'title' => $j
-            ]);
-          }
-        } else {
-          $object['seotud_ametid'] = self::checkEntityReference('node', [
+        foreach($jobs as $job => $j) {
+          $object['seotud_amet'][] = self::checkEntityReference('node', [
             'type' => 'oska_main_profession_page',
             'field_profession' => true,
-            'title' =>  $item['seotud_ametid']
+            'title' => $j
           ]);
         }
       }
@@ -82,13 +74,13 @@ class ProcessOskaStudiesData {
           }
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object, $required_fields));
-      }elseif($object['ametiala'] && !$object['seotud_ametid'] && !$object['oppevaldkond'] && !$object['oppesuund'] && !$object['oppekavaruhm'] && !$object['oppetase']){
+      }elseif($object['ametiala'] && !$object['seotud_amet'] && !$object['oppevaldkond'] && !$object['oppesuund'] && !$object['oppekavaruhm'] && !$object['oppetase']){
         $error_messag_func = function() {
               return t('Only main profession entered');
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func());
       }else{
-        $results[$object['ametiala']]['field_job_link'][] = $object['seotud_ametid'];
+        $results[$object['ametiala']]['field_job_link'][] = $object['seotud_amet'];
         $results[$object['ametiala']]['field_iscedf_broad'][] = $object['oppevaldkond'];
         $results[$object['ametiala']]['field_iscedf_narrow'][] = $object['oppesuund'];
         $results[$object['ametiala']]['field_iscedf_search_term'][] = $object['oppekavaruhm'];
@@ -101,6 +93,7 @@ class ProcessOskaStudiesData {
   }
 
   public static function ProcessOskaStudiesData($items, &$context){
+    # NB! job = amet & profession = ametiala (same node type, but they are two different content pages)
     //process only if no errors otherwise nothing
     if(empty($context['results']['error'])){
       if(empty($context['sandbox'])){
@@ -111,7 +104,18 @@ class ProcessOskaStudiesData {
 
       $context['results']['processed'] = [];
 
-      if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
+      // Remove existing related profession fields (from job node)
+      foreach($context['results']['values'] as $main_proffession => $paragraph_items){
+        foreach($paragraph_items['field_job_link'] as $value) {
+            foreach ($value as $old_job => $old_j_nid) {
+              $old_node = Node::load($old_j_nid);
+              $old_sidebar_paragraph_job = Paragraph::load($old_node->get('field_sidebar')->getValue()[0]['target_id']);
+              $old_sidebar_paragraph_job->get('field_related_profession')->setValue(null);
+            }
+          }
+        }
+
+        if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
         $i = $context['sandbox']['current_id'];
 
         foreach($context['results']['values'] as $main_proffession => $paragraph_items){
@@ -146,40 +150,34 @@ class ProcessOskaStudiesData {
             'type' => 'iscedf_search',
           ]);
 
+          // Merge related job node id's into a single array
+          $merged_job_link = [];
+          foreach($paragraph_items['field_job_link'] as $value) {
+            foreach ($value as $merge_job => $merge_j_nid) {
+              $merged_job_link[] = $merge_j_nid;
+            }
+          }
+          $paragraph_items['field_job_link'] = array_unique($merged_job_link);
+
           foreach($paragraph_items as $label => $value){
             if($label !== 'field_job_link') {
               $paragraph->set($label, array_unique($value));
-              // For related jobs paragraph
             } else {
-              // If there is more than one related job then loop through them and create paragraph for each
-              if(is_array($value[0])) {
-                foreach($value[0] as $job => $j_nid) {
-                  $node = Node::load($j_nid);
-                  $job_paragraph = Paragraph::create([
-                    'type' => 'job',
-                  ]);
-                  $job_paragraph->set($label, [
-                    'uri' => 'entity:node/'.$j_nid,
-                    'title' => $node->getTitle()
-                  ]);
-                  $job_paragraph->set('field_job_name', $node->getTitle());
-                  $job_paragraph->save();
-                  $new_paragraph = [
-                    'target_id' => $job_paragraph->id(),
-                    'target_revision_id' => $job_paragraph->getRevisionId()];
-                  $context['results']['processed'][] = $job_paragraph->id();
+              // For related jobs & related professions
+              foreach($value as $job => $j_nid) {
+                $node = Node::load($j_nid);
 
-                  $sidebar_paragraph->get('field_jobs')->appendItem($new_paragraph);
-                  $sidebar_paragraph->save();
-                }
-                // If there is only one related job then create only one paragraph
-              } else {
-                $node = Node::load(array_unique($value)[0]);
+                // Add related profession field to job node
+                $sidebar_paragraph_job = Paragraph::load($node->get('field_sidebar')->getValue()[0]['target_id']);
+                $sidebar_paragraph_job->get('field_related_profession')->appendItem($main_profession_page);
+                $sidebar_paragraph_job->save();
+
+                // Add related job paragraph to profession node
                 $job_paragraph = Paragraph::create([
                   'type' => 'job',
                 ]);
                 $job_paragraph->set($label, [
-                  'uri' => 'entity:node/'.array_unique($value)[0],
+                  'uri' => 'entity:node/'.$j_nid,
                   'title' => $node->getTitle()
                 ]);
                 $job_paragraph->set('field_job_name', $node->getTitle());
@@ -210,7 +208,8 @@ class ProcessOskaStudiesData {
           $context['message'] = $context['sandbox']['max'];
           $i++;
         }
-        $context['sandbox']['current_id']++;
+
+          $context['sandbox']['current_id']++;
 
         if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
           $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
