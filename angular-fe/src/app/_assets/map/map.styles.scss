@@ -39,7 +39,7 @@
 			background: $white;
 			border-radius: 10rem;
 			button {
-				appearance: none; 
+				appearance: none;
 				display: inline-block;
 				border: none;
 				cursor: pointer;
@@ -130,7 +130,7 @@
 			display:block;
 		}
 		&__labels {
-			display: flex; 
+			display: flex;
 			justify-content: space-between;
 			font-size: .875rem;
 			line-height: 1.25rem;
@@ -258,7 +258,7 @@
 		@include break-on(sm, max) {
 			width: 327px;
 		}
-	}	
+	}
 	::ng-deep hr {
     border: none;
     margin: 0 -24px;
@@ -383,4 +383,3 @@
 		}
 	}
 }
-	

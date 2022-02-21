@@ -68,8 +68,20 @@ export class Map1Component implements OnChanges {
 
 	updatedMarkers: MarkerForGoogleMaps[];
 	infoContent = '';
-	markerClustererImagePath = '/assets/img/cluster';
-	markerClustererOptions: MarkerClustererOptions = { imageExtension: 'svg' };
+	// markerClustererImagePath = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
+	// markerClustererImagePath = '/assets/img/cluster';
+	markerClustererOptions: MarkerClustererOptions = {
+		// imageExtension: 'svg',
+		styles: [{
+			anchorText: [16, 0],
+			fontFamily: 'Arial, sans-serif',
+			fontWeight: 'bold',
+			height: 50,
+			textColor: '#ffffff',
+			width: 28,
+			url: '/assets/img/cluster.svg'
+		}],
+	};
 
 	constructor(private http: HttpClient) {}
 
