@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MapService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { MarkerFromBackend } from "@app/_assets/map1";
 
 @Component({
   selector: 'schoolList-map',
@@ -40,7 +41,7 @@ export class SchoolListMapComponent implements AfterViewInit {
   private mapLimit: number = 3000;
   private boundsEnabled: boolean = false;
   private paramsSub: Subscription;
-  public markers: Object[];
+  public markers: MarkerFromBackend[];
   private listSub: Subscription;
   public options: Object = {
     polygonType: 'investment', // ...
@@ -91,14 +92,14 @@ export class SchoolListMapComponent implements AfterViewInit {
   checkLanguageDisable():void {
     if (this.selectedPrimaryTypes.length === 1) {
       this.isLanguageDisabled =
-        this.selectedPrimaryTypes.includes('3441') || this.selectedPrimaryTypes.includes('3440')
+        this.selectedPrimaryTypes.includes('3441') || this.selectedPrimaryTypes.includes('3440')
           ? true : false;
       return;
     }
 
     if (this.selectedPrimaryTypes.length === 2) {
       this.isLanguageDisabled =
-        this.selectedPrimaryTypes.includes('3441') && this.selectedPrimaryTypes.includes('3440')
+        this.selectedPrimaryTypes.includes('3441') && this.selectedPrimaryTypes.includes('3440')
           ? true : false;
       return;
     }
@@ -179,7 +180,7 @@ export class SchoolListMapComponent implements AfterViewInit {
       next: (response: any) => {
         const entities = response['data']['CustomElasticQuery'][0]['entities'];
         this.markers = this.fixCoordinates(entities);
-      },
+			},
       error: () => {
         this.loading = false;
       },
@@ -278,8 +279,8 @@ export class SchoolListMapComponent implements AfterViewInit {
     }
     this.subPlaceholder = output;
   }
-  getTags() {
 
+  getTags() {
     const variables = {
       lang: 'ET',
     };

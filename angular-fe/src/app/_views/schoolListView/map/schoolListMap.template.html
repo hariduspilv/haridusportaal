@@ -82,14 +82,29 @@
 		</div><!--/inline-->
 	</form>
 	<div class="inline">
+
+		<!-- TODO here is my attempt to go @agm -> @angular/google-maps -->
 		<block titleBorder="true">
-            <block-title><h1>{{ 'school.label' | translate }}</h1></block-title>
+			<block-title><h1>{{ 'school.label' | translate }}</h1></block-title>
 			<block-content tabLabel="Nimekiri" tabLink="/kool" [queryParams]="params" tabIcon="list"></block-content>
 			<block-content tabLabel="Kaart" tabLink="/kool/kaart" [tabActive]="true" tabIcon="map-pin">
 				<loader *ngIf="!markers"></loader>
 				<a class="sr-only" routerLink="/kool" attr.aria-label="{{ 'school.view_institutions' | translate }}"></a>
-				<map *ngIf="markers" [loading]="loading" type="markers" [markers]="markers" [options]="options" role="application" ariaLabel="{{'home.topics_institutions' | translate}}" aria-hidden="true"  (mapLoaded)="mapLoaded()"></map>
+
+				<map1 *ngIf="markers" [loading]="loading" [markers]="markers"></map1>
+
 			</block-content>
 		</block>
+		<!-- TODO end of my attempt  -->
+
+<!--		<block titleBorder="true">-->
+<!--			<block-title><h1>{{ 'school.label' | translate }}</h1></block-title>-->
+<!--			<block-content tabLabel="Nimekiri" tabLink="/kool" [queryParams]="params" tabIcon="list"></block-content>-->
+<!--			<block-content tabLabel="Kaart" tabLink="/kool/kaart" [tabActive]="true" tabIcon="map-pin">-->
+<!--				<loader *ngIf="!markers"></loader>-->
+<!--				<a class="sr-only" routerLink="/kool" attr.aria-label="{{ 'school.view_institutions' | translate }}"></a>-->
+<!--				<map *ngIf="markers" [loading]="loading" type="markers" [markers]="markers" [options]="options" role="application" ariaLabel="{{'home.topics_institutions' | translate}}" aria-hidden="true" (mapLoaded)="mapLoaded()"></map>-->
+<!--			</block-content>-->
+<!--		</block>-->
 	</div><!--/inline-->
 </base-layout>

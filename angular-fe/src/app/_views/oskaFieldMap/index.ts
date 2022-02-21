@@ -8,8 +8,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { AppPipes } from '@app/_pipes';
 import { OskaFieldMapComponent } from './oskaFieldMap.component';
-import { AgmCoreModule } from '@agm/core';
-import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+// import { AgmCoreModule } from '@agm/core';
+// import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 const routes: Routes = [
   {
@@ -29,8 +29,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     AppPipes,
-    AgmCoreModule,
-    AgmSnazzyInfoWindowModule,
+    // AgmCoreModule,
+    // AgmSnazzyInfoWindowModule,
   ],
   exports: [
     OskaFieldMapComponent,

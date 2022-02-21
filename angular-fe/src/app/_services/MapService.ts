@@ -275,7 +275,7 @@ export class MapService {
           new window['google'].maps.LatLng(parseFloat(elem['Lat']), parseFloat(elem['Lon'])));
       });
       if (hasBounds) {
-        this.activeMap.fitBounds(this.latlngBounds);
+        // this.activeMap.fitBounds(this.latlngBounds);
       }
     }
   }

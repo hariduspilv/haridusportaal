@@ -1,0 +1,37 @@
+<ng-container *ngIf="options">
+	<div class="map__wrapper">
+		<div class="map-loader" *ngIf="loading">
+			<loader></loader>
+		</div>
+
+		<google-map
+			[height]="height"
+			[width]="width"
+			[zoom]="zoom"
+			[center]="center"
+			[options]="options"
+			(mapClick)="mapClick($event)">
+			<map-marker-clusterer
+				[imagePath]="markerClustererImagePath"
+				[options]="markerClustererOptions">
+				<map-marker
+					#markerElement="mapMarker"
+					*ngFor="let marker of updatedMarkers"
+					[position]="marker.position"
+					[label]="marker.label"
+					[title]="marker.title"
+					[options]="markerOptions"
+					(mapClick)="openInfoWindow(markerElement, marker.FieldSchoolName)">
+				</map-marker>
+			</map-marker-clusterer>
+			<map-info-window>{{ infoContent }}</map-info-window>
+		</google-map>
+
+		<button (click)="zoomIn()">Zoom in</button>
+		<button (click)="zoomOut()">Zoom out</button>
+		<button (click)="getCurrentPosition()">get current position</button>
+		<button (click)="logCenter()">Log center</button>
+		<button (click)="logZoom()">Log zoom</button>
+		<button (click)="addMarker()">Add marker</button>
+	</div>
+</ng-container>
