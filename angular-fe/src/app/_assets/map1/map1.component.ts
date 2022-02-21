@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
 import { GoogleMap, MapInfoWindow, MapMarker } from "@angular/google-maps";
 import conf from "@app/_core/conf";
 
@@ -82,8 +81,6 @@ export class Map1Component implements OnChanges {
 			url: '/assets/img/cluster.svg'
 		}],
 	};
-
-	constructor(private http: HttpClient) {}
 
 	ngOnChanges(changes: SimpleChanges): void {
 		this.updatedMarkers = this.markers.map((marker) => ({
