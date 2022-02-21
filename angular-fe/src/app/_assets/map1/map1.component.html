@@ -12,7 +12,6 @@
 			[options]="options"
 			(mapClick)="mapClick($event)">
 			<map-marker-clusterer
-				[imagePath]="markerClustererImagePath"
 				[options]="markerClustererOptions">
 				<map-marker
 					#markerElement="mapMarker"
@@ -21,10 +20,22 @@
 					[label]="marker.label"
 					[title]="marker.title"
 					[options]="markerOptions"
-					(mapClick)="openInfoWindow(markerElement, marker.FieldSchoolName)">
+					(mapClick)="openInfoWindow(markerElement, marker)">
 				</map-marker>
 			</map-marker-clusterer>
-			<map-info-window>{{ infoContent }}</map-info-window>
+
+			<map-info-window>
+				<ng-container  *ngIf="markerForInfoWindow && markerForInfoWindow.FieldSchoolName">
+					<p class="title with--border">{{ markerForInfoWindow.FieldSchoolName }}</p>
+					<p *ngIf="markerForInfoWindow.FieldAddress">{{ 'school.legal_address' | translate }}: <b>{{ markerForInfoWindow.FieldAddress }}</b></p>
+
+					<p *ngIf="markerForInfoWindow.FieldEducationalInstitutionTy">{{ 'school.institution_type' | translate }}: <b>{{ markerForInfoWindow.FieldEducationalInstitutionTy }}</b></p>
+					<p *ngIf="markerForInfoWindow.FieldSchoolContactPhone || markerForInfoWindow.FieldSchoolContactEmail" >{{ 'school.contact_info' | translate }}: <b *ngIf="markerForInfoWindow.FieldSchoolContactPhone">{{ markerForInfoWindow.FieldSchoolContactPhone }}</b><span *ngIf="markerForInfoWindow.FieldSchoolContactPhone && markerForInfoWindow.FieldSchoolContactEmail">,</span> <a *ngIf="markerForInfoWindow.FieldSchoolContactEmail" href="mailto:{{ markerForInfoWindow.FieldSchoolContactEmail}}"><b>{{ markerForInfoWindow.FieldSchoolContactEmail}}</b></a></p>
+
+					<p style="margin-bottom: 20px;" *ngIf="markerForInfoWindow.FieldSchoolWebpageAddress">{{ 'school.website' | translate }}: <a href="{{ markerForInfoWindow.FieldSchoolWebpageAddress | url }}" target="_blank"><b>{{ markerForInfoWindow.FieldSchoolWebpageAddress | removeProtocol }}</b></a></p>
+					<a [routerLink]="markerForInfoWindow.EntityPath" class="button">{{ 'button.view_more' | translate }}</a>
+				</ng-container>
+			</map-info-window>
 		</google-map>
 
 		<button (click)="zoomIn()">Zoom in</button>

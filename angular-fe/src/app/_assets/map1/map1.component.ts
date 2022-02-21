@@ -66,11 +66,7 @@ export class Map1Component implements OnChanges {
 	@ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow;
 
 	updatedMarkers: MarkerForGoogleMaps[];
-	infoContent = '';
-	// markerClustererImagePath = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
-	// markerClustererImagePath = '/assets/img/cluster';
 	markerClustererOptions: MarkerClustererOptions = {
-		// imageExtension: 'svg',
 		styles: [{
 			anchorText: [16, 0],
 			fontFamily: 'Arial, sans-serif',
@@ -81,6 +77,7 @@ export class Map1Component implements OnChanges {
 			url: '/assets/img/cluster.svg'
 		}],
 	};
+	markerForInfoWindow: MarkerForGoogleMaps;
 
 	ngOnChanges(changes: SimpleChanges): void {
 		this.updatedMarkers = this.markers.map((marker) => ({
@@ -115,9 +112,10 @@ export class Map1Component implements OnChanges {
 		console.log('map clicked: ', event);
 	}
 
-	openInfoWindow(marker: MapMarker, schoolName: string): void {
-		this.infoContent = schoolName;
-		this.infoWindow.open(marker);
+	openInfoWindow(markerElement: MapMarker, marker: MarkerForGoogleMaps): void {
+		this.markerForInfoWindow = marker;
+		this.infoWindow.open(markerElement);
+		console.log(marker);
 	}
 
 	logCenter(): void {
