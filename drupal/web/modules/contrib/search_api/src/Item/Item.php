@@ -455,6 +455,7 @@ class Item implements \IteratorAggregate, ItemInterface {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function getIterator() {
     return new \ArrayIterator($this->getFields());
   }

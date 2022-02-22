@@ -21,7 +21,7 @@ class BasicTrackerTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'user',
     'search_api',
     'system',

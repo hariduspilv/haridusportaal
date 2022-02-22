@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\search_api\Unit\Processor;
 
+use Drupal\Core\TypedData\ComplexDataInterface;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\TypedDataInterface;
 use Drupal\search_api\Datasource\DatasourceInterface;
@@ -15,7 +16,6 @@ use Drupal\search_api\Processor\ProcessorInterface;
 use Drupal\search_api\Processor\ProcessorProperty;
 use Drupal\search_api\Utility\PluginHelperInterface;
 use Drupal\search_api\Utility\Utility;
-use Drupal\Tests\search_api\Unit\TestComplexDataInterface;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -321,14 +321,14 @@ class AggregatedFieldsTest extends UnitTestCase {
    * Tests that field extraction in the processor works correctly.
    */
   public function testFieldExtraction() {
-    /** @var \Drupal\Tests\search_api\Unit\TestComplexDataInterface|\PHPUnit\Framework\MockObject\MockObject $object */
-    $object = $this->createMock(TestComplexDataInterface::class);
+    /** @var \Drupal\Core\TypedData\ComplexDataInterface|\PHPUnit\Framework\MockObject\MockObject $object */
+    $object = $this->createMock(ComplexDataInterface::class);
     $bar_foo_property = $this->createMock(TypedDataInterface::class);
     $bar_foo_property->method('getValue')
       ->willReturn('value3');
     $bar_foo_property->method('getDataDefinition')
       ->willReturn(new DataDefinition());
-    $bar_property = $this->createMock(TestComplexDataInterface::class);
+    $bar_property = $this->createMock(ComplexDataInterface::class);
     $bar_property->method('get')
       ->willReturnMap([
         ['foo', $bar_foo_property],
