@@ -491,10 +491,6 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
    */
   public function loadMultiple(array $ids) {
     $allowed_languages = $this->getLanguages();
-    // Always allow items with undefined language. (Can be the case when
-    // entities are created programmatically.)
-    $allowed_languages[LanguageInterface::LANGCODE_NOT_SPECIFIED] = TRUE;
-    $allowed_languages[LanguageInterface::LANGCODE_NOT_APPLICABLE] = TRUE;
 
     $entity_ids = [];
     foreach ($ids as $item_id) {
@@ -907,9 +903,6 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
     if ($languages) {
       $enabled_languages = array_unique(array_merge($languages, $enabled_languages));
     }
-    // Also, we want to always include entities with unknown language.
-    $enabled_languages[] = LanguageInterface::LANGCODE_NOT_SPECIFIED;
-    $enabled_languages[] = LanguageInterface::LANGCODE_NOT_APPLICABLE;
 
     /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
     foreach ($this->getEntityStorage()->loadMultiple($entity_ids) as $entity_id => $entity) {
@@ -963,14 +956,15 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
   }
 
   /**
-   * Retrieves the enabled languages.
+   * Retrieves the enabled languages, including "not applicable/specified".
    *
    * @return \Drupal\Core\Language\LanguageInterface[]
-   *   All languages that are enabled for this datasource, keyed by language
-   *   code.
+   *   All languages that should be processed for this datasource, keyed by
+   *   language code.
    */
   protected function getLanguages() {
-    $all_languages = $this->getLanguageManager()->getLanguages();
+    $all_languages = $this->getLanguageManager()
+      ->getLanguages(LanguageInterface::STATE_ALL);
 
     if ($this->isTranslatable()) {
       $selected_languages = array_flip($this->configuration['languages']['selected']);
@@ -978,7 +972,15 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
         return array_diff_key($all_languages, $selected_languages);
       }
       else {
-        return array_intersect_key($all_languages, $selected_languages);
+        $returned_languages = array_intersect_key($all_languages, $selected_languages);
+
+        // We always want to include entities with unknown language.
+        $not_specified = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+        $not_applicable = LanguageInterface::LANGCODE_NOT_APPLICABLE;
+        $returned_languages[$not_specified] = $all_languages[$not_specified];
+        $returned_languages[$not_applicable] = $all_languages[$not_applicable];
+
+        return $returned_languages;
       }
     }
 
@@ -1236,6 +1238,36 @@ class ContentEntity extends DatasourcePluginBase implements PluginFormInterface 
     return \Drupal::getContainer()
       ->get('search_api.entity_datasource.tracking_manager')
       ->getIndexesForEntity($entity);
+  }
+
+  /**
+   * Filters a set of datasource-specific item IDs.
+   *
+   * Returns only those item IDs that are valid for the given datasource and
+   * index. This method only checks the item language, though – whether an
+   * entity with that ID actually exists, or whether it has a bundle included
+   * for that datasource, is not verified.
+   *
+   * @param \Drupal\search_api\IndexInterface $index
+   *   The index for which to validate.
+   * @param string $datasource_id
+   *   The ID of the datasource on the index for which to validate.
+   * @param string[] $item_ids
+   *   The item IDs to be validated.
+   *
+   * @return string[]
+   *   All given item IDs that are valid for that index and datasource.
+   *
+   * @deprecated in search_api:8.x-1.22 and is removed from search_api:2.0.0.
+   *   Use
+   *   \Drupal\search_api\Plugin\search_api\datasource\ContentEntityTrackingManager::filterValidItemIds()
+   *   instead.
+   *
+   * @see https://www.drupal.org/node/3257943
+   */
+  public static function filterValidItemIds(IndexInterface $index, $datasource_id, array $item_ids) {
+    @trigger_error('\Drupal\search_api\Plugin\search_api\datasource\ContentEntity::filterValidItemIds() is deprecated in search_api:8.x-1.21 and is removed from search_api:2.0.0. Use \Drupal\search_api\Plugin\search_api\datasource\ContentEntityTrackingManager::filterValidItemIds() instead. See https://www.drupal.org/node/3257943', E_USER_DEPRECATED);
+    return ContentEntityTrackingManager::filterValidItemIds($index, $datasource_id, $item_ids);
   }
 
   /**
