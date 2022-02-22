@@ -27,7 +27,7 @@
         "drupal/config_sync": "^2.0",
         "drupal/console": "~1.0",
         "drupal/console-extend-plugin": "^0.9.5",
-        "drupal/core": "9.3.5 as 8.9.17",
+        "drupal/core": "9.3.6 as 8.9.17",
         "drupal/core-composer-scaffold": "^9",
         "drupal/core-project-message": "^9",
         "drupal/devel": "^4.1",

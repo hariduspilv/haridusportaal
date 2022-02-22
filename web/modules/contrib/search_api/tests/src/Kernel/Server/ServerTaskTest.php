@@ -44,7 +44,7 @@ class ServerTaskTest extends KernelTestBase {
    *
    * @var string[]
    */
-  public static $modules = [
+  protected static $modules = [
     'user',
     'search_api',
     'search_api_test',
