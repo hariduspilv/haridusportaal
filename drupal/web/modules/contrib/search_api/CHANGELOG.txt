@@ -1,3 +1,42 @@
+Search API 1.23 (2022-01-21):
+-----------------------------
+- #3247781 (follow-up) by drunken monkey: Fixed missing update for Task entity
+  storage schema.
+
+Search API 1.22 (2022-01-12):
+-----------------------------
+- #3247781 by Taran2L, drunken monkey: Fixed error on database update because
+  of task table UNIQUE key.
+- #3228382 by mikran, drunken monkey: Added an "Entity type" field.
+- #3222644 by johne, drunken monkey: Made
+  ContentEntityTrackingManager::filterValidItemIds() public.
+- #3256114 by drunken monkey: Fixed wrong static method calls in
+  UnsavedIndexConfiguration.
+- #2869103 by osopolar, drunken monkey: Fixed problems with theme cache when
+  indexing the "Rendered HTML output" field.
+- #3229495 by AndyF, drunken monkey: Fixed "start batch tracking" functionality
+  for indexes.
+- #3238635 by drunken monkey, mkalkbrenner: Added the
+  AutocompleteBackendInterface.
+- #3221103 by drunken monkey: Fixed small bug in Views fulltext search filter.
+- #3255474 by murilohp, drunken monkey: Removed outdated test helper interfaces.
+- #2983640 by Nick_vh, L_VanDamme, drunken monkey, Marios Anagnostopoulos,
+  estoyausente, jsst, yogeshmpawar, borisson_, legolasbo: Added an option to
+  create an excerpt even when no keywords are present.
+- #3221345 by drunken monkey, jan kellermann: Fixed handling of invalid date
+  values during indexing.
+- #3220283 by james.williams, drunken monkey: Fixed automatic reindexing of
+  related entities with undefined languages.
+- #3225675 by mdupont, drunken monkey: Fixed score calculation in DB backend
+  when multiple fields have the same score.
+- #3253738 by mkalkbrenner, alexpott, drunken monkey: Fixed deprecation
+  warnings in PHP 8.1.
+- #3091198 by alexpott, drunken monkey: Fixed problems on MySQL 5.6/5.7.
+- #3249801 by paulocs, beatrizrodrigues, drunken monkey: Fixed failing tests
+  against Drupal HEAD.
+- #3249792 by kim.pepper, borisson_: Fixed deprecation warning "$modules
+  property must be declared protected".
+
 Search API 1.21 (2021-11-04):
 -----------------------------
 - #3199906 by carolpettirossi, drunken monkey: Added an option for disabling

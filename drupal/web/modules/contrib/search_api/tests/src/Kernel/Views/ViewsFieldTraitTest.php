@@ -25,7 +25,7 @@ class ViewsFieldTraitTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'field',
     'search_api',
     'search_api_test_example_content',
