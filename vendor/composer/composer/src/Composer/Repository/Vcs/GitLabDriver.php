@@ -46,7 +46,7 @@ class GitLabDriver extends VcsDriver
     private $project;
 
     /**
-     * @var array<string, mixed[]> Keeps commits returned by GitLab API
+     * @var array<string|int, mixed[]> Keeps commits returned by GitLab API as commit id => info
      */
     private $commits = array();
 
@@ -504,6 +504,11 @@ class GitLabDriver extends VcsDriver
 
                 // force auth as the unauthenticated version of the API is broken
                 if (!isset($json['default_branch'])) {
+                    // GitLab allows you to disable the repository inside a project to use a project only for issues and wiki
+                    if (isset($json['repository_access_level']) && $json['repository_access_level'] === 'disabled') {
+                        throw new TransportException('The GitLab repository is disabled in the project', 400);
+                    }
+
                     if (!empty($json['id'])) {
                         $this->isPrivate = false;
                     }
