@@ -1,5 +1,9 @@
 # Change Log
 
+### 2.1.0: 2022-01-29:
+
+- SettableOutputStreamInterface
+
 ### 2.0.4: 2021-12-30:
 
 - Symfony 6
