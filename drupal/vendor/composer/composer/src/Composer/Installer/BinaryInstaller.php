@@ -77,6 +77,10 @@ class BinaryInstaller
                 $this->io->writeError('    <warning>Skipped installation of bin '.$bin.' for package '.$package->getName().': file not found in package</warning>');
                 continue;
             }
+            if (is_dir($binPath)) {
+                $this->io->writeError('    <warning>Skipped installation of bin '.$bin.' for package '.$package->getName().': found a directory at that path</warning>');
+                continue;
+            }
             if (!$this->filesystem->isAbsolutePath($binPath)) {
                 // in case a custom installer returned a relative path for the
                 // $package, we can now safely turn it into a absolute path (as we
@@ -231,14 +235,14 @@ class BinaryInstaller
             return "@ECHO OFF\r\n".
                 "setlocal DISABLEDELAYEDEXPANSION\r\n".
                 "SET BIN_TARGET=%~dp0/".trim(ProcessExecutor::escape(basename($link, '.bat')), '"\'')."\r\n".
-                "SET COMPOSER_BIN_DIR=%~dp0\r\n".
+                "SET COMPOSER_RUNTIME_BIN_DIR=%~dp0\r\n".
                 "{$caller} \"%BIN_TARGET%\" %*\r\n";
         }
 
         return "@ECHO OFF\r\n".
             "setlocal DISABLEDELAYEDEXPANSION\r\n".
             "SET BIN_TARGET=%~dp0/".trim(ProcessExecutor::escape($binPath), '"\'')."\r\n".
-            "SET COMPOSER_BIN_DIR=%~dp0\r\n".
+            "SET COMPOSER_RUNTIME_BIN_DIR=%~dp0\r\n".
             "{$caller} \"%BIN_TARGET%\" %*\r\n";
     }
 
@@ -333,6 +337,16 @@ if (PHP_VERSION_ID < 80000) {
                 return \$operation ? flock(\$this->handle, \$operation) : true;
             }
 
+            public function stream_seek(\$offset, \$whence)
+            {
+                if (0 === fseek(\$this->handle, \$offset, \$whence)) {
+                    \$this->position = ftell(\$this->handle);
+                    return true;
+                }
+
+                return false;
+            }
+
             public function stream_tell()
             {
                 return \$this->position;
@@ -397,10 +411,16 @@ PROXY;
         return <<<PROXY
 #!/usr/bin/env sh
 
-self=\$(realpath \$0 >/dev/null 2>&1)
-if [ -z "\$self" ]
-then
-    self="\$0"
+# Support bash to support `source` with fallback on $0 if this does not run with bash
+# https://stackoverflow.com/a/35006505/6512
+selfArg="\$BASH_SOURCE"
+if [ -z "\$selfArg" ]; then
+    selfArg="\$0"
+fi
+
+self=\$(realpath \$selfArg 2> /dev/null)
+if [ -z "\$self" ]; then
+    self="\$selfArg"
 fi
 
 dir=\$(cd "\${self%[/\\\\]*}" > /dev/null; cd $binDir && pwd)
@@ -414,7 +434,16 @@ if [ -d /proc/cygdrive ]; then
     esac
 fi
 
-export COMPOSER_BIN_DIR=\$(cd "\${self%[/\\\\]*}" > /dev/null; pwd)
+export COMPOSER_RUNTIME_BIN_DIR=\$(cd "\${self%[/\\\\]*}" > /dev/null; pwd)
+
+# If bash is sourcing this file, we have to source the target as well
+bashSource="\$BASH_SOURCE"
+if [ -n "\$bashSource" ]; then
+    if [ "\$bashSource" != "\$0" ]; then
+        source "\${dir}/$binFile" "\$@"
+        return
+    fi
+fi
 
 "\${dir}/$binFile" "\$@"
 

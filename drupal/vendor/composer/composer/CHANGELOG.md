@@ -1,3 +1,29 @@
+### [2.2.6] 2022-02-04
+
+  * BC Break: due to an oversight, the `COMPOSER_BIN_DIR` env var for binaries added in Composer 2.2.2 had to be renamed to `COMPOSER_RUNTIME_BIN_DIR` (#10512)
+  * Fixed enum parsing in classmap generation with syntax like `enum foo:string` without space after `:` (#10498)
+  * Fixed package search not urlencoding the input (#10500)
+  * Fixed `reinstall` command not firing `pre-install-cmd`/`post-install-cmd` events (#10514)
+  * Fixed edge case in path repositories where a symlink: true option would be ignored on old Windows and old PHP combos (#10482)
+  * Fixed test suite compatibility with latest symfony/console releases (#10499)
+  * Fixed some error reporting edge cases (#10484, #10451, #10493)
+
+### [2.2.5] 2022-01-21
+
+  * Disabled `composer/package-versions-deprecated` by default as it can function using `Composer\InstalledVersions` at runtime (#10458)
+  * Fixed artifact repositories crashing if a phar file was present in the directory (#10406)
+  * Fixed binary proxy issue on PHP <8 when fseek is used on the proxied binary path (#10468)
+  * Fixed handling of non-string versions in package repositories metadata (#10470)
+
+### [2.2.4] 2022-01-08
+
+  * Fixed handling of process timeout when running async processes during installation
+  * Fixed GitLab API handling when projects have a repository disabled (#10440)
+  * Fixed reading of environment variables (e.g. APPDATA) containing unicode characters to workaround a PHP bug on Windows (#10434)
+  * Fixed partial update issues with path repos missing if a path repo is required by a path repo (#10431)
+  * Fixed support for sourcing binaries via the new bin proxies ([#10389](https://github.com/composer/composer/issues/10389#issuecomment-1007372740))
+  * Fixed messaging when GitHub tokens need SSO authorization (#10432)
+
 ### [2.2.3] 2021-12-31
 
   * Fixed issue with PHPUnit and process isolation now including PHPUnit <6.5 (#10387)
@@ -1358,6 +1384,9 @@
 
   * Initial release
 
+[2.2.6]: https://github.com/composer/composer/compare/2.2.5...2.2.6
+[2.2.5]: https://github.com/composer/composer/compare/2.2.4...2.2.5
+[2.2.4]: https://github.com/composer/composer/compare/2.2.3...2.2.4
 [2.2.3]: https://github.com/composer/composer/compare/2.2.2...2.2.3
 [2.2.2]: https://github.com/composer/composer/compare/2.2.1...2.2.2
 [2.2.1]: https://github.com/composer/composer/compare/2.2.0...2.2.1

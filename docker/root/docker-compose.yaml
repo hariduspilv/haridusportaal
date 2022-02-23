@@ -76,9 +76,8 @@ services:
       - /root/data/varnish/default.vcl:/etc/varnish/default.vcl
   elasticsearch:
     container_name: elasticsearch
-    image: hub.wiseman.ee/htm/elasticsearch-live
-    # For drupal 9
-    # image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    #image: hub.wiseman.ee/htm/elasticsearch-live
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
     networks:
       - htm
     restart: always
