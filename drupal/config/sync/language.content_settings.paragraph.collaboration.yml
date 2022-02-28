@@ -1,0 +1,18 @@
+uuid: b1fee53a-1043-4cae-89e4-843f6d06aeb9
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.collaboration
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.collaboration
+target_entity_type_id: paragraph
+target_bundle: collaboration
+default_langcode: site_default
+language_alterable: true

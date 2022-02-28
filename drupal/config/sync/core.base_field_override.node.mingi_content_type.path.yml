@@ -1,0 +1,20 @@
+uuid: 4b025277-cc1a-476f-bfa2-50068142b463
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+  module:
+    - path
+id: node.mingi_content_type.path
+field_name: path
+entity_type: node
+bundle: mingi_content_type
+label: 'URL alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

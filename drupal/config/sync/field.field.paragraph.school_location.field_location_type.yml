@@ -11,10 +11,10 @@ id: paragraph.school_location.field_location_type
 field_name: field_location_type
 entity_type: paragraph
 bundle: school_location
-label: 'Asukoha tüüp'
+label: 'Location type'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

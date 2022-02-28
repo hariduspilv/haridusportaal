@@ -1,0 +1,18 @@
+uuid: 8617ff6e-25a4-4826-94a8-e85a22043e03
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytag
+id: taxonomy_term.studytag.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: studytag
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

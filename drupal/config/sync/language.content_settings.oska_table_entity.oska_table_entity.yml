@@ -1,0 +1,17 @@
+uuid: a1380e7e-87c5-45fb-a5ad-60590d633c0d
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_translation
+    - htm_custom_oska
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: oska_table_entity.oska_table_entity
+target_entity_type_id: oska_table_entity
+target_bundle: oska_table_entity
+default_langcode: site_default
+language_alterable: false

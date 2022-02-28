@@ -14,14 +14,14 @@ export class SettingsService {
 		this.ehisUrl = environment.EHIS_URL;
 	}
 
-	public url: string = '';
-	public ehisUrl: string = '';
-	public login = '/api/v1/token?_format=json';
-	public mobileLogin = '/custom/login/mobile_id?_format=json';
-	public error: boolean = false;
-	public data: any;
-	public compareObservable = new Subject<any>();
-	public activeLang: string = 'ET';
+  public url: string = '';
+  public ehisUrl: string = '';
+  public login = '/api/v1/token?_format=json';
+  public mobileLogin = '/custom/login/mobile_id?_format=json';
+  public error: boolean = false;
+  public data: any;
+  public compareObservable = new Subject<any>();
+  public activeLang: string = 'ET';
 
 	/**
 	 * Finds an entity from objects

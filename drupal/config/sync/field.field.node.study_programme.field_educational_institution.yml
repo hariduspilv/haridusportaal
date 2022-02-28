@@ -13,7 +13,7 @@ bundle: study_programme
 label: Õppeasutus
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -23,6 +23,7 @@ settings:
       school: school
     sort:
       field: _none
+      direction: ASC
     auto_create: false
     auto_create_bundle: ''
 field_type: entity_reference

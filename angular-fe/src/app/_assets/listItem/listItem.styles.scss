@@ -436,7 +436,7 @@ $grid-columns: 12;
     margin: 0 -1.5rem;
     flex-wrap: wrap;
     box-sizing: border-box;
-    flex-direction: column;
+    //flex-direction: column;
     @for $i from 1 through $grid-columns {
       .col-#{$i} {
         width: percentage($i / $grid-columns);

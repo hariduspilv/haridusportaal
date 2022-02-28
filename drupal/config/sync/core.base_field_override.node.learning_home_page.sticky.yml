@@ -1,0 +1,22 @@
+uuid: bee69cf2-56af-4ba9-823a-8b0aeaf69341
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.sticky
+field_name: sticky
+entity_type: node
+bundle: learning_home_page
+label: 'Sticky at top of lists'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

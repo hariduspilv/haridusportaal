@@ -1,0 +1,18 @@
+uuid: 3877cd79-d096-4fc2-9631-4697a9dfc5dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.metatag
+field_name: metatag
+entity_type: node
+bundle: youth_home_page
+label: 'Metatags (Hidden field for JSON support)'
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

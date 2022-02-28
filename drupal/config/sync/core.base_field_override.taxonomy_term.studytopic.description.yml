@@ -1,0 +1,20 @@
+uuid: 0ad3973f-7e4d-4ff7-a1e1-3df0ef27821d
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytopic
+  module:
+    - text
+id: taxonomy_term.studytopic.description
+field_name: description
+entity_type: taxonomy_term
+bundle: studytopic
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

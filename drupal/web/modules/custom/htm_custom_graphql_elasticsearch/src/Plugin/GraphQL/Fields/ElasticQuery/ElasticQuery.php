@@ -354,6 +354,9 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       if($args['sortField'] === 'title') {
         $args['sortField'] = 'title.keyword';
       }
+      if($args['sortField'] === 'field_school_name') {
+        $args['sortField'] = 'field_school_name.keyword';
+      }
       $params['body']['sort'] = [$args['sortField'] => ['order' => $args['sortDirection']]];
     }
 

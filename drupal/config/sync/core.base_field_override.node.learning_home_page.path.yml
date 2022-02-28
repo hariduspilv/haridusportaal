@@ -1,0 +1,20 @@
+uuid: 9725a989-3bbd-4cd6-bd9b-9e44e1ec39ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+  module:
+    - path
+id: node.learning_home_page.path
+field_name: path
+entity_type: node
+bundle: learning_home_page
+label: 'URL alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path
