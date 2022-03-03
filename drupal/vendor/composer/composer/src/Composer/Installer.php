@@ -354,7 +354,7 @@ class Installer
                 $fundingCount++;
             }
         }
-        if ($fundingCount) {
+        if ($fundingCount > 0) {
             $this->io->writeError(array(
                 sprintf(
                     "<info>%d package%s you are using %s looking for funding.</info>",
@@ -384,6 +384,7 @@ class Installer
      * @param bool $doInstall
      *
      * @return int
+     * @phpstan-return self::ERROR_*
      */
     protected function doUpdate(InstalledRepositoryInterface $localRepo, $doInstall)
     {
@@ -455,7 +456,7 @@ class Installer
             $ghe = new GithubActionError($this->io);
             $ghe->emit($err."\n".$prettyProblem);
 
-            return max(self::ERROR_GENERIC_FAILURE, $e->getExitCode());
+            return max(self::ERROR_GENERIC_FAILURE, $e->getCode());
         }
 
         $this->io->writeError("Analyzed ".count($pool)." packages to resolve dependencies", true, IOInterface::VERBOSE);
@@ -633,7 +634,7 @@ class Installer
             $ghe = new GithubActionError($this->io);
             $ghe->emit($err."\n".$prettyProblem);
 
-            return max(self::ERROR_GENERIC_FAILURE, $e->getExitCode());
+            return $e->getCode();
         }
 
         $lockTransaction->setNonDevPackages($nonDevLockTransaction);
@@ -645,6 +646,7 @@ class Installer
      * @param  InstalledRepositoryInterface $localRepo
      * @param  bool                         $alreadySolved Whether the function is called as part of an update command or independently
      * @return int                          exit code
+     * @phpstan-return self::ERROR_*
      */
     protected function doInstall(InstalledRepositoryInterface $localRepo, $alreadySolved = false)
     {
@@ -703,7 +705,7 @@ class Installer
                 $ghe = new GithubActionError($this->io);
                 $ghe->emit($err."\n".$prettyProblem);
 
-                return max(self::ERROR_GENERIC_FAILURE, $e->getExitCode());
+                return max(self::ERROR_GENERIC_FAILURE, $e->getCode());
             }
         }
 

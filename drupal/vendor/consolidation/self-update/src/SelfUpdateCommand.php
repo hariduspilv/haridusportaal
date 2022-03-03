@@ -4,6 +4,7 @@ namespace SelfUpdate;
 
 use Composer\Semver\VersionParser;
 use Composer\Semver\Semver;
+use Composer\Semver\Comparator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,13 +27,24 @@ class SelfUpdateCommand extends Command
 
     protected $applicationName;
 
+    protected $ignorePharRunningCheck;
+
     public function __construct($applicationName = null, $currentVersion = null, $gitHubRepository = null)
     {
         $this->applicationName = $applicationName;
         $this->currentVersion = $currentVersion;
         $this->gitHubRepository = $gitHubRepository;
+        $this->ignorePharRunningCheck = false;
 
         parent::__construct(self::SELF_UPDATE_COMMAND_NAME);
+    }
+
+    /**
+     * Set ignorePharRunningCheck to true.
+     */
+    public function ignorePharRunningCheck($ignore = true)
+    {
+        $this->ignorePharRunningCheck = $ignore;
     }
 
     /**
@@ -163,7 +175,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (empty(\Phar::running())) {
+        if (!$this->ignorePharRunningCheck && empty(\Phar::running())) {
             throw new \Exception(self::SELF_UPDATE_COMMAND_NAME . ' only works when running the phar version of ' . $this->applicationName . '.');
         }
 
@@ -199,7 +211,7 @@ EOT
             'compatible' => $isCompatibleOptionSet,
             'version_constraint' => $versionConstraintArg,
         ]);
-        if (null === $latestRelease || Semver::satisfies($latestRelease['version'], $this->currentVersion)) {
+        if (null === $latestRelease || Comparator::greaterThanOrEqualTo($this->currentVersion, $latestRelease['version'])) {
             $output->writeln('No update available');
             return 0;
         }
