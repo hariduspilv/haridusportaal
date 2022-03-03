@@ -17,6 +17,8 @@ use Composer\Repository\RepositorySet;
 
 /**
  * @author Nils Adermann <naderman@naderman.de>
+ *
+ * @method self::ERROR_DEPENDENCY_RESOLUTION_FAILED getCode()
  */
 class SolverProblemsException extends \RuntimeException
 {
@@ -37,14 +39,6 @@ class SolverProblemsException extends \RuntimeException
         $this->learnedPool = $learnedPool;
 
         parent::__construct('Failed resolving dependencies with '.count($problems).' problems, call getPrettyString to get formatted details', self::ERROR_DEPENDENCY_RESOLUTION_FAILED);
-    }
-
-    /**
-     * @return self::ERROR_DEPENDENCY_RESOLUTION_FAILED
-     */
-    public function getExitCode()
-    {
-        return self::ERROR_DEPENDENCY_RESOLUTION_FAILED;
     }
 
     /**
