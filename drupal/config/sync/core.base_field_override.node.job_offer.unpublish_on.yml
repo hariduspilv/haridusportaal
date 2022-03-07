@@ -1,0 +1,18 @@
+uuid: 11e31b12-2b63-490a-a00f-f52951e436fb
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.unpublish_on
+field_name: unpublish_on
+entity_type: node
+bundle: job_offer
+label: 'Mitteavaldatuks märkimise aeg'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

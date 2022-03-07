@@ -1,0 +1,22 @@
+uuid: 0a7d12e4-1234-44e5-bd99-67b2e91dc9a2
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.study
+id: paragraph.study.status
+field_name: status
+entity_type: paragraph
+bundle: study
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

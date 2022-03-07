@@ -1,0 +1,18 @@
+uuid: b92e97f5-4db5-4af5-acc6-edb937d2dcb4
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.title
+field_name: title
+entity_type: node
+bundle: learning_home_page
+label: Pealkiri
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

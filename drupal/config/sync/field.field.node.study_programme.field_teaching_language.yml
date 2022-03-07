@@ -13,10 +13,8 @@ bundle: study_programme
 label: Õppekeel
 description: ''
 required: false
-translatable: false
-default_value:
-  -
-    target_uuid: e1a3ab40-f17f-441e-9c34-9b36af343a8e
+translatable: true
+default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'

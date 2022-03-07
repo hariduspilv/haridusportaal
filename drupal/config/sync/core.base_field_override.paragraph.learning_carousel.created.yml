@@ -1,0 +1,18 @@
+uuid: f2aba4d1-d7a0-4ba5-883c-a5486377ed57
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.learning_carousel
+id: paragraph.learning_carousel.created
+field_name: created
+entity_type: paragraph
+bundle: learning_carousel
+label: 'Loomise kuupäev'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created
