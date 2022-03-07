@@ -1,5 +1,5 @@
-uuid: ca702dc3-fc40-4ee7-9baf-a15d5c0448e6
-langcode: en
+uuid: 786d3f26-beb6-4e30-9e72-80b4fc6de898
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: taxonomy_term.studytopic.status
 field_name: status
 entity_type: taxonomy_term
 bundle: studytopic
-label: Published
+label: Avaldatud
 description: ''
 required: false
 translatable: false
@@ -17,6 +17,6 @@ default_value:
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

@@ -1,5 +1,5 @@
-uuid: 4b025277-cc1a-476f-bfa2-50068142b463
-langcode: en
+uuid: 29f8d9b5-2a05-4aaa-8e6c-333e7818b70a
+langcode: et
 status: true
 dependencies:
   config:
@@ -10,7 +10,7 @@ id: node.mingi_content_type.path
 field_name: path
 entity_type: node
 bundle: mingi_content_type
-label: 'URL alias'
+label: 'URL-i alias'
 description: ''
 required: false
 translatable: false

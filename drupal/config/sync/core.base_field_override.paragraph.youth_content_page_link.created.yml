@@ -1,0 +1,18 @@
+uuid: c2d1444d-156f-480c-8ff1-10c69e183276
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.youth_content_page_link
+id: paragraph.youth_content_page_link.created
+field_name: created
+entity_type: paragraph
+bundle: youth_content_page_link
+label: 'Loomise kuupäev'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

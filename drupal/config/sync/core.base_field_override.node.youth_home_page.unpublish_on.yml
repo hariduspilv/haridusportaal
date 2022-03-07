@@ -1,5 +1,5 @@
-uuid: 47238343-d95e-4953-89de-bc6006d64404
-langcode: en
+uuid: 2f9b4bf0-7a33-40a7-bd03-bf6f0c7def16
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.youth_home_page.unpublish_on
 field_name: unpublish_on
 entity_type: node
 bundle: youth_home_page
-label: 'Unpublish on'
+label: 'Mitteavaldatuks märkimise aeg'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

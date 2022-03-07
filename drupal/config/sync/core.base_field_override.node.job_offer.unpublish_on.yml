@@ -1,5 +1,5 @@
-uuid: 47a3f47b-aa10-4683-87bb-73a50599ed63
-langcode: en
+uuid: 11e31b12-2b63-490a-a00f-f52951e436fb
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.job_offer.unpublish_on
 field_name: unpublish_on
 entity_type: node
 bundle: job_offer
-label: 'Unpublish on'
+label: 'Mitteavaldatuks märkimise aeg'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

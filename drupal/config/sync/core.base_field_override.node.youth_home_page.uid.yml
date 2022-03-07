@@ -1,5 +1,5 @@
-uuid: 31a9557b-059a-437d-a86a-5ca8c7196f30
-langcode: en
+uuid: c8618744-049d-4e43-9bc5-4f6369838eb1
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.youth_home_page.uid
 field_name: uid
 entity_type: node
 bundle: youth_home_page
-label: 'Authored by'
+label: Autor
 description: 'The username of the content author.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: 'Drupal\node\Entity\Node::getDefaultEntityOwner'
 settings:

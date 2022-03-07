@@ -15,4 +15,4 @@ id: node.job_offer
 target_entity_type_id: node
 target_bundle: job_offer
 default_langcode: site_default
-language_alterable: false
+language_alterable: true

@@ -6,7 +6,14 @@ dependencies:
     - field.storage.paragraph.field_media_img
     - paragraphs.paragraphs_type.media_img
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
 id: paragraph.media_img.field_media_img
 field_name: field_media_img
 entity_type: paragraph
@@ -14,7 +21,7 @@ bundle: media_img
 label: Pilt
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

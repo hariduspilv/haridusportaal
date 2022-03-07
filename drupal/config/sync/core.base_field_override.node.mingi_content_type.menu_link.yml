@@ -1,5 +1,5 @@
-uuid: 47d51186-9850-4d52-9098-5ba52f09e5fe
-langcode: en
+uuid: bf339702-7274-48a9-93bf-cb0b58138fc8
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: node.mingi_content_type.menu_link
 field_name: menu_link
 entity_type: node
 bundle: mingi_content_type
-label: 'Menu link'
+label: Menüülink
 description: 'Computed menu link for the node (only available during node saving).'
 required: false
 translatable: false

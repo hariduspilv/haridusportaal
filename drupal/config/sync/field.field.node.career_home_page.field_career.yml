@@ -28,7 +28,7 @@ bundle: career_home_page
 label: 'Karjääri kujundamine'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -54,6 +54,7 @@ settings:
       study_programme: study_programme
     sort:
       field: _none
+      direction: ASC
     auto_create: false
     auto_create_bundle: avaleht
 field_type: entity_reference

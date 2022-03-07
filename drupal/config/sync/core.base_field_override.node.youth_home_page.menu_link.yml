@@ -1,5 +1,5 @@
-uuid: b6565325-49e9-4d81-b40d-c5b09ed87212
-langcode: en
+uuid: 0cdaa468-8482-456b-8306-d6cdfdad21af
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.youth_home_page.menu_link
 field_name: menu_link
 entity_type: node
 bundle: youth_home_page
-label: 'Menu link'
+label: Menüülink
 description: 'Computed menu link for the node (only available during node saving).'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

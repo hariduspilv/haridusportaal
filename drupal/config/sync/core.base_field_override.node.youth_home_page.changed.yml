@@ -1,5 +1,5 @@
-uuid: cf6859a1-18e6-4a95-9f1c-5486300f7f03
-langcode: en
+uuid: 537e1cd8-3981-4dc4-972d-c13414e681a5
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.youth_home_page.changed
 field_name: changed
 entity_type: node
 bundle: youth_home_page
-label: Changed
+label: Muudetud
 description: 'The time that the node was last edited.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

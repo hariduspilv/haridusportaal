@@ -61,6 +61,7 @@ settings:
       learning_home_page: learning_home_page
     sort:
       field: _none
+      direction: ASC
     auto_create: false
     auto_create_bundle: avaleht
 field_type: entity_reference

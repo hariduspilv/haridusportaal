@@ -1,5 +1,5 @@
-uuid: 16f843ae-832f-4f79-b6b6-b8bd4003d864
-langcode: en
+uuid: d4268d64-67b7-45c5-9579-eb0c7c542603
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: node.mingi_content_type.publish_on
 field_name: publish_on
 entity_type: node
 bundle: mingi_content_type
-label: 'Publish on'
+label: 'Avaldamise aeg'
 description: ''
 required: false
 translatable: false
