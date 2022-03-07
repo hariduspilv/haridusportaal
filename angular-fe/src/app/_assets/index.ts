@@ -81,9 +81,6 @@ import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
 import { Map1Component } from './map1';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
-// import { AgmCoreModule } from '@agm/core';
-// import { AgmMarkerClustererModule } from '@agm/markerclusterer';
-// import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { GoogleMapsModule } from "@angular/google-maps";
 import { ShareComponent } from './share';
 import { ClipboardService } from 'ngx-clipboard';
@@ -296,12 +293,6 @@ const imports = [
   TranslateModule,
   FormsModule,
   AppPipes,
-  // AgmMarkerClustererModule,
-  // AgmCoreModule.forRoot({
-  //   apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
-  //   language: 'et',
-  // }),
-  // AgmSnazzyInfoWindowModule,
 	GoogleMapsModule,
   NgbDatepickerModule,
   NgPipesModule,

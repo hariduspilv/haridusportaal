@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TootukassaJobOffer } from '../job-offers-map.models';
 import { JobOffersMapService } from '../job-offers-map.service';
+import conf from "@app/_core/conf";
 
 @Component({
   selector: 'job-offers-map',
@@ -10,28 +11,45 @@ import { JobOffersMapService } from '../job-offers-map.service';
 export class JobOffersMapComponent implements OnInit {
   public loading = true;
   public markers: TootukassaJobOffer[] = [];
-  public options = {
-    polygonType: 'investment',
-    icon: '/assets/img/marker_blue.svg',
-    clusterStyles: [
-      {
-        textColor: '#FFFFFF',
-        url: '/assets/img/cluster_blue.svg',
-        height: 50,
-        width: 28,
-        anchorText: [16, 0],
-        fontFamily: 'Arial, sans-serif',
-        fontWeight: 'bold',
-      },
-    ],
-    zoom: 7.4,
-    maxZoom: 24,
-    minZoom: 7,
-    draggable: true,
-    enablePolygonModal: false,
-    enableStreetViewControl: false,
-    enableLabels: true,
-  };
+  // public options = {
+  //   polygonType: 'investment',
+  //   enablePolygonModal: false,
+  //   enableStreetViewControl: false,
+  //   enableLabels: true,
+  // };
+
+	options: google.maps.MapOptions = {
+		backgroundColor: '#fff',
+		clickableIcons: true,
+		disableDefaultUI: true,
+		disableDoubleClickZoom: false,
+		fullscreenControl: false,
+		fullscreenControlOptions: null,
+		gestureHandling: 'auto',	// 'cooperative' | 'greedy' | 'none' | 'auto'
+		keyboardShortcuts: true,
+		mapTypeControl: false,
+		mapTypeId: 'roadmap',	// 'hybrid' | 'roadmap' | 'satellite' | 'terrain'
+		maxZoom: 24,
+		minZoom: 7,
+		scrollwheel: true,
+		styles: [ ...conf.defaultMapStyles ],
+		zoomControl: false,
+	};
+	markerOptions: google.maps.MarkerOptions = {
+		draggable: true,
+		icon: '/assets/img/marker_blue.svg',
+	};
+	markerClustererOptions: MarkerClustererOptions = {
+		styles: [{
+			anchorText: [16, 0],
+			fontFamily: 'Arial, sans-serif',
+			fontWeight: 'bold',
+			height: 50,
+			textColor: '#ffffff',
+			width: 28,
+			url: '/assets/img/cluster_blue.svg'
+		}],
+	};
 
   constructor(private service: JobOffersMapService) {}
 

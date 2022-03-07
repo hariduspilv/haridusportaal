@@ -36,6 +36,8 @@
 					<a [routerLink]="markerForInfoWindow.EntityPath" class="button">{{ 'button.view_more' | translate }}</a>
 				</ng-container>
 			</map-info-window>
+
+			<map-polyline *ngIf="vertices" [path]="vertices" [options]="polylineOptions"></map-polyline>
 		</google-map>
 
 		<button (click)="zoomIn()">Zoom in</button>

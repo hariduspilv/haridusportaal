@@ -44,8 +44,25 @@
             </tr>
           </tbody>
         </table>
-        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator" aria-hidden="true" (mapLoaded)="mapLoaded()">
-        </map>
+        <map1 *ngIf="!loading" type="polygons"
+							[options]="mapOptions"
+							[polygonData]="polygonData"
+							[parameters]="parameters"
+							[legendLabels]="indicatorLegendLabels"
+							legendKey="mapIndicator"
+							aria-hidden="true"
+				></map1>
+
+<!--        <map *ngIf="!loading"-->
+<!--						 type="polygons"-->
+<!--						 [options]="mapOptions"-->
+<!--						 [polygonData]="polygonData"-->
+<!--						 [parameters]="parameters"-->
+<!--						 [legendLabels]="indicatorLegendLabels"-->
+<!--						 legendKey="mapIndicator"-->
+<!--						 aria-hidden="true"-->
+<!--						 (mapLoaded)="mapLoaded()"-->
+<!--				></map>-->
         <!--/map-wrapper-->
       </block-content>
     </block>

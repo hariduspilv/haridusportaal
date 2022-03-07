@@ -40,19 +40,19 @@ export class MapComponent {
   @Output() mapLoaded = new EventEmitter<boolean>();
 
   private map: any;
-  private heatmap: any;
+  public heatmap: any;
   private polygonCoords: any;
-  private polygons: any;
-  private polygonMarkers: any;
-  private polygonLayer: string = 'county';
-  private defaultMapOptions: any = conf.defaultMapOptions;
+	public polygons: any;
+	public polygonMarkers: any;
+	public polygonLayer: string = 'county';
+	public defaultMapOptions: any = conf.defaultMapOptions;
   private paramSub: Subscription;
   private polygonSub: Subscription;
   public params: Object;
   public infoWindowFunding: Boolean | Number;
   public activeLegendParameters: object;
   public paramValue: string;
-  private polygonIcon = {
+  public polygonIcon = {
     url: '',
     scaledSize: {
       width: 0,
@@ -63,7 +63,7 @@ export class MapComponent {
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    private mapService: MapService,
+    public mapService: MapService,
     private route: ActivatedRoute) {}
 
   mapReady(map) {

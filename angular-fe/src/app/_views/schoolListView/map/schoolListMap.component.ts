@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { MapService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { MarkerFromBackend } from "@app/_assets/map1";
+import conf from "@app/_core/conf";
 
 @Component({
   selector: 'schoolList-map',
@@ -37,28 +38,60 @@ export class SchoolListMapComponent implements AfterViewInit {
   ownershipFilters = [];
   typeOptions = [];
   subPlaceholder: string;
-  public loading: boolean = false;
+  loading: boolean = false;
   private mapLimit: number = 3000;
   private boundsEnabled: boolean = false;
   private paramsSub: Subscription;
-  public markers: MarkerFromBackend[];
+  markers: MarkerFromBackend[];
   private listSub: Subscription;
-  public options: Object = {
-    polygonType: 'investment', // ...
-    zoom: 7.4,
-    maxZoom: 16,
-    minZoom: 7,
-    draggable: true,
-    enablePolygonModal: false,
-    enableStreetViewControl: false,
-    enableLabels: true,
-  };
-  public bounds = {
-    minLat: '0',
-    maxLat: '99',
-    minLon: '0',
-    maxLon: '99',
-  };
+  // options: Object = {
+  //   polygonType: 'investment', // ...
+  //   zoom: 7.4,
+  //   maxZoom: 16,
+  //   minZoom: 7,
+  //   draggable: true,
+  //   enablePolygonModal: false,
+  //   enableStreetViewControl: false,
+  //   enableLabels: true,
+	// };
+	options: google.maps.MapOptions = {
+		backgroundColor: '#fff',
+		clickableIcons: true,
+		disableDefaultUI: true,
+		disableDoubleClickZoom: false,
+		fullscreenControl: false,
+		fullscreenControlOptions: null,
+		gestureHandling: 'auto',	// 'cooperative' | 'greedy' | 'none' | 'auto'
+		keyboardShortcuts: true,
+		mapTypeControl: false,
+		mapTypeId: 'roadmap',	// 'hybrid' | 'roadmap' | 'satellite' | 'terrain'
+		maxZoom: 16,
+		minZoom: 7,
+		scrollwheel: true,
+		styles: [ ...conf.defaultMapStyles ],
+		zoomControl: false,
+	};
+	markerOptions: google.maps.MarkerOptions = {
+		draggable: false,
+		icon: '/assets/img/marker.svg',
+	};
+	markerClustererOptions: MarkerClustererOptions = {
+		styles: [{
+			anchorText: [16, 0],
+			fontFamily: 'Arial, sans-serif',
+			fontWeight: 'bold',
+			height: 50,
+			textColor: '#ffffff',
+			width: 28,
+			url: '/assets/img/cluster.svg'
+		}],
+	};
+	bounds = {
+		minLat: '0',
+		maxLat: '99',
+		minLon: '0',
+		maxLon: '99',
+	};
 
   constructor(
     private settings: SettingsService,
@@ -67,27 +100,27 @@ export class SchoolListMapComponent implements AfterViewInit {
     private mapService: MapService,
     private cdr: ChangeDetectorRef,
     private translate: TranslateService,
-    private el: ElementRef,
-  ) { }
+    // private el: ElementRef,
+  ) {}
 
-  ngOnInit() {
-    this.getTags();
-    this.watchParams();
-  }
+	ngOnInit() {
+		this.getTags();
+		this.watchParams();
+	}
 
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
   }
 
-  mapLoaded() {
-    setTimeout(() => {
-      const focusableElements = this.el.nativeElement.querySelectorAll('[tabindex], agm-map a');
-      Array.from(focusableElements).forEach((element:HTMLElement) => {
-        element.setAttribute('tabindex', '-1');
-      });
-    },
-    3000);
-  }
+  // mapLoaded() {
+  //   setTimeout(() => {
+  //     const focusableElements = this.el.nativeElement.querySelectorAll('[tabindex], agm-map a');
+  //     Array.from(focusableElements).forEach((element:HTMLElement) => {
+  //       element.setAttribute('tabindex', '-1');
+  //     });
+  //   },
+  //   3000);
+  // }
 
   checkLanguageDisable():void {
     if (this.selectedPrimaryTypes.length === 1) {

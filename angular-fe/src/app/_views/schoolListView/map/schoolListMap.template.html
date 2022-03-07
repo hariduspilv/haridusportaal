@@ -91,7 +91,8 @@
 				<loader *ngIf="!markers"></loader>
 				<a class="sr-only" routerLink="/kool" attr.aria-label="{{ 'school.view_institutions' | translate }}"></a>
 
-				<map1 *ngIf="markers" [loading]="loading" [markers]="markers"></map1>
+				<map1 *ngIf="markers" [loading]="loading" type="markers"
+							[markers]="markers" [options]="options" [markerOptions]="markerOptions" [markerClustererOptions]="markerClustererOptions"></map1>
 
 			</block-content>
 		</block>

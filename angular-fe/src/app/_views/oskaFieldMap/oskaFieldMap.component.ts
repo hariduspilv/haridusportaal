@@ -6,6 +6,7 @@ import { FiltersService } from '@app/_services/filterService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService, MapService } from '@app/_services';
+import conf from "@app/_core/conf";
 
 @Component({
   selector: 'oskaFieldMap-view',
@@ -25,7 +26,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   map: any;
   data: any;
   filterData: any = {};
-  private indicatorLegendLabels: {} = {};
+	indicatorLegendLabels: {} = {};
 
   params: any = {};
   path: string;
@@ -47,17 +48,28 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     },
   ];
 
-  mapOptions = {
-    polygonType: 'oskaFields',
-    centerLat: 58.5822061,
-    centerLng: 24.7065513,
-    zoom: 7.4,
-    maxZoom: 10,
-    minZoom: 7.4,
-    draggable: true,
-    enableStreetViewControl: false,
-    enableParameters: false,
-    enablePolygonLegend: true,
+	mapOptions: google.maps.MapOptions = {
+    // polygonType: 'oskaFields',
+    // enableStreetViewControl: false,
+    // enableParameters: false,
+    // enablePolygonLegend: true,
+		backgroundColor: '#fff',
+		clickableIcons: true,
+		disableDefaultUI: true,
+		disableDoubleClickZoom: false,
+		fullscreenControl: false,
+		fullscreenControlOptions: null,
+		gestureHandling: 'auto',	// 'cooperative' | 'greedy' | 'none' | 'auto'
+		keyboardShortcuts: true,
+		mapTypeControl: false,
+		mapTypeId: 'roadmap',	// 'hybrid' | 'roadmap' | 'satellite' | 'terrain'
+		// maxZoom: 10,
+		maxZoom: 100,
+		// minZoom: 7.4,
+		minZoom: 0,
+		scrollwheel: true,
+		styles: [ ...conf.defaultMapStyles ],
+		zoomControl: false,
   };
 
   constructor(
@@ -167,7 +179,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       this.data = this.polygonData['county'] = rawData;
       this.watchSearch();
       subscription.unsubscribe();
-    });
+		});
   }
 
   getUniqueFilters(arr) {
@@ -189,15 +201,15 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     this.filterData['mapIndicator'] = indicator;
   }
 
-  mapLoaded() {
-    setTimeout(() => {
-      const focusableElements = this.el.nativeElement.querySelectorAll('[tabindex], agm-map a');
-      Array.from(focusableElements).forEach((element:HTMLElement) => {
-        element.setAttribute('tabindex', '-1');
-      });
-    },
-    3000);
-  }
+  // mapLoaded() {
+  //   setTimeout(() => {
+  //     const focusableElements = this.el.nativeElement.querySelectorAll('[tabindex], agm-map a');
+  //     Array.from(focusableElements).forEach((element:HTMLElement) => {
+  //       element.setAttribute('tabindex', '-1');
+  //     });
+  //   },
+  //   3000);
+  // }
 
   fieldPlaceholder() {
     return this.filterData.OSKAField && !this.filterData.OSKAField.length ?
@@ -219,6 +231,6 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
         sub.unsubscribe();
       }
     }
+		this.subscriptions = null;
   }
-
 }
