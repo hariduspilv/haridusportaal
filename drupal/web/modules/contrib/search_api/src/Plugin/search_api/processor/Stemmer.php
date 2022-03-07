@@ -70,7 +70,7 @@ class Stemmer extends FieldsProcessorPluginBase {
     $description = $this->t('If the <a href="http://snowball.tartarus.org/algorithms/english/stemmer.html">algorithm</a> does not stem words in your dataset in the desired way, you can enter specific exceptions in the form of WORD=STEM, where "WORD" is the original word in the text and "STEM" is the resulting stem. List each exception on a separate line.');
 
     // Convert the keyed array into a config format (word=stem)
-    $default_value = http_build_query($this->configuration['exceptions'], NULL, "\n");
+    $default_value = http_build_query($this->configuration['exceptions'], '', "\n");
 
     $form['exceptions'] = [
       '#type' => 'textarea',

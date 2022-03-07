@@ -1,0 +1,20 @@
+uuid: dfed344c-b60b-47a3-8647-f4a841ec8d80
+langcode: en
+status: true
+dependencies:
+  module:
+    - htm_custom_subscriptions
+id: subscription_entity.subscription_entity.tag
+field_name: tag
+entity_type: subscription_entity
+bundle: subscription_entity
+label: Tags
+description: 'Tags to subscribe to'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

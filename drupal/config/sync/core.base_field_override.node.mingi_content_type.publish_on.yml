@@ -1,0 +1,18 @@
+uuid: 16f843ae-832f-4f79-b6b6-b8bd4003d864
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.publish_on
+field_name: publish_on
+entity_type: node
+bundle: mingi_content_type
+label: 'Publish on'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

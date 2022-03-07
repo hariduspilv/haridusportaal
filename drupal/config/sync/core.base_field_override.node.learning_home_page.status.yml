@@ -1,0 +1,22 @@
+uuid: 5e3b2689-2957-4002-8d5c-39ce8d2785b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.status
+field_name: status
+entity_type: node
+bundle: learning_home_page
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

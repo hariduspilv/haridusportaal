@@ -1,0 +1,20 @@
+uuid: 8c737050-9802-4bfc-82d6-af2abd8f9041
+langcode: en
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_indicator_entity.oska_indicator_entity.user_id
+field_name: user_id
+entity_type: oska_indicator_entity
+bundle: oska_indicator_entity
+label: 'Authored by'
+description: 'The user ID of author of the Oska indicator entity entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

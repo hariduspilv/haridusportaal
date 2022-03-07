@@ -77,7 +77,14 @@
   2. docker push hub.wiseman.ee/htm/drupal:prod
 ## Dev server and CI
   * root@haridusportaal.twn.zone
-  * https://bamboo.twn.ee/browse/HP-DEVFE
+
+### CI:
+  https://bamboo.twn.ee/browse/HP-DEVFE
+## FE Building for production environments in /angular-fe directory (required on every release)
+  1. docker build . --build-arg BUILD_VERSION=2.6.9 -f Dockerfile.prod -t harbor.twn.zone/haridusportaal/angular:prod
+  2. docker build . --build-arg BUILD_VERSION=2.6.9 -f Dockerfile.prelive -t harbor.twn.zone/haridusportaal/angular:prelive
+  3. docker push harbor.twn.zone/haridusportaal/angular:prod
+  4. docker push harbor.twn.zone/haridusportaal/angular:prelive
 
 ## MANUAL DEPLOY:
 

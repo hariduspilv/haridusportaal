@@ -1,0 +1,18 @@
+uuid: b6d48d82-1a77-472e-a359-de93c5446196
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.metatag
+field_name: metatag
+entity_type: node
+bundle: job_offer
+label: 'Metatags (Hidden field for JSON support)'
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

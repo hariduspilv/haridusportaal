@@ -4,6 +4,7 @@ import filtersMd from './filters.md';
 import filtersTemplateHtml from './filters.template.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TitleService } from "@app/_services/TitleService";
 
 const moduleMetadata = {
   imports: [
@@ -11,6 +12,9 @@ const moduleMetadata = {
     TranslateModule.forRoot(),
     RouterTestingModule,
   ],
+	providers: [
+		TitleService,
+	],
 };
 
 const opts = [

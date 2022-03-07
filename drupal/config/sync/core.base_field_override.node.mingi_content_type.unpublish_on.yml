@@ -1,0 +1,18 @@
+uuid: b4ed370a-ac26-4b02-967d-a866c128de2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.unpublish_on
+field_name: unpublish_on
+entity_type: node
+bundle: mingi_content_type
+label: 'Unpublish on'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

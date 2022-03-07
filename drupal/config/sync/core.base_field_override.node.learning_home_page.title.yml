@@ -1,0 +1,18 @@
+uuid: c6142ec1-1d2f-4718-a0ee-6aef475786e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.title
+field_name: title
+entity_type: node
+bundle: learning_home_page
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

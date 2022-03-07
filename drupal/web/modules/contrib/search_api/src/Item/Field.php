@@ -81,7 +81,7 @@ class Field implements \IteratorAggregate, FieldInterface {
   /**
    * The human-readable label for this field.
    *
-   * @var string
+   * @var string|null
    */
   protected $label;
 
@@ -665,6 +665,7 @@ class Field implements \IteratorAggregate, FieldInterface {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function getIterator() {
     return new \ArrayIterator($this->values);
   }
