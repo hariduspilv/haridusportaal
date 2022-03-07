@@ -1,5 +1,5 @@
-uuid: be1d838d-199c-4b4b-afaf-a2f58085ef9f
-langcode: en
+uuid: 2010f74d-dfa0-44bd-ae10-2c65855a5958
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.learning_home_page.publish_on
 field_name: publish_on
 entity_type: node
 bundle: learning_home_page
-label: 'Publish on'
+label: 'Avaldamise aeg'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

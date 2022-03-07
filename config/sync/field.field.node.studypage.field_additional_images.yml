@@ -11,9 +11,9 @@ dependencies:
 third_party_settings:
   content_translation:
     translation_sync:
-      alt: alt
-      title: title
-      file: '0'
+      file: file
+      alt: '0'
+      title: '0'
 id: node.studypage.field_additional_images
 field_name: field_additional_images
 entity_type: node

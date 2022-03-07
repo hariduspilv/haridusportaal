@@ -1,5 +1,5 @@
-uuid: 3b7b2740-5b52-474b-ac22-9f148842c1f4
-langcode: en
+uuid: dbcd02c9-c69f-4ebe-a0d9-2841ad9b0506
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: taxonomy_term.studytopic.changed
 field_name: changed
 entity_type: taxonomy_term
 bundle: studytopic
-label: Changed
+label: Muudetud
 description: 'The time that the term was last edited.'
 required: false
 translatable: false

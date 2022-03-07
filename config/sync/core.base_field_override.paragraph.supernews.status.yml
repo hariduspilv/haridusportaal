@@ -1,0 +1,22 @@
+uuid: 0020ba00-524d-4680-a9c4-5c9c80d6a6ea
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.supernews
+id: paragraph.supernews.status
+field_name: status
+entity_type: paragraph
+bundle: supernews
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

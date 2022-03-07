@@ -1,5 +1,5 @@
-uuid: 8e1fe344-ef6c-4164-b124-331cd0b81ddd
-langcode: en
+uuid: e4b75c75-9754-41e6-be83-de131e4ba495
+langcode: et
 status: true
 dependencies:
   config:
@@ -10,7 +10,7 @@ id: taxonomy_term.studytag.path
 field_name: path
 entity_type: taxonomy_term
 bundle: studytag
-label: 'URL alias'
+label: 'URL-i alias'
 description: ''
 required: false
 translatable: false

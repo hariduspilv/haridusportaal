@@ -1,5 +1,5 @@
-uuid: 7ff35851-9f5d-4bb6-8ce7-66bc9eebf579
-langcode: en
+uuid: f2b43a84-664b-4625-b9fa-55cc9a4f15b4
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: taxonomy_term.studytopic.name
 field_name: name
 entity_type: taxonomy_term
 bundle: studytopic
-label: Name
+label: Nimi
 description: ''
 required: true
 translatable: false

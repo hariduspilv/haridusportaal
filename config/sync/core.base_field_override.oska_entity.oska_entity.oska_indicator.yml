@@ -1,5 +1,5 @@
-uuid: 0f0f59a2-861e-4d99-89fa-812461b42aee
-langcode: en
+uuid: 361cc8e8-f100-40d0-8034-0b5e43ff7b09
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: oska_entity.oska_entity.oska_indicator
 field_name: oska_indicator
 entity_type: oska_entity
 bundle: oska_entity
-label: 'Oska indicator'
+label: 'OSKA Näitaja'
 description: ''
 required: true
 translatable: false

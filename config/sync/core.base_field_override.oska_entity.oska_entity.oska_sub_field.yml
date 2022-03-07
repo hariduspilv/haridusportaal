@@ -1,5 +1,5 @@
-uuid: 1033c784-d285-4f23-9264-89784d1ed75c
-langcode: en
+uuid: 03288494-3c07-4ddf-b97a-693b53ab3327
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: oska_entity.oska_entity.oska_sub_field
 field_name: oska_sub_field
 entity_type: oska_entity
 bundle: oska_entity
-label: 'Oska sub field'
+label: 'OSKA Alavaldkond'
 description: ''
 required: false
 translatable: false

@@ -1,5 +1,5 @@
-uuid: 1d24dc94-383a-450b-bbf8-358dfa34e053
-langcode: en
+uuid: cfab2111-34a1-4889-b3ba-90a7bc0843cc
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.youth_home_page.title
 field_name: title
 entity_type: node
 bundle: youth_home_page
-label: Title
+label: Pealkiri
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

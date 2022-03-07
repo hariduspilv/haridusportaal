@@ -1,5 +1,5 @@
-uuid: 5e3b2689-2957-4002-8d5c-39ce8d2785b7
-langcode: en
+uuid: 7f5a535a-08ae-4bb2-a71f-a2b5fe864e59
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,15 +8,15 @@ id: node.learning_home_page.status
 field_name: status
 entity_type: node
 bundle: learning_home_page
-label: Published
+label: Avaldatud
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

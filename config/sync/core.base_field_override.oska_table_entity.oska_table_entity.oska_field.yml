@@ -1,5 +1,5 @@
-uuid: c088e094-28a5-4fc4-8271-90cffe2cac57
-langcode: en
+uuid: 301cd3e9-168c-4c45-b3b4-5c3dc5dc456b
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: oska_table_entity.oska_table_entity.oska_field
 field_name: oska_field
 entity_type: oska_table_entity
 bundle: oska_table_entity
-label: 'Oska field'
+label: 'OSKA Valdkond'
 description: ''
 required: false
 translatable: false

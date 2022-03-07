@@ -9,7 +9,7 @@ id: node.school.field_student_home
 field_name: field_student_home
 entity_type: node
 bundle: school
-label: 'Student home'
+label: Õpilaskodu
 description: ''
 required: false
 translatable: true

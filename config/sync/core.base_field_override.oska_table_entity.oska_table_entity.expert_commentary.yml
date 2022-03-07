@@ -1,5 +1,5 @@
-uuid: c297fbd6-977b-4646-8f63-9611de30ec0e
-langcode: en
+uuid: 7eddf9ef-1919-4b6d-b658-bbb5e2f3ceec
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: oska_table_entity.oska_table_entity.expert_commentary
 field_name: expert_commentary
 entity_type: oska_table_entity
 bundle: oska_table_entity
-label: 'Expert body commentary'
+label: 'Eksperdikogu kommentaar'
 description: ''
 required: false
 translatable: false

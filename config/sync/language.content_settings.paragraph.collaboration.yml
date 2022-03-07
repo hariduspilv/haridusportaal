@@ -1,5 +1,5 @@
-uuid: b1fee53a-1043-4cae-89e4-843f6d06aeb9
-langcode: en
+uuid: b1c84c8b-31db-4304-9a23-70012b708676
+langcode: et
 status: true
 dependencies:
   config:
@@ -15,4 +15,4 @@ id: paragraph.collaboration
 target_entity_type_id: paragraph
 target_bundle: collaboration
 default_langcode: site_default
-language_alterable: true
+language_alterable: false

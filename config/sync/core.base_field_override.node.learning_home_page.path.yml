@@ -1,5 +1,5 @@
-uuid: 9725a989-3bbd-4cd6-bd9b-9e44e1ec39ac
-langcode: en
+uuid: 75da41dd-0827-4ef7-800f-3362aa692583
+langcode: et
 status: true
 dependencies:
   config:
@@ -10,10 +10,10 @@ id: node.learning_home_page.path
 field_name: path
 entity_type: node
 bundle: learning_home_page
-label: 'URL alias'
+label: 'URL-i alias'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
