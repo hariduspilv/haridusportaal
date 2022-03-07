@@ -1,0 +1,22 @@
+uuid: 39ed7523-975e-428f-b08d-fd693384794d
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.event_group
+id: taxonomy_term.event_group.status
+field_name: status
+entity_type: taxonomy_term
+bundle: event_group
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

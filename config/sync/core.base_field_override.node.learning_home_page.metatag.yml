@@ -1,0 +1,18 @@
+uuid: d861690e-eafd-49c5-a977-1a5efa7981f4
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.metatag
+field_name: metatag
+entity_type: node
+bundle: learning_home_page
+label: 'Metatags (Hidden field for JSON support)'
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

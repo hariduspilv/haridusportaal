@@ -1,0 +1,18 @@
+uuid: 7eddf9ef-1919-4b6d-b658-bbb5e2f3ceec
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_table_entity.oska_table_entity.expert_commentary
+field_name: expert_commentary
+entity_type: oska_table_entity
+bundle: oska_table_entity
+label: 'Eksperdikogu kommentaar'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

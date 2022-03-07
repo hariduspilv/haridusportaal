@@ -9,10 +9,10 @@ id: node.news.field_author
 field_name: field_author
 entity_type: node
 bundle: news
-label: Publisher
+label: Avaldaja
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

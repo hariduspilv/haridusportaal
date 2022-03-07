@@ -1,0 +1,20 @@
+uuid: 03288494-3c07-4ddf-b97a-693b53ab3327
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_entity.oska_entity.oska_sub_field
+field_name: oska_sub_field
+entity_type: oska_entity
+bundle: oska_entity
+label: 'OSKA Alavaldkond'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference
