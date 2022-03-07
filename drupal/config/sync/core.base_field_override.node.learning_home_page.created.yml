@@ -11,7 +11,7 @@ bundle: learning_home_page
 label: 'Loomise kuupäev'
 description: 'The time that the node was created.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

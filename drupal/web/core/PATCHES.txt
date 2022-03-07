@@ -5,3 +5,7 @@ AccountProxy Drupal 9 custom patch
 Source: web/patches/AccountProxy_D9.txt
 
 
+Remove markup tags from node revision text
+Source: https://www.drupal.org/files/issues/2021-08-16/Remove_translation-entity-all-languages_for_material_theme_.patch
+
+
