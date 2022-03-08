@@ -12,7 +12,7 @@ bundle: oska_main_profession_page
 label: Amet
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 0
