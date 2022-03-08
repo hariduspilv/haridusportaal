@@ -1,5 +1,5 @@
-uuid: 946d6520-760e-42e2-9bb6-e6dc2ef0982b
-langcode: en
+uuid: 09163462-81c0-4f91-841d-a48a7e46e032
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.learning_home_page.menu_link
 field_name: menu_link
 entity_type: node
 bundle: learning_home_page
-label: 'Menu link'
+label: Menüülink
 description: 'Computed menu link for the node (only available during node saving).'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

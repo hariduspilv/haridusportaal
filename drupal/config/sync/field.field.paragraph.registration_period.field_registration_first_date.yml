@@ -11,7 +11,7 @@ id: paragraph.registration_period.field_registration_first_date
 field_name: field_registration_first_date
 entity_type: paragraph
 bundle: registration_period
-label: 'Registration First Date'
+label: 'Registreerimise alguse kuupäev'
 description: ''
 required: false
 translatable: false

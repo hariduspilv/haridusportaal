@@ -1,5 +1,5 @@
-uuid: 7e39ee04-fb58-4dcf-b32d-2a6fd588e308
-langcode: en
+uuid: 70fe5e02-98ab-4b35-9a0a-413c9012836b
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.learning_home_page.created
 field_name: created
 entity_type: node
 bundle: learning_home_page
-label: 'Authored on'
+label: 'Loomise kuupäev'
 description: 'The time that the node was created.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

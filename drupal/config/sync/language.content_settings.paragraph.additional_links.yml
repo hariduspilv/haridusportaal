@@ -1,5 +1,5 @@
-uuid: ca668582-a68a-455b-8729-52ba12f11a03
-langcode: en
+uuid: 18bd5982-65b0-496b-a935-6d85c5e33309
+langcode: et
 status: true
 dependencies:
   config:
@@ -15,4 +15,4 @@ id: paragraph.additional_links
 target_entity_type_id: paragraph
 target_bundle: additional_links
 default_langcode: site_default
-language_alterable: true
+language_alterable: false

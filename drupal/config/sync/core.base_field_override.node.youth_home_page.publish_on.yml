@@ -1,5 +1,5 @@
-uuid: 8dd2fe21-0cbd-4fa5-9a91-c56f000407bb
-langcode: en
+uuid: 67e1b09f-b967-4252-b0de-2d1cd64e7da0
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.youth_home_page.publish_on
 field_name: publish_on
 entity_type: node
 bundle: youth_home_page
-label: 'Publish on'
+label: 'Avaldamise aeg'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

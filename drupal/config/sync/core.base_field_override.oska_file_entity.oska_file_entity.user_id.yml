@@ -1,5 +1,5 @@
-uuid: 7bfd137a-75ce-4d05-849e-5ccadd300803
-langcode: en
+uuid: 9279eead-a606-4463-b92b-bc704fc5e342
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: oska_file_entity.oska_file_entity.user_id
 field_name: user_id
 entity_type: oska_file_entity
 bundle: oska_file_entity
-label: 'Authored by'
+label: Autor
 description: 'The user ID of author of the Oska file entity entity.'
 required: false
 translatable: false

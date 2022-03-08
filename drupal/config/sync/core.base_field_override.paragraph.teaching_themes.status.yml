@@ -1,0 +1,22 @@
+uuid: a67f54a9-f908-44ad-903a-e19c5a429cbf
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.teaching_themes
+id: paragraph.teaching_themes.status
+field_name: status
+entity_type: paragraph
+bundle: teaching_themes
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

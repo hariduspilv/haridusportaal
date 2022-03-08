@@ -1,5 +1,5 @@
-uuid: 7ad7bdbe-434a-4828-b074-a65ef6c26e74
-langcode: en
+uuid: 1f806844-b20a-4ff7-b5a0-b723a46ad8b9
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: node.mingi_content_type.uid
 field_name: uid
 entity_type: node
 bundle: mingi_content_type
-label: 'Authored by'
+label: Autor
 description: 'The username of the content author.'
 required: false
 translatable: false

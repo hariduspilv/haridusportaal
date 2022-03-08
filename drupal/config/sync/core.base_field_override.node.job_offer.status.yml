@@ -1,5 +1,5 @@
-uuid: c6642cde-82f2-487b-a598-5f398610791c
-langcode: en
+uuid: 54d3eb39-5da3-4653-835a-9979e0a8901b
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,15 +8,15 @@ id: node.job_offer.status
 field_name: status
 entity_type: node
 bundle: job_offer
-label: Published
+label: Avaldatud
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

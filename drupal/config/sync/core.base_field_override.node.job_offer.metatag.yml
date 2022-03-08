@@ -1,5 +1,5 @@
-uuid: b6d48d82-1a77-472e-a359-de93c5446196
-langcode: en
+uuid: ea53bc41-e6a6-46b8-858d-3f5aeb54c0cc
+langcode: et
 status: true
 dependencies:
   config:
@@ -11,7 +11,7 @@ bundle: job_offer
 label: 'Metatags (Hidden field for JSON support)'
 description: 'The meta tags for the entity.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

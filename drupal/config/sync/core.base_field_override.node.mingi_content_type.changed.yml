@@ -1,5 +1,5 @@
-uuid: d2a917dc-fe12-4d9d-a416-5a6d5c4af623
-langcode: en
+uuid: 23f38504-6b03-48b0-9233-1aab1f7a7497
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: node.mingi_content_type.changed
 field_name: changed
 entity_type: node
 bundle: mingi_content_type
-label: Changed
+label: Muudetud
 description: 'The time that the node was last edited.'
 required: false
 translatable: false

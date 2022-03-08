@@ -1,0 +1,22 @@
+uuid: 369f93c5-296c-4636-aa7e-89ed33f3ad51
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.frontpage_service_image
+id: paragraph.frontpage_service_image.status
+field_name: status
+entity_type: paragraph
+bundle: frontpage_service_image
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

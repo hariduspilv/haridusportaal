@@ -1,5 +1,5 @@
-uuid: 2a9baf10-9975-435b-9b11-920a794af094
-langcode: en
+uuid: ee3d777c-3ea2-4903-8672-ec9710230368
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,15 +8,15 @@ id: node.youth_home_page.status
 field_name: status
 entity_type: node
 bundle: youth_home_page
-label: Published
+label: Avaldatud
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

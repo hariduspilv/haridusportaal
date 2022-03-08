@@ -1,5 +1,5 @@
-uuid: 8c737050-9802-4bfc-82d6-af2abd8f9041
-langcode: en
+uuid: f3996803-53b5-4d10-88e1-b0b206187159
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: oska_indicator_entity.oska_indicator_entity.user_id
 field_name: user_id
 entity_type: oska_indicator_entity
 bundle: oska_indicator_entity
-label: 'Authored by'
+label: Autor
 description: 'The user ID of author of the Oska indicator entity entity.'
 required: false
 translatable: false

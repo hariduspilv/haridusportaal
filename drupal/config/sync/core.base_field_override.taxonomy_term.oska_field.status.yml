@@ -1,5 +1,5 @@
-uuid: da48f196-497c-4ded-8b58-f15d5afb95c5
-langcode: en
+uuid: dd8ed46c-496d-4f9b-8ca6-df4ccc739233
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: taxonomy_term.oska_field.status
 field_name: status
 entity_type: taxonomy_term
 bundle: oska_field
-label: Published
+label: Avaldatud
 description: ''
 required: false
 translatable: false
@@ -17,6 +17,6 @@ default_value:
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

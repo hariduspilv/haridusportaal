@@ -1,5 +1,5 @@
-uuid: 2579dbfe-97d9-4e8f-b113-75451208192e
-langcode: en
+uuid: 6a10a737-95ae-4c2a-a375-410ff2b63950
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.job_offer.publish_on
 field_name: publish_on
 entity_type: node
 bundle: job_offer
-label: 'Publish on'
+label: 'Avaldamise aeg'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

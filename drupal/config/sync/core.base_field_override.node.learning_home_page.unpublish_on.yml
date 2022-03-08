@@ -1,5 +1,5 @@
-uuid: a0c4ce23-11ed-403b-8c3f-7a8eb442ce78
-langcode: en
+uuid: b63ac55a-fe3b-470a-910b-2694d81f48c3
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.learning_home_page.unpublish_on
 field_name: unpublish_on
 entity_type: node
 bundle: learning_home_page
-label: 'Unpublish on'
+label: 'Mitteavaldatuks märkimise aeg'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

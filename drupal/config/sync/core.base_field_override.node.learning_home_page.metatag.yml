@@ -1,5 +1,5 @@
-uuid: 998ab2e4-bf9d-472d-b002-aa03c2616775
-langcode: en
+uuid: d861690e-eafd-49c5-a977-1a5efa7981f4
+langcode: et
 status: true
 dependencies:
   config:
@@ -11,7 +11,7 @@ bundle: learning_home_page
 label: 'Metatags (Hidden field for JSON support)'
 description: 'The meta tags for the entity.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
