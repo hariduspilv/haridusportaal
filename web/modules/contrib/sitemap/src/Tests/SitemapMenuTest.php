@@ -2,6 +2,8 @@
 
 namespace Drupal\sitemap\Tests;
 
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
 /**
  * Test the display of menus based on sitemap settings.
  *
@@ -10,6 +12,7 @@ namespace Drupal\sitemap\Tests;
 class SitemapMenuTest extends SitemapMenuTestBase {
 
   use SitemapTestTrait;
+  use StringTranslationTrait;
 
   /**
    * Tests the menu title.
@@ -51,7 +54,7 @@ class SitemapMenuTest extends SitemapMenuTestBase {
       // one child menu item of that menu.
       'menu[menu_parent]' => 'main:',
     ];
-    $this->drupalPostForm('node/add/article', $edit, t('Save'));
+    $this->drupalPostForm('node/add/article', $edit, $this->t('Save'));
 
     // Create a node for a disabled menu item.
     $node_2_title = $this->randomString();
@@ -61,13 +64,13 @@ class SitemapMenuTest extends SitemapMenuTestBase {
       'menu[title]' => $node_2_title,
       'menu[menu_parent]' => 'main:',
     ];
-    $this->drupalPostForm('node/add/article', $edit, t('Save'));
+    $this->drupalPostForm('node/add/article', $edit, $this->t('Save'));
 
     // Disable menu item.
     $menu_links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['title' => $node_2_title]);
     $menu_link = reset($menu_links);
     $mlid = $menu_link->id();
-    $this->drupalPostForm("admin/structure/menu/item/$mlid/edit", ['enabled[value]' => FALSE], t('Save'));
+    $this->drupalPostForm("admin/structure/menu/item/$mlid/edit", ['enabled[value]' => FALSE], $this->t('Save'));
 
     // Add admin link that an anonymous user doesn't have access to.
     $admin_link_title = $this->randomString();
@@ -76,7 +79,7 @@ class SitemapMenuTest extends SitemapMenuTestBase {
       'link[0][uri]' => '/admin/config/search/sitemap',
       'menu_parent' => 'main:',
     ];
-    $this->drupalPostForm("admin/structure/menu/manage/main/add", $edit, t('Save'));
+    $this->drupalPostForm("admin/structure/menu/manage/main/add", $edit, $this->t('Save'));
 
     // Assert that main menu is included in the sitemap.
     $this->drupalGet('/sitemap');
@@ -100,10 +103,9 @@ class SitemapMenuTest extends SitemapMenuTestBase {
     // Check anon user doesn't see "Inaccessible" text for the admin link.
     $this->drupalLogin($this->anonUser);
     $this->drupalGet('/sitemap');
-    $this->assertSession()->linkNotExists(t('Inaccessible'));
+    $this->assertSession()->linkNotExists('Inaccessible');
   }
 
-  // @TODO: test menu crud
-  // @TODO: test multiple menus
-
+  // @todo test menu crud
+  // @todo test multiple menus
 }

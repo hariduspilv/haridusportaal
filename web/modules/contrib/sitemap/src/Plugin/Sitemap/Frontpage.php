@@ -4,8 +4,6 @@ namespace Drupal\sitemap\Plugin\Sitemap;
 
 use Drupal\sitemap\SitemapBase;
 use Drupal\Core\Url;
-use Drupal\Core\Template\Attribute;
-use Drupal\Core\Link;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -16,7 +14,7 @@ use Drupal\Core\Form\FormStateInterface;
  *   title = @Translation("Site front page"),
  *   description = @Translation("Displays a sitemap link for the site front page."),
  *   settings = {
- *     "title" = "Front page",
+ *     "title" = @Translation("Front page"),
  *     "rss" = "/rss.xml",
  *   },
  *   enabled = TRUE,
@@ -30,10 +28,7 @@ class Frontpage extends SitemapBase {
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $form = parent::settingsForm($form, $form_state);
 
-    // Provide a default title.
-    $form['title']['#default_value'] = $this->settings['title'] ?: $this->t('Front page');
-
-    //@TODO: Convert to route instead of relative html path.
+    // @todo Convert to route instead of relative html path.
     $form['rss'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Feed URL'),

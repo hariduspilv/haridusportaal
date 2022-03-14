@@ -49,3 +49,47 @@ export function getSelectedDrupalMediaWidget(selection) {
 
   return null;
 }
+
+/**
+ * Checks if value is a JavaScript object.
+ *
+ * This will return true for any type of JavaScript object. (e.g. arrays,
+ * functions, objects, regexes, new Number(0), and new String(''))
+ *
+ * @param value
+ *   Value to check.
+ * @return {boolean}
+ *   True if value is an object, else false.
+ */
+export function isObject(value) {
+  const type = typeof value;
+  return value != null && (type === 'object' || type === 'function');
+}
+
+/**
+ * Gets preview container element from the media element.
+ *
+ * @param {Iterable.<module:engine/view/element~Element>} children
+ *   The child elements.
+ * @return {null|module:engine/view/element~Element}
+ *   The preview child element if available.
+ */
+export function getPreviewContainer(children) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const child of children) {
+    if (child.hasAttribute('data-drupal-media-preview')) {
+      return child;
+    }
+
+    if (child.childCount) {
+      const recursive = getPreviewContainer(child.getChildren());
+      // Return only if preview container was found within this element's
+      // children.
+      if (recursive) {
+        return recursive;
+      }
+    }
+  }
+
+  return null;
+}

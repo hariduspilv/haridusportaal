@@ -3,7 +3,7 @@
 namespace Drupal\Tests\ckeditor5\Kernel;
 
 use Composer\Autoload\ClassLoader;
-use Drupal\ckeditor5\HTMLRestrictionsUtilities;
+use Drupal\ckeditor5\HTMLRestrictions;
 use Drupal\ckeditor5\Plugin\CKEditor5Plugin\Heading;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
@@ -352,7 +352,7 @@ ckeditor5_invalid_plugin_foo_bar:
     conditions:
       foo: bar
 YAML,
-      'The "ckeditor5_invalid_plugin_foo_bar" CKEditor 5 plugin definition has a "drupal.conditions" value that contains some unsupported condition types: "foo". Only the following conditions types are supported: "toolbarItem", "imageUploadStatus", "filter", "plugins".',
+      'The "ckeditor5_invalid_plugin_foo_bar" CKEditor 5 plugin definition has a "drupal.conditions" value that contains some unsupported condition types: "foo". Only the following conditions types are supported: "toolbarItem", "imageUploadStatus", "filter", "requiresConfiguration", "plugins".',
     ];
     yield 'invalid condition: toolbarItem' => [
       <<<YAML
@@ -839,6 +839,139 @@ PHP,
         ],
       ],
     ];
+
+    yield 'invalid condition: requiresConfiguration not specifying a configuration array' => [
+      <<<YAML
+ckeditor5_invalid_plugin_foo_bar:
+  ckeditor5:
+    plugins: {}
+  drupal:
+    label: "Foo bar"
+    elements: false
+    conditions:
+      requiresConfiguration: true
+YAML,
+      'The "ckeditor5_invalid_plugin_foo_bar" CKEditor 5 plugin definition has an invalid "drupal.conditions" item. "requiresConfiguration" is set to an invalid value. An array structure matching the required configuration for this plugin must be specified.',
+    ];
+
+    yield 'invalid condition: requiresConfiguration without configurable plugin' => [
+      <<<YAML
+ckeditor5_invalid_plugin_foo_bar:
+  ckeditor5:
+    plugins: {}
+  drupal:
+    label: "Foo bar"
+    elements: false
+    conditions:
+      requiresConfiguration:
+        allow_resize: true
+YAML,
+      'The "ckeditor5_invalid_plugin_foo_bar" CKEditor 5 plugin definition has an invalid "drupal.conditions" item. "requiresConfiguration" is set to an invalid value. This condition type is only available for CKEditor 5 plugins implementing CKEditor5PluginConfigurableInterface.',
+    ];
+
+    yield 'invalid condition: requiresConfiguration with configurable plugin but required configuration does not match config schema' => [
+      <<<YAML
+ckeditor5_invalid_plugin_foo_bar:
+  ckeditor5:
+    plugins: {}
+  drupal:
+    class: Drupal\ckeditor5_invalid_plugin\Plugin\CKEditor5Plugin\FooBar
+    label: "Foo bar"
+    elements: false
+    conditions:
+      requiresConfiguration:
+        allow_resize: true
+YAML,
+      'The "ckeditor5_invalid_plugin_foo_bar" CKEditor 5 plugin definition has an invalid "drupal.conditions" item. "requiresConfiguration" is set to an invalid value. The required configuration does not match its config schema. The following errors were found: [allow_resize] The configuration property allow_resize doesn\'t exist.',
+      [
+        'config' => [
+          'schema' => [
+            'ckeditor5_invalid_plugin.schema.yml' => <<<YAML
+ckeditor5.plugin.ckeditor5_invalid_plugin_foo_bar:
+  type: mapping
+  label: 'Foo Bar'
+  mapping:
+    foo:
+      type: boolean
+      label: 'Foo'
+YAML,
+          ],
+        ],
+        'src' => [
+          'Plugin' => [
+            'CKEditor5Plugin' => [
+              'FooBar.php' => <<<'PHP'
+<?php
+namespace Drupal\ckeditor5_invalid_plugin\Plugin\CKEditor5Plugin;
+use Drupal\ckeditor5\Plugin\CKEditor5PluginDefault;
+use Drupal\ckeditor5\Plugin\CKEditor5PluginConfigurableInterface;
+use Drupal\ckeditor5\Plugin\CKEditor5PluginConfigurableTrait;
+use Drupal\Core\Form\FormStateInterface;
+class FooBar extends CKEditor5PluginDefault implements CKEditor5PluginConfigurableInterface {
+  use CKEditor5PluginConfigurableTrait;
+  public function defaultConfiguration() { return ['foo' => FALSE]; }
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) { return []; }
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {}
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {}
+}
+PHP,
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    yield 'valid condition: requiresConfiguration' => [
+      <<<YAML
+ckeditor5_invalid_plugin_foo_bar:
+  ckeditor5:
+    plugins: {}
+  drupal:
+    class: Drupal\ckeditor5_invalid_plugin\Plugin\CKEditor5Plugin\FooBar
+    label: "Foo bar"
+    elements: false
+    conditions:
+      requiresConfiguration:
+        foo: true
+YAML,
+      NULL,
+      [
+        'config' => [
+          'schema' => [
+            'ckeditor5_invalid_plugin.schema.yml' => <<<YAML
+ckeditor5.plugin.ckeditor5_invalid_plugin_foo_bar:
+  type: mapping
+  label: 'Foo Bar'
+  mapping:
+    foo:
+      type: boolean
+      label: 'Foo'
+YAML,
+          ],
+        ],
+        'src' => [
+          'Plugin' => [
+            'CKEditor5Plugin' => [
+              'FooBar.php' => <<<'PHP'
+<?php
+namespace Drupal\ckeditor5_invalid_plugin\Plugin\CKEditor5Plugin;
+use Drupal\ckeditor5\Plugin\CKEditor5PluginDefault;
+use Drupal\ckeditor5\Plugin\CKEditor5PluginConfigurableInterface;
+use Drupal\ckeditor5\Plugin\CKEditor5PluginConfigurableTrait;
+use Drupal\Core\Form\FormStateInterface;
+class FooBar extends CKEditor5PluginDefault implements CKEditor5PluginConfigurableInterface {
+  use CKEditor5PluginConfigurableTrait;
+  public function defaultConfiguration() { return ['foo' => FALSE]; }
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) { return []; }
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {}
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {}
+}
+PHP,
+            ],
+          ],
+        ],
+      ],
+    ];
   }
 
   /**
@@ -935,13 +1068,16 @@ PHP,
     // should be available now that the media_embed is enabled.
     $plugin_ids = array_keys($this->manager->getEnabledDefinitions($editor));
     $expected_plugins = array_merge($default_plugins, [
+      'ckeditor5_drupalMediaCaption',
       'ckeditor5_test_layercake',
       'media_media',
+      'media_mediaAlign',
     ]);
     sort($expected_plugins);
     $this->assertSame($expected_plugins, $plugin_ids);
     $expected_libraries = array_merge($default_libraries, [
       'ckeditor5/drupal.ckeditor5.media',
+      'ckeditor5/drupal.ckeditor5.mediaAlign',
       'ckeditor5_test/layercake',
     ]);
     sort($expected_libraries);
@@ -970,6 +1106,7 @@ PHP,
     $this->assertSame(array_values($expected_plugins), $plugin_ids);
     $expected_libraries = array_merge($default_libraries, [
       'ckeditor5/drupal.ckeditor5.media',
+      'ckeditor5/drupal.ckeditor5.mediaAlign',
       'ckeditor5_test/layercake',
       'core/ckeditor5.table',
     ]);
@@ -1017,7 +1154,6 @@ PHP,
    *   in the filter_html "Allowed tags" field.
    *
    * @covers \Drupal\ckeditor5\Plugin\CKEditor5PluginManager::getProvidedElements
-   * @covers \Drupal\ckeditor5\HTMLRestrictionsUtilities::toReadableElements
    * @dataProvider providerTestProvidedElements
    */
   public function testProvidedElements(array $plugins, array $text_editor_settings, array $expected_elements, string $expected_readable_string) {
@@ -1037,8 +1173,7 @@ PHP,
 
     $provided_elements = $this->manager->getProvidedElements($plugins, $text_editor);
     $this->assertSame($expected_elements, $provided_elements);
-    $readable_string = implode(' ', HTMLRestrictionsUtilities::toReadableElements($provided_elements));
-    $this->assertSame($expected_readable_string, $readable_string);
+    $this->assertSame($expected_readable_string, (new HTMLRestrictions($provided_elements))->toFilterHtmlAllowedTagsString());
   }
 
   /**
@@ -1055,6 +1190,12 @@ PHP,
     return [
       'sourceEditing' => [
         'plugins' => ['ckeditor5_sourceEditing'],
+        'text_editor_settings' => [],
+        'expected_elements' => [],
+        'expected_readable_string' => '',
+      ],
+      'imageResize' => [
+        'plugins' => ['ckeditor5_imageResize'],
         'text_editor_settings' => [],
         'expected_elements' => [],
         'expected_readable_string' => '',
