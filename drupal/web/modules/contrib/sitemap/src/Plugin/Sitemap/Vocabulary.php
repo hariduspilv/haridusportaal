@@ -15,9 +15,10 @@ use Drupal\taxonomy\VocabularyInterface;
  *   title = @Translation("Vocabulary"),
  *   description = @Translation("Vocabulary description"),
  *   settings = {
- *     "title" = "",
+ *     "title" = NULL,
  *     "show_description" = FALSE,
  *     "show_count" = FALSE,
+ *     "display_unpublished" = FALSE,
  *     "term_depth" = 9,
  *     "term_count_threshold" = 0,
  *     "customize_link" = FALSE,
@@ -35,37 +36,41 @@ use Drupal\taxonomy\VocabularyInterface;
 class Vocabulary extends SitemapBase {
 
   /**
-   * @var int
    * The maximum depth that may be configured for taxonomy terms.
+   *
+   * @var int
    */
   const DEPTH_MAX = 9;
 
   /**
-   * @var int
    * The term depth value that equates to the setting being disabled.
+   *
+   * @var int
    */
   const DEPTH_DISABLED = 0;
 
   /**
-   * @var int
    * The threshold count value that equates to the setting being disabled.
+   *
+   *  @var int
    */
   const THRESHOLD_DISABLED = 0;
 
   /**
-   * @var string
    * The default taxonomy term route|arg.
+   *
+   * @var string
    */
   const DEFAULT_TERM_LINK = 'entity.taxonomy_term.canonical|taxonomy_term';
 
   /**
-   * @var string
    * The default taxonomy term RSS feed route|arg.
+   *
+   * @var string
    */
   const DEFAULT_TERM_RSS_LINK = 'view.taxonomy_term.feed_1|arg_0';
 
-
-  //@TODO: Possible to set settings as class properties?
+  /* @todo Possible to set settings as class properties? */
 
   /**
    * {@inheritdoc}
@@ -76,7 +81,7 @@ class Vocabulary extends SitemapBase {
     // Provide the menu name as the default title.
     $vid = $this->getPluginDefinition()['vocabulary'];
     $vocab = \Drupal::entityTypeManager()->getStorage('taxonomy_vocabulary')->load($vid);
-    $form['title']['#default_value'] = $this->settings['title'] ?: $vocab->label();
+    $form['title']['#default_value'] = $this->settings['title'] ?? $vocab->label();
 
     $form['show_description'] = [
       '#type' => 'checkbox',
@@ -92,14 +97,21 @@ class Vocabulary extends SitemapBase {
       '#description' => $this->t('When enabled, this option will show the number of nodes in each taxonomy term.'),
     ];
 
+    $form['display_unpublished'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Display unpublished taxonomy terms'),
+      '#default_value' => $this->settings['display_unpublished'] ?? FALSE,
+      '#description' => $this->t('When enabled, this option will include unpublished taxonomy terms.'),
+    ];
+
     $form['term_depth'] = [
-      // @TODO: Number type not submitting?
-      //'#type' = 'number',
+      // @todo Number type not submitting?
+      // '#type' = 'number',
       '#type' => 'textfield',
       '#title' => $this->t('Term depth'),
       '#default_value' => $this->settings['term_depth'],
-      //'#min' => self::DEPTH_DISABLED,
-      //'#max' => self::DEPTH_MAX,
+      // '#min' => self::DEPTH_DISABLED,
+      // '#max' => self::DEPTH_MAX,
       '#size' => 3,
       '#description' => $this->t(
         'Specify how many levels of taxonomy terms should be included. For instance, enter <code>1</code> to only include top-level terms, or <code>@disabled</code> to include no terms. The maximum depth is <code>@max</code>.',
@@ -113,7 +125,7 @@ class Vocabulary extends SitemapBase {
       '#default_value' => $this->settings['term_count_threshold'],
       '#size' => 3,
       '#description' => $this->t(
-        'Only show taxonomy terms whose node counts are greater than this threshold. Set to <em>@disabled</em> to disable this threshold. Note that in hierarchical taxonomies, parent items with children will still be shown.',
+        'Only show taxonomy terms whose node counts are greater than or equal to this threshold. Set to <em>@disabled</em> to disable this threshold. Note that in hierarchical taxonomies, parent items with children will still be shown.',
         ['@disabled' => self::THRESHOLD_DISABLED]
       ),
     ];
@@ -121,7 +133,7 @@ class Vocabulary extends SitemapBase {
     $form['customize_link'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Customize term links'),
-      '#default_value' => $this->settings['customize_link']
+      '#default_value' => $this->settings['customize_link'],
     ];
     $customizeLinkName = 'plugins[vocabulary:' . $vid . '][settings][customize_link]';
 
@@ -202,6 +214,7 @@ class Vocabulary extends SitemapBase {
     }
 
     // Plan for a nested list of terms.
+    $display_unpublished = $this->settings['display_unpublished'];
     $list = [];
     if ($maxDepth = $this->settings['term_depth']) {
       /** @var \Drupal\taxonomy\TermStorageInterface $termStorage */
@@ -213,6 +226,9 @@ class Vocabulary extends SitemapBase {
       // We might not need to worry about the vocabulary being nested.
       if ($hierarchyType == VocabularyInterface::HIERARCHY_DISABLED || $maxDepth == 1) {
         foreach ($terms as $term) {
+          if (!$display_unpublished && empty($term->status)) {
+            continue;
+          }
           $term->treeDepth = $term->depth;
           if ($display = $this->buildSitemapTerm($term)) {
             $list[$term->tid]['data'] = $display;
@@ -222,20 +238,24 @@ class Vocabulary extends SitemapBase {
       elseif ($hierarchyType == VocabularyInterface::HIERARCHY_SINGLE) {
         // Use a more structured tree to create a nested list.
         foreach ($terms as $obj) {
+          if (!$display_unpublished && empty($obj->status)) {
+            continue;
+          }
           $currentDepth = 1;
           $this->buildList($list, $obj, $vid, $currentDepth, $maxDepth);
-          // TODO: Remove parents where all child terms are not displayed.
+          // @todo Remove parents where all child terms are not displayed.
         }
       }
       else {
-        // TODO: Support multiple hierarchy? Need to test
-
+        // @todo Support multiple hierarchy? Need to test.
       }
     }
 
-    // @TODO: Test & Document
+    // @todo Test & Document
     // Add an alter hook for modules to manipulate the taxonomy term output.
-    \Drupal::moduleHandler()->alter(['sitemap_vocabulary', 'sitemap_vocabulary_' . $vid], $list, $vid);
+    \Drupal::moduleHandler()->alter([
+      'sitemap_vocabulary', 'sitemap_vocabulary_' . $vid,
+    ], $list, $vid);
 
     $content[] = [
       '#theme' => 'item_list',
@@ -247,17 +267,18 @@ class Vocabulary extends SitemapBase {
       '#title' => $this->settings['title'],
       '#content' => $content,
       '#sitemap' => $this,
-      // @TODO: Does a vocabulary cache tag exist?
+      // @todo Does a vocabulary cache tag exist?
     ];
   }
 
   /**
    * Builds a taxonomy term item.
    *
-   * @param \stdClass $term
+   * @param object $term
    *   The term object returned by TermStorage::loadTree()
    *
    * @return array|void
+   *   Returns an array if the term display is TRUE.
    */
   protected function buildSitemapTerm($term) {
     $this->checkTermThreshold($term);
@@ -269,7 +290,7 @@ class Vocabulary extends SitemapBase {
         '#url' => $this->buildTermLink($term) ?: '',
         '#show_link' => $this->determineLinkVisibility($term),
         '#show_count' => $this->determineCountVisibility($term),
-        '#count' =>  isset($term->count) ? $term->count : '',
+        '#count' => isset($term->count) ? $term->count : '',
         '#show_feed' => $this->settings['enable_rss'],
         '#feed' => $this->buildFeedLink($term) ?: '',
       ];
@@ -279,7 +300,7 @@ class Vocabulary extends SitemapBase {
   /**
    * Checks the threshold count for a term.
    *
-   * @param \stdClass $term
+   * @param object $term
    *   The term object returned by TermStorage::loadTree()
    */
   protected function checkTermThreshold(&$term) {
@@ -307,14 +328,15 @@ class Vocabulary extends SitemapBase {
   /**
    * Builds the taxonomy term link.
    *
-   * @param \stdClass $term
+   * @param object $term
    *   The term object returned by TermStorage::loadTree()
    *
    * @return string|void
+   *   Returns the link.
    */
   protected function buildTermLink($term) {
     $vid = $this->pluginDefinition['vocabulary'];
-    // @TODO: Add and test handling for Forum vs Vocab routes
+    // @todo Add and test handling for Forum vs Vocab routes
     if (\Drupal::service('module_handler')->moduleExists('forum') && $vid == \Drupal::config('forum.settings')->get('vocabulary')) {
       return Url::fromRoute('forum.index')->toString();
     }
@@ -329,17 +351,18 @@ class Vocabulary extends SitemapBase {
   /**
    * Builds the taxonomy term feed link.
    *
-   * @param \stdClass $term
+   * @param object $term
    *   The term object returned by TermStorage::loadTree()
    *
    * @return string|void
+   *   Returns the link builded.
    */
   protected function buildFeedLink($term) {
     $rssDepth = $this->settings['rss_depth'];
     if ($rssDepth && isset($term->treeDepth) && $rssDepth >= $term->treeDepth) {
       // Route validation will be provided on form save and config update,
       // rather than every time a link is created.
-      if (isset($this->settings['rss_link'])) {
+      if ($this->settings['enable_rss'] && !empty($this->settings['rss_link'])) {
         return $this->buildLink($this->settings['rss_link'], $term->tid);
       }
     }
@@ -348,15 +371,20 @@ class Vocabulary extends SitemapBase {
   /**
    * Builds a tree/list array given a taxonomy term tree object.
    *
-   * @see https://www.webomelette.com/loading-taxonomy-terms-tree-drupal-8
-   *
    * @param array $list
-   * @param \stdClass $object
+   *   The list of terms.
+   * @param object $object
+   *   The term object.
    * @param string $vid
+   *   The vocabulary id.
    * @param int $currentDepth
+   *   The current depth.
    * @param int $maxDepth
+   *   The max depth.
+   *
+   * @see https://www.webomelette.com/loading-taxonomy-terms-tree-drupal-8
    */
-  protected function buildList(&$list, $object, $vid, &$currentDepth, $maxDepth) {
+  protected function buildList(array &$list, $object, $vid, &$currentDepth, $maxDepth) {
     // Check that we are only working with the parent-most term.
     if ($object->depth != 0) {
       return;
@@ -366,7 +394,7 @@ class Vocabulary extends SitemapBase {
     $object->treeDepth = $currentDepth;
 
     // Check for children on the term.
-    // @TODO Implement $termStorage at the class level.
+    // @todo Implement $termStorage at the class level.
     $termStorage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
     $children = $termStorage->loadChildren($object->tid);
     if (!$children) {
@@ -378,7 +406,7 @@ class Vocabulary extends SitemapBase {
     }
     else {
       // If the term has children, it should always be displayed.
-      // TODO: That's not entirely accurate...
+      // @todo That's not entirely accurate...
       $object->display = TRUE;
       $object->hasChildren = TRUE;
       $list[$object->tid][] = $this->buildSitemapTerm($object);
@@ -404,9 +432,11 @@ class Vocabulary extends SitemapBase {
   /**
    * Determine whether the link for a term should be displayed.
    *
-   * @param \stdClass $term
+   * @param object $term
+   *   The term object.
    *
-   * @return boolean
+   * @return bool
+   *   Returns if the link should be displayed or not.
    */
   protected function determineLinkVisibility($term) {
     if ($this->settings['always_link']) {
@@ -424,9 +454,11 @@ class Vocabulary extends SitemapBase {
   /**
    * Determine whether the usage count for a term should be displayed.
    *
-   * @param \stdClass $term
+   * @param object $term
+   *   The term object.
    *
-   * @return boolean
+   * @return bool
+   *   Returns if the usage count for a term should be displayed.
    */
   protected function determineCountVisibility($term) {
     if ($this->settings['show_count']) {
@@ -446,12 +478,15 @@ class Vocabulary extends SitemapBase {
    * Build the URL given a route|arg pattern.
    *
    * @param string $string
+   *   The link.
    * @param int $tid
+   *   The term id.
    *
    * @return string
+   *   Returns the url builded.
    */
   protected function buildLink($string, $tid) {
-    $parts = $this->_splitRouteArg($string);
+    $parts = $this->splitRouteArg($string);
     return Url::fromRoute($parts['route'], [$parts['arg'] => $tid])->toString();
   }
 
@@ -459,10 +494,12 @@ class Vocabulary extends SitemapBase {
    * Helper function to split the route|arg pattern.
    *
    * @param string $string
+   *   The string that will be splited.
    *
    * @return array
+   *   Returns the route|arg pattern.
    */
-  protected function _splitRouteArg($string) {
+  protected function splitRouteArg($string) {
     $return = [];
 
     if ($string) {
@@ -478,22 +515,25 @@ class Vocabulary extends SitemapBase {
 
   /**
    * Validate the route and argument provided.
-   * @TODO Implement for form_save and config import.
    *
-   * @param $string
+   * @todo Implement for form_save and config import.
+   *
+   * @param string $string
+   *   The string used to validate the route.
    */
   protected function validateCustomRoute($string) {
-    $parts = $this->_splitRouteArg($string);
+    $parts = $this->splitRouteArg($string);
 
-    /* @var \Drupal\Core\Routing\RouteProviderInterface $route_provider */
+    /** @var \Drupal\Core\Routing\RouteProviderInterface $route_provider */
     $route_provider = \Drupal::service('router.route_provider');
 
     try {
       $route = $route_provider->getRouteByName($parts['route']);
-      // TODO Determine if $route has the provided $parts['arg'] parameter.
+      // @todo Determine if $route has the provided $parts['arg'] parameter.
     }
     catch (\Exception $e) {
-      // TODO
+      // @todo .
     }
   }
+
 }

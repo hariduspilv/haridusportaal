@@ -2,10 +2,14 @@
 
 namespace Drupal\sitemap\Tests;
 
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
 /**
  * Test the display of menus based on sitemap settings.
  */
 abstract class SitemapMenuTestBase extends SitemapBrowserTestBase {
+
+  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}
@@ -57,6 +61,7 @@ abstract class SitemapMenuTestBase extends SitemapBrowserTestBase {
    * Creates a node and adds it to the menu.
    *
    * @param string $menu_id
+   *   The menu id.
    */
   protected function createNodeInMenu($menu_id) {
     // Create test node with enabled menu item.
@@ -66,7 +71,7 @@ abstract class SitemapMenuTestBase extends SitemapBrowserTestBase {
       'menu[title]' => $this->randomString(),
       'menu[menu_parent]' => $menu_id . ':',
     ];
-    $this->drupalPostForm('node/add/article', $edit, t('Save'));
+    $this->drupalPostForm('node/add/article', $edit, $this->t('Save'));
   }
 
 }

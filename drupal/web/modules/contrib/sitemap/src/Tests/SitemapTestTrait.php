@@ -2,15 +2,21 @@
 
 namespace Drupal\sitemap\Tests;
 
+/**
+ * Provides a title test.
+ */
 trait SitemapTestTrait {
 
   /**
    * Common test for the plugin title field.
    *
    * @param string $title
+   *   The title to be tested.
    * @param string $plugin_id
+   *   The plugin id.
    * @param string $derivative_id
-   * @param boolean $clear_cache
+   *   The derivative id.
+   * @param bool $clear_cache
    *   Some elements do not yet have proper cache tags configured (looking at
    *   you, vocabulary), so cache must be flushed when plugin configuration
    *   changes.

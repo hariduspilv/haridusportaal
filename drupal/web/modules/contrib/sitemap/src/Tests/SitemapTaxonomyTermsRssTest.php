@@ -134,10 +134,7 @@ class SitemapTaxonomyTermsRssTest extends SitemapTaxonomyTestBase {
 
   }
 
-  /**
-   * @TODO: Tests customized RSS links.
-   *//*
-  public function testCustomRssLinks() {
-  }*/
-
+  /* @todo Tests customized RSS links. */
+  // Public function testCustomRssLinks() {
+  // }.
 }

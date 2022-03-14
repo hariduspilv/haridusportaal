@@ -1,8 +1,9 @@
-sitemap.page: # The first plugin ID
+sitemap.page:
   title: 'View'
   route_name: sitemap.page
-  base_route: sitemap.page
-sitemap.settings: # The second plugin ID
+  base_route: sitemap.settings
+  weight: -10
+sitemap.settings:
   title: 'Settings'
   route_name: sitemap.settings
-  base_route: sitemap.page
+  base_route: sitemap.settings

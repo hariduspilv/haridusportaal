@@ -3,7 +3,7 @@
  * Attaches administration-specific behavior for the Sitemap module.
  */
 
-(function($, Drupal) {
+(function ($, Drupal) {
   /**
    * Displays and updates the status of plugins on the admin page.
    *
@@ -18,7 +18,7 @@
       $context
         .find('#sitemap-enabled-wrapper input.form-checkbox')
         .once('sitemap-enabled')
-        .each(function() {
+        .each(function () {
           const $checkbox = $(this);
           // Retrieve the tabledrag row belonging to this filter.
           const $row = $context
