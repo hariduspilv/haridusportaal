@@ -43,6 +43,6 @@ class SitemapTest extends SitemapTestBase {
 
   }
 
-  // @TODO: Test multiple plugin types.
-  // @TODO: Test weighting.
+  // @todo Test multiple plugin types.
+  // @todo Test weighting.
 }

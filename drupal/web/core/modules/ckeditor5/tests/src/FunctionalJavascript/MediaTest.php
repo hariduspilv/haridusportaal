@@ -6,12 +6,18 @@ use Drupal\editor\Entity\Editor;
 use Drupal\file\Entity\File;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
+use Drupal\language\Entity\ConfigurableLanguage;
+use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\Tests\TestFileCreationTrait;
 use Drupal\Tests\ckeditor5\Traits\CKEditor5TestTrait;
 use Drupal\ckeditor5\Plugin\Editor\CKEditor5;
+use Drupal\user\Entity\Role;
+use Drupal\user\RoleInterface;
 use Symfony\Component\Validator\ConstraintViolation;
+
+// cspell:ignore layercake
 
 /**
  * @coversDefaultClass \Drupal\ckeditor5\Plugin\CKEditor5Plugin\Media
@@ -54,6 +60,8 @@ class MediaTest extends WebDriverTestBase {
     'node',
     'text',
     'media_test_embed',
+    'media_library',
+    'ckeditor5_test',
   ];
 
   /**
@@ -74,7 +82,7 @@ class MediaTest extends WebDriverTestBase {
         'filter_html' => [
           'status' => TRUE,
           'settings' => [
-            'allowed_html' => '<p> <br> <a href> <drupal-media data-entity-type data-entity-uuid alt>',
+            'allowed_html' => '<p> <br> <strong> <em> <a href> <drupal-media data-entity-type data-entity-uuid data-align data-caption alt>',
           ],
         ],
         'filter_align' => ['status' => TRUE],
@@ -90,6 +98,8 @@ class MediaTest extends WebDriverTestBase {
           'items' => [
             'sourceEditing',
             'link',
+            'bold',
+            'italic',
           ],
         ],
         'plugins' => [
@@ -176,6 +186,34 @@ class MediaTest extends WebDriverTestBase {
     $this->waitForEditor();
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', 'img[src*="image-test.png"]'));
     $assert_session->elementExists('css', '.ck-widget.drupal-media');
+  }
+
+  /**
+   * Tests that arbitrary attributes are allowed via GHS.
+   */
+  public function testMediaArbitraryHtml() {
+    $assert_session = $this->assertSession();
+
+    $editor = Editor::load('test_format');
+    $settings = $editor->getSettings();
+
+    // Allow the data-foo attribute in drupal-media via GHS.
+    $settings['plugins']['ckeditor5_sourceEditing']['allowed_tags'] = ['<drupal-media data-foo>'];
+    $editor->setSettings($settings);
+    $editor->save();
+
+    // Add data-foo use to an existing drupal-media tag.
+    $original_value = $this->host->body->value;
+    $this->host->body->value = str_replace('drupal-media', 'drupal-media data-foo="bar" ', $original_value);
+    $this->host->save();
+    $this->drupalGet($this->host->toUrl('edit-form'));
+
+    // Confirm data-foo is present in the upcasted drupal-media.
+    $upcasted_media = $assert_session->waitForElementVisible('css', '.ck-widget.drupal-media');
+    $this->assertEquals('bar', $upcasted_media->getAttribute('data-foo'));
+
+    // Confirm data-foo is not stripped from source.
+    $this->assertSourceAttributeSame('data-foo', 'bar');
   }
 
   /**
@@ -294,8 +332,99 @@ class MediaTest extends WebDriverTestBase {
    * Tests caption editing in the CKEditor widget.
    */
   public function testEditableCaption() {
-    // @todo Port in https://www.drupal.org/project/ckeditor5/issues/3246385
-    $this->markTestSkipped('Blocked on https://www.drupal.org/project/ckeditor5/issues/3246385.');
+    $page = $this->getSession()->getPage();
+    $assert_session = $this->assertSession();
+    // Test that setting caption to blank string doesn't break 'Edit media'
+    // button.
+    $original_value = $this->host->body->value;
+    $this->host->body->value = str_replace('data-caption="baz"', 'data-caption=""', $original_value);
+    $this->host->save();
+    $this->drupalGet($this->host->toUrl('edit-form'));
+    $this->waitForEditor();
+    // Wait for the media preview to load.
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-widget.drupal-media img'));
+    $assert_session->elementExists('css', '[data-drupal-media-preview][aria-label="Screaming hairy armadillo"]');
+    $assert_session->elementContains('css', 'figcaption', '');
+    $assert_session->elementAttributeContains('css', 'figcaption', 'data-placeholder', 'Enter media caption');
+
+    // Test if you leave the caption blank, but change another attribute,
+    // such as the alt text, the editable caption is still there and the edit
+    // button still exists.
+    $this->click('.ck-widget.drupal-media');
+    $this->assertVisibleBalloon('[aria-label="Drupal Media toolbar"]');
+    // Click the "Override media image alternative text" button.
+    $this->getBalloonButton('Override media image alternative text')->click();
+    $this->assertVisibleBalloon('.ck-media-alternative-text-form');
+    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-media-alternative-text-form input[type=text]');
+
+    // Fill in the alt field and submit.
+    $alt_override_input->setValue('Gold star for robot boy.');
+    $this->getBalloonButton('Save')->click();
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.drupal-media img[alt*="Gold star for robot boy."]'));
+    $this->assertEquals('', $assert_session->waitForElement('css', '.drupal-media figcaption')->getText());
+    $assert_session->elementAttributeContains('css', '.drupal-media figcaption', 'data-placeholder', 'Enter media caption');
+
+    // Restore caption in saved body value.
+    $original_value = $this->host->body->value;
+    $this->host->body->value = str_replace('data-caption=""', 'data-caption="baz"', $original_value);
+    $this->host->save();
+    $this->drupalGet($this->host->toUrl('edit-form'));
+    $this->waitForEditor();
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-widget.drupal-media img'));
+    $this->assertNotEmpty($figcaption = $assert_session->waitForElement('css', '.drupal-media figcaption'));
+    $this->assertSame('baz', $figcaption->getHtml());
+
+    // Ensure that caption can be toggled off from the toolbar.
+    $this->click('.ck-widget.drupal-media');
+    $this->assertVisibleBalloon('[aria-label="Drupal Media toolbar"]');
+    $this->getBalloonButton('Toggle caption off')->click();
+    $assert_session->assertNoElementAfterWait('css', 'figcaption');
+
+    // Ensure that caption can be toggled on from the toolbar.
+    $this->click('.ck-widget.drupal-media');
+    $this->assertVisibleBalloon('[aria-label="Drupal Media toolbar"]');
+    $this->getBalloonButton('Toggle caption on')->click();
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.drupal-media figcaption'));
+
+    // Type into the widget's caption element.
+    $figcaption->setValue('Llamas are the most awesome ever');
+    $editor_dom = $this->getEditorDataAsDom();
+    $this->assertEquals('Llamas are the most awesome ever', $editor_dom->getElementsByTagName('drupal-media')->item(0)->getAttribute('data-caption'));
+
+    // Ensure that the caption can be changed to bold.
+    $this->assertNotEmpty($figcaption = $assert_session->waitForElement('css', '.drupal-media figcaption'));
+    $this->selectTextInsideElement('.drupal-media figcaption');
+    $this->assertNotEmpty($assert_session->waitForElement('css', '.drupal-media figcaption.ck-editor__nested-editable'));
+    $this->pressEditorButton('Bold');
+    $this->assertNotEmpty($assert_session->waitForElement('css', '.drupal-media figcaption > strong'));
+    $this->assertEquals('<strong>Llamas are the most awesome ever</strong>', $figcaption->getHtml());
+    $editor_dom = $this->getEditorDataAsDom();
+    $this->assertEquals('<strong>Llamas are the most awesome ever</strong>', $editor_dom->getElementsByTagName('drupal-media')->item(0)->getAttribute('data-caption'));
+
+    // Ensure that bold can be removed from the caption.
+    $this->assertNotEmpty($assert_session->waitForElement('css', '.drupal-media figcaption > strong'));
+    $this->selectTextInsideElement('.drupal-media figcaption > strong');
+    $this->assertNotEmpty($assert_session->waitForElement('css', '.drupal-media figcaption.ck-editor__nested-editable'));
+    $this->pressEditorButton('Bold');
+    $this->assertTrue($assert_session->waitForElementRemoved('css', '.drupal-media figcaption > strong'));
+    $this->assertNotEmpty($figcaption = $assert_session->waitForElement('css', '.drupal-media figcaption'));
+    $this->assertEquals('Llamas are the most awesome ever', $figcaption->getHtml());
+    $editor_dom = $this->getEditorDataAsDom();
+    $this->assertEquals('Llamas are the most awesome ever', $editor_dom->getElementsByTagName('drupal-media')->item(0)->getAttribute('data-caption'));
+
+    // Ensure that caption can be linked.
+    $this->assertNotEmpty($figcaption = $assert_session->waitForElement('css', '.drupal-media figcaption'));
+    $this->selectTextInsideElement('.drupal-media figcaption');
+    $this->assertNotEmpty($assert_session->waitForElement('css', '.drupal-media figcaption.ck-editor__nested-editable'));
+    $this->pressEditorButton('Link');
+    $this->assertVisibleBalloon('.ck-link-form');
+    $link_input = $page->find('css', '.ck-balloon-panel .ck-link-form input[type=text]');
+    $link_input->setValue('https://drupal.org');
+    $page->find('css', '.ck-balloon-panel .ck-link-form button[type=submit]')->click();
+    $this->assertNotEmpty($assert_session->waitForElement('css', '.drupal-media figcaption > a'));
+    $this->assertEquals('<a class="ck-link_selected" href="https://drupal.org">Llamas are the most awesome ever</a>', $figcaption->getHtml());
+    $editor_dom = $this->getEditorDataAsDom();
+    $this->assertEquals('<a href="https://drupal.org">Llamas are the most awesome ever</a>', $editor_dom->getElementsByTagName('drupal-media')->item(0)->getAttribute('data-caption'));
   }
 
   /**
@@ -326,12 +455,13 @@ class MediaTest extends WebDriverTestBase {
     // with a single button to override the alt text.
     $this->click('.ck-widget.drupal-media');
     $this->assertVisibleBalloon('[aria-label="Drupal Media toolbar"]');
-    // Click the "Override media image text alternative" button.
-    $this->getBalloonButton('Override media image text alternative')->click();
-    $this->assertVisibleBalloon('.ck-text-alternative-form');
+    // Click the "Override media image alternative text" button.
+    $this->getBalloonButton('Override media image alternative text')->click();
+    $this->assertVisibleBalloon('.ck-media-alternative-text-form');
+    // Assert that the default alt text is visible in the UI.
+    $assert_session->elementTextEquals('css', '.ck-media-alternative-text-form__default-alt-text-value', 'default alt');
     // Assert that the value is currently empty.
-    // @todo Consider changing this in https://www.drupal.org/project/ckeditor5/issues/3246365.
-    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-text-alternative-form input[type=text]');
+    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-media-alternative-text-form input[type=text]');
     $this->assertSame('', $alt_override_input->getValue());
 
     // Fill in the alt field and submit.
@@ -342,21 +472,24 @@ class MediaTest extends WebDriverTestBase {
 
     // Assert that the img within the media embed within the CKEditor contains
     // the overridden alt text set in the dialog.
-    // @todo Uncomment this in https://www.drupal.org/project/ckeditor5/issues/3206522.
-    // @codingStandardsIgnoreLine
-//    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-widget.drupal-media img[alt*="' . $who_is_zartan . '"]'));
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-widget.drupal-media img[alt*="' . $who_is_zartan . '"]'));
+    // Ensure that the Drupal Media widget doesn't have alt attribute.
+    // @see https://www.drupal.org/project/drupal/issues/3248440
+    $assert_session->elementNotExists('css', '.ck-widget.drupal-media[alt]');
     // Test `aria-label` attribute appears on the widget wrapper.
     $assert_session->elementExists('css', '.ck-widget.drupal-media [aria-label="Screaming hairy armadillo"]');
 
     // Test that the downcast drupal-media element now has the alt attribute
-    // entered in the dialog.
+    // entered in the balloon.
     $this->assertSourceAttributeSame('alt', $who_is_zartan);
 
     // The alt field should now display the override instead of the default.
-    $this->getBalloonButton('Override media image text alternative')->click();
-    $this->assertVisibleBalloon('.ck-text-alternative-form');
-    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-text-alternative-form input[type=text]');
+    $this->getBalloonButton('Override media image alternative text')->click();
+    $this->assertVisibleBalloon('.ck-media-alternative-text-form');
+    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-media-alternative-text-form input[type=text]');
     $this->assertSame($who_is_zartan, $alt_override_input->getValue());
+    // Assert that the default alt text is still visible in the UI.
+    $assert_session->elementTextEquals('css', '.ck-media-alternative-text-form__default-alt-text-value', 'default alt');
 
     // Test the process again with a different alt text to make sure it works
     // the second time around.
@@ -364,11 +497,9 @@ class MediaTest extends WebDriverTestBase {
     // Set the alt field to the new alt text.
     $alt_override_input->setValue($cobra_commander_bio);
     $this->getBalloonButton('Save')->click();
-    // Assert that the img within the media embed preview
-    // within the CKEditor contains the overridden alt text set in the dialog.
-    // @todo Uncomment this in https://www.drupal.org/project/ckeditor5/issues/3206522.
-    // @codingStandardsIgnoreLine
-//    $this->assertNotEmpty($assert_session->waitForElementVisible('css', 'drupal-media img[alt*="' . $cobra_commander_bio . '"]'));
+    // Assert that the img within the media embed preview inside CKEditor 5
+    // contains the overridden alt text set in the balloon.
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-widget.drupal-media img[alt*="' . $cobra_commander_bio . '"]'));
 
     // Test that the downcast drupal-media element now has the alt attribute
     // entered in the dialog.
@@ -376,9 +507,9 @@ class MediaTest extends WebDriverTestBase {
 
     // The default value of the alt field should now display the override
     // instead of the value on the media image field.
-    $this->getBalloonButton('Override media image text alternative')->click();
-    $this->assertVisibleBalloon('.ck-text-alternative-form');
-    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-text-alternative-form input[type=text]');
+    $this->getBalloonButton('Override media image alternative text')->click();
+    $this->assertVisibleBalloon('.ck-media-alternative-text-form');
+    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-media-alternative-text-form input[type=text]');
     $this->assertSame($cobra_commander_bio, $alt_override_input->getValue());
 
     // Test that setting alt value to two double quotes will signal to the
@@ -398,12 +529,12 @@ class MediaTest extends WebDriverTestBase {
     // empty string indicator.
     $this->assertSourceAttributeSame('alt', '""');
 
-    // Test that setting alt to back to an empty string within the dialog will
+    // Test that setting alt to back to an empty string within the balloon will
     // restore the default alt value saved in to the media image field of the
     // media item.
-    $this->getBalloonButton('Override media image text alternative')->click();
-    $this->assertVisibleBalloon('.ck-text-alternative-form');
-    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-text-alternative-form input[type=text]');
+    $this->getBalloonButton('Override media image alternative text')->click();
+    $this->assertVisibleBalloon('.ck-media-alternative-text-form');
+    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-media-alternative-text-form input[type=text]');
     $alt_override_input->setValue('');
     $this->getBalloonButton('Save')->click();
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-widget.drupal-media img[alt*="default alt"]'));
@@ -417,8 +548,96 @@ class MediaTest extends WebDriverTestBase {
    * Tests the CKEditor 5 media plugin loads the translated alt attribute.
    */
   public function testTranslationAlt() {
-    // @todo Port in https://www.drupal.org/project/ckeditor5/issues/3246365
-    $this->markTestSkipped('Blocked on https://www.drupal.org/project/ckeditor5/issues/3246365.');
+    \Drupal::service('module_installer')->install(['language', 'content_translation']);
+    $this->resetAll();
+    ConfigurableLanguage::create(['id' => 'fr'])->save();
+    ContentLanguageSettings::loadByEntityTypeBundle('media', 'image')
+      ->setDefaultLangcode('en')
+      ->setLanguageAlterable(TRUE)
+      ->save();
+    $media = Media::create([
+      'bundle' => 'image',
+      'name' => 'Screaming hairy armadillo',
+      'field_media_image' => [
+        [
+          'target_id' => 1,
+          'alt' => 'default alt',
+          'title' => 'default title',
+        ],
+      ],
+    ]);
+    $media->save();
+    $media_fr = $media->addTranslation('fr');
+    $media_fr->name = "Tatou poilu hurlant";
+    $media_fr->field_media_image->setValue([
+      [
+        'target_id' => '1',
+        'alt' => "texte alternatif par dÃ©faut",
+        'title' => "titre alternatif par dÃ©faut",
+      ],
+    ]);
+    $media_fr->save();
+
+    ContentLanguageSettings::loadByEntityTypeBundle('node', 'blog')
+      ->setDefaultLangcode('en')
+      ->setLanguageAlterable(TRUE)
+      ->save();
+
+    $host = $this->createNode([
+      'type' => 'blog',
+      'title' => 'Animals with strange names',
+      'body' => [
+        'value' => '<drupal-media data-caption="baz" data-entity-type="media" data-entity-uuid="' . $media->uuid() . '"></drupal-media>',
+        'format' => 'test_format',
+      ],
+    ]);
+    $host->save();
+
+    $translation = $host->addTranslation('fr');
+    // cSpell:disable-next-line
+    $translation->title = 'Animaux avec des noms Ã©tranges';
+    $translation->body->value = $host->body->value;
+    $translation->body->format = $host->body->format;
+    $translation->save();
+
+    Role::load(RoleInterface::AUTHENTICATED_ID)
+      ->grantPermission('translate any entity')
+      ->save();
+
+    $page = $this->getSession()->getPage();
+    $assert_session = $this->assertSession();
+    $this->drupalGet('/fr/node/' . $host->id() . '/edit');
+    $this->waitForEditor();
+
+    // Test that the default alt attribute displays without an override.
+    // cSpell:disable-next-line
+    $this->assertNotEmpty($assert_session->waitForElementVisible('xpath', '//img[contains(@alt, "texte alternatif par dÃ©faut")]'));
+    // Test `aria-label` attribute appears on the preview wrapper.
+    // cSpell:disable-next-line
+    $assert_session->elementExists('css', '[data-drupal-media-preview][aria-label="Tatou poilu hurlant"]');
+    $this->click('.ck-widget.drupal-media');
+    $this->assertVisibleBalloon('[aria-label="Drupal Media toolbar"]');
+    // Click the "Override media image alternative text" button.
+    $this->getBalloonButton('Override media image alternative text')->click();
+    $this->assertVisibleBalloon('.ck-media-alternative-text-form');
+    // Assert that the default alt on the UI is the default alt text from the
+    // media entity.
+    // cSpell:disable-next-line
+    $assert_session->elementTextEquals('css', '.ck-media-alternative-text-form__default-alt-text-value', 'texte alternatif par dÃ©faut');
+
+    // Fill in the alt field in the balloon form.
+    // cSpell:disable-next-line
+    $qui_est_zartan = 'Zartan est le chef des Dreadnoks.';
+    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-media-alternative-text-form input[type=text]');
+    $alt_override_input->setValue($qui_est_zartan);
+    $this->getBalloonButton('Save')->click();
+
+    // Assert that the img within the media embed within CKEditor 5 contains
+    // the overridden alt text set in CKEditor 5.
+    $this->assertNotEmpty($assert_session->waitForElementVisible('xpath', '//img[contains(@alt, "' . $qui_est_zartan . '")]'));
+    $this->getSession()->switchToIFrame();
+    $page->pressButton('Save');
+    $assert_session->elementExists('xpath', '//img[contains(@alt, "' . $qui_est_zartan . '")]');
   }
 
   /**
@@ -641,12 +860,110 @@ class MediaTest extends WebDriverTestBase {
    * Tests alignment integration.
    *
    * Tests that alignment is reflected onto the CKEditor Widget wrapper, that
-   * the EditorMediaDialog allows altering the alignment and that the changes
+   * the media style toolbar allows altering the alignment and that the changes
    * are reflected on the widget and downcast drupal-media tag.
    */
   public function testAlignment() {
-    // @todo Port in https://www.drupal.org/project/ckeditor5/issues/3246385
-    $this->markTestSkipped('Blocked on https://www.drupal.org/project/ckeditor5/issues/3246385.');
+    $assert_session = $this->assertSession();
+    $page = $this->getSession()->getPage();
+    $this->drupalGet($this->host->toUrl('edit-form'));
+    $this->waitForEditor();
+    // Wait for the media preview to load.
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-widget.drupal-media img'));
+    // Edit the source of the image through the UI.
+    $page->pressButton('Source');
+
+    $editor_dom = $this->getEditorDataAsDom();
+    $drupal_media_element = $editor_dom->getElementsByTagName('drupal-media')
+      ->item(0);
+    $drupal_media_element->setAttribute('data-align', 'center');
+    $textarea = $page->find('css', '.ck-source-editing-area > textarea');
+    // Set the value of the source code to the updated HTML that has the
+    // `data-align` attribute.
+    $textarea->setValue($editor_dom->C14N());
+    $page->pressButton('Source');
+
+    // Assert the alignment class exists after editing downcast.
+    $assert_session->elementExists('css', '.ck-widget.drupal-media.drupal-media-style-align-center');
+    $page->pressButton('Save');
+    // Check that the 'content has been updated' message status appears to confirm we left the editor.
+    $assert_session->waitForElementVisible('css', 'messages messages--status');
+    // Check that the class is correct in the front end.
+    $assert_session->elementExists('css', 'figure.align-center');
+    // Go back to the editor to check that the alignment class still exists.
+    $edit_url = $this->getSession()->getCurrentURL() . '/edit';
+    $this->drupalGet($edit_url);
+    $this->waitForEditor();
+    $assert_session->elementExists('css', '.ck-widget.drupal-media.drupal-media-style-align-center');
+  }
+
+  /**
+   * Tests Drupal Media Style with a CSS class.
+   */
+  public function testDrupalMediaStyleWithClass() {
+    $editor = Editor::load('test_format');
+    $editor->setSettings([
+      'toolbar' => [
+        'items' => [
+          'sourceEditing',
+          'simpleBox',
+        ],
+      ],
+      'plugins' => [
+        'ckeditor5_sourceEditing' => [
+          'allowed_tags' => [],
+        ],
+      ],
+    ]);
+    $filter_format = $editor->getFilterFormat();
+    $filter_format->setFilterConfig('filter_html', [
+      'status' => TRUE,
+      'settings' => [
+        'allowed_html' => '<p> <br> <h1 class> <div class> <section class> <drupal-media data-entity-type data-entity-uuid data-align data-caption alt class="layercake-side">',
+      ],
+    ]);
+    $filter_format->save();
+    $editor->save();
+
+    $this->assertSame([], array_map(
+      function (ConstraintViolation $v) {
+        return (string) $v->getMessage();
+      },
+      iterator_to_array(CKEditor5::validatePair(
+        Editor::load('test_format'),
+        FilterFormat::load('test_format')
+      ))
+    ));
+
+    $assert_session = $this->assertSession();
+    $page = $this->getSession()->getPage();
+    $this->drupalGet($this->host->toUrl('edit-form'));
+    $this->waitForEditor();
+
+    $page->pressButton('Source');
+    $editor_dom = $this->getEditorDataAsDom();
+    $drupal_media_element = $editor_dom->getElementsByTagName('drupal-media')->item(0);
+
+    // Add `layercake-side` class which is used in `ckeditor5_test_layercake`,
+    // as well as an arbitrary class to compare behavior between these.
+    $drupal_media_element->setAttribute('class', 'layercake-side arbitrary-class');
+    $textarea = $page->find('css', '.ck-source-editing-area > textarea');
+    $textarea->setValue($editor_dom->C14N());
+    $page->pressButton('Source');
+
+    // Ensure that the `layercake-side` class is retained.
+    $this->assertNotEmpty($assert_session->waitForElement('css', '.ck-widget.drupal-media.layercake-side'));
+
+    // Ensure that the `arbitrary-class` class is removed.
+    $assert_session->elementNotExists('css', '.ck-widget.drupal-media.arbitrary-class');
+    $page->pressButton('Save');
+
+    // Check that the 'content has been updated' message status appears to confirm we left the editor.
+    $assert_session->waitForElementVisible('css', 'messages messages--status');
+
+    // Ensure that the class is correct in the front end.
+    $assert_session->elementExists('css', 'figure.layercake-side');
+    $assert_session->elementNotExists('css', 'figure.arbitrary-class');
   }
 
   /**
@@ -701,6 +1018,26 @@ class MediaTest extends WebDriverTestBase {
 })()
 JS;
     return $this->getSession()->evaluateScript($javascript);
+  }
+
+  /**
+   * Selects text inside an element.
+   *
+   * @param string $selector
+   *   A CSS selector for the element which contents should be selected.
+   */
+  protected function selectTextInsideElement(string $selector): void {
+    $javascript = <<<JS
+(function() {
+  const el = document.querySelector("$selector");
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+})();
+JS;
+    $this->getSession()->evaluateScript($javascript);
   }
 
 }

@@ -63,6 +63,10 @@ sitemap.settings.plugins.*:
           type: boolean
           label: 'Show count'
           nullable: true
+        display_unpublished:
+          type: boolean
+          label: 'Display unpublished'
+          nullable: true
         term_depth:
           type: integer
           label: 'Term depth'
@@ -95,4 +99,3 @@ sitemap.settings.plugins.*:
           type: integer
           label: 'RSS depth'
           nullable: true
-
