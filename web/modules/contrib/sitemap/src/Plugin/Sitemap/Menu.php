@@ -15,7 +15,7 @@ use Drupal\Core\Menu\MenuTreeParameters;
  *   title = @Translation("Menu name"),
  *   description = @Translation("Menu description"),
  *   settings = {
- *     "title" = "",
+ *     "title" = NULL,
  *     "show_disabled" = FALSE,
  *   },
  *   deriver = "Drupal\sitemap\Plugin\Derivative\MenuSitemapDeriver",
@@ -34,7 +34,7 @@ class Menu extends SitemapBase {
     // Provide the menu name as the default title.
     $menu_name = $this->getPluginDefinition()['menu'];
     $menu = \Drupal::entityTypeManager()->getStorage('menu')->load($menu_name);
-    $form['title']['#default_value'] = $this->settings['title'] ?: $menu->label();
+    $form['title']['#default_value'] = $this->settings['title'] ?? $menu->label();
 
     $form['show_disabled'] = [
       '#type' => 'checkbox',
@@ -68,9 +68,11 @@ class Menu extends SitemapBase {
 
     // Add an alter hook so that other modules can manipulate the
     // menu tree prior to rendering.
-    // @TODO: Document
+    // @todo Document
     $alter_mid = preg_replace('/[^a-z0-9_]+/', '_', $menu_id);
-    \Drupal::moduleHandler()->alter(['sitemap_menu_tree', 'sitemap_menu_tree_' . $alter_mid], $tree, $menu);
+    \Drupal::moduleHandler()->alter([
+      'sitemap_menu_tree', 'sitemap_menu_tree_' . $alter_mid,
+    ], $tree, $menu);
 
     $menu_display = $menuLinkTree->build($tree);
 

@@ -51,7 +51,7 @@ class SitemapTaxonomyTest extends SitemapTaxonomyTestBase {
 
     // Set to show all taxonomy terms, even if they are not assigned to any
     // nodes.
-    $this->saveSitemapForm([ "plugins[vocabulary:$vid][settings][term_count_threshold]" => -1]);
+    $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][term_count_threshold]" => -1]);
 
     // Assert that the vocabulary description is included in the sitemap when
     // terms are displayed.
@@ -110,6 +110,38 @@ class SitemapTaxonomyTest extends SitemapTaxonomyTestBase {
 
     // Visit the sitemap configuration page to ensure no errors there.
     $this->drupalGet('/admin/config/search/sitemap');
+  }
+
+  /**
+   * Tests if the sitemap loads correctly after the taxonomy view gets disabled.
+   */
+  public function testWithDisabledTaxonomyView() {
+    // Enable the Views module.
+    $this->container->get('module_installer')
+      ->install(['views']);
+
+    // Create taxonomy terms.
+    $this->createTerms($this->vocabulary);
+
+    // Ensure that the sitemap gets loaded correctly.
+    $this->drupalGet('/sitemap');
+    $elements = $this->cssSelect(".sitemap-plugin--vocabulary");
+    $this->assertEqual(count($elements), 1, 'Vocabulary found.');
+
+    // Now disable the taxonomy view.
+    $this->container->get('entity_type.manager')
+      ->getStorage('view')
+      ->load('taxonomy_term')
+      ->setStatus(FALSE)
+      ->save();
+
+    // Flush cache to regenerate the sitemap.
+    drupal_flush_all_caches();
+
+    // And visit the sitemap again.
+    $this->drupalGet('/sitemap');
+    $elements = $this->cssSelect(".sitemap-plugin--vocabulary");
+    $this->assertEqual(count($elements), 1, 'Vocabulary found.');
   }
 
 }

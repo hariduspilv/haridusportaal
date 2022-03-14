@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\Tests\ckeditor5\Kernel;
 
-use Drupal\ckeditor5\HTMLRestrictionsUtilities;
+use Drupal\ckeditor5\HTMLRestrictions;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\editor\Entity\Editor;
 use Drupal\filter\Entity\FilterFormat;
@@ -306,21 +306,20 @@ class SmartDefaultSettingsTest extends KernelTestBase {
     // If the text format has HTML restrictions, ensure that a strict superset
     // is allowed after switching to CKEditor 5.
     $html_restrictions = $text_format->getHtmlRestrictions();
-    $allowed_tags = $html_restrictions['allowed'] ?? [];
-    if ($allowed_tags) {
-      unset($allowed_tags['*']);
+    if (is_array($html_restrictions) && array_key_exists('allowed', $html_restrictions)) {
+      $allowed_tags = HTMLRestrictions::fromTextFormat($text_format);
       $enabled_plugins = array_keys($this->manager->getEnabledDefinitions($updated_text_editor));
-      $updated_allowed_tags = $this->manager->getProvidedElements($enabled_plugins, $updated_text_editor);
-      $unsupported_tags_attributes = HTMLRestrictionsUtilities::diffAllowedElements($allowed_tags, $updated_allowed_tags);
-      $superset_tags_attributes = HTMLRestrictionsUtilities::diffAllowedElements($updated_allowed_tags, $allowed_tags);
-      $this->assertSame($expected_superset, implode(' ', HTMLRestrictionsUtilities::toReadableElements($superset_tags_attributes)));
-      $this->assertEmpty($unsupported_tags_attributes, "The following tags/attributes are not allowed in the updated text format:" . print_r($unsupported_tags_attributes, TRUE));
+      $updated_allowed_tags = new HTMLRestrictions($this->manager->getProvidedElements($enabled_plugins, $updated_text_editor));
+      $unsupported_tags_attributes = $allowed_tags->diff($updated_allowed_tags);
+      $superset_tags_attributes = $updated_allowed_tags->diff($allowed_tags);
+      $this->assertSame($expected_superset, $superset_tags_attributes->toFilterHtmlAllowedTagsString());
+      $this->assertTrue($unsupported_tags_attributes->isEmpty(), "The following tags/attributes are not allowed in the updated text format:" . $unsupported_tags_attributes->toFilterHtmlAllowedTagsString());
 
       // Update the text format like ckeditor5_form_filter_format_form_alter()
       // would.
       $updated_text_format = clone $text_format;
       $filter_html_config = $text_format->filters('filter_html')->getConfiguration();
-      $filter_html_config['settings']['allowed_html'] = implode(' ', HTMLRestrictionsUtilities::toReadableElements($updated_allowed_tags));
+      $filter_html_config['settings']['allowed_html'] = $updated_allowed_tags->toFilterHtmlAllowedTagsString();
       $updated_text_format->setFilterConfig('filter_html', $filter_html_config);
     }
     else {
@@ -399,6 +398,9 @@ class SmartDefaultSettingsTest extends KernelTestBase {
               'heading5',
               'heading6',
             ],
+          ],
+          'ckeditor5_imageResize' => [
+            'allow_resize' => TRUE,
           ],
           'ckeditor5_language' => [
             'language_list' => 'un',
@@ -481,6 +483,7 @@ class SmartDefaultSettingsTest extends KernelTestBase {
               'heading5',
             ],
           ],
+          'ckeditor5_imageResize' => ['allow_resize' => TRUE],
           'ckeditor5_language' => $basic_html_test_case['expected_ckeditor5_settings']['plugins']['ckeditor5_language'],
         ],
       ],
@@ -499,11 +502,8 @@ class SmartDefaultSettingsTest extends KernelTestBase {
         'toolbar' => [
           'items' => array_merge(
             $basic_html_test_case['expected_ckeditor5_settings']['toolbar']['items'],
-            // @todo Improve in https://www.drupal.org/project/drupal/issues/3259593
             [
               'alignment',
-              'alignment:center',
-              'alignment:justify',
             ]
           ),
         ],
@@ -536,7 +536,7 @@ class SmartDefaultSettingsTest extends KernelTestBase {
       'expected_messages' => array_merge($basic_html_test_case['expected_messages'],
 
         [
-          'The following plugins were enabled to support specific attributes that are allowed by this text format: <em class="placeholder">Alignment ( for tag: &lt;p&gt; to support: class with value(s):  text-align-center, text-align-justify), Align center ( for tag: &lt;p&gt; to support: class with value(s):  text-align-center), Justify ( for tag: &lt;p&gt; to support: class with value(s):  text-align-justify)</em>.',
+          'The following plugins were enabled to support specific attributes that are allowed by this text format: <em class="placeholder">Alignment ( for tag: &lt;p&gt; to support: class with value(s):  text-align-center, text-align-justify)</em>.',
           'This format\'s HTML filters includes plugins that support the following tags, but not some of their attributes. To ensure these attributes remain supported by this text format, the following were added to the Source Editing plugin\'s <em>Manually editable HTML tags</em>: &lt;a hreflang&gt; &lt;blockquote cite&gt; &lt;ul type&gt; &lt;ol start type&gt; &lt;h2 id&gt; &lt;h3 id&gt; &lt;h4 id&gt; &lt;h5 id&gt; &lt;h6 id&gt;.',
         ]),
     ];
@@ -552,19 +552,12 @@ class SmartDefaultSettingsTest extends KernelTestBase {
             array_slice($basic_html_test_case['expected_ckeditor5_settings']['toolbar']['items'], 10),
           ),
         ],
-        'plugins' => [
-          'ckeditor5_sourceEditing' => [
-            'allowed_tags' => array_merge(
-              $basic_html_test_case['expected_ckeditor5_settings']['plugins']['ckeditor5_sourceEditing']['allowed_tags'],
-              ['<drupal-media data-align data-caption>'],
-            ),
-          ],
-        ] + $basic_html_test_case['expected_ckeditor5_settings']['plugins'],
+        'plugins' => $basic_html_test_case['expected_ckeditor5_settings']['plugins'],
       ],
       'expected_superset' => $basic_html_test_case['expected_superset'],
       'expected_fundamental_compatibility_violations' => $basic_html_test_case['expected_fundamental_compatibility_violations'],
       'expected_messages' => array_merge($basic_html_test_case['expected_messages'], [
-        "This format's HTML filters includes plugins that support the following tags, but not some of their attributes. To ensure these attributes remain supported by this text format, the following were added to the Source Editing plugin's <em>Manually editable HTML tags</em>: &lt;a hreflang&gt; &lt;blockquote cite&gt; &lt;ul type&gt; &lt;ol start type&gt; &lt;h2 id&gt; &lt;h3 id&gt; &lt;h4 id&gt; &lt;h5 id&gt; &lt;h6 id&gt; &lt;drupal-media data-align data-caption&gt;.",
+        "This format's HTML filters includes plugins that support the following tags, but not some of their attributes. To ensure these attributes remain supported by this text format, the following were added to the Source Editing plugin's <em>Manually editable HTML tags</em>: &lt;a hreflang&gt; &lt;blockquote cite&gt; &lt;ul type&gt; &lt;ol start type&gt; &lt;h2 id&gt; &lt;h3 id&gt; &lt;h4 id&gt; &lt;h5 id&gt; &lt;h6 id&gt;.",
       ]),
     ];
 
@@ -680,6 +673,9 @@ class SmartDefaultSettingsTest extends KernelTestBase {
               'heading5',
               'heading6',
             ],
+          ],
+          'ckeditor5_imageResize' => [
+            'allow_resize' => TRUE,
           ],
           'ckeditor5_sourceEditing' => [
             'allowed_tags' => [],

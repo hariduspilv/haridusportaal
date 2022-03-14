@@ -6,11 +6,13 @@ use Drupal\book\BookManagerInterface;
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * {@inheritdoc}
  */
 class BookSitemapDeriver extends DeriverBase implements ContainerDeriverInterface {
+  use StringTranslationTrait;
 
   /**
    * The book manager.
@@ -47,9 +49,9 @@ class BookSitemapDeriver extends DeriverBase implements ContainerDeriverInterfac
     if (\Drupal::moduleHandler()->moduleExists('book')) {
       foreach ($this->bookManager->getAllBooks() as $id => $book) {
         $this->derivatives[$id] = $base_plugin_definition;
-        $this->derivatives[$id]['title'] = t('Book: @book', ['@book' => $book['title']]);
+        $this->derivatives[$id]['title'] = $this->t('Book: @book', ['@book' => $book['title']]);
         $this->derivatives[$id]['description'] = $book['type'];
-        $this->derivatives[$id]['settings']['title'] = '';
+        $this->derivatives[$id]['settings']['title'] = NULL;
         $this->derivatives[$id]['book'] = $id;
         $this->derivatives[$id]['config_dependencies']['config'] = ['book.settings'];
       }

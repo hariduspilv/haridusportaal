@@ -133,10 +133,10 @@ class SitemapSettingsForm extends ConfigFormBase {
     ];
 
     $defaultSort = $this->plugins;
-    $sorted =$this->sortPlugins($this->plugins);
+    $sorted = $this->sortPlugins($this->plugins);
 
     foreach ($sorted as $id => $plugin) {
-      /* @var $plugin \Drupal\sitemap\SitemapBase */
+      /** @var \Drupal\sitemap\SitemapBase $plugin */
 
       $form['plugins']['enabled'][$id] = [
         '#type' => 'checkbox',
@@ -207,21 +207,35 @@ class SitemapSettingsForm extends ConfigFormBase {
     // Save config.
     foreach ($form_state->cleanValues()->getValues() as $key => $value) {
       if ($key == 'plugins') {
+        $settings = [];
         foreach ($value as $instance_id => $plugin_config) {
+          $plugin = $this->plugins[$instance_id];
+
+          // Don't save settings of disabled plugins.
+          if (empty($plugin_config['enabled'])) {
+            // Save the fact that the plugin is disabled for the ones enabled
+            // by default.
+            if (!empty($plugin->getPluginDefinition()['enabled'])) {
+              $settings[$instance_id] = [
+                'enabled' => FALSE,
+              ];
+            }
+
+            continue;
+          }
+
           // Update the plugin configurations.
-          $this->plugins[$instance_id]->setConfiguration($plugin_config);
+          $plugin->setConfiguration($plugin_config);
+          $settings[$instance_id] = $plugin->getConfiguration();
         }
         // Save in sitemap.settings.
-        $config->set($key, $value);
+        $config->set($key, $settings);
       }
       else {
         $config->set($key, $value);
       }
     }
     $config->save();
-
-    //@TODO Is a more targeted cache cleanup possible?
-    drupal_flush_all_caches();
 
     parent::submitForm($form, $form_state);
   }
@@ -236,13 +250,15 @@ class SitemapSettingsForm extends ConfigFormBase {
   /**
    * Sort the plugins by weight.
    *
-   * @param $plugins
+   * @param array $plugins
+   *   The plugins to be sorted.
    *
    * @return array
+   *   Returns the new plugins order.
    */
-  protected function sortPlugins($plugins) {
+  protected function sortPlugins(array $plugins) {
     // We cannot use array_column here because pluginId is protected.
-    //$order = array_column($plugins, 'weight', 'publicId');
+    // $order = array_column($plugins, 'weight', 'publicId');.
     $order = [];
     foreach ($plugins as $id => $plugin) {
       $order[$id] = $plugin->weight;
