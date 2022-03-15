@@ -1,13 +1,13 @@
-import {Component, Input, ViewChild, ElementRef, OnInit, OnDestroy} from '@angular/core';
-import { SettingsService } from '@app/_services/SettingsService';
-import { HttpClient } from '@angular/common/http';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {SettingsService} from '@app/_services/SettingsService';
+import {HttpClient} from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { Subscription } from 'rxjs';
-import { AuthService } from '@app/_services';
-import { TranslateService } from '@app/_modules/translate/translate.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
+import {Subscription} from 'rxjs';
+import {AuthService} from '@app/_services';
+import {TranslateService} from '@app/_modules/translate/translate.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'detail-view',
@@ -46,7 +46,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     public auth: AuthService,
     private translate: TranslateService,
-  ) { }
+  ) {}
 
   private getSidebar(): void {
     const variables = {
@@ -144,9 +144,9 @@ export class DetailViewComponent implements OnInit, OnDestroy {
       path: this.path,
     };
     const path = this.settings.query(this.queryKey, variables);
-    this.sidebar = undefined;
+		this.sidebar = undefined;
     const subscription = this.http.get(path).subscribe((response) => {
-      try {
+			try {
         this.origData = response['data']['route']['entity'];
         this.parseData(response['data']['route']['entity']);
       } catch (err) {
@@ -253,9 +253,9 @@ export class DetailViewComponent implements OnInit, OnDestroy {
   private initialize(type: string = undefined) {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
-      this.path = this.storyPath || decodeURI(this.location.path().split('?')[0]);
+			this.path = this.storyPath || decodeURI(this.location.path().split('?')[0]);
       this.type = this.storyType || type || this.route.snapshot.data['type'];
-    }
+		}
 
     this.getValues();
     if (!this.data) {
@@ -277,7 +277,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
       this.watchParams();
     }
     // this.initialize();
-  }
+	}
 
   ngOnDestroy() {
     this.paramsWatcher.unsubscribe();

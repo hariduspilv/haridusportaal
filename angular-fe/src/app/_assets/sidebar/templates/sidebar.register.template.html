@@ -24,9 +24,9 @@
     <ng-template id="register">
       <ng-container *ngIf="!loading && step === 1">
         <h2 class="eventTitle">{{ pageData.title }}</h2>
-        <div class="dialog__time" tabindex="0"> 
+        <div class="dialog__time" tabindex="0">
           <span class="capitalize">{{ 'time.'+ (pageData.eventStartDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ pageData.eventStartDate.unix*1000 | date: "dd.MM"}}</span>
-          
+
           <span *ngIf="pageData.eventStartTime || pageData.eventEndTime">
             <span> {{ 'time.time_of_day' | translate }}</span>
             <ng-container *ngIf="pageData.eventStartTime">
@@ -55,7 +55,7 @@
                     {{ item.entity.fieldEventEndTime | unixToTime  }}
                   </ng-container>
                 </span>
-                
+
               </ng-container>
             </div>
           </ng-container>

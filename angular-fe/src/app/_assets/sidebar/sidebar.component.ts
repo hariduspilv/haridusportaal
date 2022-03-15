@@ -64,6 +64,7 @@ const sidebarOrder = {
     'fieldLearningOpportunities',
     'prosCons',
     'fieldJobs',
+		'fieldRelatedProfession',
     'fieldOskaField',
     'fieldQualificationStandard',
     'fieldJobOpportunities',
@@ -113,11 +114,11 @@ export class SidebarComponent implements OnInit, OnChanges {
   @Input() public feedbackNid: string = '';
   public isArray = Array.isArray;
   public mappedData: any;
-  private type: string;
-  private collection: SidebarType = collection;
-  private titleLess: TitleLess = titleLess;
+  public type: string;
+  public collection: SidebarType = collection;
+  public titleLess: TitleLess = titleLess;
   private keys: string[];
-  private orderedKeys: string[] = [];
+  public orderedKeys: string[] = [];
 
   constructor(
     private sidebarService: SidebarService,
@@ -142,20 +143,20 @@ export class SidebarComponent implements OnInit, OnChanges {
   }
 
   private getData(): void {
-    if (this.data) {
-      this.data = FieldVaryService(this.data);
-      // Try to determine if its news data
-      try {
-        if (
-          this.data.nodeQuery.entities[0].entityUrl.path.match(
-            'uudised',
-          )
-        ) {
-          this.data.newsQuery = this.data.nodeQuery;
-          delete this.data.nodeQuery;
-        }
-      } catch (err) {
-      }
+		if (this.data) {
+			this.data = FieldVaryService(this.data);
+			// Try to determine if its news data
+			try {
+				if (
+					this.data.nodeQuery.entities[0].entityUrl.path.match(
+						'uudised',
+					)
+				) {
+					this.data.newsQuery = this.data.nodeQuery;
+					delete this.data.nodeQuery;
+				}
+			} catch (err) {
+			}
 
       if (this.data.sidebar && this.data.sidebar.entity) {
         Object.keys(this.data.sidebar.entity).forEach((elem) => {
@@ -192,7 +193,7 @@ export class SidebarComponent implements OnInit, OnChanges {
       }
 
       this.keys = Object.keys(this.mappedData);
-      if (sidebarOrder[this.type]) {
+			if (sidebarOrder[this.type]) {
         this.orderedKeys = [...sidebarOrder[this.type]];
       }
 
@@ -226,9 +227,6 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
   public showAll = false;
   public blocks;
 
-  constructor() {
-  }
-
   public parseData() {
     this.parsedData = this.data.filter((x: any) => {
       if (x.entity === null) {
@@ -249,6 +247,7 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
           },
         };
       }
+
       if (item.entity && item.entity.fieldJobName) {
         return {
           title: item.entity.fieldJobName,
@@ -261,6 +260,7 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
 
       return item;
     });
+
     if (this.data && this.data.length) {
       try {
         const blocks = [];
@@ -420,7 +420,7 @@ export class SidebarLocationComponent {
       elements.forEach((element) => {
         element.setAttribute('tabindex', '-1');
       });
-    },         3000);
+    }, 3000);
   }
 
   public parseData() {
@@ -1421,10 +1421,7 @@ export class SidebarDownloadFileComponent {
   @Input() public data: FileDownloadSidebar;
   public downloading = false;
 
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  constructor(private http: HttpClient) {}
 
   public startDownload(): void {
     this.downloading = true;

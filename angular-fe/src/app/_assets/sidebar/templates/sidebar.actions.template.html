@@ -9,7 +9,7 @@
       </div>
     </a>
     <button *ngIf="!icons && item.url.routed && !item.login" role="link" theme="{{ item.color && item.color === 'white' ? 'outline' : 'default' }}" [routerLink]="[item.url.path]" htm-button>{{ item.title | translate }}</button>
-    <button *ngIf="!icons && item.url.routed && item.login && isLoggedIn" 
+    <button *ngIf="!icons && item.url.routed && item.login && isLoggedIn"
     htm-button role="link" theme="{{ item.color && item.color === 'white' ? 'outline' : 'default' }}" [routerLink]="[item.url.path]">
     {{ item.title | translate }}</button>
     <button *ngIf="!icons && item.url.routed && item.login && !isLoggedIn"
