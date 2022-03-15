@@ -5,7 +5,7 @@
  * Sitemap theme preprocessors.
  */
 
-use \Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\Html;
 
 /**
  * Implements hook_preprocess_HOOK().
@@ -57,7 +57,7 @@ function template_preprocess_sitemap_taxonomy_term(array &$variables) {
  *   - url: The URL to the front page.
  *   - feed: The URL to the site feed.
  */
-function template_preprocess_sitemap_frontpage_item(&$variables) {
+function template_preprocess_sitemap_frontpage_item(array &$variables) {
   if (!empty($variables['feed'])) {
     $variables['feed_icon'] = _sitemap_rss_feed_icon();
   }
@@ -67,11 +67,12 @@ function template_preprocess_sitemap_frontpage_item(&$variables) {
  * Helper function to create the RSS feed icon render array.
  *
  * @return array
+ *   Returns a render array.
  */
 function _sitemap_rss_feed_icon() {
   return [
     '#theme' => 'image',
-    '#uri' => drupal_get_path('module', 'sitemap') . '/images/feed-small.png',
+    '#uri' => \Drupal::service('extension.list.module')->getPath('sitemap') . '/images/feed-small.png',
     '#alt' => t('RSS feed icon'),
   ];
 }

@@ -24,7 +24,6 @@ class SitemapMenuLinkTree extends MenuLinkTree {
       $link = $data->link;
 
       // Removed $link->isEnabled() check.
-
       if ($data->access !== NULL && !$data->access instanceof AccessResultInterface) {
         throw new \DomainException('MenuLinkTreeElement::access must be either NULL or an AccessResultInterface object.');
       }
@@ -114,7 +113,7 @@ class SitemapMenuLinkTree extends MenuLinkTree {
       $menu_name = $link->getMenuName();
       // Add the theme wrapper for outer markup.
       // Allow context-specific theme overrides.
-      $build['#theme'] = 'menu__sitemap';
+      $build['#theme'] = 'sitemap_menu';
       $build['#menu_name'] = $menu_name;
       $build['#items'] = $items;
       // Set cache tag.
@@ -123,4 +122,5 @@ class SitemapMenuLinkTree extends MenuLinkTree {
 
     return $build;
   }
+
 }
