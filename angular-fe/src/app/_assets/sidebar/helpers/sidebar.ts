@@ -97,7 +97,6 @@ export const parseProfessionData = (inputData, translate) => {
 			iscedf_narrow: [],
 			iscedf_broad: [],
 			level: [],
-
     };
 
 		// õppimisvõimaluste filtrite kogumine AMETIALA puhul

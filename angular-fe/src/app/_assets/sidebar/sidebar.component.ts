@@ -127,7 +127,7 @@ export class SidebarComponent implements OnInit, OnChanges {
   ) {
     if (route.snapshot?.data?.type) {
       this.type = route.snapshot.data.type;
-    }
+		}
   }
 
   @HostBinding('class') get hostClasses(): string {
