@@ -150,7 +150,7 @@ export class SchoolListMapComponent implements AfterViewInit {
     this.loading = true;
     if (this.listSub !== undefined) this.listSub.unsubscribe();
     const variables = {
-      lang: 'ET',
+			lang: this.settings.activeLang,
       offset: 0,
       limit: this.mapLimit,
       title: params['title'] ? `"${params['title'].toLowerCase()}"` : '""',
@@ -277,7 +277,7 @@ export class SchoolListMapComponent implements AfterViewInit {
   getTags() {
 
     const variables = {
-      lang: 'ET',
+			lang: this.settings.activeLang,
     };
 
     const path = this.settings.query('getSchoolFilterOptions', variables);

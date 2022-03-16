@@ -38,3 +38,8 @@ export function slugifyTitle(title: string): string {
       .replace(/ /g, '-')
       .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
 }
+
+export function getLangCode(route: ActivatedRoute) {
+	let langCode = window.location.pathname.split('/')[1];
+	return langCode?.length === 2 ? langCode.toUpperCase() : 'ET'
+}

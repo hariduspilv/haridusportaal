@@ -20,7 +20,7 @@ export class OskaFieldDataViewComponent implements OnInit{
 
   private getData():void {
     const variables = {
-      lang: 'ET',
+			lang: this.settings.activeLang,
     };
 
     const path = this.settings.query('oskaFieldComparisonPage', variables);

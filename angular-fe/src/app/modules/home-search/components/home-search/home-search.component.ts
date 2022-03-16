@@ -5,6 +5,7 @@ import { BreadcrumbsItem } from '@app/_assets/breadcrumbs';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HomeSearchUtility } from '../../home-search';
+import { SettingsService } from '@app/_services';
 import { HomeSearchApiService } from '../../home-search-api.service';
 import { HomeSearch, HomeSearchParameters, HomeSearchResult, HomeSearchType, MappedHomeSearch } from '../../home-search.model';
 
@@ -20,7 +21,8 @@ export class HomeSearchComponent implements OnInit {
     private route: ActivatedRoute,
     public formBuilder: FormBuilder,
     private api: HomeSearchApiService,
-  ) {}
+		private settings: SettingsService,
+	) {}
 
   breadcrumbs: BreadcrumbsItem[];
   searchGroup: FormGroup = this.formBuilder.group({
@@ -46,7 +48,7 @@ export class HomeSearchComponent implements OnInit {
       const { marksona, tuup } = params;
       if (marksona) {
         this.breadcrumbs = HomeSearchUtility.constructCrumbs(marksona);
-        this.getMappedHomeSearchResults({ lang: 'ET', search_term: marksona })
+        this.getMappedHomeSearchResults({ lang: this.settings.activeLang, search_term: marksona })
           .subscribe(({ entities, count, types }: MappedHomeSearch) => {
             this.entities = entities;
             this.count = count;
