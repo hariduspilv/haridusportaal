@@ -47,7 +47,7 @@ export class TranslateService {
 
       const errorHandler = () => resolve(true);
 
-      this.http.get(`${this.settings.url}/translations?_format=json&lang=et`).subscribe({
+			this.http.get(`${this.settings.url}/translations?_format=json&lang=${this.settings.activeLang.toLowerCase()}`).subscribe({
         next: httpResponse,
         error: errorHandler,
       });

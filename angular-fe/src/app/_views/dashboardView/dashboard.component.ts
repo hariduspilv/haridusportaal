@@ -275,7 +275,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getFavouritesList(): void {
     const variables = {
-      language: 'ET',
+			language: this.settings.activeLang,
       id: this.userData.drupal.uid,
     };
 
@@ -318,7 +318,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       dateTo: moment().add(20, 'years').format('YYYY-MM-DD'),
       offset: 0,
       limit: 3,
-      lang: 'ET',
+			lang: this.settings.activeLang,
       timeFrom: '0',
       timeTo: '99999999',
     };

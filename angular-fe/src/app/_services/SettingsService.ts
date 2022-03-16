@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {ActivatedRoute} from '@angular/router';
+import {getLangCode} from '@app/_core/utility';
 
 @Injectable({
 	providedIn: 'root',
@@ -9,8 +11,9 @@ import {environment} from '../../environments/environment';
 export class SettingsService {
 	constructor(
 		private http: HttpClient,
-	) {
-		this.url = environment.API_URL;
+		public route: ActivatedRoute
+) {
+		this.url = `${environment.API_URL}${this.activeLang === 'ET' ? '' : `/${this.activeLang.toLowerCase()}`}`;
 		this.ehisUrl = environment.EHIS_URL;
 	}
 
@@ -21,7 +24,9 @@ export class SettingsService {
 	public error: boolean = false;
 	public data: any;
 	public compareObservable = new Subject<any>();
-	public activeLang: string = 'ET';
+	public activeLang: string = getLangCode(this.route);
+
+	// this.activeLang === 'ET' ? '' : this.activeLang.toLowerCase()
 
 	/**
 	 * Finds an entity from objects
@@ -46,9 +51,10 @@ export class SettingsService {
 	public query(name: string = '', variables: object = {}) {
 		const requestName = this.get(`request.${name}`);
 		let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
-		if (Object.keys(variables).length > 0) {
-			path = `${path}&variables=${encodeURI(JSON.stringify(variables))}`;
-		}
+		path = `${path}&variables=${encodeURI(JSON.stringify({
+			...variables,
+			lang: this.activeLang
+		}))}`;
 		return path;
 	}
 
@@ -80,7 +86,7 @@ export class SettingsService {
 	 */
 	public load() {
 		return new Promise((resolve, reject) => {
-			const path = `${this.url}/variables?_format=json&lang=et`;
+			const path = `${this.url}/variables?_format=json&lang=${this.activeLang.toLowerCase()}`;
 			this.http.get(path).subscribe({
 				next: (response) => {
 					this.data = response;
