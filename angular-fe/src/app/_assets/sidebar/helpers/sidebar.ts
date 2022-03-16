@@ -10,6 +10,7 @@ export const collection = {
   'fieldJobOpportunities': 'links',
   'fieldLearningOpportunities': 'links',
   'fieldJobs': 'links',
+	'fieldRelatedProfession': 'links',
   'fieldOskaField': 'links',
   'fieldQualificationStandard': 'links',
   'fieldOskaResults': 'links',
@@ -93,6 +94,8 @@ export const parseProfessionData = (inputData, translate) => {
     let searchParams = {
       open_admission: true,
     };
+
+		// õppimisvõimaluste filtrite kogumine AMETIALA puhul
     try {
       const iDetailed = mappedData['fieldIscedfSearchLink']
       ['entity']['iscedf_detailed'].filter(val => val.entity).map(val => val.entity.entityId);
@@ -119,6 +122,19 @@ export const parseProfessionData = (inputData, translate) => {
       });
       searchParams['level'] = iLevel.join(';');
     } catch (err) { }
+
+		// õppimisvõimaluste filtrite kogumine AMETI puhul
+		try {
+			mappedData.fieldRelatedProfession.map((profession) => {
+				const professionEntity = profession.entity.fieldSidebar.entity.fieldIscedfSearchLink.entity;
+
+				searchParams['iscedf_detailed'] += professionEntity.iscedf_detailed.filter(val => val.entity).map(val => val.entity.entityId) + ';';
+				searchParams['iscedf_narrow'] += professionEntity.iscedf_narrow.filter(val => val.entity).map(val => val.entity.entityId) + ';';
+				searchParams['iscedf_broad'] += professionEntity.iscedf_broad.filter(val => val.entity).map(val => val.entity.entityId) + ';';
+				searchParams['level'] += professionEntity.level.map(val => val.entity ? val.entity.entityId: false).filter(val => val) + ';';
+			});
+		} catch (err) {	}
+
     if (Object.keys(searchParams).length > 1) {
       mappedData['fieldLearningOpportunities'] = [
         {
