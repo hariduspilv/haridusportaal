@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { removeLanguageCode } from '@app/_core/utility';
 
 @Component({
   selector: 'detail-view',
@@ -253,12 +254,10 @@ export class DetailViewComponent implements OnInit, OnDestroy {
   private initialize(type: string = undefined) {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
-      this.path = this.storyPath || decodeURI(this.location.path().split('?')[0]);
+      this.path = this.storyPath || removeLanguageCode(
+        decodeURI(this.location.path().split('?')[0]),
+      );
       this.type = this.storyType || type || this.route.snapshot.data['type'];
-
-      if (this.path.match(/^\/[a-z]{2}/)) {
-        this.path = this.path.substring(3);
-      }
     }
 
     this.getValues();
