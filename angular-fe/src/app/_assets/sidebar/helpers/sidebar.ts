@@ -93,6 +93,11 @@ export const parseProfessionData = (inputData, translate) => {
   try {
     let searchParams = {
       open_admission: true,
+			iscedf_detailed: [],
+			iscedf_narrow: [],
+			iscedf_broad: [],
+			level: [],
+
     };
 
 		// õppimisvõimaluste filtrite kogumine AMETIALA puhul
@@ -128,14 +133,21 @@ export const parseProfessionData = (inputData, translate) => {
 			mappedData.fieldRelatedProfession.map((profession) => {
 				const professionEntity = profession.entity.fieldSidebar.entity.fieldIscedfSearchLink.entity;
 
-				searchParams['iscedf_detailed'] += professionEntity.iscedf_detailed.filter(val => val.entity).map(val => val.entity.entityId) + ';';
-				searchParams['iscedf_narrow'] += professionEntity.iscedf_narrow.filter(val => val.entity).map(val => val.entity.entityId) + ';';
-				searchParams['iscedf_broad'] += professionEntity.iscedf_broad.filter(val => val.entity).map(val => val.entity.entityId) + ';';
-				searchParams['level'] += professionEntity.level.map(val => val.entity ? val.entity.entityId: false).filter(val => val) + ';';
+				searchParams['iscedf_detailed'] = [...searchParams['iscedf_detailed'], ...professionEntity.iscedf_detailed.filter(val => val.entity).map(val => val.entity.entityId)];
+				searchParams['iscedf_narrow'] = [...searchParams['iscedf_narrow'], ...professionEntity.iscedf_narrow.filter(val => val.entity).map(val => val.entity.entityId)];
+				searchParams['iscedf_broad'] = [...searchParams['iscedf_broad'], ...professionEntity.iscedf_broad.filter(val => val.entity).map(val => val.entity.entityId)];
+				searchParams['level'] = [...searchParams['level'], ...professionEntity.level.map(val => val.entity ? val.entity.entityId: false).filter(val => val)];
+			});
+
+			Object.assign(searchParams, {
+				iscedf_detailed: searchParams['iscedf_detailed'].join(';'),
+				iscedf_narrow: searchParams['iscedf_narrow'].join(';'),
+				iscedf_broad: searchParams['iscedf_broad'].join(';'),
+				level: searchParams['level'].join(';'),
 			});
 		} catch (err) {	}
 
-    if (Object.keys(searchParams).length > 1) {
+		if (Object.keys(searchParams).length > 1) {
       mappedData['fieldLearningOpportunities'] = [
         {
           title: translate.get('professions.go_to_subjects'),
