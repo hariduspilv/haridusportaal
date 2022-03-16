@@ -1,5 +1,5 @@
 import { NgModule, Component } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {RouterModule, Routes, UrlSegment} from '@angular/router';
 import { AuthService } from './_services';
 
 @Component({
@@ -243,7 +243,16 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [DummyViewComponent],
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot([
+		{
+			matcher: (url: UrlSegment[]) => url[0].path.length === 2 ? {consumed: url} : null,
+			children: routes,
+		},
+		{
+			path: '**',
+			children: routes,
+		}
+	])],
   exports: [RouterModule],
 })
 export class RoutesModule { }
