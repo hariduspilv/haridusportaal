@@ -255,6 +255,10 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.data) {
       this.path = this.storyPath || decodeURI(this.location.path().split('?')[0]);
       this.type = this.storyType || type || this.route.snapshot.data['type'];
+
+      if (this.path.match(/^\/[a-z]{2}/)) {
+        this.path = this.path.substring(3);
+      }
     }
 
     this.getValues();

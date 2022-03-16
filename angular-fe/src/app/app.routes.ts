@@ -245,13 +245,13 @@ const routes: Routes = [
   declarations: [DummyViewComponent],
   imports: [RouterModule.forRoot([
 		{
-			matcher: (url: UrlSegment[]) => url[0].path.length === 2 ? {consumed: url} : null,
+      matcher: (url: UrlSegment[]) => {
+        return url[0]?.path.length === 2
+          ? { consumed: url.slice(0, 1) }
+          : { consumed: [] }
+      },
 			children: routes,
 		},
-		{
-			path: '**',
-			children: routes,
-		}
 	])],
   exports: [RouterModule],
 })
