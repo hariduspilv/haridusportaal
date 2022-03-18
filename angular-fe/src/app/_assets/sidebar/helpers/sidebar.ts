@@ -91,14 +91,12 @@ export const parseInfosystemData = (inputData) => {
 export const parseProfessionData = (inputData, translate) => {
   let mappedData = inputData;
   try {
-    let searchParams = {
-      open_admission: true,
+		let searchParams = {
 			iscedf_detailed: [],
 			iscedf_narrow: [],
 			iscedf_broad: [],
 			level: [],
-
-    };
+		};
 
 		// õppimisvõimaluste filtrite kogumine AMETIALA puhul
     try {
@@ -147,7 +145,13 @@ export const parseProfessionData = (inputData, translate) => {
 			});
 		} catch (err) {	}
 
-		if (Object.keys(searchParams).length > 1) {
+		Object.keys(searchParams).forEach(key => {
+			if (Array.isArray(searchParams[key]) && searchParams[key].length === 0) {
+				delete searchParams[key];
+			}
+		});
+
+		if (Object.keys(searchParams).length > 0) {
       mappedData['fieldLearningOpportunities'] = [
         {
           title: translate.get('professions.go_to_subjects'),
