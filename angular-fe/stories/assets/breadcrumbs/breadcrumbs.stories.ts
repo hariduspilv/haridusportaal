@@ -6,6 +6,7 @@ import instructionsMd from './instructions.md';
 import { AssetsModule } from '@app/_assets';
 import { RippleService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { TitleService } from "@app/_services/TitleService";
 
 const moduleMetadata = {
   imports: [
@@ -16,6 +17,7 @@ const moduleMetadata = {
   providers: [
     RippleService,
     TranslateService,
+		TitleService,
   ],
 };
 

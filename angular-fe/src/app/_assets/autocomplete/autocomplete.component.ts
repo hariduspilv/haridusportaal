@@ -103,13 +103,12 @@ export class AutocompleteComponent implements OnDestroy {
                 map((data) => {
                   return data.addresses;
                 }),
-              ).subscribe(
-                (response) => {
+              ).subscribe({
+                next: (response) => {
                   this.parseInAds(response);
                   this.positionElement();
                 },
-                () => {},
-                () => {
+                complete: () => {
                   this.searched = true;
                   this.loading = false;
                   this.subscription.unsubscribe();
@@ -118,7 +117,8 @@ export class AutocompleteComponent implements OnDestroy {
                     this.translateService.get('wcag.address_suggestions_opened'))
                     : this.liveAnnouncer.announce(
                     this.translateService.get('autocomplete.no_result'));
-                });
+                }
+              });
             } else {
               this.subscription = this.http.get(path).subscribe((response) => {
                 try {

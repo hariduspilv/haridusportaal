@@ -76,15 +76,16 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
       },                100);
     } else {
       this.loading = true;
-      const subscription = this.http.post(query, data).subscribe(
-        (response) => {
+      const subscription = this.http.post(query, data).subscribe({
+        next: (response) => {
           this.subscribedStatus = true;
           this.loading = false;
         },
-        (data) => {
+        error: (data) => {
           this.subscribedError = true;
           this.loading = false;
-        });
+        }
+      });
       this.subscriptions.push(subscription);
     }
   }

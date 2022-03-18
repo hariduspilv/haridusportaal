@@ -16,6 +16,7 @@ registerLocaleData(localeEt);
 import { ModalService, RippleService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { TitleService } from "@app/_services/TitleService";
 
 const moduleMetadata = {
   imports: [
@@ -25,6 +26,7 @@ const moduleMetadata = {
     BrowserAnimationsModule,
   ],
   providers: [
+		TitleService,
     { provide: LOCALE_ID, useValue:'et' },
   ],
 };
