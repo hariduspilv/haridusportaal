@@ -27,9 +27,6 @@ use Drupal\search_api\Task\TaskInterface;
  *   entity_keys = {
  *     "id" = "id",
  *   },
- *   handlers = {
- *     "storage_schema" = "Drupal\search_api\Entity\TaskStorageSchema",
- *   },
  * )
  */
 class Task extends ContentEntityBase implements TaskInterface {

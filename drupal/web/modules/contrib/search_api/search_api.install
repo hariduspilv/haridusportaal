@@ -8,9 +8,10 @@
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Database\DatabaseException;
+use Drupal\Core\Entity\Sql\SqlContentEntityStorageSchema;
 use Drupal\Core\Link;
-use Drupal\search_api\Entity\Server;
 use Drupal\Core\Url;
+use Drupal\search_api\Entity\Server;
 use Drupal\search_api\Entity\TaskStorageSchema;
 
 /**
@@ -397,4 +398,14 @@ function search_api_update_8109(): MarkupInterface {
   }
 
   return t('Enabled "Track changes in referenced entities" on all existing search indexes.');
+}
+
+/**
+ * Remove the unique index from the task entity type's storage.
+ */
+function search_api_update_8110() {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  $entity_type = $manager->getEntityType('search_api_task');
+  $entity_type->setHandlerClass('storage_schema', SqlContentEntityStorageSchema::class);
+  $manager->updateEntityType($entity_type);
 }
