@@ -47,8 +47,8 @@ export class OskaFieldListViewComponent {
 
     const path = this.settings.query('oskaFieldListView', variables);
 
-    this.dataSub = this.http.get(path).subscribe(
-      (response:any) => {
+    this.dataSub = this.http.get(path).subscribe({
+      next: (response:any) => {
         if (response['errors']) {
           this.loading = false;
           this.errMessage = true;
@@ -60,10 +60,11 @@ export class OskaFieldListViewComponent {
           document.getElementById('heading').focus();
         }
       },
-      (err) => {
+      error: (err) => {
         this.errMessage = true;
         this.loading = false;
-      });
+      }
+    });
   }
 
 }

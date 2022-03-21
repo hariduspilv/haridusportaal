@@ -2,10 +2,10 @@ const path = require('path');
 const IconfontPlugin = require('iconfont-plugin-webpack');
 const iconJSON = require('../.webpack/iconJSON');
 const resolve = path.resolve.bind(path, __dirname);
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
-  plugins: [
+// Export a function. Accept the base config as the only param.
+module.exports = async ({ config, mode }) => {
+  config.plugins.push(...[
     new IconfontPlugin({
       src: resolve('../src/icons'),
       family: 'iconfont',
@@ -24,6 +24,16 @@ module.exports = {
         pattern: '../src/icons/*.svg'
       }
     }),
-  ],
-}
+  ]);
 
+  config.module.rules.push({
+    test: /\.html$/i,
+    include: [
+      path.resolve(__dirname, '..', 'stories')
+    ],
+    loader: "html-loader",
+  });
+  
+  // Return the altered config
+  return config;
+};

@@ -1,3 +1,25 @@
+### [2.2.9] 2022-03-15
+
+  * Fixed regression with plugins that modify install path of packages, [see docs](https://getcomposer.org/doc/articles/plugins.md#plugin-modifies-install-path) if you are authoring such a plugin (#10621)
+
+### [2.2.8] 2022-03-15
+
+  * Fixed `files` autoloading sort order to be fully deterministic (#10617)
+  * Fixed pool optimization pass edge cases (#10579)
+  * Fixed `require` command failing when `self.version` is used as constraint (#10593)
+  * Fixed --no-ansi / undecorated output still showing color in repo warnings (#10601)
+  * Performance improvement in pool optimization step (composer/semver#131)
+
+### [2.2.7] 2022-02-25
+
+  * Allow installation together with composer/xdebug-handler ^3 (#10528)
+  * Fixed support for packages with no licenses in `licenses` command output (#10537)
+  * Fixed handling of `allow-plugins: false` which kept warning (#10530)
+  * Fixed enum parsing in classmap generation when the enum keyword is not lowercased (#10521)
+  * Fixed author parsing in `init` command requiring an email whereas the schema allows a name only (#10538)
+  * Fixed issues in `require` command when requiring packages which do not exist (but are provided by something else you require) (#10541)
+  * Performance improvement in pool optimization step (#10546)
+
 ### [2.2.6] 2022-02-04
 
   * BC Break: due to an oversight, the `COMPOSER_BIN_DIR` env var for binaries added in Composer 2.2.2 had to be renamed to `COMPOSER_RUNTIME_BIN_DIR` (#10512)
@@ -1384,6 +1406,9 @@
 
   * Initial release
 
+[2.2.9]: https://github.com/composer/composer/compare/2.2.8...2.2.9
+[2.2.8]: https://github.com/composer/composer/compare/2.2.7...2.2.8
+[2.2.7]: https://github.com/composer/composer/compare/2.2.6...2.2.7
 [2.2.6]: https://github.com/composer/composer/compare/2.2.5...2.2.6
 [2.2.5]: https://github.com/composer/composer/compare/2.2.4...2.2.5
 [2.2.4]: https://github.com/composer/composer/compare/2.2.3...2.2.4

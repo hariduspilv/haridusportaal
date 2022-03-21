@@ -83,12 +83,12 @@ export class AccordionItemComponent {
         });
       } catch (err) {
       }
-      this.change.next();
+      this.change.next(true);
     }
 
     const slug = slugifyTitle(this.title);
     const newUrl = this.router.url.split('#')[0];
-    this.statusUpdate.next();
+    this.statusUpdate.next(true);
     if (this.active) {
       this.location.replaceState(`${newUrl}#${slug}`);
     }

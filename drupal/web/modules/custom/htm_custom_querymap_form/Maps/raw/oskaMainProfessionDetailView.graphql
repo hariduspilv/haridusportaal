@@ -234,6 +234,62 @@ query oskaMainProfessionDetailView($path: String!) {
                   }
                   title
                 }
+                fieldRelatedProfession {
+                  entity {
+                    ... on NodeOskaMainProfessionPage {
+                      status
+                      entityLabel
+                      entityUrl {
+                        routed
+                        path
+                      }
+                      fieldSidebar {
+                        entity {
+                          ... on ParagraphMainProfessionSidebar {
+                            fieldIscedfSearchLink {
+                              entity {
+                                ... on ParagraphIscedfSearch {
+                                  iscedf_detailed: fieldIscedfSearchTerm {
+                                    entity {
+                                      ... on TaxonomyTermIscedF {
+                                        entityId
+                                        entityLabel
+                                      }
+                                    }
+                                  }
+                                  iscedf_broad: fieldIscedfBroad {
+                                    entity {
+                                      ... on TaxonomyTermIscedF {
+                                        entityId
+                                        entityLabel
+                                      }
+                                    }
+                                  }
+                                  iscedf_narrow: fieldIscedfNarrow {
+                                    entity {
+                                      ... on TaxonomyTermIscedF {
+                                        entityId
+                                        entityLabel
+                                      }
+                                    }
+                                  }
+                                  level: fieldLevel {
+                                    entity {
+                                      ... on TaxonomyTermStudyprogrammelevel {
+                                        entityId
+                                        entityLabel
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
                 fieldJobs {
                   entity {
                     ... on ParagraphJob {

@@ -7,6 +7,7 @@ use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
 use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Base class for some Sitemap test cases.
@@ -15,7 +16,11 @@ abstract class SitemapTaxonomyTestBase extends SitemapBrowserTestBase {
 
   use TaxonomyTestTrait;
   use EntityReferenceTestTrait;
+  use StringTranslationTrait;
 
+  /**
+   * {@inheritdoc}
+   */
   protected $defaultTheme = 'stark';
 
   /**
@@ -143,7 +148,7 @@ abstract class SitemapTaxonomyTestBase extends SitemapBrowserTestBase {
       'title[0][value]' => $title,
       $this->fieldTagsName . '[target_id]' => implode(',', $values),
     ];
-    $this->drupalPostForm('node/add/article', $edit, t('Save'));
+    $this->drupalPostForm('node/add/article', $edit, $this->t('Save'));
   }
 
   /**

@@ -63,7 +63,7 @@ function svg_image_get_image_file_dimensions(File $file) {
 
   $variables = [];
 
-  if ($image->isValid()) {
+  if ($image->isValid() && !svg_image_is_file_svg($file)) {
     $variables['width'] = $image->getWidth();
     $variables['height'] = $image->getHeight();
   }

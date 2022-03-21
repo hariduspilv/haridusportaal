@@ -2,6 +2,7 @@
 
 namespace Drupal\sitemap\Controller;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -67,20 +68,19 @@ class SitemapController implements ContainerInjectionInterface {
     // Build the plugin content.
     $plugins_config = $config->get('plugins');
     $plugins = [];
-    $plugin_config = [];
-    $definitions = $this->sitemapManager->getDefinitions();
-    foreach ($definitions as $id => $definition) {
-      if ($this->sitemapManager->hasDefinition($id)) {
-        if (!empty($plugins_config[$id])) {
-          $plugin_config = $plugins_config[$id];
-        }
-        $instance = $this->sitemapManager->createInstance($id, $plugin_config);
-        if ($instance->enabled) {
-          $plugins[] = $instance->view() + ['#weight' => $instance->weight];
-        }
+    foreach ($plugins_config as $id => $plugin_config) {
+      if (!$this->sitemapManager->hasDefinition($id)) {
+        continue;
+      }
+
+      $instance = $this->sitemapManager->createInstance($id, $plugin_config);
+      if ($instance->enabled) {
+        $plugins[] = $instance->view() + ['#weight' => $instance->weight];
       }
     }
-    uasort($plugins, ['Drupal\Component\Utility\SortArray', 'sortByWeightProperty']);
+    uasort($plugins, ['Drupal\Component\Utility\SortArray',
+      'sortByWeightProperty',
+    ]);
 
     // Build the render array.
     $sitemap = [
@@ -95,6 +95,10 @@ class SitemapController implements ContainerInjectionInterface {
         'sitemap/sitemap.theme',
       ];
     }
+
+    $metadata = new CacheableMetadata();
+    $metadata->addCacheableDependency($config);
+    $metadata->applyTo($sitemap);
 
     return $sitemap;
   }

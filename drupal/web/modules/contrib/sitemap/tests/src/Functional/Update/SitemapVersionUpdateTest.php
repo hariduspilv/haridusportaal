@@ -4,7 +4,6 @@ namespace Drupal\Tests\sitemap\Functional\Update;
 
 use Drupal\FunctionalTests\Update\UpdatePathTestBase;
 use Drupal\sitemap\Plugin\Sitemap\Vocabulary;
-use Drupal\views\Views;
 
 /**
  * Tests the 1.x to 2.x upgrade path for Sitemap configuration.
@@ -12,6 +11,11 @@ use Drupal\views\Views;
  * @group Update
  */
 class SitemapVersionUpdateTest extends UpdatePathTestBase {
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $defaultTheme = 'stark';
 
   /**
    * {@inheritdoc}

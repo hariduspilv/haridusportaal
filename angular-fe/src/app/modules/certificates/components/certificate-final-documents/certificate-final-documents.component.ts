@@ -75,14 +75,15 @@ export class CertificateFinalDocumentsComponent {
 
   getCertificates() {
     this.loading.certificatesById = true;
-    this.certificatesApi.fetchCertificateWithAccess(AccessType.ID_CODE).subscribe(
-      (res: { certificates: [], responseInfo: {} }) => {
+    this.certificatesApi.fetchCertificateWithAccess(AccessType.ID_CODE).subscribe({
+      next: (res: { certificates: [], responseInfo: {} }) => {
         this.certificatesById = res.certificates.sort(this.compareCertificates);
         this.loading.certificatesById = false;
       },
-      (err) => {
+      error: (err) => {
         this.loading.certificatesById = false;
-      });
+      }
+    });
   }
 
   getCertificateByAccessCode() {
@@ -96,12 +97,12 @@ export class CertificateFinalDocumentsComponent {
     const formValue = this.accessFormGroup.value;
     this.http.get(
       `${this.settings.ehisUrl}/certificates/v1/certificate/ACCESS_CODE/${formValue.certificateNr}/${formValue.accessCode}`,
-    ).subscribe(
-      (res: any) => {
+    ).subscribe({
+      next: (res: any) => {
         this.router.navigate([`/tunnistused/lõpudokumendid/${formValue.certificateNr}/${formValue.accessCode}`]);
         this.loading.certificatesByAccessCode = false;
       },
-      (err) => {
+      error: (err) => {
         this.alertsService.error(
           'certificates.no_certificate_or_access',
           'certificatesByAccessCode',
@@ -109,7 +110,8 @@ export class CertificateFinalDocumentsComponent {
           true,
         );
         this.loading.certificatesByAccessCode = false;
-      });
+      }
+    });
   }
 
   focusFirstDisclosure() {
@@ -143,16 +145,19 @@ export class CertificateFinalDocumentsComponent {
       params = { ownerFirstName: firstName, ownerLastName: lastName };
     }
     this.loading.certificatesByDisclosure = true;
-    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`, { params: { ...params, accessType: AccessType.DISCLOSURE }}).subscribe((res: any) => {
-      this.certificatesByDisclosure = this.cleanDisclosureCertificatesResponse(res);
-      this.liveAnnouncer.announce(this.translateService.get('liveAnnouncer.found_x_results').replace('%amount%', this.certificatesByDisclosure.length))
-      this.loading.certificatesByDisclosure = false;
-      setTimeout(x => this.focusFirstDisclosure(), 100);
-    }, (err) => {
-      this.loading.certificatesByDisclosure = false;
-      this.certificatesByDisclosure = [];
-      this.alertsService.error(this.translateService.get('errors.no_disclosed_certificates_found'), 'certificatesByDisclosure');
-    })
+    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`, { params: { ...params, accessType: AccessType.DISCLOSURE }}).subscribe({
+      next: (res: any) => {
+        this.certificatesByDisclosure = this.cleanDisclosureCertificatesResponse(res);
+        this.liveAnnouncer.announce(this.translateService.get('liveAnnouncer.found_x_results').replace('%amount%', this.certificatesByDisclosure.length))
+        this.loading.certificatesByDisclosure = false;
+        setTimeout(x => this.focusFirstDisclosure(), 100);
+      },
+      error: (err) => {
+        this.loading.certificatesByDisclosure = false;
+        this.certificatesByDisclosure = [];
+        this.alertsService.error(this.translateService.get('errors.no_disclosed_certificates_found'), 'certificatesByDisclosure');
+      }
+    });
   }
 
   logIn(redirectUrl) {

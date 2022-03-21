@@ -81,15 +81,16 @@ export class SettingsService {
 	public load() {
 		return new Promise((resolve, reject) => {
 			const path = `${this.url}/variables?_format=json&lang=et`;
-			this.http.get(path).subscribe(
-				(response) => {
+			this.http.get(path).subscribe({
+				next: (response) => {
 					this.data = response;
 					resolve(true);
 				},
-				(err) => {
+				error: (err) => {
 					this.error = true;
 					resolve(true);
-				});
+				}
+			});
 		});
 	}
 }

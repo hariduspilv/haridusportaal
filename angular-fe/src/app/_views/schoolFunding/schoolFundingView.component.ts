@@ -81,10 +81,13 @@ export class SchoolFundingViewComponent implements OnInit {
 
     const query = this.settingsService.query('subsidyProjectQuerySchool', variables);
 
-    this.http.get(query).subscribe(({ data }: any) => {
-      this.markers = data.CustomSubsidyProjectQuery;
-    },                             () => {}, () => {
-      this.loading = false;
+    this.http.get(query).subscribe({
+      next: ({ data }: any) => {
+        this.markers = data.CustomSubsidyProjectQuery;
+      },
+      complete: () => {
+        this.loading = false;
+      }
     });
   }
 
