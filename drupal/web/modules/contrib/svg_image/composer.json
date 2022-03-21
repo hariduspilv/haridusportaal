@@ -21,6 +21,6 @@
   "license": "GPL-2.0+",
   "minimum-stability": "dev",
   "require": {
-    "enshrined/svg-sanitize": ">=0.9 <1.0"
+    "enshrined/svg-sanitize": ">=0.15 <1.0"
   }
 }
