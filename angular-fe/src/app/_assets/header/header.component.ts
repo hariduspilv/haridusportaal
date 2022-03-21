@@ -106,8 +106,8 @@ export class HeaderComponent implements OnInit {
     this.http.post(
       `${this.settings.url}${this.settings.mobileLogin}`,
       { telno: this.mobileIdForm.controls.phoneNumber.value },
-    ).subscribe(
-      (data: any) => {
+    ).subscribe({
+      next: (data: any) => {
         this.loading = false;
         this.mobileId.challengeId = data.ChallengeID;
         const consecutiveForm = {
@@ -116,22 +116,22 @@ export class HeaderComponent implements OnInit {
           auth_method: 'mobile_id',
         };
         this.mobileIdRequest = this.auth.login(consecutiveForm)
-          .subscribe(
-            (response) => {
+          .subscribe({
+            next: (response) => {
               this.modalService.close('login');
               this.mobileId.challengeId = '';
             },
-            (err) => {
+            error: (err) => {
               this.alertsService
                 .error(this.translate.get(err.error.message), 'login-modal', false, true);
               this.mobileId.challengeId = '';
             },
-          );
+          });
       },
-      () => {
+      error: () => {
         this.loading = false;
       },
-    );
+    });
   }
 
   public get active(): boolean {
@@ -181,8 +181,8 @@ export class HeaderComponent implements OnInit {
       this.authMethods.basic = true;
       this.authMethods.mobile_id = true;
     }
-    this.http.get(`${this.settings.url}/auth_methods?_format=json`).subscribe(
-      (response: any) => {
+    this.http.get(`${this.settings.url}/auth_methods?_format=json`).subscribe({
+      next: (response: any) => {
         this.authMethods = Object.assign({}, this.authMethods, { ...response.auth_methods });
         this.availableAuthMethods =
           Object.entries(this.authMethods).filter(method => method[1]);
@@ -190,13 +190,14 @@ export class HeaderComponent implements OnInit {
           this.alertsService.info('login.unavailable', 'login', false);
         }
       },
-      (response) => {
+      error: (response) => {
         this.alertsService.error(response.error.message, 'login', false);
         this.loading = false;
       },
-      () => {
+      complete: () => {
         this.loading = false;
-      });
+      }
+    });
   }
 
   public searchClick() {

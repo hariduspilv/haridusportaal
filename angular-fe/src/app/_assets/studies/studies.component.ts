@@ -65,8 +65,8 @@ export class StudiesComponent implements OnInit {
       .get(
         `${this.settings.url}/dashboard/eeIsikukaart/studies?_format=json`,
       )
-      .subscribe(
-        (response: StudiesResponse) => {
+      .subscribe({
+        next: (response: StudiesResponse) => {
           if (response.error) {
             this.error = true;
             this.requestErr = true;
@@ -105,13 +105,14 @@ export class StudiesComponent implements OnInit {
           sub.unsubscribe();
           this.loading = false;
         },
-        (error) => {
+        error: (error) => {
           this.loading = false;
           this.error = true;
           this.requestErr = true;
           this.alertsService
             .info('errors.studies_data_request', 'studies');
-        });
+        }
+      });
   }
 
   public openAllAccordions() {

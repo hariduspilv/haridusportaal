@@ -640,18 +640,18 @@ export class SidebarRegisterComponent {
 
       const register = this.http
         .post(`${this.settings.url}/graphql`, data)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
             const data = response.data;
             this.response = data.createEventRegistration;
             this.step = 2;
             this.loading = false;
             register.unsubscribe();
           },
-          (data) => {
+          error: (data) => {
             this.loading = false;
           },
-        );
+        });
     }
   }
 
@@ -931,17 +931,17 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     };
     this.http
       .post(`${this.settings.ehisUrl}/certificates/v1/certificateAccess`, accessDTO)
-      .subscribe(
-        (val) => {
+      .subscribe({
+        next: (val) => {
           this.modal.toggle('finalDocument-addAccess');
           this.addAccessForm.reset();
           this.getData();
         },
-        (err) => {
+        error: (err) => {
           this.alertsService
             .error(err.error.errors[0].message, 'addAccessErrors', 'accessErrors', true);
         },
-      );
+      });
   }
 
   public modifyAccess(): void {
@@ -1039,35 +1039,37 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess\
 				?indexId=${id}&status=ACCESS_STATUS:VALID`,
       )
-      .subscribe(
-      (val) => {
-        this.activeAccesses = val;
-      },
-      (err) => {
-        this.activeAccesses = [];
+      .subscribe({
+        next: (val) => {
+          this.activeAccesses = val;
+        },
+        error: (err) => {
+          this.activeAccesses = [];
+        }
       });
     this.http
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess\
 				?indexId=${id}&status=ACCESS_STATUS:INVALID`,
       )
-      .subscribe(
-      (val) => {
-        this.inactiveAccesses = val;
-        this.inactiveAccesses = this.inactiveAccesses.sort((a, b) => {
-          if (a.issued > b.issued) {
-            return -1;
-          }
-          if (a.issued < b.issued) {
-            return 1;
-          }
-          if (a.issued === b.issued) {
-            return 0;
-          }
-        });
-      },
-      (err) => {
-        this.inactiveAccesses = [];
+      .subscribe({
+        next: (val) => {
+          this.inactiveAccesses = val;
+          this.inactiveAccesses = this.inactiveAccesses.sort((a, b) => {
+            if (a.issued > b.issued) {
+              return -1;
+            }
+            if (a.issued < b.issued) {
+              return 1;
+            }
+            if (a.issued === b.issued) {
+              return 0;
+            }
+          });
+        },
+        error: (err) => {
+          this.inactiveAccesses = [];
+        }
       });
   }
 
@@ -1170,12 +1172,15 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
       ...(this.route.snapshot.params.accessorCode ? {
         accessorCode: this.route.snapshot.params.accessorCode,
       } : {}),
-    }).subscribe((res: Blob) => {
-      saveAs(res, this.constructDocumentName(data, FileFormat.Pdf));
-      this.loadingDownload = false;
-    },           (response: HttpErrorResponse) => {
-      this.loadingDownload = false;
-      this.dispatchErrorsToAlert('documentAlerts', response);
+    }).subscribe({
+      next: (res: Blob) => {
+        saveAs(res, this.constructDocumentName(data, FileFormat.Pdf));
+        this.loadingDownload = false;
+      },
+      error: (response: HttpErrorResponse) => {
+        this.loadingDownload = false;
+        this.dispatchErrorsToAlert('documentAlerts', response);
+      }
     });
   }
 
@@ -1190,23 +1195,24 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
     this.loadingDocumentError = false;
     this.loadingDocument = true;
     this.http.get(
-      `${this.settings.ehisUrl}/certificates/v1/certificateDocument/${documentId}`).subscribe(
-      (res: any) => {
-        const document = res.document;
-        document.content = JSON.parse(document.content);
-        this.documentCache[res.document.id] = document;
-        if (this.data.generalEducationDocumentType) {
+      `${this.settings.ehisUrl}/certificates/v1/certificateDocument/${documentId}`).subscribe({
+        next: (res: any) => {
+          const document = res.document;
+          document.content = JSON.parse(document.content);
+          this.documentCache[res.document.id] = document;
+          if (this.data.generalEducationDocumentType) {
+            this.loadingDocument = false;
+            this.loadingDocumentError = false;
+            return;
+          }
+          this.downloadDocument(documentId, document);
+        },
+        error: () => {
+          this.loadingDocumentError = true;
           this.loadingDocument = false;
-          this.loadingDocumentError = false;
-          return;
+          this.loadingDownload = false;
+          this.alertsService.error('certificates.loading_error', 'documentAlerts', '', true);
         }
-        this.downloadDocument(documentId, document);
-      },
-      () => {
-        this.loadingDocumentError = true;
-        this.loadingDocument = false;
-        this.loadingDownload = false;
-        this.alertsService.error('certificates.loading_error', 'documentAlerts', '', true);
       });
   }
 
@@ -1345,13 +1351,16 @@ export class SidebarFinalDocumentDownloadComponent {
         this.data,
         this.route.snapshot.params.accessorCode,
       ),
-    }).subscribe((res: Blob) => {
-      saveAs(res, this.constructCertificateName(this.data, this.downloadForm.value.fileFormat));
-      this.loading = false;
-      this.modal.close('finalDocument-download');
-    },           (err: HttpErrorResponse) => {
-      this.loading = false;
-      this.dispatchErrorsToAlert(err);
+    }).subscribe({
+      next: (res: Blob) => {
+        saveAs(res, this.constructCertificateName(this.data, this.downloadForm.value.fileFormat));
+        this.loading = false;
+        this.modal.close('finalDocument-download');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.loading = false;
+        this.dispatchErrorsToAlert(err);
+      }
     });
   }
 
@@ -1419,11 +1428,13 @@ export class SidebarDownloadFileComponent {
 
   public startDownload(): void {
     this.downloading = true;
-    this.http.get(this.data.url, { responseType: 'blob' }).subscribe((response: Blob) => {
-      saveAs(response, this.data.filename);
-      this.downloading = false;
-    }, () => {
-      this.downloading = false;
+    this.http.get(this.data.url, { responseType: 'blob' }).subscribe({
+      next: (response: Blob) => {
+        saveAs(response, this.data.filename);
+      },
+      complete: () => {
+        this.downloading = false;
+      }
     });
   }
 }

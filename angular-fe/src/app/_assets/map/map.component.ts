@@ -112,21 +112,23 @@ export class MapComponent {
   getPolygons() {
     this.loading = true;
     const url = `/assets/polygons/${this.polygonLayer}.json`;
-    const subscription = this.http.get(url).subscribe((data) => {
-      this.polygonCoords = data;
-      this.heatmap = this.mapService.generateHeatMap(this.options.polygonType,
-                                                     this.polygonData[this.polygonLayer]);
-      this.polygons = this.mapService.mapPolygonData(this.options.polygonType, data,
-                                                     this.polygonData[this.polygonLayer],
-                                                     this.heatmap);
-      this.polygonMarkers = this.mapService.mapPolygonLabels(
-        data, !this.options.enablePolygonModal, this.options.polygonType);
-      if (this.polygonMarkers) {
-        this.cdr.detectChanges();
+    const subscription = this.http.get(url).subscribe({
+      next: (data) => {
+        this.polygonCoords = data;
+        this.heatmap = this.mapService.generateHeatMap(this.options.polygonType,
+                                                      this.polygonData[this.polygonLayer]);
+        this.polygons = this.mapService.mapPolygonData(this.options.polygonType, data,
+                                                      this.polygonData[this.polygonLayer],
+                                                      this.heatmap);
+        this.polygonMarkers = this.mapService.mapPolygonLabels(
+          data, !this.options.enablePolygonModal, this.options.polygonType);
+        if (this.polygonMarkers) {
+          this.cdr.detectChanges();
+        }
+      }, complete: () => {
+        this.loading = false;
+        subscription.unsubscribe();
       }
-    },                                                () => {}, () => {
-      this.loading = false;
-      subscription.unsubscribe();
     });
   }
   mapLabelSwitcher(state) {

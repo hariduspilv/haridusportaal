@@ -149,8 +149,8 @@ export class OskaResultsView extends FiltersService implements OnInit {
       lang: 'ET',
     };
     const query = this.settingsService.query('oskaResultPageTable', variables);
-    const subscription = this.http.get(query).subscribe(
-      (data) => {
+    const subscription = this.http.get(query).subscribe({
+      next: (data) => {
         if (data['data']['errors']) {
           this.error = true;
           return;
@@ -194,9 +194,10 @@ export class OskaResultsView extends FiltersService implements OnInit {
         this.filterView();
         subscription.unsubscribe();
       },
-      (err) => {
+      error: (err) => {
         this.error = true;
-      });
+      }
+    });
   }
 
   setAlert(sortedBy) {

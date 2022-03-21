@@ -31,7 +31,7 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
-              "path": "./.storybook/webpack.config.js",
+              "path": "./webpack.iconfont.config.js",
               "replaceDuplicatePlugins": true
             },
             "outputPath": "dist",
@@ -39,7 +39,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/assets",
               "src/favicon.ico",
@@ -81,9 +81,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -125,9 +123,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -161,32 +157,18 @@
                 "input": "src/index.html",
                 "output": "index.html"
               },
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2.5mb",
-                  "maximumError": "5mb"
-                }
-              ]
+              "optimization": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false
             }
           }
         },
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "customWebpackConfig": {
-              "path": "./.storybook/webpack.config.js",
-              "replaceDuplicatePlugins": true
-            },
             "browserTarget": "haridusportaal-fe:build"
           },
           "configurations": {
@@ -199,7 +181,8 @@
             "dev": {
               "browserTarget": "haridusportaal-fe:build:dev"
             }
-          }
+          },
+          "defaultConfiguration": "dev"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -242,8 +225,23 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "haridusportaal-fe:serve:production"
-            }
+              "devServerTarget": "haridusportaal-fe:serve:production",
+							"protractorConfig": ""
+						}
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "browserTarget": "haridusportaal-fe:build",
+            "port": 4300
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "browserTarget": "haridusportaal-fe:build",
+            "outputDir": "dist/storybook"
           }
         }
       }

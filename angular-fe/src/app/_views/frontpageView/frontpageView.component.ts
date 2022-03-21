@@ -81,26 +81,26 @@ export class FrontpageViewComponent implements OnInit {
       currentDate: formattedDate,
     };
     const path = `${this.settings.query('frontPageEvents')}&variables=${JSON.stringify(variables)}`;
-    this.http.get(path).subscribe(
-      (data: any) => {
+    this.http.get(path).subscribe({
+      next: (data: any) => {
         if (data['errors'] && data['errors'].length) {
           this.events = [];
         } else {
           this.events = data['data']['nodeQuery']['entities'];
         }
       },
-      (data) => {
+      error: (data) => {
         this.events = [];
       },
-    );
+    });
   }
   getGeneral() {
     const variables = {
       lang: 'ET',
     };
     const path = `${this.settings.query('frontPageQuery')}&variables=${JSON.stringify(variables)}`;
-    this.http.get(path).subscribe(
-      (data: any) => {
+    this.http.get(path).subscribe({
+      next: (data: any) => {
         if (data['errors'] && data['errors'].length) {
           this.generalData = [];
         } else {
@@ -128,9 +128,10 @@ export class FrontpageViewComponent implements OnInit {
           }
         }
       },
-      (data: any) => {
+      error: (data: any) => {
         this.generalData = [];
-      });
+      }
+    });
   }
 
   searchRoute(param: any) {

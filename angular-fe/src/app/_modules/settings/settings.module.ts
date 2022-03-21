@@ -1,7 +1,6 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { SettingsService } from '@app/_services';
 
 export function settingsProviderFactory(provider: SettingsService) {
@@ -16,7 +15,7 @@ export function settingsProviderFactory(provider: SettingsService) {
 })
 
 export class SettingsModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SettingsModule> {
     return {
       ngModule: SettingsModule,
       providers: [

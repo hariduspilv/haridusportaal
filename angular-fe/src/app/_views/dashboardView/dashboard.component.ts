@@ -21,7 +21,6 @@ import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicke
 import { BlockComponent, BlockContentComponent } from '@app/_assets/block';
 import { Subscription, Subject } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { ThrowStmt } from '@angular/compiler';
 import { takeUntil } from 'rxjs/operators';
 const moment = _moment;
 @Component({
@@ -232,8 +231,8 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pageLoading = true;
     this.setRoleSubscription = this.http
       .post(`${this.settings.url}/custom/login/setRole`, data)
-      .subscribe(
-        (response: any) => {
+      .subscribe({
+        next: (response: any) => {
           if (response['token']) {
             this.auth.refreshUser(response['token']);
             // this.router.navigateByUrl('/töölaud/taotlused');
@@ -244,13 +243,14 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
           this.pageLoading = false;
           this.redirectTo('/töölaud');
         },
-        (err) => {
+        error: (err) => {
           if (err['message'] || err['error']['message']) {
             this.error = true;
             this.alertsService
               .error(err['error']['message'] || err['message'], 'roles', 'roles', false, false);
           }
-        });
+        }
+      });
   }
 
   roleChange() {
