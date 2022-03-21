@@ -53,7 +53,7 @@ class OskaImportStudiesForm extends FormBase {
 
   public function validateForm(array &$form, FormStateInterface $form_state){
     $required_headers = [
-      'ametiala', 'oppevaldkond', 'oppesuund', 'oppekavaruhm', 'oppetase'
+      'ametiala', 'seotud_ametid', 'oppevaldkond', 'oppesuund', 'oppekavaruhm', 'oppetase'
     ];
     $all_files = $this->getRequest()->files->get('files', []);
     if (!empty($all_files['file'])) {

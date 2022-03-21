@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_oska;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\htm_custom_oska\Entity\OskaIndicatorEntity;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -12,7 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @package Drupal\htm_custom_oska
  */
 class ProcessOskaStudiesData {
-
 
   /**
    * {@inheritdoc}
@@ -28,6 +28,7 @@ class ProcessOskaStudiesData {
     $results = [];
     $object = [
       'ametiala' => false,
+      'seotud_ametid' => false,
       'oppevaldkond' => false,
       'oppesuund' => false,
       'oppekavaruhm' => false,
@@ -46,6 +47,18 @@ class ProcessOskaStudiesData {
         }
       }
 
+      // Since there can be several related jobs in one row then loop through them and get node id of each
+      $object['seotud_amet'] = [];
+      if($item['seotud_ametid']) {
+        $jobs = explode(',', $item['seotud_ametid']);
+        foreach($jobs as $job => $j) {
+          $object['seotud_amet'][] = self::checkEntityReference('node', [
+            'type' => 'oska_main_profession_page',
+            'field_profession' => true,
+            'title' => $j
+          ]);
+        }
+      }
       $object['ametiala'] = self::checkEntityReference('node', ['type' => 'oska_main_profession_page', 'title' =>  $item['ametiala']]);
       $object['oppevaldkond'] = is_numeric($item['oppevaldkond']) ? self::checkEntityReference('taxonomy_term', ['vid' => 'isced_f', 'field_code' => strlen((string)$item['oppevaldkond']) === 1 ? '0'.$item['oppevaldkond'] : $item['oppevaldkond']]) : FALSE;
       $object['oppesuund'] =  is_numeric($item['oppesuund']) ? self::checkEntityReference('taxonomy_term', ['vid' => 'isced_f', 'field_code' => strlen((string)$item['oppesuund']) === 2 ? '0'.$item['oppesuund'] : $item['oppesuund']]) : FALSE;
@@ -53,7 +66,6 @@ class ProcessOskaStudiesData {
       $object['oppetase'] = self::checkEntityReference('taxonomy_term', ['vid' => 'studyprogrammelevel', 'field_ehis_output' => $item['oppetase']]);
 
       if(!$object['ametiala']){
-
         $error_messag_func = function($values, $required_fields) {
           foreach($values as $key => $value){
             if(in_array($key, $required_fields) && $value === FALSE){
@@ -62,12 +74,13 @@ class ProcessOskaStudiesData {
           }
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object, $required_fields));
-      }elseif($object['ametiala'] && !$object['oppevaldkond'] && !$object['oppesuund'] && !$object['oppekavaruhm'] && !$object['oppetase']){
+      }elseif($object['ametiala'] && !$object['seotud_amet'] && !$object['oppevaldkond'] && !$object['oppesuund'] && !$object['oppekavaruhm'] && !$object['oppetase']){
         $error_messag_func = function() {
               return t('Only main profession entered');
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func());
       }else{
+        $results[$object['ametiala']]['field_job_link'][] = $object['seotud_amet'];
         $results[$object['ametiala']]['field_iscedf_broad'][] = $object['oppevaldkond'];
         $results[$object['ametiala']]['field_iscedf_narrow'][] = $object['oppesuund'];
         $results[$object['ametiala']]['field_iscedf_search_term'][] = $object['oppekavaruhm'];
@@ -80,6 +93,7 @@ class ProcessOskaStudiesData {
   }
 
   public static function ProcessOskaStudiesData($items, &$context){
+    # NB! job = amet & profession = ametiala (same node type, but they are two different content pages)
     //process only if no errors otherwise nothing
     if(empty($context['results']['error'])){
       if(empty($context['sandbox'])){
@@ -90,7 +104,18 @@ class ProcessOskaStudiesData {
 
       $context['results']['processed'] = [];
 
-      if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
+      // Remove existing related profession fields (from job node)
+      foreach($context['results']['values'] as $main_proffession => $paragraph_items){
+        foreach($paragraph_items['field_job_link'] as $value) {
+            foreach ($value as $old_job => $old_j_nid) {
+              $old_node = Node::load($old_j_nid);
+              $old_sidebar_paragraph_job = Paragraph::load($old_node->get('field_sidebar')->getValue()[0]['target_id']);
+              $old_sidebar_paragraph_job->get('field_related_profession')->setValue(null);
+            }
+          }
+        }
+
+        if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
         $i = $context['sandbox']['current_id'];
 
         foreach($context['results']['values'] as $main_proffession => $paragraph_items){
@@ -101,9 +126,17 @@ class ProcessOskaStudiesData {
           $sidebar_paragraph = Paragraph::load($main_profession_page->get('field_sidebar')->getValue()[0]['target_id']);
 
           $old_study_paragraphs = $sidebar_paragraph->get('field_iscedf_search_link')->getValue();
+          $old_job_paragraphs = $sidebar_paragraph->get('field_jobs')->getValue();
 
           #remove and delete old paragraphs from content
           $sidebar_paragraph->set('field_iscedf_search_link', null);
+          $sidebar_paragraph->set('field_jobs', null);
+          foreach($old_job_paragraphs as $paragraph){
+            $paragraph = Paragraph::load($paragraph['target_id']);
+            if($paragraph){
+              $paragraph->delete();
+            }
+          }
           foreach($old_study_paragraphs as $paragraph){
             $paragraph = Paragraph::load($paragraph['target_id']);
             if($paragraph){
@@ -114,11 +147,53 @@ class ProcessOskaStudiesData {
           $new_paragraphs = [];
 
           $paragraph = Paragraph::create([
-            'type' => 'iscedf_search'
+            'type' => 'iscedf_search',
           ]);
-          foreach($paragraph_items as $label => $value){
-            $paragraph->set($label, array_unique($value));
+
+          // Merge related job node id's into a single array
+          $merged_job_link = [];
+          foreach($paragraph_items['field_job_link'] as $value) {
+            foreach ($value as $merge_job => $merge_j_nid) {
+              $merged_job_link[] = $merge_j_nid;
+            }
           }
+          $paragraph_items['field_job_link'] = array_unique($merged_job_link);
+
+          foreach($paragraph_items as $label => $value){
+            if($label !== 'field_job_link') {
+              $paragraph->set($label, array_unique($value));
+            } else {
+              // For related jobs & related professions
+              foreach($value as $job => $j_nid) {
+                $node = Node::load($j_nid);
+
+                // Add related profession field to job node
+                $sidebar_paragraph_job = Paragraph::load($node->get('field_sidebar')->getValue()[0]['target_id']);
+                $sidebar_paragraph_job->get('field_related_profession')->appendItem($main_profession_page);
+                $sidebar_paragraph_job->save();
+
+                // Add related job paragraph to profession node
+                $job_paragraph = Paragraph::create([
+                  'type' => 'job',
+                ]);
+                $job_paragraph->set($label, [
+                  'uri' => 'entity:node/'.$j_nid,
+                  'title' => $node->getTitle()
+                ]);
+                $job_paragraph->set('field_job_name', $node->getTitle());
+                $job_paragraph->save();
+                $new_paragraph = [
+                  'target_id' => $job_paragraph->id(),
+                  'target_revision_id' => $job_paragraph->getRevisionId()];
+                $context['results']['processed'][] = $job_paragraph->id();
+
+                $sidebar_paragraph->get('field_jobs')->appendItem($new_paragraph);
+                $sidebar_paragraph->save();
+              }
+            }
+          }
+
+          // For paragraphs that are not related jobs
           $paragraph->save();
           $new_paragraph = [
             'target_id' => $paragraph->id(),
@@ -133,7 +208,8 @@ class ProcessOskaStudiesData {
           $context['message'] = $context['sandbox']['max'];
           $i++;
         }
-        $context['sandbox']['current_id']++;
+
+          $context['sandbox']['current_id']++;
 
         if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
           $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
@@ -169,9 +245,17 @@ class ProcessOskaStudiesData {
         $sidebar_paragraph = Paragraph::load($main_profession_page->get('field_sidebar')->getValue()[0]['target_id']);
 
         $old_study_paragraphs = $sidebar_paragraph->get('field_iscedf_search_link')->getValue();
+        $old_job_paragraphs = $sidebar_paragraph->get('field_jobs')->getValue();
 
         #remove and delete old paragraphs from content
-        $sidebar_paragraph->set('field_iscedf_search_link', NULL);
+        $sidebar_paragraph->set('field_iscedf_search_link', null);
+        $sidebar_paragraph->set('field_jobs', null);
+        foreach($old_job_paragraphs as $paragraph){
+          $paragraph = Paragraph::load($paragraph['target_id']);
+          if($paragraph){
+            $paragraph->delete();
+          }
+        }
         foreach($old_study_paragraphs as $paragraph){
           $paragraph = Paragraph::load($paragraph['target_id']);
           if($paragraph){
