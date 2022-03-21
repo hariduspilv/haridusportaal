@@ -350,13 +350,17 @@ EOT
 
         $self = $this;
         $author = $io->askAndValidate(
-            'Author [<comment>'.$author.'</comment>, n to skip]: ',
+            'Author ['.(is_string($author) ? '<comment>'.$author.'</comment>, ' : '') . 'n to skip]: ',
             function ($value) use ($self, $author) {
                 if ($value === 'n' || $value === 'no') {
                     return;
                 }
                 $value = $value ?: $author;
                 $author = $self->parseAuthorString($value);
+
+                if ($author['email'] === null) {
+                    return $author['name'];
+                }
 
                 return sprintf('%s <%s>', $author['name'], $author['email']);
             },
@@ -471,22 +475,25 @@ EOT
     /**
      * @private
      * @param  string $author
-     * @return array{name: string, email: string}
+     * @return array{name: string, email: string|null}
      */
     public function parseAuthorString($author)
     {
-        if (Preg::isMatch('/^(?P<name>[- .,\p{L}\p{N}\p{Mn}\'’"()]+) <(?P<email>.+?)>$/u', $author, $match)) {
-            if ($this->isValidEmail($match['email'])) {
-                return array(
-                    'name' => trim($match['name']),
-                    'email' => $match['email'],
-                );
+        if (Preg::isMatch('/^(?P<name>[- .,\p{L}\p{N}\p{Mn}\'’"()]+)(?:\s+<(?P<email>.+?)>)?$/u', $author, $match)) {
+            $hasEmail = isset($match['email']) && '' !== $match['email'];
+            if ($hasEmail && !$this->isValidEmail($match['email'])) {
+                throw new \InvalidArgumentException('Invalid email "'.$match['email'].'"');
             }
+
+            return array(
+                'name' => trim($match['name']),
+                'email' => $hasEmail ? $match['email'] : null,
+            );
         }
 
         throw new \InvalidArgumentException(
-            'Invalid author string.  Must be in the format: '.
-            'John Smith <john@example.com>'
+            'Invalid author string.  Must be in the formats: '.
+            'Jane Doe or John Smith <john@example.com>'
         );
     }
 
@@ -536,12 +543,6 @@ EOT
                         $requirement['version'],
                         $requirement['name']
                     ));
-                } else {
-                    // check that the specified version/constraint exists before we proceed
-                    list($name) = $this->findBestVersionAndNameForPackage($input, $requirement['name'], $platformRepo, $preferredStability, $checkProvidedVersions ? $requirement['version'] : null, 'dev', $fixed);
-
-                    // replace package name from packagist.org
-                    $requirement['name'] = $name;
                 }
 
                 $result[] = $requirement['name'] . ' ' . $requirement['version'];
@@ -576,21 +577,9 @@ EOT
                 }
                 $matches = array_values($matches);
 
-                $exactMatch = null;
-                $choices = array();
-                foreach ($matches as $position => $foundPackage) {
-                    $abandoned = '';
-                    if (isset($foundPackage['abandoned'])) {
-                        if (is_string($foundPackage['abandoned'])) {
-                            $replacement = sprintf('Use %s instead', $foundPackage['abandoned']);
-                        } else {
-                            $replacement = 'No replacement was suggested';
-                        }
-                        $abandoned = sprintf('<warning>Abandoned. %s.</warning>', $replacement);
-                    }
-
-                    $choices[] = sprintf(' <info>%5s</info> %s %s', "[$position]", $foundPackage['name'], $abandoned);
-                    if ($foundPackage['name'] === $package) {
+                $exactMatch = false;
+                foreach ($matches as $match) {
+                    if ($match['name'] === $package) {
                         $exactMatch = true;
                         break;
                     }
@@ -598,6 +587,26 @@ EOT
 
                 // no match, prompt which to pick
                 if (!$exactMatch) {
+                    $providers = $this->getRepos()->getProviders($package);
+                    if (count($providers) > 0) {
+                        array_unshift($matches, array('name' => $package, 'description' => ''));
+                    }
+
+                    $choices = array();
+                    foreach ($matches as $position => $foundPackage) {
+                        $abandoned = '';
+                        if (isset($foundPackage['abandoned'])) {
+                            if (is_string($foundPackage['abandoned'])) {
+                                $replacement = sprintf('Use %s instead', $foundPackage['abandoned']);
+                            } else {
+                                $replacement = 'No replacement was suggested';
+                            }
+                            $abandoned = sprintf('<warning>Abandoned. %s.</warning>', $replacement);
+                        }
+
+                        $choices[] = sprintf(' <info>%5s</info> %s %s', "[$position]", $foundPackage['name'], $abandoned);
+                    }
+
                     $io->writeError(array(
                         '',
                         sprintf('Found <info>%s</info> packages matching <info>%s</info>', count($matches), $package),
@@ -684,11 +693,16 @@ EOT
     /**
      * @param string $author
      *
-     * @return array<int, array{name: string, email: string}>
+     * @return array<int, array{name: string, email?: string}>
      */
     protected function formatAuthors($author)
     {
-        return array($this->parseAuthorString($author));
+        $author = $this->parseAuthorString($author);
+        if (null === $author['email']) {
+            unset($author['email']);
+        }
+
+        return array($author);
     }
 
     /**
@@ -887,7 +901,8 @@ EOT
         $platformRequirementFilter = PlatformRequirementFilterFactory::fromBoolOrList($ignorePlatformReqs);
 
         // find the latest version allowed in this repo set
-        $versionSelector = new VersionSelector($this->getRepositorySet($input, $minimumStability), $platformRepo);
+        $repoSet = $this->getRepositorySet($input, $minimumStability);
+        $versionSelector = new VersionSelector($repoSet, $platformRepo);
         $effectiveMinimumStability = $minimumStability ?: $this->getMinimumStability($input);
 
         $package = $versionSelector->findBestCandidate($name, $requiredVersion, $preferredStability, $platformRequirementFilter);
@@ -897,6 +912,22 @@ EOT
             // so if platform reqs are ignored we just take the user's word for it
             if ($platformRequirementFilter->isIgnored($name)) {
                 return array($name, $requiredVersion ?: '*');
+            }
+
+            // Check if it is a virtual package provided by others
+            $providers = $repoSet->getProviders($name);
+            if (count($providers) > 0) {
+                $constraint = '*';
+                if ($input->isInteractive()) {
+                    $constraint = $this->getIO()->askAndValidate('Package "<info>'.$name.'</info>" does not exist but is provided by '.count($providers).' packages. Which version constraint would you like to use? [<info>*</info>] ', function ($value) {
+                        $parser = new VersionParser();
+                        $parser->parseConstraints($value);
+
+                        return $value;
+                    }, 3, '*');
+                }
+
+                return array($name, $constraint);
             }
 
             // Check whether the package requirements were the problem

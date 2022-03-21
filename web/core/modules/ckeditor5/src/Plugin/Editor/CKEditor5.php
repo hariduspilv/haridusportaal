@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\ckeditor5\Plugin\Editor;
 
-use Drupal\ckeditor5\HTMLRestrictionsUtilities;
+use Drupal\ckeditor5\HTMLRestrictions;
 use Drupal\ckeditor5\Plugin\CKEditor5Plugin\Heading;
 use Drupal\ckeditor5\Plugin\CKEditor5PluginDefinition;
 use Drupal\ckeditor5\Plugin\CKEditor5PluginManagerInterface;
@@ -384,12 +384,19 @@ class CKEditor5 extends EditorBase implements ContainerFactoryPluginInterface {
     // due to isEnabled() returning false, that should still have its config
     // form provided:
     // 1 - A conditionally enabled plugin that does not depend on a toolbar item
-    // to be active.
+    // to be active AND the plugins it depends on are enabled.
     // 2 - A conditionally enabled plugin that does depend on a toolbar item,
     // and that toolbar item is active.
     if ($definition->hasConditions()) {
       $conditions = $definition->getConditions();
       if (!array_key_exists('toolbarItem', $conditions)) {
+        // The CKEditor 5 plugins this plugin depends on must be enabled.
+        if (array_key_exists('plugins', $conditions)) {
+          $all_plugins = $this->ckeditor5PluginManager->getDefinitions();
+          $dependencies = array_intersect_key($all_plugins, array_flip($conditions['plugins']));
+          $unmet_dependencies = array_diff_key($dependencies, $enabled_plugins);
+          return empty($unmet_dependencies);
+        }
         return TRUE;
       }
       elseif (in_array($conditions['toolbarItem'], $editor->getSettings()['toolbar']['items'], TRUE)) {
@@ -457,6 +464,15 @@ class CKEditor5 extends EditorBase implements ContainerFactoryPluginInterface {
 
     $form_state->set('ckeditor5_is_active', $already_using_ckeditor5);
     $form_state->set('ckeditor5_is_selected', $form_state->getValue(['editor', 'editor']) === 'ckeditor5');
+
+    // Disable inline form errors when using CKEditor 5 because it prevents
+    // useful error messages from vertical tabs from being visible to the user.
+    // @todo Remove this workaround in
+    //   https://www.drupal.org/project/drupal/issues/3263668
+    if ($form_state->get('ckeditor5_is_selected')) {
+      $element['#disable_inline_form_errors'] = TRUE;
+    }
+
     return $element;
   }
 
@@ -672,25 +688,32 @@ class CKEditor5 extends EditorBase implements ContainerFactoryPluginInterface {
     $pair = static::createEphemeralPairedEditor($submitted_editor, $submitted_filter_format);
 
     // When CKEditor 5 plugins are disabled in the form-based admin UI, the
-    // associated settings (if any) should be omitted too.
+    // associated settings (if any) should be omitted too, except for plugins
+    // that are enabled using `requiresConfiguration` (because whether they are
+    // enabled or not depends on the associated settings).
     $original_settings = $pair->getSettings();
     $enabled_plugins = $this->ckeditor5PluginManager->getEnabledDefinitions($pair);
+    $config_enabled_plugins = [];
+    foreach ($this->ckeditor5PluginManager->getDefinitions() as $id => $definition) {
+      if ($definition->hasConditions() && isset($definition->getConditions()['requiresConfiguration'])) {
+        $config_enabled_plugins[$id] = TRUE;
+      }
+    }
     $updated_settings = [
-      'plugins' => array_intersect_key($original_settings['plugins'], $enabled_plugins),
+      'plugins' => array_intersect_key($original_settings['plugins'], $enabled_plugins + $config_enabled_plugins),
     ] + $original_settings;
     $pair->setSettings($updated_settings);
 
     if ($pair->getFilterFormat()->filters('filter_html')->status) {
       // Compute elements provided by the current CKEditor 5 settings.
-      $elements = $this->ckeditor5PluginManager->getProvidedElements(array_keys($enabled_plugins), $pair);
+      $restrictions = new HTMLRestrictions($this->ckeditor5PluginManager->getProvidedElements(array_keys($enabled_plugins), $pair));
 
       // Compute eventual filter_html setting. Eventual as in: this is the list
       // of eventually allowed HTML tags.
       // @see \Drupal\filter\FilterFormatFormBase::submitForm()
       // @see ckeditor5_form_filter_format_form_alter()
-      $allowed_html = implode(' ', HTMLRestrictionsUtilities::toReadableElements($elements));
       $filter_html_config = $pair->getFilterFormat()->filters('filter_html')->getConfiguration();
-      $filter_html_config['settings']['allowed_html'] = $allowed_html;
+      $filter_html_config['settings']['allowed_html'] = $restrictions->toFilterHtmlAllowedTagsString();
       $pair->getFilterFormat()->setFilterConfig('filter_html', $filter_html_config);
     }
 
@@ -820,13 +843,8 @@ class CKEditor5 extends EditorBase implements ContainerFactoryPluginInterface {
     ] + $plugin_config;
 
     if ($this->moduleHandler->moduleExists('locale')) {
-      $ui_langcode = 'en';
-      $ckeditor_langcodes = $this->getLangcodes();
       $language_interface = $this->languageManager->getCurrentLanguage();
-      if (isset($ckeditor_langcodes[$language_interface->getId()])) {
-        $ui_langcode = $ckeditor_langcodes[$language_interface->getId()];
-      }
-      $settings['language']['ui'] = $ui_langcode;
+      $settings['language']['ui'] = _ckeditor5_get_langcode_mapping($language_interface->getId());
     }
 
     return $settings;
@@ -839,65 +857,11 @@ class CKEditor5 extends EditorBase implements ContainerFactoryPluginInterface {
     $plugin_libraries = $this->ckeditor5PluginManager->getEnabledLibraries($editor);
 
     if ($this->moduleHandler->moduleExists('locale')) {
-      $ui_langcode = 'en';
-      $ckeditor_langcodes = $this->getLangcodes();
       $language_interface = $this->languageManager->getCurrentLanguage();
-      if (isset($ckeditor_langcodes[$language_interface->getId()])) {
-        $ui_langcode = $ckeditor_langcodes[$language_interface->getId()];
-      }
-      $plugin_libraries[] = 'core/ckeditor5.translations.' . $ui_langcode;
+      $plugin_libraries[] = 'core/ckeditor5.translations.' . _ckeditor5_get_langcode_mapping($language_interface->getId());
     }
 
     return $plugin_libraries;
-  }
-
-  /**
-   * Returns a list of language codes supported by CKEditor 5.
-   *
-   * @return array
-   *   An associative array keyed by language codes.
-   */
-  protected function getLangcodes(): array {
-    // Cache the file system based language list calculation because this would
-    // be expensive to calculate all the time. The cache is cleared on core
-    // upgrades which is the only situation the CKEditor file listing should
-    // change.
-    $langcode_cache = $this->cache->get('ckeditor5.langcodes');
-    if (!empty($langcode_cache)) {
-      $langcodes = $langcode_cache->data;
-    }
-    if (empty($langcodes)) {
-      $langcodes = [];
-      // Collect languages included with CKEditor 5 based on file listing.
-      $files = scandir('core/assets/vendor/ckeditor5/translations');
-      foreach ($files as $file) {
-        if ($file[0] !== '.' && preg_match('/\.js$/', $file)) {
-          $langcode = basename($file, '.js');
-          $langcodes[$langcode] = $langcode;
-        }
-      }
-      $this->cache->set('ckeditor5.langcodes', $langcodes);
-    }
-
-    // Get language mapping if available to map to Drupal language codes.
-    // This is configurable in the user interface and not expensive to get, so
-    // we don't include it in the cached language list.
-    $language_mappings = $this->moduleHandler->moduleExists('language') ? language_get_browser_drupal_langcode_mappings() : [];
-    foreach ($langcodes as $langcode) {
-      // If this language code is available in a Drupal mapping, use that to
-      // compute a possibility for matching from the Drupal langcode to the
-      // CKEditor langcode.
-      // For instance, CKEditor uses the langcode 'no' for Norwegian, Drupal
-      // uses 'nb'. This would then remove the 'no' => 'no' mapping and replace
-      // it with 'nb' => 'no'. Now Drupal knows which CKEditor translation to
-      // load.
-      if (isset($language_mappings[$langcode]) && !isset($langcodes[$language_mappings[$langcode]])) {
-        $langcodes[$language_mappings[$langcode]] = $langcode;
-        unset($langcodes[$langcode]);
-      }
-    }
-
-    return $langcodes;
   }
 
 }

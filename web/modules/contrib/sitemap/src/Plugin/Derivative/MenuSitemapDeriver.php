@@ -6,11 +6,13 @@ use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * {@inheritdoc}
  */
 class MenuSitemapDeriver extends DeriverBase implements ContainerDeriverInterface {
+  use StringTranslationTrait;
 
   /**
    * The menu storage.
@@ -43,11 +45,11 @@ class MenuSitemapDeriver extends DeriverBase implements ContainerDeriverInterfac
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
     foreach ($this->menuStorage->loadMultiple() as $menu => $entity) {
-      /* @var $entity \Drupal\system\Entity\Menu */
+      /** @var \Drupal\system\Entity\Menu $entity */
       $this->derivatives[$menu] = $base_plugin_definition;
-      $this->derivatives[$menu]['title'] = t('Menu: @menu', ['@menu' => $entity->label()]);
+      $this->derivatives[$menu]['title'] = $this->t('Menu: @menu', ['@menu' => $entity->label()]);
       $this->derivatives[$menu]['description'] = $entity->getDescription();
-      $this->derivatives[$menu]['settings']['title'] = '';
+      $this->derivatives[$menu]['settings']['title'] = NULL;
       $this->derivatives[$menu]['menu'] = $entity->id();
       $this->derivatives[$menu]['config_dependencies']['config'] = [$entity->getConfigDependencyName()];
     }

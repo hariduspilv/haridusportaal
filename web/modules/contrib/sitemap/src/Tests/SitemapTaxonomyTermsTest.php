@@ -36,7 +36,7 @@ class SitemapTaxonomyTermsTest extends SitemapTaxonomyTestBase {
 
     // Create test node with terms.
     $this->createNodeWithTerms($this->terms);
-    // @TODO: Figure out proper cache tags.
+    // @todo Figure out proper cache tags.
     drupal_flush_all_caches();
 
     // Require at least one node for taxonomy terms to show up.
@@ -62,8 +62,7 @@ class SitemapTaxonomyTermsTest extends SitemapTaxonomyTestBase {
     $this->assertSession()->linkExists($this->terms[1]->label());
     $this->assertSession()->linkExists($this->terms[2]->label());
 
-
-    // TODO: Check for empty <li>s as well.
+    // @todo Check for empty <li>s as well.
   }
 
   /**
@@ -92,9 +91,8 @@ class SitemapTaxonomyTermsTest extends SitemapTaxonomyTestBase {
     $elements = $this->cssSelect(".sitemap-plugin--vocabulary .count:contains('(1)')");
     $this->assertEquals(count($elements), 3, 'Node counts included.');
 
-    // TODO: Add another node and check counts.
-    //@TODO: Test count display when parent term does not meet threshold.
-
+    // @todo Add another node and check counts.
+    // @todo Test count display when parent term does not meet threshold.
   }
 
   /**
@@ -162,8 +160,8 @@ class SitemapTaxonomyTermsTest extends SitemapTaxonomyTestBase {
     foreach ($this->terms as $term) {
       $this->assertSession()->pageTextContains($term->label());
     }
-    // TODO: Check for empty <li>s as well.
 
+    // @todo Check for empty <li>s as well.
     // Test show_count when parent term does not meet threshold.
     $this->saveSitemapForm(["plugins[vocabulary:$vid][settings][show_count]" => TRUE]);
     $this->drupalGet('/sitemap');
@@ -208,11 +206,9 @@ class SitemapTaxonomyTermsTest extends SitemapTaxonomyTestBase {
     }
   }
 
-  /**
-   * @TODO: Tests customized term links.
-   *//*
-  public function testTermCustomLinks() {
-  }*/
+  /* @todo Tests customized term links. */
+  /* Public function testTermCustomLinks() { */
+  /* }. */
 
   /**
    * Helper function for testing link settings.
@@ -247,4 +243,5 @@ class SitemapTaxonomyTermsTest extends SitemapTaxonomyTestBase {
     }
 
   }
+
 }
