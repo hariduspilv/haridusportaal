@@ -13,7 +13,7 @@ use Drupal\sitemap\SitemapBase;
  *   title = @Translation("Book name"),
  *   description = @Translation("Book type"),
  *   settings = {
- *     "title" = "",
+ *     "title" = NULL,
  *     "show_expanded" = TRUE,
  *   },
  *   deriver = "Drupal\sitemap\Plugin\Derivative\BookSitemapDeriver",
@@ -33,7 +33,7 @@ class Book extends SitemapBase {
       // Provide the book name as the default title.
       $bid = $this->getPluginDefinition()['book'];
       $book = \Drupal::entityTypeManager()->getStorage('node')->load($bid);
-      $form['title']['#default_value'] = $this->settings['title'] ?: $book->label();
+      $form['title']['#default_value'] = $this->settings['title'] ?? $book->label();
 
       $form['show_expanded'] = [
         '#type' => 'checkbox',

@@ -2,7 +2,7 @@
 
 namespace Drupal\sitemap\Tests;
 
-use \Drupal\node\NodeInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Test the display of books based on sitemap settings.
@@ -12,6 +12,7 @@ use \Drupal\node\NodeInterface;
 class SitemapBookTest extends SitemapBrowserTestBase {
 
   use SitemapTestTrait;
+  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}
@@ -21,14 +22,14 @@ class SitemapBookTest extends SitemapBrowserTestBase {
   /**
    * The parent book node.
    *
-   * @var NodeInterface
+   * @var \Drupal\node\NodeInterface
    */
   protected $book;
 
   /**
    * Nodes that make up the content of the book.
    *
-   * @var NodeInterface[]
+   * @var \Drupal\node\NodeInterface[]
    */
   protected $nodes;
 
@@ -100,11 +101,11 @@ class SitemapBookTest extends SitemapBrowserTestBase {
     // Configure sitemap to show the test book.
     $this->saveSitemapForm(['plugins[book:' . $bid . '][enabled]' => TRUE]);
 
-    $this->titleTest($this->book->label(), 'book', $bid,  TRUE);
+    $this->titleTest($this->book->label(), 'book', $bid, TRUE);
   }
 
-  // @TODO: test book crud
-  // @TODO: test multiple books
+  /* @todo test book crud */
+  /* @todo test multiple books */
 
   /**
    * Creates a new book with a page hierarchy. Adapted from BookTest.
@@ -135,12 +136,12 @@ class SitemapBookTest extends SitemapBrowserTestBase {
   /**
    * Creates a book node. From BookTest.
    *
-   * @param int|string $book_nid
+   * @param int|string $bid
    *   A book node ID or set to 'new' to create a new book.
    * @param int|null $parent
    *   (optional) Parent book reference ID. Defaults to NULL.
    *
-   * @return NodeInterface
+   * @return \Drupal\node\NodeInterface
    *   Returns object
    *
    * @throws \Exception
@@ -148,17 +149,17 @@ class SitemapBookTest extends SitemapBrowserTestBase {
   protected function createBookNode($bid, $parent = NULL) {
     $edit = [
       'title[0][value]' => $this->randomMachineName(10),
-      'book[bid]' => $bid
+      'book[bid]' => $bid,
     ];
 
     if ($parent !== NULL) {
-      $this->drupalPostForm('node/add/book', $edit, t('Change book (update list of parents)'));
+      $this->drupalPostForm('node/add/book', $edit, $this->t('Change book (update list of parents)'));
 
       $edit['book[pid]'] = $parent;
-      $this->drupalPostForm(NULL, $edit, t('Save'));
+      $this->drupalPostForm(NULL, $edit, $this->t('Save'));
     }
     else {
-      $this->drupalPostForm('node/add/book', $edit, t('Save'));
+      $this->drupalPostForm('node/add/book', $edit, $this->t('Save'));
     }
 
     return $this->drupalGetNodeByTitle($edit['title[0][value]']);

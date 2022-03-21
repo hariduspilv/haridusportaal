@@ -1,14 +1,14 @@
 <?php
 
-use Drupal\taxonomy\VocabularyInterface;
-use Drupal\system\MenuInterface;
-use Drupal\node\NodeInterface;
 /**
  * @file
  * Provides sitemap functionality.
  */
 
-use \Drupal\Component\Utility\Html;
+use Drupal\taxonomy\VocabularyInterface;
+use Drupal\system\MenuInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Component\Utility\Html;
 
 /**
  * Implements hook_theme().
@@ -53,17 +53,21 @@ function sitemap_theme() {
       ],
       'file' => 'sitemap.theme.inc',
     ],
-    'menu__sitemap' => [
-      'base hook' => 'menu',
+    'sitemap_menu' => [
+      'variables' => [
+        'menu_name' => NULL,
+        'items' => [],
+        'attributes' => [],
+      ],
     ],
   ];
 }
 
 /**
- * Implements hook_theme_suggestions_sitemap_item
+ * Implements hook_theme_suggestions_sitemap_item().
  */
 function sitemap_theme_suggestions_sitemap_item(array $variables) {
-  $suggestions = array();
+  $suggestions = [];
 
   if (isset($variables['sitemap'])) {
     if ($id = $variables['sitemap']->getPluginDefinition()['id']) {
@@ -90,7 +94,7 @@ function sitemap_theme_suggestions_sitemap_item(array $variables) {
 function sitemap_theme_suggestions_menu_alter(array &$suggestions, array $variables) {
   if (!empty($variables['theme_hook_original'])) {
     if ($variables['theme_hook_original'] == 'menu__sitemap') {
-      $menu_name =  strtr($variables['menu_name'], '-', '_');
+      $menu_name = strtr($variables['menu_name'], '-', '_');
       array_unshift($suggestions, 'menu__' . $menu_name);
       $suggestions[] = 'menu__sitemap__' . $menu_name;
     }
@@ -140,8 +144,8 @@ function sitemap_taxonomy_vocabulary_delete(VocabularyInterface $vocabulary) {
  * Implements hook_ENTITY_TYPE_delete().
  */
 function sitemap_menu_delete(MenuInterface $menu) {
-  // @TODO
-  //_sitemap_clear_plugin_cache();
+  // @todo fix this.
+  // _sitemap_clear_plugin_cache();
 }
 
 /**
@@ -149,7 +153,7 @@ function sitemap_menu_delete(MenuInterface $menu) {
  */
 function sitemap_node_delete(NodeInterface $node) {
   if (\Drupal::moduleHandler()->moduleExists('book')) {
-    // @TODO: Can we tell if the deleted node was a parent book node?
+    // @todo Can we tell if the deleted node was a parent book node?
     _sitemap_clear_plugin_cache();
   }
 }
