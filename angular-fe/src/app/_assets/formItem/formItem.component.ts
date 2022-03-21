@@ -313,7 +313,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         if (this.focused) {
           this.filledField = true;
         }
-
+				if (this.isMobile && !action) {
+					this.onChange.emit();
+				}
       } else {
         this.filledField = this.field && (this.field?.length > 0 || typeof this.field === 'object')
           || (typeof this.field === 'number' && (this.field || this.field === 0));
