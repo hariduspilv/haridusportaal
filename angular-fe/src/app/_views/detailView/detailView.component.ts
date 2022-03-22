@@ -51,7 +51,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   private getSidebar(): void {
     const variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
       nid: this.data.nid,
     };
 
@@ -147,7 +147,12 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     const path = this.settings.query(this.queryKey, variables);
     this.sidebar = undefined;
     const subscription = this.http.get(path).subscribe((response) => {
-      try {
+			console.log(response['data']['route']['languageSwitchLinks']);
+			if (response['data']['route']['languageSwitchLinks']) {
+				this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
+			}
+
+			try {
         this.origData = response['data']['route']['entity'];
         this.parseData(response['data']['route']['entity']);
       } catch (err) {

@@ -74,7 +74,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
 
   // ALL PAGE CONFIG
   path: string;
-  lang: string = this.settings.activeLang;
+  lang: string = this.settings.currentAppLanguage;
   eventList: any = false;
   eventListRaw: any;
   view: string;

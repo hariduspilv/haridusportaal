@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import {
-  AlertsService,
-  AnalyticsService,
-  AuthService,
-  ModalService,
-  SettingsService,
-  SidemenuService,
+	AlertsService,
+	AnalyticsService,
+	AuthService, LanguageCodes,
+	ModalService,
+	SettingsService,
+	SidemenuService,
 } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -55,6 +55,8 @@ export class HeaderComponent implements OnInit {
     phoneNumber: ['', Validators.required],
   });
 
+	public availableLanguages: Record<string, string | LanguageCodes>[];
+
   constructor(
     public sidemenuService: SidemenuService,
     public modalService: ModalService,
@@ -69,8 +71,7 @@ export class HeaderComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private analytics: AnalyticsService,
     private deviceDetector: DeviceDetectorService,
-  ) {
-  }
+  ) {	this.availableLanguages = settings.availableLanguages; }
 
   @HostBinding('class') get hostClasses(): string {
     return `header header--${this.theme}`;
@@ -266,4 +267,18 @@ export class HeaderComponent implements OnInit {
     this.getAuthMethods();
     this.setHamburgerStyles();
   }
+
+	changeLanguage(code: LanguageCodes) {
+		this.settings.currentAppLanguage = code;
+		this.validatePath(code);
+	}
+
+	private validatePath(code: LanguageCodes): void {
+		const newUrl = this.settings.currentLanguageSwitchLinks.find((link) => link.language.id === code).url.path;
+		this.navigate(newUrl);
+	}
+
+	private navigate(path: string) {
+		this.router.navigate([path]);
+	}
 }

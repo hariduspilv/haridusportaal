@@ -146,7 +146,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
 
   getTableData() {
     const variables = {
-			lang: this.settingsService.activeLang,
+			lang: this.settingsService.currentAppLanguage,
     };
     const query = this.settingsService.query('oskaResultPageTable', variables);
     const subscription = this.http.get(query).subscribe({

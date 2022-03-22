@@ -29,7 +29,7 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
     email: ['', [Validators.required, Validators.email]],
   });
   @ViewChild('scrollTarget') public scrollTarget;
-  private lang: string = this.settings.activeLang;
+  private lang: string = this.settings.currentAppLanguage;
   private subscriptions: Subscription[] = [];
   private tags: string = '';
 

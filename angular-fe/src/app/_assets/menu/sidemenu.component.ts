@@ -114,7 +114,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   private getData(init: boolean = false): void {
     const variables = {
-      language: this.settings.activeLang,
+      language: this.settings.currentAppLanguage,
     };
     const path = this.settings.query('getMenu', variables);
     // force to not use disk cache
@@ -146,7 +146,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
       if (item.links && item.links.length) {
         const has = this.hasActiveInTree(item.links, path);
-  
+
         if (match || has) {
           item.expanded = true;
           item.active = true;

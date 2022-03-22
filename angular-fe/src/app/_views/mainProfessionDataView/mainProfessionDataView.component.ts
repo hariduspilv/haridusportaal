@@ -20,7 +20,7 @@ export class MainProfessionDataViewComponent implements OnInit{
 
   private getData():void {
     const variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('oskaMainProfessionComparsionPage', variables);

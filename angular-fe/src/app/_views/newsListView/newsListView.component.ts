@@ -75,7 +75,7 @@ export class NewsListViewComponent implements AfterViewInit {
   getTags() {
 
     const variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('getNewsTags', variables);

@@ -51,7 +51,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   getTypes() {
 
     let variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('getEventTypes', variables);
@@ -114,7 +114,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
 
   getTags() {
     let variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
     };
     const path = this.settings.query('getEventTags', variables);
     let tagSubscription = this.http.get(path).subscribe((response: any) => {

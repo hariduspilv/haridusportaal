@@ -214,7 +214,7 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
   getTags() {
 
     const variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('getSchoolFilterOptions', variables);

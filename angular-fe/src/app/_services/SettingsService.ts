@@ -1,9 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Subject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {ActivatedRoute} from '@angular/router';
 import {getLangCode} from '@app/_core/utility';
+
+export enum LanguageCodes {
+	ESTONIAN = 'et',
+	ENGLISH = 'en',
+	RUSSIAN = 'ru',
+}
 
 @Injectable({
 	providedIn: 'root',
@@ -13,7 +19,7 @@ export class SettingsService {
 		private http: HttpClient,
 		public route: ActivatedRoute
 ) {
-		this.url = `${environment.API_URL}${this.activeLang === 'ET' ? '' : `/${this.activeLang.toLowerCase()}`}`;
+		this.url = `${environment.API_URL}${this.activeLang === LanguageCodes.ESTONIAN ? '' : `/${this.activeLang.toLowerCase()}`}`;
 		this.ehisUrl = environment.EHIS_URL;
 	}
 
@@ -24,9 +30,25 @@ export class SettingsService {
 	public error: boolean = false;
 	public data: any;
 	public compareObservable = new Subject<any>();
-	public activeLang: string = getLangCode(this.route);
 
-	// this.activeLang === 'ET' ? '' : this.activeLang.toLowerCase()
+	availableLanguages: Record<string, string | LanguageCodes>[] = [
+		{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
+		{ label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
+		{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
+	];
+	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN; // getLangCode();
+	activeLang$ = new BehaviorSubject(this.activeLang);
+	get currentAppLanguage() { return this.activeLang;	}
+	set currentAppLanguage(code: LanguageCodes) {
+		document.documentElement.lang = code;
+		if (this.activeLang === code) {	return;	}
+		this.activeLang = code;
+		this.activeLang$.next(code);
+	}
+
+	private languageSwitchLinks: any;
+	get currentLanguageSwitchLinks() { return this.languageSwitchLinks; }
+	set currentLanguageSwitchLinks(links: any) { this.languageSwitchLinks = links; }
 
 	/**
 	 * Finds an entity from objects
@@ -49,6 +71,12 @@ export class SettingsService {
 	 * @returns - url string to use in http request
 	 */
 	public query(name: string = '', variables: object = {}) {
+		if (variables && variables['path'] && this.activeLang !== LanguageCodes.ESTONIAN) {
+			Object.assign(variables, {
+				path: `${this.activeLang}${variables['path']}`
+			});
+		}
+
 		const requestName = this.get(`request.${name}`);
 		let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
 		path = `${path}&variables=${encodeURI(JSON.stringify({
