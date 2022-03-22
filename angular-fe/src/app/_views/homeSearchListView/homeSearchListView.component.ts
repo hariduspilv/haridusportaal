@@ -21,7 +21,7 @@ export class HomeSearchListViewComponent {
   public suggestionSubscription: Subscription;
   public breadcrumbs: any = false;
   public path: any;
-  public lang = 'et';
+  public lang = this.settings.activeLang.toLowerCase();
   public param: string = '';
   public loading: boolean = true;
   public allFilters: boolean = true;

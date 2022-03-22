@@ -138,7 +138,7 @@ export class SchoolFundingViewComponent implements OnInit {
 
   getFilters() {
     const variables = {
-      lang: 'ET',
+			lang: this.settingsService.activeLang,
     };
     const query = this.settingsService.query('subsidyProjectFilters', variables);
     this.http.get(query).subscribe(({ data }: any) => {
