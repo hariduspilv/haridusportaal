@@ -1,4 +1,5 @@
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {LanguageCodes} from "@app/_services";
 
 export function focus(id: string) {
   setTimeout(() => {
@@ -46,7 +47,7 @@ export function removeLanguageCode(path: string): string {
   return path;
 }
 
-export function getLangCode(route: ActivatedRoute) {
+export function getLangCode(): LanguageCodes {
 	let langCode = window.location.pathname.split('/')[1];
-	return langCode?.length === 2 ? langCode.toUpperCase() : 'ET'
+	return <LanguageCodes>(langCode?.length === 2 ? langCode : LanguageCodes.ESTONIAN)
 }

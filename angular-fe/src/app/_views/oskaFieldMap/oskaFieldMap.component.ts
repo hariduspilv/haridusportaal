@@ -14,7 +14,7 @@ import { SettingsService, MapService } from '@app/_services';
 })
 
 export class OskaFieldMapComponent extends FiltersService implements OnInit, OnDestroy {
-  lang: string = this.settings.activeLang;
+  lang: string = this.settings.currentAppLanguage;
   subscriptions: Subscription[] = [];
   parseFloat = parseFloat;
   toString = toString;

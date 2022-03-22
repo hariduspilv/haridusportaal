@@ -195,7 +195,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   getFilters() {
 
     const variables = {
-      lang: this.settings.activeLang,
+      lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('studyProgrammeFilterOptions', variables);

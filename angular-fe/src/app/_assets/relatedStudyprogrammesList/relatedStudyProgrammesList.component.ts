@@ -47,7 +47,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
     this.loading = this.loadingMore ? false : true;
     const variables = {
       offset: this.page * 24,
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
       limit: 24,
     };
 
