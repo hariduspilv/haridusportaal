@@ -71,8 +71,8 @@ export class CertificatesCheckDetailComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.http.post('https://htm.wiseman.ee/certificate-public', this.model.value).subscribe(
-      (response: any) => {
+    this.http.post('https://htm.wiseman.ee/certificate-public', this.model.value).subscribe({
+      next: (response: any) => {
         if (response.value && response.value.tunnistus === null) {
           this.alertsService
             .error(response.value.teade, 'certificateCheck', false);
@@ -85,10 +85,11 @@ export class CertificatesCheckDetailComponent implements OnInit {
         }
         this.loading = false;
       },
-      (error) => {
+      error: (error) => {
         this.alertsService.error(this.translate.get('errors.request'), 'certificateCheck', false);
         this.loading = false;
-      });
+      }
+    });
   }
 
   ngOnInit() {

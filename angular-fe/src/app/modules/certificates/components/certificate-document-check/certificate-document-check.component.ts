@@ -86,8 +86,8 @@ export class CertificateDocumentCheckComponent implements OnInit {
           this.model.value.document_id.replace(/\s/g, '').replace(/\//g, "'"),
         )}/JSON`,
       )
-      .subscribe(
-        (res: any) => {
+      .subscribe({
+        next: (res: any) => {
           this.loading = false;
           if (res.body.vastuseKood === 0) {
             const string = this.translate
@@ -126,7 +126,7 @@ export class CertificateDocumentCheckComponent implements OnInit {
             });
           },                1000);
         },
-        (error) => {
+        error: (error) => {
           this.alertsService.error(
             this.translate.get('errors.request'),
             'documentCheck',
@@ -139,7 +139,7 @@ export class CertificateDocumentCheckComponent implements OnInit {
             });
           },                1000);
         },
-      );
+      });
   }
 
   private subscribeToAuth() {

@@ -5,7 +5,7 @@
  * Installation functions for Sitemap module.
  */
 
-use \Drupal\sitemap\Plugin\Sitemap\Vocabulary;
+use Drupal\sitemap\Plugin\Sitemap\Vocabulary;
 
 /**
  * Change sitemap configuration page permission to administer sitemap.
@@ -20,8 +20,7 @@ function sitemap_update_8101() {
 }
 
 /**
- * Update the CSS configuration setting to reflect the change in option wording
- * (from negation to affirmation).
+ * Update the CSS configuration setting to reflect the change in option wording.
  */
 function sitemap_update_8102(&$sandbox) {
   $config_factory = \Drupal::configFactory();
@@ -141,9 +140,12 @@ function sitemap_update_8200(&$sandbox) {
  * Helper function to get a book title for the 2.x settings update.
  *
  * @param int $bid
- * @param boolean $show_title
+ *   The book id.
+ * @param bool $show_title
+ *   Determines if the title is shown.
  *
  * @return string
+ *   Returns the book label.
  */
 function sitemap_book_title_update($bid, $show_title) {
   if (!$show_title) {
@@ -161,9 +163,12 @@ function sitemap_book_title_update($bid, $show_title) {
  * Helper function to get a menu title from 1.x menu settings.
  *
  * @param string $menu_id
+ *   The menu's id.
  * @param bool $show_title
+ *   Determines if the title is shown.
  *
  * @return string
+ *   Returns the title.
  */
 function sitemap_menu_title_update($menu_id, $show_title) {
   $config_factory = \Drupal::configFactory();
@@ -192,8 +197,10 @@ function sitemap_menu_title_update($menu_id, $show_title) {
  * Helper function to get a vocabulary title for the 2.x settings update.
  *
  * @param string $vid
+ *   The vocabulary id.
  *
  * @return string
+ *   Returns the vocabulary name.
  */
 function sitemap_vocab_title_update($vid) {
   $config_factory = \Drupal::configFactory();
@@ -206,8 +213,10 @@ function sitemap_vocab_title_update($vid) {
  * Helper function to update the term_depth setting.
  *
  * @param int $value
+ *   The new Deph vocabulary value.
  *
  * @return int
+ *   Returns the value.
  */
 function sitemap_vocab_depth_update($value) {
   if ($value == -1 || $value > Vocabulary::DEPTH_MAX) {
@@ -220,8 +229,10 @@ function sitemap_vocab_depth_update($value) {
  * Helper function to update the term_threshold and forum_threshold settings.
  *
  * @param int $value
+ *   The value to update the term_threshold and forum_threshold settings.
  *
  * @return int
+ *   Returns the value.
  */
 function sitemap_vocab_threshold_update($value) {
   if ($value == -1) {

@@ -64,7 +64,6 @@ export class MessageViewComponent implements OnInit{
       (res) => {
         this.router.navigate(['../'], { relativeTo: this.route });
       },
-      (err) => {},
     );
   }
   ngOnDestroy(): void {

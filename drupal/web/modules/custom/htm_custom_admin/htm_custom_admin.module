@@ -70,11 +70,28 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
     unset($form['status']['widget']['#options']['_none']);
   }
 
+  if ($form_id === 'node_oska_main_profession_page_form' || $form_id === 'node_oska_main_profession_page_edit_form') {
+    // If we have job content page then don't show related jobs
+    $form['field_sidebar']['widget']['0']['subform']['field_related_profession']['#states'] = [
+      'invisible' => [
+        ':input[name="field_profession[value]"]' => [
+          'checked' => false
+        ]
+      ]
+    ];
+    // If we have profession content page then don't show related professions
+    $form['field_sidebar']['widget']['0']['subform']['field_jobs']['#states'] = [
+      'invisible' => [
+        ':input[name="field_profession[value]"]' => [
+          'checked' => true
+        ]
+      ]
+    ];
+  }
+
   if($form_id === 'system_performance_settings'){
     $form['caching']['page_cache_maximum_age']['#options']['2592000'] = t('1 month');
   }
-
-
 }
 
 /**
@@ -137,8 +154,10 @@ function htm_custom_admin_validate(&$form, FormStateInterface $form_state){
         $start = $fregdate['field_registration_first_date'][0]['value'];
         $end = $fregdate['field_registration_last_date'][0]['value'];
 
-        //get fields for error display
-        if(!is_array($end) && !is_array($start)){
+        // get fields for error display
+        if(!$end || !$start){
+            $form_state->setErrorByName($first_rform_element, t('Both registration start and end date must be set'));
+        }else if(!is_array($end) && !is_array($start)){
           if($start->format('U') > $end->format('U')){
             $form_state->setErrorByName($first_rform_element, t('Registration start date must be smaller than end date'));
             $form_state->setErrorByName($second_rform_element, t('Registration end date must be greater than start date'));

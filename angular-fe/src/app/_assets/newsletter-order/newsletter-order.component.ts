@@ -168,16 +168,17 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
     const element = document.getElementById('blockTop');
     this.scrollElementIntoView(element);
     const query = `${this.settings.query('newsletterSignup')}`;
-    const register = this.http.post(query, data).subscribe(
-      (response) => {
+    const register = this.http.post(query, data).subscribe({
+      next: (response) => {
         this.subscribedStatus = true;
         register.unsubscribe();
       },
-      (data) => {
+      error: (data) => {
         this.subscribedStatus = true;
         this.subscribedFailure = data;
         register.unsubscribe();
-      });
+      }
+    });
 
     this.subscriptions = [...this.subscriptions];
   }

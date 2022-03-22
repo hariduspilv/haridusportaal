@@ -656,7 +656,8 @@ export class ChartComponent implements OnInit {
       }
 			const path = this.settings.query('googleChartData', tmpVariables);
 			this.requestSubscription[id]
-				= this.http.get(path).subscribe((response) => {
+				= this.http.get(path).subscribe({
+          next: (response) => {
             const data = response['data'].GoogleChartQuery.map((item) => {
               const type = variables['graphType'];
 
@@ -680,9 +681,10 @@ export class ChartComponent implements OnInit {
             this.requestSubscription[id].unsubscribe();
             this.requestSubscription[id] = false;
           },
-          (err) => {
+          error: (err) => {
             this.filtersData[current.id].loading = false;
-          });
+          }
+        });
     },                                    300);
 
   }
