@@ -33,6 +33,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
+  private languageSub: Subscription = new Subscription();
   private initialSub = false;
   private initialAutoOpen = false;
   private focusBounce: any;
@@ -70,6 +71,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   public closeSidemenu(): void {
     this.sidemenuService.close();
   }
+
+	private subscribeToLanguage(): void {
+		this.languageSub = this.settings.activeLang$.subscribe(() => {
+			this.getData(true);
+		});
+	}
 
   private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
@@ -225,6 +232,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.subscribeToAuth();
     this.subscribeToService();
     this.subscribeToRouter();
+		this.subscribeToLanguage();
     this.getData(true);
   }
 
@@ -232,5 +240,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.routerSub.unsubscribe();
     this.authSub.unsubscribe();
     this.subscription.unsubscribe();
+		this.languageSub.unsubscribe();
   }
 }
