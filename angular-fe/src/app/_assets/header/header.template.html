@@ -35,6 +35,7 @@
         </button>
 
 				<button *ngFor="let language of availableLanguages"
+								style="cursor: pointer"
 								(click)="changeLanguage(language.code)">
 					{{ language.label | translate }}
 				</button>
