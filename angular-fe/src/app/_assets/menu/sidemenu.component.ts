@@ -114,14 +114,14 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   private getData(init: boolean = false): void {
     const variables = {
-      language: this.settings.currentAppLanguage,
+      language: this.settings.currentAppLanguage.toUpperCase(),
     };
     const path = this.settings.query('getMenu', variables);
     // force to not use disk cache
     this.http.get(path, {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
     }).subscribe((response: IMenuResponse) => {
-      this.data = response.data.menu.links;
+			this.data = response.data.menu.links;
       // Set all the first level menus as such
       this.data.forEach((item: IMenuData) => item.firstLevel = true);
       this.cdr.detectChanges();

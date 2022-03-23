@@ -147,7 +147,6 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     const path = this.settings.query(this.queryKey, variables);
     this.sidebar = undefined;
     const subscription = this.http.get(path).subscribe((response) => {
-			console.log(response['data']['route']['languageSwitchLinks']);
 			if (response['data']['route']['languageSwitchLinks']) {
 				this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
 			}

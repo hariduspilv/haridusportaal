@@ -63,17 +63,17 @@ export class StudyListComponent implements OnInit, OnDestroy {
 	}
 
   private studyListViewQuery(parameters: StudyListViewQueryParameters, loadMoreContent?: boolean) {
-    this.loading = {
+		this.loading = {
       list: !loadMoreContent,
       loadMore: loadMoreContent,
     };
     const requestParameters = StudyUtility.generateStudyListViewRequestParameters(
       parameters, this.offsetParameters);
-    this.api.studyListViewQuery(requestParameters)
+		this.api.studyListViewQuery(requestParameters)
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe({
         next: (response: StudyListViewQueryResponse) => {
-          const { entities, count } = response.data.nodeQuery;
+					const { entities, count } = response.data.nodeQuery;
           const { list, highlight } = StudyUtility.studyListMappedData(this.list, entities, loadMoreContent);
           this.offsetParameters.count = count;
           this.list = list;

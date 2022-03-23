@@ -130,7 +130,7 @@ export class StudyUtility {
       nidEnabled: false,
       limit: offsetParameters?.limit,
       offset: offsetParameters?.offset,
-      lang: Language.et,
+      lang: Language.et.toUpperCase(),
     };
   }
 

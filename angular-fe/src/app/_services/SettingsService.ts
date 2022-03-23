@@ -81,7 +81,7 @@ export class SettingsService {
 		let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
 		path = `${path}&variables=${encodeURI(JSON.stringify({
 			...variables,
-			lang: this.activeLang
+			lang: this.activeLang.toUpperCase()
 		}))}`;
 		return path;
 	}
