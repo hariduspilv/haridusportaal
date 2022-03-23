@@ -116,6 +116,8 @@ public class MtsysWorker extends Worker {
       MtsysKlfTeenusResponse response = ehisXRoadService.mtsysKlfTeenus(null);
 
       ObjectNode tegevusloaLiigidNode = mtsysKlfResponse.putObject("tegevusloaLiigid");
+      tegevusloaLiigidNode.put("ehis1", response.isSetTegevusloaLiigid() && !response.getTegevusloaLiigid().getTegevusloaLiikList().isEmpty());
+      tegevusloaLiigidNode.put("ehis2", false);
       response.getTegevusloaLiigid().getTegevusloaLiikList().forEach(
           item -> tegevusloaLiigidNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -124,6 +126,8 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "tegevusloaLiigid", tegevusloaLiigidNode);
 
       ObjectNode oppekavaStaatusedNode = mtsysKlfResponse.putObject("oppekavaStaatused");
+      oppekavaStaatusedNode.put("ehis1", response.isSetOppekavaStaatused() && !response.getOppekavaStaatused().getOppekavaStaatusList().isEmpty());
+      oppekavaStaatusedNode.put("ehis2", false);
       response.getOppekavaStaatused().getOppekavaStaatusList().forEach(
           item -> oppekavaStaatusedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -133,6 +137,8 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "oppekavaStaatused", oppekavaStaatusedNode);
 
       ObjectNode oppekavaOppetasemedNode = mtsysKlfResponse.putObject("oppekavaOppetasemed");
+      oppekavaOppetasemedNode.put("ehis1", response.isSetOppekavaOppetasemed() && !response.getOppekavaOppetasemed().getOppekavaOppetaseList().isEmpty());
+      oppekavaOppetasemedNode.put("ehis2", false);
       response.getOppekavaOppetasemed().getOppekavaOppetaseList().forEach(
           item -> oppekavaOppetasemedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -140,6 +146,8 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "oppekavaOppetasemed", oppekavaOppetasemedNode);
 
       ObjectNode soidukiKategooriadNode = mtsysKlfResponse.putObject("soidukiKategooriad");
+      soidukiKategooriadNode.put("ehis1", response.isSetSoidukiKategooriad() && !response.getSoidukiKategooriad().getSoidukiKategooriaList().isEmpty());
+      soidukiKategooriadNode.put("ehis2", false);
       response.getSoidukiKategooriad().getSoidukiKategooriaList().forEach(
           item -> soidukiKategooriadNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -170,6 +178,8 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "pidajaLiigid", pidajaLiigidNode);*/
 
       ObjectNode failiTyybidNode = mtsysKlfResponse.putObject("failiTyybid");
+      failiTyybidNode.put("ehis1", response.isSetFailiTyybid() && !response.getFailiTyybid().getFailiTyypList().isEmpty());
+      failiTyybidNode.put("ehis2", false);
       response.getFailiTyybid().getFailiTyypList().forEach(item -> {
         if (failiTyybidNode.get(item.getKlFailTyyp().toString()) != null) {
           ((ArrayNode) failiTyybidNode.get(item.getKlFailTyyp().toString()).get("okLiik"))
@@ -188,6 +198,8 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "failiTyybid", failiTyybidNode);
 
       ObjectNode tkkLiigidNode = mtsysKlfResponse.putObject("tkkLiigid");
+      tkkLiigidNode.put("ehis1", response.isSetTkkLiigid() && !response.getTkkLiigid().getTkkLiikList().isEmpty());
+      tkkLiigidNode.put("ehis2", false);
       response.getTkkLiigid().getTkkLiikList().forEach(
           item -> tkkLiigidNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -195,6 +207,8 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "tkkLiigid", tkkLiigidNode);
 
       ObjectNode eestiKeeleTasemedNode = mtsysKlfResponse.putObject("eestiKeeleTasemed");
+      eestiKeeleTasemedNode.put("ehis1", response.isSetEestiKeeleTasemed() && !response.getEestiKeeleTasemed().getEestiKeeleTaseList().isEmpty());
+      eestiKeeleTasemedNode.put("ehis2", false);
       response.getEestiKeeleTasemed().getEestiKeeleTaseList().forEach(
           item -> eestiKeeleTasemedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -208,6 +222,8 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "eestiKeeleTasemed", eestiKeeleTasemedNode);
 
       ObjectNode opperyhmadNode = mtsysKlfResponse.putObject("opperyhmad");
+      opperyhmadNode.put("ehis1", response.isSetOpperyhmad() && !response.getOpperyhmad().getOpperyhmList().isEmpty());
+      opperyhmadNode.put("ehis2", false);
       response.getOpperyhmad().getOpperyhmList().forEach(
           item -> opperyhmadNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -215,6 +231,8 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "opperyhmad", opperyhmadNode);
 
       ObjectNode tegevusnaitajaTyybidNode = mtsysKlfResponse.putObject("tegevusnaitajaTyybid");
+      tegevusnaitajaTyybidNode.put("ehis1", response.isSetTegevusnaitajaTyybid() && !response.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().isEmpty());
+      tegevusnaitajaTyybidNode.put("ehis2", false);
       response.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().forEach(
           item -> tegevusnaitajaTyybidNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -231,6 +249,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetTegevusloaLiigid()) {
+          tegevusloaLiigidNode.put("ehis2", !classifiers.getTegevusloaLiigid().getTegevusloaLiikList().isEmpty());
           classifiers.getTegevusloaLiigid().getTegevusloaLiikList().forEach(
               item -> tegevusloaLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -241,6 +260,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetOppekavaStaatused()) {
+          oppekavaStaatusedNode.put("ehis2", !classifiers.getOppekavaStaatused().getOppekavaStaatusList().isEmpty());
           classifiers.getOppekavaStaatused().getOppekavaStaatusList().forEach(
               item -> oppekavaStaatusedNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -254,6 +274,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetOppekavaOppetasemed()) {
+          oppekavaOppetasemedNode.put("ehis2", !classifiers.getOppekavaOppetasemed().getOppetasemedList().isEmpty());
           classifiers.getOppekavaOppetasemed().getOppetasemedList().forEach(
               item -> oppekavaOppetasemedNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -264,6 +285,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetSoidukiKategooriad()) {
+          soidukiKategooriadNode.put("ehis2", !classifiers.getSoidukiKategooriad().getSoidukiKategooriaList().isEmpty());
           classifiers.getSoidukiKategooriad().getSoidukiKategooriaList().forEach(
               item -> soidukiKategooriadNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -274,6 +296,7 @@ public class MtsysWorker extends Worker {
 
         if (classifiers.isSetOppeasutuseOmandivormid()) {
           ObjectNode oppeasutuseOmandivormidNode = mtsysKlfResponse.putObject("oppeasutuseOmandivormid");
+          oppeasutuseOmandivormidNode.put("ehis2", !classifiers.getOppeasutuseOmandivormid().getOppeasutuseOmandivormList().isEmpty());
           classifiers.getOppeasutuseOmandivormid().getOppeasutuseOmandivormList().forEach(
               item -> oppeasutuseOmandivormidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -284,6 +307,7 @@ public class MtsysWorker extends Worker {
 
         if (classifiers.isSetOppeasutuseLiigid()) {
           ObjectNode oppeasutuseLiigidNode = mtsysKlfResponse.putObject("oppeasutuseLiigid");
+          oppeasutuseLiigidNode.put("ehis2", !classifiers.getOppeasutuseLiigid().getOppeasutuseLiikList().isEmpty());
           classifiers.getOppeasutuseLiigid().getOppeasutuseLiikList().forEach(
               item -> oppeasutuseLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -293,6 +317,7 @@ public class MtsysWorker extends Worker {
 
         if (classifiers.isSetPidajaLiigid()) {
           ObjectNode pidajaLiigidNode = mtsysKlfResponse.putObject("pidajaLiigid");
+          pidajaLiigidNode.put("ehis2", !classifiers.getPidajaLiigid().getPidajaLiikList().isEmpty());
           classifiers.getPidajaLiigid().getPidajaLiikList().forEach(
               item -> pidajaLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -307,6 +332,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetTkkLiigid()) {
+          tkkLiigidNode.put("ehis2", !classifiers.getTkkLiigid().getTkkLiikList().isEmpty());
           classifiers.getTkkLiigid().getTkkLiikList().forEach(
               item -> tkkLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -316,6 +342,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetEestiKeeleTasemed()) {
+          eestiKeeleTasemedNode.put("ehis2", !classifiers.getEestiKeeleTasemed().getEestiKeeleTaseList().isEmpty());
           classifiers.getEestiKeeleTasemed().getEestiKeeleTaseList().forEach(
               item -> eestiKeeleTasemedNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -333,6 +360,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetOpperyhmad()) {
+          opperyhmadNode.put("ehis2", !classifiers.getOpperyhmad().getOpperyhmList().isEmpty());
           classifiers.getOpperyhmad().getOpperyhmList().forEach(
               item -> opperyhmadNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -342,6 +370,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetTegevusnaitajaTyybid()) {
+          tegevusnaitajaTyybidNode.put("ehis2", !classifiers.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().isEmpty());
           classifiers.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().forEach(
               item -> tegevusnaitajaTyybidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -379,7 +408,7 @@ public class MtsysWorker extends Worker {
     logForDrupal.setSeverity("notice");
 
     try {
-      ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid");
+      ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid", false);
 
       MtsysTegevusloadResponse response = ehisXRoadService.mtsysTegevusload(ownerRegCode, null);
 
@@ -689,7 +718,6 @@ public class MtsysWorker extends Worker {
   public ObjectNode getMtsysTegevuslubaTaotlus(String formName, Long identifier,
       String ownerRegCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
-    ObjectNode klfFailiTyybid = getKlfNode("failiTyybid");
 
     createTegevuslubaXJSON(formName, identifier, ownerRegCode, jsonNode);
     ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
@@ -709,6 +737,7 @@ public class MtsysWorker extends Worker {
           .putObject("data_elements").putObject("tegevusloaLiik")
           .put("value", klOkLiik.toString());
 
+      ObjectNode klfFailiTyybid = getKlfNode("failiTyybid", false);
       getTegevuslubaStepAndmedXJSON(jsonNode, klOkLiik, klfFailiTyybid);
       setTegevuslubaStepAndmedXJSONData(jsonNode, klfFailiTyybid, response, klOkLiik);
 
@@ -756,7 +785,13 @@ public class MtsysWorker extends Worker {
     } else if (currentStep.equalsIgnoreCase("step_liik")) {
       Long stepLiik = jsonNode.get("body").get("steps").get("step_liik")
           .get("data_elements").get("tegevusloaLiik").get("value").asLong();
-      getTegevuslubaStepAndmedXJSON(jsonNode, stepLiik, getKlfNode("failiTyybid"));
+      ObjectNode klfFailiTyybid = null;
+      try {
+        klfFailiTyybid = getKlfNode("failiTyybid", false);
+      } catch (Exception e) {
+        log.info(e.getMessage(), e);
+      }
+      getTegevuslubaStepAndmedXJSON(jsonNode, stepLiik, klfFailiTyybid);
       ObjectNode stepAndmed = (ObjectNode) jsonNode.get("body").get("steps").get("step_andmed")
           .get("data_elements");
 
@@ -885,7 +920,7 @@ public class MtsysWorker extends Worker {
                 .put("et", "Taotluse esitamisel on kohustuslik määrata asukoht!.");
           }
           AtomicInteger validationErrors = new AtomicInteger(0);
-          ObjectNode fileTypes = getKlfNode("failiTyybid");
+          ObjectNode fileTypes = getKlfNode("failiTyybid", false);
           Long klOkLiik = jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("tegevusloaLiik").get("value").asLong();
           jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
@@ -1376,12 +1411,14 @@ public class MtsysWorker extends Worker {
         step0DataElementsNode.putObject("tegevuslubaTabel").put("hidden", true).putArray("value");
         step0DataElementsNode.putObject("kokkuTabel").put("hidden", true).putArray("value");
 
+        ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid", true);
+        ObjectNode eestiKeeleTasemedNode = getKlfNode("eestiKeeleTasemed", true);
+        ObjectNode soidukiKategooriadNode = getKlfNode("soidukiKategooriad", true);
+        ObjectNode opperyhmad = getKlfNode("opperyhmad", true);
+
         report.getMetricsGroups().getMetricsGroupList().forEach(s -> {
           if (s.getGroupCl().equals(GroupCl.PERFORMANCE_REPORT_METRICS_GROUP_ACTIVITY_LICENCE_DOMAINS)) {
             ((ObjectNode) step0DataElementsNode.get("tegevuslubaTabel")).put("hidden", false);
-            ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid");
-            ObjectNode eestiKeeleTasemedNode = getKlfNode("eestiKeeleTasemed");
-            ObjectNode soidukiKategooriadNode = getKlfNode("soidukiKategooriad");
 
             s.getMetrics().getMetricList().forEach(item -> {
               String nimetus = tegevusloaLiigidNode.get(item.getActivityLicenceCl()).get("et").asText();
@@ -1404,7 +1441,6 @@ public class MtsysWorker extends Worker {
             });
           } else if (s.getGroupCl().equals(GroupCl.PERFORMANCE_REPORT_METRICS_GROUP_STUDY_PROGRAMME_GROUPS)) {
             ((ObjectNode) step0DataElementsNode.get("majandustegevuseTeateTabel")).put("hidden", false);
-            ObjectNode opperyhmad = getKlfNode("opperyhmad");
 
             s.getMetrics().getMetricList().forEach(item ->
                 ((ArrayNode) step0DataElementsNode.get("majandustegevuseTeateTabel").get("value")).addObject()
@@ -1765,8 +1801,7 @@ public class MtsysWorker extends Worker {
   }
 
   private void saveMtsysTegevusluba(ObjectNode jsonNode, Long applicationId,
-      String personalCode)
-      throws ParseException, XRoadServiceConsumptionException {
+      String personalCode) throws Exception {
     ObjectNode dataObjectNode = (ObjectNode) jsonNode.get("body").get("steps")
         .get("step_andmed").get("data_elements");
     Calendar cal = Calendar.getInstance();
@@ -1821,7 +1856,7 @@ public class MtsysWorker extends Worker {
           dataObjectNode.get("soidukiteKategooria").get("value").asLong()));
     }
     if (dataObjectNode.get("oppeTasemed").get("required").asBoolean()) {
-      ObjectNode klfOppekavaOppetasemed = getKlfNode("oppekavaOppetasemed");
+      ObjectNode klfOppekavaOppetasemed = getKlfNode("oppekavaOppetasemed", false);
       OppekavaOppetasemed oppetasemed = OppekavaOppetasemed.Factory.newInstance();
       dataObjectNode.get("oppeTasemed").get("value").forEach(item -> {
         EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
@@ -1834,7 +1869,7 @@ public class MtsysWorker extends Worker {
       taotlus.setOppetasemed(oppetasemed);
     }
     if (dataObjectNode.get("oppekavaRuhmad").get("required").asBoolean()) {
-      ObjectNode klfOppekavaRyhmad = getKlfNode("opperyhmad");
+      ObjectNode klfOppekavaRyhmad = getKlfNode("opperyhmad", false);
       Opperyhmad opperyhmad = Opperyhmad.Factory.newInstance();
       dataObjectNode.get("oppekavaRuhmad").get("value").forEach(item -> {
         EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
@@ -1951,12 +1986,12 @@ public class MtsysWorker extends Worker {
     MtsysTegevuslubaResponse mtsysTegevuslubaResponse = ehisXRoadService
         .mtsysTegevusluba(response.getTaotlusId(), personalCode);
 
-    setTegevuslubaStepAndmedXJSONData(jsonNode, getKlfNode("failiTyybid"), mtsysTegevuslubaResponse,
+    setTegevuslubaStepAndmedXJSONData(jsonNode, getKlfNode("failiTyybid", false), mtsysTegevuslubaResponse,
         null);
   }
 
   private void setMtsysTegevusnaitajaTaotlus(Long year, Long educationalInstitutionsId,
-      ObjectNode jsonNode, String reportUid, Collection<MetricsGroup> metricsGroupCollection, String ownerRegCode) {
+      ObjectNode jsonNode, String reportUid, Collection<MetricsGroup> metricsGroupCollection, String ownerRegCode) throws Exception{
     ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
         .putObject("step_aruanne").putObject("data_elements");
 
@@ -1998,13 +2033,14 @@ public class MtsysWorker extends Worker {
     dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true).putArray("value");
     dataElementsNode.putObject("tegevuslubaTabel").put("hidden", true).putArray("value");
 
+    ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid", true);
+    ObjectNode eestiKeeleTasemedNode = getKlfNode("eestiKeeleTasemed", true);
+    ObjectNode soidukiKategooriadNode = getKlfNode("soidukiKategooriad", true);
+    ObjectNode opperyhmad = getKlfNode("opperyhmad", true);
+
     metricsGroupCollection.forEach(s -> {
       if (s.getGroupCl().equals(GroupCl.PERFORMANCE_REPORT_METRICS_GROUP_ACTIVITY_LICENCE_DOMAINS)) {
         ((ObjectNode) dataElementsNode.get("tegevuslubaTabel")).put("hidden", false);
-
-        ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid");
-        ObjectNode eestiKeeleTasemedNode = getKlfNode("eestiKeeleTasemed");
-        ObjectNode soidukiKategooriadNode = getKlfNode("soidukiKategooriad");
 
         s.getMetrics().getMetricList().forEach(item -> {
           String nimetus = tegevusloaLiigidNode.get(item.getActivityLicenceCl()).get("et").asText();
@@ -2032,7 +2068,6 @@ public class MtsysWorker extends Worker {
         });
       } else if (s.getGroupCl().equals(GroupCl.PERFORMANCE_REPORT_METRICS_GROUP_STUDY_PROGRAMME_GROUPS)) {
         ((ObjectNode) dataElementsNode.get("majandustegevuseTeateTabel")).put("hidden", false);
-        ObjectNode opperyhmad = getKlfNode("opperyhmad");
 
         s.getMetrics().getMetricList().forEach(item ->
             ((ArrayNode) dataElementsNode.get("majandustegevuseTeateTabel").get("value")).addObject()
@@ -2052,14 +2087,20 @@ public class MtsysWorker extends Worker {
       }
     });
   }
-
-  private ObjectNode getKlfNode(String hashKey) {
+  private ObjectNode getKlfNode(String hashKey, boolean isEHIS2d) throws Exception {
+    return getKlfNode(hashKey, isEHIS2d, 0);
+  }
+  private ObjectNode getKlfNode(String hashKey, boolean isEHIS2, int timesTried) throws Exception {
     ObjectNode result = (ObjectNode) redisTemplate.opsForHash().get(MTSYSKLF_KEY, hashKey);
 
-    if (result == null) {
-      getMtsysKlf();
+    if (result == null || (!isEHIS2 && !result.get("ehis1").asBoolean()) || (isEHIS2 && !result.get("ehis2").asBoolean())) {
+      if (timesTried > 4) {
+        throw new Exception("Ei saanud kätte EHIS1/EHIS2 klassifikaatoreid, proovitud 5 korda!");
+      }
 
-      result = (ObjectNode) redisTemplate.opsForHash().get(MTSYSKLF_KEY, hashKey);
+      getMtsysKlf();
+      timesTried++;
+      return getKlfNode(hashKey, isEHIS2, timesTried);
     }
 
     return result;
@@ -2196,7 +2237,7 @@ public class MtsysWorker extends Worker {
     stepAndmedDataElements.putObject("dokumendid").put("hidden", false);
     ArrayNode dokumendidValue = ((ObjectNode) stepAndmedDataElements.get("dokumendid"))
         .putArray("value");
-    if (!klOkLiik.equals(18098L)) {
+    if (!klOkLiik.equals(18098L) && klfFailiTyybid != null) {
       Iterator<Entry<String, JsonNode>> fileTypes = klfFailiTyybid.fields();
       while (fileTypes.hasNext()) {
         Entry<String, JsonNode> fileType = fileTypes.next();
