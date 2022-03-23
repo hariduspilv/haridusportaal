@@ -33,7 +33,7 @@ export class SettingsService {
 
 	availableLanguages: Record<string, string | LanguageCodes>[] = [
 		{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
-		{ label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
+		// { label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
 		{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
 	];
 	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN; // getLangCode();

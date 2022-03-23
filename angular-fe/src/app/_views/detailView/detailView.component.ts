@@ -67,13 +67,13 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     if (queryKey) {
       const path = this.settings.query(queryKey, variables);
       const subscription = this.http.get(path).subscribe((response) => {
-        this.sidebar = {
+				this.sidebar = {
           entity: response['data'],
         };
         subscription.unsubscribe();
       });
     } else {
-      this.sidebar = {
+			this.sidebar = {
         entity: { ... this.origData },
       };
     }
