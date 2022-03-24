@@ -114,10 +114,12 @@ public class MtsysWorker extends Worker {
     try {
       //EHIS1 klassifikaatorid
       MtsysKlfTeenusResponse response = ehisXRoadService.mtsysKlfTeenus(null);
+      ObjectNode failSafe = mtsysKlfResponse.putObject("failsafe");
 
       ObjectNode tegevusloaLiigidNode = mtsysKlfResponse.putObject("tegevusloaLiigid");
-      tegevusloaLiigidNode.put("ehis1", response.isSetTegevusloaLiigid() && !response.getTegevusloaLiigid().getTegevusloaLiikList().isEmpty());
-      tegevusloaLiigidNode.put("ehis2", false);
+      failSafe.putObject("tegevusloaLiigid")
+         .put("ehis1", response.isSetTegevusloaLiigid() && !response.getTegevusloaLiigid().getTegevusloaLiikList().isEmpty())
+         .put("ehis2", false);
       response.getTegevusloaLiigid().getTegevusloaLiikList().forEach(
           item -> tegevusloaLiigidNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -126,8 +128,9 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "tegevusloaLiigid", tegevusloaLiigidNode);
 
       ObjectNode oppekavaStaatusedNode = mtsysKlfResponse.putObject("oppekavaStaatused");
-      oppekavaStaatusedNode.put("ehis1", response.isSetOppekavaStaatused() && !response.getOppekavaStaatused().getOppekavaStaatusList().isEmpty());
-      oppekavaStaatusedNode.put("ehis2", false);
+      failSafe.putObject("oppekavaStaatused")
+         .put("ehis1", response.isSetOppekavaStaatused() && !response.getOppekavaStaatused().getOppekavaStaatusList().isEmpty())
+         .put("ehis2", false);
       response.getOppekavaStaatused().getOppekavaStaatusList().forEach(
           item -> oppekavaStaatusedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -137,8 +140,9 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "oppekavaStaatused", oppekavaStaatusedNode);
 
       ObjectNode oppekavaOppetasemedNode = mtsysKlfResponse.putObject("oppekavaOppetasemed");
-      oppekavaOppetasemedNode.put("ehis1", response.isSetOppekavaOppetasemed() && !response.getOppekavaOppetasemed().getOppekavaOppetaseList().isEmpty());
-      oppekavaOppetasemedNode.put("ehis2", false);
+      failSafe.putObject("oppekavaOppetasemed")
+         .put("ehis1", response.isSetOppekavaOppetasemed() && !response.getOppekavaOppetasemed().getOppekavaOppetaseList().isEmpty())
+         .put("ehis2", false);
       response.getOppekavaOppetasemed().getOppekavaOppetaseList().forEach(
           item -> oppekavaOppetasemedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -146,8 +150,9 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "oppekavaOppetasemed", oppekavaOppetasemedNode);
 
       ObjectNode soidukiKategooriadNode = mtsysKlfResponse.putObject("soidukiKategooriad");
-      soidukiKategooriadNode.put("ehis1", response.isSetSoidukiKategooriad() && !response.getSoidukiKategooriad().getSoidukiKategooriaList().isEmpty());
-      soidukiKategooriadNode.put("ehis2", false);
+      failSafe.putObject("soidukiKategooriad")
+         .put("ehis1", response.isSetSoidukiKategooriad() && !response.getSoidukiKategooriad().getSoidukiKategooriaList().isEmpty())
+         .put("ehis2", false);
       response.getSoidukiKategooriad().getSoidukiKategooriaList().forEach(
           item -> soidukiKategooriadNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -178,8 +183,9 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "pidajaLiigid", pidajaLiigidNode);*/
 
       ObjectNode failiTyybidNode = mtsysKlfResponse.putObject("failiTyybid");
-      failiTyybidNode.put("ehis1", response.isSetFailiTyybid() && !response.getFailiTyybid().getFailiTyypList().isEmpty());
-      failiTyybidNode.put("ehis2", false);
+      failSafe.putObject("failiTyybid")
+         .put("ehis1", response.isSetFailiTyybid() && !response.getFailiTyybid().getFailiTyypList().isEmpty())
+         .put("ehis2", false);
       response.getFailiTyybid().getFailiTyypList().forEach(item -> {
         if (failiTyybidNode.get(item.getKlFailTyyp().toString()) != null) {
           ((ArrayNode) failiTyybidNode.get(item.getKlFailTyyp().toString()).get("okLiik"))
@@ -198,8 +204,9 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "failiTyybid", failiTyybidNode);
 
       ObjectNode tkkLiigidNode = mtsysKlfResponse.putObject("tkkLiigid");
-      tkkLiigidNode.put("ehis1", response.isSetTkkLiigid() && !response.getTkkLiigid().getTkkLiikList().isEmpty());
-      tkkLiigidNode.put("ehis2", false);
+      failSafe.putObject("tkkLiigid")
+         .put("ehis1", response.isSetTkkLiigid() && !response.getTkkLiigid().getTkkLiikList().isEmpty())
+         .put("ehis2", false);
       response.getTkkLiigid().getTkkLiikList().forEach(
           item -> tkkLiigidNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -207,8 +214,9 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "tkkLiigid", tkkLiigidNode);
 
       ObjectNode eestiKeeleTasemedNode = mtsysKlfResponse.putObject("eestiKeeleTasemed");
-      eestiKeeleTasemedNode.put("ehis1", response.isSetEestiKeeleTasemed() && !response.getEestiKeeleTasemed().getEestiKeeleTaseList().isEmpty());
-      eestiKeeleTasemedNode.put("ehis2", false);
+      failSafe.putObject("eestiKeeleTasemed")
+         .put("ehis1", response.isSetEestiKeeleTasemed() && !response.getEestiKeeleTasemed().getEestiKeeleTaseList().isEmpty())
+         .put("ehis2", false);
       response.getEestiKeeleTasemed().getEestiKeeleTaseList().forEach(
           item -> eestiKeeleTasemedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -222,8 +230,9 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "eestiKeeleTasemed", eestiKeeleTasemedNode);
 
       ObjectNode opperyhmadNode = mtsysKlfResponse.putObject("opperyhmad");
-      opperyhmadNode.put("ehis1", response.isSetOpperyhmad() && !response.getOpperyhmad().getOpperyhmList().isEmpty());
-      opperyhmadNode.put("ehis2", false);
+      failSafe.putObject("opperyhmad")
+         .put("ehis1", response.isSetOpperyhmad() && !response.getOpperyhmad().getOpperyhmList().isEmpty())
+         .put("ehis2", false);
       response.getOpperyhmad().getOpperyhmList().forEach(
           item -> opperyhmadNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -231,8 +240,9 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "opperyhmad", opperyhmadNode);
 
       ObjectNode tegevusnaitajaTyybidNode = mtsysKlfResponse.putObject("tegevusnaitajaTyybid");
-      tegevusnaitajaTyybidNode.put("ehis1", response.isSetTegevusnaitajaTyybid() && !response.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().isEmpty());
-      tegevusnaitajaTyybidNode.put("ehis2", false);
+      failSafe.putObject("tegevusnaitajaTyybid")
+         .put("ehis1", response.isSetTegevusnaitajaTyybid() && !response.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().isEmpty())
+         .put("ehis2", false);
       response.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().forEach(
           item -> tegevusnaitajaTyybidNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
@@ -249,7 +259,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetTegevusloaLiigid()) {
-          tegevusloaLiigidNode.put("ehis2", !classifiers.getTegevusloaLiigid().getTegevusloaLiikList().isEmpty());
+          ((ObjectNode) failSafe.get("tegevusloaLiigid")).put("ehis2", !classifiers.getTegevusloaLiigid().getTegevusloaLiikList().isEmpty());
           classifiers.getTegevusloaLiigid().getTegevusloaLiikList().forEach(
               item -> tegevusloaLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -260,7 +270,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetOppekavaStaatused()) {
-          oppekavaStaatusedNode.put("ehis2", !classifiers.getOppekavaStaatused().getOppekavaStaatusList().isEmpty());
+          ((ObjectNode) failSafe.get("oppekavaStaatused")).put("ehis2", !classifiers.getOppekavaStaatused().getOppekavaStaatusList().isEmpty());
           classifiers.getOppekavaStaatused().getOppekavaStaatusList().forEach(
               item -> oppekavaStaatusedNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -274,7 +284,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetOppekavaOppetasemed()) {
-          oppekavaOppetasemedNode.put("ehis2", !classifiers.getOppekavaOppetasemed().getOppetasemedList().isEmpty());
+          ((ObjectNode) failSafe.get("oppekavaOppetasemed")).put("ehis2", !classifiers.getOppekavaOppetasemed().getOppetasemedList().isEmpty());
           classifiers.getOppekavaOppetasemed().getOppetasemedList().forEach(
               item -> oppekavaOppetasemedNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -285,7 +295,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetSoidukiKategooriad()) {
-          soidukiKategooriadNode.put("ehis2", !classifiers.getSoidukiKategooriad().getSoidukiKategooriaList().isEmpty());
+          ((ObjectNode) failSafe.get("soidukiKategooriad")).put("ehis2", !classifiers.getSoidukiKategooriad().getSoidukiKategooriaList().isEmpty());
           classifiers.getSoidukiKategooriad().getSoidukiKategooriaList().forEach(
               item -> soidukiKategooriadNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -296,7 +306,7 @@ public class MtsysWorker extends Worker {
 
         if (classifiers.isSetOppeasutuseOmandivormid()) {
           ObjectNode oppeasutuseOmandivormidNode = mtsysKlfResponse.putObject("oppeasutuseOmandivormid");
-          oppeasutuseOmandivormidNode.put("ehis2", !classifiers.getOppeasutuseOmandivormid().getOppeasutuseOmandivormList().isEmpty());
+          failSafe.putObject("oppeasutuseOmandivormid").put("ehis2", !classifiers.getOppeasutuseOmandivormid().getOppeasutuseOmandivormList().isEmpty());
           classifiers.getOppeasutuseOmandivormid().getOppeasutuseOmandivormList().forEach(
               item -> oppeasutuseOmandivormidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -307,7 +317,7 @@ public class MtsysWorker extends Worker {
 
         if (classifiers.isSetOppeasutuseLiigid()) {
           ObjectNode oppeasutuseLiigidNode = mtsysKlfResponse.putObject("oppeasutuseLiigid");
-          oppeasutuseLiigidNode.put("ehis2", !classifiers.getOppeasutuseLiigid().getOppeasutuseLiikList().isEmpty());
+          failSafe.putObject("oppeasutuseLiigid").put("ehis2", !classifiers.getOppeasutuseLiigid().getOppeasutuseLiikList().isEmpty());
           classifiers.getOppeasutuseLiigid().getOppeasutuseLiikList().forEach(
               item -> oppeasutuseLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -317,7 +327,7 @@ public class MtsysWorker extends Worker {
 
         if (classifiers.isSetPidajaLiigid()) {
           ObjectNode pidajaLiigidNode = mtsysKlfResponse.putObject("pidajaLiigid");
-          pidajaLiigidNode.put("ehis2", !classifiers.getPidajaLiigid().getPidajaLiikList().isEmpty());
+          failSafe.putObject("pidajaLiigid").put("ehis2", !classifiers.getPidajaLiigid().getPidajaLiikList().isEmpty());
           classifiers.getPidajaLiigid().getPidajaLiikList().forEach(
               item -> pidajaLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -332,7 +342,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetTkkLiigid()) {
-          tkkLiigidNode.put("ehis2", !classifiers.getTkkLiigid().getTkkLiikList().isEmpty());
+          ((ObjectNode) failSafe.get("tkkLiigid")).put("ehis2", !classifiers.getTkkLiigid().getTkkLiikList().isEmpty());
           classifiers.getTkkLiigid().getTkkLiikList().forEach(
               item -> tkkLiigidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -342,7 +352,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetEestiKeeleTasemed()) {
-          eestiKeeleTasemedNode.put("ehis2", !classifiers.getEestiKeeleTasemed().getEestiKeeleTaseList().isEmpty());
+          ((ObjectNode) failSafe.get("eestiKeeleTasemed")).put("ehis2", !classifiers.getEestiKeeleTasemed().getEestiKeeleTaseList().isEmpty());
           classifiers.getEestiKeeleTasemed().getEestiKeeleTaseList().forEach(
               item -> eestiKeeleTasemedNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -360,7 +370,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetOpperyhmad()) {
-          opperyhmadNode.put("ehis2", !classifiers.getOpperyhmad().getOpperyhmList().isEmpty());
+          ((ObjectNode) failSafe.get("opperyhmad")).put("ehis2", !classifiers.getOpperyhmad().getOpperyhmList().isEmpty());
           classifiers.getOpperyhmad().getOpperyhmList().forEach(
               item -> opperyhmadNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -370,7 +380,7 @@ public class MtsysWorker extends Worker {
 
         //TODO: kontoll kas ja kus kasutatakse ning on seda ehis2 (oppeasutused ja tegevusnäitajad) raames hetkel vaja
         if (classifiers.isSetTegevusnaitajaTyybid()) {
-          tegevusnaitajaTyybidNode.put("ehis2", !classifiers.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().isEmpty());
+          ((ObjectNode) failSafe.get("tegevusnaitajaTyybid")).put("ehis2", !classifiers.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().isEmpty());
           classifiers.getTegevusnaitajaTyybid().getTegevusnaitajaTyypList().forEach(
               item -> tegevusnaitajaTyybidNode.putObject(item.getId())
                   .put("et", item.getNimetus())
@@ -378,7 +388,7 @@ public class MtsysWorker extends Worker {
           redisTemplate.opsForHash()
               .put(MTSYSKLF_KEY, "tegevusnaitajaTyybid", tegevusnaitajaTyybidNode);
         }
-
+        redisTemplate.opsForHash().put(MTSYSKLF_KEY, "failSafe", failSafe);
         redisTemplate.expire(MTSYSKLF_KEY, redisKlfExpire, TimeUnit.MINUTES);
       }
 
@@ -2092,8 +2102,10 @@ public class MtsysWorker extends Worker {
   }
   private ObjectNode getKlfNode(String hashKey, boolean isEHIS2, int timesTried) throws Exception {
     ObjectNode result = (ObjectNode) redisTemplate.opsForHash().get(MTSYSKLF_KEY, hashKey);
-
-    if (result == null || (!isEHIS2 && !result.get("ehis1").asBoolean()) || (isEHIS2 && !result.get("ehis2").asBoolean())) {
+    ObjectNode failSafe = (ObjectNode) redisTemplate.opsForHash().get(MTSYSKLF_KEY, "failSafe");
+    if (result == null || failSafe == null || failSafe.get(hashKey) == null
+       || (!isEHIS2 && !failSafe.get(hashKey).get("ehis1").asBoolean())
+       || (isEHIS2 && !failSafe.get(hashKey).get("ehis2").asBoolean())) {
       if (timesTried > 4) {
         throw new Exception("Ei saanud kätte EHIS1/EHIS2 klassifikaatoreid, proovitud 5 korda!");
       }
