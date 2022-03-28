@@ -40,14 +40,17 @@ export function slugifyTitle(title: string): string {
       .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
 }
 
+// TODO delete this function?
 export function removeLanguageCode(path: string): string {
-  if (path && path.match(/^\/[a-z]{2}\//)) {
-    return path.substring(3);
+	if (path && path.match(/^\/[a-z]{2}\//)) {
+		return path;	// .substring(3);
   }
   return path;
 }
 
 export function getLangCode(): LanguageCodes {
-	let langCode = window.location.pathname.split('/')[1];
-	return <LanguageCodes>(langCode?.length === 2 ? langCode : LanguageCodes.ESTONIAN)
+	const langCode = window.location.pathname.split('/')[1];
+	return Object.values(LanguageCodes).some((languageCode) => languageCode === langCode)
+		? langCode as LanguageCodes
+		: LanguageCodes.ESTONIAN;
 }
