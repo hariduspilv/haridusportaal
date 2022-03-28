@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Subject} from 'rxjs';
-import {environment} from '../../environments/environment';
-import {ActivatedRoute} from '@angular/router';
-import {getLangCode} from '@app/_core/utility';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { getLangCode } from "@app/_core/utility";
 
 export enum LanguageCodes {
 	ESTONIAN = 'et',
@@ -17,9 +17,10 @@ export enum LanguageCodes {
 export class SettingsService {
 	constructor(
 		private http: HttpClient,
-		public route: ActivatedRoute
+		public route: ActivatedRoute,
 ) {
-		this.url = `${environment.API_URL}${this.activeLang === LanguageCodes.ESTONIAN ? '' : `/${this.activeLang.toLowerCase()}`}`;
+		this.activeLang = getLangCode();
+		this.setUrl();
 		this.ehisUrl = environment.EHIS_URL;
 	}
 
@@ -41,14 +42,19 @@ export class SettingsService {
 	get currentAppLanguage() { return this.activeLang;	}
 	set currentAppLanguage(code: LanguageCodes) {
 		document.documentElement.lang = code;
-		if (this.activeLang === code) {	return;	}
+		if (this.activeLang === code) return;
 		this.activeLang = code;
 		this.activeLang$.next(code);
+		this.setUrl();
 	}
 
 	private languageSwitchLinks: any;
 	get currentLanguageSwitchLinks() { return this.languageSwitchLinks; }
 	set currentLanguageSwitchLinks(links: any) { this.languageSwitchLinks = links; }
+
+	setUrl(): void {
+		this.url = `${environment.API_URL}${this.activeLang === LanguageCodes.ESTONIAN ? '' : `/${this.activeLang.toLowerCase()}`}`;
+	}
 
 	/**
 	 * Finds an entity from objects

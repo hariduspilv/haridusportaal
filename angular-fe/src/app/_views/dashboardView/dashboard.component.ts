@@ -23,6 +23,7 @@ import { Subscription, Subject } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { takeUntil } from 'rxjs/operators';
 const moment = _moment;
+
 @Component({
   selector: 'dashboard-view',
   templateUrl: 'dashboard.template.html',

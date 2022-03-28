@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
+import { getLangCode } from "@app/_core/utility";
 
 @Component({
   selector: 'htm-header',
@@ -269,8 +270,12 @@ export class HeaderComponent implements OnInit {
   }
 
 	changeLanguage(code: LanguageCodes) {
-		this.settings.currentAppLanguage = code;
-		this.validatePath(code);
+		if (code !== getLangCode()) {
+			this.settings.currentAppLanguage = code;
+			this.translate.load().then(() => {
+				this.validatePath(code);
+			});
+		}
 	}
 
 	private validatePath(code: LanguageCodes): void {

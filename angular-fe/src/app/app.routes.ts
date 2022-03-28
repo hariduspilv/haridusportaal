@@ -1,6 +1,17 @@
 import { NgModule, Component } from '@angular/core';
-import {RouterModule, Routes, UrlSegment} from '@angular/router';
-import { AuthService } from './_services';
+import { RouterModule, Routes, UrlSegment } from '@angular/router';
+import {AuthService, LanguageCodes, SettingsService} from './_services';
+
+const routesTranslations = [
+	['karjäär', 'career', 'karjera'],
+	['uudised', 'news', 'novosti'],
+	['artiklid', 'articles', 'statji'],
+	['sündmused', 'events', 'sobytija'],
+	['õppimine', 'learning', 'uchjoba'],
+	['õpetaja', 'teacher', 'uchitel'],
+	['uuringud', 'studies', 'issledovanija'],
+	['infosüsteemid', 'infosystems', 'infosistemy'],
+];
 
 @Component({
   selector: 'dummy-view',
@@ -80,6 +91,13 @@ const routes: Routes = [
       type: 'article',
     },
   },
+	{
+		path: 'articles/:id',
+		loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+		data: {
+			type: 'article',
+		},
+	},
   {
     path: 'kool',
     loadChildren: () => import('./_views/schoolListView').then(m => m.SchoolListViewModule),
@@ -246,7 +264,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot([
 		{
       matcher: (url: UrlSegment[]) => {
-        return url[0]?.path.length === 2
+				return Object.values(LanguageCodes).some((code) => code === url[0]?.path)
           ? { consumed: url.slice(0, 1) }
           : { consumed: [] }
       },

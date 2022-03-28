@@ -146,20 +146,23 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     };
     const path = this.settings.query(this.queryKey, variables);
     this.sidebar = undefined;
-    const subscription = this.http.get(path).subscribe((response) => {
-			if (response['data']['route']['languageSwitchLinks']) {
-				this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
-			}
+    const subscription = this.http.get(path).subscribe({
+			next: (response) => {
+				if (response['data']['route']['languageSwitchLinks']) {
+					this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
+				}
 
-			try {
-        this.origData = response['data']['route']['entity'];
-        this.parseData(response['data']['route']['entity']);
-      } catch (err) {
-        this.missingData = true;
-      }
+				try {
+					this.origData = response['data']['route']['entity'];
+					this.parseData(response['data']['route']['entity']);
+				} catch (err) {
+					this.missingData = true;
+				}
 
-      subscription.unsubscribe();
-    });
+				subscription.unsubscribe();
+			},
+			error: (error) => { console.log('Error: ', error); },
+		});
   }
 
   public parseHTMLValue(content) {
@@ -258,7 +261,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
   private initialize(type: string = undefined) {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
-      this.path = this.storyPath || removeLanguageCode(
+			this.path = this.storyPath || removeLanguageCode(
         decodeURI(this.location.path().split('?')[0]),
       );
       this.type = this.storyType || type || this.route.snapshot.data['type'];
