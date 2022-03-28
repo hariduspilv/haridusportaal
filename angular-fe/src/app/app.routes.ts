@@ -2,22 +2,35 @@ import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
 import {AuthService, LanguageCodes, SettingsService} from './_services';
 
-const routesTranslations = [
-	['karjäär', 'career', 'karjera'],
-	['uudised', 'news', 'novosti'],
-	['artiklid', 'articles', 'statji'],
-	['sündmused', 'events', 'sobytija'],
-	['õppimine', 'learning', 'uchjoba'],
-	['õpetaja', 'teacher', 'uchitel'],
-	['uuringud', 'studies', 'issledovanija'],
-	['infosüsteemid', 'infosystems', 'infosistemy'],
-];
-
 @Component({
   selector: 'dummy-view',
   template: '',
 })
 export class DummyViewComponent {}
+
+const routesTranslations = [
+	['karjäär', 'career', 'karjera'],
+	['sündmused', 'events', 'sobytija'],
+	['õppimine', 'learning', 'uchjoba'],
+	['õpetaja', 'teacher', 'uchitel'],
+	['infosüsteemid', 'infosystems', 'infosistemy'],
+];
+
+const newsRoutes = ['uudised', 'news', 'novosti'].map((path) => ({
+	path,
+	loadChildren: () => import('./_views/newsListView').then(m => m.NewsListViewModule),
+}));
+
+const articlesRoutes = ['artiklid', 'articles', 'statji'].map((path) => ({
+	path: `${path}/:id`,
+	loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+	data: {	type: 'article', },
+}));
+
+const studiesRoutes = ['uuringud', 'studies', 'issledovanija'].map((path) => ({
+	path,
+	loadChildren: () => import('./modules/study/study.module').then(module => module.StudyModule),
+}));
 
 const routes: Routes = [
   {
@@ -51,11 +64,7 @@ const routes: Routes = [
       type: 'dashboard',
     },
   },
-  {
-    path: 'uudised',
-    loadChildren: () => import('./_views/newsListView').then(m => m.NewsListViewModule),
-
-  },
+	...newsRoutes,
   {
     path: 'otsing',
     loadChildren: () => import('./_views/homeSearchListView').then(m => m.HomeSearchListViewModule),
@@ -84,20 +93,7 @@ const routes: Routes = [
       type: 'event',
     },
   },
-  {
-    path: 'artiklid/:id',
-    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-    data: {
-      type: 'article',
-    },
-  },
-	{
-		path: 'articles/:id',
-		loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-		data: {
-			type: 'article',
-		},
-	},
+	...articlesRoutes,
   {
     path: 'kool',
     loadChildren: () => import('./_views/schoolListView').then(m => m.SchoolListViewModule),
@@ -230,11 +226,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/certificates/containers/final-document-dashboard-detail/final-documents-dashboard-detail.module')
     .then(m => m.FinalDocumentsDashboardDetailModule),
   },
-  {
-    path: 'uuringud',
-    loadChildren: () => import('./modules/study/study.module')
-      .then(module => module.StudyModule),
-  },
+		...studiesRoutes,
   {
     path: 'preview',
     loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
