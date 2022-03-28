@@ -496,7 +496,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           if (item.query === 'inaadress') {
             this.getItemAddress(item);
           }
-          this.validateField(item.modelName);
+					if(editableInst) this.validateField(item.modelName);
         });
         this.modalLoading = false;
         sub.unsubscribe();
