@@ -239,41 +239,6 @@ const routes: Routes = [
 	},
 ];
 
-/**
- * Iga keele jaoks peavad olema kõik tõlged
- */
-const routesTranslations = [
-	['tunnistused', 'certificates'],								// , 'svidetelstva'
-	['lõputunnistused' , 'finishing-certificates'] , // , 'svidetelstva-ob-okonchanii'
-	['lõpudokumendid', 'finishing-docs'],						// , 'dokumenty-ob-okonchanii'
-	['uudised', 'news'],														// , 'novosti'
-	['artiklid', 'articles'],												// , 'statji'
-	['uuringud', 'studies'],												// , 'issledovanija'
-	['karjäär', 'career'],													// , 'karjera'
-	['sündmused', 'events'],												// , 'sobytija'
-	['õppimine', 'learning'],												// , 'uchjoba'
-	['õpetaja', 'teacher'],													// , 'uchitel'
-	['infosüsteemid', 'infosystems'],								// , 'infosistemy'
-	['erialad', 'specialities'],										// , 'spetsialnosti'
-	['võrdlus', 'comparison'], 											// , 'sravnenije'
-	['kool', 'school'],															// , 'shkola'
-	['koolide-rahastus', 'money-to-school'],				// , 'finansirovanije-shkol'
-	['ametialad', 'professions'],										// , 'sfery-dejatelnosti'
-	['andmed', 'data'],															// , 'dannye'
-	['töölaud', 'desktop'], 												// , 'rabo4ij-stol'
-	['valdkonnad', 'spheres'],											// , 'sfery-dejatelnosti'
-	['kaart', 'map'],																// , 'karta'
-	['oska-tulemused', 'oska-results'],							// . 'oska-rezultaty'
-	['ettepanekute-elluviimine', 'proposals-implementation'], // , 'realizacija-predlozenij'
-	['tööjõuprognoos', 'labor-force-forecast'], 		// , 'prognoz-rabo4ej-sily'
-	['tunnistuse-kehtivuse-kontroll', 'certificate-validity-check'],	// , 'proverka-dejstvitelnosti-svidetelstva'
-	['lõpudokumentide-kehtivuse-kontroll', 'finishing-docs-validity-check'],	// , 'proverka-dejstvitelnosti-dokumentov-ob-okonchanii'
-	['taotlused', 'application'], 									// , 'hodatajstvo'
-	['teavitused', 'notification'], 								// , 'opovewenije'
-	['gdpr', 'gdpr'],																// , 'gdpr'
-	['digitempel', 'digital-tempel'],								// , 'digitalnaja-podpis'
-];
-
 @NgModule({
 	declarations: [DummyViewComponent],
 	imports: [RouterModule.forRoot([
@@ -283,7 +248,7 @@ const routesTranslations = [
 					? { consumed: url.slice(0, 1) }
 					: { consumed: [] }
 			},
-			children: translateRoutes(routes, routesTranslations, ['otsing', 'search', 'preview', 'dummy']),
+			children: translateRoutes(routes, ['otsing', 'search', 'preview', 'dummy']),
 		},
 	])],
 	exports: [RouterModule],
