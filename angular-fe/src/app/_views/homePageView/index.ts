@@ -25,6 +25,7 @@ import { HomePageCareerViewComponent } from './views/homePageView.career.compone
 import { HomePageLearningViewComponent } from './views/homePageView.learning.component';
 import { HomePageYouthViewComponent } from './views/homePageView.youth.component';
 import { JobOffersMapModule } from './components/job-offers-map/job-offers-map.module';
+import { translateRoutes } from "@app/_core/utility";
 
 const routes: Routes = [
   {
@@ -84,7 +85,7 @@ const routes: Routes = [
     HomePageCareerDevelopmentComponent,
   ],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forChild(translateRoutes(routes, ['oska'])),
     AssetsModule,
     CommonModule,
     TranslateModule,

@@ -98,6 +98,7 @@ const routesTranslations = [
 	['teavitused', 'notification'], 								// , 'opovewenije'
 	['gdpr', 'gdpr'],																// , 'gdpr'
 	['digitempel', 'digital-tempel'],								// , 'digitalnaja-podpis'
+	['noored', 'youth'], 														// , 'molodjoz'
 ];
 
 export function translateRoutes(routes: Route[], exclusions?: string[]): Route[] {
