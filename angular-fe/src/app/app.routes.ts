@@ -1,29 +1,13 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
 import { AuthService, LanguageCodes } from './_services';
+import { translateRoutes } from "@app/_core/utility";
 
 @Component({
 	selector: 'dummy-view',
 	template: '',
 })
-export class DummyViewComponent {
-}
-
-const newsRoutes = ['uudised', 'news', 'novosti'].map((path) => ({
-	path,
-	loadChildren: () => import('./_views/newsListView').then(m => m.NewsListViewModule),
-}));
-
-const articlesRoutes = ['artiklid', 'articles', 'statji'].map((path) => ({
-	path: `${path}/:id`,
-	loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-	data: { type: 'article', },
-}));
-
-const studiesRoutes = ['uuringud', 'studies', 'issledovanija'].map((path) => ({
-	path,
-	loadChildren: () => import('./modules/study/study.module').then(module => module.StudyModule),
-}));
+export class DummyViewComponent {}
 
 const routes: Routes = [
 	{
@@ -49,28 +33,27 @@ const routes: Routes = [
 	//   path: 'oska',
 	//   loadChildren: () => import('./_views/oskaFrontpageView').then(m => m.OskaFrontpageViewModule),
 	// },
-	// {
-	//   path: 'töölaud',
-	//   loadChildren: () => import('./_views/dashboardView').then(m => m.DashboardViewModule),
-	//   canActivate: [AuthService],
-	//   data: {
-	//     type: 'dashboard',
-	//   },
-	// },
+	{
+	  path: 'töölaud',
+	  loadChildren: () => import('./_views/dashboardView').then(m => m.DashboardViewModule),
+	  canActivate: [AuthService],
+	  data: {
+	    type: 'dashboard',
+	  },
+	},
 	{
 		path: 'uudised',
 		loadChildren: () => import('./_views/newsListView').then(m => m.NewsListViewModule),
 	},
-	// {
-	//   path: 'otsing',
-	//   loadChildren: () => import('./_views/homeSearchListView').then(m => m.HomeSearchListViewModule),
-	//
-	// },
-	// {
-	//   path: 'search',
-	//   loadChildren: () => import('./modules/home-search/home-search.module')
-	//     .then(module => module.HomeSearchModule),
-	// },
+	{
+	  path: 'otsing',
+	  loadChildren: () => import('./_views/homeSearchListView').then(m => m.HomeSearchListViewModule),
+
+	},
+	{
+	  path: 'search',
+	  loadChildren: () => import('./modules/home-search/home-search.module').then(module => module.HomeSearchModule),
+	},
 	{
 	  path: 'uudised/:id',
 	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
@@ -128,43 +111,43 @@ const routes: Routes = [
 	    type: 'profession',
 	  },
 	},
-	// {
-	//   path: 'valdkonnad',
-	//   loadChildren: () => import('./_views/oskaFieldListView').then(m => m.OskaFieldListViewModule),
-	// },
-	// {
-	//   path: 'valdkonnad/andmed',
-	//   loadChildren: () => import('./_views/oskaFieldDataView').then(m => m.OskaFieldDataView),
-	// },
-	// {
-	//   path: 'valdkonnad/kaart',
-	//   loadChildren: () => import('./_views/oskaFieldMap').then(m => m.OskaFieldMapModule),
-	// },
-	// {
-	//   path: 'valdkonnad/:id',
-	//   loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-	//   data: {
-	//     type: 'field',
-	//   },
-	// },
-	// {
-	//   path: 'oska-tulemused/ettepanekute-elluviimine',
-	//   loadChildren: () => import('./_views/oskaResultsView').then(m => m.OskaResultsViewModule),
-	// },
-	// {
-	//   path: 'oska-tulemused/:id',
-	//   loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-	//   data: {
-	//     type: 'resultPage',
-	//   },
-	// },
-	// {
-	//   path: 'tööjõuprognoos/:id',
-	//   loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-	//   data: {
-	//     type: 'surveyPage',
-	//   },
-	// },
+	{
+	  path: 'valdkonnad',
+	  loadChildren: () => import('./_views/oskaFieldListView').then(m => m.OskaFieldListViewModule),
+	},
+	{
+	  path: 'valdkonnad/andmed',
+	  loadChildren: () => import('./_views/oskaFieldDataView').then(m => m.OskaFieldDataView),
+	},
+	{
+	  path: 'valdkonnad/kaart',
+	  loadChildren: () => import('./_views/oskaFieldMap').then(m => m.OskaFieldMapModule),
+	},
+	{
+	  path: 'valdkonnad/:id',
+	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+	  data: {
+	    type: 'field',
+	  },
+	},
+	{
+	  path: 'oska-tulemused/ettepanekute-elluviimine',
+	  loadChildren: () => import('./_views/oskaResultsView').then(m => m.OskaResultsViewModule),
+	},
+	{
+	  path: 'oska-tulemused/:id',
+	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+	  data: {
+	    type: 'resultPage',
+	  },
+	},
+	{
+	  path: 'tööjõuprognoos/:id',
+	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+	  data: {
+	    type: 'surveyPage',
+	  },
+	},
 	{
 	  path: 'infosüsteemid',
 	  loadChildren: () => import('./_views/infoSystemView').then(m => m.InfoSystemViewModule),
@@ -172,77 +155,77 @@ const routes: Routes = [
 	    type: 'infosystem',
 	  },
 	},
-	// {
-	//   path: 'erialad',
-	//   loadChildren: () => import('./_views/studyProgrammeListView')
-	//     .then(m => m.StudyProgrammeListViewModule),
-	// },
-	// {
-	//   path: 'erialad/võrdlus',
-	//   loadChildren: () => import('./_views/compareView').then(m => m.CompareViewModule),
-	//   data: {
-	//     type: 'studyProgrammeComparison',
-	//     query: 'studyProgrammeComparison',
-	//   },
-	// },
-	// {
-	//   path: 'erialad/:id',
-	//   loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-	//   data: {
-	//     type: 'studyProgramme',
-	//   },
-	// },
-	// {
-	//   path: 'tunnistuse-kehtivuse-kontroll',
-	//   loadChildren: () => import('./modules/certificates/containers/certificates-check-detail/certificates-check-detail.module')
-	//     .then(m => m.CertificatesCheckDetailModule),
-	// },
-	// {
-	//   path: 'lõpudokumentide-kehtivuse-kontroll',
-	//   loadChildren: () => import('./modules/certificates/containers/certificates-document-check-detail/certificates-document-check-detail.module')
-	//     .then(m => m.CertificateDocumentCheckDetailModule),
-	// },
-	// {
-	//   path: 'töölaud/taotlused/:id',
-	//   loadChildren: () => import('./_views/xjson').then(m => m.XjsonModule),
-	//   canActivate: [AuthService],
-	// },
-	// {
-	//   path: 'töölaud/teavitused',
-	//   loadChildren: () => import('./_views/messagesView').then(m => m.MessagesViewModule),
-	//   canActivate: [AuthService],
-	// },
-	// {
-	//   path: 'töölaud/gdpr',
-	//   loadChildren: () => import('./_views/gdprView').then(m => m.GdprViewModule),
-	//   canActivate: [AuthService],
-	// },
-	// {
-	//   path: 'töölaud/digitempel',
-	//   loadChildren: () => import('./_views/digitalSignView').then(m => m.DigitalSignViewModule),
-	//   canActivate: [AuthService],
-	// },
-	// {
-	//   path: 'töölaud/tunnistused/lõputunnistused/:id',
-	//   canActivate: [AuthService],
-	//   loadChildren: () => import('./modules/certificates/containers/final-document-dashboard-detail/final-documents-dashboard-detail.module')
-	//   .then(m => m.FinalDocumentsDashboardDetailModule),
-	// },
+	{
+	  path: 'erialad',
+	  loadChildren: () => import('./_views/studyProgrammeListView')
+	    .then(m => m.StudyProgrammeListViewModule),
+	},
+	{
+	  path: 'erialad/võrdlus',
+	  loadChildren: () => import('./_views/compareView').then(m => m.CompareViewModule),
+	  data: {
+	    type: 'studyProgrammeComparison',
+	    query: 'studyProgrammeComparison',
+	  },
+	},
+	{
+	  path: 'erialad/:id',
+	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+	  data: {
+	    type: 'studyProgramme',
+	  },
+	},
+	{
+	  path: 'tunnistuse-kehtivuse-kontroll',
+	  loadChildren: () => import('./modules/certificates/containers/certificates-check-detail/certificates-check-detail.module')
+	    .then(m => m.CertificatesCheckDetailModule),
+	},
+	{
+	  path: 'lõpudokumentide-kehtivuse-kontroll',
+	  loadChildren: () => import('./modules/certificates/containers/certificates-document-check-detail/certificates-document-check-detail.module')
+	    .then(m => m.CertificateDocumentCheckDetailModule),
+	},
+	{
+	  path: 'töölaud/taotlused/:id',
+	  loadChildren: () => import('./_views/xjson').then(m => m.XjsonModule),
+	  canActivate: [AuthService],
+	},
+	{
+	  path: 'töölaud/teavitused',
+	  loadChildren: () => import('./_views/messagesView').then(m => m.MessagesViewModule),
+	  canActivate: [AuthService],
+	},
+	{
+	  path: 'töölaud/gdpr',
+	  loadChildren: () => import('./_views/gdprView').then(m => m.GdprViewModule),
+	  canActivate: [AuthService],
+	},
+	{
+	  path: 'töölaud/digitempel',
+	  loadChildren: () => import('./_views/digitalSignView').then(m => m.DigitalSignViewModule),
+	  canActivate: [AuthService],
+	},
+	{
+	  path: 'töölaud/tunnistused/lõputunnistused/:id',
+	  canActivate: [AuthService],
+	  loadChildren: () => import('./modules/certificates/containers/final-document-dashboard-detail/final-documents-dashboard-detail.module')
+	  .then(m => m.FinalDocumentsDashboardDetailModule),
+	},
 	{
 		path: 'uuringud',
 		loadChildren: () => import('./modules/study/study.module').then(module => module.StudyModule),
 	},
-	// {
-	//   path: 'preview',
-	//   loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-	//   data: {
-	//     preview: true,
-	//   },
-	// },
-	// {
-	//   path: 'dummy',
-	//   component: DummyViewComponent,
-	// },
+	{
+	  path: 'preview',
+	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+	  data: {
+	    preview: true,
+	  },
+	},
+	{
+	  path: 'dummy',
+	  component: DummyViewComponent,
+	},
 	{
 	  path: ':id',
 	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
@@ -256,8 +239,12 @@ const routes: Routes = [
 	},
 ];
 
+/**
+ * Iga keele jaoks peavad olema kõik tõlged
+ */
 const routesTranslations = [
-	['tunnistused', 'certificates'],								// 'svidetelstva'
+	['tunnistused', 'certificates'],								// , 'svidetelstva'
+	['lõputunnistused' , 'finishing-certificates'] , // , 'svidetelstva-ob-okonchanii'
 	['lõpudokumendid', 'finishing-docs'],						// , 'dokumenty-ob-okonchanii'
 	['uudised', 'news'],														// , 'novosti'
 	['artiklid', 'articles'],												// , 'statji'
@@ -267,47 +254,25 @@ const routesTranslations = [
 	['õppimine', 'learning'],												// , 'uchjoba'
 	['õpetaja', 'teacher'],													// , 'uchitel'
 	['infosüsteemid', 'infosystems'],								// , 'infosistemy'
+	['erialad', 'specialities'],										// , 'spetsialnosti'
+	['võrdlus', 'comparison'], 											// , 'sravnenije'
 	['kool', 'school'],															// , 'shkola'
 	['koolide-rahastus', 'money-to-school'],				// , 'finansirovanije-shkol'
 	['ametialad', 'professions'],										// , 'sfery-dejatelnosti'
 	['andmed', 'data'],															// , 'dannye'
+	['töölaud', 'desktop'], 												// , 'rabo4ij-stol'
+	['valdkonnad', 'spheres'],											// , 'sfery-dejatelnosti'
+	['kaart', 'map'],																// , 'karta'
+	['oska-tulemused', 'oska-results'],							// . 'oska-rezultaty'
+	['ettepanekute-elluviimine', 'proposals-implementation'], // , 'realizacija-predlozenij'
+	['tööjõuprognoos', 'labor-force-forecast'], 		// , 'prognoz-rabo4ej-sily'
+	['tunnistuse-kehtivuse-kontroll', 'certificate-validity-check'],	// , 'proverka-dejstvitelnosti-svidetelstva'
+	['lõpudokumentide-kehtivuse-kontroll', 'finishing-docs-validity-check'],	// , 'proverka-dejstvitelnosti-dokumentov-ob-okonchanii'
+	['taotlused', 'application'], 									// , 'hodatajstvo'
+	['teavitused', 'notification'], 								// , 'opovewenije'
+	['gdpr', 'gdpr'],																// , 'gdpr'
+	['digitempel', 'digital-tempel'],								// , 'digitalnaja-podpis'
 ];
-
-(function (): void {
-	const languagesNumber = routesTranslations[0].length;
-	const translatedRoutes = [];
-
-	routes.forEach((route) => {
-		if (!route.path) translatedRoutes.push(route);
-		if (route.path == '**') translatedRoutes.push(route);
-		if (route.path.split('/').length === 1 && route.path[0] === ':') translatedRoutes.push(route);
-
-		if (route.path && route.path !== '**' && (route.path.split('/').length !== 1 && route.path[0] !== ':')) {
-			let result: string[][] = Array(languagesNumber).fill('').map(() => Array(route.path.split('/').length).fill(''));
-			result.forEach((arr) => arr.forEach((el) => el !== ''));
-
-			route.path.split('/').forEach((word) => {
-				if (word[0] !== ':') {
-					let translations = routesTranslations[routesTranslations.findIndex((trans) => trans.includes(word))];
-					for (let i = 0; i < languagesNumber; i++) {
-						result[i].push(translations[i]);
-					}
-				}
-
-				if (word[0] === ':') {
-					result.forEach((arr) => arr.push(word));
-				}
-			});
-
-			result.forEach((path) => {
-				translatedRoutes.push({
-						...route,
-						path: path.filter((element) => element !== '').join('/'),
-					});
-			});
-		}
-	});
-}());
 
 @NgModule({
 	declarations: [DummyViewComponent],
@@ -318,7 +283,7 @@ const routesTranslations = [
 					? { consumed: url.slice(0, 1) }
 					: { consumed: [] }
 			},
-			children: routes,
+			children: translateRoutes(routes, routesTranslations, ['otsing', 'search', 'preview', 'dummy']),
 		},
 	])],
 	exports: [RouterModule],
