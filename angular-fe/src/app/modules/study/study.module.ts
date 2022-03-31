@@ -23,6 +23,7 @@ import {
 	StudySidebarStudyDataListItemComponent,
 } from './components/study-sidebar-study-data-list-item/study-sidebar-study-data-list-item.component';
 import { StudyIntroComponent } from './components/study-intro/study-intro.component';
+import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
 	{
@@ -52,7 +53,7 @@ const routes: Routes = [
 		CommonModule,
 		AssetsModule,
 		TranslateModule,
-		RouterModule.forChild(routes),
+		RouterModule.forChild(translateRoutes(routes)),
 		FormsModule,
 	],
 	exports: [],
