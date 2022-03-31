@@ -1,7 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
 import { AuthService, LanguageCodes } from './_services';
-import { translateRoutes } from "@app/_core/utility";
+import { translateRoutes } from "@app/_core/router-utility";
 
 @Component({
 	selector: 'dummy-view',
@@ -29,10 +29,10 @@ const routes: Routes = [
 	  loadChildren: () => import('./modules/certificates/containers/certificates-detail/certificates-detail.module')
 	  .then(m => m.CertificatesDetailModule),
 	},
-	// {
-	//   path: 'oska',
-	//   loadChildren: () => import('./_views/oskaFrontpageView').then(m => m.OskaFrontpageViewModule),
-	// },
+	{
+	  path: 'oska',
+	  loadChildren: () => import('./_views/oskaFrontpageView').then(m => m.OskaFrontpageViewModule),
+	},
 	{
 	  path: 'töölaud',
 	  loadChildren: () => import('./_views/dashboardView').then(m => m.DashboardViewModule),
@@ -248,7 +248,7 @@ const routes: Routes = [
 					? { consumed: url.slice(0, 1) }
 					: { consumed: [] }
 			},
-			children: translateRoutes(routes, ['otsing', 'search', 'preview', 'dummy']),
+			children: translateRoutes(routes, ['otsing', 'search', 'preview', 'dummy', 'oska']),
 		},
 	])],
 	exports: [RouterModule],

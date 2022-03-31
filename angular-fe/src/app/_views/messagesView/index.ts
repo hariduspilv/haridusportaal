@@ -9,6 +9,7 @@ import { AuthInterceptor } from '@app/_interceptors';
 import { MessagesViewComponent } from './messagesView.component';
 import { AppPipes } from '@app/_pipes';
 import { MessageViewComponent } from './messageView/messageView.component';
+import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -27,7 +28,7 @@ const routes: Routes = [
     MessageViewComponent,
   ],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forChild(translateRoutes(routes)),
     AssetsModule,
     TranslateModule,
     CommonModule,

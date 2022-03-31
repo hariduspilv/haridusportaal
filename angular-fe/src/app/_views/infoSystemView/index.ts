@@ -7,6 +7,7 @@ import { TranslateModule } from '@app/_modules/translate';
 import { AppPipes } from '@app/_pipes';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
+import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
     InfoSystemViewComponent,
   ],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forChild(translateRoutes(routes)),
     AssetsModule,
     CommonModule,
     TranslateModule,

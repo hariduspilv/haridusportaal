@@ -21,6 +21,7 @@ export class StudyDetailComponent {
     .pipe(
       tap({
 				next: (response) => {
+					console.log(response);
 					this.loading = false;
 					this.saveStudyLanguageSwitchLinks(response);
 					},
@@ -34,7 +35,7 @@ export class StudyDetailComponent {
     private api: StudyApiService,
     private route: ActivatedRoute,
 		private settings: SettingsService,
-  ) { }
+  ) {	}
 
 	private saveStudyLanguageSwitchLinks(response: StudyDetailViewQuery): void {
 		if (response['data']['route']['languageSwitchLinks']) {
