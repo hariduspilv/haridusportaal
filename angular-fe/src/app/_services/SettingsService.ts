@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { getLangCode } from "@app/_core/utility";
+import { getLangCode } from "@app/_core/router-utility";
 
 export enum LanguageCodes {
 	ESTONIAN = 'et',

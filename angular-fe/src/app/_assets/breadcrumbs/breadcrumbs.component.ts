@@ -45,7 +45,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private parseData(response): void {
-    try {
+		try {
       this.data = response.data.route.breadcrumb.map((item, i, arr) => {
         if (i === arr.length - 1) {
           this.titleService.setTitle(item.text);
@@ -61,12 +61,17 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private getData(): void {
-    const variables = {
+		const variables = {
       path: this.path,
     };
-    const path = this.settings.query('getBreadcrumbs', variables);
-    const subscription = this.http.get(path).subscribe((response) => {
-      this.parseData(response);
-    });
-  }
+		const path = this.settings.query('getBreadcrumbs', variables);
+		const subscription = this.http.get(path).subscribe({
+			next: (response) => {
+				this.parseData(response);
+			},
+			complete: () => {
+				subscription.unsubscribe();
+			}
+		});
+	}
 }

@@ -7,6 +7,7 @@ import { StudyDetailViewQuery } from '@app/modules/study/models/study-detail-vie
 import { MappedStudyPage } from '@app/modules/study/models/mapped-study-page';
 import { StudyUtility } from '@app/modules/study/study-utility';
 import { SettingsService } from "@app/_services";
+import { getTranslatedWord } from "@app/_core/router-utility";
 
 @Component({
   selector: 'study-detail',
@@ -14,14 +15,12 @@ import { SettingsService } from "@app/_services";
   styleUrls: ['./study-detail.component.scss'],
 })
 export class StudyDetailComponent {
-
   public loading = true;
-  public studyPath = `/uuringud/${this.route.snapshot.params.id}`;
+  public studyPath = `/${getTranslatedWord('uuringud')}/${this.route.snapshot.params.id}`;
   public study$: Observable<MappedStudyPage> = this.api.studyDetailViewQuery(this.studyPath)
     .pipe(
       tap({
 				next: (response) => {
-					console.log(response);
 					this.loading = false;
 					this.saveStudyLanguageSwitchLinks(response);
 					},
@@ -35,12 +34,11 @@ export class StudyDetailComponent {
     private api: StudyApiService,
     private route: ActivatedRoute,
 		private settings: SettingsService,
-  ) {	}
+  ) { }
 
 	private saveStudyLanguageSwitchLinks(response: StudyDetailViewQuery): void {
-		if (response['data']['route']['languageSwitchLinks']) {
-			this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
+		if (response?.data?.route?.languageSwitchLinks) {
+			this.settings.currentLanguageSwitchLinks = response.data.route.languageSwitchLinks;
 		}
 	}
-
 }

@@ -34,7 +34,6 @@ export class StudyApiService {
 	}
 
 	studyDetailViewQuery(path: string): Observable<StudyDetailViewQuery> {
-		console.log('path: ', path);
 		const graphqlRequest = this.settingsService.query('studyDetailViewQuery', {path});
 		return this.http.get<StudyDetailViewQuery>(graphqlRequest);
 	}

@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import { getLangCode } from "@app/_core/utility";
+import { getLangCode } from "@app/_core/router-utility";
 
 @Component({
   selector: 'htm-header',
