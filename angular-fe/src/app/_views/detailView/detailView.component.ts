@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild, ElementRef, OnInit, OnDestroy} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { removeLanguageCode } from '@app/_core/utility';
+import { removeLanguageCode } from '@app/_core/router-utility';
 
 @Component({
   selector: 'detail-view',
@@ -145,7 +145,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
       path: this.path,
     };
     const path = this.settings.query(this.queryKey, variables);
-    this.sidebar = undefined;
+		this.sidebar = undefined;
     const subscription = this.http.get(path).subscribe({
 			next: (response) => {
 				if (response['data']['route']['languageSwitchLinks']) {
@@ -182,13 +182,17 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
     const subscription = this.http.get(path, {
       withCredentials: true,
-    }).subscribe((data) => {
-      this.origData = data['data']['NodePreviewByUuid'];
-      this.parseData(data['data']['NodePreviewByUuid']);
-      this.initialize(this.origData.entityBundle);
-      subscription.unsubscribe();
-    });
-  }
+		}).subscribe({
+			next: (data) => {
+				this.origData = data['data']['NodePreviewByUuid'];
+				this.parseData(data['data']['NodePreviewByUuid']);
+				this.initialize(this.origData.entityBundle);
+			},
+			complete: () => {
+				subscription.unsubscribe();
+			}
+		});
+	}
 
   editPost() {
     const id = this.route.snapshot.params.id;
@@ -264,7 +268,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 			this.path = this.storyPath || removeLanguageCode(
         decodeURI(this.location.path().split('?')[0]),
       );
-      this.type = this.storyType || type || this.route.snapshot.data['type'];
+			this.type = this.storyType || type || this.route.snapshot.data['type'];
     }
 
     this.getValues();

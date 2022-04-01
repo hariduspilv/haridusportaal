@@ -1,5 +1,4 @@
 import { ActivatedRoute } from '@angular/router';
-import { LanguageCodes } from "@app/_services";
 
 export function focus(id: string) {
   setTimeout(() => {
@@ -44,19 +43,4 @@ export function slugifyTitle(title: string): string {
       .replace(/<\/a>/g, '')
       .replace(/ /g, '-')
       .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
-}
-
-// TODO delete this function?
-export function removeLanguageCode(path: string): string {
-	if (path && path.match(/^\/[a-z]{2}\//)) {
-		return path;	// .substring(3);
-  }
-  return path;
-}
-
-export function getLangCode(): LanguageCodes {
-	const langCode = window.location.pathname.split('/')[1];
-	return Object.values(LanguageCodes).some((languageCode) => languageCode === langCode)
-		? langCode as LanguageCodes
-		: LanguageCodes.ESTONIAN;
 }

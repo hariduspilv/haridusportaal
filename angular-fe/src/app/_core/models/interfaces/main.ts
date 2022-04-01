@@ -1,3 +1,5 @@
+import { LanguageCodes } from "@app/_services";
+
 export interface ComparisonPage {
   count: number;
 }
@@ -53,5 +55,46 @@ export interface ImageEntity {
 export interface ImageUrl {
 	url: string;
 }
+
+export interface LanguageSwitchLink {
+	active: boolean;
+	language: { id: LanguageCodes };
+	title: string;
+	url: LanguageSwitchLinkUrl;
+}
+
+export interface LanguageSwitchLinkUrl {
+	path: string;
+	pathAlias: string;
+	pathInternal: string;
+	routed: boolean;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
