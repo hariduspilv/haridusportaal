@@ -1,7 +1,7 @@
-query jobOffersNodeQuery($count: Int, $lang: LanguageId!) {
-  nodeQuery(limit: $count, filter: {conditions: {field: "type", value: "job_offer", operator: EQUAL, language: $lang}}) {
+query jobOffersNodeQuery($count: Int) {
+  nodeQuery(limit: $count, filter: {conditions: {field: "type", value: "job_offer", operator: EQUAL}}) {
     count
-    entities(language: $lang){
+    entities{
       ... on NodeJobOffer{
         title
         fieldInstitution
