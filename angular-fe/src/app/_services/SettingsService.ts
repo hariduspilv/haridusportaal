@@ -4,6 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { getLangCode } from "@app/_core/router-utility";
+import { LanguageSwitchLink } from "@app/_core/models/interfaces/main";
 
 export enum LanguageCodes {
 	ESTONIAN = 'et',
@@ -34,8 +35,8 @@ export class SettingsService {
 
 	availableLanguages: Record<string, string | LanguageCodes>[] = [
 		{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
-		// { label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
 		{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
+		// { label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
 	];
 	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN; // getLangCode();
 	activeLang$ = new BehaviorSubject(this.activeLang);
@@ -50,7 +51,7 @@ export class SettingsService {
 
 	private languageSwitchLinks: any;
 	get currentLanguageSwitchLinks() { return this.languageSwitchLinks; }
-	set currentLanguageSwitchLinks(links: any) { this.languageSwitchLinks = links; }
+	set currentLanguageSwitchLinks(links: LanguageSwitchLink[]) { this.languageSwitchLinks = links; }
 
 	setUrl(): void {
 		this.url = `${environment.API_URL}${this.activeLang === LanguageCodes.ESTONIAN ? '' : `/${this.activeLang.toLowerCase()}`}`;
@@ -89,6 +90,7 @@ export class SettingsService {
 			...variables,
 			lang: this.activeLang.toUpperCase()
 		}))}`;
+
 		return path;
 	}
 

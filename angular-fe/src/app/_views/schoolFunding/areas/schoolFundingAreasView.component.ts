@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { SettingsService, MapService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import {TranslateService} from "@app/_modules/translate/translate.service";
 
 @Component({
   selector: 'schoolFunding-view-areas',
@@ -37,11 +38,11 @@ export class SchoolFundingAreasViewComponent {
   public breadcrumbs = [
     {
       link: '/',
-      title: 'Avaleht',
+      title: 'frontpage.label',
     },
     {
       link: '',
-      title: 'Toetusprojektid',
+      title: 'school.support_projects',
     },
   ];
 

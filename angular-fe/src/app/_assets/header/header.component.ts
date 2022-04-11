@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import { getLangCode } from "@app/_core/router-utility";
+import {getLangCode, isLanguageCode, isMainPage, translatePath} from "@app/_core/router-utility";
 
 @Component({
   selector: 'htm-header',
@@ -267,23 +267,132 @@ export class HeaderComponent implements OnInit {
     this.subscribeToSidemenu();
     this.getAuthMethods();
     this.setHamburgerStyles();
-  }
+	}
 
 	changeLanguage(code: LanguageCodes) {
 		if (code !== getLangCode()) {
 			this.settings.currentAppLanguage = code;
+			this.loading = true;
 			this.translate.load().then(() => {
+				this.loading = false;
 				this.validatePath(code);
 			});
 		}
 	}
 
 	private validatePath(code: LanguageCodes): void {
-		const newUrl = this.settings.currentLanguageSwitchLinks.find((link) => link.language.id === code).url.path;
-		this.navigate(newUrl);
+		const paths = this.router.url.split('/').splice(1);
+		const pathsLength = paths.length;
+
+		const isMainPage = pathsLength === 1 && (paths[0] === '' || isLanguageCode(paths[0]));
+		if (isMainPage) {
+			code === 'et' ? this.navigate('') : this.navigate(code);
+		}
+
+		const newUrl = this.settings.currentLanguageSwitchLinks?.find((link) => link.language.id === code).url.path;
+		if (newUrl) {
+			console.log('new url');
+			this.navigate(newUrl);
+		}
+
+		if (this.router.url === '/karj%C3%A4%C3%A4r') {	// karjäär
+			this.navigate('en/career');
+		}
+		if (this.router.url === '/en/career') {
+			this.navigate('karjäär');
+		}
+		if (this.router.url === '/%C3%B5ppimine') {
+			this.navigate('en/learning');
+		}
+		if (this.router.url === '/en/learning') {
+			this.navigate('õppimine');
+		}
+		if (this.router.url === '/kool') {
+			this.navigate('en/school');
+		}
+		if (this.router.url === '/en/school') {
+			this.navigate('kool');
+		}
+		if (this.router.url === '/kool/kaart') {
+			this.navigate('en/school/map');
+		}
+		if (this.router.url === '/en/school/map') {
+			this.navigate('kool/kaart');
+		}
+		if (this.router.url === '/koolide-rahastus') {
+			this.navigate('en/money-to-school');
+		}
+		if (this.router.url === '/en/money-to-school') {
+			this.navigate('koolide-rahastus');
+		}
+		if (this.router.url === '/koolide-rahastus/haldus%C3%BCksused') {
+			this.navigate('en/money-to-school/administrative-units');
+		}
+		if (this.router.url === '/en/money-to-school/administrative-units') {
+			this.navigate('koolide-rahastus/haldusüksused');
+		}
+		if (this.router.url === '/erialad') {
+			this.navigate('en/study-programmes');
+		}
+		if (this.router.url === '/en/study-programmes') {
+			this.navigate('erialad');
+		}
+		if (this.router.url === '/ametialad') {
+			this.navigate('en/professions');
+		}
+		if (this.router.url === '/en/professions') {
+			this.navigate('ametialad');
+		}
+		if (this.router.url === '/ametialad/andmed') {
+			this.navigate('en/professions/data');
+		}
+		if (this.router.url === '/en/professions/data') {
+			this.navigate('ametialad/andmed');
+		}
+		if (this.router.url === '/kool/4t') {	// :id
+			this.navigate('en/school/4t');
+		}
+		if (this.router.url === '/en/school/4t') {
+			this.navigate('kool/4t');
+		}
+		if (this.router.url === '/valdkonnad') {
+			this.navigate('en/sectors');
+		}
+		if (this.router.url === '/en/sectors') {
+			this.navigate('valdkonnad');
+		}
+		if (this.router.url === '/valdkonnad/andmed') {
+			this.navigate('en/sectors/data');
+		}
+		if (this.router.url === '/en/sectors/data') {
+			this.navigate('valdkonnad/andmed');
+		}
+		if (this.router.url === '/valdkonnad/kaart') {
+			this.navigate('en/sectors/map');
+		}
+		if (this.router.url === '/en/sectors/map') {
+			this.navigate('valdkonnad/kaart');
+		}
+		if (this.router.url === '/tööjõuprognoos/töö-ja-oskused-2025') {
+			this.navigate('en/labor-force-forecast/map');
+		}
+		if (this.router.url === '/en/labor-force-forecast/map') {
+			this.navigate('tööjõuprognoos/töö-ja-oskused-2025');
+		}
+		if (this.router.url === '/oska-tulemused/ettepanekute-elluviimine') {
+			this.navigate('en/oska-tulemused/ettepanekute-elluviimine');
+		}
+		if (this.router.url === '/en/oska-tulemused/ettepanekute-elluviimine') {
+			this.navigate('oska-tulemused/ettepanekute-elluviimine');
+		}
+	}
+
+	public navigateToMainPage(): void {
+		const path = getLangCode() === 'et' ? '/' : `/${getLangCode()}`;
+		this.navigate(path);
 	}
 
 	private navigate(path: string) {
-		this.router.navigate([path]);
+		this.router.navigate([path || '']).then(() => this.loading = false);
 	}
 }

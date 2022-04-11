@@ -47,7 +47,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     public auth: AuthService,
     private translate: TranslateService,
-  ) { }
+  ) {	}
 
   private getSidebar(): void {
     const variables = {
@@ -144,11 +144,12 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     const variables = {
       path: this.path,
     };
-    const path = this.settings.query(this.queryKey, variables);
+		const path = this.settings.query(this.queryKey, variables);
+		console.log(path);
 		this.sidebar = undefined;
-    const subscription = this.http.get(path).subscribe({
+		const subscription = this.http.get(path).subscribe({
 			next: (response) => {
-				if (response['data']['route']['languageSwitchLinks']) {
+				if (response && response['data'] && response['data']['route'] && response['data']['route']['languageSwitchLinks']) {
 					this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
 				}
 
@@ -158,10 +159,9 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 				} catch (err) {
 					this.missingData = true;
 				}
-
-				subscription.unsubscribe();
 			},
-			error: (error) => { console.log('Error: ', error); },
+			error: (error) => console.log('Error: ', error),
+			complete: () => subscription.unsubscribe()
 		});
   }
 
@@ -295,5 +295,6 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.paramsWatcher.unsubscribe();
+		this.settings.currentLanguageSwitchLinks = null;
   }
 }

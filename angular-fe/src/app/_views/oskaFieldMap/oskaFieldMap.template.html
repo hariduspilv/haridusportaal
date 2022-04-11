@@ -6,12 +6,11 @@
   <div class="inline">
     <block titleBorder="true" tabStyle="default">
       <block-title><h1>{{ 'oska.fields_data_on_map' | translate }}</h1></block-title>
-      <block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
+      <block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="{{ '/valdkonnad' | translatePath}}">
       </block-content>
-      <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info" tabLink="/valdkonnad/andmed">
+      <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info" tabLink="{{ '/valdkonnad/andmed' | translatePath }}">
       </block-content>
-      <block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="/valdkonnad/kaart"
-        [tabActive]="true">
+      <block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="{{ '/valdkonnad/kaart' | translatePath }}" [tabActive]="true">
         <h2>{{ 'oska.field_map_introduction' | translate }}</h2>
         <form class="filter-wrapper row" filters>
           <div class="col-4 sm-12">

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -13,7 +13,7 @@ import { Location } from '@angular/common';
   styleUrls: ['oskaResultsView.styles.scss'],
 })
 
-export class OskaResultsView extends FiltersService implements OnInit {
+export class OskaResultsView extends FiltersService implements OnInit, OnDestroy {
 
   @Input() inputData: any;
   public tableData: any = false;
@@ -49,6 +49,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
     responsible: [],
     proposalStatus: [],
   };
+	public isLoading = true;
 
   constructor(
     private http: HttpClient,
@@ -64,6 +65,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
   }
 
   filterView() {
+		console.log('filter');
     if (this.tableData) {
       if (!this.params.field &&
         !this.params.responsible &&
@@ -93,6 +95,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
   }
 
   sortView(field) {
+		console.log('sort');
     this.modifier = !this.modifier;
     this.field = field;
     if (field === 'field') {
@@ -115,6 +118,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
   }
 
   limitTableRows(id, maxChars) {
+		console.log('limit');
     const limitedDivs = document.querySelectorAll(id);
     for (let i = 0; i < limitedDivs.length; i += 1) {
       if (limitedDivs[i].innerHTML.length >= 150) {
@@ -127,6 +131,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
   }
 
   removeAllRedundantClasses() {
+		console.log('remove classes');
     const elems = document.querySelectorAll('[class*="elem-"]');
     for (let i = 0; i < elems.length; i++) {
       Array.from(elems[i].classList).forEach((className: any) => {
@@ -138,6 +143,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
   }
 
   removeLimiter(index) {
+		console.log('remove limiter');
     const text = document.querySelector(`.elem-${index}`);
     const btn = document.querySelector(`.elem-${index}-btn`);
     text.classList.toggle('less');
@@ -145,13 +151,15 @@ export class OskaResultsView extends FiltersService implements OnInit {
   }
 
   getTableData() {
+		console.log('get data');
+		this.isLoading = true;
     const variables = {
 			lang: this.settingsService.currentAppLanguage,
     };
     const query = this.settingsService.query('oskaResultPageTable', variables);
-    const subscription = this.http.get(query).subscribe({
+		const subscription = this.http.get(query).subscribe({
       next: (data) => {
-        if (data['data']['errors']) {
+				if (data['data']['errors']) {
           this.error = true;
           return;
         }
@@ -196,7 +204,8 @@ export class OskaResultsView extends FiltersService implements OnInit {
       },
       error: (err) => {
         this.error = true;
-      }
+      },
+			complete: () => this.isLoading = false
     });
   }
 
@@ -213,6 +222,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
   }
 
   toggleFilters(): void {
+		console.log('toggle filters');
     setTimeout(
       () => {
         let activatedFilters = false;
@@ -242,6 +252,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
   }
 
   watchSearch() {
+		console.log('watch search');
     this.searchSubscription = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
       this.filterView();
@@ -253,6 +264,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
 
   ngOnDestroy() {
     this.searchSubscription.unsubscribe();
+		this.settingsService.currentLanguageSwitchLinks = null;
   }
 
 }

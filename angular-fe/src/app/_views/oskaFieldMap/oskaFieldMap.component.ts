@@ -25,7 +25,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   map: any;
   data: any;
   filterData: any = {};
-  private indicatorLegendLabels: {} = {};
+  indicatorLegendLabels: {} = {};
 
   params: any = {};
   path: string;
@@ -68,10 +68,10 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     private deviceService: DeviceDetectorService,
     private settings: SettingsService,
     private mapService: MapService,
-    private el:ElementRef,
+    private el: ElementRef,
   ) {
-    super(null, null);
-  }
+		super(null, null);
+	}
 
   changeView(url) {
     this.router.navigate([url]);
@@ -146,8 +146,9 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     const variables = {};
 
     const path = this.settings.query('oskaMapData', variables);
+		console.log(path);
 
-    const subscription = this.http.get(path).subscribe((data) => {
+		const subscription = this.http.get(path).subscribe((data) => {
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);
       rawData = rawData.map(elem => [elem.join()])
         .map(elem => elem.join('').split(';')).map((item) => {
