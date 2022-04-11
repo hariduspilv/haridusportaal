@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { StudyApiService } from '@app/modules/study/study-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { getTranslatedWord } from "@app/_core/router-utility";
   templateUrl: './study-detail.component.html',
   styleUrls: ['./study-detail.component.scss'],
 })
-export class StudyDetailComponent {
+export class StudyDetailComponent implements OnDestroy {
   public loading = true;
   public studyPath = `/${getTranslatedWord('uuringud')}/${this.route.snapshot.params.id}`;
   public study$: Observable<MappedStudyPage> = this.api.studyDetailViewQuery(this.studyPath)
@@ -24,7 +24,10 @@ export class StudyDetailComponent {
 					this.loading = false;
 					this.saveStudyLanguageSwitchLinks(response);
 					},
-				error: (error) => console.log('Error: ', error)
+				error: (error) => {
+					console.log('Error: ', error);
+					this.loading = false;
+				}
 			}),
       map((response: StudyDetailViewQuery) => StudyUtility.mapStudyDetailData(response?.data?.route?.entity)
 			),
@@ -40,5 +43,9 @@ export class StudyDetailComponent {
 		if (response?.data?.route?.languageSwitchLinks) {
 			this.settings.currentLanguageSwitchLinks = response.data.route.languageSwitchLinks;
 		}
+	}
+
+	ngOnDestroy(): void {
+		this.settings.currentLanguageSwitchLinks = null;
 	}
 }

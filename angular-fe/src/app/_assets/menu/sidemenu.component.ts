@@ -38,6 +38,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private initialAutoOpen = false;
   private focusBounce: any;
   private visibilityBounce: any;
+	public isLoading = true;
 
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
   @ViewChild('sidemenuCloser', { static: false, read: ElementRef }) private closeBtn: ElementRef;
@@ -120,6 +121,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   private getData(init: boolean = false): void {
+		this.isLoading = true;
     const variables = {
       language: this.settings.currentAppLanguage.toUpperCase(),
     };
@@ -127,15 +129,19 @@ export class MenuComponent implements OnInit, OnDestroy {
     // force to not use disk cache
     this.http.get(path, {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
-    }).subscribe((response: IMenuResponse) => {
-			this.data = response.data.menu.links;
-      // Set all the first level menus as such
-      this.data.forEach((item: IMenuData) => item.firstLevel = true);
-      this.cdr.detectChanges();
-      if (init) {
-        this.makeActive();
-      }
-    });
+    }).subscribe({
+			next: (response: IMenuResponse) => {
+				this.data = response.data.menu.links;
+				// Set all the first level menus as such
+				this.data.forEach((item: IMenuData) => item.firstLevel = true);
+				this.cdr.detectChanges();
+				if (init) {
+					this.makeActive();
+				}
+			},
+			error: () => { this.isLoading = false; },
+			complete: () => { this.isLoading = false; },
+		});
   }
 
   /**

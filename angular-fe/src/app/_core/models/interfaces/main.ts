@@ -69,32 +69,3 @@ export interface LanguageSwitchLinkUrl {
 	pathInternal: string;
 	routed: boolean;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

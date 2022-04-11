@@ -1,8 +1,8 @@
 <homepage-line [type]="line"></homepage-line>
 <div class="inner">
   <div class="study">
-    <h2 class="study__category" [attr.aria-label]="title" >{{ title }}</h2>
-    <div class="study__intro" [innerHTML]="intro" ></div>
+    <h2 class="study__category" [attr.aria-label]="title" >{{ title | translate }} </h2>
+    <div class="study__intro">{{ intro | translate }}</div>	<!-- [innerHTML]="intro" -->
     <div class="study__blocks">
 
       <ng-container *ngFor="let btn of data">
@@ -20,7 +20,7 @@
               <img src="{{ btn.image }}" alt="" />
             </div><!--/study__elem__image-->
             <div class="study__elem__body">
-              <h3 class="study__elem__title">{{ btn.title }}</h3>
+              <h3 class="study__elem__title">{{ btn.title | translate }}</h3>
             </div><!--/study__elem__body-->
           </a><!--/study__elem-->
         </div><!--/study__instance-->

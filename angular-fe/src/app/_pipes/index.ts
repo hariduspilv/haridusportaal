@@ -18,6 +18,7 @@ import { ParseInAddsPipe } from './parseInAdds.pipe';
 import { CapitalizePipe } from './capitalize.pipe';
 import { IdCodePipe } from './idCode.pipe';
 import { LocaleOrderByPipe } from './localeOrderBy';
+import { TranslatePath } from './translatePath';
 
 const pipes = [
   EllipsisPipe,
@@ -45,6 +46,7 @@ const pipes = [
   CapitalizePipe,
   IdCodePipe,
   LocaleOrderByPipe,
+	TranslatePath,
 ];
 
 @NgModule({

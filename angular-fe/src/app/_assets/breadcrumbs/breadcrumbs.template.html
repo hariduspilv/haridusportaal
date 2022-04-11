@@ -3,11 +3,12 @@
     <span class="arrow" *ngIf="i > 0">
       <icon glyph="chevron-right"></icon>
     </span>
-    <a [routerLink]="[item.link]" *ngIf="item.link">{{ item.title }}</a>
+    <a *ngIf="item.link && isMainPage(item.link)" (click)="navigateToMainPage()">{{ 'frontpage.label' | translate }}</a>	<!-- item.label -->
+    <a *ngIf="item.link && !isMainPage(item.link)" [routerLink]="[item.link]">{{ item.title | translate }}</a>
     <ng-container *ngIf="!item.link">
-      <a href="javascript:window.location.reload();" attr.aria-label="{{ ('breadcrumbs.current_page' | translate) + ' ' + item.title }}">
+      <a style="cursor: auto" attr.aria-label="{{ ('breadcrumbs.current_page' | translate) + ' ' + item.title }}">	<!-- href="javascript:window.location.reload();" -->
         <span aria-hidden="true">
-          {{ item.title }}
+          {{ item.title | translate }}
         </span>
       </a>
     </ng-container>

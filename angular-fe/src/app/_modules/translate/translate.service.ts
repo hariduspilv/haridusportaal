@@ -40,7 +40,7 @@ export class TranslateService {
 
       const httpResponse = (response) => {
         /* Timeout for testing purposes. ToDO: Remove it ofc.. */
-        this.data = response;
+				this.data = response;
         this.translationsLoaded$.next(true);
         resolve(true);
       };

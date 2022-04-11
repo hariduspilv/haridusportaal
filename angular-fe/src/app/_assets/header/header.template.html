@@ -10,11 +10,11 @@
     </div>
   </button>
 </div>
-<a routerLink="/" class="header__logo pointer" role="link" aria-label="edu.ee">
+<a (click)="navigateToMainPage()" class="header__logo pointer" role="link" aria-label="edu.ee">
   <!-- <icon glyph="logo" size="medium"></icon> -->
   <img aria-hidden="true" src="/assets/img/logo_blue.svg" alt="edu.ee logo" />
 </a>
-<div class="header__assets">
+<div class="header__assets" *ngIf="!loading">
   <div class="inline">
     <div class="header__assets--grid">
       <div [class.hidden]="!headerSearchEnabled()" class="header__search" role="search">
