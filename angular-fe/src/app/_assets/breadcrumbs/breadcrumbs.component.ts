@@ -31,7 +31,6 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   ) { }
 
   public ngOnChanges(changes: SimpleChanges) {
-		console.log('changes: ', changes);
 		if (changes.path && changes.path.currentValue !== changes.path.previousValue) {
 			this.getData();
     }
@@ -71,9 +70,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 		const variables = {
       path: this.path,
     };
-		console.log('vars: ', variables);
 		const path = this.settings.query('getBreadcrumbs', variables);
-		console.log(path);
 		const subscription = this.http.get(path).subscribe({
 			next: (response) => {
 				this.saveLanguageSwitchLinks(response);

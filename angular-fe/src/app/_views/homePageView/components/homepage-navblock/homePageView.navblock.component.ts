@@ -13,7 +13,7 @@ export class HomePageNavBlockComponent {
   @Input() theme: string;
   @Input() image: string;
 
-	public isOnMainPage = isMainPage();
+	public isMainPage = isMainPage();
 
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;

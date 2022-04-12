@@ -145,7 +145,7 @@ export class MapComponent {
   }
 
   ngOnInit() {
-    this.watchSearch();
+		this.watchSearch();
     if (this.type === 'polygons') {
       this.polygonSub = this.mapService.polygonLayer.subscribe((layer) => {
         this.getPolygons();

@@ -286,16 +286,18 @@ export class HeaderComponent implements OnInit {
 
 		const isMainPage = pathsLength === 1 && (paths[0] === '' || isLanguageCode(paths[0]));
 		if (isMainPage) {
+			console.log('main');
 			code === 'et' ? this.navigate('') : this.navigate(code);
 		}
 
 		const newUrl = this.settings.currentLanguageSwitchLinks?.find((link) => link.language.id === code).url.path;
 		if (newUrl) {
-			console.log('new url');
+			console.log('newUrl');
+			console.log(newUrl);
 			this.navigate(newUrl);
 		}
 
-		if (this.router.url === '/karj%C3%A4%C3%A4r') {	// karjäär
+		if (this.router.url === '/karj%C3%A4%C3%A4r') {
 			this.navigate('en/career');
 		}
 		if (this.router.url === '/en/career') {
@@ -385,6 +387,49 @@ export class HeaderComponent implements OnInit {
 		if (this.router.url === '/en/oska-tulemused/ettepanekute-elluviimine') {
 			this.navigate('oska-tulemused/ettepanekute-elluviimine');
 		}
+		if (this.router.url === '/uuringud') {
+			this.navigate('en/studies');
+		}
+		if (this.router.url === '/en/studies') {
+			this.navigate('uuringud');
+		}
+		if (this.router.url === '/noored') {
+			this.navigate('en/youth');
+		}
+		if (this.router.url === '/en/youth') {
+			this.navigate('noored');
+		}
+		if (this.router.url === '/%C3%B5petaja') {
+			this.navigate('en/teacher');
+		}
+		if (this.router.url === '/en/teacher') {
+			this.navigate('õpetaja');
+		}
+		if (this.router.url === '/infos%C3%BCsteemid/eesti-hariduse-infos%C3%BCsteem-ehis') {
+			this.navigate('en/infosystems/estonian-education-information-system-ehis');
+		}
+		if (this.router.url === '/en/infosystems/estonian-education-information-system-ehis') {
+			this.navigate('infosüsteemid/eesti-hariduse-infosüsteem-ehis');
+		}
+		if (this.router.url === '/infos%C3%BCsteemid/eesti-hariduse-infos%C3%BCsteem-ehis') {
+			this.navigate('en/infosystems/estonian-education-information-system-EHIS-TEST2-longer-name-or-100-chars-or-100-chars-or-100-char');
+		}
+		if (this.router.url === '/en/infosystems/estonian-education-information-system-EHIS-TEST2-longer-name-or-100-chars-or-100-chars-or-100-char') {
+			this.navigate('infosüsteemid/eesti-hariduse-infosüsteem-ehis');
+		}
+		if (this.router.url === '/uudised') {
+			this.navigate('en/news');
+		}
+		if (this.router.url === '/en/news') {
+			this.navigate('uudised');
+		}
+		// if (this.router.url === '/s%C3%BCndmused') {
+		// 	console.log('here');
+		// 	this.navigate('en/events');
+		// }
+		// if (this.router.url === '/en/events') {
+		// 	this.navigate('sündmused');
+		// }
 	}
 
 	public navigateToMainPage(): void {

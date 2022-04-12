@@ -49,7 +49,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
     responsible: [],
     proposalStatus: [],
   };
-	public isLoading = true;
 
   constructor(
     private http: HttpClient,
@@ -65,7 +64,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
   }
 
   filterView() {
-		console.log('filter');
     if (this.tableData) {
       if (!this.params.field &&
         !this.params.responsible &&
@@ -95,7 +93,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
   }
 
   sortView(field) {
-		console.log('sort');
     this.modifier = !this.modifier;
     this.field = field;
     if (field === 'field') {
@@ -118,7 +115,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
   }
 
   limitTableRows(id, maxChars) {
-		console.log('limit');
     const limitedDivs = document.querySelectorAll(id);
     for (let i = 0; i < limitedDivs.length; i += 1) {
       if (limitedDivs[i].innerHTML.length >= 150) {
@@ -131,7 +127,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
   }
 
   removeAllRedundantClasses() {
-		console.log('remove classes');
     const elems = document.querySelectorAll('[class*="elem-"]');
     for (let i = 0; i < elems.length; i++) {
       Array.from(elems[i].classList).forEach((className: any) => {
@@ -143,7 +138,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
   }
 
   removeLimiter(index) {
-		console.log('remove limiter');
     const text = document.querySelector(`.elem-${index}`);
     const btn = document.querySelector(`.elem-${index}-btn`);
     text.classList.toggle('less');
@@ -151,8 +145,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
   }
 
   getTableData() {
-		console.log('get data');
-		this.isLoading = true;
     const variables = {
 			lang: this.settingsService.currentAppLanguage,
     };
@@ -205,7 +197,7 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
       error: (err) => {
         this.error = true;
       },
-			complete: () => this.isLoading = false
+			complete: () => {}
     });
   }
 
@@ -222,7 +214,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
   }
 
   toggleFilters(): void {
-		console.log('toggle filters');
     setTimeout(
       () => {
         let activatedFilters = false;
@@ -252,7 +243,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
   }
 
   watchSearch() {
-		console.log('watch search');
     this.searchSubscription = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
       this.filterView();

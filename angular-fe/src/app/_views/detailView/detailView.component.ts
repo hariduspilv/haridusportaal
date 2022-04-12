@@ -145,7 +145,6 @@ export class DetailViewComponent implements OnInit, OnDestroy {
       path: this.path,
     };
 		const path = this.settings.query(this.queryKey, variables);
-		console.log(path);
 		this.sidebar = undefined;
 		const subscription = this.http.get(path).subscribe({
 			next: (response) => {
