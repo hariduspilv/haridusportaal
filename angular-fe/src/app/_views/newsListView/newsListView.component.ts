@@ -27,11 +27,11 @@ export class NewsListViewComponent implements AfterViewInit {
   public breadcrumbs = [
     {
       link: '/',
-      title: 'Avaleht',
+      title: 'frontpage.label',
     },
     {
       link: '',
-      title: 'Uudised',
+      title: 'news.label',
     },
   ];
 

@@ -11,6 +11,7 @@ import { StudyListViewQueryParameters } from '../../models/study-list-view-query
 import { StudyListViewQueryResponse } from '../../models/study-list-view-query-response';
 import { StudyApiService } from '../../study-api.service';
 import { StudyUtility } from '../../study-utility';
+import { getLangCode } from "@app/_core/router-utility";
 
 @Component({
 	selector: 'study-list',
@@ -36,18 +37,17 @@ export class StudyListComponent implements OnInit, OnDestroy {
 	constructor(
 		private api: StudyApiService,
 		private route: ActivatedRoute,
-	) {
-	}
+	) {	}
 
   ngOnInit(): void {
     this.route.queryParams
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((parameters) => {
-      this.resetStudyListOffsetParameters();
-      this.studyListViewQuery(parameters);
+				this.resetStudyListOffsetParameters();
+				this.studyListViewQuery(parameters);
     });
 
-    this.api.studyListIntroQuery(Language.et)
+    this.api.studyListIntroQuery(getLangCode())
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((res) => this.intro = res);
   }
@@ -102,7 +102,7 @@ export class StudyListComponent implements OnInit, OnDestroy {
 	}
 
   private filterOptionsAsObservable() {
-    return this.api.studyListViewFilterQuery(Language.et)
+    return this.api.studyListViewFilterQuery(getLangCode().toUpperCase())
       .pipe(map(response => StudyUtility.flattenStudyListFilterOptions(response)));
   }
 

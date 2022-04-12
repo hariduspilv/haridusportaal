@@ -64,7 +64,7 @@ export class HomePageViewComponent implements OnInit, OnDestroy {
       this.getPageData();
     });
     if (this.title) {
-      this.titleService.setTitle(this.translate.get(this.title));		// frontpage.career
+      this.titleService.setTitle(this.translate.get(this.title));
     }
 
 		this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event) => {
