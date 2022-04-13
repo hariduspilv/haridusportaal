@@ -286,14 +286,12 @@ export class HeaderComponent implements OnInit {
 
 		const isMainPage = pathsLength === 1 && (paths[0] === '' || isLanguageCode(paths[0]));
 		if (isMainPage) {
-			console.log('main');
 			code === 'et' ? this.navigate('') : this.navigate(code);
 		}
 
 		const newUrl = this.settings.currentLanguageSwitchLinks?.find((link) => link.language.id === code).url.path;
 		if (newUrl) {
-			console.log('newUrl');
-			console.log(newUrl);
+			console.log('newUrl: ', newUrl)
 			this.navigate(newUrl);
 		}
 
@@ -376,9 +374,9 @@ export class HeaderComponent implements OnInit {
 			this.navigate('valdkonnad/kaart');
 		}
 		if (this.router.url === '/tööjõuprognoos/töö-ja-oskused-2025') {
-			this.navigate('en/labor-force-forecast/map');
+			this.navigate('en/survey-pages/work-and-skills-2025');
 		}
-		if (this.router.url === '/en/labor-force-forecast/map') {
+		if (this.router.url === '/en/survey-pages/work-and-skills-2025') {
 			this.navigate('tööjõuprognoos/töö-ja-oskused-2025');
 		}
 		if (this.router.url === '/oska-tulemused/ettepanekute-elluviimine') {
@@ -423,13 +421,19 @@ export class HeaderComponent implements OnInit {
 		if (this.router.url === '/en/news') {
 			this.navigate('uudised');
 		}
-		// if (this.router.url === '/s%C3%BCndmused') {
-		// 	console.log('here');
-		// 	this.navigate('en/events');
-		// }
-		// if (this.router.url === '/en/events') {
-		// 	this.navigate('sündmused');
-		// }
+		if (this.router.url === '/s%C3%BCndmused') {
+			this.navigate('en/events');
+		}
+		if (this.router.url === '/en/events') {
+			this.navigate('sündmused');
+		}
+		if (this.router.url === '/s%C3%BCndmused/kalender') {
+			this.navigate('en/events/calendar');
+		}
+		if (this.router.url === '/en/events/calendar') {
+			this.navigate('sündmused/kalender');
+		}
+
 	}
 
 	public navigateToMainPage(): void {

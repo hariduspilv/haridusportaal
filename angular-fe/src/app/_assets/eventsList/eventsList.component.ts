@@ -1,4 +1,3 @@
-
 import { Component, ViewChild, ElementRef, OnInit, HostListener } from '@angular/core';
 import * as moment from 'moment';
 import { Subscription, of } from 'rxjs';
@@ -9,6 +8,7 @@ import { FiltersService } from '@app/_services/filterService';
 import { filter, delay } from 'rxjs/operators';
 import { SettingsService, ScrollRestorationService, ListRestorationType } from '@app/_services';
 import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
+import { translatePath } from "@app/_core/router-utility";
 
 export class EventsConfig {
 
@@ -111,6 +111,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
   scrollPositionSet: boolean = false;
   count: number = 0;
   private filterFullProperties: any = ['tags', 'types'];
+
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -123,12 +124,14 @@ export class EventsListComponent extends FiltersService implements OnInit {
     let subscription = router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      if((/^\/sündmused\/kalender/g).test(decodeURI(event.url)) && window.innerWidth > 1024) {
+			// (/^\/sündmused\/kalender/g).test(decodeURI(event.url))
+			if (decodeURI(event.url) === translatePath('/sündmused/kalender') && window.innerWidth > 1024) {
         this.changeView('calendar', true);
       } else {
         this.changeView('list', true);
       }
     });
+
     this.subscriptions = [...this.subscriptions, subscription];
   }
 
@@ -264,18 +267,19 @@ export class EventsListComponent extends FiltersService implements OnInit {
 
   changeView(view: any, update: boolean = true){
     this.view = view;
-        sessionStorage.setItem("events.view", view);
+		sessionStorage.setItem("events.view", view);
+
     switch(view) {
       case 'calendar':
         this.scrollRestoration.restorationValues.next({ ...this.scrollRestorationValues, 'eventsList': null });
-        this.router.navigate(['/sündmused/kalender'], {queryParamsHandling: "preserve"});
+				this.router.navigate([translatePath('/sündmused/kalender')], {queryParamsHandling: 'preserve'});
         break;
       case 'list':
-        this.router.navigate(['/sündmused'], {queryParamsHandling: "preserve"});
+				this.router.navigate([translatePath('/sündmused')], {queryParamsHandling: 'preserve'});
       default:
         break;
     }
-    if( view == "calendar" ){
+    if( view == 'calendar' ){
       this.loadingCalendar = true;
       this.eventsConfig.limit = 9999;
       this.generateCalendar(true);
@@ -333,11 +337,12 @@ export class EventsListComponent extends FiltersService implements OnInit {
       }
     );
     //kui jegorr teeb õhtusöögiks 5 kilo spagette, siis sul ei jää muud üle kui hommikusöögiks veel spagette süüa
-    if((/^\/sündmused\/kalender/g).test(decodeURI(this.path)) && window.innerWidth > 1024) {
-      this.changeView('calendar', false);
-    } else {
-      this.changeView('list', false);
-    }
+    // if((/^\/sündmused\/kalender/g).test(decodeURI(this.path)) && window.innerWidth > 1024) {
+		if (decodeURI(this.path) === translatePath('/sündmused/kalender') && window.innerWidth > 1024) {
+			this.changeView('calendar', false);
+		} else {
+			this.changeView('list', false);
+		}
 
     this.showFilter = this.device.isDesktop();
     this.filterFull = this.device.isTablet() || this.device.isMobile();
