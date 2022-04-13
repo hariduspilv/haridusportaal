@@ -6,7 +6,7 @@
     <a *ngIf="item.link && isMainPage(item.link)" (click)="navigateToMainPage()">{{ 'frontpage.label' | translate }}</a>	<!-- item.label -->
     <a *ngIf="item.link && !isMainPage(item.link)" [routerLink]="[item.link]">{{ item.title | translate }}</a>
     <ng-container *ngIf="!item.link">
-      <a style="cursor: auto" attr.aria-label="{{ ('breadcrumbs.current_page' | translate) + ' ' + item.title }}">	<!-- href="javascript:window.location.reload();" -->
+      <a href="javascript:window.location.reload();" attr.aria-label="{{ ('breadcrumbs.current_page' | translate) + ' ' + item.title }}">
         <span aria-hidden="true">
           {{ item.title | translate }}
         </span>

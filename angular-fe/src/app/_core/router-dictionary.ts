@@ -28,7 +28,7 @@ export const routerDictionary = [
 	['tunnistuse-kehtivuse-kontroll', 'certificate-validity-check'],					// , 'proverka-dejstvitelnosti-svidetelstva'
 	['tunnistused', 'certificates'],																					// , 'svidetelstva'
 	['täiendkoolitus', 'in-service-training'],																// , 'dopolnitelnye-kursy'
-	['tööjõuprognoos', 'labor-force-forecast'], 															// , 'prognoz-rabo4ej-sily'
+	['tööjõuprognoos', 'survey-pages'],					 															// , 'prognoz-rabo4ej-sily'
 	['töölaud', 'dashboard'], 																								// , 'rabo4ij-stol'
 	['töötamine', 'working'],																									// , 'rabota'
 	['uudised', 'news'],																											// , 'novosti'
