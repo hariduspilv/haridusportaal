@@ -25,7 +25,6 @@ export class StudyApiService {
 
 	studyListIntroQuery(lang: string): Observable<StudyListIntro> {
 		const path = this.settingsService.query('studyListViewIntro', {lang});
-		console.log(path);
 		return this.http.get<StudyListIntro>(path);
 	}
 

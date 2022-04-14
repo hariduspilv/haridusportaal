@@ -51,7 +51,7 @@ export class SettingsService {
 
 	private languageSwitchLinks: any;
 	get currentLanguageSwitchLinks() { return this.languageSwitchLinks; }
-	set currentLanguageSwitchLinks(links: LanguageSwitchLink[]) { console.log(links); this.languageSwitchLinks = links; }
+	set currentLanguageSwitchLinks(links: LanguageSwitchLink[]) { this.languageSwitchLinks = links; }
 
 	setUrl(): void {
 		this.url = `${environment.API_URL}${this.activeLang === LanguageCodes.ESTONIAN ? '' : `/${this.activeLang.toLowerCase()}`}`;
