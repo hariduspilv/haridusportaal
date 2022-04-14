@@ -380,9 +380,9 @@ export class HeaderComponent implements OnInit {
 			this.navigate('tööjõuprognoos/töö-ja-oskused-2025');
 		}
 		if (this.router.url === '/oska-tulemused/ettepanekute-elluviimine') {
-			this.navigate('en/oska-tulemused/ettepanekute-elluviimine');
+			this.navigate('en/oska-results/proposals-implementation');
 		}
-		if (this.router.url === '/en/oska-tulemused/ettepanekute-elluviimine') {
+		if (this.router.url === '/en/oska-results/proposals-implementation') {
 			this.navigate('oska-tulemused/ettepanekute-elluviimine');
 		}
 		if (this.router.url === '/uuringud') {
@@ -433,7 +433,26 @@ export class HeaderComponent implements OnInit {
 		if (this.router.url === '/en/events/calendar') {
 			this.navigate('sündmused/kalender');
 		}
+		if (this.router.url === '/tunnistuse-kehtivuse-kontroll') {
+			this.navigate('en/certificate-validity-check');
+		}
+		if (this.router.url === '/en/certificate-validity-check') {
+			this.navigate('tunnistuse-kehtivuse-kontroll');
+		}
+		if (decodeURI(this.router.url) === '/tunnistused/lõpudokumendid') {
+			this.navigate('en/certificates/finishing-docs');
+		}
+		if (this.router.url === '/en/certificates/finishing-docs') {
+			this.navigate('tunnistused/lõpudokumendid');
+		}
 
+
+		if (decodeURI(this.router.url) === '/töölaud/tunnistused') {
+			this.navigate('en/dashboard/certificates');
+		}
+		if (this.router.url === '/en/dashboard/certificates') {
+			this.navigate('töölaud/tunnistused');
+		}
 	}
 
 	public navigateToMainPage(): void {

@@ -9,14 +9,14 @@ export class CertificatesContainerComponent {
 
   public breadcrumbs: any = [
     {
-      title: 'Avaleht',
+      title: 'frontpage.label',
       link: '/',
     },
     {
-      title: 'Tunnistused',
+      title: 'certificates.title',
     },
     {
-      title: 'Lõpudokumendid',
+      title: 'certificates.final_documents',
     },
   ];
 
