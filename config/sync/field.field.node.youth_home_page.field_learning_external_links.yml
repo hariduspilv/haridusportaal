@@ -15,7 +15,7 @@ bundle: youth_home_page
 label: 'Välised lingid'
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:

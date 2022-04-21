@@ -1,0 +1,17 @@
+uuid: fcfee16c-d842-4605-9ee3-0c96721bfc32
+langcode: et
+status: true
+dependencies:
+  module:
+    - content_translation
+    - htm_custom_subscriptions
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: subscription_entity.subscription_entity
+target_entity_type_id: subscription_entity
+target_bundle: subscription_entity
+default_langcode: site_default
+language_alterable: false

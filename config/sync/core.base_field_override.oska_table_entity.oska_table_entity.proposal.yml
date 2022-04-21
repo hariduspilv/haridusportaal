@@ -1,0 +1,18 @@
+uuid: 97a0d087-f720-4d6d-a5f1-7de1151496ce
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_table_entity.oska_table_entity.proposal
+field_name: proposal
+entity_type: oska_table_entity
+bundle: oska_table_entity
+label: Ettepanek
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

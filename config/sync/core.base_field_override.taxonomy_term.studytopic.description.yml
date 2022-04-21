@@ -1,0 +1,20 @@
+uuid: a4b4755c-95f2-4883-b1dd-07ceaff6a0f6
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytopic
+  module:
+    - text
+id: taxonomy_term.studytopic.description
+field_name: description
+entity_type: taxonomy_term
+bundle: studytopic
+label: Kirjeldus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

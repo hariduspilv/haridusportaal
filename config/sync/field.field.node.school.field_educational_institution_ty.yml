@@ -10,10 +10,10 @@ id: node.school.field_educational_institution_ty
 field_name: field_educational_institution_ty
 entity_type: node
 bundle: school
-label: 'Educational Institution Type'
+label: 'Õppeasutuse liik'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

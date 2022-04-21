@@ -1,0 +1,22 @@
+uuid: 390096ff-2f99-48ff-b213-6f9e57785936
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.status
+field_name: status
+entity_type: node
+bundle: mingi_content_type
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

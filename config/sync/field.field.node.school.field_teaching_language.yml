@@ -10,10 +10,10 @@ id: node.school.field_teaching_language
 field_name: field_teaching_language
 entity_type: node
 bundle: school
-label: 'Teaching language'
+label: Õppekeel
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

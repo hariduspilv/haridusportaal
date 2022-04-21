@@ -1,0 +1,11 @@
+uuid: f1c481ce-f84d-4611-862c-d5966af636f6
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_filling_bar_entity.oska_filling_bar_entity
+target_entity_type_id: oska_filling_bar_entity
+target_bundle: oska_filling_bar_entity
+default_langcode: site_default
+language_alterable: false
