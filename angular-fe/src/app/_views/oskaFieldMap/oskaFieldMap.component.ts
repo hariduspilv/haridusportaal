@@ -146,7 +146,6 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     const variables = {};
 
     const path = this.settings.query('oskaMapData', variables);
-		console.log(path);
 
 		const subscription = this.http.get(path).subscribe((data) => {
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);

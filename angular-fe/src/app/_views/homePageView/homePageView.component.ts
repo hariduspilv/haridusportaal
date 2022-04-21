@@ -17,6 +17,7 @@ import { TitleService } from '@app/_services/TitleService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ReplaySubject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { SettingsService } from "@app/_services";
 
 @Component({
   selector: 'homepage',
@@ -53,16 +54,20 @@ export class HomePageViewComponent implements OnInit, OnDestroy {
     protected route: ActivatedRoute,
 		protected router: Router,
     protected service: HomePageService,
+		protected settings: SettingsService,
     protected translate: TranslateService,
     protected titleService: TitleService,
   ) {}
 
   ngOnInit() {
+		this.settings.currentLanguageSwitchLinks = null;
+
     this.route.data.pipe(takeUntil(this.destroy$)).subscribe((response: { theme?: string; }) => {
 			this.theme = response.theme || this.theme;
 			this.loading = true;
       this.getPageData();
     });
+
     if (this.title) {
       this.titleService.setTitle(this.translate.get(this.title));
     }
@@ -80,7 +85,6 @@ export class HomePageViewComponent implements OnInit, OnDestroy {
 
 		this.destroy$.next(true);
 		this.destroy$.complete();
-
   }
 
 	private getPageData(): void {

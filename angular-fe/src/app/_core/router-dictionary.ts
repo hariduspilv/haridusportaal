@@ -23,7 +23,7 @@ export const routerDictionary = [
 	['noored', 'youth'], 																											// , 'molodjoz'
 	['oska-tulemused', 'oska-results'],																				// , 'oska-rezultaty'
 	['sündmused', 'events'],																									// , 'sobytija'
-	['taotlused', 'application'], 																						// , 'hodatajstvo'
+	['taotlused', 'applications'], 																						// , 'hodotajstva'
 	['teavitused', 'notification'], 																					// , 'opovewenije'
 	['tunnistuse-kehtivuse-kontroll', 'certificate-validity-check'],					// , 'proverka-dejstvitelnosti-svidetelstva'
 	['tunnistused', 'certificates'],																					// , 'svidetelstva'

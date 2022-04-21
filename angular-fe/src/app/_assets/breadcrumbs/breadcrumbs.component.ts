@@ -71,6 +71,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
       path: this.path,
     };
 		const path = this.settings.query('getBreadcrumbs', variables);
+
 		const subscription = this.http.get(path).subscribe({
 			next: (response) => {
 				this.saveLanguageSwitchLinks(response);
@@ -94,6 +95,8 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 	private saveLanguageSwitchLinks(response: Object) {
 		if (response && response['data'] && response['data']['route'] && response['data']['route']['languageSwitchLinks']) {
 			this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
+		} else {
+			this.settings.currentLanguageSwitchLinks = null;
 		}
 	}
 }

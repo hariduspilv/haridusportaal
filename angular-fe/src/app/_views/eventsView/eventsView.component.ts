@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -150,12 +150,6 @@ export class EventsViewComponent implements OnInit, OnDestroy {
     if (this.device.isMobile()) {
       this.filterFull = true;
     }
-
-		this.router.events.subscribe((event) => {
-			if (event instanceof NavigationEnd) {
-				console.log(event);
-			}
-		});
   }
 
   ngOnDestroy() {

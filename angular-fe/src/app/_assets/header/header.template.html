@@ -101,7 +101,7 @@
       <div class="login__wrapper" *ngIf="!loading">
         <ng-container *ngIf="!mobileId.challengeId; else mobileIdWrapper">
           <ng-container *ngFor="let method of availableAuthMethods; let first = first">
-            <labeled-separator *ngIf="!first" type="login" label="või"></labeled-separator>
+            <labeled-separator *ngIf="!first" type="login" label="{{ 'label.or' | translate }}"></labeled-separator>
             <div class="login__method" *ngIf="method[0] === 'harid'">
               <button (click)="harIdLogin()" htm-button>
                 {{ "login_harid" | translate }}

@@ -13,6 +13,7 @@ export class OskaFieldDataViewComponent implements OnInit{
   public origData;
   public data;
   public loading: boolean = false;
+
   constructor(
     private http: HttpClient,
     private settings: SettingsService,
@@ -25,7 +26,7 @@ export class OskaFieldDataViewComponent implements OnInit{
 
     const path = this.settings.query('oskaFieldComparisonPage', variables);
 
-    const subscription = this.http.get(path).subscribe({
+		const subscription = this.http.get(path).subscribe({
 			next: (response) => {
 				this.origData = response['data']['nodeQuery']['entities'][0];
 

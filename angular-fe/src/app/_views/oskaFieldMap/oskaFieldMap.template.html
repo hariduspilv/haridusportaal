@@ -1,12 +1,12 @@
 <base-layout>
   <div class="inline">
-    <breadcrumbs path="/valdkonnad/kaart"></breadcrumbs>
+    <breadcrumbs path="{{ '/valdkonnad/kaart' | translatePath }}"></breadcrumbs>
   </div>
   <!--/inline-->
   <div class="inline">
     <block titleBorder="true" tabStyle="default">
       <block-title><h1>{{ 'oska.fields_data_on_map' | translate }}</h1></block-title>
-      <block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="{{ '/valdkonnad' | translatePath}}">
+      <block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="{{ '/valdkonnad' | translatePath }}">
       </block-content>
       <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info" tabLink="{{ '/valdkonnad/andmed' | translatePath }}">
       </block-content>

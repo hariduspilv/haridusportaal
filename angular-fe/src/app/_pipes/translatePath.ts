@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {getLangCode, getTranslatedWord, translatePath} from "@app/_core/router-utility";
+import { translatePath } from "@app/_core/router-utility";
 
 @Pipe({
 	name: 'translatePath',
