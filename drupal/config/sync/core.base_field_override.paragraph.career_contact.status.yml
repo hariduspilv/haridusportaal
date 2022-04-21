@@ -1,0 +1,22 @@
+uuid: ecdff915-6b1a-40ff-b896-bb5ca16e9d27
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.career_contact
+id: paragraph.career_contact.status
+field_name: status
+entity_type: paragraph
+bundle: career_contact
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

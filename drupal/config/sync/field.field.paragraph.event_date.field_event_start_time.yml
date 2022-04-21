@@ -11,10 +11,10 @@ id: paragraph.event_date.field_event_start_time
 field_name: field_event_start_time
 entity_type: paragraph
 bundle: event_date
-label: 'Sündmuse algamise kuupäev'
+label: 'Sündmuse alguse kellaaeg'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

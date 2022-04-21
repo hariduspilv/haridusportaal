@@ -1,0 +1,20 @@
+uuid: 0cdaa468-8482-456b-8306-d6cdfdad21af
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.menu_link
+field_name: menu_link
+entity_type: node
+bundle: youth_home_page
+label: Menüülink
+description: 'Computed menu link for the node (only available during node saving).'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

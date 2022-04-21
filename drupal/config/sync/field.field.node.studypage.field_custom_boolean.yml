@@ -12,7 +12,7 @@ bundle: studypage
 label: 'Esiletõstetud uuring'
 description: 'Määra uuring listivaates esiletõstetuks'
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 0

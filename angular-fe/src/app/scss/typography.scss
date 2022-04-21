@@ -1,7 +1,7 @@
 @import "./colors.scss";
 @import 'breakpoints.scss';
 
-// Examples: 
+// Examples:
 // @include break-on(sm, min)
 // @include break-on(lg, max)
 
@@ -54,7 +54,7 @@ html {
   overflow: hidden;
   position: relative;
   line-height: $lineHeight;
-  max-height: $lineHeight * $lineCount; 
+  max-height: $lineHeight * $lineCount;
   text-align: justify;
   padding-right: 2rem;
   & .ellipsis {
@@ -76,9 +76,9 @@ html {
 }
 .app-content block{
   a:visited{
-    color: $visited !important; 
+    color: $visited !important;
     h1, h2, h3, h4{
-      color: $visited !important; 
+      color: $visited !important;
     }
   }
 }
@@ -86,10 +86,10 @@ html {
 @mixin lineClamp($lines) {
   display: -webkit-box;
   -webkit-line-clamp: $lines;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
-  
+
 .text-center{text-align:center;}
 .text-right{text-align: right;}
 .pointer{cursor: pointer;}

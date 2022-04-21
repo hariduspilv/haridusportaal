@@ -1,0 +1,20 @@
+uuid: 1e4b189b-0fea-49ca-8cf4-fcebeffe7a71
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytopic
+  module:
+    - path
+id: taxonomy_term.studytopic.path
+field_name: path
+entity_type: taxonomy_term
+bundle: studytopic
+label: 'URL-i alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

@@ -68,6 +68,8 @@ class EhisConnectorService {
     $this->logger = $logger->get('ehis_connector_service');
     $this->currentRole = \Drupal::service('current_user.role_switcher')->getCurrentRole();
     $this->loime_url = settings::get('loime_default_url');
+    \Drupal::logger('xjson')->notice('<pre><code>Construct time: ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
   }
 
   /**
@@ -128,6 +130,8 @@ class EhisConnectorService {
             $redis_response['redis_hit'] = TRUE;
             return $redis_response;
           } else {
+            \Drupal::logger('xjson')->notice('<pre><code>1 Get request time (InvokeWithRedis > Invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
             return $this->invoke($service_name, $params);
           }
         }
@@ -147,7 +151,11 @@ class EhisConnectorService {
       /*TODO make post URL configurable*/
       if($type === 'get'){
         if($service_name === 'getDocument' || $service_name === 'changeDocument'){
+          \Drupal::logger('xjson')->notice('<pre><code>2 Get request time (Before Get Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
           $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
+          \Drupal::logger('xjson')->notice('<pre><code>3 Get request time (After Get Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+
         } else {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/') . '?'. implode($params['params'], '&'));
         }
@@ -264,7 +272,10 @@ class EhisConnectorService {
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'testsessioonidKod';
+    \Drupal::logger('xjson')->notice('<pre><code>EIS response: '. print_r($params['value'], TRUE). '</code></pre>' );
+
     return $this->invokeWithRedis('testsessioonidKod', $params, FALSE);
+
   }
 
   /**
@@ -455,7 +466,7 @@ class EhisConnectorService {
       $hash = 'educationalInstitution_'.$params['data']['edId'];
       $this->deleteFromRedis($key, $hash);
     }
-
+    \Drupal::logger('xjson')->notice('<pre><code>Post request time (editInstitution > invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
     return $return;
   }
 

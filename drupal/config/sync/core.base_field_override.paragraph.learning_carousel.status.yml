@@ -1,0 +1,22 @@
+uuid: 5126ed32-a693-4107-b990-d932cc3e8943
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.learning_carousel
+id: paragraph.learning_carousel.status
+field_name: status
+entity_type: paragraph
+bundle: learning_carousel
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

@@ -1,0 +1,22 @@
+uuid: 4e393fb3-6434-4a4e-9ad7-6ff2f318b74f
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.youth_content_page_link
+id: paragraph.youth_content_page_link.status
+field_name: status
+entity_type: paragraph
+bundle: youth_content_page_link
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

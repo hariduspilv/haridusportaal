@@ -1,0 +1,18 @@
+uuid: a7481e35-6735-4f8d-8e50-1eb3ed70b0a6
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.career_contact
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.career_contact
+target_entity_type_id: paragraph
+target_bundle: career_contact
+default_langcode: site_default
+language_alterable: true

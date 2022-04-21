@@ -1,0 +1,20 @@
+uuid: 715016b5-cb2b-4267-8d90-e3ea5c92bdac
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_entity.oska_entity.user_id
+field_name: user_id
+entity_type: oska_entity
+bundle: oska_entity
+label: Autor
+description: 'The user ID of author of the Oska entity entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

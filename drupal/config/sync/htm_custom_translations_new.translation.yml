@@ -4791,8 +4791,8 @@ finaldocuments:
     en: Number
   date_of:
     translation_type: textarea
-    et: 'Väljaandmise kuupäev'
-    en: 'Väljaandmise kuupäev'
+    et: 'Lõpetamise kuupäev'
+    en: 'Lõpetamise kuupäev'
   duplicate_number:
     translation_type: textarea
     et: 'Duplikaadi algdokumendi number'
