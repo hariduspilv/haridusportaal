@@ -17,11 +17,18 @@ export function activeLanguageIndex(): number {
 	return Object.values(LanguageCodes).findIndex((code) => code === appActiveLanguage);
 }
 
+export function languageIndex(code: LanguageCodes): number {
+	return Object.values(LanguageCodes).findIndex((langCode) => langCode === code);
+}
+
+export function addLanguageCode(path: string, code: LanguageCodes): string {
+	return code === 'et' ? `/${path}`	: `/${code}/${path}`;
+}
+
 export function removeLanguageCode(path: string): string {
-	if (path && isLanguageCode(path.split('/')[1])) {
-		return path.substring(3);
-	}
-	return path;
+	return (path && isLanguageCode(path.split('/')[1]))
+		? path.substring(3)
+		: path;
 }
 
 export function getLangCode(): LanguageCodes {
@@ -46,9 +53,17 @@ export function translatePath(path: string): string {
 			.map((subPath) => getTranslatedWord(subPath))
 			.join('/');
 
-		return getLangCode() === 'et'
-			? `/${translatedPath}`
-			: `/${getLangCode()}/${translatedPath}`;
+	return addLanguageCode(translatedPath, getLangCode());
+}
+
+export function translatePathTo(path: string, langCode: LanguageCodes): string {
+	const translatedPath = removeLanguageCode(decodeURI(path))
+		.split('/')
+		.splice(1)
+		.map((subPath) => findTranslation(subPath)[languageIndex(langCode)])
+		.join('/');
+
+	return addLanguageCode(translatedPath, langCode);
 }
 
 export function translateRoutes(routes: Route[], exclusions?: string[]): Route[] {

@@ -110,6 +110,8 @@ export class NewsListViewComponent implements AfterViewInit {
   }
 
   ngOnInit() {
+		this.settings.currentLanguageSwitchLinks = null;
+
     this.toggleFilters();
     this.getTags();
   }

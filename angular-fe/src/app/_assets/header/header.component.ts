@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import {getLangCode, isLanguageCode, isMainPage, translatePath} from "@app/_core/router-utility";
+import { getLangCode, isMainPage,	translatePathTo } from "@app/_core/router-utility";
 
 @Component({
   selector: 'htm-header',
@@ -281,177 +281,35 @@ export class HeaderComponent implements OnInit {
 	}
 
 	private validatePath(code: LanguageCodes): void {
-		const paths = this.router.url.split('/').splice(1);
-		const pathsLength = paths.length;
-
-		const isMainPage = pathsLength === 1 && (paths[0] === '' || isLanguageCode(paths[0]));
-		if (isMainPage) {
-			code === 'et' ? this.navigate('') : this.navigate(code);
-		}
-
 		const newUrl = this.settings.currentLanguageSwitchLinks?.find((link) => link.language.id === code).url.path;
-		if (newUrl) {
-			console.log('newUrl: ', newUrl)
+
+		if (isMainPage()) {
+			code === 'et' ? this.navigate('') : this.navigate(code);
+		} else if (newUrl) {
 			this.navigate(newUrl);
+		} else {
+			this.navigate(translatePathTo(this.router.url, code));
 		}
 
-		if (this.router.url === '/karj%C3%A4%C3%A4r') {
-			this.navigate('en/career');
-		}
-		if (this.router.url === '/en/career') {
-			this.navigate('karjäär');
-		}
-		if (this.router.url === '/%C3%B5ppimine') {
-			this.navigate('en/learning');
-		}
-		if (this.router.url === '/en/learning') {
-			this.navigate('õppimine');
-		}
-		if (this.router.url === '/kool') {
-			this.navigate('en/school');
-		}
-		if (this.router.url === '/en/school') {
-			this.navigate('kool');
-		}
-		if (this.router.url === '/kool/kaart') {
-			this.navigate('en/school/map');
-		}
-		if (this.router.url === '/en/school/map') {
-			this.navigate('kool/kaart');
-		}
-		if (this.router.url === '/koolide-rahastus') {
-			this.navigate('en/money-to-school');
-		}
-		if (this.router.url === '/en/money-to-school') {
-			this.navigate('koolide-rahastus');
-		}
-		if (this.router.url === '/koolide-rahastus/haldus%C3%BCksused') {
-			this.navigate('en/money-to-school/administrative-units');
-		}
-		if (this.router.url === '/en/money-to-school/administrative-units') {
-			this.navigate('koolide-rahastus/haldusüksused');
-		}
-		if (this.router.url === '/erialad') {
-			this.navigate('en/study-programmes');
-		}
-		if (this.router.url === '/en/study-programmes') {
-			this.navigate('erialad');
-		}
-		if (this.router.url === '/ametialad') {
-			this.navigate('en/professions');
-		}
-		if (this.router.url === '/en/professions') {
-			this.navigate('ametialad');
-		}
-		if (this.router.url === '/ametialad/andmed') {
+		if (this.router.url === '/ametialad/andmed') {		// langSwitchLink en/node/123 - need to correct
 			this.navigate('en/professions/data');
 		}
 		if (this.router.url === '/en/professions/data') {
 			this.navigate('ametialad/andmed');
 		}
-		if (this.router.url === '/kool/4t') {	// :id
-			this.navigate('en/school/4t');
-		}
-		if (this.router.url === '/en/school/4t') {
-			this.navigate('kool/4t');
-		}
-		if (this.router.url === '/valdkonnad') {
-			this.navigate('en/sectors');
-		}
-		if (this.router.url === '/en/sectors') {
-			this.navigate('valdkonnad');
-		}
-		if (this.router.url === '/valdkonnad/andmed') {
+
+		if (this.router.url === '/valdkonnad/andmed') {		// langSwitchLink en/node/123 - need to correct
 			this.navigate('en/sectors/data');
 		}
 		if (this.router.url === '/en/sectors/data') {
 			this.navigate('valdkonnad/andmed');
 		}
-		if (this.router.url === '/valdkonnad/kaart') {
-			this.navigate('en/sectors/map');
-		}
-		if (this.router.url === '/en/sectors/map') {
-			this.navigate('valdkonnad/kaart');
-		}
-		if (this.router.url === '/tööjõuprognoos/töö-ja-oskused-2025') {
-			this.navigate('en/survey-pages/work-and-skills-2025');
-		}
-		if (this.router.url === '/en/survey-pages/work-and-skills-2025') {
-			this.navigate('tööjõuprognoos/töö-ja-oskused-2025');
-		}
-		if (this.router.url === '/oska-tulemused/ettepanekute-elluviimine') {
-			this.navigate('en/oska-results/proposals-implementation');
-		}
-		if (this.router.url === '/en/oska-results/proposals-implementation') {
-			this.navigate('oska-tulemused/ettepanekute-elluviimine');
-		}
-		if (this.router.url === '/uuringud') {
-			this.navigate('en/studies');
-		}
-		if (this.router.url === '/en/studies') {
-			this.navigate('uuringud');
-		}
-		if (this.router.url === '/noored') {
-			this.navigate('en/youth');
-		}
-		if (this.router.url === '/en/youth') {
-			this.navigate('noored');
-		}
-		if (this.router.url === '/%C3%B5petaja') {
-			this.navigate('en/teacher');
-		}
-		if (this.router.url === '/en/teacher') {
-			this.navigate('õpetaja');
-		}
-		if (this.router.url === '/infos%C3%BCsteemid/eesti-hariduse-infos%C3%BCsteem-ehis') {
-			this.navigate('en/infosystems/estonian-education-information-system-ehis');
-		}
-		if (this.router.url === '/en/infosystems/estonian-education-information-system-ehis') {
-			this.navigate('infosüsteemid/eesti-hariduse-infosüsteem-ehis');
-		}
-		if (this.router.url === '/infos%C3%BCsteemid/eesti-hariduse-infos%C3%BCsteem-ehis') {
-			this.navigate('en/infosystems/estonian-education-information-system-EHIS-TEST2-longer-name-or-100-chars-or-100-chars-or-100-char');
-		}
-		if (this.router.url === '/en/infosystems/estonian-education-information-system-EHIS-TEST2-longer-name-or-100-chars-or-100-chars-or-100-char') {
-			this.navigate('infosüsteemid/eesti-hariduse-infosüsteem-ehis');
-		}
-		if (this.router.url === '/uudised') {
-			this.navigate('en/news');
-		}
-		if (this.router.url === '/en/news') {
-			this.navigate('uudised');
-		}
-		if (this.router.url === '/s%C3%BCndmused') {
-			this.navigate('en/events');
-		}
-		if (this.router.url === '/en/events') {
-			this.navigate('sündmused');
-		}
-		if (this.router.url === '/s%C3%BCndmused/kalender') {
+
+		if (encodeURI(this.router.url) === '/sündmused/kalender') { // should be here, because calendar's render occurs in Angular
 			this.navigate('en/events/calendar');
 		}
 		if (this.router.url === '/en/events/calendar') {
 			this.navigate('sündmused/kalender');
-		}
-		if (this.router.url === '/tunnistuse-kehtivuse-kontroll') {
-			this.navigate('en/certificate-validity-check');
-		}
-		if (this.router.url === '/en/certificate-validity-check') {
-			this.navigate('tunnistuse-kehtivuse-kontroll');
-		}
-		if (decodeURI(this.router.url) === '/tunnistused/lõpudokumendid') {
-			this.navigate('en/certificates/finishing-docs');
-		}
-		if (this.router.url === '/en/certificates/finishing-docs') {
-			this.navigate('tunnistused/lõpudokumendid');
-		}
-
-
-		if (decodeURI(this.router.url) === '/töölaud/tunnistused') {
-			this.navigate('en/dashboard/certificates');
-		}
-		if (this.router.url === '/en/dashboard/certificates') {
-			this.navigate('töölaud/tunnistused');
 		}
 	}
 
