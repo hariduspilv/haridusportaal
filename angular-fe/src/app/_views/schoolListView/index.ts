@@ -9,6 +9,7 @@ import { AuthInterceptor } from '@app/_interceptors';
 import { SchoolListViewComponent } from './schoolListView.component';
 import { AppPipes } from '@app/_pipes';
 import { SchoolListMapComponent } from './map/schoolListMap.component';
+import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -27,7 +28,7 @@ const routes: Routes = [
     SchoolListMapComponent,
   ],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forChild(translateRoutes(routes)),
     AssetsModule,
     TranslateModule,
     CommonModule,

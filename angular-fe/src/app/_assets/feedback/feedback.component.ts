@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import {ChangeDetectorRef, Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
 
@@ -19,9 +19,7 @@ export class FeedbackComponent {
     private http: HttpClient,
     private cd: ChangeDetectorRef,
     private settings: SettingsService,
-  ) {
-
-  }
+  ) {	}
 
   public cancel(): void {
     this.values['vote'] = false;

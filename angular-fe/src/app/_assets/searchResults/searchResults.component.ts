@@ -190,7 +190,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     this.httpWatcher.unsubscribe();
     this.getDataDebounce = setTimeout(
       () => {
-        values.lang = 'ET';
+        values.lang = this.settings.currentAppLanguage;
         values.offset = this.offset;
         values.limit = this.limit;
         let query = `queryName=${this.queryName}`;

@@ -194,6 +194,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
     this.getDataDebounce = setTimeout(
       () => {
         values.offset = this.listOffset;
+        values.lang = this.settings.currentAppLanguage;
         let query = `queryName=${this.queryName}`;
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;

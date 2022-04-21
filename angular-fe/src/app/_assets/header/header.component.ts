@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import {
-  AlertsService,
-  AnalyticsService,
-  AuthService,
-  ModalService,
-  SettingsService,
-  SidemenuService,
+	AlertsService,
+	AnalyticsService,
+	AuthService, LanguageCodes,
+	ModalService,
+	SettingsService,
+	SidemenuService,
 } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
+import { getLangCode, isMainPage,	translatePathTo } from "@app/_core/router-utility";
 
 @Component({
   selector: 'htm-header',
@@ -55,6 +56,8 @@ export class HeaderComponent implements OnInit {
     phoneNumber: ['', Validators.required],
   });
 
+	public availableLanguages: Record<string, string | LanguageCodes>[];
+
   constructor(
     public sidemenuService: SidemenuService,
     public modalService: ModalService,
@@ -69,8 +72,7 @@ export class HeaderComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private analytics: AnalyticsService,
     private deviceDetector: DeviceDetectorService,
-  ) {
-  }
+  ) {	this.availableLanguages = settings.availableLanguages; }
 
   @HostBinding('class') get hostClasses(): string {
     return `header header--${this.theme}`;
@@ -265,5 +267,58 @@ export class HeaderComponent implements OnInit {
     this.subscribeToSidemenu();
     this.getAuthMethods();
     this.setHamburgerStyles();
-  }
+	}
+
+	changeLanguage(code: LanguageCodes) {
+		if (code !== getLangCode()) {
+			this.settings.currentAppLanguage = code;
+			this.loading = true;
+			this.translate.load().then(() => {
+				this.loading = false;
+				this.validatePath(code);
+			});
+		}
+	}
+
+	private validatePath(code: LanguageCodes): void {
+		const newUrl = this.settings.currentLanguageSwitchLinks?.find((link) => link.language.id === code).url.path;
+
+		if (isMainPage()) {
+			code === 'et' ? this.navigate('') : this.navigate(code);
+		} else if (newUrl) {
+			this.navigate(newUrl);
+		} else {
+			this.navigate(translatePathTo(this.router.url, code));
+		}
+
+		if (this.router.url === '/ametialad/andmed') {		// langSwitchLink en/node/123 - need to correct
+			this.navigate('en/professions/data');
+		}
+		if (this.router.url === '/en/professions/data') {
+			this.navigate('ametialad/andmed');
+		}
+
+		if (this.router.url === '/valdkonnad/andmed') {		// langSwitchLink en/node/123 - need to correct
+			this.navigate('en/sectors/data');
+		}
+		if (this.router.url === '/en/sectors/data') {
+			this.navigate('valdkonnad/andmed');
+		}
+
+		if (encodeURI(this.router.url) === '/sündmused/kalender') { // should be here, because calendar's render occurs in Angular
+			this.navigate('en/events/calendar');
+		}
+		if (this.router.url === '/en/events/calendar') {
+			this.navigate('sündmused/kalender');
+		}
+	}
+
+	public navigateToMainPage(): void {
+		const path = getLangCode() === 'et' ? '/' : `/${getLangCode()}`;
+		this.navigate(path);
+	}
+
+	private navigate(path: string) {
+		this.router.navigate([path || '']).then(() => this.loading = false);
+	}
 }

@@ -145,7 +145,7 @@ export class MapComponent {
   }
 
   ngOnInit() {
-    this.watchSearch();
+		this.watchSearch();
     if (this.type === 'polygons') {
       this.polygonSub = this.mapService.polygonLayer.subscribe((layer) => {
         this.getPolygons();
@@ -161,7 +161,7 @@ export class MapComponent {
         || (this.parameters
           && this.parameters.find(param => param['key'] === this.legendKey)['value']);
       if (this.paramValue) {
-        this.activeLegendParameters = this.legendLabels[this.paramValue];
+				this.activeLegendParameters = this.legendLabels[this.paramValue];
       }
       this.mapLabelSwitcher(this.options.enableLabels);
     });
