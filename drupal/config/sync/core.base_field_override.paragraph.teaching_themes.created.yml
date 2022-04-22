@@ -1,0 +1,18 @@
+uuid: a254a7d3-1af3-4195-8021-8bf6ed7012f5
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.teaching_themes
+id: paragraph.teaching_themes.created
+field_name: created
+entity_type: paragraph
+bundle: teaching_themes
+label: 'Loomise kuupäev'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

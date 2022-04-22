@@ -11,7 +11,7 @@ bundle: study_programme
 label: Muudetud
 description: 'Sisuelemendi viimase muutmise aeg.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

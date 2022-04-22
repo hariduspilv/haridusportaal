@@ -1,0 +1,20 @@
+uuid: feb81e25-d212-44ea-9816-0a946cd10591
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_subscriptions
+id: subscription_entity.subscription_entity.tag
+field_name: tag
+entity_type: subscription_entity
+bundle: subscription_entity
+label: Sildid
+description: 'Tags to subscribe to'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

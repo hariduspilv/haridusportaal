@@ -1,0 +1,11 @@
+uuid: 2d6b6726-c510-45fb-8c1a-1545870dbb5c
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_xjson_services
+id: x_json_form_entity.x_json_form_entity
+target_entity_type_id: x_json_form_entity
+target_bundle: x_json_form_entity
+default_langcode: site_default
+language_alterable: false

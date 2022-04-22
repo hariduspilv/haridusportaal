@@ -1,0 +1,22 @@
+uuid: 78e6c6e2-436b-4191-916f-379097e0443c
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.working_time
+id: paragraph.working_time.status
+field_name: status
+entity_type: paragraph
+bundle: working_time
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

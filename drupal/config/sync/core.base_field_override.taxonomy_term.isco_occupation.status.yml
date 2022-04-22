@@ -1,0 +1,22 @@
+uuid: 05d61e3c-6d1a-428d-bda1-db8f51befc58
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.isco_occupation
+id: taxonomy_term.isco_occupation.status
+field_name: status
+entity_type: taxonomy_term
+bundle: isco_occupation
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

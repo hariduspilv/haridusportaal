@@ -27,7 +27,7 @@
         "drupal/config_sync": "^2.0",
         "drupal/console": "~1.0",
         "drupal/console-extend-plugin": "^0.9.5",
-        "drupal/core": "9.3.8 as 8.9.17",
+        "drupal/core": "9.3.9 as 8.9.17",
         "drupal/core-composer-scaffold": "^9",
         "drupal/core-project-message": "^9",
         "drupal/devel": "^4.1",
@@ -150,7 +150,8 @@
         },
         "patches": {
             "drupal/core": {
-                "AccountProxy Drupal 9 custom patch": "web/patches/AccountProxy_D9.txt"
+                "AccountProxy Drupal 9 custom patch": "web/patches/AccountProxy_D9.txt",
+                "Remove markup tags from node revision text": "https://www.drupal.org/files/issues/2021-08-16/Remove_translation-entity-all-languages_for_material_theme_.patch"
             },
             "drupal/material_admin": {
                 "Material Admin Fixing Array to String Notice for PHP 7 on 2.X": "https://www.drupal.org/files/issues/2021-02-08/material_admin-v2-array_to_string_notice.patch",

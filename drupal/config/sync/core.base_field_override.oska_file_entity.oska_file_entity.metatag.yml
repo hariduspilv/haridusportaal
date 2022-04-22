@@ -1,0 +1,18 @@
+uuid: a700b856-6b92-4e39-b2a9-3b686d402424
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_file_entity.oska_file_entity.metatag
+field_name: metatag
+entity_type: oska_file_entity
+bundle: oska_file_entity
+label: 'Metatags (Hidden field for JSON support)'
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

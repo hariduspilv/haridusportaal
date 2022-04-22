@@ -1,0 +1,18 @@
+uuid: dcabb1e5-480d-4cda-ae40-21a96e061b2b
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_table_entity.oska_table_entity.metatag
+field_name: metatag
+entity_type: oska_table_entity
+bundle: oska_table_entity
+label: 'Metatags (Hidden field for JSON support)'
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

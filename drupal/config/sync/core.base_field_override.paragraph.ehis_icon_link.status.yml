@@ -1,0 +1,22 @@
+uuid: 0761b475-a7fc-4794-b371-2bf6a3ce52f9
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.ehis_icon_link
+id: paragraph.ehis_icon_link.status
+field_name: status
+entity_type: paragraph
+bundle: ehis_icon_link
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

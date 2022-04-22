@@ -1,0 +1,22 @@
+uuid: 6660df7a-c976-4acc-a763-4e1ced79a7ba
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.promote
+field_name: promote
+entity_type: node
+bundle: youth_home_page
+label: 'Ülendatud esilehele'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

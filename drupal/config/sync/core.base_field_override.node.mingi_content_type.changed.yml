@@ -1,0 +1,18 @@
+uuid: 23f38504-6b03-48b0-9233-1aab1f7a7497
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.changed
+field_name: changed
+entity_type: node
+bundle: mingi_content_type
+label: Muudetud
+description: 'The time that the node was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed
