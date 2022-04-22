@@ -291,6 +291,8 @@ export class HeaderComponent implements OnInit {
 			this.navigate(translatePathTo(this.router.url, code));
 		}
 
+		// TODO else { navigateToMainPage(); }
+
 		if (this.router.url === '/ametialad/andmed') {		// langSwitchLink en/node/123 - need to correct
 			this.navigate('en/professions/data');
 		}
