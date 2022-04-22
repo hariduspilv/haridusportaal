@@ -69,13 +69,13 @@
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
 			<block-title><h1>{{ 'oska.professions_and_jobs' | translate }}</h1></block-title>
-			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="/ametialad">
+			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="{{ '/ametialad' | translatePath }}">
 				<mainProfessionsSearchResults
 					#searchResults
 					limit="24">
 				</mainProfessionsSearchResults>
 			</block-content>
-			<block-content tabLabel="{{ 'oska.professions_data' | translate }}" tabIcon="info"  tabLink="/ametialad/andmed">
+			<block-content tabLabel="{{ 'oska.professions_data' | translate }}" tabIcon="info"  tabLink="{{ '/ametialad/andmed' | translatePath }}">
 			</block-content>
 		</block>
 	</div><!--/inline-->

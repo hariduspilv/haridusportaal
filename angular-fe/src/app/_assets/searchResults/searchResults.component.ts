@@ -190,7 +190,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     this.httpWatcher.unsubscribe();
     this.getDataDebounce = setTimeout(
       () => {
-        values.lang = this.settings.currentAppLanguage;
+        values.lang = this.settings.currentAppLanguage.toUpperCase();
         values.offset = this.offset;
         values.limit = this.limit;
         let query = `queryName=${this.queryName}`;
@@ -214,7 +214,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
 
         const path = `${this.settings.url}/graphql?${query}`.trim();
 
-        if (!this.loadingMore) {
+				if (!this.loadingMore) {
           this.loading = true;
         }
 
