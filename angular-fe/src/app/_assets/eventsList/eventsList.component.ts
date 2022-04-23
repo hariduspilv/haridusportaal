@@ -1,4 +1,3 @@
-
 import { Component, ViewChild, ElementRef, OnInit, HostListener } from '@angular/core';
 import * as moment from 'moment';
 import { Subscription, of } from 'rxjs';
