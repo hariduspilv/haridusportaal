@@ -43,3 +43,10 @@ export function getLangCode(route: ActivatedRoute) {
 	let langCode = window.location.pathname.split('/')[1];
 	return langCode?.length === 2 ? langCode.toUpperCase() : 'ET'
 }
+
+export function removeLanguageCode(path: string): string {
+  if (path && path.match(/^\/[a-z]{2}\//)) {
+    return path.substring(3);
+  }
+  return path;
+}
