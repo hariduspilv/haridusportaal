@@ -146,7 +146,7 @@ export class OskaFrontpageViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lang = this.settings.currentAppLanguage;
+    this.lang = 'ET';
     this.getFields();
     this.getGeneral();
   }

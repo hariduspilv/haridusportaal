@@ -77,7 +77,7 @@ export class FrontpageViewComponent implements OnInit {
     const date = new Date();
     const formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? `0${(date.getMonth() + 1)}` : (date.getMonth() + 1)}-${date.getDate() <= 9 ? `0${date.getDate()}` : date.getDate()}`;
     const variables = {
-			lang: this.settings.activeLang,
+      lang: 'ET',
       currentDate: formattedDate,
     };
     const path = `${this.settings.query('frontPageEvents')}&variables=${JSON.stringify(variables)}`;
@@ -96,7 +96,7 @@ export class FrontpageViewComponent implements OnInit {
   }
   getGeneral() {
     const variables = {
-			lang: this.settings.activeLang,
+      lang: 'ET',
     };
     const path = `${this.settings.query('frontPageQuery')}&variables=${JSON.stringify(variables)}`;
     this.http.get(path).subscribe({
@@ -162,7 +162,7 @@ export class FrontpageViewComponent implements OnInit {
   }
   ngOnInit() {
     (document.activeElement as HTMLElement).blur();
-    this.lang = this.settings.activeLang.toLowerCase();
+    this.lang = 'et';
     this.mobileView = window.innerWidth <= 1024;
     this.route.params.subscribe(() => {
       this.allPath = '/uudised';
@@ -170,7 +170,7 @@ export class FrontpageViewComponent implements OnInit {
       this.getGeneral();
       this.getEvents();
     });
-    const variables = {lang: this.settings.activeLang, nid: '0'};
+    const variables = { lang: 'ET', nid: '0' };
     const path = `${this.settings.query('recentNews')}&variables=${JSON.stringify(variables)}`;
     this.http.get(path).subscribe((data: any) => {
       if (data['data']['nodeQuery'] == null) {

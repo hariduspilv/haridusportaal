@@ -633,7 +633,7 @@ export class SidebarRegisterComponent {
         queryId: 'cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1',
         variables: {
           event_id: this.pageData.nid,
-					lang: this.settings.currentAppLanguage,
+          lang: 'ET',
           ...this.form.value,
         },
       };
