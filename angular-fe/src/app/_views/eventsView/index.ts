@@ -12,6 +12,7 @@ import { FiltersService } from '@app/_services/filterService';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppPipes } from '@app/_pipes';
+import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -36,7 +37,7 @@ const routes: Routes = [
     EventsListComponent,
   ],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forChild(translateRoutes(routes)),
     AssetsModule,
     TranslateModule,
     CommonModule,

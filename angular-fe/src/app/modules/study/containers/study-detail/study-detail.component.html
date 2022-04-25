@@ -8,8 +8,7 @@
 
                 <h2>{{study.title}}</h2>
 
-                <labels
-                        *ngIf="study.fieldCustomBoolean"
+                <labels *ngIf="study.fieldCustomBoolean"
                         type="orange"
                         [data]="[study.fieldStudyTag]">
                 </labels>
@@ -24,16 +23,14 @@
                     <text-truncate-toggler [input]="study.fieldContent.value" [limit]="400"></text-truncate-toggler>
                 </p>
 
-                <images
-                        *ngIf="study.fieldAdditionalImages"
+                <images *ngIf="study.fieldAdditionalImages"
                         [image]="study?.fieldAdditionalImages ? study.fieldAdditionalImages : []"
                 ></images>
 
                 <p *ngIf="study?.fieldStudyText" class="bold">{{ 'study.reference_title' | translate }}:</p>
                 <links *ngIf="study?.fieldStudyText" [data]="study.fieldStudyText"></links>
 
-                <labels
-                        *ngIf="study.fieldLabel?.length"
+                <labels *ngIf="study.fieldLabel?.length"
                         [data]="study.fieldLabel">
                 </labels>
 
@@ -44,10 +41,9 @@
                                 <p [innerHTML]="study?.fieldAccordion?.entity?.fieldStudyAccordionIntro"></p>
                                 <p [innerHTML]="study?.fieldAccordion?.entity?.fieldStudyAccordionContent"></p>
                             </ng-container>
-                            <p
-                                *ngIf="study.fieldAccordion.entity.fieldBody"
-                                [innerHTML]="study.fieldAccordion.entity.fieldBody.value"
-                                ></p>
+                            <p *ngIf="study.fieldAccordion.entity.fieldBody"
+                               [innerHTML]="study.fieldAccordion.entity.fieldBody.value"
+														></p>
                         </ng-template>
                     </accordion-item>
                 </accordion>

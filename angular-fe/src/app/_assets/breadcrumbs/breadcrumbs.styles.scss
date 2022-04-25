@@ -12,12 +12,13 @@
 	}
 }
 
-ul{
+ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 	display: flex;
 }
+
 li {
 	list-style: none;
 	padding: 0;
@@ -26,10 +27,20 @@ li {
 	white-space: nowrap;
 	color: $black;
 
+	a {
+		text-decoration: underline;
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
 	&:last-of-type {
 		a {
 			color: unset;
 			text-decoration: unset;
+			cursor: auto;
 		}
 	}
 }

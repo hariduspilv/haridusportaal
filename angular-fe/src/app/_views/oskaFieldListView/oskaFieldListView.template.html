@@ -1,17 +1,17 @@
 <base-layout>
 	<div class="inline">
-		<breadcrumbs path="/valdkonnad"></breadcrumbs>
+		<breadcrumbs path="{{ '/valdkonnad' | translatePath }}"></breadcrumbs>
 	</div><!--/inline-->
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
 			<block-title><h1>{{ 'oskaProfessions.fields' | translate }}</h1></block-title>
-			<block-content class="block-content--no-padding" tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
+			<block-content class="block-content--no-padding" tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="{{ '/valdkonnad' | translatePath }}">
 				<loader *ngIf=!data></loader>
 				<dropdown-list *ngIf="data" [data]="data"></dropdown-list>
 			</block-content>
-			<block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/valdkonnad/andmed">
+			<block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="{{ '/valdkonnad/andmed' | translatePath }}">
 			</block-content>
-			<block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="/valdkonnad/kaart">
+			<block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="{{ '/valdkonnad/kaart' | translatePath }}">
 			</block-content>
 		</block>
 	</div><!--/inline-->

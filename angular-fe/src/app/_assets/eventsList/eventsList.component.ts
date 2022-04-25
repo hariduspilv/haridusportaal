@@ -1,4 +1,3 @@
-
 import { Component, ViewChild, ElementRef, OnInit, HostListener } from '@angular/core';
 import * as moment from 'moment';
 import { Subscription, of } from 'rxjs';
@@ -9,6 +8,7 @@ import { FiltersService } from '@app/_services/filterService';
 import { filter, delay } from 'rxjs/operators';
 import { SettingsService, ScrollRestorationService, ListRestorationType } from '@app/_services';
 import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
+import { translatePath } from "@app/_core/router-utility";
 
 export class EventsConfig {
 
@@ -72,10 +72,10 @@ export class EventsListComponent extends FiltersService implements OnInit {
   objectKeys = Object.keys;
   parseInt = parseInt;
   subscriptions: Subscription[] = [];
-  
+
   // ALL PAGE CONFIG
   path: string;
-  lang: string = 'ET';
+  lang: string = this.settings.currentAppLanguage;
   eventList: any = false;
   eventListRaw: any;
   view: string;
@@ -95,13 +95,13 @@ export class EventsListComponent extends FiltersService implements OnInit {
   eventsConfig: EventsConfig = new EventsConfig();
 
   dataSubscription: any;
-  
+
   status: boolean = false;
 
   listEnd: boolean = false;
   error: boolean = false;
   showFilter: boolean = true;
-  
+
   current;
 
   visibleEntries = 3;
@@ -111,6 +111,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
   scrollPositionSet: boolean = false;
   count: number = 0;
   private filterFullProperties: any = ['tags', 'types'];
+
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -123,15 +124,17 @@ export class EventsListComponent extends FiltersService implements OnInit {
     let subscription = router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      if((/^\/sündmused\/kalender/g).test(decodeURI(event.url)) && window.innerWidth > 1024) {
+			// (/^\/sündmused\/kalender/g).test(decodeURI(event.url))
+			if (decodeURI(event.url) === translatePath('/sündmused/kalender') && window.innerWidth > 1024) {
         this.changeView('calendar', true);
       } else {
         this.changeView('list', true);
       }
     });
+
     this.subscriptions = [...this.subscriptions, subscription];
   }
-  
+
   date: any = new Date();
   year: number = this.date.getFullYear();
   month: any = this.date.getMonth() + 1;
@@ -139,7 +142,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
   popup: number = null;
   morePopup: number = null;
   params: any = {};
-  
+
 
   togglePopup(i) {
     if( this.popup == i ){ this.popup = null; return false;}
@@ -160,13 +163,13 @@ export class EventsListComponent extends FiltersService implements OnInit {
   changeMonth(direction:number) {
     this.loadingCalendar = true;
     let month = parseInt( this.month );
-    
+
     if( direction == 1 ){
       month++;
     }else{
       month--;
     }
-    
+
     if( month > 12 ){
       this.year++;
       this.month = 1;
@@ -192,16 +195,16 @@ export class EventsListComponent extends FiltersService implements OnInit {
   getDayName(year, month:any, day:any, isUnix:boolean = false) {
 
     if( month < 10 ){month = "0"+month;}
-    
+
     if( isUnix ){
       return moment.unix(day/1000).format("dddd").toLowerCase();
     }else{
       return moment(year+"-"+month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
     }
   }
-  
+
   generateCalendar(urlDate:boolean = false) {
-    
+
     if( this.filterFormItems.dateFrom && urlDate){
       this.month = moment(this.filterFormItems.dateFrom, "DD-MM-YYYY").format("M");
     }else{
@@ -209,73 +212,74 @@ export class EventsListComponent extends FiltersService implements OnInit {
     }
 
     this.monthName = moment(this.year+"/"+this.month, "YYYY/M").format('MMMM');
-    
+
     if( this.month < 10 ){ this.month = "0"+this.month; }
-    
+
     let dateObj = moment(this.year+'-'+this.month+'-01');
-    
+
     let props = {
       days: dateObj.daysInMonth(),
       firstDay: dateObj.day()
     }
-    
+
     let calendar = {};
-    
+
     let weekCounter = 1;
     let dayList = [7,1,2,3,4,5,6];
     let dayCounter = dayList[props.firstDay];
-    
+
     for( let i = 1; i < props.days+1; i++ ){
       if( dayCounter > 7 ){ weekCounter++; dayCounter = 1; }
-      
+
       if( !calendar[weekCounter] ){ calendar[weekCounter] = []; }
-      
+
       calendar[weekCounter].push({
         i: i,
         events: []
       });
-      
+
       dayCounter++;
     }
-    
+
     this.calendarDays = [];
-    
+
     for( let i in calendar ){
       this.calendarDays.push(calendar[i]);
     }
-    
+
     let prependDates = (this.calendarDays[0].length - 7) * (-1);
-    
+
     if( prependDates > 0 ){
       for( let i = 0; i < prependDates; i++ ){
         this.calendarDays[0].unshift("");
       }
     }
-    
+
     let appendDates = 7 - dayCounter + 1;
-    
+
     if( appendDates > 0 ){
       for( let i = 0; i < appendDates; i++ ){
         this.calendarDays[ this.calendarDays.length - 1 ].push("");
       }
     }
-    
+
   }
-  
+
   changeView(view: any, update: boolean = true){
     this.view = view;
-        sessionStorage.setItem("events.view", view);
+		sessionStorage.setItem("events.view", view);
+
     switch(view) {
       case 'calendar':
         this.scrollRestoration.restorationValues.next({ ...this.scrollRestorationValues, 'eventsList': null });
-        this.router.navigate(['/sündmused/kalender'], {queryParamsHandling: "preserve"});
+				this.router.navigate([translatePath('/sündmused/kalender')], {queryParamsHandling: 'preserve'});
         break;
       case 'list':
-        this.router.navigate(['/sündmused'], {queryParamsHandling: "preserve"});
+				this.router.navigate([translatePath('/sündmused')], {queryParamsHandling: 'preserve'});
       default:
         break;
     }
-    if( view == "calendar" ){
+    if( view == 'calendar' ){
       this.loadingCalendar = true;
       this.eventsConfig.limit = 9999;
       this.generateCalendar(true);
@@ -295,14 +299,14 @@ export class EventsListComponent extends FiltersService implements OnInit {
     this.loadFlag = true;
 
     this.eventsConfig.offset = this.eventListRaw.length + 1;
-  
+
     let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
     variables['timeEnabled'] = false;
-    
+
     const path = this.settings.query('getEventList', variables);
     let subscriber = this.http.get(path).subscribe((response) => {
-      
+
       this.loadFlag = false;
       let data = response['data'];
 
@@ -323,7 +327,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
       subscriber.unsubscribe();
     });
   }
-  
+
   ngOnInit() {
     this.loadingCalendar = true;
     // SUBSCRIBE TO QUERY PARAMS
@@ -333,15 +337,16 @@ export class EventsListComponent extends FiltersService implements OnInit {
       }
     );
     //kui jegorr teeb õhtusöögiks 5 kilo spagette, siis sul ei jää muud üle kui hommikusöögiks veel spagette süüa
-    if((/^\/sündmused\/kalender/g).test(decodeURI(this.path)) && window.innerWidth > 1024) {
-      this.changeView('calendar', false);
-    } else {
-      this.changeView('list', false);
-    }
+    // if((/^\/sündmused\/kalender/g).test(decodeURI(this.path)) && window.innerWidth > 1024) {
+		if (decodeURI(this.path) === translatePath('/sündmused/kalender') && window.innerWidth > 1024) {
+			this.changeView('calendar', false);
+		} else {
+			this.changeView('list', false);
+		}
 
     this.showFilter = this.device.isDesktop();
     this.filterFull = this.device.isTablet() || this.device.isMobile();
-    
+
     var currMonthName  = moment().format('MMMM');
 
     let month:any = moment().format("M");
@@ -351,7 +356,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
       dayString: moment().format("DD"),
       month: month,
       year: parseInt(moment().format("YYYY"))
-    }  
+    }
     this.route.queryParams.subscribe( (params) => {
       const tmpParams = {};
       Object.keys(params).forEach((i) => {
@@ -383,7 +388,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
         }
       });
       scrollSub.unsubscribe();
-      
+
     });
 
     const tmpParams = {};
@@ -413,7 +418,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
   }
 
   organizeList(data:any) {
-    
+
     let list = JSON.parse( JSON.stringify(data) );
 
     let tmpList = {};
@@ -437,10 +442,10 @@ export class EventsListComponent extends FiltersService implements OnInit {
         else if( timeEarliest > time ){ timeEarliest = time; }
       }
       */
-      
+
       entry['firstEventTime'] = entry['fieldEventMainStartTime'];
       entry['firstEventUnix'] = entry['fieldEventMainDate']['unix'];
-     
+
       let year = moment.unix( earliest ).format("YYYY").toString();
       let month = moment.unix( earliest ).format("M").toString();
       let day = moment.unix( earliest ).format("D").toString();
@@ -461,7 +466,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
       }
     }
     */
-    
+
     return tmpList;
   }
 
@@ -475,18 +480,18 @@ export class EventsListComponent extends FiltersService implements OnInit {
   dataToCalendar(list:any) {
 
     list = JSON.parse( list );
-    
+
     this.calendarDataEntries = list.length;
-    
+
     for( let i in list ){
       let current = list[i];
       let eventDate = moment(current['fieldEventMainDate']['unix']*1000).format("YYYY-MM-DDz");
       let dateString = this.year+"-"+this.month+"-";
-      
+
 
       for( var o in this.calendarDays ){
         for( var oo in this.calendarDays[o] ){
-          
+
           let day:any = parseInt(this.calendarDays[o][oo]['i']);
           if( day < 10 ){ day = "0"+day; }
 
@@ -501,7 +506,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
   }
 
   maxEntries( day:any ){
-    
+
     let max = this.visibleEntries;
     let total = day.events.length;
     let amount = max;
@@ -583,7 +588,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
     this.loadFlag = true;
         if(!this.filterFull) {
           this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined );
-        }    
+        }
         this.eventsConfig = new EventsConfig();
 
         // TITLE
@@ -610,7 +615,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
           this.eventsConfig.limit = 999;
           this.eventsConfig.offset = 0;
         }
-        
+
         /*
         if( this.view == "list" ){
 
@@ -643,7 +648,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
           this.eventsConfig.typesEnabled = true;
           this.eventsConfig.typesValue = this.params['types'].split(',')
         }
-        
+
         if( this.dataSubscription ){
           this.dataSubscription.unsubscribe();
         }
@@ -683,7 +688,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
           this.dataSubscription = this.http.get(path).subscribe({
             next: (response) => {
               let data = response['data'];
-    
+
               try {
                 data['nodeQuery']['entities'] = data['nodeQuery']['entities'].map((item) => {
                   const type = [{ ... item.fieldEventType.entity} ];
@@ -696,16 +701,16 @@ export class EventsListComponent extends FiltersService implements OnInit {
                   return item;
                 });
               } catch (err) {}
-              
+
               if( this.status ){ return false; }
-    
+
               this.status = false;
-    
+
               if( this.view == "list" ){
-    
+
                 this.count = data['nodeQuery']['count'];
                 this.eventListRaw = data['nodeQuery']['entities'];
-                
+
                 this.eventList = this.organizeList( this.eventListRaw );
                 // if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
                 //   this.listEnd = true;
@@ -720,7 +725,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
               }else{
                 this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
               }
-              
+
               this.loadFlag = false;
               this.dataSubscription.unsubscribe();
               this.dataSubscription = false;
@@ -738,7 +743,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
           });
         }
   }
-  
+
   ngOnDestroy() {
     this.scrollRestoration.restorationPosition.next({
       ...this.scrollRestoration.restorationPosition.getValue(),
@@ -750,22 +755,22 @@ export class EventsListComponent extends FiltersService implements OnInit {
       }
     }
   }
-  
+
   parseIntoReadableTime(milliseconds){
     //Get hours from milliseconds
     var hours = milliseconds / (1000*60*60);
     var absoluteHours = Math.floor(hours);
     var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
-    
+
     //Get remainder from hours and convert to minutes
     var minutes = (hours - absoluteHours) * 60;
     var absoluteMinutes = Math.floor(minutes);
     var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
-    
+
     //Get remainder from minutes and convert to seconds
     var seconds = (minutes - absoluteMinutes) * 60;
     var absoluteSeconds = Math.floor(seconds);
-    
+
     return h + ':' + m;
   }
 
