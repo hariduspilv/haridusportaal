@@ -1,30 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { SettingsService } from "@app/_services";
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'certificates-container',
   templateUrl: './certificates-container.component.html',
   styleUrls: ['./certificates-container.component.scss'],
 })
-export class CertificatesContainerComponent implements OnInit {
+export class CertificatesContainerComponent {
 
   public breadcrumbs: any = [
     {
-      title: 'frontpage.label',
+      title: 'Avaleht',
       link: '/',
     },
     {
-      title: 'certificates.title',
+      title: 'Tunnistused',
     },
     {
-      title: 'certificates.final_documents',
+      title: 'Lõpudokumendid',
     },
   ];
-
-	constructor(private settings: SettingsService) { }
-
-	ngOnInit() {
-		this.settings.currentLanguageSwitchLinks = null;
-	}
 
 }

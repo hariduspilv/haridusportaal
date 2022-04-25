@@ -1,6 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
 import { ITopic } from '../../homePageView.model';
-import { isMainPage } from "@app/_core/router-utility";
 
 @Component({
   selector: 'homepage-navblock',
@@ -12,8 +11,6 @@ export class HomePageNavBlockComponent {
   @Input() description: string;
   @Input() theme: string;
   @Input() image: string;
-
-	public isMainPage = isMainPage();
 
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;

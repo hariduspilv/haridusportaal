@@ -67,9 +67,9 @@ export class HomePageService {
   public topics: {[key: string]: ITopic[]} = {
     career: [
       {
-        title: 'home.topics_areas',
+        title: this.translate.get('home.topics_areas'),
         link: {
-          title: 'home.view_more',
+          title: this.translate.get('home.view_more'),
           url: {
             path: '/valdkonnad',
             routed: true,
@@ -77,9 +77,9 @@ export class HomePageService {
         },
       },
       {
-        title: 'home.topics_professions',
+        title: this.translate.get('home.topics_professions'),
         link: {
-          title: 'home.view_more',
+          title: this.translate.get('home.view_more'),
           url: {
             path: '/ametialad',
             routed: true,
@@ -89,9 +89,9 @@ export class HomePageService {
     ],
     learning: [
       {
-        title: 'home.topics_curricula',
+        title: this.translate.get('home.topics_curricula'),
         link: {
-          title: 'home.view_more',
+          title: this.translate.get('home.view_more'),
           url: {
             path: '/erialad',
             routed: true,
@@ -99,9 +99,9 @@ export class HomePageService {
         },
       },
       {
-        title: 'home.topics_institutions',
+        title: this.translate.get('home.topics_institutions'),
         link: {
-          title: 'home.view_more',
+          title: this.translate.get('home.view_more'),
           url: {
             path: '/kool',
             routed: true,
@@ -147,15 +147,14 @@ export class HomePageService {
   constructor(
     private settings: SettingsService,
     private translate: TranslateService,
-    private http: HttpClient
-	) {}
+    private http: HttpClient) {}
 
   public getResource(query: string): Observable<any> {
     const variables = {
-      lang: this.settings.currentAppLanguage,
+      lang: 'ET',
     };
     const path = this.settings.query(query, variables);
-		return this.http.get(path);
+    return this.http.get(path);
   }
 
   public getPageData(theme: string): Observable<any> {
@@ -175,9 +174,9 @@ export class HomePageService {
     const variables = {
       path: url,
     };
-		const query = this.settings.query('getArticle', variables);
-		return this.http.get(query).pipe(map((response: any) => {
-			const accordionData = response.data.route.entity.fieldAccordionSection;
+    const query = this.settings.query('getArticle', variables);
+    return this.http.get(query).pipe(map((response: any) => {
+      const accordionData = response.data.route.entity.fieldAccordionSection;
       return accordionData.map((item: any) => {
         const slug = item.entity.fieldAccordionTitle.toLowerCase()
           .replace(/span/g, '')
@@ -231,7 +230,7 @@ export class HomePageService {
         content: item.entity.fieldText,
         theme: item.entity.fieldTheme,
         link: {
-          title: 'home.view_more',
+          title: this.translate.get('home.view_more'),
           url: {
             routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
             path: item.entity.fieldInternalLink.entity.entityUrl.path,
@@ -242,7 +241,7 @@ export class HomePageService {
   }
 
   public getTopicsAndArticles(data: IGraphResponse, theme: string): ITopicArticleUnion {
-		const source = data.topics;
+    const source = data.topics;
     if (!source) {
       return { articles: [], topics: [] };
     }
@@ -421,10 +420,10 @@ export class HomePageService {
     let study: IStudy;
     if (theme === 'default') {
       study = {
-        title: 'home.study_title',
-        intro: 'home.study_intro',
+        title: this.translate.get('home.study_title'),
+        intro: this.translate.get('home.study_intro'),
         data: [{
-          title: 'home.profession_compare',
+          title: this.translate.get('home.profession_compare'),
           image: '/assets/img/homepage-study-1.svg',
           url: {
             path: '/ametialad',
@@ -432,7 +431,7 @@ export class HomePageService {
           },
         },
         {
-          title: 'home.studyprogramme_compare',
+          title: this.translate.get('home.studyprogramme_compare'),
           image: '/assets/img/homepage-study-2.svg',
           url: {
             path: '/erialad',
@@ -442,8 +441,8 @@ export class HomePageService {
       };
     } else if (theme === 'learning') {
       study = {
-        title: 'home.study_teaching',
-        intro: 'home.study_teaching_intro',
+        title: this.translate.get('home.study_teaching'),
+        intro: this.translate.get('home.study_teaching_intro'),
         data: data.fieldLearningToTeach.map((obj: IGraphLearningToTeach, i: number) => {
           return {
             title: obj.entity.fieldLearningToTeachTitle,
@@ -454,8 +453,8 @@ export class HomePageService {
       };
     } else if (theme === 'teachers') {
       study = {
-        title: 'frontpage.cooperation_offers',
-        intro: 'frontpage.cooperation_offers_intro',
+        title: this.translate.get('frontpage.cooperation_offers'),
+        intro: this.translate.get('frontpage.cooperation_offers_intro'),
         data: data.fieldCollaborationOffers.map(({ entity }: IGraphCollaborationOffers, index: number) => ({
           title: entity.fieldLinkName,
           image: `/assets/img/homepage-teachers-${index + 1}.svg`,
@@ -492,7 +491,7 @@ export class HomePageService {
             : item.fieldEventLocation
           ) : '',
         link: {
-          title: 'button.read_more',
+          title: this.translate.get('button.read_more'),
           url: {
             path: item.entityUrl.path,
           },
@@ -504,7 +503,7 @@ export class HomePageService {
 
   public getEvents(): Observable<IEvent[]> {
     const variables = {
-			lang: this.settings.currentAppLanguage,
+      lang: 'ET',
     };
 
     const one = this.settings.query('teachingPageEvents', variables);

@@ -195,13 +195,13 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   getFilters() {
 
     const variables = {
-      lang: this.settings.currentAppLanguage,
+      lang: 'ET',
     };
 
     const path = this.settings.query('studyProgrammeFilterOptions', variables);
 
     const subscribe = this.http.get(path).subscribe((response: any) => {
-			const data = response.data;
+      const data = response.data;
       this.typeFilters = data.type.entities.map((el) => {
         return { value: el.tid, key: el.entityLabel };
       });

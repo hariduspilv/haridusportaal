@@ -233,7 +233,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           .get(`${this.settings.url}/dashboard/applications/${init ? '1' : '0'}?_format=json`)
           .subscribe(
             (response: any) => {
-							if (typeof response.found !== undefined && response.found === null) {
+              if (typeof response.found !== undefined && response.found === null) {
                 if (this.requestCounter < this.maxRequests) {
                   this.fetchData(false);
                 } else {
@@ -704,8 +704,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   public initialize() {
-    this.lang = this.settings.currentAppLanguage;
-		this.currentRole = this.auth.userData.role.current_role.type;
+    this.lang = 'et';
+    this.currentRole = this.auth.userData.role.current_role.type;
     this.pathWatcher();
     this.startTime = Date.now();
     this.loading['initial'] = true;

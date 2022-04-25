@@ -1,6 +1,6 @@
 <base-layout>
 	<div class="inline">
-		<breadcrumbs path="{{ '/ametialad' | translatePath }}"></breadcrumbs>
+		<breadcrumbs path="/ametialad"></breadcrumbs>
 	</div><!--/inline-->
 	<form class="filter-wrapper" filters [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">
@@ -69,13 +69,13 @@
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
 			<block-title><h1>{{ 'oska.professions_and_jobs' | translate }}</h1></block-title>
-			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="{{ '/ametialad' | translatePath }}">
+			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="/ametialad">
 				<mainProfessionsSearchResults
 					#searchResults
 					limit="24">
 				</mainProfessionsSearchResults>
 			</block-content>
-			<block-content tabLabel="{{ 'oska.professions_data' | translate }}" tabIcon="info"  tabLink="{{ '/ametialad/andmed' | translatePath }}">
+			<block-content tabLabel="{{ 'oska.professions_data' | translate }}" tabIcon="info"  tabLink="/ametialad/andmed">
 			</block-content>
 		</block>
 	</div><!--/inline-->

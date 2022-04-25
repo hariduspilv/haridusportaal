@@ -31,9 +31,9 @@
       <block-title>
           <h1>{{ 'school.label' | translate }}: {{ 'school.support_projects' | translate }}</h1>
       </block-title>
-      <block-content tabLabel="{{ 'school.label' | translate }}" tabLink="{{ '/koolide-rahastus' | translatePath }}" [queryParams]="params" tabIcon="home">
+      <block-content tabLabel="Õppeasutused" tabLink="/koolide-rahastus" [queryParams]="params" tabIcon="home">
       </block-content>
-      <block-content tabLabel="{{ 'school.municipalities' | translate }}" tabLink="{{ '/koolide-rahastus/haldusüksused' | translatePath }}" [tabActive]="true" tabIcon="map-pin">
+      <block-content tabLabel="Haldusüksused" tabLink="/koolide-rahastus/haldusüksused" [tabActive]="true" tabIcon="map-pin">
         <loader *ngIf="!polygonData"></loader>
         <map *ngIf="polygonData" type="polygons" [loading]="loading" [options]="options" [polygonData]="polygonData" (layerChange)="onLayerChange($event)">
         </map>
