@@ -1,0 +1,13 @@
+<div class="dropdown">
+	<button class="dropbtn" [attr.aria-selected]="true">{{ activeLanguage }}</button><icon glyph="chevron-down"></icon>
+	<div class="dropdown-content">
+		<ng-container *ngFor="let option of options">
+			<a *ngIf="activeLanguageCode !== option.code"
+				 (click)="onClick(option.code)"
+				 [attr.aria-label]="option.label | translate"
+			>
+				{{ option.label | translate }}
+			</a>
+		</ng-container>
+	</div>
+</div>

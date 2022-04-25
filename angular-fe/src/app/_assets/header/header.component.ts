@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import { getLangCode, isMainPage,	translatePathTo } from "@app/_core/router-utility";
+import { getLangCode, isMainPage,	translatePathTo } from '@app/_core/router-utility';
 
 @Component({
   selector: 'htm-header',
@@ -290,8 +290,6 @@ export class HeaderComponent implements OnInit {
 		} else {
 			this.navigate(translatePathTo(this.router.url, code));
 		}
-
-		// TODO else { navigateToMainPage(); }
 
 		if (this.router.url === '/ametialad/andmed') {		// langSwitchLink en/node/123 - need to correct
 			this.navigate('en/professions/data');

@@ -1,0 +1,77 @@
+@import 'colors.scss';
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+	position: relative;
+	display: inline-block;
+	margin-right: 2rem;
+}
+
+/* Style The Dropdown Button */
+.dropbtn {
+	background-color: $theme-default;
+	color: $blue;
+	padding: 1.4rem .2rem 1rem 1.4rem;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+}
+
+icon {
+	color: $blue;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: $white;
+	min-width: 105px;
+	min-height: 88px;
+	box-shadow: 2px 2px 10px rgba(117, 117, 117, 0.25);
+	z-index: 1;
+	text-align: center;
+	border-radius: 4px;
+	right: -1.75rem;
+
+	&::after {
+		content: '';
+		position: absolute;
+		right: 1.6rem; top: -20px;
+		border: 10px solid transparent;
+		border-bottom: 10px solid #fff;
+	}
+
+	/* Links inside the dropdown */
+	a {
+		color: $blue;
+		padding: 12px 16px;
+		margin-right: 1rem;
+		margin-left: 1rem;
+		text-decoration: none;
+		display: block;
+		cursor: pointer;
+
+		&:not(:last-child) {
+			border-bottom: 1px solid $theme-default;
+		}
+
+		/* Change color of dropdown links on hover */
+		&:hover {
+			background-color: $white;
+			text-decoration: underline;
+		}
+	}
+}
+
+.dropdown:hover {
+	/* Show the dropdown menu on hover */
+	.dropdown-content {
+		display: block;
+	}
+
+	/* Change the background color of the dropdown button when the dropdown content is shown */
+	.dropbtn {
+		background-color: $theme-default;
+	}
+}

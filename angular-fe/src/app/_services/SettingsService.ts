@@ -33,15 +33,10 @@ export class SettingsService {
 	public data: any;
 	public compareObservable = new Subject<any>();
 
-	// availableLanguages: Record<string, string | LanguageCodes>[] = [
-	// 	{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
-	// 	{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
-		// { label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
-	// ];
 	availableLanguages: Record<string, string | LanguageCodes>[] = [
-		{ label: 'Eesti', code: LanguageCodes.ESTONIAN },
-		{ label: 'English', code: LanguageCodes.ENGLISH },
-		// { label: 'Русский', code: LanguageCodes.RUSSIAN },
+		{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
+		{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
+		{ label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
 	];
 	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN; // getLangCode();
 	activeLang$ = new BehaviorSubject(this.activeLang);
