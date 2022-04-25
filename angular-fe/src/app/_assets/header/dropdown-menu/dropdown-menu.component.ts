@@ -8,8 +8,8 @@ import { TranslateService } from "@app/_modules/translate/translate.service";
 	styleUrls: ['dropdown-menu.component.scss']
 })
 export class DropdownMenuComponent {
-	@Input() options: any;
-	@Output() onClickEvent = new EventEmitter<LanguageCodes>();
+	@Input() options: Record<string, string | LanguageCodes>[];
+	@Output() onLanguageChange = new EventEmitter<LanguageCodes>();
 
 	activeLanguageCode: string = this.settings.currentAppLanguage;
 	activeLanguage = this.translate.get(`frontpage.${this.settings.currentAppLanguage}`);
@@ -22,6 +22,6 @@ export class DropdownMenuComponent {
 	onClick(code: LanguageCodes) {
 		this.activeLanguageCode = code;
 		this.activeLanguage = this.translate.get(`frontpage.${code}`);
-		this.onClickEvent.emit(code);
+		this.onLanguageChange.emit(code);
 	}
 }
