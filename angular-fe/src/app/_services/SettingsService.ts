@@ -36,7 +36,7 @@ export class SettingsService {
 	availableLanguages: Record<string, string | LanguageCodes>[] = [
 		{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
 		{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
-		// { label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
+		{ label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
 	];
 	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN;
 	activeLang$ = new BehaviorSubject(this.activeLang);

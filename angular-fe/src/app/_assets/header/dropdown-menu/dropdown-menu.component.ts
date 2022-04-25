@@ -33,12 +33,30 @@ export class DropdownMenuComponent implements OnInit {
 	}
 
 	private setStylesForMobile(): void {
-		if (!this.isDesktop) {
+		setTimeout(() => {
 			const dropdown = document.querySelector('.language-dropdown') as HTMLElement;
 			const dropbtn = dropdown.querySelector('.dropbtn') as HTMLElement;
+			const dropdownContent = dropdown.querySelector('.dropdown-content') as HTMLElement;
+			const links = dropdownContent.querySelectorAll('a');
 
-			dropdown.style.marginRight = '0';
-			dropbtn.style.paddingLeft = '0';
-		}
+			if (this.isDesktop) {
+				dropdownContent.style.right = '-1.75rem';
+
+				links.forEach((link) => {
+					link.style.marginLeft = '1rem';
+					link.style.marginRight = '1rem';
+				});
+			}
+
+			if (!this.isDesktop) {
+				dropdown.style.marginRight = '0';
+				dropbtn.style.paddingLeft = '0';
+
+				links.forEach((link) => {
+					link.style.marginLeft = '.25rem';
+					link.style.marginRight = '.25rem';
+				});
+			}
+		});
 	}
 }

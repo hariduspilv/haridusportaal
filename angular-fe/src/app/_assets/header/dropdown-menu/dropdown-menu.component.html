@@ -12,7 +12,7 @@
 				 (click)="onClick(language.code)"
 				 [attr.aria-label]="language.label | translate"
 			>
-				{{ language.label | translate }}
+				{{ isDesktop ? (language.label | translate) : (language.code | uppercase) }}
 			</a>
 		</ng-container>
 	</div>
