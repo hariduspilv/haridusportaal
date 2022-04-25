@@ -22,9 +22,7 @@ import { BlockComponent, BlockContentComponent } from '@app/_assets/block';
 import { Subscription, Subject } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { takeUntil } from 'rxjs/operators';
-import { getLangCode, getTranslatedWord, translatePath } from "@app/_core/router-utility";
 const moment = _moment;
-
 @Component({
   selector: 'dashboard-view',
   templateUrl: 'dashboard.template.html',
@@ -103,18 +101,14 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (event instanceof NavigationEnd) {
         this.breadcrumbs = decodeURI(event.url).replace('#content', '');
-
         try {
 
-					const index = getLangCode() === 'et' ? 2 : 3;
-          let partial = this.breadcrumbs.split('/')[index] || 'intro';
-
-					if (this.currentRole === 'juridical_person' && partial === 'intro') {
-            partial = getTranslatedWord('taotlused');
+          let partial = this.breadcrumbs.split('/')[2] || 'intro';
+          if (this.currentRole === 'juridical_person' && partial === 'intro') {
+            partial = 'taotlused';
           }
           let activeTab;
-
-					this.blockContents.forEach((item) => {
+          this.blockContents.forEach((item) => {
             if (item.tabLink === partial) {
               activeTab = item;
             }
@@ -134,9 +128,9 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   initialize() {
-		this.userData = this.auth.userData;
+    this.userData = this.auth.userData;
     this.breadcrumbs = decodeURI(this.location.path());
-		this.initUser();
+    this.initUser();
     this.getFavouritesList();
     this.getEventList();
     this.getNotifications();
@@ -145,7 +139,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       this.blockComponent.selectTab(
         this.blockComponent.tabs.find(
           (tab: any) => {
-            return tab.tabLabel === this.translate.get('frontpage.dashboard_tabs_applications');
+            return tab.tabLabel === 'Taotlused';
           },
         ),
       );
@@ -241,13 +235,13 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
         next: (response: any) => {
           if (response['token']) {
             this.auth.refreshUser(response['token']);
-            // this.router.navigateByUrl(translatePath('/töölaud/taotlused'));
+            // this.router.navigateByUrl('/töölaud/taotlused');
           }
           this.setRoleSubscription.unsubscribe();
           this.modalService.close('roleModal');
           this.initUser();
           this.pageLoading = false;
-          this.redirectTo(translatePath('/töölaud'));
+          this.redirectTo('/töölaud');
         },
         error: (err) => {
           if (err['message'] || err['error']['message']) {
@@ -281,13 +275,13 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getFavouritesList(): void {
     const variables = {
-			language: this.settings.currentAppLanguage.toUpperCase(),
+      language: 'ET',
       id: this.userData.drupal.uid,
     };
 
     const path = this.settings.query('customFavorites', variables);
 
-		this.getFavouritesSubscription = this.http.get(path)
+    this.getFavouritesSubscription = this.http.get(path)
       .subscribe(
         (response) => {
           if (
@@ -324,7 +318,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       dateTo: moment().add(20, 'years').format('YYYY-MM-DD'),
       offset: 0,
       limit: 3,
-			lang: this.settings.currentAppLanguage,
+      lang: 'ET',
       timeFrom: '0',
       timeTo: '99999999',
     };

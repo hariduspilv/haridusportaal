@@ -14,7 +14,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppPipes } from '@app/_pipes';
 import { StudiesDetailView } from './studiesDetailView/studiesDetailView.component';
 import { A11yModule } from '@angular/cdk/a11y';
-import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -72,7 +71,7 @@ const routes: Routes = [
   ],
   imports: [
     AppPipes,
-    RouterModule.forChild(translateRoutes(routes)),
+    RouterModule.forChild(routes),
     AssetsModule,
     TranslateModule,
     CommonModule,

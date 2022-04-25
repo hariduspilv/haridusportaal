@@ -53,6 +53,7 @@ export const defaultValues = {
   sortDirection: 'ASC',
   limit: 24,
   offset: 0,
+  lang: 'ET',
 };
 
 export const multiSelectFields = [

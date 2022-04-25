@@ -4156,7 +4156,7 @@ loader:
       value: "<p>Uh-Oh! Tundub, et server jäi magama.<br />\r\nPalun varu kannatust!</p>\r\n"
       format: custom_editor
     en:
-      value: "<p>Uh-Oh! It seems like server is down.<br />\r\nPlease be patient!</p>\r\n"
+      value: "<p>Uh-Oh! Tundub, et server jäi magama.<br />\r\nPalun varu kannatust!</p>\r\n"
       format: custom_editor
 add:
   translation_type: textarea

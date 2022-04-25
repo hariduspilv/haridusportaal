@@ -10,7 +10,6 @@ import { AppPipes } from '@app/_pipes';
 import { OskaFieldMapComponent } from './oskaFieldMap.component';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
-import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -24,7 +23,7 @@ const routes: Routes = [
     OskaFieldMapComponent,
   ],
   imports: [
-    RouterModule.forChild(translateRoutes(routes)),
+    RouterModule.forChild(routes),
     AssetsModule,
     TranslateModule,
     CommonModule,

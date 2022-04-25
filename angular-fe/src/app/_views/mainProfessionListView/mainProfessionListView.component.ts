@@ -82,7 +82,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   getFilters() {
 
     const variables = {
-			lang: this.settings.currentAppLanguage,
+      lang: 'ET',
       limit: 24,
     };
 

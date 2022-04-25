@@ -46,59 +46,59 @@
 					</div>
 				</div>
 			</block-sub-title>
+			
 
 			<block-content
-				[tabActive]="breadcrumbs === ('/töölaud' | translatePath) && currentRole !== 'juridical_person'"
+				[tabActive]="breadcrumbs === '/töölaud' && currentRole !== 'juridical_person'"
 				tabLink="intro"
 				tabLabel="intro"
 				[tabVisible]="false">
-
+				
 				<div #intro [innerHTML]="'dashboard.intro' | translate"></div>
 			</block-content>
-
+			
 			<block-content
 				*ngIf="currentRole === 'juridical_person' || currentRole === 'natural_person'"
-				tabLabel="{{ 'frontpage.dashboard_tabs_applications' | translate }}"
+				tabLabel="Taotlused"
 				tabIcon="file-text"
-				tabLink="{{ 'taotlused' | translateWord }}"
+				tabLink="taotlused"
 				tabHeading="true"
-				[tabActive]="breadcrumbs === ('/töölaud/taotlused' | translatePath) || (currentRole === 'juridical_person' && breadcrumbs === ('töölaud' | translatePath))">
+				[tabActive]="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
 				<applications
 					#applications
-					*ngIf="breadcrumbs === ('/töölaud/taotlused' | translatePath) || (currentRole === 'juridical_person' && breadcrumbs === ('/töölaud' | translatePath))">
+					*ngIf="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
 				</applications>
 			</block-content>
 
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
-				tabLabel="{{ 'certificates.title' | translate }}"
+				tabLabel="Tunnistused"
 				tabIcon="class"
-				tabLink="{{ 'tunnistused' | translateWord }}"
+				tabLink="tunnistused"
 				tabHeading="true"
-				[tabActive]="breadcrumbs === ('/töölaud/tunnistused' | translatePath)"
+				[tabActive]="breadcrumbs === '/töölaud/tunnistused'"
 			>
-				<certificates *ngIf="breadcrumbs === ('/töölaud/tunnistused' | translatePath)"></certificates>
+				<certificates *ngIf="breadcrumbs === '/töölaud/tunnistused'"></certificates>
 			</block-content>
-
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
-				tabLabel="{{ 'frontpage.dashboard_tabs_studies' | translate }}"
+				tabLabel="Õpingud"
 				tabIcon="local-library"
-				tabLink="{{ 'õpingud' | translateWord }}"
+				tabLink="õpingud"
 				tabHeading="true"
-				[tabActive]="breadcrumbs === ('/töölaud/õpingud' | translatePath)"
+				[tabActive]="breadcrumbs === '/töölaud/õpingud'"
 			>
-				<studies *ngIf="breadcrumbs === ('/töölaud/õpingud' | translatePath)"></studies>
+				<studies *ngIf="breadcrumbs === '/töölaud/õpingud'"></studies>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
-				tabLabel="{{ 'frontpage.dashboard_tabs_teachings' | translate }}"
+				tabLabel="Õpetan"
 				tabIcon="school"
-				tabLink="{{ 'õpetan' | translateWord }}"
+				tabLink="õpetan"
 				tabHeading="true"
-				[tabActive]="breadcrumbs === ('/töölaud/õpetan' | translatePath)"
+				[tabActive]="breadcrumbs === '/töölaud/õpetan'"
 			>
-				<teachings *ngIf="breadcrumbs === ('/töölaud/õpetan' | translatePath)"></teachings>
+				<teachings *ngIf="breadcrumbs === '/töölaud/õpetan'"></teachings>
 			</block-content>
 		</block>
 	</article-layout>
