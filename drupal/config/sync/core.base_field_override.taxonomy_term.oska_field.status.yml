@@ -1,0 +1,22 @@
+uuid: dd8ed46c-496d-4f9b-8ca6-df4ccc739233
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_field
+id: taxonomy_term.oska_field.status
+field_name: status
+entity_type: taxonomy_term
+bundle: oska_field
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

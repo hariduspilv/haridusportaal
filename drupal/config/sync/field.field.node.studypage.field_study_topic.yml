@@ -13,7 +13,7 @@ bundle: studypage
 label: 'Uuringu teema'
 description: 'Kasutatakse uuringute nimekirja otsingus'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

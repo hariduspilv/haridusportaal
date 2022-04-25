@@ -1,0 +1,22 @@
+uuid: 77f0c9c9-3652-4909-9f09-d64410f18f2c
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_main_profession
+id: taxonomy_term.oska_main_profession.status
+field_name: status
+entity_type: taxonomy_term
+bundle: oska_main_profession
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

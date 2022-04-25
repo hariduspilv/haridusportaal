@@ -15,4 +15,4 @@ id: node.study_programme
 target_entity_type_id: node
 target_bundle: study_programme
 default_langcode: site_default
-language_alterable: false
+language_alterable: true

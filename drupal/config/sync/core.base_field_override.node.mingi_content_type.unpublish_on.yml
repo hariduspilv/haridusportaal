@@ -1,0 +1,18 @@
+uuid: 49ff69eb-381a-431d-a4f2-e9bd2faa6652
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.unpublish_on
+field_name: unpublish_on
+entity_type: node
+bundle: mingi_content_type
+label: 'Mitteavaldatuks märkimise aeg'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

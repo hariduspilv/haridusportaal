@@ -67,7 +67,7 @@ export class SettingsService {
 	setUrl(): void {
 		this.url = `${environment.API_URL}${this.activeLang === LanguageCodes.ESTONIAN ? '' : `/${this.activeLang.toLowerCase()}`}`;
 	}
-
+  
 	/**
 	 * Finds an entity from objects
 	 * @param obj - key:value object

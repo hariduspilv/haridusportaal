@@ -32,7 +32,7 @@ bundle: learning_to_teach
 label: Siselink
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -61,6 +61,7 @@ settings:
       learning_home_page: learning_home_page
     sort:
       field: _none
+      direction: ASC
     auto_create: false
     auto_create_bundle: avaleht
 field_type: entity_reference

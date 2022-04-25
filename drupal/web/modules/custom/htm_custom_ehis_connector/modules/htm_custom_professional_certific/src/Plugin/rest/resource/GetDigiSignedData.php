@@ -89,7 +89,7 @@ class GetDigiSignedData extends ResourceBase {
    * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
    *
    */
-	public function post($data) {
+  public function post($data) {
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.

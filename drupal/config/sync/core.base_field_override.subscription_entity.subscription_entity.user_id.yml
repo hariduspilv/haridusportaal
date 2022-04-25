@@ -1,0 +1,20 @@
+uuid: 1710ba21-8067-4161-b6e6-b8a9c0efaa82
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_subscriptions
+id: subscription_entity.subscription_entity.user_id
+field_name: user_id
+entity_type: subscription_entity
+bundle: subscription_entity
+label: Autor
+description: 'The user ID of author of the Subscription entity entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

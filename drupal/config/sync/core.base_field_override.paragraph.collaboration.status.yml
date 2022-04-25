@@ -1,0 +1,22 @@
+uuid: 03f27c1e-40ec-4d6d-a16c-39c163b58e69
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.collaboration
+id: paragraph.collaboration.status
+field_name: status
+entity_type: paragraph
+bundle: collaboration
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

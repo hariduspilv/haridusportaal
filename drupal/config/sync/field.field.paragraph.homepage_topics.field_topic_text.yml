@@ -12,7 +12,7 @@ bundle: homepage_topics
 label: 'Teema sisu'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

@@ -1,0 +1,18 @@
+uuid: a3d04fbd-2299-4470-b36a-05f9ef112264
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_subscriptions
+id: subscription_entity.subscription_entity.metatag
+field_name: metatag
+entity_type: subscription_entity
+bundle: subscription_entity
+label: 'Metatags (Hidden field for JSON support)'
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

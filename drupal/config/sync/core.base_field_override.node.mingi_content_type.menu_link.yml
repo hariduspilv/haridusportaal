@@ -1,0 +1,20 @@
+uuid: bf339702-7274-48a9-93bf-cb0b58138fc8
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.menu_link
+field_name: menu_link
+entity_type: node
+bundle: mingi_content_type
+label: Menüülink
+description: 'Computed menu link for the node (only available during node saving).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

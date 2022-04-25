@@ -1,0 +1,18 @@
+uuid: cfab2111-34a1-4889-b3ba-90a7bc0843cc
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.title
+field_name: title
+entity_type: node
+bundle: youth_home_page
+label: Pealkiri
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

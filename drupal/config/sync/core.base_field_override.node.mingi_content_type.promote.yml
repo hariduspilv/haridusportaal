@@ -1,0 +1,22 @@
+uuid: d5868458-e423-4bed-888e-f96071bb716f
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.promote
+field_name: promote
+entity_type: node
+bundle: mingi_content_type
+label: 'Ülendatud esilehele'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

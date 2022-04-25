@@ -1,0 +1,18 @@
+uuid: 537e1cd8-3981-4dc4-972d-c13414e681a5
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.changed
+field_name: changed
+entity_type: node
+bundle: youth_home_page
+label: Muudetud
+description: 'The time that the node was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

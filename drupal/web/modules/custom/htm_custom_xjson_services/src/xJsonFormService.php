@@ -125,8 +125,11 @@ class xJsonFormService implements xJsonServiceInterface {
         foreach($steps as $step_key => $step){
             foreach($step['data_elements'] as $field_name => $value){
                 $data_type = $this->definition_steps[$step_key]['data_elements'][$field_name]['type'];
-                if(isset($this->definition_steps[$step_key]['data_elements'][$field_name]['value'])){
-                    $valid = $this->validateDataElement($data_type, $value);
+              \Drupal::logger('xjson')->notice('<pre><code>xjson RES ' . print_r($data_type, TRUE) . '</code></pre>' );
+
+              if(isset($this->definition_steps[$step_key]['data_elements'][$field_name]['value'])){
+
+                  $valid = $this->validateDataElement($data_type, $value);
                     if(!$valid){
                         $this->return_data['form_info']['body']['steps'][$step_key]['messages'] = ['error_message'];
                         return $valid;

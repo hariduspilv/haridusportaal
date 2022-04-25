@@ -1,0 +1,18 @@
+uuid: dbcd02c9-c69f-4ebe-a0d9-2841ad9b0506
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytopic
+id: taxonomy_term.studytopic.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: studytopic
+label: Muudetud
+description: 'The time that the term was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

@@ -15,10 +15,10 @@ id: paragraph.favorite_item.field_page
 field_name: field_page
 entity_type: paragraph
 bundle: favorite_item
-label: Lehekülg
+label: Page
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

@@ -1,0 +1,18 @@
+uuid: a975289c-390b-4e41-973e-3ae07b0b8380
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.title
+field_name: title
+entity_type: node
+bundle: job_offer
+label: Pealkiri
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

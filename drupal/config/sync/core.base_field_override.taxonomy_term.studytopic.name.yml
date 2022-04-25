@@ -1,0 +1,18 @@
+uuid: f2b43a84-664b-4625-b9fa-55cc9a4f15b4
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytopic
+id: taxonomy_term.studytopic.name
+field_name: name
+entity_type: taxonomy_term
+bundle: studytopic
+label: Nimi
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

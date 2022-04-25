@@ -11,10 +11,10 @@ id: paragraph.school_location.field_coordinates
 field_name: field_coordinates
 entity_type: paragraph
 bundle: school_location
-label: Koordinaadid
+label: Coordinates
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

@@ -1,0 +1,22 @@
+uuid: ee3d777c-3ea2-4903-8672-ec9710230368
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.status
+field_name: status
+entity_type: node
+bundle: youth_home_page
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean
