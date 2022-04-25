@@ -14,6 +14,7 @@ export class DropdownMenuComponent implements OnInit {
 
 	activeLanguageCode: string = this.settings.currentAppLanguage;
 	activeLanguage = this.translate.get(`frontpage.${this.settings.currentAppLanguage}`);
+	isDesktop = this.deviceDetector.isDesktop();
 
 	constructor(
 		private settings: SettingsService,
@@ -32,7 +33,7 @@ export class DropdownMenuComponent implements OnInit {
 	}
 
 	private setStylesForMobile(): void {
-		if (!this.deviceDetector.isDesktop()) {
+		if (!this.isDesktop) {
 			const dropdown = document.querySelector('.language-dropdown') as HTMLElement;
 			const dropbtn = dropdown.querySelector('.dropbtn') as HTMLElement;
 

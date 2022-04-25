@@ -1,5 +1,11 @@
 <div class="language-dropdown">
-	<button class="dropbtn" [attr.aria-selected]="true">{{ activeLanguage }}</button><icon glyph="chevron-down"></icon>
+	<button class="dropbtn"
+					[attr.aria-label]="('frontpage.selected' | translate) + ' ' + (activeLanguage | lowercase) + ' ' + ('frontpage.language' | translate)"
+					[attr.aria-selected]="true"
+	>
+		{{ isDesktop ? activeLanguage : activeLanguageCode | uppercase }}
+	</button>
+	<icon glyph="chevron-down"></icon>
 	<div class="dropdown-content">
 		<ng-container *ngFor="let language of languages">
 			<a *ngIf="activeLanguageCode !== language.code"
