@@ -37,10 +37,10 @@ export class BlockContentComponent {
   @HostBinding('class') get hostClasses(): string {
     return this.noPaddingTop ? 'no__padding__top' : '';
   }
+
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {
-  }
+  ) { }
 
   hide() {
     this.active = false;
@@ -49,8 +49,7 @@ export class BlockContentComponent {
 
   show() {
     this.active = true;
-    setTimeout(
-      () => {
+    setTimeout(() => {
         try {
           this.scrollable.forEach((item) => {
             // item.detectWidth();
@@ -58,8 +57,7 @@ export class BlockContentComponent {
           });
         } catch (err) {
         }
-      },
-      0);
+      }, 0);
     this.cdr.detectChanges();
   }
 }

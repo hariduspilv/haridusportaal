@@ -1,6 +1,6 @@
 <base-layout>
     <div class="inline">
-        <breadcrumbs path="/erialad"></breadcrumbs>
+        <breadcrumbs path="{{ '/erialad' | translatePath }}"></breadcrumbs>
     </div><!--/inline-->
     <form class="filter-wrapper" filters #filters [eventTracker]="getGoogleAnalyticsObject()">
         <div class="inline">

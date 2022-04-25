@@ -1,7 +1,16 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Subject} from 'rxjs';
-import {environment} from '../../environments/environment';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { getLangCode } from "@app/_core/router-utility";
+import { LanguageSwitchLink } from "@app/_core/models/interfaces/main";
+
+export enum LanguageCodes {
+	ESTONIAN = 'et',
+	ENGLISH = 'en',
+	RUSSIAN = 'ru',
+}
 
 @Injectable({
 	providedIn: 'root',
@@ -9,20 +18,56 @@ import {environment} from '../../environments/environment';
 export class SettingsService {
 	constructor(
 		private http: HttpClient,
-	) {
-		this.url = environment.API_URL;
+		public route: ActivatedRoute,
+) {
+		this.activeLang = getLangCode();
+		this.setUrl();
 		this.ehisUrl = environment.EHIS_URL;
 	}
 
-  public url: string = '';
-  public ehisUrl: string = '';
-  public login = '/api/v1/token?_format=json';
-  public mobileLogin = '/custom/login/mobile_id?_format=json';
-  public error: boolean = false;
-  public data: any;
-  public compareObservable = new Subject<any>();
-  public activeLang: string = 'ET';
+	public url: string = '';
+	public ehisUrl: string = '';
+	public login = '/api/v1/token?_format=json';
+	public mobileLogin = '/custom/login/mobile_id?_format=json';
+	public error: boolean = false;
+	public data: any;
+	public compareObservable = new Subject<any>();
 
+	// availableLanguages: Record<string, string | LanguageCodes>[] = [
+	// 	{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
+	// 	{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
+		// { label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
+	// ];
+	availableLanguages: Record<string, string | LanguageCodes>[] = [
+		{ label: 'Eesti', code: LanguageCodes.ESTONIAN },
+		{ label: 'English', code: LanguageCodes.ENGLISH },
+		// { label: 'Русский', code: LanguageCodes.RUSSIAN },
+	];
+	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN; // getLangCode();
+	activeLang$ = new BehaviorSubject(this.activeLang);
+	get currentAppLanguage() { return this.activeLang;	}
+	set currentAppLanguage(code: LanguageCodes) {
+		document.documentElement.lang = code;
+		if (this.activeLang === code) return;
+		this.activeLang = code;
+		this.activeLang$.next(code);
+		this.setUrl();
+	}
+
+	private languageSwitchLinks: any;
+
+	get currentLanguageSwitchLinks() {
+		return this.languageSwitchLinks;
+	}
+
+	set currentLanguageSwitchLinks(links: LanguageSwitchLink[]) {
+		this.languageSwitchLinks = links;
+	}
+
+	setUrl(): void {
+		this.url = `${environment.API_URL}${this.activeLang === LanguageCodes.ESTONIAN ? '' : `/${this.activeLang.toLowerCase()}`}`;
+	}
+  
 	/**
 	 * Finds an entity from objects
 	 * @param obj - key:value object
@@ -44,11 +89,19 @@ export class SettingsService {
 	 * @returns - url string to use in http request
 	 */
 	public query(name: string = '', variables: object = {}) {
+		if (variables && variables['path'] && this.activeLang !== LanguageCodes.ESTONIAN) {
+			Object.assign(variables, {
+				path: `${this.activeLang}${variables['path']}`
+			});
+		}
+
 		const requestName = this.get(`request.${name}`);
 		let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
-		if (Object.keys(variables).length > 0) {
-			path = `${path}&variables=${encodeURI(JSON.stringify(variables))}`;
-		}
+		path = `${path}&variables=${encodeURI(JSON.stringify({
+			...variables,
+			lang: this.activeLang.toUpperCase()
+		}))}`;
+
 		return path;
 	}
 
@@ -80,7 +133,7 @@ export class SettingsService {
 	 */
 	public load() {
 		return new Promise((resolve, reject) => {
-			const path = `${this.url}/variables?_format=json&lang=et`;
+			const path = `${this.url}/variables?_format=json&lang=${this.activeLang.toLowerCase()}`;
 			this.http.get(path).subscribe({
 				next: (response) => {
 					this.data = response;

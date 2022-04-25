@@ -51,11 +51,11 @@
             <block-title>
                 <h1>{{ 'school.label' | translate }}: {{ 'school.support_projects' | translate }}</h1>
             </block-title>
-            <block-content tabLabel="Õppeasutused" tabLink="/koolide-rahastus" [tabActive]="true" tabIcon="home">
+            <block-content tabLabel="{{ 'school.label' | translate }}" tabLink="{{ '/koolide-rahastus' | translatePath }}" [tabActive]="true" tabIcon="home">
                 <loader *ngIf="!markers"></loader>
                 <map *ngIf="markers" [loading]="loading" type="markers" [options]="options" [markers]="markers"></map>
             </block-content>
-            <block-content tabLabel="Haldusüksused" tabLink="/koolide-rahastus/haldusüksused" [queryParams]="params"
+            <block-content tabLabel="{{ 'school.municipalities' | translate }}" tabLink="{{ '/koolide-rahastus/haldusüksused' | translatePath }}" [queryParams]="params"
                            tabIcon="map-pin"></block-content>
         </block>
     </div>

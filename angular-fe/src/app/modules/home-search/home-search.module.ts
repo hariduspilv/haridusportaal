@@ -7,6 +7,7 @@ import { TranslateModule } from '@app/_modules/translate';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
+import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -21,7 +22,7 @@ const routes: Routes = [
     CommonModule,
     TranslateModule,
     AssetsModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(translateRoutes(routes)),
     ReactiveFormsModule,
   ],
   exports: [HomeSearchComponent],

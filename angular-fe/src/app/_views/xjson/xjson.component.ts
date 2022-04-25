@@ -1209,8 +1209,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.path = decodeURI(this.location.path().split('?')[0]);
     this.form_route = decodeURI(this.router.url).split('?')[0];
-    this.lang = 'et';
-    this.getFormName();
+    this.lang = this.settings.currentAppLanguage,
+			this.getFormName();
     this.pathWatcher();
 
     const payload = { form_name: this.form_route };
