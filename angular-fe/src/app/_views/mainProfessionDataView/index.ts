@@ -8,7 +8,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { MainProfessionDataViewComponent } from './mainProfessionDataView.component';
 import { AppPipes } from '@app/_pipes';
-import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -22,7 +21,7 @@ const routes: Routes = [
     MainProfessionDataViewComponent,
   ],
   imports: [
-    RouterModule.forChild(translateRoutes(routes)),
+    RouterModule.forChild(routes),
     AssetsModule,
     TranslateModule,
     CommonModule,

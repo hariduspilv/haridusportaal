@@ -6,7 +6,6 @@ import { TranslateModule } from '@app/_modules/translate';
 import { NotFoundViewComponent } from './notFoundView.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
-import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -20,7 +19,7 @@ const routes: Routes = [
     NotFoundViewComponent,
   ],
   imports: [
-    RouterModule.forChild(translateRoutes(routes)),
+    RouterModule.forChild(routes),
     AssetsModule,
     TranslateModule,
     CommonModule,

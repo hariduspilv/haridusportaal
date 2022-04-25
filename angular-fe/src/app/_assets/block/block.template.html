@@ -23,7 +23,7 @@
             </span>
             <!--/button__contents-->
           </button>
-
+          
           <button *ngIf="tab.tabLink" (click)="navigateTo(tab.tabLink, tab.queryParams)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
             <span class="button__contents">
               <ng-container *ngIf="tab.tabIcon">
@@ -42,7 +42,7 @@
   </div>
   <ng-content select="block-sub-title"></ng-content>
   <!--/title-area-->
-
+  
   <h2 class="block__title__secondary__text" *ngIf="hasSecondaryTitle">
     <ng-content select="block-secondary-title"></ng-content>
   </h2>
@@ -60,7 +60,7 @@
                 <icon [glyph]="tab.tabIcon"></icon>
               </ng-container>
               <div *ngIf="!tab.tabHeading" class="title">{{ tab.tabLabel }}</div>
-              <h2 *ngIf="tab.tabHeading">{{tab.tabLabel | translate}}</h2>
+              <h2 *ngIf="tab.tabHeading">{{tab.tabLabel}}</h2>
             </span>
             <!--/button__contents-->
           </button>
@@ -69,7 +69,7 @@
               <ng-container *ngIf="tab.tabIcon">
                 <icon [glyph]="tab.tabIcon"></icon>
               </ng-container>
-              <div class="title">{{ tab.tabLabel | translate }}</div>
+              <div class="title">{{ tab.tabLabel }}</div>
             </span>
             <!--/button__contents-->
           </button>
@@ -86,7 +86,7 @@
 
 <ng-container *ngIf="loading">
   <div class="block__content">
-
+    
     <skeleton type="article"></skeleton>
   </div><!--/block__content-->
 </ng-container>

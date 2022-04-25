@@ -44,7 +44,7 @@ export class RelatedEventsComponent implements OnInit, OnDestroy {
     const variables = {
       nid: this.nid,
       groupID: this.groupID,
-      lang: this.settings.currentAppLanguage,
+      lang: 'ET',
     };
 
     const path = this.settings.query('getRelatedEvents', variables);

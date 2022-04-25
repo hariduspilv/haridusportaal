@@ -43,11 +43,11 @@ export class CompareViewComponent extends CompareComponent {
     this.loading = true;
     const allVars = {
       studyProgrammeComparison: {
-				lang: this.settings.currentAppLanguage,
+        lang: 'ET',
         nidValues: `[${this.compare.map(id => id.toString())}]`,
       },
       oskaProfessionsComparison: {
-				lang: this.settings.currentAppLanguage,
+        lang: 'ET',
         titleValue: '',
         titleEnabled: false,
         oskaFieldValue: '',
