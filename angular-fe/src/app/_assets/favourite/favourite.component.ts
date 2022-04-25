@@ -25,8 +25,7 @@ export class FavouriteComponent {
     public modalService: ModalService,
     private settings: SettingsService,
     private auth: AuthService,
-  ) {
-  }
+  ) { }
 
   handleStateChange() {
     if (this.subscription !== undefined) {
@@ -42,13 +41,13 @@ export class FavouriteComponent {
     if (!this.state) {
 
       const variables = {
-        language: this.settings.currentAppLanguage,
+        language: this.settings.currentAppLanguage.toUpperCase(),
         id: this.auth.userData.drupal.uid,
       };
 
       const path = this.settings.query('customFavorites', variables);
 
-      this.http.get(path).subscribe((response: any) => {
+			this.http.get(path).subscribe((response: any) => {
 
         if (response.data.CustomFavorites &&
           response.data.CustomFavorites.favoritesNew.length >= this.maxCount) {
