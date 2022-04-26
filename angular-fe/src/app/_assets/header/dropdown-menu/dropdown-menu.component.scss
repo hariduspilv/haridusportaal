@@ -7,6 +7,11 @@
 	display: flex;
 	margin-right: 2rem;
 
+	@include  break-on(xxs, max) {
+		margin-right: 0;
+		padding-left: 0;
+	}
+
 	&:hover {
 		/* Show the dropdown menu on hover */
 		.dropdown-content {
@@ -34,11 +39,19 @@
 	font-size: 16px;
 	border: none;
 	cursor: pointer;
+
+	@include break-on(xxs, max) {
+		padding-left: .5rem;
+	}
 }
 
 icon {
 	color: $blue;
 	padding-top: 1.4rem;
+
+	@include break-on(xxs, max) {
+		padding-right: .5rem;
+	}
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -53,6 +66,11 @@ icon {
 	text-align: center;
 	border-radius: 4px;
 	top: 3.5rem;
+	right: -1.75rem;
+
+	@include break-on(xxs, max) {
+		right: -.2rem;
+	}
 
 	&::after {
 		content: '';
@@ -61,6 +79,10 @@ icon {
 		right: 1.6rem;
 		border: 10px solid transparent;
 		border-bottom: 10px solid #fff;
+
+		@include  break-on(xxs, max) {
+			right: .6rem;
+		}
 	}
 
 	/* Links inside the dropdown */
@@ -72,6 +94,11 @@ icon {
 		text-decoration: none;
 		display: block;
 		cursor: pointer;
+
+		@include  break-on(xxs, max) {
+			margin-left: .25rem;
+			margin-right: .25rem;
+		}
 
 		&:not(:last-child) {
 			border-bottom: 1px solid $theme-default;
