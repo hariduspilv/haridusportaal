@@ -34,31 +34,10 @@
           <icon aria-hidden="true" glyph="search" size="medium"></icon>
         </button>
 
-<!--				<button *ngFor="let language of availableLanguages"-->
-<!--								style="cursor: pointer"-->
-<!--								(click)="changeLanguage(language.code)">-->
-<!--					{{ language.label | translate }}-->
-<!--				</button>-->
-<!--				<form>-->
-<!--					<formItem type="select"-->
-<!--										title="vali keel"-->
-<!--										ariaLabel="vali keel"-->
-<!--										[options]="[-->
-<!--										{ key: 'ET', value: 'eesti' },-->
-<!--										{ key: 'EN', value: 'english' },-->
-<!--										]"-->
-<!--					></formItem>-->
-<!--				</form>-->
-<!--				<div *ngFor="let lang of availableLanguages">-->
-<!--					<div>{{ lang.label | translate }}</div>-->
-<!--					<div>{{ lang.code }}</div>-->
-<!--				</div>-->
-				<ng-select
-					[items]="availableLanguages"
-					bindLabel="label"
-					bindValue="code"
-					(change)="changeLanguage($event.code)"
-				></ng-select>
+				<dropdown-menu
+					[languages]="availableLanguages"
+					(onLanguageChange)="changeLanguage($event)"
+				></dropdown-menu>
 
         <button *ngIf="loginStatus; else other" theme="plain" (click)="openLogOutDropdown($event)" htm-button>
           <div class="label--logged" [class.enterprise]="auth.user.role.current_role.type !== 'natural_person'">

@@ -139,6 +139,7 @@ import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 import { MaxWidthWrapperComponent } from './max-width-wrapper/max-width-wrapper.component';
 import { TextTruncateTogglerComponent } from './text-truncate-toggler/text-truncate-toggler.component';
 import { SkipToContentComponent } from './skip-to-content';
+import { DropdownMenuComponent } from "@app/_assets/header/dropdown-menu/dropdown-menu.component";
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -250,6 +251,7 @@ const declarations = [
   MaxWidthWrapperComponent,
   ...certificatesModuleDeclarations,
   TextTruncateTogglerComponent,
+	DropdownMenuComponent,
 ];
 
 const exports = [
