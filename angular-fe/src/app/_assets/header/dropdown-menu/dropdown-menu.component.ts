@@ -16,6 +16,7 @@ export class DropdownMenuComponent {
 	activeLanguage = this.translate.get(`frontpage.${this.settings.currentAppLanguage}`);
 	isDesktop = this.deviceDetector.isDesktop();
 	private dropdown = document.getElementsByClassName('dropdown-content');
+	private dropdownContentStyle = 'block';
 
 	constructor(
 		private settings: SettingsService,
@@ -35,5 +36,10 @@ export class DropdownMenuComponent {
 
 	mouseLeave() {
 		this.dropdown[0].setAttribute('aria-expanded', 'false');
+	}
+
+	onButtonClick() {
+		(this.dropdown[0] as HTMLElement).style.display = this.dropdownContentStyle === 'block' ? 'none' : 'block';
+		this.dropdownContentStyle = this.dropdownContentStyle === 'block' ? 'none' : 'block';
 	}
 }
