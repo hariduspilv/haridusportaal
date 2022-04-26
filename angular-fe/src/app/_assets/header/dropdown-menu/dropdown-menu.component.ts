@@ -19,7 +19,7 @@ export class DropdownMenuComponent {
 	}
 	@HostListener('document:click') clickOut() {
 		if (!this.wasInside && this.dropdownContentStyle === 'block') {
-			this.onButtonClick();
+			this.toggleDropdown();
 		}
 		this.wasInside = false;
 	}
@@ -36,7 +36,7 @@ export class DropdownMenuComponent {
 		private deviceDetector: DeviceDetectorService,
 	) {}
 
-	onClick(code: LanguageCodes): void {
+	changeLanguage(code: LanguageCodes): void {
 		this.activeLanguageCode = code;
 		this.activeLanguage = this.translate.get(`frontpage.${code}`);
 		this.onLanguageChange.emit(code);
@@ -50,8 +50,10 @@ export class DropdownMenuComponent {
 		this.dropdown[0].setAttribute('aria-expanded', 'false');
 	}
 
-	onButtonClick() {
-		(this.dropdown[0] as HTMLElement).style.display = this.dropdownContentStyle === 'block' ? 'none' : 'block';
-		this.dropdownContentStyle = this.dropdownContentStyle === 'block' ? 'none' : 'block';
+	toggleDropdown() {
+		const toggledStyle = this.dropdownContentStyle === 'block' ? 'none' : 'block';
+
+		(this.dropdown[0] as HTMLElement).style.display = toggledStyle;
+		this.dropdownContentStyle = toggledStyle;
 	}
 }
