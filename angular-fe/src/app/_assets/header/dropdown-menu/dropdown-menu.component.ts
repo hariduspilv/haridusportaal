@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 import { LanguageCodes, SettingsService } from "@app/_services";
 import { TranslateService } from "@app/_modules/translate/translate.service";
 import { DeviceDetectorService } from "ngx-device-detector";
@@ -12,11 +12,23 @@ export class DropdownMenuComponent {
 	@Input() languages: Record<string, string | LanguageCodes>[];
 	@Output() onLanguageChange = new EventEmitter<LanguageCodes>();
 
+	private wasInside = false;
+
+	@HostListener('click') clickInside() {
+		this.wasInside = true;
+	}
+	@HostListener('document:click') clickOut() {
+		if (!this.wasInside && this.dropdownContentStyle === 'block') {
+			this.onButtonClick();
+		}
+		this.wasInside = false;
+	}
+
 	activeLanguageCode: string = this.settings.currentAppLanguage;
 	activeLanguage = this.translate.get(`frontpage.${this.settings.currentAppLanguage}`);
 	isDesktop = this.deviceDetector.isDesktop();
 	private dropdown = document.getElementsByClassName('dropdown-content');
-	private dropdownContentStyle = 'block';
+	private dropdownContentStyle = 'none';
 
 	constructor(
 		private settings: SettingsService,
