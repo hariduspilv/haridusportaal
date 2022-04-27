@@ -1,17 +1,20 @@
 <div class="language-dropdown" (mouseover)="mouseOver()" (mouseleave)="mouseLeave()">
-	<button class="dropbtn"
+	<button class="dropbtn" (click)="toggleDropdown()"
 					[attr.aria-label]="('frontpage.selected' | translate) + ' ' + (activeLanguage | lowercase) + ' ' + ('frontpage.language' | translate)"
 					[attr.aria-haspopup]="'listbox'"
 	>
 		{{ isDesktop ? activeLanguage : activeLanguageCode | uppercase }}
 	</button>
 	<icon glyph="chevron-down"></icon>
-	<div class="dropdown-content" role="listbox" [attr.aria-label]="'frontpage.choose_language' | translate">
+	<div class="dropdown-content" tabindex="-1" role="listbox" [attr.aria-label]="'frontpage.choose_language' | translate">
 		<ng-container *ngFor="let language of languages; index as idx">
 			<a *ngIf="activeLanguageCode !== language.code"
-				 (click)="onClick(language.code)"
+				 (click)="changeLanguage(language.code)"
+				 (keydown.enter)="changeLanguage(language.code)"
+				 (keydown.space)="changeLanguage(language.code)"
 				 [attr.aria-label]="idx === languages.length - 1 ? ('frontpage.last' | translate) + ' ' + (language.label | translate) : language.label | translate"
 				 role="option"
+				 tabindex="0"
 			>
 				{{ isDesktop ? (language.label | translate) : (language.code | uppercase) }}
 			</a>

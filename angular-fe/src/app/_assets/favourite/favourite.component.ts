@@ -34,7 +34,7 @@ export class FavouriteComponent {
     const data = {
       queryId: 'e926a65b24a5ce10d72ba44c62e38f094a38aa26:1',
       variables: {
-        language: this.settings.currentAppLanguage,
+        language: this.settings.currentAppLanguage.toUpperCase(),
         id: this.id,
       },
     };
