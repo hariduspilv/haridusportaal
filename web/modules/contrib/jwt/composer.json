@@ -3,7 +3,7 @@
   "type": "drupal-module",
   "description": "Provides a JSON Web Token authentication provider",
   "keywords": ["Drupal"],
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "homepage": "https://www.drupal.org/project/jwt",
   "minimum-stability": "dev",
   "support": {

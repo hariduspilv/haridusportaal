@@ -10,8 +10,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class JwtAuthConsumerSubscriber.
- *
- * @package Drupal\jwt_auth_consumer
  */
 class JwtAuthConsumerSubscriber implements EventSubscriberInterface {
 
