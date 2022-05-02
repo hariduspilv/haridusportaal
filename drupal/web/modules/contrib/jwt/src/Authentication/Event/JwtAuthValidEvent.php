@@ -8,8 +8,6 @@ use Drupal\jwt\JsonWebToken\JsonWebTokenInterface;
 
 /**
  * Class JwtAuthValidEvent.
- *
- * @package Drupal\jwt\Authentication\Provider
  */
 class JwtAuthValidEvent extends JwtAuthBaseEvent {
   /**

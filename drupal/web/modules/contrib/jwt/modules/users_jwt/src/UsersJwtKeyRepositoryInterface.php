@@ -3,7 +3,7 @@
 namespace Drupal\users_jwt;
 
 /**
- * Interface UsersJwtKeyRepositoryInterface
+ * Interface UsersJwtKeyRepositoryInterface.
  *
  * This extends \ArrayAccess so that the repository service can be passed as
  * the $key argument to \Firebase\JWT\JWT::decode().
@@ -36,7 +36,8 @@ interface UsersJwtKeyRepositoryInterface extends \ArrayAccess {
    * @return \Drupal\users_jwt\UsersKey
    *   The values of the key that were saved.
    *
-   * @throws \InvalidArgumentException If the $id is empty or used by another user (i.e. not unique).
+   * @throws \InvalidArgumentException
+   *   If the $id is empty or used by another user (i.e. not unique).
    */
   public function saveKey($uid, $id, $alg, $pubkey): UsersKey;
 
@@ -84,6 +85,7 @@ interface UsersJwtKeyRepositoryInterface extends \ArrayAccess {
    * @return string|null
    *   The public key for a key ID, or null if there is no such key.
    */
-  public function offsetGet($id);
+  #[\ReturnTypeWillChange]
+  public function offsetGet($id): ?string;
 
 }

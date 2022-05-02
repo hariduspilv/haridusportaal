@@ -8,7 +8,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\user\UserDataInterface;
 
 /**
- * Class UsersJwtKeyRepository
+ * Class UsersJwtKeyRepository.
  */
 class UsersJwtKeyRepository implements UsersJwtKeyRepositoryInterface {
   use StringTranslationTrait;
@@ -143,14 +143,15 @@ class UsersJwtKeyRepository implements UsersJwtKeyRepositoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function offsetExists($offset) {
+  public function offsetExists($offset): bool {
     return (bool) $this->getKey($offset);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function offsetGet($offset) {
+  #[\ReturnTypeWillChange]
+  public function offsetGet($offset): ?string {
     $key = $this->getKey($offset);
     return $key ? $key->pubkey : NULL;
   }
@@ -158,11 +159,11 @@ class UsersJwtKeyRepository implements UsersJwtKeyRepositoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function offsetSet($offset, $value) {}
+  public function offsetSet($offset, $value): void {}
 
   /**
    * {@inheritdoc}
    */
-  public function offsetUnset($offset) {}
+  public function offsetUnset($offset): void {}
 
 }
