@@ -3,7 +3,6 @@
 namespace Drupal\jwt\Plugin\KeyType;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Component\Utility\Crypt;
 use Drupal\key\Plugin\KeyTypeBase;
 use Drupal\key\Plugin\KeyPluginFormInterface;
 
@@ -82,9 +81,8 @@ class JwtHsKeyType extends KeyTypeBase implements KeyPluginFormInterface {
     else {
       $bytes = $algorithm_keysize['HS256'] / 8;
     }
-    $random_key = random_bytes($bytes);
-
-    return $random_key;
+    // Generate a key twice as long as the minimum required.
+    return random_bytes(2 * $bytes);
   }
 
   /**
@@ -99,21 +97,22 @@ class JwtHsKeyType extends KeyTypeBase implements KeyPluginFormInterface {
     $algorithm = $form_state->getValue('algorithm');
     $bytes = self::getAlgorithmKeysize()[$algorithm] / 8;
     if (strlen($key_value) < $bytes) {
-      $form_state->setErrorByName('algorithm', $this->t('Key size (%size bits) is too small for algorithm chosen. Algorithm requires a minimum of %required bits.', ['%size' => strlen($key_value) * 8, '%required' => $bytes * 8]));
+      $args = ['%size' => strlen($key_value) * 8, '%required' => $bytes * 8];
+      $form_state->setErrorByName('algorithm', $this->t('Key size (%size bits) is too small for algorithm chosen. Algorithm requires a minimum of %required bits.', $args));
     }
   }
 
   /**
-   * Get keysizes for the various algorithms.
+   * Get minimum key sizes for the various algorithms.
    *
    * @return array
-   *   An array key keysizes.
+   *   An array of key sizes in bits.
    */
   protected static function getAlgorithmKeysize() {
     return [
-      'HS256' => 512,
-      'HS384' => 1024,
-      'HS512' => 1024,
+      'HS256' => 256,
+      'HS384' => 384,
+      'HS512' => 512,
     ];
   }
 

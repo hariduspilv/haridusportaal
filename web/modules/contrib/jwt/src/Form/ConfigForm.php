@@ -10,9 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\jwt\Transcoder\JwtTranscoder;
 
 /**
- * Class ConfigForm.
- *
- * @package Drupal\jwt\Form
+ * JWT module config form.
  */
 class ConfigForm extends ConfigFormBase {
 

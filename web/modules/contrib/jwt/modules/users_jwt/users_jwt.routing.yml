@@ -42,4 +42,3 @@ users_jwt.key_list:
   requirements:
     user: '\d+'
     _entity_access: 'user.update'
-

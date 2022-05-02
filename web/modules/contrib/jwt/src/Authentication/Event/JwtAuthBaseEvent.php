@@ -7,8 +7,6 @@ use Drupal\jwt\JsonWebToken\JsonWebTokenInterface;
 
 /**
  * Class JwtAuthBaseEvent.
- *
- * @package Drupal\jwt\Authentication\Event
  */
 class JwtAuthBaseEvent extends Event {
   /**

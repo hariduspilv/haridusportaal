@@ -8,8 +8,6 @@ use Firebase\JWT\SignatureInvalidException;
 
 /**
  * Class JwtDecodeException.
- *
- * @package Drupal\jwt\Trancoder
  */
 class JwtDecodeException extends \Exception {
 

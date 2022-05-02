@@ -77,7 +77,7 @@ class RsaKeyTest extends KernelTestBase {
         'uid' => 999,
       ],
     ];
-    $token = JWT::encode($payload, $private_key ,'RS256', 'wxyz');
+    $token = JWT::encode($payload, $private_key, 'RS256', 'wxyz');
     $this->assertNotEmpty($token);
     /** @var \Drupal\jwt\Transcoder\JwtTranscoderInterface $transcoder */
     $transcoder = $this->container->get('jwt.transcoder');
