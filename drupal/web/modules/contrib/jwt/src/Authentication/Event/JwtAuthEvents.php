@@ -4,8 +4,6 @@ namespace Drupal\jwt\Authentication\Event;
 
 /**
  * Class JwtAuthEvents.
- *
- * @package Drupal\jwt\Authentication\Event
  */
 final class JwtAuthEvents {
   /**

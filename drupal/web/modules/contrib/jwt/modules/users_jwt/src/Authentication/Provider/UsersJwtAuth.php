@@ -14,8 +14,6 @@ use Firebase\JWT\JWT;
 
 /**
  * Class UsersJwtAuth.
- *
- * @package Drupal\users_jwt\Authentication\Provider
  */
 class UsersJwtAuth implements AuthenticationProviderInterface {
 
@@ -126,12 +124,18 @@ class UsersJwtAuth implements AuthenticationProviderInterface {
    * Log the reason that a JWT could not be used to authenticate.
    *
    * @param string $cause
+   *   The cause.
    * @param \Exception|null $e
+   *   The caught exception.
    * @param \StdClass|null $payload
+   *   The payload (claims) from the JWT.
    * @param \Drupal\users_jwt\UsersKey|null $key
+   *   The key that was loaded.
    * @param \Drupal\user\UserInterface|null $user
+   *   The user related to the key.
    *
    * @return null
+   *   NULL to be returned instead of a user.
    */
   protected function debugLog($cause, \Exception $e = NULL, \StdClass $payload = NULL, UsersKey $key = NULL, UserInterface $user = NULL) {
     if ($this->settings::get('jwt.debug_log')) {

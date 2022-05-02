@@ -9,8 +9,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class JwtAuthIssuerSubscriber.
- *
- * @package Drupal\jwt_auth_issuer
  */
 class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
 
@@ -48,7 +46,7 @@ class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
    */
   public function setStandardClaims(JwtAuthGenerateEvent $event) {
     $event->addClaim('iat', time());
-    // @todo: make these more configurable.
+    // @todo make these more configurable.
     $event->addClaim('exp', strtotime('+1 hour'));
   }
 

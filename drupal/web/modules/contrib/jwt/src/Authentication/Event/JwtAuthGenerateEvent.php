@@ -4,8 +4,6 @@ namespace Drupal\jwt\Authentication\Event;
 
 /**
  * Class JwtAuthGenerateEvent.
- *
- * @package Drupal\jwt\Authentication\Event
  */
 class JwtAuthGenerateEvent extends JwtAuthBaseEvent {
 

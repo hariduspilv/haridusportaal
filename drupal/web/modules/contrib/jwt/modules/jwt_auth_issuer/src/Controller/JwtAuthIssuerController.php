@@ -9,8 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class JwtAuthIssuerController.
- *
- * @package Drupal\jwt_auth_issuer\Controller
  */
 class JwtAuthIssuerController extends ControllerBase {
 

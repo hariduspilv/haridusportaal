@@ -22,6 +22,11 @@ class UsersKeyDeleteForm extends ConfirmFormBase {
    */
   protected $keyRepository;
 
+  /**
+   * The loaded user key.
+   *
+   * @var \Drupal\users_jwt\UsersKey
+   */
   protected $key;
 
   /**
@@ -87,7 +92,6 @@ class UsersKeyDeleteForm extends ConfirmFormBase {
     return parent::buildForm($form, $form_state);
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -99,7 +103,7 @@ class UsersKeyDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getDescription() {
-    return t('This operation cannot be undone.');
+    return $this->t('This operation cannot be undone.');
   }
 
   /**

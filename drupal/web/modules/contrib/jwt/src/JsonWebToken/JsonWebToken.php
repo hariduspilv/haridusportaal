@@ -4,8 +4,6 @@ namespace Drupal\jwt\JsonWebToken;
 
 /**
  * Class JsonWebToken.
- *
- * @package Drupal\jwt\JsonWebToken
  */
 class JsonWebToken implements JsonWebTokenInterface {
 
