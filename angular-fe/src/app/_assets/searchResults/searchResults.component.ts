@@ -240,7 +240,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           });
           scrollSub.unsubscribe();
         } else {
-          this.httpWatcher = this.http.get(path).subscribe({
+					this.httpWatcher = this.http.get(path).subscribe({
             next: (response) => {
 							if (!this.loadingMore) {
                 this.loading = false;
