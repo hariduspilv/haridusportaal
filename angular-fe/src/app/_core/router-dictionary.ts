@@ -9,6 +9,7 @@ export const routerDictionary = [
 	['erialad', 'study-programmes'],																					// , 'uchebnye-programmy'
 	['ettepanekute-elluviimine', 'proposals-implementation'], 								// , 'realizacija-predlozenij'
 	['gdpr', 'gdpr'],																													// , 'gdpr'
+	['digitempel', 'digital-temple'],																					// , 'digitalnaja-pechat'
 	['haldusüksused', 'administrative-units'],																// , 'administrativnye-edinitsy'
 	['infosüsteemid', 'infosystems'],																					// , 'infosistemy'
 	['kaart', 'map'],																													// , 'karta'

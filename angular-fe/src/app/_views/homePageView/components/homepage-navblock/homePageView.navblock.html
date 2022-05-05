@@ -18,7 +18,7 @@
             <span class="label" *ngIf="item.link.title">{{ item.link.title | translate }}</span>
           </a>
 					<ng-container *ngIf="isMainPage || theme === 'youth' || theme === 'teachers'">
-						<a *ngIf="item.link.url.routed" [routerLink]="item.link.url.path ">{{ item.title | translate }}
+						<a *ngIf="item.link.url.routed" [routerLink]="item.link.url.path">{{ item.title | translate }}
 							<span class="label" *ngIf="item.link.title">{{ item.link.title | translate }}</span>
 						</a>
 					</ng-container>

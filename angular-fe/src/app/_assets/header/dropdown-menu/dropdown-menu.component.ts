@@ -27,14 +27,15 @@ export class DropdownMenuComponent {
 	activeLanguageCode: string = this.settings.currentAppLanguage;
 	activeLanguage = this.translate.get(`frontpage.${this.settings.currentAppLanguage}`);
 	isDesktop = this.deviceDetector.isDesktop();
-	private dropdown = document.getElementsByClassName('dropdown-content');
+	private dropdown = document.getElementsByClassName('dropbtn');
+	private dropdownContent = document.getElementsByClassName('dropdown-content');
 	private dropdownContentStyle = 'none';
 
 	constructor(
 		private settings: SettingsService,
 		private translate: TranslateService,
 		private deviceDetector: DeviceDetectorService,
-	) {}
+	) { }
 
 	changeLanguage(code: LanguageCodes): void {
 		this.activeLanguageCode = code;
@@ -42,18 +43,26 @@ export class DropdownMenuComponent {
 		this.onLanguageChange.emit(code);
 	}
 
-	mouseOver() {
-		this.dropdown[0].setAttribute('aria-expanded', 'true');
-	}
-
-	mouseLeave() {
-		this.dropdown[0].setAttribute('aria-expanded', 'false');
-	}
-
 	toggleDropdown() {
 		const toggledStyle = this.dropdownContentStyle === 'block' ? 'none' : 'block';
 
-		(this.dropdown[0] as HTMLElement).style.display = toggledStyle;
+		(this.dropdownContent[0] as HTMLElement).style.display = toggledStyle;
 		this.dropdownContentStyle = toggledStyle;
+
+		if (toggledStyle === 'block') {
+			this.dropdownContent[0].setAttribute('aria-expanded', 'true');
+		}
+		if (toggledStyle === 'none') {
+			this.dropdownContent[0].setAttribute('aria-expanded', 'false');
+		}
+
+		if (!this.isDesktop) {
+			if (toggledStyle === 'block') {
+				(this.dropdown[0] as HTMLElement).style.backgroundColor = '#fd8208';
+			}
+			if (toggledStyle === 'none') {
+				(this.dropdown[0] as HTMLElement).style.backgroundColor = 'transparent';
+			}
+		}
 	}
 }

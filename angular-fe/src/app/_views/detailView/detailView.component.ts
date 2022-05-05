@@ -51,7 +51,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   private getSidebar(): void {
     const variables = {
-			lang: this.settings.currentAppLanguage,
+			lang: this.settings.currentAppLanguage.toUpperCase(),
       nid: this.data.nid,
     };
 

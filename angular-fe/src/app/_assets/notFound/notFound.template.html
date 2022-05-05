@@ -7,7 +7,7 @@
       innerHtml="{{ 'notFound.explanation' | translate }}">
     </div>
     <ng-template #auth>
-      <div class="error__explanation" aria-hidden="true">   
+      <div class="error__explanation" aria-hidden="true">
         {{'frontpage.login_required_message' | translate}}
       </div>
     </ng-template>
@@ -28,9 +28,9 @@
       </button>
     </div>
     <div class="error__links">
-      <a routerLink="/kool" role="link" attr.aria-label="{{'school.maps' | translate}}" tabindex="0"><span>{{'school.maps' | translate}}</span></a>
-      <a routerLink="/sündmused" role="link" attr.aria-label="{{'event.label' | translate}}" tabindex="0"><span>{{'event.label' | translate}}</span></a>
-      <a routerLink="/uudised" role="link" attr.aria-label="{{'news.label' | translate}}" tabindex="0"><span>{{'news.label' | translate}}</span></a>
+      <a [routerLink]="'/kool' | translatePath" role="link" attr.aria-label="{{'school.maps' | translate}}" tabindex="0"><span>{{'school.maps' | translate}}</span></a>
+      <a [routerLink]="'/sündmused' | translatePath" role="link" attr.aria-label="{{'event.label' | translate}}" tabindex="0"><span>{{'event.label' | translate}}</span></a>
+      <a [routerLink]="'/uudised' | translatePath" role="link" attr.aria-label="{{'news.label' | translate}}" tabindex="0"><span>{{'news.label' | translate}}</span></a>
     </div>
   </div>
 </div>

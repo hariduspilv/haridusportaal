@@ -80,7 +80,7 @@
 						<labels [data]="data.tags" *ngIf="data.tags"></labels>
 
 						<div *ngIf="type === 'resultPage'" class="resultsNavigation">
-							<a htm-button routerLink="/oska-tulemused/ettepanekute-elluviimine">{{ 'oska.see_proposals' | translate }}</a>
+							<a htm-button routerLink="{{ '/oska-tulemused/ettepanekute-elluviimine' | translatePath }}">{{ 'oska.see_proposals' | translate }}</a>
 						</div>
 
 						<ng-container *ngIf="data.fieldFurtherInfo?.value">

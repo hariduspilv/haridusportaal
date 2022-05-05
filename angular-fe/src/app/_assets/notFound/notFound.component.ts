@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@app/_services';
+import { getLangCode } from "@app/_core/router-utility";
 
 @Component({
   selector: 'notFound',
@@ -34,7 +35,7 @@ export class NotFoundComponent implements OnInit {
       this.modalService.open('login'); // document.getElementById('headerLogin').click();
       sessionStorage.setItem('redirectUrl', this.redirectUrl);
     } else {
-      this.router.navigate(['/']);
+			getLangCode() === 'et' ? this.router.navigate(['/']) : this.router.navigate([`/${getLangCode()}`])
     }
   }
 }

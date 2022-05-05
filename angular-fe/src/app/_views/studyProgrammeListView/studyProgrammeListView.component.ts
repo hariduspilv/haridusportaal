@@ -200,7 +200,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
 
     const path = this.settings.query('studyProgrammeFilterOptions', variables);
 
-    const subscribe = this.http.get(path).subscribe((response: any) => {
+		const subscribe = this.http.get(path).subscribe((response: any) => {
 			const data = response.data;
       this.typeFilters = data.type.entities.map((el) => {
         return { value: el.tid, key: el.entityLabel };
