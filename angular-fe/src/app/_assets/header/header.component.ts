@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
+import {
+	ChangeDetectorRef,
+	Component,
+	ElementRef,
+	HostBinding,
+	HostListener,
+	Input,
+	OnInit,
+	ViewChild
+} from '@angular/core';
 import {
 	AlertsService,
 	AnalyticsService,
@@ -57,6 +66,23 @@ export class HeaderComponent implements OnInit {
   });
 
 	public availableLanguages: Record<string, string | LanguageCodes>[];
+
+	// when user clicks "back" or "forward" button, and it goes to the page in another language
+	@HostListener('window:popstate') onBackOrForwardClick() {
+		if (this.settings.currentAppLanguage !== getLangCode()) {
+
+			// not good - force refresh
+			window.location.href = window.location.pathname;
+
+			// does NOT work correctly - not all data refreshed after back button push
+			// this.settings.currentAppLanguage = getLangCode();
+			// this.loading = true;
+			//
+			// this.translate.load().then(() => {
+			// 	this.navigate(decodeURI(window.location.pathname));
+			// });
+		}
+	}
 
   constructor(
     public sidemenuService: SidemenuService,
@@ -273,8 +299,8 @@ export class HeaderComponent implements OnInit {
 		if (code !== getLangCode()) {
 			this.settings.currentAppLanguage = code;
 			this.loading = true;
+
 			this.translate.load().then(() => {
-				this.loading = false;
 				this.validatePath(code);
 			});
 		}
@@ -282,9 +308,12 @@ export class HeaderComponent implements OnInit {
 
 	private validatePath(code: LanguageCodes): void {
 		const newUrl = this.settings.currentLanguageSwitchLinks?.find((link) => link.language.id === code).url.path;
+		const isWithoutTranslation = newUrl?.split('/')?.includes('node');
 
 		if (isMainPage()) {
 			code === 'et' ? this.navigate('') : this.navigate(code);
+		} else if (isWithoutTranslation) {
+			code === 'et' ? this.navigate('**') : this.navigate(`${code}/**`);
 		} else if (newUrl) {
 			this.navigate(newUrl);
 		} else {

@@ -1,8 +1,9 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import {Component, ViewChild, ElementRef, OnInit, ChangeDetectorRef} from '@angular/core';
 import { SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import {TranslateService} from "@app/_modules/translate/translate.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'schoolFunding-view',
@@ -142,13 +143,16 @@ export class SchoolFundingViewComponent implements OnInit {
 			lang: this.settingsService.currentAppLanguage,
     };
     const query = this.settingsService.query('subsidyProjectFilters', variables);
-    this.http.get(query).subscribe(({ data }: any) => {
-      this.parseFilters(data);
-      this.watchParams();
-    });
+    this.http.get(query).subscribe({
+			next: ({ data }: any) => {
+				this.parseFilters(data);
+				this.watchParams();
+			},
+		});
   }
 
   ngOnInit() {
     this.getFilters();
-  }
+		this.settingsService.currentLanguageSwitchLinks = null;
+	}
 }

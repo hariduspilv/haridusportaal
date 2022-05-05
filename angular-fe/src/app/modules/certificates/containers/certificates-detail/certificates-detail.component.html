@@ -7,7 +7,7 @@
         <block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
           <block-title>
             {{'certificates.final_document' | translate }}
-            <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ACCESS_TYPE:ID_CODE'">
+            <a routerLink="{{ '/tunnistused/lõpudokumendid' | translatePath }}" *ngIf="accessType === 'ACCESS_TYPE:ID_CODE'">
               <icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}
             </a>
           </block-title>
@@ -42,11 +42,11 @@
         <block [titleBorder]="false">
           <block-title>
             {{'certificates.final_document' | translate }}
-            <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ACCESS_TYPE:ID_CODE'">
+            <a routerLink="{{ '/tunnistused/lõpudokumendid' | translatePath }}" *ngIf="accessType === 'ACCESS_TYPE:ID_CODE'">
               <icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}
             </a>
           </block-title>
-        
+
           <block-secondary-title>
             {{ typeTranslation }} nr {{ documents?.certificate?.content?.registrationNumber }}
             <ng-container *ngIf="documents?.certificate?.content?.duplicateCertificateNumber">
@@ -62,7 +62,7 @@
             <ng-container *ngIf="!notFound">
               <certificate-detailed [documents]="documents"></certificate-detailed>
             </ng-container>
-            
+
             <p class="text-center" *ngIf="notFound">
               {{ 'certificates.no_certificate_or_access' | translate }}
             </p>

@@ -4,53 +4,39 @@
 /* The container <div> - needed to position the dropdown content */
 .language-dropdown {
 	position: relative;
-	display: flex;
 	margin-right: 2rem;
+	height: 4rem;
 
-	@include  break-on(xxs, max) {
+	@include break-on(xxs, max) {
 		margin-right: 0;
 		padding-left: 0;
-	}
-
-	&:hover {
-		/* Show the dropdown menu on hover */
-		.dropdown-content {
-			display: block;
-		}
-
-		/* Change the background color of the dropdown button when the dropdown content is shown */
-		.dropbtn {
-			background-color: $theme-default;
-		}
-
-		@include break-on(xxs, max) {
-			.dropbtn, icon {
-				background-color: $dark-orange;
-			}
-		}
 	}
 }
 
 /* Style The Dropdown Button */
 .dropbtn {
-	background-color: $theme-default;
+	background-color: transparent;
 	color: $blue;
-	padding: 1.4rem .2rem 1rem 1.4rem;
 	font-size: 16px;
 	border: none;
 	cursor: pointer;
+	height: 4rem;
+	display: flex;
+	align-items: center;
 
 	@include break-on(xxs, max) {
 		padding-left: .5rem;
 	}
-}
 
-icon {
-	color: $blue;
-	padding-top: 1.4rem;
-
-	@include break-on(xxs, max) {
-		padding-right: .5rem;
+	&:after {
+		content: '';
+		background-image: url('~assets/img/chevron-down.svg');
+		width: 15px;
+		height: 15px;
+		position: relative;
+		filter: brightness(0) saturate(100%) invert(24%) sepia(14%) saturate(2674%) hue-rotate(197deg) brightness(87%) contrast(98%);
+		top: 3px;
+		display: inline-block;
 	}
 }
 
@@ -59,8 +45,6 @@ icon {
 	display: none;
 	position: absolute;
 	background-color: $white;
-	// min-width: 105px;
-	// min-height: 88px;
 	box-shadow: 2px 2px 10px rgba(117, 117, 117, 0.25);
 	z-index: 1;
 	text-align: center;
@@ -76,12 +60,12 @@ icon {
 		content: '';
 		position: absolute;
 		top: -20px;
-		right: 1.6rem;
+		right: 1.95rem;
 		border: 10px solid transparent;
 		border-bottom: 10px solid #fff;
 
 		@include  break-on(xxs, max) {
-			right: .6rem;
+			right: .4rem;
 		}
 	}
 
