@@ -19,7 +19,7 @@
       <ng-container *ngIf="item && item.filters">
         <div class="formItems" [ngClass]="{'formItems--3': wide, 'formItems--2': !wide}">
           <ng-container *ngFor="let select of item.filters; let i = index">
-            
+
             <div *ngIf="select.options.length > 1">
               <ng-container *ngIf="select.multiple && filters[item.id]">
                 <formItem
