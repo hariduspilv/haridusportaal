@@ -46,6 +46,7 @@ export function getTranslatedWord(word: string): string {
 	return findTranslation(word)[activeLanguageIndex()];
 }
 
+// NB! path must begin with '/'
 export function translatePath(path: string): string {
 	const translatedPath = path
 			.split('/')
