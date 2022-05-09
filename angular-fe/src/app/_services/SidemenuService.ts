@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
+import { translatePath } from "@app/_core/router-utility";
 
 @Injectable({
   providedIn: 'root',
 })
 export class SidemenuService {
 
-  private subject:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private theme:BehaviorSubject<string> = new BehaviorSubject<string>('default');
+  private subject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private theme: BehaviorSubject<string> = new BehaviorSubject<string>('default');
   private langSwitch = new Subject<any>();
 
   /**
    * These paths should not open the menu automatically on load.
    */
-  public ignoreAutoOpen = ['/', '/õppimine', '/karjäär', '/õpetaja', '/noored'];
+  public ignoreAutoOpen = ['/', translatePath('/õppimine'), translatePath('/karjäär'), translatePath('/õpetaja'), translatePath('/noored')];
   public themes = {
     õppimine: 'learning',
+		learning: 'learning',
     õpetamine: 'teaching',
+		teaching: 'teaching',
     karjäär: 'career',
+		career: 'career',
     noored: 'youth',
+		youth: 'youth',
     noortevaldkond: 'youth',
   };
 
