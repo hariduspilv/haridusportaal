@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import { getLangCode, isMainPage,	translatePathTo } from '@app/_core/router-utility';
+import { getLangCode, isMainPage, isWildcardPage, translatePathTo } from '@app/_core/router-utility';
 
 @Component({
   selector: 'htm-header',
@@ -181,20 +181,20 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  public subscribeToSidemenu(): void {
-    this.sidemenuService.isVisibleSubscription.subscribe((visible) => {
-      clearTimeout(this.focusBounce);
-      if (!visible && this.sidemenuInit) {
-        this.focusBounce = setTimeout(() => this.toggleBtn.nativeElement.focus(), 100);
-      }
-      // Ignore the initial state
-      this.sidemenuInit = true;
-    });
+	public subscribeToSidemenu(): void {
+		this.sidemenuService.isVisibleSubscription.subscribe((visible) => {
+			clearTimeout(this.focusBounce);
+			if (!visible && this.sidemenuInit) {
+				this.focusBounce = setTimeout(() => this.toggleBtn.nativeElement.focus(), 100);
+			}
+			// Ignore the initial state
+			this.sidemenuInit = true;
+		});
 
-    this.sidemenuService.themeSubscription.subscribe((theme) => {
-      this.theme = theme;
-    });
-  }
+		this.sidemenuService.themeSubscription.subscribe({
+			next: (theme) => this.theme = theme,
+		});
+	}
 
   public openLoginModal() {
     this.loginForm.reset();
@@ -312,7 +312,7 @@ export class HeaderComponent implements OnInit {
 
 		if (isMainPage()) {
 			code === 'et' ? this.navigate('') : this.navigate(code);
-		} else if (isWithoutTranslation) {
+		} else if (isWildcardPage() || isWithoutTranslation) {
 			code === 'et' ? this.navigate('**') : this.navigate(`${code}/**`);
 		} else if (newUrl) {
 			this.navigate(newUrl);

@@ -213,7 +213,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;
 
-        const path = `${this.settings.url}/graphql?${query}`.trim();
+				const path = `${this.settings.url}/graphql?${query}`.trim();
 
 				if (!this.loadingMore) {
           this.loading = true;

@@ -1,15 +1,15 @@
 import {
-  Component,
-  Input,
-  HostBinding,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  ViewChildren,
-  QueryList,
-  ViewChild,
-  ElementRef,
-  HostListener,
+	Component,
+	Input,
+	HostBinding,
+	OnInit,
+	OnDestroy,
+	ChangeDetectorRef,
+	ViewChildren,
+	QueryList,
+	ViewChild,
+	ElementRef,
+	HostListener,
 } from '@angular/core';
 import { SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
@@ -30,6 +30,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   public wasClosed: boolean = false;
   public readerVisible = false;
   public version: any = environment.VERSION;
+	public isLoading = true;
+
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
@@ -38,7 +40,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private initialAutoOpen = false;
   private focusBounce: any;
   private visibilityBounce: any;
-	public isLoading = true;
+	private languageWasChanged = false;
 
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
   @ViewChild('sidemenuCloser', { static: false, read: ElementRef }) private closeBtn: ElementRef;
@@ -74,8 +76,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
 	private subscribeToLanguage(): void {
-		this.languageSub = this.settings.activeLang$.subscribe(() => {
-			this.getData(true);
+		this.languageSub = this.settings.activeLang$.subscribe({
+			next:() => {
+				this.languageWasChanged = true;
+				this.getData(true);
+			},
+			complete: () => this.languageWasChanged = false,
 		});
 	}
 
@@ -186,21 +192,21 @@ export class MenuComponent implements OnInit, OnDestroy {
    */
   private makeActive(): void {
     const path = decodeURI(this.location.path());
-    let opened = false;
+		let opened = false;
 
-    for (const menu of this.menus) {
+		for (const menu of this.menus) {
       if (this.hasActiveInTree(menu.items, path)) {
         opened = true;
       }
     }
 
-    if (opened) {
+    if (opened || this.languageWasChanged) {
       // Determine the theme of the current page
-      for (const menu of this.menus) {
+			for (const menu of this.menus) {
         for (const item of menu.items) {
           if (item.firstLevel && item.active) {
             const themestr = item.label.toLowerCase();
-            const resolved = this.sidemenuService.themes[themestr] || 'default';
+						const resolved = this.sidemenuService.themes[themestr] || 'default';
             this.sidemenuService.setTheme(resolved);
           }
         }
@@ -242,7 +248,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.getData(true);
   }
 
-  public ngOnDestroy(): void {
+	public ngOnDestroy(): void {
     this.routerSub.unsubscribe();
     this.authSub.unsubscribe();
     this.subscription.unsubscribe();
