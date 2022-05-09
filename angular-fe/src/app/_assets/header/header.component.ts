@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import { getLangCode, isMainPage, isWildcardPage, translatePathTo } from '@app/_core/router-utility';
+import { getLangCode, isMainPage, translatePathTo } from '@app/_core/router-utility';
 
 @Component({
   selector: 'htm-header',
@@ -311,9 +311,9 @@ export class HeaderComponent implements OnInit {
 		const isWithoutTranslation = newUrl?.split('/')?.includes('node');
 
 		if (isMainPage()) {
-			code === 'et' ? this.navigate('') : this.navigate(code);
-		} else if (isWildcardPage() || isWithoutTranslation) {
-			code === 'et' ? this.navigate('**') : this.navigate(`${code}/**`);
+			this.navigate(code === LanguageCodes.ESTONIAN ? '' : code);
+		} else if (isWithoutTranslation) {
+			this.navigate(code === LanguageCodes.ESTONIAN ? '**' : `${code}/**`)
 		} else if (newUrl) {
 			this.navigate(newUrl);
 		} else {
@@ -343,7 +343,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	public navigateToMainPage(): void {
-		const path = getLangCode() === 'et' ? '/' : `/${getLangCode()}`;
+		const path = getLangCode() === LanguageCodes.ESTONIAN ? '/' : `/${getLangCode()}`;
 		this.navigate(path);
 	}
 

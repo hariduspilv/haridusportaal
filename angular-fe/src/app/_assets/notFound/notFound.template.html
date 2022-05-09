@@ -1,6 +1,6 @@
-<div class="notFound">
+<div class="notFound" *ngIf="!loading">
   <div class="flex">
-    <div aria-hidden="true" class="error__head">{{'frontpage.message' | translate}}</div>
+    <div aria-hidden="true" class="error__head">{{ 'frontpage.message' | translate }}</div>
     <div *ngIf="!redirectUrl; else auth"
       aria-hidden="true"
       class="error__explanation"
@@ -8,7 +8,7 @@
     </div>
     <ng-template #auth>
       <div class="error__explanation" aria-hidden="true">
-        {{'frontpage.login_required_message' | translate}}
+        {{ 'frontpage.login_required_message' | translate }}
       </div>
     </ng-template>
     <div class="error__button">
