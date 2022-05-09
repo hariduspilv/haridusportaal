@@ -96,7 +96,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 		if (response && response['data'] && response['data']['route'] && response['data']['route']['languageSwitchLinks']) {
 			this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
 		} else {
-			this.settings.currentLanguageSwitchLinks = null;
+			// this.settings.currentLanguageSwitchLinks = null;
 		}
 	}
 }
