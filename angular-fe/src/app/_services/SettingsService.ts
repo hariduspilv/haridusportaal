@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { getLangCode } from "@app/_core/router-utility";
@@ -36,10 +36,10 @@ export class SettingsService {
 	availableLanguages: Record<string, string | LanguageCodes>[] = [
 		{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
 		{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
-		{ label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
+		// { label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
 	];
 	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN;
-	activeLang$ = new BehaviorSubject(this.activeLang);
+	activeLang$ = new Subject();	// new BehaviorSubject(this.activeLang); - sidemenu will be opened on the first app load
 	get currentAppLanguage() { return this.activeLang; }
 	set currentAppLanguage(code: LanguageCodes) {
 		document.documentElement.lang = code;
@@ -55,7 +55,7 @@ export class SettingsService {
 		return this.languageSwitchLinks;
 	}
 
-	set currentLanguageSwitchLinks(links: LanguageSwitchLink[]) {
+	set currentLanguageSwitchLinks(links: Partial<LanguageSwitchLink[]>) {
 		this.languageSwitchLinks = links;
 	}
 

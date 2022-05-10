@@ -280,7 +280,7 @@ const providers = [
   TitleCasePipe,
   {
     provide: RECAPTCHA_LANGUAGE,
-    useValue: 'et',
+    useValue: getLangCode(),
   },
   {
     provide: APP_INITIALIZER,

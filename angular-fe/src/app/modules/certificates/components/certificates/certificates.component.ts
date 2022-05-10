@@ -1,9 +1,9 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { slugifyTitle } from '@app/_core/utility';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SettingsService } from '@app/_services';
+import { LanguageCodes, SettingsService } from '@app/_services';
 import { CertificatesUtility } from '../../certificates.utility';
 import { CertificateAccordionSection } from '../../models/interfaces/certificate-accordion-section';
 
@@ -175,6 +175,36 @@ export class CertificatesComponent implements OnInit {
       const initializeId = this.getId();
       this.dataController(initializeId);
     }
+
+		this.setLanguageSwitchLinks();
   }
 
+	private setLanguageSwitchLinks() {
+		this.settings.currentLanguageSwitchLinks = [
+			{
+				language: {
+					id: LanguageCodes.ESTONIAN
+				},
+				url: {
+					path: '/töölaud/tunnistused'
+				}
+			},
+			{
+				language: {
+					id: LanguageCodes.ENGLISH
+				},
+				url: {
+					path: '/en/dashboard/certificates'
+				}
+			},
+			{
+				language: {
+					id: LanguageCodes.RUSSIAN
+				},
+				url: {
+					path: '/ru/rabo4ij-stol/svidetelstva'
+				}
+			},
+		];
+	}
 }

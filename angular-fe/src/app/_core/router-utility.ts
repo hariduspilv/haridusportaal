@@ -8,9 +8,9 @@ export function isMainPage(link?: string): boolean {
 	return pathSplit.length === 1 && (pathSplit[0] === '' || isLanguageCode(pathSplit[0]));
 }
 
-// export function isWildcardPage(): boolean {
-// 	return decodeURI(window.location.pathname).split('/').includes('**');
-// }
+export function isWildcardPage(): boolean {
+	return decodeURI(window.location.pathname).split('/').includes('**');
+}
 
 export function isLanguageCode(code): boolean {
 	return Object.values(LanguageCodes).some((languageCode) => languageCode === code);

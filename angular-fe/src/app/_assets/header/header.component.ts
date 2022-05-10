@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import { getLangCode, isMainPage, translatePathTo } from '@app/_core/router-utility';
+import { getLangCode, isMainPage, isWildcardPage, translatePathTo } from '@app/_core/router-utility';
 
 @Component({
   selector: 'htm-header',
@@ -316,8 +316,14 @@ export class HeaderComponent implements OnInit {
 			this.navigate(code === LanguageCodes.ESTONIAN ? '**' : `${code}/**`)
 		} else if (newUrl) {
 			this.navigate(newUrl);
+		} else if (isWildcardPage()) {
+			this.navigateToMainPage();
 		} else {
-			this.navigate(translatePathTo(this.router.url, code));
+			try {
+				this.navigate(translatePathTo(this.router.url, code));
+			} catch (error) {
+				this.navigate(code);
+			}
 		}
 
 		if (this.router.url === '/ametialad/andmed') {		// langSwitchLink en/node/123 - need to correct
