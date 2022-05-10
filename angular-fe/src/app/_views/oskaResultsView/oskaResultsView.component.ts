@@ -254,7 +254,6 @@ export class OskaResultsView extends FiltersService implements OnInit, OnDestroy
 
   ngOnDestroy() {
     this.searchSubscription.unsubscribe();
-		this.settingsService.currentLanguageSwitchLinks = null;
   }
 
 }

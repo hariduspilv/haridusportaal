@@ -77,9 +77,10 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 				this.saveLanguageSwitchLinks(response);
 				this.parseData(response);
 			},
-			complete: () => {
-				subscription.unsubscribe();
-			}
+			error: (error) => {
+				if (error) this.getData();	// it's hack to load breadcrumbs, but in real it is needed to redone graphql (or add CrossOrigin to backend?)
+			},
+			complete: () => subscription.unsubscribe(),
 		});
 	}
 
@@ -95,8 +96,6 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 	private saveLanguageSwitchLinks(response: Object) {
 		if (response && response['data'] && response['data']['route'] && response['data']['route']['languageSwitchLinks']) {
 			this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
-		} else {
-			// this.settings.currentLanguageSwitchLinks = null;
 		}
 	}
 }

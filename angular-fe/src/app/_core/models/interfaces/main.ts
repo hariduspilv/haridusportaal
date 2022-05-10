@@ -57,15 +57,15 @@ export interface ImageUrl {
 }
 
 export interface LanguageSwitchLink {
-	active: boolean;
+	active?: boolean;
 	language: { id: LanguageCodes };
-	title: string;
+	title?: string;
 	url: LanguageSwitchLinkUrl;
 }
 
 export interface LanguageSwitchLinkUrl {
 	path: string;
-	pathAlias: string;
-	pathInternal: string;
-	routed: boolean;
+	pathAlias?: string;
+	pathInternal?: string;
+	routed?: boolean;
 }
