@@ -1,0 +1,18 @@
+uuid: 8dd2fe21-0cbd-4fa5-9a91-c56f000407bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.publish_on
+field_name: publish_on
+entity_type: node
+bundle: youth_home_page
+label: 'Publish on'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

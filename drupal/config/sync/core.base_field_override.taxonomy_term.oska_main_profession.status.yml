@@ -1,0 +1,22 @@
+uuid: 69ba4909-d2e2-47f8-81cd-f4b37926c39e
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_main_profession
+id: taxonomy_term.oska_main_profession.status
+field_name: status
+entity_type: taxonomy_term
+bundle: oska_main_profession
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

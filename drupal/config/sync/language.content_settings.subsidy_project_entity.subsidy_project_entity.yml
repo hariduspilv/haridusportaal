@@ -1,0 +1,17 @@
+uuid: dea6ca49-fa1e-48f5-b952-dceaf5c3129c
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_translation
+    - htm_custom_subsidy_projects
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: subsidy_project_entity.subsidy_project_entity
+target_entity_type_id: subsidy_project_entity
+target_bundle: subsidy_project_entity
+default_langcode: site_default
+language_alterable: false

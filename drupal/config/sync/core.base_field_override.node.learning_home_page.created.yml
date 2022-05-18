@@ -1,0 +1,18 @@
+uuid: 7e39ee04-fb58-4dcf-b32d-2a6fd588e308
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.created
+field_name: created
+entity_type: node
+bundle: learning_home_page
+label: 'Authored on'
+description: 'The time that the node was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

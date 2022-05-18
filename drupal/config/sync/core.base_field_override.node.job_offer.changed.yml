@@ -1,0 +1,18 @@
+uuid: e25c310c-bdf3-42a3-8b71-1bc8cc9dae36
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.changed
+field_name: changed
+entity_type: node
+bundle: job_offer
+label: Changed
+description: 'The time that the node was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

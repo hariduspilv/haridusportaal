@@ -1,0 +1,18 @@
+uuid: af805f20-e587-47f2-a7ad-368a74b00cb0
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.study
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.study
+target_entity_type_id: paragraph
+target_bundle: study
+default_langcode: site_default
+language_alterable: true
