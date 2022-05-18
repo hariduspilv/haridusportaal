@@ -1,7 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
-import { AuthService, LanguageCodes } from './_services';
-import { translateRoutes } from "@app/_core/router-utility";
+import { AuthService } from './_services';
+import { isLanguageCode, translateRoutes } from "@app/_core/router-utility";
 
 @Component({
 	selector: 'dummy-view',
@@ -244,7 +244,7 @@ const routes: Routes = [
 	imports: [RouterModule.forRoot([
 		{
 			matcher: (url: UrlSegment[]) => {
-				return Object.values(LanguageCodes).some((code) => code === url[0]?.path)
+				return isLanguageCode(url[0]?.path)
 					? { consumed: url.slice(0, 1) }
 					: { consumed: [] }
 			},

@@ -1,10 +1,10 @@
 import {
-  Component,
-  OnDestroy,
-  Input,
-  OnChanges,
-  ChangeDetectorRef,
-  AfterViewInit,
+	Component,
+	OnDestroy,
+	Input,
+	OnChanges,
+	ChangeDetectorRef,
+	AfterViewInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -95,6 +95,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     } catch (err) {}
     return tmpValue;
   }
+
   private parseValues(queryParams) {
     const values = {};
     const tmpParams = this.addRequiredFields(queryParams);
@@ -212,7 +213,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;
 
-        const path = `${this.settings.url}/graphql?${query}`.trim();
+				const path = `${this.settings.url}/graphql?${query}`.trim();
 
 				if (!this.loadingMore) {
           this.loading = true;
@@ -239,9 +240,9 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           });
           scrollSub.unsubscribe();
         } else {
-          this.httpWatcher = this.http.get(path).subscribe({
+					this.httpWatcher = this.http.get(path).subscribe({
             next: (response) => {
-              if (!this.loadingMore) {
+							if (!this.loadingMore) {
                 this.loading = false;
               }
               this.loadingMore = false;

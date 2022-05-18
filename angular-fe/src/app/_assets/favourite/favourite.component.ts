@@ -25,8 +25,7 @@ export class FavouriteComponent {
     public modalService: ModalService,
     private settings: SettingsService,
     private auth: AuthService,
-  ) {
-  }
+  ) { }
 
   handleStateChange() {
     if (this.subscription !== undefined) {
@@ -35,20 +34,20 @@ export class FavouriteComponent {
     const data = {
       queryId: 'e926a65b24a5ce10d72ba44c62e38f094a38aa26:1',
       variables: {
-        language: this.settings.currentAppLanguage,
+        language: this.settings.currentAppLanguage.toUpperCase(),
         id: this.id,
       },
     };
     if (!this.state) {
 
       const variables = {
-        language: this.settings.currentAppLanguage,
+        language: this.settings.currentAppLanguage.toUpperCase(),
         id: this.auth.userData.drupal.uid,
       };
 
       const path = this.settings.query('customFavorites', variables);
 
-      this.http.get(path).subscribe((response: any) => {
+			this.http.get(path).subscribe((response: any) => {
 
         if (response.data.CustomFavorites &&
           response.data.CustomFavorites.favoritesNew.length >= this.maxCount) {

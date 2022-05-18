@@ -139,6 +139,8 @@ import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 import { MaxWidthWrapperComponent } from './max-width-wrapper/max-width-wrapper.component';
 import { TextTruncateTogglerComponent } from './text-truncate-toggler/text-truncate-toggler.component';
 import { SkipToContentComponent } from './skip-to-content';
+import { DropdownMenuComponent } from "@app/_assets/header/dropdown-menu/dropdown-menu.component";
+import { getLangCode } from "@app/_core/router-utility";
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -250,6 +252,7 @@ const declarations = [
   MaxWidthWrapperComponent,
   ...certificatesModuleDeclarations,
   TextTruncateTogglerComponent,
+	DropdownMenuComponent,
 ];
 
 const exports = [
@@ -296,7 +299,7 @@ const imports = [
   AgmMarkerClustererModule,
   AgmCoreModule.forRoot({
     apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
-    language: 'et',
+    language: getLangCode(),
   }),
   AgmSnazzyInfoWindowModule,
   NgbDatepickerModule,

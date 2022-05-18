@@ -578,12 +578,12 @@ export class ChartComponent implements OnInit {
         this.requestSubscription[id].unsubscribe();
       }
 
-      const current = this.data.filter((item) => {
+			const current = this.data.filter((item) => {
         if (id === item.id) {
           return item;
         }
       })[0];
-      const filters = this.filters[current.id];
+			const filters = this.filters[current.id];
       const unselectableFilters = this.unselectableFilters[current.id];
 
       if (!this.filtersData[current.id]) { this.filtersData[current.id] = {}; }
@@ -591,7 +591,7 @@ export class ChartComponent implements OnInit {
       this.filtersData[current.id].loading = true;
 
       let professionList = current.filters.filter(x => x.key === 'ametiala').map(y => y.options)[0];
-      let subFieldList
+			let subFieldList
         = current.filters.filter(x => x.key === 'alavaldkond').map(y => y.options)[0];
       let fieldList = current.filters.filter(x => x.key === 'valdkond').map(y => y.options)[0];
 
@@ -617,7 +617,7 @@ export class ChartComponent implements OnInit {
         fieldList = '';
       }
 
-      const variables = {
+			const variables = {
         graphType: current['graphType'],
         secondaryGraphType: current.secondaryGraphType,
         secondaryGraphIndicator: filters['näitaja2'] && filters['näitaja2'].length > 0
@@ -700,6 +700,7 @@ export class ChartComponent implements OnInit {
       right: 24,
     };
   }
+
   ngOnInit() {
     switch (this.type) {
       case 'filter': {

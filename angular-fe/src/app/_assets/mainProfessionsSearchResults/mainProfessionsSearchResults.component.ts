@@ -228,10 +228,10 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
               },         0);
             }
           });
-          this.dispatchListEmit(true, this.list);
+					this.dispatchListEmit(true, this.list);
           scrollSub.unsubscribe();
         } else {
-          this.httpWatcher = this.http.get(path).subscribe({
+					this.httpWatcher = this.http.get(path).subscribe({
             next: (response) => {
               if (response['data']['countProfessionsFalseValue']) {
                 this.nonProfessionCount = response['data']['countProfessionsFalseValue']['count'];
@@ -241,7 +241,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
               const listData = response['data']['nodeQuery']['entities'];
               if (append) {
                 this.list = [...this.list, ...listData];
-                this.loading = false;
+								this.loading = false;
                 this.loadingMore = false;
               } else {
                 this.list = listData;

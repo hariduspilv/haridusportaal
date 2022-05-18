@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Language } from '@app/_core/models/interfaces/language.enum';
 import { ListOffsetParameters } from '@app/_core/models/list-offset-parameters';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';

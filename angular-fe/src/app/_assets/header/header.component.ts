@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
+import {
+	ChangeDetectorRef,
+	Component,
+	ElementRef,
+	HostBinding,
+	HostListener,
+	Input,
+	OnInit,
+	ViewChild
+} from '@angular/core';
 import {
 	AlertsService,
 	AnalyticsService,
@@ -14,7 +23,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import { getLangCode, isMainPage,	translatePathTo } from "@app/_core/router-utility";
+import { getLangCode, isMainPage, translatePathTo } from '@app/_core/router-utility';
 
 @Component({
   selector: 'htm-header',
@@ -57,6 +66,23 @@ export class HeaderComponent implements OnInit {
   });
 
 	public availableLanguages: Record<string, string | LanguageCodes>[];
+
+	// when user clicks "back" or "forward" button, and it goes to the page in another language
+	@HostListener('window:popstate') onBackOrForwardClick() {
+		if (this.settings.currentAppLanguage !== getLangCode()) {
+
+			// not good - force refresh
+			window.location.href = window.location.pathname;
+
+			// does NOT work correctly - not all data refreshed after back button push
+			// this.settings.currentAppLanguage = getLangCode();
+			// this.loading = true;
+			//
+			// this.translate.load().then(() => {
+			// 	this.navigate(decodeURI(window.location.pathname));
+			// });
+		}
+	}
 
   constructor(
     public sidemenuService: SidemenuService,
@@ -155,20 +181,20 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  public subscribeToSidemenu(): void {
-    this.sidemenuService.isVisibleSubscription.subscribe((visible) => {
-      clearTimeout(this.focusBounce);
-      if (!visible && this.sidemenuInit) {
-        this.focusBounce = setTimeout(() => this.toggleBtn.nativeElement.focus(), 100);
-      }
-      // Ignore the initial state
-      this.sidemenuInit = true;
-    });
+	public subscribeToSidemenu(): void {
+		this.sidemenuService.isVisibleSubscription.subscribe((visible) => {
+			clearTimeout(this.focusBounce);
+			if (!visible && this.sidemenuInit) {
+				this.focusBounce = setTimeout(() => this.toggleBtn.nativeElement.focus(), 100);
+			}
+			// Ignore the initial state
+			this.sidemenuInit = true;
+		});
 
-    this.sidemenuService.themeSubscription.subscribe((theme) => {
-      this.theme = theme;
-    });
-  }
+		this.sidemenuService.themeSubscription.subscribe({
+			next: (theme) => this.theme = theme,
+		});
+	}
 
   public openLoginModal() {
     this.loginForm.reset();
@@ -273,8 +299,8 @@ export class HeaderComponent implements OnInit {
 		if (code !== getLangCode()) {
 			this.settings.currentAppLanguage = code;
 			this.loading = true;
+
 			this.translate.load().then(() => {
-				this.loading = false;
 				this.validatePath(code);
 			});
 		}
@@ -282,16 +308,17 @@ export class HeaderComponent implements OnInit {
 
 	private validatePath(code: LanguageCodes): void {
 		const newUrl = this.settings.currentLanguageSwitchLinks?.find((link) => link.language.id === code).url.path;
+		const isWithoutTranslation = newUrl?.split('/')?.includes('node');
 
 		if (isMainPage()) {
-			code === 'et' ? this.navigate('') : this.navigate(code);
+			this.navigate(code === LanguageCodes.ESTONIAN ? '' : code);
+		} else if (isWithoutTranslation) {
+			this.navigate(code === LanguageCodes.ESTONIAN ? '**' : `${code}/**`)
 		} else if (newUrl) {
 			this.navigate(newUrl);
 		} else {
 			this.navigate(translatePathTo(this.router.url, code));
 		}
-
-		// TODO else { navigateToMainPage(); }
 
 		if (this.router.url === '/ametialad/andmed') {		// langSwitchLink en/node/123 - need to correct
 			this.navigate('en/professions/data');
@@ -316,7 +343,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	public navigateToMainPage(): void {
-		const path = getLangCode() === 'et' ? '/' : `/${getLangCode()}`;
+		const path = getLangCode() === LanguageCodes.ESTONIAN ? '/' : `/${getLangCode()}`;
 		this.navigate(path);
 	}
 
