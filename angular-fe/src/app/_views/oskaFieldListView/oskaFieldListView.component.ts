@@ -39,7 +39,7 @@ export class OskaFieldListViewComponent {
       this.dataSub.unsubscribe();
     }
     const variables = {
-      lang: 'ET',
+			lang: this.settings.activeLang,
       offset: this.offset,
       limit: this.limit,
       nidEnabled: false,

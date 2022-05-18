@@ -47,10 +47,10 @@ export class TranslateService {
 
       const errorHandler = () => resolve(true);
 
-      this.http.get(`${this.settings.url}/translations?_format=json&lang=et`).subscribe({
-        next: httpResponse,
-        error: errorHandler,
-      });
+      this.http.get(`${this.settings.url}/translations?_format=json&lang=${this.settings.activeLang.toLowerCase()}`).subscribe(
+        httpResponse,
+        errorHandler,
+      );
 
     });
   }

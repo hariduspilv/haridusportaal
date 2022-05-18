@@ -71,11 +71,11 @@ export class NewsListViewComponent implements AfterViewInit {
       if(hiddenFormItem) hiddenFormItem.focus();
      });
   }
-  
+
   getTags() {
 
     const variables = {
-      lang: 'ET',
+			lang: this.settings.activeLang,
     };
 
     const path = this.settings.query('getNewsTags', variables);

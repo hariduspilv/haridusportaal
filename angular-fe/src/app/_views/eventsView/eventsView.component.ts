@@ -51,12 +51,12 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   getTypes() {
 
     let variables = {
-      lang: 'ET',
+			lang: this.settings.activeLang,
     };
 
     const path = this.settings.query('getEventTypes', variables);
     let typesSubscription = this.http.get(path).subscribe((response) => {
-      
+
       let data = response['data'];
 
       this.eventsTypes = data['taxonomyTermQuery']['entities'];
@@ -71,7 +71,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
           id: current['tid'].toString(),
           name: current['name'],
         };
-        newsTidArr.push(tmp);           
+        newsTidArr.push(tmp);
       };
 
       newsTidArr = newsTidArr.filter((thing, index, self) =>
@@ -114,7 +114,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
 
   getTags() {
     let variables = {
-      lang: 'ET',
+			lang: this.settings.activeLang,
     };
     const path = this.settings.query('getEventTags', variables);
     let tagSubscription = this.http.get(path).subscribe((response: any) => {

@@ -151,7 +151,7 @@ export class HomePageService {
 
   public getResource(query: string): Observable<any> {
     const variables = {
-      lang: 'ET',
+      lang: this.settings.activeLang,
     };
     const path = this.settings.query(query, variables);
     return this.http.get(path);
@@ -503,7 +503,7 @@ export class HomePageService {
 
   public getEvents(): Observable<IEvent[]> {
     const variables = {
-      lang: 'ET',
+			lang: this.settings.activeLang,
     };
 
     const one = this.settings.query('teachingPageEvents', variables);
