@@ -21,7 +21,7 @@ export class JobOffersMapService {
 
   public getMapData(): Observable<TootukassaJobOffer[]> {
     const variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
       count: 100,
     };
 

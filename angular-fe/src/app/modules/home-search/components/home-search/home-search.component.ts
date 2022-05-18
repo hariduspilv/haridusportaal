@@ -48,7 +48,7 @@ export class HomeSearchComponent implements OnInit {
       const { marksona, tuup } = params;
       if (marksona) {
         this.breadcrumbs = HomeSearchUtility.constructCrumbs(marksona);
-        this.getMappedHomeSearchResults({ lang: this.settings.activeLang, search_term: marksona })
+        this.getMappedHomeSearchResults({ lang: this.settings.currentAppLanguage, search_term: marksona })
           .subscribe(({ entities, count, types }: MappedHomeSearch) => {
             this.entities = entities;
             this.count = count;

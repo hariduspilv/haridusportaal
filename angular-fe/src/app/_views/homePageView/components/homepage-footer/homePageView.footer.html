@@ -57,13 +57,13 @@
               <a [href]="settings.url + '/custom/rss'" target="_blank">{{ 'home.newsletter_rss' | translate }}</a>
             </div><!--/newsletter_col-->
           </div><!--/newsletter__cols-->
-    
+
           <alerts #scrollTarget id="newsletter-order" small="true"></alerts>
-    
+
           <div *ngIf="subscribedStatus">
             <div>{{ 'newsletter.subscription_thanks_content' | translate }}</div>
             <div>{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{ formGroup.controls.email.value }}</b>.</div>
-          </div><!--/subscribedStatus-->  
+          </div><!--/subscribedStatus-->
 
           <div *ngIf="subscribedError">
             <div>{{ 'newsletter.subscription_failed' | translate }}</div>
@@ -87,7 +87,7 @@
     <br /><br />
   </ng-template>
 </htm-modal>
-  
+
 <htm-modal id="subscribe" modalTitle="{{'newsletter.modal_title' | translate}}" size="medium">
   <ng-template>
     <br /><br />

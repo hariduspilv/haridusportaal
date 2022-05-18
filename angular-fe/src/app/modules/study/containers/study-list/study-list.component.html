@@ -1,6 +1,6 @@
 <base-layout>
   <max-width-wrapper>
-    <breadcrumbs path="/uuringud"></breadcrumbs>
+    <breadcrumbs path="{{ '/uuringud' | translatePath }}"></breadcrumbs>
   </max-width-wrapper>
   <max-width-wrapper *ngIf="intro?.data?.route?.entity?.fieldPageIntroduction">
     <study-intro [intro]="intro.data.route.entity.fieldPageIntroduction"></study-intro>

@@ -1,5 +1,5 @@
-uuid: 206d2703-8639-46b4-90e1-51469a3e0b63
-langcode: en
+uuid: 59dca991-2485-45c0-8cb8-2f79a0e74520
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,15 +8,15 @@ id: node.learning_home_page.promote
 field_name: promote
 entity_type: node
 bundle: learning_home_page
-label: 'Promoted to front page'
+label: 'Ülendatud esilehele'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

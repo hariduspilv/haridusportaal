@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import {TranslateService} from "@app/_modules/translate/translate.service";
 
 @Component({
   selector: 'schoolFunding-view',
@@ -35,11 +36,11 @@ export class SchoolFundingViewComponent implements OnInit {
   public breadcrumbs = [
     {
       link: '/',
-      title: 'Avaleht',
+      title: 'frontpage.label',
     },
     {
       link: '',
-      title: 'Toetusprojektid',
+      title: 'school.support_projects',
     },
   ];
 
@@ -138,7 +139,7 @@ export class SchoolFundingViewComponent implements OnInit {
 
   getFilters() {
     const variables = {
-			lang: this.settingsService.activeLang,
+			lang: this.settingsService.currentAppLanguage,
     };
     const query = this.settingsService.query('subsidyProjectFilters', variables);
     this.http.get(query).subscribe(({ data }: any) => {

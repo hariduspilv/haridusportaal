@@ -1,5 +1,5 @@
-uuid: 280b29fc-0765-41a2-8e7d-d5f0f24c6cf5
-langcode: en
+uuid: 97a0d087-f720-4d6d-a5f1-7de1151496ce
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: oska_table_entity.oska_table_entity.proposal
 field_name: proposal
 entity_type: oska_table_entity
 bundle: oska_table_entity
-label: Proposal
+label: Ettepanek
 description: ''
 required: false
 translatable: false

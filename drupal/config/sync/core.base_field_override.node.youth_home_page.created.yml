@@ -1,5 +1,5 @@
-uuid: d3ee9fba-d6af-4d75-b246-d980a99ff1f4
-langcode: en
+uuid: 5da1c5b1-4512-4cbd-a8d9-bafcf95243d0
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.youth_home_page.created
 field_name: created
 entity_type: node
 bundle: youth_home_page
-label: 'Authored on'
+label: 'Loomise kuupäev'
 description: 'The time that the node was created.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

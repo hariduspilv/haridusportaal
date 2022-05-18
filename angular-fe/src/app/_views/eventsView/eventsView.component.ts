@@ -1,11 +1,11 @@
-
 import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { translatePath } from "@app/_core/router-utility";
 
 @Component({
   selector: 'events-view',
@@ -13,26 +13,27 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   styleUrls: ['eventsView.styles.scss'],
 })
 
-export class EventsViewComponent implements OnDestroy, OnInit{
+export class EventsViewComponent implements OnInit, OnDestroy {
   @ViewChild('filterToggle') filterToggle: ElementRef;
   @ViewChild('detailed') detailed: ElementRef;
   @ViewChild('hiddenFormItem', {read: ElementRef}) hiddenFormItem: ElementRef;
-  public breadcrumbsPath: string = '/sündmused';
+  public breadcrumbsPath: string = translatePath('/sündmused');
   public eventsTypes;
   public eventsTags;
   public eventsTypesSet;
   public eventsTagsObs;
   public searchTitle = '';
-  showFilter: boolean = true;
-  filterFull: boolean = false;
+	public showFilter: boolean = true;
+	public filterFull: boolean = false;
   private subscriptions: Subscription[] = [];
-  private hasCalendar: boolean = false;
+  public hasCalendar: boolean = false;
   private activatedFilters: boolean = false;
 
   constructor(
     private settings:SettingsService,
     private http: HttpClient,
     private route: ActivatedRoute,
+		private router: Router,
     private device: DeviceDetectorService,
   ) {}
 
@@ -42,16 +43,15 @@ export class EventsViewComponent implements OnDestroy, OnInit{
         return item;
       }
     });
+
     if (filters.length > 0) {
       this.activatedFilters = true;
     }
   }
 
-
   getTypes() {
-
     let variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('getEventTypes', variables);
@@ -62,7 +62,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
       this.eventsTypes = data['taxonomyTermQuery']['entities'];
 
       let newsTidArr = [];
-      for( var i in this.eventsTypes ){
+      for ( var i in this.eventsTypes ) {
         let current = this.eventsTypes[i];
 
         if( !current ){ continue; }
@@ -72,7 +72,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
           name: current['name'],
         };
         newsTidArr.push(tmp);
-      };
+      }
 
       newsTidArr = newsTidArr.filter((thing, index, self) =>
       index === self.findIndex((t) => (
@@ -92,7 +92,6 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   }
 
   getGoogleAnalyticsObject() {
-
     return {
       category: 'eventsSearch',
       action: 'submit',
@@ -114,7 +113,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
 
   getTags() {
     let variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
     };
     const path = this.settings.query('getEventTags', variables);
     let tagSubscription = this.http.get(path).subscribe((response: any) => {
@@ -129,6 +128,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
     });
     this.subscriptions = [...this.subscriptions, tagSubscription];
   }
+
   ngAfterViewInit() {
     setTimeout(
       () => {

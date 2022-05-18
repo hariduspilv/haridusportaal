@@ -27,11 +27,11 @@ export class NewsListViewComponent implements AfterViewInit {
   public breadcrumbs = [
     {
       link: '/',
-      title: 'Avaleht',
+      title: 'frontpage.label',
     },
     {
       link: '',
-      title: 'Uudised',
+      title: 'news.label',
     },
   ];
 
@@ -75,7 +75,7 @@ export class NewsListViewComponent implements AfterViewInit {
   getTags() {
 
     const variables = {
-			lang: this.settings.activeLang,
+			lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('getNewsTags', variables);
@@ -110,6 +110,8 @@ export class NewsListViewComponent implements AfterViewInit {
   }
 
   ngOnInit() {
+		this.settings.currentLanguageSwitchLinks = null;
+
     this.toggleFilters();
     this.getTags();
   }

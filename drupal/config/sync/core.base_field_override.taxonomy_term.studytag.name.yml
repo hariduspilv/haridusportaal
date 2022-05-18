@@ -1,5 +1,5 @@
-uuid: 46fc7fa3-2d79-4fa0-9748-d9a73dd73914
-langcode: en
+uuid: e9ab44d4-a61a-4169-8f30-0cf41103fc7a
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: taxonomy_term.studytag.name
 field_name: name
 entity_type: taxonomy_term
 bundle: studytag
-label: Name
+label: Nimi
 description: ''
 required: true
 translatable: false

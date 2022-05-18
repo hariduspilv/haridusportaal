@@ -1,5 +1,5 @@
-uuid: 5352f973-9c53-40b0-83fe-37e2d3552819
-langcode: en
+uuid: dae49ce9-ff1e-4161-af4e-14ceaf7008b6
+langcode: et
 status: true
 dependencies:
   config:
@@ -10,10 +10,10 @@ id: node.youth_home_page.path
 field_name: path
 entity_type: node
 bundle: youth_home_page
-label: 'URL alias'
+label: 'URL-i alias'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

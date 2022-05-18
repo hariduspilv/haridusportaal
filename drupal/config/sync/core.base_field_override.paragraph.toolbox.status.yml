@@ -1,0 +1,22 @@
+uuid: 2e1108cf-1128-4c59-a379-e175fce24058
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.toolbox
+id: paragraph.toolbox.status
+field_name: status
+entity_type: paragraph
+bundle: toolbox
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

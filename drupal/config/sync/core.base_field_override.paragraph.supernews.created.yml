@@ -1,0 +1,18 @@
+uuid: a173984a-a85f-46ed-976e-2b42951b2660
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.supernews
+id: paragraph.supernews.created
+field_name: created
+entity_type: paragraph
+bundle: supernews
+label: 'Loomise kuupäev'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

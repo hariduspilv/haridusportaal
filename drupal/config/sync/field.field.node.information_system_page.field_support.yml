@@ -28,6 +28,9 @@ settings:
       accordion:
         weight: 32
         enabled: false
+      additional_links:
+        weight: 50
+        enabled: false
       additional_section:
         weight: 33
         enabled: false
@@ -37,11 +40,17 @@ settings:
       career_contact:
         weight: 35
         enabled: false
+      collaboration:
+        weight: 54
+        enabled: false
       contact_section:
         weight: 36
         enabled: false
       content_page_link:
         weight: 37
+        enabled: false
+      ehis_icon_link:
+        weight: 57
         enabled: false
       ehis_links:
         weight: 38
@@ -61,6 +70,9 @@ settings:
       frontpage_services:
         weight: 43
         enabled: false
+      homepage_reference:
+        weight: 64
+        enabled: false
       homepage_topics:
         weight: 44
         enabled: false
@@ -79,20 +91,38 @@ settings:
       infosystem_support:
         weight: 49
         enabled: true
+      intro:
+        weight: 71
+        enabled: false
       iscedf_search:
         weight: 50
         enabled: false
       job:
         weight: 51
         enabled: false
+      learning_carousel:
+        weight: 74
+        enabled: false
+      learning_to_teach:
+        weight: 75
+        enabled: false
       link:
         weight: 52
+        enabled: false
+      location:
+        weight: 77
         enabled: false
       main_profession_accordion:
         weight: 53
         enabled: false
       main_profession_sidebar:
         weight: 54
+        enabled: false
+      media_img:
+        weight: 80
+        enabled: false
+      media_vid:
+        weight: 81
         enabled: false
       oska_field_sidebar:
         weight: 55
@@ -106,6 +136,15 @@ settings:
       school_location:
         weight: 58
         enabled: false
+      study:
+        weight: 86
+        enabled: false
+      study_page_accordion:
+        weight: 87
+        enabled: false
+      studypage_right_column:
+        weight: 88
+        enabled: false
       supernews:
         weight: 59
         enabled: false
@@ -117,5 +156,17 @@ settings:
         enabled: false
       toolbox:
         weight: 62
+        enabled: false
+      working_time:
+        weight: 93
+        enabled: false
+      yoth_content_page_link_type_2:
+        weight: 94
+        enabled: false
+      youth_content_page_link:
+        weight: 95
+        enabled: false
+      youth_subject_links:
+        weight: 96
         enabled: false
 field_type: entity_reference_revisions

@@ -1,5 +1,5 @@
-uuid: 819f376f-4e59-4ea3-9654-8b7d52e04119
-langcode: en
+uuid: 5adabd2a-bf6a-4aff-ad16-01358d51d326
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: taxonomy_term.qualificationstandardid.status
 field_name: status
 entity_type: taxonomy_term
 bundle: qualificationstandardid
-label: Published
+label: Avaldatud
 description: ''
 required: false
 translatable: false
@@ -17,6 +17,6 @@ default_value:
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

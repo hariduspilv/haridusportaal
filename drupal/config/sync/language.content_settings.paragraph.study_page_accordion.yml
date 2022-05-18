@@ -1,5 +1,5 @@
-uuid: 16145a0b-2fcb-46ad-ac15-35893460f32f
-langcode: en
+uuid: 20d0c81d-14d0-427d-9da9-a47cc5cbeb88
+langcode: et
 status: true
 dependencies:
   config:
@@ -15,4 +15,4 @@ id: paragraph.study_page_accordion
 target_entity_type_id: paragraph
 target_bundle: study_page_accordion
 default_langcode: site_default
-language_alterable: true
+language_alterable: false

@@ -1,5 +1,5 @@
-uuid: 486789da-8ed4-4a5a-bdf7-879b0535b374
-langcode: en
+uuid: 204c086c-2c64-45f8-98b8-4219ed4a62f1
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: taxonomy_term.event_type.status
 field_name: status
 entity_type: taxonomy_term
 bundle: event_type
-label: Published
+label: Avaldatud
 description: ''
 required: false
 translatable: false
@@ -17,6 +17,6 @@ default_value:
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

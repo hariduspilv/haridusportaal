@@ -1,14 +1,14 @@
 <base-layout>
 	<div class="inline">
-		<breadcrumbs path="/valdkonnad/andmed"></breadcrumbs>
+		<breadcrumbs path="{{ '/valdkonnad/andmed' | translatePath }}"></breadcrumbs>
 	</div><!--/inline-->
-  
+
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
 			<block-title><h1>{{ 'oskaProfessions.fieldsCompare' | translate }}</h1></block-title>
-			<block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
+			<block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="{{ '/valdkonnad' | translatePath }}">
 			</block-content>
-      <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/valdkonnad/andmed" [tabActive]="true">
+      <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="{{ '/valdkonnad/andmed' | translatePath }}" [tabActive]="true">
         <loader *ngIf="!data"></loader>
         <ng-container *ngIf="data">
 
@@ -21,7 +21,7 @@
           <images *ngIf="!data.video && data.image" [image]="data.image"></images>
 
           <picto [insideText]="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
-          
+
           <div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
 
           <links *ngIf="data.links" [data]="data.links"></links>
@@ -29,7 +29,7 @@
           <links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
 
           <images *ngIf="data.video && data.image" [image]="data.image"></images>
-        
+
           <htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 
           <accordion *ngIf="data.accordion">
@@ -39,7 +39,7 @@
             </ng-template>
             </accordion-item>
           </accordion>
-  
+
           <chart *ngIf="data.graph" [data]='data.graph' type='filter'></chart>
 
           <infograph *ngIf="data.infograph" [data]='data.infograph' type='filter'></infograph>
@@ -54,7 +54,7 @@
 
         </ng-container>
       </block-content>
-      <block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="/valdkonnad/kaart">
+      <block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="{{ '/valdkonnad/kaart' | translatePath }}">
 			</block-content>
 		</block>
 	</div><!--/inline-->

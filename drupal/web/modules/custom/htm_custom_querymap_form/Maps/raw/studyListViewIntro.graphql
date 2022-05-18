@@ -1,5 +1,5 @@
 query studyListViewIntro {
-  route(path: "/uuringud") {
+  route(path) {
     ... on EntityCanonicalUrl {
       languageSwitchLinks {
         active

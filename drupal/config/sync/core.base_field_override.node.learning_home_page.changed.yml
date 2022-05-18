@@ -1,5 +1,5 @@
-uuid: f2843cc1-9322-4759-9555-1ae30b551701
-langcode: en
+uuid: f2c532d8-0b21-4da6-bfd1-277c7d70073f
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.learning_home_page.changed
 field_name: changed
 entity_type: node
 bundle: learning_home_page
-label: Changed
+label: Muudetud
 description: 'The time that the node was last edited.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

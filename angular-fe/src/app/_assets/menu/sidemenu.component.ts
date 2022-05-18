@@ -33,10 +33,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
+  private languageSub: Subscription = new Subscription();
   private initialSub = false;
   private initialAutoOpen = false;
   private focusBounce: any;
   private visibilityBounce: any;
+	public isLoading = true;
 
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
   @ViewChild('sidemenuCloser', { static: false, read: ElementRef }) private closeBtn: ElementRef;
@@ -70,6 +72,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   public closeSidemenu(): void {
     this.sidemenuService.close();
   }
+
+	private subscribeToLanguage(): void {
+		this.languageSub = this.settings.activeLang$.subscribe(() => {
+			this.getData(true);
+		});
+	}
 
   private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
@@ -113,22 +121,27 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   private getData(init: boolean = false): void {
+		this.isLoading = true;
     const variables = {
-      language: this.settings.activeLang,
+      language: this.settings.currentAppLanguage.toUpperCase(),
     };
     const path = this.settings.query('getMenu', variables);
     // force to not use disk cache
     this.http.get(path, {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
-    }).subscribe((response: IMenuResponse) => {
-      this.data = response.data.menu.links;
-      // Set all the first level menus as such
-      this.data.forEach((item: IMenuData) => item.firstLevel = true);
-      this.cdr.detectChanges();
-      if (init) {
-        this.makeActive();
-      }
-    });
+    }).subscribe({
+			next: (response: IMenuResponse) => {
+				this.data = response.data.menu.links;
+				// Set all the first level menus as such
+				this.data.forEach((item: IMenuData) => item.firstLevel = true);
+				this.cdr.detectChanges();
+				if (init) {
+					this.makeActive();
+				}
+			},
+			error: () => { this.isLoading = false; },
+			complete: () => { this.isLoading = false; },
+		});
   }
 
   /**
@@ -146,7 +159,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
       if (item.links && item.links.length) {
         const has = this.hasActiveInTree(item.links, path);
-  
+
         if (match || has) {
           item.expanded = true;
           item.active = true;
@@ -225,6 +238,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.subscribeToAuth();
     this.subscribeToService();
     this.subscribeToRouter();
+		this.subscribeToLanguage();
     this.getData(true);
   }
 
@@ -232,5 +246,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.routerSub.unsubscribe();
     this.authSub.unsubscribe();
     this.subscription.unsubscribe();
+		this.languageSub.unsubscribe();
   }
 }

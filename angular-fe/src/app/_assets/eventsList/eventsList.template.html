@@ -1,6 +1,6 @@
 <block [titleBorder]="true">
-  <block-title><h1>SÜNDMUSED</h1></block-title>
-  <block-content tabLabel="Nimekiri" tabIcon="list" [tabLink]="'/sündmused'+queryString"  [tabActive]="view == 'list'">
+  <block-title><h1>{{ 'event.label' | translate | uppercase }}</h1></block-title>
+  <block-content tabLabel="{{ 'event.list' | translate }}" tabIcon="list" [tabLink]="('/sündmused' | translatePath) + queryString"  [tabActive]="view == 'list'">
     <ng-container *ngFor="let yearKey of objectKeys(eventList)">
       <ng-container *ngFor="let monthKey of objectKeys(eventList[yearKey])">
 
@@ -47,7 +47,7 @@
                         <span class="entrance">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
                       </ng-container>
                     </ng-container>
-                    
+
                   </div>
                   <div class="tags sm-hide" *ngIf="(event.hashTags && event.hashTags.length) || event.fieldEventType">
                     <labels
@@ -74,7 +74,7 @@
     </div><!--/text-center-->
   </block-content>
 
-  <block-content tabLabel="Kalender" tabIcon="calendar" [tabLink]="'/sündmused/kalender'+queryString" [tabActive]="view == 'calendar'">
+  <block-content tabLabel="{{ 'event.calendar' | translate }}" tabIcon="calendar" [tabLink]="('/sündmused/kalender' | translatePath) + queryString" [tabActive]="view == 'calendar'">
     <div class="navigation text-center">
       <span tabindex="0" (keyup.enter)="changeMonth(-1);" attr.aria-label="{{'month.prev' | translate}}">
         <span class="icon-wrapper">
@@ -123,7 +123,7 @@
                   <span class="content__strong"> {{ event.title }}</span>
                 </a>
               </ng-container>
-              
+
               <ng-container *ngIf="popup === event.nid">
                 <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" (keyup.esc)="popup = null">
                   <div class="popupcontent">

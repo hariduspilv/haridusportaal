@@ -1,5 +1,5 @@
-uuid: 7ca3ff88-d441-47fe-a9e4-74cb1f0d7f4a
-langcode: en
+uuid: ef8bbc35-f1f2-4906-b533-ac49d3b44e21
+langcode: et
 status: true
 dependencies:
   config:
@@ -15,4 +15,4 @@ id: paragraph.teaching_themes
 target_entity_type_id: paragraph
 target_bundle: teaching_themes
 default_langcode: site_default
-language_alterable: true
+language_alterable: false

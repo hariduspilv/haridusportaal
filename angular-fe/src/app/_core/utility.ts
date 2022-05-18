@@ -6,11 +6,17 @@ export function focus(id: string) {
     if (elem) {
       document.getElementById(id).focus();
     }
-  },         0);
+  }, 0);
 }
+
 export function arrayOfLength(len) {
   return Array(parseInt(len, 10)).fill(0).map((x, i) => i);
 }
+
+export function create2DArray(rows: number = 2, columns: number = 3, filler: string | number = ''): string[][] {
+	return Array(rows).fill('').map(() => Array(columns).fill(filler));
+}
+
 export function parseUnixDate(input) {
   const tmpDate = new Date(input * 1000);
   const year = tmpDate.getFullYear();
@@ -39,7 +45,9 @@ export function slugifyTitle(title: string): string {
       .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
 }
 
-export function getLangCode(route: ActivatedRoute) {
-	let langCode = window.location.pathname.split('/')[1];
-	return langCode?.length === 2 ? langCode.toUpperCase() : 'ET'
+export function removeLanguageCode(path: string): string {
+  if (path && path.match(/^\/[a-z]{2}\//)) {
+    return path.substring(3);
+  }
+  return path;
 }

@@ -12,7 +12,7 @@ bundle: oska_main_profession_page
 label: Bruto
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value:
   - {  }
 default_value_callback: ''
