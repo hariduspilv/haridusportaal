@@ -1,0 +1,11 @@
+uuid: 81f19001-d239-4295-9389-dc8b83e5345b
+langcode: en
+status: true
+dependencies:
+  module:
+    - htm_custom_xjson_services
+id: x_json_form_entity.x_json_form_entity
+target_entity_type_id: x_json_form_entity
+target_bundle: x_json_form_entity
+default_langcode: site_default
+language_alterable: false

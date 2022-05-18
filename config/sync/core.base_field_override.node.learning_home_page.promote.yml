@@ -1,0 +1,22 @@
+uuid: 206d2703-8639-46b4-90e1-51469a3e0b63
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.promote
+field_name: promote
+entity_type: node
+bundle: learning_home_page
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

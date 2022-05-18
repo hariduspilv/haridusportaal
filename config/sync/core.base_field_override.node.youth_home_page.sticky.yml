@@ -1,0 +1,22 @@
+uuid: b3e6deea-3f44-4da0-8765-3732365f53f4
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.sticky
+field_name: sticky
+entity_type: node
+bundle: youth_home_page
+label: 'Sticky at top of lists'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,22 @@
+uuid: ca702dc3-fc40-4ee7-9baf-a15d5c0448e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytopic
+id: taxonomy_term.studytopic.status
+field_name: status
+entity_type: taxonomy_term
+bundle: studytopic
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

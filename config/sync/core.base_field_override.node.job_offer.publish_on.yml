@@ -1,0 +1,18 @@
+uuid: 2579dbfe-97d9-4e8f-b113-75451208192e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.publish_on
+field_name: publish_on
+entity_type: node
+bundle: job_offer
+label: 'Publish on'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp
