@@ -1,5 +1,5 @@
-uuid: 16972f90-0e34-4005-8476-3592a1e26c61
-langcode: en
+uuid: 1710ba21-8067-4161-b6e6-b8a9c0efaa82
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: subscription_entity.subscription_entity.user_id
 field_name: user_id
 entity_type: subscription_entity
 bundle: subscription_entity
-label: 'Authored by'
+label: Autor
 description: 'The user ID of author of the Subscription entity entity.'
 required: false
 translatable: false

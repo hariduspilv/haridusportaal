@@ -1,5 +1,5 @@
-uuid: e25c310c-bdf3-42a3-8b71-1bc8cc9dae36
-langcode: en
+uuid: 2aaa6a97-7809-40f9-89eb-995125493bbd
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,10 +8,10 @@ id: node.job_offer.changed
 field_name: changed
 entity_type: node
 bundle: job_offer
-label: Changed
+label: Muudetud
 description: 'The time that the node was last edited.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

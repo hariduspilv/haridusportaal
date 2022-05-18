@@ -1,5 +1,5 @@
-uuid: fa2fda71-b9a4-42a2-b6c4-4250bb25c524
-langcode: en
+uuid: 83043d13-ffda-4c82-9b7a-44ab9d2958f1
+langcode: et
 status: true
 dependencies:
   config:
@@ -10,7 +10,7 @@ id: taxonomy_term.studytag.description
 field_name: description
 entity_type: taxonomy_term
 bundle: studytag
-label: Description
+label: Kirjeldus
 description: ''
 required: false
 translatable: false

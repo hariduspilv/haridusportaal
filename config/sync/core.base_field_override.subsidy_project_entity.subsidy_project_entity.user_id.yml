@@ -1,5 +1,5 @@
-uuid: 50ddca22-b734-4677-80ef-fc4c172132ce
-langcode: en
+uuid: dad6f4c5-d241-49d5-b159-b434a3225ed6
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: subsidy_project_entity.subsidy_project_entity.user_id
 field_name: user_id
 entity_type: subsidy_project_entity
 bundle: subsidy_project_entity
-label: 'Authored by'
+label: Autor
 description: 'The user ID of author of the Subsidy project entity.'
 required: false
 translatable: false

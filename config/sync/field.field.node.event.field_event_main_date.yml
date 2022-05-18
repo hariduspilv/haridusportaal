@@ -6,7 +6,7 @@ dependencies:
     - field.storage.node.field_event_main_date
     - node.type.event
   module:
-    - datetime
+    - htm_custom_datetime_unix
 id: node.event.field_event_main_date
 field_name: field_event_main_date
 entity_type: node
@@ -14,7 +14,7 @@ bundle: event
 label: 'Sündmuse põhikuupäev'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

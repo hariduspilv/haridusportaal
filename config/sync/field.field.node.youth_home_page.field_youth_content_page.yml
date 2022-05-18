@@ -15,7 +15,7 @@ bundle: youth_home_page
 label: 'Hooajaline esile toodud sisuleht '
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

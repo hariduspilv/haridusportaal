@@ -1,5 +1,5 @@
-uuid: 3877cd79-d096-4fc2-9631-4697a9dfc5dd
-langcode: en
+uuid: 02c8959b-5f46-4467-a84f-5c29de306246
+langcode: et
 status: true
 dependencies:
   config:
@@ -11,7 +11,7 @@ bundle: youth_home_page
 label: 'Metatags (Hidden field for JSON support)'
 description: 'The meta tags for the entity.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

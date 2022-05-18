@@ -1,5 +1,5 @@
-uuid: dc2802c0-68b5-430f-b1cd-90bc9439add0
-langcode: en
+uuid: d5868458-e423-4bed-888e-f96071bb716f
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: node.mingi_content_type.promote
 field_name: promote
 entity_type: node
 bundle: mingi_content_type
-label: 'Promoted to front page'
+label: 'Ülendatud esilehele'
 description: ''
 required: false
 translatable: false
@@ -17,6 +17,6 @@ default_value:
     value: 1
 default_value_callback: ''
 settings:
-  on_label: 'On'
-  off_label: 'Off'
+  on_label: Sees
+  off_label: Väljas
 field_type: boolean

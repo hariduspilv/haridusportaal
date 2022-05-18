@@ -11,10 +11,10 @@ id: node.event.field_contact_phone
 field_name: field_contact_phone
 entity_type: node
 bundle: event
-label: 'Contact phone'
+label: 'Kontakti telefoninumber'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

@@ -14,10 +14,8 @@ bundle: study_programme
 label: Metatags
 description: ''
 required: false
-translatable: false
-default_value:
-  -
-    value: 'a:0:{}'
+translatable: true
+default_value: {  }
 default_value_callback: ''
 settings: {  }
 field_type: metatag

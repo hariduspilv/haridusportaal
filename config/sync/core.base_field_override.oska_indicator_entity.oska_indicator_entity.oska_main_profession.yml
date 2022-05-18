@@ -1,5 +1,5 @@
-uuid: e39737f0-3daf-4061-8911-f0dc1f2f5208
-langcode: en
+uuid: 9f6a718a-d5b3-4cd4-802f-80675561d738
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ id: oska_indicator_entity.oska_indicator_entity.oska_main_profession
 field_name: oska_main_profession
 entity_type: oska_indicator_entity
 bundle: oska_indicator_entity
-label: 'Oska main profession'
+label: 'OSKA Ametiala'
 description: ''
 required: false
 translatable: false

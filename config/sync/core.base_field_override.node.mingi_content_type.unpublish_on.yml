@@ -1,5 +1,5 @@
-uuid: b4ed370a-ac26-4b02-967d-a866c128de2b
-langcode: en
+uuid: 49ff69eb-381a-431d-a4f2-e9bd2faa6652
+langcode: et
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ id: node.mingi_content_type.unpublish_on
 field_name: unpublish_on
 entity_type: node
 bundle: mingi_content_type
-label: 'Unpublish on'
+label: 'Mitteavaldatuks märkimise aeg'
 description: ''
 required: false
 translatable: false

@@ -1,0 +1,22 @@
+uuid: e73ed782-1b8a-4290-ab59-c9bfb5aed844
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.studypage_right_column
+id: paragraph.studypage_right_column.status
+field_name: status
+entity_type: paragraph
+bundle: studypage_right_column
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

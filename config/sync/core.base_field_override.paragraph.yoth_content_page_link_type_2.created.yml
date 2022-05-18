@@ -1,0 +1,18 @@
+uuid: 53f51552-c41d-4465-8ad7-f8cee512e03b
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
+id: paragraph.yoth_content_page_link_type_2.created
+field_name: created
+entity_type: paragraph
+bundle: yoth_content_page_link_type_2
+label: 'Loomise kuupäev'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created
