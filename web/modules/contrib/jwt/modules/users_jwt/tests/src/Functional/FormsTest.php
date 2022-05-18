@@ -65,7 +65,7 @@ class FormsTest extends BrowserTestBase {
     $this->submitForm([], 'Generate');
     // The test browser sees the response content.
     $generated_private_key = $this->getSession()->getPage()->getContent();
-    $this->assertContains('-----BEGIN PRIVATE KEY-----', $generated_private_key);
+    self::assertNotFalse(\mb_strpos($generated_private_key, '-----BEGIN PRIVATE KEY-----'));
     $this->drupalGet(Url::fromRoute('users_jwt.key_list', ['user' => $this->user->id()]));
     $this->assertNoText('No keys found.');
     $this->assertText('-----BEGIN PUBLIC KEY-----');
@@ -73,7 +73,7 @@ class FormsTest extends BrowserTestBase {
     /** @var \Drupal\users_jwt\UsersJwtKeyRepositoryInterface $key_repository */
     $key_repository = $this->container->get('users_jwt.key_repository');
     $keys = $key_repository->getUsersKeys($this->user->id());
-    $this->assertCount(1, $keys);
+    self::assertCount(1, $keys);
     $generated_key = end($keys);
     // Sleep to make sure the time changes for the next key ID.
     sleep(1);
@@ -94,7 +94,7 @@ class FormsTest extends BrowserTestBase {
     ];
     $this->submitForm($edit, 'Save');
     $keys = $key_repository->getUsersKeys($this->user->id());
-    $this->assertCount(2, $keys);
+    self::assertCount(2, $keys);
     unset($keys[$generated_key->id]);
     $submitted_key = end($keys);
     $this->drupalLogout();
@@ -118,7 +118,7 @@ class FormsTest extends BrowserTestBase {
       // When changing header name we need to reset the session.
       $this->getSession()->reset();
       $token = JWT::encode($good_payload, $generated_private_key, 'RS256', $generated_key->id);
-      $this->assertNotEmpty($token);
+      self::assertNotEmpty($token);
       $headers = [$header_name => 'UsersJwt ' . $token];
       $this->drupalGet($url, [], $headers);
       $this->assertResponse(200);

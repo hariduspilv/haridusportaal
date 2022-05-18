@@ -10,8 +10,6 @@ use Firebase\JWT\JWT;
 
 /**
  * Class JwtTranscoder.
- *
- * @package Drupal\jwt
  */
 class JwtTranscoder implements JwtTranscoderInterface {
 
@@ -164,7 +162,7 @@ class JwtTranscoder implements JwtTranscoderInterface {
    */
   public function setPublicKey($public_key) {
     $key_context = openssl_pkey_get_public($public_key);
-    if ($key_context === FALSE){
+    if ($key_context === FALSE) {
       return FALSE;
     }
     $key_details = openssl_pkey_get_details($key_context);

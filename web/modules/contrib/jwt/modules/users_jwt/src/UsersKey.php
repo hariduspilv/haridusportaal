@@ -3,11 +3,11 @@
 namespace Drupal\users_jwt;
 
 /**
- * Class UsersKey
+ * Class UsersKey.
  *
  * A simple data object.
  */
-class UsersKey  {
+class UsersKey {
 
   /**
    * The user ID.
@@ -63,4 +63,5 @@ class UsersKey  {
       $this->pubkey = trim((string) $pubkey);
     }
   }
+
 }

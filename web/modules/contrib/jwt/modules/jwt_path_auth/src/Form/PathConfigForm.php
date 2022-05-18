@@ -7,8 +7,6 @@ use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Class ConfigForm.
- *
- * @package Drupal\jwt\Form
  */
 class PathConfigForm extends ConfigFormBase {
 
