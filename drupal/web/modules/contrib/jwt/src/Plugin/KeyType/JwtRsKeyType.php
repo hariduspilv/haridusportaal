@@ -120,7 +120,8 @@ class JwtRsKeyType extends KeyTypeBase implements KeyPluginFormInterface {
 
     $required_bits = self::getAlgorithmKeysize()[$algorithm];
     if ($key_details['bits'] < $required_bits) {
-      $form_state->setErrorByName('key_type', $this->t('Key size (%size bits) is too small for algorithm chosen. Algorithm requires a minimum of %required bits.', ['%size' => $key_details['bits'], '%required' => $required_bits]));
+      $args = ['%size' => $key_details['bits'], '%required' => $required_bits];
+      $form_state->setErrorByName('key_type', $this->t('Key size (%size bits) is too small for algorithm chosen. Algorithm requires a minimum of %required bits.', $args));
     }
 
     if ($key_details['type'] != OPENSSL_KEYTYPE_RSA) {
