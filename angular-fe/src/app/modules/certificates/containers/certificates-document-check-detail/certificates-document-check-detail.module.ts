@@ -9,6 +9,7 @@ import { AppPipes } from '@app/_pipes';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { CertificatesDocumentCheckDetailComponent } from './certificates-document-check-detail.component';
+import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -22,7 +23,7 @@ const routes: Routes = [
     CertificatesDocumentCheckDetailComponent,
   ],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forChild(translateRoutes(routes)),
     AssetsModule,
     CommonModule,
     TranslateModule,

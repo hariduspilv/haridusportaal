@@ -40,17 +40,17 @@ export class TranslateService {
 
       const httpResponse = (response) => {
         /* Timeout for testing purposes. ToDO: Remove it ofc.. */
-        this.data = response;
+				this.data = response;
         this.translationsLoaded$.next(true);
         resolve(true);
       };
 
       const errorHandler = () => resolve(true);
 
-      this.http.get(`${this.settings.url}/translations?_format=json&lang=et`).subscribe(
-        httpResponse,
-        errorHandler,
-      );
+			this.http.get(`${this.settings.url}/translations?_format=json&lang=${this.settings.currentAppLanguage}`).subscribe({
+        next: httpResponse,
+        error: errorHandler,
+      });
 
     });
   }

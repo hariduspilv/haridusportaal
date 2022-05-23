@@ -150,7 +150,7 @@ export class SchoolListMapComponent implements AfterViewInit {
     this.loading = true;
     if (this.listSub !== undefined) this.listSub.unsubscribe();
     const variables = {
-      lang: 'ET',
+			lang: this.settings.currentAppLanguage,
       offset: 0,
       limit: this.mapLimit,
       title: params['title'] ? `"${params['title'].toLowerCase()}"` : '""',
@@ -175,19 +175,23 @@ export class SchoolListMapComponent implements AfterViewInit {
 
     this.markers = [];
     const path = this.settings.query('schoolMapQuery', variables);
-    this.listSub = this.http.get(path).subscribe((response: any) => {
-      const entities = response['data']['CustomElasticQuery'][0]['entities'];
-      this.markers = this.fixCoordinates(entities);
-    },                                           () => {
-      this.loading = false;
-    }, () => {
-      this.loading = false;
-      if (window['google'] && this.markers && this.markers.length) {
-        this.mapService.setBounds(this.markers);
-      } else {
-        this.mapService.resetCenter();
+    this.listSub = this.http.get(path).subscribe({
+      next: (response: any) => {
+        const entities = response['data']['CustomElasticQuery'][0]['entities'];
+        this.markers = this.fixCoordinates(entities);
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+        if (window['google'] && this.markers && this.markers.length) {
+          this.mapService.setBounds(this.markers);
+        } else {
+          this.mapService.resetCenter();
+        }
+        this.listSub.unsubscribe();
       }
-      this.listSub.unsubscribe();
     });
   }
 
@@ -274,10 +278,10 @@ export class SchoolListMapComponent implements AfterViewInit {
     }
     this.subPlaceholder = output;
   }
-  getTags() {
 
+  getTags() {
     const variables = {
-      lang: 'ET',
+			lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('getSchoolFilterOptions', variables);

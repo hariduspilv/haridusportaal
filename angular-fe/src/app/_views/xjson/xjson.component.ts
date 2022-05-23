@@ -426,8 +426,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
         table_element: this.fileUploadCol,
       };
 
-      const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe(
-        (response) => {
+      const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe({
+        next: (response) => {
           this.fileLoading[this.fileUploadElement] = true;
 
           const new_file = {
@@ -443,13 +443,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
           }
           subscription.unsubscribe();
         },
-        (err) => {
+        error: (err) => {
           const message = err.error ? err.error.message : err.message;
           this.error[this.fileUploadElement] = { message, valid: false };
           this.fileLoading[this.fileUploadElement] = false;
           this.removeFileUploadErrorInMs(6000);
           subscription.unsubscribe();
-        });
+        }
+      });
     };
   }
 
@@ -1208,8 +1209,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.path = decodeURI(this.location.path().split('?')[0]);
     this.form_route = decodeURI(this.router.url).split('?')[0];
-    this.lang = 'et';
-    this.getFormName();
+    this.lang = this.settings.currentAppLanguage,
+			this.getFormName();
     this.pathWatcher();
 
     const payload = { form_name: this.form_route };

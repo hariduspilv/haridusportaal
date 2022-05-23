@@ -76,8 +76,8 @@ export class OskaFrontpageViewComponent implements OnInit {
     const path =
       `${this.settings.query('oskaFrontPageQuery')}&variables=${JSON.stringify(variables)}`;
 
-    this.http.get(path).subscribe(
-      (response: any) => {
+    this.http.get(path).subscribe({
+      next: (response: any) => {
         if (response['errors'] && response['errors'].length) {
           this.generalData = [];
         } else {
@@ -97,9 +97,10 @@ export class OskaFrontpageViewComponent implements OnInit {
           }
         }
       },
-      (data) => {
+      error: (data) => {
         this.generalData = [];
-      });
+      }
+    });
   }
 
   getFields() {
@@ -111,8 +112,8 @@ export class OskaFrontpageViewComponent implements OnInit {
     };
     const path =
       `${this.settings.query('oskaFieldListView')}&variables=${JSON.stringify(variables)}`;
-    this.http.get(path).subscribe(
-      (response: any) => {
+    this.http.get(path).subscribe({
+      next: (response: any) => {
         if (response['errors']) {
           this.fieldsData = [];
           return;
@@ -124,9 +125,10 @@ export class OskaFrontpageViewComponent implements OnInit {
           }
         });
       },
-      (err: any) => {
+      error: (err: any) => {
         this.fieldsData = [];
-      });
+      }
+    });
   }
 
   onScroll() {
@@ -144,7 +146,7 @@ export class OskaFrontpageViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lang = 'ET';
+    this.lang = this.settings.currentAppLanguage;
     this.getFields();
     this.getGeneral();
   }

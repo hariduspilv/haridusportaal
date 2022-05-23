@@ -25,8 +25,7 @@ export class FavouriteComponent {
     public modalService: ModalService,
     private settings: SettingsService,
     private auth: AuthService,
-  ) {
-  }
+  ) { }
 
   handleStateChange() {
     if (this.subscription !== undefined) {
@@ -35,20 +34,20 @@ export class FavouriteComponent {
     const data = {
       queryId: 'e926a65b24a5ce10d72ba44c62e38f094a38aa26:1',
       variables: {
-        language: 'ET',
+        language: this.settings.currentAppLanguage.toUpperCase(),
         id: this.id,
       },
     };
     if (!this.state) {
 
       const variables = {
-        language: 'ET',
+        language: this.settings.currentAppLanguage.toUpperCase(),
         id: this.auth.userData.drupal.uid,
       };
 
       const path = this.settings.query('customFavorites', variables);
 
-      this.http.get(path).subscribe((response: any) => {
+			this.http.get(path).subscribe((response: any) => {
 
         if (response.data.CustomFavorites &&
           response.data.CustomFavorites.favoritesNew.length >= this.maxCount) {
@@ -84,8 +83,8 @@ export class FavouriteComponent {
   }
 
   request({ data, message = '', link, closeable = true, state = false }) {
-    return this.http.post(`${this.settings.url}/graphql`, data).subscribe(
-      (response) => {
+    return this.http.post(`${this.settings.url}/graphql`, data).subscribe({
+      next: (response) => {
         this.alertsService.success(
           message,
           'global',
@@ -95,8 +94,9 @@ export class FavouriteComponent {
         );
         this.state = state;
       },
-      (err) => {
-      });
+      error: (err) => {
+      }
+    });
   }
 
   ngOnDestroy() {

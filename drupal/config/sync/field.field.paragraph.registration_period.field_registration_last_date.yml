@@ -6,14 +6,14 @@ dependencies:
     - field.storage.paragraph.field_registration_last_date
     - paragraphs.paragraphs_type.registration_period
   module:
-    - datetime
+    - htm_custom_datetime_unix
 id: paragraph.registration_period.field_registration_last_date
 field_name: field_registration_last_date
 entity_type: paragraph
 bundle: registration_period
-label: 'Registration Last Date'
+label: 'Registreerimise lõpu kuupäev'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

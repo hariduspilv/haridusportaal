@@ -1,0 +1,18 @@
+uuid: d0dc1e1e-6c77-4ba0-bf23-21ec7108a2d7
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type.created
+field_name: created
+entity_type: node
+bundle: mingi_content_type
+label: 'Loomise kuupäev'
+description: 'The time that the node was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

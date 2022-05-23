@@ -24,9 +24,7 @@ export class OskaFieldListViewComponent {
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     this.getData();
@@ -39,31 +37,29 @@ export class OskaFieldListViewComponent {
       this.dataSub.unsubscribe();
     }
     const variables = {
-      lang: 'ET',
+			lang: this.settings.currentAppLanguage,
       offset: this.offset,
       limit: this.limit,
       nidEnabled: false,
     };
 
     const path = this.settings.query('oskaFieldListView', variables);
-
-    this.dataSub = this.http.get(path).subscribe(
-      (response:any) => {
-        if (response['errors']) {
-          this.loading = false;
+		this.dataSub = this.http.get(path).subscribe({
+      next: (response:any) => {
+				if (response['errors']) {
           this.errMessage = true;
         }
         this.hasComparisonPage = response.data.comparisonPage.count;
         this.data = response['data']['nodeQuery']['entities'];
-        this.loading = false;
         if (document.getElementById('heading')) {
           document.getElementById('heading').focus();
         }
       },
-      (err) => {
+      error: (err) => {
         this.errMessage = true;
-        this.loading = false;
-      });
+      },
+			complete: () => this.loading = false
+    });
   }
 
 }

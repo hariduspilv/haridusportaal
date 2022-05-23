@@ -1,0 +1,22 @@
+uuid: 59dca991-2485-45c0-8cb8-2f79a0e74520
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.promote
+field_name: promote
+entity_type: node
+bundle: learning_home_page
+label: 'Ülendatud esilehele'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

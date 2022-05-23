@@ -1,0 +1,20 @@
+uuid: 00b47b1f-07b0-42d2-9d3a-952af64bcd59
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+  module:
+    - path
+id: node.job_offer.path
+field_name: path
+entity_type: node
+bundle: job_offer
+label: 'URL-i alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

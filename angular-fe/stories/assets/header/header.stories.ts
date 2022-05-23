@@ -20,6 +20,7 @@ const moduleMetadata = {
     AnalyticsService,
     QueryParamsService,
     AddressService,
+		{ provide: 'googleTagManagerId', useValue: 'GTM-WK8H92C' },
   ],
 };
 

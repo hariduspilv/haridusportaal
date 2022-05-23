@@ -84,23 +84,23 @@ export class AuthService implements CanActivate {
       jwt: token,
     };
     this.http
-      .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, data).subscribe(
-      (response: any) => {
-        if (response.jwt) {
-          sessionStorage.setItem('ehisToken', response.jwt);
-          this.saveEhisTokenInCookie(response.jwt);
-          this.hasEhisToken.next(true);
-          this.isAuthenticated.next(true);
-        }
-        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect') ||
-          sessionStorage.getItem('redirectUrl');
-        this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
-      },
-      (err) => {
-        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
-        this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
-      },
-    );
+      .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, data).subscribe({
+        next: (response: any) => {
+          if (response.jwt) {
+            sessionStorage.setItem('ehisToken', response.jwt);
+            this.saveEhisTokenInCookie(response.jwt);
+            this.hasEhisToken.next(true);
+            this.isAuthenticated.next(true);
+          }
+          const redirectUrl = this.route.snapshot.queryParamMap.get('redirect') ||
+            sessionStorage.getItem('redirectUrl');
+          this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
+        },
+        error: (err) => {
+          const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
+          this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
+        },
+      });
   }
 
   /**

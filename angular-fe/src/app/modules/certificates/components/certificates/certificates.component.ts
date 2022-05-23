@@ -73,17 +73,18 @@ export class CertificatesComponent implements OnInit {
     selectedSection.loading = true;
 
     if (!selectedSection.loaded) {
-      this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`).subscribe(
-        (res: any[]) => {
+      this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`).subscribe({
+        next: (res: any[]) => {
           selectedSection.loading = false;
           const resultObject = res['certificates'] ? res['certificates'] : res;
           this.graduationCertificates =
             CertificatesUtility.sortGraduationCertificates(resultObject);
         },
-        (err) => {
+        error: (err) => {
           this.graduationCertificates = [];
           selectedSection.loading = false;
-        });
+        }
+      });
       selectedSection.loaded = true;
     }
   }
@@ -94,8 +95,8 @@ export class CertificatesComponent implements OnInit {
 
     if (!selectedSection.loaded) {
 
-      const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getProfessionalCertificate?_format=json`).subscribe(
-        (response) => {
+      const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getProfessionalCertificate?_format=json`).subscribe({
+        next: (response) => {
           selectedSection.loading = false;
 
           if (response['error']) {
@@ -125,9 +126,10 @@ export class CertificatesComponent implements OnInit {
             sub.unsubscribe();
           }
         },
-        (err) => {
+        error: (err) => {
           selectedSection.loading = false;
-        });
+        }
+      });
       selectedSection.loaded = true;
     }
   }
@@ -137,8 +139,8 @@ export class CertificatesComponent implements OnInit {
 
     if (!selectedSection.loaded) {
       const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getTestSessions?_format=json`)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           if ((response['value'] && response['value']['teade'])
             || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et'])
             || response['value']['testsessioonid_kod_jada'] === []) {
@@ -153,10 +155,11 @@ export class CertificatesComponent implements OnInit {
           selectedSection.loading = false;
           sub.unsubscribe();
         },
-        (err) => {
+        error: (err) => {
           this.errRequest = true;
           selectedSection.loading = false;
-        });
+        }
+      });
       selectedSection.loaded = true;
     }
   }

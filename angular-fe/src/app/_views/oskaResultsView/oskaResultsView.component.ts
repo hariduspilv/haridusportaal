@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -13,7 +13,7 @@ import { Location } from '@angular/common';
   styleUrls: ['oskaResultsView.styles.scss'],
 })
 
-export class OskaResultsView extends FiltersService implements OnInit {
+export class OskaResultsView extends FiltersService implements OnInit, OnDestroy {
 
   @Input() inputData: any;
   public tableData: any = false;
@@ -146,12 +146,12 @@ export class OskaResultsView extends FiltersService implements OnInit {
 
   getTableData() {
     const variables = {
-      lang: 'ET',
+			lang: this.settingsService.currentAppLanguage,
     };
     const query = this.settingsService.query('oskaResultPageTable', variables);
-    const subscription = this.http.get(query).subscribe(
-      (data) => {
-        if (data['data']['errors']) {
+		const subscription = this.http.get(query).subscribe({
+      next: (data) => {
+				if (data['data']['errors']) {
           this.error = true;
           return;
         }
@@ -194,9 +194,11 @@ export class OskaResultsView extends FiltersService implements OnInit {
         this.filterView();
         subscription.unsubscribe();
       },
-      (err) => {
+      error: (err) => {
         this.error = true;
-      });
+      },
+			complete: () => {}
+    });
   }
 
   setAlert(sortedBy) {
@@ -252,6 +254,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
 
   ngOnDestroy() {
     this.searchSubscription.unsubscribe();
+		this.settingsService.currentLanguageSwitchLinks = null;
   }
 
 }

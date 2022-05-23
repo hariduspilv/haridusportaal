@@ -8,6 +8,7 @@ use Drupal\editor\Entity\Editor;
 use Drupal\file\Entity\File;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\node\Entity\Node;
+use Drupal\Tests\ckeditor5\Traits\CKEditor5TestTrait;
 use Drupal\Tests\TestFileCreationTrait;
 use Drupal\user\RoleInterface;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -23,6 +24,7 @@ use Symfony\Component\Validator\ConstraintViolation;
 class CKEditor5Test extends CKEditor5TestBase {
 
   use TestFileCreationTrait;
+  use CKEditor5TestTrait;
 
   /**
    * {@inheritdoc}
@@ -85,7 +87,7 @@ class CKEditor5Test extends CKEditor5TestBase {
         'toolbar' => [
           'items' => ['uploadImage'],
         ],
-        'plugins' => [],
+        'plugins' => ['ckeditor5_imageResize' => ['allow_resize' => FALSE]],
       ],
       'image_upload' => [
         'status' => TRUE,
@@ -105,29 +107,29 @@ class CKEditor5Test extends CKEditor5TestBase {
     ));
 
     $this->drupalGet('node/add');
+    $this->waitForEditor();
     $page->fillField('title[0][value]', 'My test content');
+
+    // Ensure that CKEditor 5 is focused.
+    $this->click('.ck-content');
+
     $this->assertNotEmpty($image_upload_field = $page->find('css', '.ck-file-dialog-button input[type="file"]'));
     $image = $this->getTestFiles('image')[0];
     $image_upload_field->attachFile($this->container->get('file_system')->realpath($image->uri));
-    $assert_session->assertWaitOnAjaxRequest();
+    $assert_session->waitForElementVisible('css', '.ck-widget.image');
 
-    $this->click('.ck-widget.image');
-    $balloon_panel = $page->find('css', '.ck-balloon-panel');
-    $balloon_buttons = $balloon_panel->findAll('css', '[aria-label="Image toolbar"] button');
-    $this->assertSame('Change image text alternative', $balloon_buttons[0]->find('css', '.ck-button__label')->getHtml());
-    $balloon_buttons[0]->click();
-    $assert_session->waitForElementVisible('css', '.ck-balloon-panel .ck-text-alternative-form');
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-balloon-panel .ck-text-alternative-form'));
     $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-text-alternative-form input[type=text]');
     $this->assertSame('', $alt_override_input->getValue());
     $alt_override_input->setValue('</em> Kittens & llamas are cute');
-    $balloon_panel->pressButton('Save');
+    $this->getBalloonButton('Save')->click();
     $page->pressButton('Save');
 
     $uploaded_image = File::load(1);
     $image_uuid = $uploaded_image->uuid();
     $image_url = $this->container->get('file_url_generator')->generateString($uploaded_image->getFileUri());
     $this->drupalGet('node/1');
-    $assert_session->elementExists('xpath', sprintf('//img[@alt="</em> Kittens & llamas are cute" and @data-entity-uuid="%s" and @data-entity-type="file"]', $image_uuid));
+    $this->assertNotEmpty($assert_session->waitForElement('xpath', sprintf('//img[@alt="</em> Kittens & llamas are cute" and @data-entity-uuid="%s" and @data-entity-type="file"]', $image_uuid)));
 
     // Drupal CKEditor 5 integrations overrides the CKEditor 5 HTML writer to
     // escape ampersand characters (&) and the angle brackets (< and >). This is
@@ -378,6 +380,10 @@ class CKEditor5Test extends CKEditor5TestBase {
 
     $this->drupalGet('node/add');
     $page->fillField('title[0][value]', 'My test content');
+
+    // Ensure that CKEditor 5 is focused.
+    $this->click('.ck-content');
+
     $this->assertNotEmpty($image_upload_field = $page->find('css', '.ck-file-dialog-button input[type="file"]'));
     $image = $this->getTestFiles('image')[0];
     $image_upload_field->attachFile($this->container->get('file_system')->realpath($image->uri));
@@ -385,6 +391,13 @@ class CKEditor5Test extends CKEditor5TestBase {
     // upload has completed and the image has been downcast.
     // @see https://www.drupal.org/project/drupal/issues/3250587
     $this->assertNotEmpty($assert_session->waitForElement('css', '.ck-content img[data-entity-uuid]'));
+
+    // Add alt text to the image.
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.image.ck-widget > img'));
+    $this->assertNotEmpty($assert_session->waitForElementVisible('css', '.ck-balloon-panel .ck-text-alternative-form'));
+    $alt_override_input = $page->find('css', '.ck-balloon-panel .ck-text-alternative-form input[type=text]');
+    $alt_override_input->setValue('There is now alt text');
+    $this->getBalloonButton('Save')->click();
     $page->pressButton('Save');
 
     $uploaded_image = File::load(1);
@@ -394,7 +407,7 @@ class CKEditor5Test extends CKEditor5TestBase {
 
     // Ensure that width, height, and length attributes are not stored in the
     // database.
-    $this->assertEquals(sprintf('<img data-entity-uuid="%s" data-entity-type="file" src="%s">', $image_uuid, $image_url), Node::load(1)->get('body')->value);
+    $this->assertEquals(sprintf('<img data-entity-uuid="%s" data-entity-type="file" src="%s" alt="There is now alt text">', $image_uuid, $image_url), Node::load(1)->get('body')->value);
 
     // Ensure that data-entity-uuid and data-entity-type attributes are upcasted
     // correctly to CKEditor model.
@@ -430,46 +443,6 @@ class CKEditor5Test extends CKEditor5TestBase {
     $page->pressButton('Save');
 
     $assert_session->responseContains('<p>This is a <em>test!</em></p>');
-  }
-
-  /**
-   * Ensures that images can have caption set.
-   */
-  public function testImageCaption() {
-    $page = $this->getSession()->getPage();
-    $assert_session = $this->assertSession();
-
-    // Add a node with text rendered via the Plain Text format.
-    $this->drupalGet('node/add');
-    $page->fillField('title[0][value]', 'My test content');
-    // Add image with data-caption. The foo attribute is added to be removed
-    // later by CKEditor to make sure CKEditor was able to downcast data.
-    $page->fillField('body[0][value]', '<img src="/sites/default/files/alpaca.jpg" data-caption="Alpacas &lt;em&gt;are&lt;/em&gt; cute" foo="bar">');
-    $page->pressButton('Save');
-
-    $this->createNewTextFormat($page, $assert_session);
-    $this->assertNotEmpty($assert_session->waitForElement('css', '.ckeditor5-toolbar-item-uploadImage'));
-    $this->triggerKeyUp('.ckeditor5-toolbar-item-uploadImage', 'ArrowDown');
-    $assert_session->assertWaitOnAjaxRequest();
-    $page->clickLink('Image Upload');
-    $assert_session->waitForText('Enable image uploads');
-    $page->checkField('editor[settings][plugins][ckeditor5_imageUpload][status]');
-    $assert_session->assertWaitOnAjaxRequest();
-    $page->checkField('filters[filter_caption][status]');
-    $assert_session->assertWaitOnAjaxRequest();
-    $this->saveNewTextFormat($page, $assert_session);
-
-    $this->drupalGet('node/1/edit');
-    $page->selectFieldOption('body[0][format]', 'ckeditor5');
-    $this->assertNotEmpty($assert_session->waitForText('Change text format?'));
-    $page->pressButton('Continue');
-
-    $this->assertNotEmpty($assert_session->waitForElement('css', '.ck-editor'));
-    $page->pressButton('Save');
-
-    $this->assertEquals('<img src="/sites/default/files/alpaca.jpg" data-caption="Alpacas &lt;em&gt;are&lt;/em&gt; cute">', Node::load(1)->get('body')->value);
-    $assert_session->elementExists('xpath', '//figure/img[@src="/sites/default/files/alpaca.jpg" and not(@data-caption)]');
-    $assert_session->responseContains('<figcaption>Alpacas <em>are</em> cute</figcaption>');
   }
 
 }

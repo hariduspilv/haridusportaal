@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import {
   BlockComponent,
   BlockContentComponent,
@@ -96,7 +96,6 @@ import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 import { CompareComponent } from './compare';
-import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AutocompleteComponent } from './autocomplete';
 import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
 import { Triangles } from './shapes/triangles/triangles';
@@ -106,7 +105,6 @@ import { ImageComponent } from './images';
 import { LinksComponent } from './links';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 
-import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { InfographComponent } from './infograph/infograph.component';
 import { InlineLinksComponent } from './inline-links/inline-links.component';
 import { InlineArticlesComponent } from './inline-articles/inline-articles.component';
@@ -141,6 +139,8 @@ import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 import { MaxWidthWrapperComponent } from './max-width-wrapper/max-width-wrapper.component';
 import { TextTruncateTogglerComponent } from './text-truncate-toggler/text-truncate-toggler.component';
 import { SkipToContentComponent } from './skip-to-content';
+import { DropdownMenuComponent } from "@app/_assets/header/dropdown-menu/dropdown-menu.component";
+import { getLangCode } from "@app/_core/router-utility";
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -252,6 +252,7 @@ const declarations = [
   MaxWidthWrapperComponent,
   ...certificatesModuleDeclarations,
   TextTruncateTogglerComponent,
+	DropdownMenuComponent,
 ];
 
 const exports = [
@@ -298,7 +299,7 @@ const imports = [
   AgmMarkerClustererModule,
   AgmCoreModule.forRoot({
     apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
-    language: 'et',
+    language: getLangCode(),
   }),
   AgmSnazzyInfoWindowModule,
   NgbDatepickerModule,
@@ -308,7 +309,6 @@ const imports = [
   RecaptchaModule,
   RecaptchaFormsModule,
   Ng2GoogleChartsModule,
-  DeviceDetectorModule.forRoot(),
   HttpClientJsonpModule,
   HttpClientModule,
   ReactiveFormsModule,
@@ -326,7 +326,7 @@ const imports = [
 })
 
 export class AssetsModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<AssetsModule> {
     return {
       providers,
       ngModule: AssetsModule,

@@ -9,10 +9,10 @@ id: node.school.field_special_class
 field_name: field_special_class
 entity_type: node
 bundle: school
-label: 'Special class'
+label: 'Hariduslikud erivajadused'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 0

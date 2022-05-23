@@ -1,0 +1,18 @@
+uuid: 2f9b4bf0-7a33-40a7-bd03-bf6f0c7def16
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page.unpublish_on
+field_name: unpublish_on
+entity_type: node
+bundle: youth_home_page
+label: 'Mitteavaldatuks märkimise aeg'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

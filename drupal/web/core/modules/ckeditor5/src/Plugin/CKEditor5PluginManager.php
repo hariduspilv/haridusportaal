@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\ckeditor5\Plugin;
 
 use Drupal\ckeditor5\Annotation\CKEditor5Plugin;
-use Drupal\ckeditor5\HTMLRestrictionsUtilities;
+use Drupal\ckeditor5\HTMLRestrictions;
 use Drupal\Component\Annotation\Plugin\Discovery\AnnotationBridgeDecorator;
 use Drupal\Component\Assertion\Inspector;
 use Drupal\Component\Utility\NestedArray;
@@ -160,12 +160,12 @@ class CKEditor5PluginManager extends DefaultPluginManager implements CKEditor5Pl
       }
     }
 
-    // Only enable the General HTML Support plugin on text formats with no HTML
-    // restrictions.
+    // Only enable the arbitrary HTML Support plugin on text formats with no
+    // HTML restrictions.
     // @see https://ckeditor.com/docs/ckeditor5/latest/api/html-support.html
     // @see https://github.com/ckeditor/ckeditor5/issues/9856
     if ($editor->getFilterFormat()->getHtmlRestrictions() !== FALSE) {
-      unset($definitions['ckeditor5_htmlSupport']);
+      unset($definitions['ckeditor5_arbitraryHtmlSupport']);
     }
 
     // Evaluate `plugins` condition.
@@ -173,6 +173,22 @@ class CKEditor5PluginManager extends DefaultPluginManager implements CKEditor5Pl
       if (!empty(array_diff($definition->getConditions()['plugins'], array_keys($definitions)))) {
         unset($definitions[$plugin_id]);
       }
+    }
+
+    if (!isset($definitions['ckeditor5_arbitraryHtmlSupport'])) {
+      $restrictions = new HTMLRestrictions($this->getProvidedElements(array_keys($definitions), $editor, FALSE));
+      if ($restrictions->getWildcardSubset()->isEmpty()) {
+        // This is only reached if arbitrary HTML is not enabled. If wildcard
+        // tags (such as $text-container) are present, they need to
+        // be resolved via the wildcardHtmlSupport plugin.
+        // @see \Drupal\ckeditor5\Plugin\CKEditor5PluginManager::getCKEditor5PluginConfig()
+        unset($definitions['ckeditor5_wildcardHtmlSupport']);
+      }
+    }
+    // When arbitrary HTML is already supported, there is no need to support
+    // wildcard tags.
+    else {
+      unset($definitions['ckeditor5_wildcardHtmlSupport']);
     }
 
     return $definitions;
@@ -254,6 +270,25 @@ class CKEditor5PluginManager extends DefaultPluginManager implements CKEditor5Pl
       $config[$plugin_id] = $plugin->getDynamicPluginConfig($definition->getCKEditor5Config(), $editor);
     }
 
+    // CKEditor 5 interprets wildcards from a "CKEditor 5 model element"
+    // perspective, Drupal interprets wildcards from a "HTML element"
+    // perspective. GHS is used to reconcile those two perspectives, to ensure
+    // all expected HTML elements truly are supported.
+    // The `ckeditor5_wildcardHtmlSupport` is automatically enabled when
+    // necessary, and only when necessary.
+    // @see \Drupal\ckeditor5\Plugin\CKEditor5PluginManager::getEnabledDefinitions()
+    if (isset($definitions['ckeditor5_wildcardHtmlSupport'])) {
+      $allowed_elements = new HTMLRestrictions($this->getProvidedElements(array_keys($definitions), $editor, FALSE));
+      // Compute the net new elements that the wildcard tags resolve into.
+      $concrete_allowed_elements = $allowed_elements->getConcreteSubset();
+      $net_new_elements = $allowed_elements->diff($concrete_allowed_elements);
+      $config['ckeditor5_wildcardHtmlSupport'] = [
+        'htmlSupport' => [
+          'allow' => $net_new_elements->toGeneralHtmlSupportConfig(),
+        ],
+      ];
+    }
+
     return [
       'plugins' => $this->mergeDefinitionValues('getCKEditor5Plugins', $definitions),
       'config' => NestedArray::mergeDeepArray($config),
@@ -263,13 +298,12 @@ class CKEditor5PluginManager extends DefaultPluginManager implements CKEditor5Pl
   /**
    * {@inheritdoc}
    */
-  public function getProvidedElements(array $plugin_ids = [], EditorInterface $editor = NULL, bool $retain_wildcard = FALSE): array {
+  public function getProvidedElements(array $plugin_ids = [], EditorInterface $editor = NULL, bool $resolve_wildcards = TRUE): array {
     $plugins = $this->getDefinitions();
     if (!empty($plugin_ids)) {
       $plugins = array_intersect_key($plugins, array_flip($plugin_ids));
     }
-    $elements = [];
-    $processed_elements = [];
+    $elements = HTMLRestrictions::emptySet();
 
     foreach ($plugins as $id => $definition) {
       // Some CKEditor 5 plugins only provide functionality, not additional
@@ -308,35 +342,12 @@ class CKEditor5PluginManager extends DefaultPluginManager implements CKEditor5Pl
       }
       assert(Inspector::assertAllStrings($defined_elements));
       foreach ($defined_elements as $element) {
-        if (in_array($element, $processed_elements)) {
-          continue;
-        }
-        $processed_elements[] = $element;
-        $additional_elements = HTMLRestrictionsUtilities::allowedElementsStringToHtmlFilterArray($element);
-        $elements = array_merge_recursive($elements, $additional_elements);
+        $additional_elements = HTMLRestrictions::fromString($element);
+        $elements = $elements->merge($additional_elements);
       }
     }
 
-    foreach ($elements as $tag_name => $tag_config) {
-      if (substr($tag_name, 0, 1) === '$') {
-        $wildcard_tags = HTMLRestrictionsUtilities::getWildcardTags($tag_name);
-        foreach ($wildcard_tags as $wildcard_tag) {
-          if (isset($elements[$wildcard_tag])) {
-            foreach ($tag_config as $attribute_name => $attribute_value) {
-              if (is_array($attribute_value)) {
-                $attribute_value = array_keys($attribute_value);
-              }
-              HTMLRestrictionsUtilities::addAllowedAttributeToElements($elements, $wildcard_tag, $attribute_name, $attribute_value);
-            }
-          }
-        }
-        if (!$retain_wildcard) {
-          unset($elements[$tag_name]);
-        }
-      }
-    }
-
-    return HTMLRestrictionsUtilities::cleanAllowedHtmlArray($elements);
+    return $elements->getAllowedElements($resolve_wildcards);
   }
 
   /**
@@ -403,6 +414,10 @@ class CKEditor5PluginManager extends DefaultPluginManager implements CKEditor5Pl
             return TRUE;
           }
           break;
+
+        case 'requiresConfiguration':
+          $intersection = array_intersect($plugin->getConfiguration(), $required_value);
+          return $intersection !== $required_value;
 
         case 'plugins':
           // Tricky: this cannot yet be evaluated here. It will evaluated later.

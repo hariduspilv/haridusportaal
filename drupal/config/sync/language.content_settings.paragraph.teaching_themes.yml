@@ -1,0 +1,18 @@
+uuid: ef8bbc35-f1f2-4906-b533-ac49d3b44e21
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.teaching_themes
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.teaching_themes
+target_entity_type_id: paragraph
+target_bundle: teaching_themes
+default_langcode: site_default
+language_alterable: false

@@ -122,12 +122,14 @@ class EducationalFormRestResource extends ResourceBase {
 			  }
 				break;
 		  case 'edit':
-			  if($validation[0]){
-			  	$response = $this->ehisConnector->editInstitution(['data' => $data]);
-			  	if(isset($response['message'])){
+
+        if($validation[0]){
+          $response = $this->ehisConnector->editInstitution(['data' => $data]);
+          if(isset($response['message'])){
             $this->ehisConnector->deleteKeyFromredis($this->ehisConnector->getCurrentUserIdRegCode(FALSE));
           }
-				  return new ModifiedResourceResponse($response);
+          \Drupal::logger('xjson')->notice('<pre><code>Post request time (C editForm Finish): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
+          return new ModifiedResourceResponse($response);
 			  }else{
 				  return new ModifiedResourceResponse($validation[1] . " missing from body", 400);
 			  }

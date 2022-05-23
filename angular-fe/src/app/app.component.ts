@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {
   Alert,
   AlertsService,
@@ -9,13 +9,13 @@ import {
   SettingsService,
   SidemenuService,
 } from './_services';
-import {NavigationEnd, Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {AmpService} from './_services/ampService';
-import {TranslateService} from './_modules/translate/translate.service';
-import {CookieService} from './_services/CookieService';
-import {DeviceDetectorService} from 'ngx-device-detector';
-import {environment} from '@env/environment';
+import { NavigationEnd, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { AmpService } from './_services/ampService';
+import { TranslateService } from './_modules/translate/translate.service';
+import { CookieService } from './_services/CookieService';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -233,7 +233,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           .get(`${this.settings.url}/dashboard/applications/${init ? '1' : '0'}?_format=json`)
           .subscribe(
             (response: any) => {
-              if (typeof response.found !== undefined && response.found === null) {
+							if (typeof response.found !== undefined && response.found === null) {
                 if (this.requestCounter < this.maxRequests) {
                   this.fetchData(false);
                 } else {
@@ -496,7 +496,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           if (item.query === 'inaadress') {
             this.getItemAddress(item);
           }
-          this.validateField(item.modelName);
+					if(editableInst) this.validateField(item.modelName);
         });
         this.modalLoading = false;
         sub.unsubscribe();
@@ -625,8 +625,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
       const sub = this.http
         .post(`${this.settings.url}/educational-institution/edit`, body)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
             this.alertsService.info(response.message, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.modalBottomAction = true;
@@ -637,12 +637,13 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.fetchData(true);
             sub.unsubscribe();
           },
-          (err) => {
+          error: (err) => {
             this.alertsService.error(err.error, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.error = true;
             this.modalBottomAction = true;
-          });
+          }
+        });
     }
 
   }
@@ -677,8 +678,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       };
       const sub = this.http
         .post(`${this.settings.url}/educational-institution/add`, body)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
             this.alertsService.info(response.message, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.modalBottomAction = true;
@@ -688,12 +689,13 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.fetchData(true);
             sub.unsubscribe();
           },
-          (err) => {
+          error: (err) => {
             this.alertsService.error(err.error, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.error = true;
             this.modalBottomAction = true;
-          });
+          }
+        });
     }
   }
 
@@ -702,8 +704,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   public initialize() {
-    this.lang = 'et';
-    this.currentRole = this.auth.userData.role.current_role.type;
+    this.lang = this.settings.currentAppLanguage;
+		this.currentRole = this.auth.userData.role.current_role.type;
     this.pathWatcher();
     this.startTime = Date.now();
     this.loading['initial'] = true;

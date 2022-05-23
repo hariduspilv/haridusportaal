@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Language } from '@app/_core/models/interfaces/language.enum';
 import { ListOffsetParameters } from '@app/_core/models/list-offset-parameters';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -11,6 +10,7 @@ import { StudyListViewQueryParameters } from '../../models/study-list-view-query
 import { StudyListViewQueryResponse } from '../../models/study-list-view-query-response';
 import { StudyApiService } from '../../study-api.service';
 import { StudyUtility } from '../../study-utility';
+import { getLangCode } from "@app/_core/router-utility";
 
 @Component({
 	selector: 'study-list',
@@ -36,24 +36,23 @@ export class StudyListComponent implements OnInit, OnDestroy {
 	constructor(
 		private api: StudyApiService,
 		private route: ActivatedRoute,
-	) {
-	}
+	) {	}
 
   ngOnInit(): void {
     this.route.queryParams
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((parameters) => {
-      this.resetStudyListOffsetParameters();
-      this.studyListViewQuery(parameters);
+				this.resetStudyListOffsetParameters();
+				this.studyListViewQuery(parameters);
     });
 
-    this.api.studyListIntroQuery(Language.et)
+    this.api.studyListIntroQuery(getLangCode())
       .pipe(takeUntil(this.componentDestroyed$))
       .subscribe((res) => this.intro = res);
   }
 
 	ngOnDestroy(): void {
-		this.componentDestroyed$.next();
+		this.componentDestroyed$.next(true);
 		this.componentDestroyed$.complete();
 	}
 
@@ -63,24 +62,27 @@ export class StudyListComponent implements OnInit, OnDestroy {
 	}
 
   private studyListViewQuery(parameters: StudyListViewQueryParameters, loadMoreContent?: boolean) {
-    this.loading = {
+		this.loading = {
       list: !loadMoreContent,
       loadMore: loadMoreContent,
     };
     const requestParameters = StudyUtility.generateStudyListViewRequestParameters(
       parameters, this.offsetParameters);
-    this.api.studyListViewQuery(requestParameters)
+		this.api.studyListViewQuery(requestParameters)
       .pipe(takeUntil(this.componentDestroyed$))
-      .subscribe((response: StudyListViewQueryResponse) => {
-      const { entities, count } = response.data.nodeQuery;
-      const { list, highlight } = StudyUtility.studyListMappedData(this.list, entities, loadMoreContent);
-      this.offsetParameters.count = count;
-      this.list = list;
-      this.highlight = highlight;
-      this.resetLoading();
-    }, () => {
-      this.resetLoading();
-    });
+      .subscribe({
+        next: (response: StudyListViewQueryResponse) => {
+					const { entities, count } = response.data.nodeQuery;
+          const { list, highlight } = StudyUtility.studyListMappedData(this.list, entities, loadMoreContent);
+          this.offsetParameters.count = count;
+          this.list = list;
+          this.highlight = highlight;
+          this.resetLoading();
+        },
+        error: () => {
+          this.resetLoading();
+        }
+      });
   }
 
   private resetLoading(): void {
@@ -99,7 +101,7 @@ export class StudyListComponent implements OnInit, OnDestroy {
 	}
 
   private filterOptionsAsObservable() {
-    return this.api.studyListViewFilterQuery(Language.et)
+    return this.api.studyListViewFilterQuery(getLangCode().toUpperCase())
       .pipe(map(response => StudyUtility.flattenStudyListFilterOptions(response)));
   }
 

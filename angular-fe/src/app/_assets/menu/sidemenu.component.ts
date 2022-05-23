@@ -1,15 +1,15 @@
 import {
-  Component,
-  Input,
-  HostBinding,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  ViewChildren,
-  QueryList,
-  ViewChild,
-  ElementRef,
-  HostListener,
+	Component,
+	Input,
+	HostBinding,
+	OnInit,
+	OnDestroy,
+	ChangeDetectorRef,
+	ViewChildren,
+	QueryList,
+	ViewChild,
+	ElementRef,
+	HostListener,
 } from '@angular/core';
 import { SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
@@ -30,13 +30,17 @@ export class MenuComponent implements OnInit, OnDestroy {
   public wasClosed: boolean = false;
   public readerVisible = false;
   public version: any = environment.VERSION;
+	public isLoading = true;
+
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
+  private languageSub: Subscription = new Subscription();
   private initialSub = false;
   private initialAutoOpen = false;
   private focusBounce: any;
   private visibilityBounce: any;
+	private languageWasChanged = false;
 
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
   @ViewChild('sidemenuCloser', { static: false, read: ElementRef }) private closeBtn: ElementRef;
@@ -70,6 +74,16 @@ export class MenuComponent implements OnInit, OnDestroy {
   public closeSidemenu(): void {
     this.sidemenuService.close();
   }
+
+	private subscribeToLanguage(): void {
+		this.languageSub = this.settings.activeLang$.subscribe({
+			next:() => {
+				this.languageWasChanged = true;
+				this.getData(true);
+			},
+			complete: () => this.languageWasChanged = false,
+		});
+	}
 
   private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
@@ -113,22 +127,27 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   private getData(init: boolean = false): void {
+		this.isLoading = true;
     const variables = {
-      language: this.settings.activeLang,
+      language: this.settings.currentAppLanguage.toUpperCase(),
     };
     const path = this.settings.query('getMenu', variables);
     // force to not use disk cache
     this.http.get(path, {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
-    }).subscribe((response: IMenuResponse) => {
-      this.data = response.data.menu.links;
-      // Set all the first level menus as such
-      this.data.forEach((item: IMenuData) => item.firstLevel = true);
-      this.cdr.detectChanges();
-      if (init) {
-        this.makeActive();
-      }
-    });
+    }).subscribe({
+			next: (response: IMenuResponse) => {
+				this.data = response.data.menu.links;
+				// Set all the first level menus as such
+				this.data.forEach((item: IMenuData) => item.firstLevel = true);
+				this.cdr.detectChanges();
+				if (init) {
+					this.makeActive();
+				}
+			},
+			error: () => { this.isLoading = false; },
+			complete: () => { this.isLoading = false; },
+		});
   }
 
   /**
@@ -146,7 +165,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
       if (item.links && item.links.length) {
         const has = this.hasActiveInTree(item.links, path);
-  
+
         if (match || has) {
           item.expanded = true;
           item.active = true;
@@ -173,21 +192,21 @@ export class MenuComponent implements OnInit, OnDestroy {
    */
   private makeActive(): void {
     const path = decodeURI(this.location.path());
-    let opened = false;
+		let opened = false;
 
-    for (const menu of this.menus) {
+		for (const menu of this.menus) {
       if (this.hasActiveInTree(menu.items, path)) {
         opened = true;
       }
     }
 
-    if (opened) {
+    if (opened || this.languageWasChanged) {
       // Determine the theme of the current page
-      for (const menu of this.menus) {
+			for (const menu of this.menus) {
         for (const item of menu.items) {
           if (item.firstLevel && item.active) {
             const themestr = item.label.toLowerCase();
-            const resolved = this.sidemenuService.themes[themestr] || 'default';
+						const resolved = this.sidemenuService.themes[themestr] || 'default';
             this.sidemenuService.setTheme(resolved);
           }
         }
@@ -225,12 +244,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.subscribeToAuth();
     this.subscribeToService();
     this.subscribeToRouter();
+		this.subscribeToLanguage();
     this.getData(true);
   }
 
-  public ngOnDestroy(): void {
+	public ngOnDestroy(): void {
     this.routerSub.unsubscribe();
     this.authSub.unsubscribe();
     this.subscription.unsubscribe();
+		this.languageSub.unsubscribe();
   }
 }

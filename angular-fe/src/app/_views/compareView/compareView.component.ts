@@ -43,11 +43,11 @@ export class CompareViewComponent extends CompareComponent {
     this.loading = true;
     const allVars = {
       studyProgrammeComparison: {
-        lang: 'ET',
+				lang: this.settings.currentAppLanguage,
         nidValues: `[${this.compare.map(id => id.toString())}]`,
       },
       oskaProfessionsComparison: {
-        lang: 'ET',
+				lang: this.settings.currentAppLanguage,
         titleValue: '',
         titleEnabled: false,
         oskaFieldValue: '',
@@ -71,14 +71,17 @@ export class CompareViewComponent extends CompareComponent {
     let query = `queryName=${this.queryName}`;
     query += `&queryId=${this.queryId}&variables=${JSON.stringify(variables)}`;
     const path = `${this.settings.url}/graphql?${query}`.trim();
-    this.http.get(path).subscribe((response) => {
-      const data = response['data']['nodeQuery']['entities'];
-      this.compareService.formatData(data, this.compare, this.key);
-      this.loading = false;
-      if (!data.length) this.rerouteToParent();
-    },                            (err) => {
-      this.rerouteToParent();
-      this.loading = false;
+    this.http.get(path).subscribe({
+      next: (response) => {
+        const data = response['data']['nodeQuery']['entities'];
+        this.compareService.formatData(data, this.compare, this.key);
+        this.loading = false;
+        if (!data.length) this.rerouteToParent();
+      },
+      error: (err) => {
+        this.rerouteToParent();
+        this.loading = false;
+      }
     });
   }
 

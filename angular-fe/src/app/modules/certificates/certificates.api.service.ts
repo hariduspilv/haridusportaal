@@ -53,7 +53,7 @@ export class CertificatesApi {
                          { params, responseType: 'blob' });
   }
 
-  fetchCertificate(id: string): Observable<CertificateResponse> {
+  fetchCertificate(id: string): Observable<Certificate> {
     const url = `${this.certificatesUrl}/certificate/${id}`;
 
     return this.http.get<Certificate>(url)

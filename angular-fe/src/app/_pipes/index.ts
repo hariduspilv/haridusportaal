@@ -18,7 +18,9 @@ import { ParseInAddsPipe } from './parseInAdds.pipe';
 import { CapitalizePipe } from './capitalize.pipe';
 import { IdCodePipe } from './idCode.pipe';
 import { LocaleOrderByPipe } from './localeOrderBy';
-​
+import { TranslatePath } from './translatePath';
+import { TranslateWord } from "@app/_pipes/translateWord";
+
 const pipes = [
   EllipsisPipe,
   EuroCurrencyPipe,
@@ -45,10 +47,11 @@ const pipes = [
   CapitalizePipe,
   IdCodePipe,
   LocaleOrderByPipe,
+	TranslatePath,
+	TranslateWord,
 ];
-​
+
 @NgModule({
-​
   declarations:[
     pipes,
   ],
@@ -57,5 +60,5 @@ const pipes = [
     pipes,
   ],
 })
-​
+
 export class AppPipes{}

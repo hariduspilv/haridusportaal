@@ -32,6 +32,7 @@ speed-measure-plugin.json
 .history/*
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -48,3 +49,9 @@ scripts/conf.js
 scripts/conf-storybook.js
 scripts/conf-edu.js
 storybook-dist
+
+# Iconfonts
+src/app/scss/_iconfont.scss
+src/assets/fonts/iconfont.eot
+src/assets/fonts/iconfont.ttf
+src/assets/fonts/iconfont.woff

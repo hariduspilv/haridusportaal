@@ -29,7 +29,7 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
     email: ['', [Validators.required, Validators.email]],
   });
   @ViewChild('scrollTarget') public scrollTarget;
-  private lang: string = 'ET';
+  private lang: string = this.settings.currentAppLanguage;
   private subscriptions: Subscription[] = [];
   private tags: string = '';
 
@@ -76,15 +76,16 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
       },                100);
     } else {
       this.loading = true;
-      const subscription = this.http.post(query, data).subscribe(
-        (response) => {
+      const subscription = this.http.post(query, data).subscribe({
+        next: (response) => {
           this.subscribedStatus = true;
           this.loading = false;
         },
-        (data) => {
+        error: (data) => {
           this.subscribedError = true;
           this.loading = false;
-        });
+        }
+      });
       this.subscriptions.push(subscription);
     }
   }

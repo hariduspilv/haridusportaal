@@ -1,0 +1,22 @@
+uuid: 8548e988-cc03-4009-b50d-5c143f2c9e88
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
+id: paragraph.yoth_content_page_link_type_2.status
+field_name: status
+entity_type: paragraph
+bundle: yoth_content_page_link_type_2
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

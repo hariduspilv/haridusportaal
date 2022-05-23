@@ -15,7 +15,7 @@ bundle: frontpage_new
 label: 'Avalehe viited'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -28,6 +28,9 @@ settings:
       accordion:
         weight: 39
         enabled: false
+      additional_links:
+        weight: 50
+        enabled: false
       additional_section:
         weight: 40
         enabled: false
@@ -36,6 +39,9 @@ settings:
         enabled: false
       career_contact:
         weight: 42
+        enabled: false
+      collaboration:
+        weight: 54
         enabled: false
       contact_section:
         weight: 43
@@ -85,6 +91,9 @@ settings:
       infosystem_support:
         weight: 58
         enabled: false
+      intro:
+        weight: 71
+        enabled: false
       iscedf_search:
         weight: 59
         enabled: false
@@ -100,11 +109,20 @@ settings:
       link:
         weight: 63
         enabled: false
+      location:
+        weight: 77
+        enabled: false
       main_profession_accordion:
         weight: 64
         enabled: false
       main_profession_sidebar:
         weight: 65
+        enabled: false
+      media_img:
+        weight: 80
+        enabled: false
+      media_vid:
+        weight: 81
         enabled: false
       oska_field_sidebar:
         weight: 66
@@ -118,6 +136,15 @@ settings:
       school_location:
         weight: 69
         enabled: false
+      study:
+        weight: 86
+        enabled: false
+      study_page_accordion:
+        weight: 87
+        enabled: false
+      studypage_right_column:
+        weight: 88
+        enabled: false
       supernews:
         weight: 70
         enabled: false
@@ -129,6 +156,9 @@ settings:
         enabled: false
       toolbox:
         weight: 73
+        enabled: false
+      working_time:
+        weight: 93
         enabled: false
       yoth_content_page_link_type_2:
         weight: 74

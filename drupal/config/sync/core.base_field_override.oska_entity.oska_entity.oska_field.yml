@@ -1,0 +1,20 @@
+uuid: 046298f4-1d4e-4b1c-8ff8-e3e8568b9e13
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_entity.oska_entity.oska_field
+field_name: oska_field
+entity_type: oska_entity
+bundle: oska_entity
+label: 'OSKA Valdkond'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

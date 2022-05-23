@@ -1,10 +1,10 @@
 import {
-  Component,
-  OnDestroy,
-  Input,
-  OnChanges,
-  ChangeDetectorRef,
-  AfterViewInit,
+	Component,
+	OnDestroy,
+	Input,
+	OnChanges,
+	ChangeDetectorRef,
+	AfterViewInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -95,6 +95,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     } catch (err) {}
     return tmpValue;
   }
+
   private parseValues(queryParams) {
     const values = {};
     const tmpParams = this.addRequiredFields(queryParams);
@@ -190,7 +191,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     this.httpWatcher.unsubscribe();
     this.getDataDebounce = setTimeout(
       () => {
-        values.lang = 'ET';
+        values.lang = this.settings.currentAppLanguage.toUpperCase();
         values.offset = this.offset;
         values.limit = this.limit;
         let query = `queryName=${this.queryName}`;
@@ -212,9 +213,9 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;
 
-        const path = `${this.settings.url}/graphql?${query}`.trim();
+				const path = `${this.settings.url}/graphql?${query}`.trim();
 
-        if (!this.loadingMore) {
+				if (!this.loadingMore) {
           this.loading = true;
         }
 
@@ -239,69 +240,70 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           });
           scrollSub.unsubscribe();
         } else {
-          this.httpWatcher = this.http.get(path).subscribe(
-          (response) => {
-            if (!this.loadingMore) {
-              this.loading = false;
-            }
-            this.loadingMore = false;
-            let tmpList:[] = [];
-            try {
-              if (response['data']['nodeQuery']) {
-                if (Array.isArray(response['data']['nodeQuery'])) {
-                  tmpList = response['data']['nodeQuery'][0]['entities'];
-                  if (response['data']['nodeQuery'][0]['count']) {
-                    this.listItemCount = response['data']['nodeQuery'][0]['count'];
-                  }
-                } else {
-                  tmpList = response['data']['nodeQuery']['entities'];
-                  if (response['data']['nodeQuery']['count']) {
-                    this.listItemCount = response['data']['nodeQuery']['count'];
-                  }
-                }
-              } else if (response['data']['CustomElasticQuery'] && this.parsedType === 'school') {
-                tmpList = response['data']['CustomElasticQuery'][0].entities;
-                if (response['data']['CustomElasticQuery']?.length) {
-                  this.listItemCount = response['data']['CustomElasticQuery'][0]['count'];
-                }
-              } else if (response['data']['CustomElasticQuery']) {
-                tmpList = response['data']['CustomElasticQuery'];
-                if (response['data']['CustomElasticQuery']['count']) {
-                  this.listItemCount = response['data']['CustomElasticQuery']['count'];
-                }
+					this.httpWatcher = this.http.get(path).subscribe({
+            next: (response) => {
+							if (!this.loadingMore) {
+                this.loading = false;
               }
-              this.cdr.detectChanges();
-            } catch (err) {
+              this.loadingMore = false;
+              let tmpList:[] = [];
+              try {
+                if (response['data']['nodeQuery']) {
+                  if (Array.isArray(response['data']['nodeQuery'])) {
+                    tmpList = response['data']['nodeQuery'][0]['entities'];
+                    if (response['data']['nodeQuery'][0]['count']) {
+                      this.listItemCount = response['data']['nodeQuery'][0]['count'];
+                    }
+                  } else {
+                    tmpList = response['data']['nodeQuery']['entities'];
+                    if (response['data']['nodeQuery']['count']) {
+                      this.listItemCount = response['data']['nodeQuery']['count'];
+                    }
+                  }
+                } else if (response['data']['CustomElasticQuery'] && this.parsedType === 'school') {
+                  tmpList = response['data']['CustomElasticQuery'][0].entities;
+                  if (response['data']['CustomElasticQuery']?.length) {
+                    this.listItemCount = response['data']['CustomElasticQuery'][0]['count'];
+                  }
+                } else if (response['data']['CustomElasticQuery']) {
+                  tmpList = response['data']['CustomElasticQuery'];
+                  if (response['data']['CustomElasticQuery']['count']) {
+                    this.listItemCount = response['data']['CustomElasticQuery']['count'];
+                  }
+                }
+                this.cdr.detectChanges();
+              } catch (err) {
+              }
+
+              if (!tmpList) {
+                tmpList = [];
+              }
+
+              this.canLoadMore = tmpList.length >= this.limit ? true : false;
+
+              if (append) {
+                this.list = [...this.list, ...tmpList];
+              } else {
+                this.list = tmpList;
+              }
+
+              this.scrollRestoration.restorationValues.next({
+                ...this.scrollRestorationValues,
+                [this.type]: {
+                  values,
+                  list: this.list, canLoadMore: this.canLoadMore,
+                  listItemCount: this.listItemCount,
+                },
+              });
+
+              if (this.deviceService.isMobile() && paramsExist(this.route)) {
+                scrollElementIntoView('block');
+              }
+            },
+            error: (err) => {
+              this.loading = false;
+              this.loadingMore = false;
             }
-
-            if (!tmpList) {
-              tmpList = [];
-            }
-
-            this.canLoadMore = tmpList.length >= this.limit ? true : false;
-
-            if (append) {
-              this.list = [...this.list, ...tmpList];
-            } else {
-              this.list = tmpList;
-            }
-
-            this.scrollRestoration.restorationValues.next({
-              ...this.scrollRestorationValues,
-              [this.type]: {
-                values,
-                list: this.list, canLoadMore: this.canLoadMore,
-                listItemCount: this.listItemCount,
-              },
-            });
-
-            if (this.deviceService.isMobile() && paramsExist(this.route)) {
-              scrollElementIntoView('block');
-            }
-          },
-          (err) => {
-            this.loading = false;
-            this.loadingMore = false;
           });
         }
       },

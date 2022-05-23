@@ -1,8 +1,7 @@
-import { Component, Input, AfterViewInit,
-  ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
@@ -54,7 +53,7 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
 
   watchParams() {
     this.paramsWatcher = this.route.queryParams.subscribe((response) => {
-      this.params = response;
+			this.params = response;
     });
   }
 
@@ -214,30 +213,34 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
   getTags() {
 
     const variables = {
-      lang: 'ET',
+			lang: this.settings.currentAppLanguage,
     };
 
     const path = this.settings.query('getSchoolFilterOptions', variables);
 
-    const subscribe = this.http.get(path).subscribe((response: any) => {
-      const data = response.data.taxonomyTermQuery.entities;
+		const subscribe = this.http.get(path).subscribe({
+			next: (response: any) => {
+				const data = response.data.taxonomyTermQuery.entities;
 
-      data.map((el) => {
-        if (el.reverseFieldEducationalInstitutionTyNode) {
-          el.parentId ? this.secondaryTypes.push(
-            { value: el.entityId, key: el.entityLabel, parent: el.parentId },
-          ) : this.primaryTypes.push({ value: el.entityId, key: el.entityLabel });
-        }
-        if (el.reverseFieldTeachingLanguageNode) {
-          this.languageFilters.push({ value: el.entityId, key: el.entityLabel });
-        }
-        if (el.reverseFieldOwnershipTypeNode) {
-          this.ownershipFilters.push({ value: el.entityId, key: el.entityLabel });
-        }
-      });
-      this.updateFormItems();
-      subscribe.unsubscribe();
-    });
+				data.map((el) => {
+					if (el.reverseFieldEducationalInstitutionTyNode) {
+						el.parentId ? this.secondaryTypes.push(
+							{ value: el.entityId, key: el.entityLabel, parent: el.parentId },
+						) : this.primaryTypes.push({ value: el.entityId, key: el.entityLabel });
+					}
+					if (el.reverseFieldTeachingLanguageNode) {
+						this.languageFilters.push({ value: el.entityId, key: el.entityLabel });
+					}
+					if (el.reverseFieldOwnershipTypeNode) {
+						this.ownershipFilters.push({ value: el.entityId, key: el.entityLabel });
+					}
+				});
+				this.updateFormItems();
+			},
+			complete: () => {
+				subscribe.unsubscribe();
+			}
+		});
   }
 
   ngOnDestroy() {

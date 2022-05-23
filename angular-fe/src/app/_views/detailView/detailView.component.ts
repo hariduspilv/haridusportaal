@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild, ElementRef, OnInit, OnDestroy} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { removeLanguageCode } from '@app/_core/router-utility';
 
 @Component({
   selector: 'detail-view',
@@ -46,11 +47,11 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     public auth: AuthService,
     private translate: TranslateService,
-  ) { }
+  ) {	}
 
   private getSidebar(): void {
     const variables = {
-      lang: 'ET',
+			lang: this.settings.currentAppLanguage.toUpperCase(),
       nid: this.data.nid,
     };
 
@@ -66,13 +67,13 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     if (queryKey) {
       const path = this.settings.query(queryKey, variables);
       const subscription = this.http.get(path).subscribe((response) => {
-        this.sidebar = {
+				this.sidebar = {
           entity: response['data'],
         };
         subscription.unsubscribe();
       });
     } else {
-      this.sidebar = {
+			this.sidebar = {
         entity: { ... this.origData },
       };
     }
@@ -143,18 +144,24 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     const variables = {
       path: this.path,
     };
-    const path = this.settings.query(this.queryKey, variables);
-    this.sidebar = undefined;
-    const subscription = this.http.get(path).subscribe((response) => {
-      try {
-        this.origData = response['data']['route']['entity'];
-        this.parseData(response['data']['route']['entity']);
-      } catch (err) {
-        this.missingData = true;
-      }
+		const path = this.settings.query(this.queryKey, variables);
+		this.sidebar = undefined;
+		const subscription = this.http.get(path).subscribe({
+			next: (response) => {
+				if (response && response['data'] && response['data']['route'] && response['data']['route']['languageSwitchLinks']) {
+					this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
+				}
 
-      subscription.unsubscribe();
-    });
+				try {
+					this.origData = response['data']['route']['entity'];
+					this.parseData(response['data']['route']['entity']);
+				} catch (err) {
+					this.missingData = true;
+				}
+			},
+			error: (error) => console.log('Error: ', error),
+			complete: () => subscription.unsubscribe()
+		});
   }
 
   public parseHTMLValue(content) {
@@ -174,13 +181,17 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
     const subscription = this.http.get(path, {
       withCredentials: true,
-    }).subscribe((data) => {
-      this.origData = data['data']['NodePreviewByUuid'];
-      this.parseData(data['data']['NodePreviewByUuid']);
-      this.initialize(this.origData.entityBundle);
-      subscription.unsubscribe();
-    });
-  }
+		}).subscribe({
+			next: (data) => {
+				this.origData = data['data']['NodePreviewByUuid'];
+				this.parseData(data['data']['NodePreviewByUuid']);
+				this.initialize(this.origData.entityBundle);
+			},
+			complete: () => {
+				subscription.unsubscribe();
+			}
+		});
+	}
 
   editPost() {
     const id = this.route.snapshot.params.id;
@@ -253,8 +264,10 @@ export class DetailViewComponent implements OnInit, OnDestroy {
   private initialize(type: string = undefined) {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
-      this.path = this.storyPath || decodeURI(this.location.path().split('?')[0]);
-      this.type = this.storyType || type || this.route.snapshot.data['type'];
+			this.path = this.storyPath || removeLanguageCode(
+        decodeURI(this.location.path().split('?')[0]),
+      );
+			this.type = this.storyType || type || this.route.snapshot.data['type'];
     }
 
     this.getValues();
@@ -281,5 +294,6 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.paramsWatcher.unsubscribe();
+		this.settings.currentLanguageSwitchLinks = null;
   }
 }

@@ -27,7 +27,7 @@ negotiation:
   language_interface:
     enabled:
       language-graphql: -999
-      language-session: -6
+      language-url: -8
       language-selected: 12
     method_weights:
       language-graphql: -999

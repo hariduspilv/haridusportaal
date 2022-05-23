@@ -64,8 +64,8 @@ export class DigitalSignViewComponent implements OnInit {
       .get(
         `${this.settings.url}/dashboard/eeIsikukaart/digital_sign_data?_format=json`,
       )
-      .subscribe(
-        (response: DSVResponse) => {
+      .subscribe({
+        next: (response: DSVResponse) => {
           if (response.error) {
             this.error = true;
             const currentLang = 'et';
@@ -106,12 +106,13 @@ export class DigitalSignViewComponent implements OnInit {
           sub.unsubscribe();
           this.loading = false;
         },
-        (error) => {
+        error: (error) => {
           this.loading = false;
           this.error = true;
           this.alertsService
             .info('errors.studies_data_missing', 'studies');
-        });
+        }
+      });
   }
   initFormGroup() {
     const defaultValue = {};
@@ -272,16 +273,12 @@ export class DigitalSignViewComponent implements OnInit {
   }
   saveFile(file) {
     const blob = this.b64toBlob(file.value, 'application/vnd.etsi.asic-e+zip');
-    if (window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveBlob(blob, file.fileName);
-    } else {
-      const elem = window.document.createElement('a');
-      elem.href = window.URL.createObjectURL(blob);
-      elem.download = file.fileName;
-      document.body.appendChild(elem);
-      elem.click();
-      document.body.removeChild(elem);
-    }
+    const elem = window.document.createElement('a');
+    elem.href = window.URL.createObjectURL(blob);
+    elem.download = file.fileName;
+    document.body.appendChild(elem);
+    elem.click();
+    document.body.removeChild(elem);
     this.loading = false;
   }
   b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {

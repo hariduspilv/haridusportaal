@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+// cSpell:words documentselection
 import { isWidget } from 'ckeditor5/src/widget';
 
 /**
@@ -32,6 +33,26 @@ export function isDrupalMediaWidget(viewElement) {
 }
 
 /**
+ * Gets `drupalMedia` element from selection.
+ *
+ * @param {module:engine/model/selection~Selection|module:engine/model/documentselection~DocumentSelection} selection
+ *   The current selection.
+ * @returns {module:engine/model/element~Element|null}
+ *   The `drupalMedia` element which could be either the current selected an
+ *   ancestor of the selection. Returns null if the selection has no Drupal
+ *   Media element.
+ *
+ * @internal
+ */
+export function getClosestSelectedDrupalMediaElement(selection) {
+  const selectedElement = selection.getSelectedElement();
+
+  return isDrupalMedia(selectedElement)
+    ? selectedElement
+    : selection.getFirstPosition().findAncestor('drupalMedia');
+}
+
+/**
  * Gets selected Drupal Media widget if only Drupal Media is currently selected.
  *
  * @param {module:engine/model/selection~Selection} selection
@@ -41,10 +62,64 @@ export function isDrupalMediaWidget(viewElement) {
  *
  * @internal
  */
-export function getSelectedDrupalMediaWidget(selection) {
+export function getClosestSelectedDrupalMediaWidget(selection) {
   const viewElement = selection.getSelectedElement();
   if (viewElement && isDrupalMediaWidget(viewElement)) {
     return viewElement;
+  }
+
+  let parent = selection.getFirstPosition().parent;
+
+  while (parent) {
+    if (parent.is('element') && isDrupalMediaWidget(parent)) {
+      return parent;
+    }
+
+    parent = parent.parent;
+  }
+
+  return null;
+}
+
+/**
+ * Checks if value is a JavaScript object.
+ *
+ * This will return true for any type of JavaScript object. (e.g. arrays,
+ * functions, objects, regexes, new Number(0), and new String(''))
+ *
+ * @param value
+ *   Value to check.
+ * @return {boolean}
+ *   True if value is an object, else false.
+ */
+export function isObject(value) {
+  const type = typeof value;
+  return value != null && (type === 'object' || type === 'function');
+}
+
+/**
+ * Gets preview container element from the media element.
+ *
+ * @param {Iterable.<module:engine/view/element~Element>} children
+ *   The child elements.
+ * @return {null|module:engine/view/element~Element}
+ *   The preview child element if available.
+ */
+export function getPreviewContainer(children) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const child of children) {
+    if (child.hasAttribute('data-drupal-media-preview')) {
+      return child;
+    }
+
+    if (child.childCount) {
+      const recursive = getPreviewContainer(child.getChildren());
+      // Return only if preview container was found within this element's
+      // children.
+      if (recursive) {
+        return recursive;
+      }
+    }
   }
 
   return null;

@@ -14,12 +14,19 @@
     <div class="navBlock__buttons" *ngIf="data.length">
       <ul>
         <li *ngFor="let item of data">
-          <a *ngIf="!item.link.url.routed" target="_blank" [href]="item.link.url.path">{{ item.title }}
-            <span class="label" *ngIf="item.link.title">{{ item.link.title }}</span>
+          <a *ngIf="!item.link.url.routed" target="_blank" [href]="item.link.url.path">{{ item.title | translate }}
+            <span class="label" *ngIf="item.link.title">{{ item.link.title | translate }}</span>
           </a>
-          <a *ngIf="item.link.url.routed" [routerLink]="item.link.url.path">{{ item.title }}
-            <span class="label" *ngIf="item.link.title">{{ item.link.title }}</span>
-          </a>
+					<ng-container *ngIf="isMainPage || theme === 'youth' || theme === 'teachers'">
+						<a *ngIf="item.link.url.routed" [routerLink]="item.link.url.path">{{ item.title | translate }}
+							<span class="label" *ngIf="item.link.title">{{ item.link.title | translate }}</span>
+						</a>
+					</ng-container>
+					<ng-container *ngIf="!isMainPage && theme !== 'youth' && theme !== 'teachers'">
+						<a *ngIf="item.link.url.routed" [routerLink]="(item.link.url.path | translatePath)">{{ item.title | translate }}
+							<span class="label" *ngIf="item.link.title">{{ item.link.title | translate }}</span>
+						</a>
+					</ng-container>
         </li>
       </ul>
     </div><!--/navBlock__buttons-->

@@ -7,7 +7,7 @@ import { DetailViewComponent } from './detailView.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { AppPipes } from '@app/_pipes';
-import { StudyProgrammeListViewModule } from '../studyProgrammeListView';
+import { translateRoutes } from "@app/_core/router-utility";
 
 const routes: Routes = [
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
     DetailViewComponent,
   ],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forChild(translateRoutes(routes)),
     AssetsModule,
     TranslateModule,
     CommonModule,

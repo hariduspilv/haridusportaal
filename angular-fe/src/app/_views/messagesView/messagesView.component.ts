@@ -55,15 +55,15 @@ export class MessagesViewComponent implements OnInit{
     this.loading = true;
     this.http
       .get(`${this.settings.ehisUrl}/messages/messages/receiver?orderBy=sentAt&sort=DESC${query ? `${query}` : ''}`)
-      .subscribe(
-        (val: any) => {
+      .subscribe({
+        next: (val: any) => {
           this.data = val;
           this.loading = false;
         },
-        (err) => {
+        error: (err) => {
           this.loading = false;
         },
-      );
+      });
   }
   ngOnInit() {
     this.router.queryParams.pipe(takeUntil(this.destroy$)).subscribe((val) => {

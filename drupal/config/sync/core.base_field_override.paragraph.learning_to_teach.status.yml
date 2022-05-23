@@ -1,0 +1,22 @@
+uuid: 5058c99f-6f18-47cb-bf8d-7b563bf947c2
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.learning_to_teach
+id: paragraph.learning_to_teach.status
+field_name: status
+entity_type: paragraph
+bundle: learning_to_teach
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

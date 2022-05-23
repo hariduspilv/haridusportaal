@@ -194,6 +194,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
     this.getDataDebounce = setTimeout(
       () => {
         values.offset = this.listOffset;
+        values.lang = this.settings.currentAppLanguage.toUpperCase();
         let query = `queryName=${this.queryName}`;
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;
@@ -227,36 +228,37 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
               },         0);
             }
           });
-          this.dispatchListEmit(true, this.list);
+					this.dispatchListEmit(true, this.list);
           scrollSub.unsubscribe();
         } else {
-          this.httpWatcher = this.http.get(path).subscribe(
-          (response) => {
-            if (response['data']['countProfessionsFalseValue']) {
-              this.nonProfessionCount = response['data']['countProfessionsFalseValue']['count'];
-              this.professionCount = response['data']['countProfessionsValue']['count'];
-            }
-            this.listCount = response['data']['nodeQuery']['count'];
-            const listData = response['data']['nodeQuery']['entities'];
-            if (append) {
-              this.list = [...this.list, ...listData];
+					this.httpWatcher = this.http.get(path).subscribe({
+            next: (response) => {
+              if (response['data']['countProfessionsFalseValue']) {
+                this.nonProfessionCount = response['data']['countProfessionsFalseValue']['count'];
+                this.professionCount = response['data']['countProfessionsValue']['count'];
+              }
+              this.listCount = response['data']['nodeQuery']['count'];
+              const listData = response['data']['nodeQuery']['entities'];
+              if (append) {
+                this.list = [...this.list, ...listData];
+								this.loading = false;
+                this.loadingMore = false;
+              } else {
+                this.list = listData;
+                this.selectArbitraryHighlightedJob();
+              }
+
+              this.canLoadMore = !!(this.listCount > this.list.length);
+              this.dispatchListEmit(false, this.list);
+              this.updateRestorationValues(values);
+              if (this.deviceService.isMobile() && paramsExist(this.route)) {
+                scrollElementIntoView('block:not([theme="transparent"])');
+              }
+            },
+            error: (err) => {
               this.loading = false;
               this.loadingMore = false;
-            } else {
-              this.list = listData;
-              this.selectArbitraryHighlightedJob();
             }
-
-            this.canLoadMore = !!(this.listCount > this.list.length);
-            this.dispatchListEmit(false, this.list);
-            this.updateRestorationValues(values);
-            if (this.deviceService.isMobile() && paramsExist(this.route)) {
-              scrollElementIntoView('block:not([theme="transparent"])');
-            }
-          },
-          (err) => {
-            this.loading = false;
-            this.loadingMore = false;
           });
         }
       },
@@ -322,25 +324,28 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
         const jobSubscription = this.http.get(
           this.settings.query('oskaMainProfessionDetailView', { path: initialFilteredJobPath }))
           .pipe(take(1))
-          .subscribe((response) => {
-            const filteredJob = FieldVaryService(initialFilteredJob);
-            filteredJob['highlighted'] = true;
-            if (!filteredJob['fixedLabel']) {
-              filteredJob['fixedLabel'] = {
-                entity: {
-                  entityLabel: this.competitionLabels[filteredJob['fieldFillingBar'] - 1],
-                },
-              };
+          .subscribe({
+            next: (response) => {
+              const filteredJob = FieldVaryService(initialFilteredJob);
+              filteredJob['highlighted'] = true;
+              if (!filteredJob['fixedLabel']) {
+                filteredJob['fixedLabel'] = {
+                  entity: {
+                    entityLabel: this.competitionLabels[filteredJob['fieldFillingBar'] - 1],
+                  },
+                };
+              }
+              filteredJob['fieldPictogram'] = response['data']['route']['entity']['fieldPictogram'];
+              this.highlighted = filteredJob;
+              this.list.unshift(filteredJob);
+              jobSubscription.unsubscribe();
+              this.loading = false;
+              this.loadingMore = false;
+            },
+            error: () => {
+              this.loading = false;
+              this.loadingMore = false;
             }
-            filteredJob['fieldPictogram'] = response['data']['route']['entity']['fieldPictogram'];
-            this.highlighted = filteredJob;
-            this.list.unshift(filteredJob);
-            jobSubscription.unsubscribe();
-            this.loading = false;
-            this.loadingMore = false;
-          }, () => {
-            this.loading = false;
-            this.loadingMore = false;
           });
         return;
       }

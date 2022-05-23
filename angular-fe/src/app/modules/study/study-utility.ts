@@ -16,6 +16,7 @@ import {StudyPageFieldRightColumn} from './models/study-page-field-right-column'
 import {StudyPageFieldRightColumnDataEntity} from './models/study-page-field-right-column-data-entity';
 import {YearOption} from './models/year-option';
 import {MappedStudyPage} from '@app/modules/study/models/mapped-study-page';
+import {getLangCode} from "@app/_core/router-utility";
 
 export class StudyUtility {
 
@@ -130,7 +131,7 @@ export class StudyUtility {
       nidEnabled: false,
       limit: offsetParameters?.limit,
       offset: offsetParameters?.offset,
-      lang: Language.et,
+      lang: getLangCode().toUpperCase(),
     };
   }
 

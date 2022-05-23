@@ -1,0 +1,18 @@
+uuid: b780ed19-63b1-48a5-8686-f4282ea90bdf
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.created
+field_name: created
+entity_type: node
+bundle: job_offer
+label: 'Loomise kuupäev'
+description: 'The time that the node was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

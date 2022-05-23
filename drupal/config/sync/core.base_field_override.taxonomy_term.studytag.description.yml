@@ -1,0 +1,20 @@
+uuid: 83043d13-ffda-4c82-9b7a-44ab9d2958f1
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytag
+  module:
+    - text
+id: taxonomy_term.studytag.description
+field_name: description
+entity_type: taxonomy_term
+bundle: studytag
+label: Kirjeldus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

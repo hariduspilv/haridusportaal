@@ -10,10 +10,10 @@ id: node.school.field_ownership_type
 field_name: field_ownership_type
 entity_type: node
 bundle: school
-label: 'Ownership type'
+label: Omandivorm
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

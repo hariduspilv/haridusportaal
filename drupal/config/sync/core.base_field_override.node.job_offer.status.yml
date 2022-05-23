@@ -1,0 +1,22 @@
+uuid: 54d3eb39-5da3-4653-835a-9979e0a8901b
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.job_offer
+id: node.job_offer.status
+field_name: status
+entity_type: node
+bundle: job_offer
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

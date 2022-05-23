@@ -1,0 +1,20 @@
+uuid: 4001c11f-23d3-4121-b42d-f60d5ac95b93
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page.uid
+field_name: uid
+entity_type: node
+bundle: learning_home_page
+label: Autor
+description: 'The username of the content author.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: 'Drupal\node\Entity\Node::getDefaultEntityOwner'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

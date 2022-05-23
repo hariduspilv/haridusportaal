@@ -477,7 +477,18 @@ class PluginManager
     private function loadRepository(RepositoryInterface $repo, $isGlobalRepo)
     {
         $packages = $repo->getPackages();
-        $sortedPackages = PackageSorter::sortPackages($packages);
+
+        $weights = array();
+        foreach ($packages as $package) {
+            if ($package->getType() === 'composer-plugin') {
+                $extra = $package->getExtra();
+                if ($package->getName() === 'composer/installers' || (isset($extra['plugin-modifies-install-path']) && $extra['plugin-modifies-install-path'] === true)) {
+                    $weights[$package->getName()] = -10000;
+                }
+            }
+        }
+
+        $sortedPackages = PackageSorter::sortPackages($packages, $weights);
         foreach ($sortedPackages as $package) {
             if (!($package instanceof CompletePackage)) {
                 continue;
@@ -656,7 +667,7 @@ class PluginManager
         }
 
         if (false === $allowPluginsConfig) {
-            return array('{^$}D' => false);
+            return array('{}' => false);
         }
 
         $rules = array();
