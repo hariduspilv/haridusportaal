@@ -57,6 +57,9 @@ class ProcessOskaStudiesData {
             'field_profession' => true,
             'title' => $j
           ]);
+          if(!$object['seotud_amet'][$job]) {
+            $context['results']['error'][] = t(' Error on line: '. ($index + 2) . ', related job with the name "' . $j . '" not found' );
+          }
         }
       }
       $object['ametiala'] = self::checkEntityReference('node', ['type' => 'oska_main_profession_page', 'title' =>  $item['ametiala']]);
