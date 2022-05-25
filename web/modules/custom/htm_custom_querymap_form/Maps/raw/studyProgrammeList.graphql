@@ -21,7 +21,8 @@ query studyProgrammeList(
         {operator: IN, field: "tid_1", value: $level, language: $lang, enabled: $levelEnabled},
         {operator: IN, field: "tid", value: $type, language: $lang, enabled: $typeEnabled},
         {operator: EQUAL, field: "content_type", value: ["study_programme"], language: $lang},
-        {operator: EQUAL, field: "status", value: "1"}
+        {operator: EQUAL, field: "status", value: "1"},
+        {operator: EQUAL, field: "langcode", value: [$lang]}
       ],
       groups:
       {conjunction: OR, conditions: [
