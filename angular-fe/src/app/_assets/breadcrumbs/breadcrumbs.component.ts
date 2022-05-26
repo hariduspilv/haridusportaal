@@ -5,6 +5,8 @@ import { TitleService } from '@app/_services/TitleService';
 import { getLangCode, isMainPage } from "@app/_core/router-utility";
 import { Router } from "@angular/router";
 import { TranslateService } from "@app/_modules/translate/translate.service";
+import { retry, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 export interface BreadcrumbsItem {
   title: string;
@@ -21,6 +23,8 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public data: BreadcrumbsItem[] = [];
   @Input() public path: string = '';
   @Input() public ellipsis: boolean = true;
+
+	private destroy$ = new Subject<void>();
 
   constructor(
     private settings: SettingsService,
@@ -48,6 +52,9 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 
   public ngOnDestroy(): void {
     this.titleService.setTitle('');
+
+		this.destroy$.next();
+		this.destroy$.complete();
   }
 
   private parseData(response): void {
@@ -72,13 +79,10 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
     };
 		const path = this.settings.query('getBreadcrumbs', variables);
 
-		const subscription = this.http.get(path).subscribe({
+		const subscription = this.http.get(path).pipe(retry(2), takeUntil(this.destroy$)).subscribe({
 			next: (response) => {
 				this.saveLanguageSwitchLinks(response);
 				this.parseData(response);
-			},
-			error: (error) => {
-				if (error) this.getData();	// it's hack to load breadcrumbs, but in real it is needed to redone graphql (or add CrossOrigin to backend?)
 			},
 			complete: () => subscription.unsubscribe(),
 		});
