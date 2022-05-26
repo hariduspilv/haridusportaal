@@ -34,8 +34,8 @@
           <icon aria-hidden="true" glyph="search" size="medium"></icon>
         </button>
 
-				<dropdown-menu
-					[languages]="availableLanguages"
+				<dropdown-menu style="display: none;"
+ 					[languages]="availableLanguages"
 					(onLanguageChange)="changeLanguage($event)"
 				></dropdown-menu>
 
