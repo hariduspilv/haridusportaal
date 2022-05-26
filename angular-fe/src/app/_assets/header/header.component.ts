@@ -322,7 +322,7 @@ export class HeaderComponent implements OnInit {
 			try {
 				this.navigate(translatePathTo(this.router.url, code));
 			} catch (error) {
-				this.navigate(code);
+				this.navigate(code === LanguageCodes.ESTONIAN ? '' : code);
 			}
 		}
 
