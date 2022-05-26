@@ -12,8 +12,11 @@ string associated with a Drupal user account.
 When creating a JWT, the iat and exp claims must be included. The exp cannot be more than
 24 hours later than the iat value.
 
-Like the main jwt module, the namespaced claim drupal / uid is used to indicate the user
-account to be used when authenticated. This must match the uid associated with the key ID.
+Like the jwt_auth_consumer module, the namespaced claim drupal / uid is used to
+determine the user account to be used when authenticated. You can also use a user
+uuid or username with claims "drupal / uuid" or "drupal / name". The claims are
+checked in the order listed here, and the first one that's populated is used to
+determine the user. This user uid must match the uid associated with the key ID.
 
 ## Request Header
 

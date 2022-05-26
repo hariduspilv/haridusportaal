@@ -1,4 +1,5 @@
 @ECHO OFF
 setlocal DISABLEDELAYEDEXPANSION
-SET BIN_TARGET=%~dp0/../composer/composer/bin/composer
+SET BIN_TARGET=%~dp0/composer
+SET COMPOSER_RUNTIME_BIN_DIR=%~dp0
 php "%BIN_TARGET%" %*

@@ -134,7 +134,7 @@ class QuickNodeCloneEntityFormBuilder extends EntityFormBuilder {
 
     // Get and store groups of original entity, if any.
     $groups = [];
-    if (\Drupal::moduleHandler()->moduleExists('gnode')) {
+    if ($this->moduleHandler->moduleExists('gnode')) {
       /** @var \Drupal\Core\Entity\ContentEntityInterface $original_entity */
       $group_contents = GroupContent::loadByEntity($original_entity);
       foreach ($group_contents as $group_content) {
@@ -168,7 +168,8 @@ class QuickNodeCloneEntityFormBuilder extends EntityFormBuilder {
       }
       $clone_status_config = $this->getConfigSettings('clone_status');
       if (!$clone_status_config) {
-        $translated_node->setPublished($default_bundle_status);
+        $key = $translated_node->getEntityType()->getKey('published');
+        $translated_node->set($key, $default_bundle_status);
       }
 
       $translated_node->setTitle($this->t('@prepend_text@title',
