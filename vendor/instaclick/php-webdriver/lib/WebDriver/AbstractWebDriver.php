@@ -90,11 +90,11 @@ abstract class AbstractWebDriver
     /**
      * Curl request to webdriver server.
      *
-     * @param string $requestMethod HTTP request method, e.g., 'GET', 'POST', or 'DELETE'
-     * @param string $command       If not defined in methods() this function will throw.
-     * @param array  $parameters    If an array(), they will be posted as JSON parameters
-     *                              If a number or string, "/$params" is appended to url
-     * @param array  $extraOptions  key=>value pairs of curl options to pass to curl_setopt()
+     * @param string               $requestMethod HTTP request method, e.g., 'GET', 'POST', or 'DELETE'
+     * @param string               $command       If not defined in methods() this function will throw.
+     * @param array|integer|string $parameters    If an array(), they will be posted as JSON parameters
+     *                                            If a number or string, "/$params" is appended to url
+     * @param array                $extraOptions  key=>value pairs of curl options to pass to curl_setopt()
      *
      * @return array array('value' => ..., 'info' => ...)
      *
@@ -119,6 +119,8 @@ abstract class AbstractWebDriver
         if ($parameters && (is_int($parameters) || is_string($parameters))) {
             $url .= '/' . $parameters;
         }
+
+        $this->assertNonObjectParameters($parameters);
 
         list($rawResult, $info) = ServiceFactory::getInstance()->getService('service.curl')->execute($requestMethod, $url, $parameters, $extraOptions);
 
@@ -157,7 +159,12 @@ abstract class AbstractWebDriver
         }
 
         $value   = (is_array($result) && array_key_exists('value', $result)) ? $result['value'] : null;
-        $message = (is_array($value) && array_key_exists('message', $value)) ? $value['message'] : null;
+        $message = (is_array($result) && array_key_exists('message', $result))
+            ? $result['message']
+            : ((is_array($value) && array_key_exists('message', $value)) ? $value['message'] : null);
+        $error   = (is_array($result) && array_key_exists('error', $result))
+            ? $result['error']
+            : ((is_array($value) && array_key_exists('error', $value)) ? $value['error'] : null);
 
         // if not success, throw exception
         if (isset($result['status']) && (int) $result['status'] !== 0) {
@@ -167,16 +174,9 @@ abstract class AbstractWebDriver
             );
         }
 
-        if (isset($value['error'])) {
+        if (isset($error)) {
             throw WebDriverException::factory(
-                $value['error'],
-                $message
-            );
-        }
-
-        if (isset($value['ready']) && $value['ready'] !== true) {
-            throw WebDriverException::factory(
-                WebDriverException::CURL_EXEC,
+                $error,
                 $message
             );
         }
@@ -196,6 +196,32 @@ abstract class AbstractWebDriver
             'info'       => $info,
             'sessionId'  => $sessionId,
             'sessionUrl' => $sessionId ? $this->url . '/session/' . $sessionId : $info['url'],
+        );
+    }
+
+    /**
+     * @param mixed $parameters
+     */
+    private function assertNonObjectParameters($parameters)
+    {
+        if ($parameters === null || is_scalar($parameters)) {
+            return;
+        }
+
+        if (is_array($parameters)) {
+            foreach ($parameters as $value) {
+                $this->assertNonObjectParameters($value);
+            }
+
+            return;
+        }
+
+        throw WebDriverException::factory(
+            WebDriverException::UNEXPECTED_PARAMETERS,
+            sprintf(
+                "Unable to serialize non-scalar type %s",
+                is_object($parameters) ? get_class($parameters) : gettype($parameters)
+            )
         );
     }
 

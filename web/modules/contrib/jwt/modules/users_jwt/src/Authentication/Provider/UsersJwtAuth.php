@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Firebase\JWT\JWT;
 
 /**
- * Class UsersJwtAuth.
+ * Authentication provider UsersJwtAuth.
  */
 class UsersJwtAuth implements AuthenticationProviderInterface {
 
@@ -109,15 +109,58 @@ class UsersJwtAuth implements AuthenticationProviderInterface {
     if ($header->alg !== $key->alg) {
       return $this->debugLog('Bad header alg', NULL, $payload, $key);
     }
-    if (empty($payload->drupal->uid) || (int) $payload->drupal->uid !== $key->uid) {
-      return $this->debugLog('Bad uid claim', NULL, $payload, $key);
-    }
     /** @var \Drupal\user\UserInterface $user */
-    $user = $this->entityTypeManager->getStorage('user')->load($key->uid);
-    if ($user && !$user->isBlocked()) {
-      return $user;
+    [$user, $reason] = $this->loadUserForJwt($payload);
+    if (!$user) {
+      return $this->debugLog($reason, NULL, $payload, $key);
     }
-    return $this->debugLog('Bad user', NULL, $payload, $key, $user);
+    if ($key->uid !== (int) $user->id()) {
+      return $this->debugLog('User uid does not match key uid', NULL, $payload, $key, $user);
+    }
+    return $user;
+  }
+
+  /**
+   * Find and load the user for a JWT.
+   *
+   * @todo Unify this code and the code in JwtAuthConsumerSubscriber.
+   *
+   * @param object $payload
+   *   The JWT claims.
+   *
+   * @return array
+   *   The user and reason if no user was loaded.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  protected function loadUserForJwt(object $payload): array {
+    foreach (['uid', 'uuid', 'name'] as $id_type) {
+      if (isset($payload->drupal->{$id_type})) {
+        $id = $payload->drupal->{$id_type};
+        break;
+      }
+    }
+    if ($id === NULL) {
+      return [
+        NULL,
+        'No Drupal uid, uuid, or name was provided in the JWT payload.',
+      ];
+    }
+    $user_storage = $this->entityTypeManager->getStorage('user');
+    if ($id_type === 'uid') {
+      $user = $user_storage->load($id);
+    }
+    else {
+      $user = current($user_storage->loadByProperties([$id_type => $id]));
+    }
+    if (!$user) {
+      return [NULL, 'User does not exist.'];
+    }
+    if ($user->isBlocked()) {
+      return [NULL, 'User is blocked.'];
+    }
+    return [$user, NULL];
   }
 
   /**

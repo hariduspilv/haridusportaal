@@ -22,6 +22,7 @@ use const T_DOC_COMMENT_STAR;
 use const T_DOC_COMMENT_STRING;
 use const T_DOC_COMMENT_TAG;
 use const T_DOC_COMMENT_WHITESPACE;
+use const T_MATCH_ARROW;
 use const T_VARIABLE;
 use const T_WHITESPACE;
 
@@ -42,6 +43,9 @@ class DuplicateSpacesSniff implements Sniff
 	/** @var bool */
 	public $ignoreSpacesInParameters = false;
 
+	/** @var bool */
+	public $ignoreSpacesInMatch = false;
+
 	/**
 	 * @return array<int, (int|string)>
 	 */
@@ -56,7 +60,6 @@ class DuplicateSpacesSniff implements Sniff
 
 	/**
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-	 * @param File $phpcsFile
 	 * @param int $whitespacePointer
 	 */
 	public function process(File $phpcsFile, $whitespacePointer): void
@@ -90,6 +93,16 @@ class DuplicateSpacesSniff implements Sniff
 					$pointerAfter !== null
 					&& $tokens[$pointerAfter]['code'] === T_VARIABLE
 					&& ParameterHelper::isParameter($phpcsFile, $pointerAfter)
+				) {
+					return;
+				}
+			}
+
+			if ($this->ignoreSpacesInMatch) {
+				$pointerAfter = TokenHelper::findNextExcluding($phpcsFile, T_WHITESPACE, $whitespacePointer + 1);
+				if (
+					$pointerAfter !== null
+					&& $tokens[$pointerAfter]['code'] === T_MATCH_ARROW
 				) {
 					return;
 				}

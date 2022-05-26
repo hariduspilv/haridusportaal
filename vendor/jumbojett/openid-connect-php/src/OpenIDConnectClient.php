@@ -31,7 +31,7 @@ namespace Jumbojett;
  * It can be downloaded from: http://phpseclib.sourceforge.net/
  */
 
-if (!class_exists('\phpseclib\Crypt\RSA') && !class_exists('Crypt_RSA')) {
+if (!class_exists('\phpseclib3\Crypt\RSA') && !class_exists('\phpseclib\Crypt\RSA') && !class_exists('Crypt_RSA')) {
     user_error('Unable to find phpseclib Crypt/RSA.php.  Ensure phpseclib is installed and in include_path before you include this file');
 }
 
@@ -211,7 +211,7 @@ class OpenIDConnectClient
     protected $verifiedClaims = array();
 
     /**
-     * @var callable validator function for issuer claim
+     * @var callable|null validator function for issuer claim
      */
     private $issuerValidator;
 
@@ -259,10 +259,6 @@ class OpenIDConnectClient
 
         $this->clientID = $client_id;
         $this->clientSecret = $client_secret;
-
-        $this->issuerValidator = function($iss){
-	        return ($iss === $this->getIssuer() || $iss === $this->getWellKnownIssuer() || $iss === $this->getWellKnownIssuer(true));
-        };
     }
 
     /**
@@ -455,7 +451,7 @@ class OpenIDConnectClient
                 'post_logout_redirect_uri' => $redirect);
         }
 
-        $signout_endpoint  .= (strpos($signout_endpoint, '?') === false ? '?' : '&') . http_build_query( $signout_params, null, '&', $this->enc_type);
+        $signout_endpoint  .= (strpos($signout_endpoint, '?') === false ? '?' : '&') . http_build_query( $signout_params, '', '&', $this->enc_type);
         $this->redirect($signout_endpoint);
     }
 
@@ -592,19 +588,35 @@ class OpenIDConnectClient
 
         if ($this->httpUpgradeInsecureRequests && isset($_SERVER['HTTP_UPGRADE_INSECURE_REQUESTS']) && ($_SERVER['HTTP_UPGRADE_INSECURE_REQUESTS'] === '1')) {
             $protocol = 'https';
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+            $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+        } elseif (isset($_SERVER['REQUEST_SCHEME'])) {
+            $protocol = $_SERVER['REQUEST_SCHEME'];
+        } elseif (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            $protocol = 'https';
         } else {
-            $protocol = @$_SERVER['HTTP_X_FORWARDED_PROTO']
-                ?: @$_SERVER['REQUEST_SCHEME']
-                    ?: ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http');
+            $protocol = 'http';
+        }
+	    
+        if (isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
+            $port = intval($_SERVER['HTTP_X_FORWARDED_PORT']);
+        } elseif (isset($_SERVER['SERVER_PORT'])) {
+            $port = intval($_SERVER['SERVER_PORT']);
+        } elseif ($protocol === 'https') {
+            $port = 443;
+        } else {
+            $port = 80;
         }
 
-        $port = @intval($_SERVER['HTTP_X_FORWARDED_PORT'])
-            ?: @intval($_SERVER['SERVER_PORT'])
-                ?: (($protocol === 'https') ? 443 : 80);
-
-        $host = @explode(':', $_SERVER['HTTP_HOST'])[0]
-            ?: @$_SERVER['SERVER_NAME']
-                ?: @$_SERVER['SERVER_ADDR'];
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $host = explode(':', $_SERVER['HTTP_HOST'])[0];
+        } elseif (isset($_SERVER['SERVER_NAME'])) {
+            $host = $_SERVER['SERVER_NAME'];
+        } elseif (isset($_SERVER['SERVER_ADDR'])) {
+            $host = $_SERVER['SERVER_ADDR'];
+        } else {
+            return 'http:///';
+        }
 
         $port = (443 === $port) || (80 === $port) ? '' : ':' . $port;
 	    
@@ -682,7 +694,7 @@ class OpenIDConnectClient
             ));
         }
 
-        $auth_endpoint .= (strpos($auth_endpoint, '?') === false ? '?' : '&') . http_build_query($auth_params, null, '&', $this->enc_type);
+        $auth_endpoint .= (strpos($auth_endpoint, '?') === false ? '?' : '&') . http_build_query($auth_params, '', '&', $this->enc_type);
 
         $this->commitSession();
         $this->redirect($auth_endpoint);
@@ -708,7 +720,7 @@ class OpenIDConnectClient
         );
 
         // Convert token params to string format
-        $post_params = http_build_query($post_data, null, '&', $this->enc_type);
+        $post_params = http_build_query($post_data, '', '&', $this->enc_type);
 
         return json_decode($this->fetchURL($token_endpoint, $post_params, $headers));
     }
@@ -748,7 +760,7 @@ class OpenIDConnectClient
         }
 
         // Convert token params to string format
-        $post_params = http_build_query($post_data, null, '&', $this->enc_type);
+        $post_params = http_build_query($post_data, '', '&', $this->enc_type);
 
         return json_decode($this->fetchURL($token_endpoint, $post_params, $headers));
     }
@@ -758,14 +770,13 @@ class OpenIDConnectClient
      * Requests ID and Access tokens
      *
      * @param string $code
+     * @param string[] $headers Extra HTTP headers to pass to the token endpoint
      * @return mixed
      * @throws OpenIDConnectClientException
      */
-    protected function requestTokens($code) {
+    protected function requestTokens($code, $headers = array()) {
         $token_endpoint = $this->getProviderConfigValue('token_endpoint');
         $token_endpoint_auth_methods_supported = $this->getProviderConfigValue('token_endpoint_auth_methods_supported', ['client_secret_basic']);
-
-        $headers = [];
 
         $grant_type = 'authorization_code';
 
@@ -777,9 +788,10 @@ class OpenIDConnectClient
             'client_secret' => $this->clientSecret
         );
 
+        $authorizationHeader = null;
         # Consider Basic authentication if provider config is set this way
         if (in_array('client_secret_basic', $token_endpoint_auth_methods_supported, true)) {
-            $headers = ['Authorization: Basic ' . base64_encode(urlencode($this->clientID) . ':' . urlencode($this->clientSecret))];
+            $authorizationHeader = 'Authorization: Basic ' . base64_encode(urlencode($this->clientID) . ':' . urlencode($this->clientSecret));
             unset($token_params['client_secret']);
 	        unset($token_params['client_id']);
         }
@@ -787,8 +799,10 @@ class OpenIDConnectClient
         $ccm = $this->getCodeChallengeMethod();
         $cv = $this->getCodeVerifier();
         if (!empty($ccm) && !empty($cv)) {
-            $headers = [];
-            unset($token_params['client_secret']);
+            if (empty($this->getClientSecret())) {
+                $authorizationHeader = null;
+                unset($token_params['client_secret']);
+            }
             $token_params = array_merge($token_params, array(
                 'client_id' => $this->clientID,
                 'code_verifier' => $this->getCodeVerifier()
@@ -796,7 +810,11 @@ class OpenIDConnectClient
         }
 
         // Convert token params to string format
-        $token_params = http_build_query($token_params, null, '&', $this->enc_type);
+        $token_params = http_build_query($token_params, '', '&', $this->enc_type);
+
+        if (null !== $authorizationHeader) {
+            $headers[] = $authorizationHeader;
+        }
 
         $this->tokenResponse = json_decode($this->fetchURL($token_endpoint, $token_params, $headers));
 
@@ -834,7 +852,7 @@ class OpenIDConnectClient
         }
 
         // Convert token params to string format
-        $token_params = http_build_query($token_params, null, '&', $this->enc_type);
+        $token_params = http_build_query($token_params, '', '&', $this->enc_type);
 
         $json = json_decode($this->fetchURL($token_endpoint, $token_params, $headers));
 
@@ -898,7 +916,7 @@ class OpenIDConnectClient
      * @throws OpenIDConnectClientException
      */
     private function verifyRSAJWTsignature($hashtype, $key, $payload, $signature, $signatureType) {
-        if (!class_exists('\phpseclib\Crypt\RSA') && !class_exists('Crypt_RSA')) {
+        if (!class_exists('\phpseclib3\Crypt\RSA') && !class_exists('\phpseclib\Crypt\RSA') && !class_exists('Crypt_RSA')) {
             throw new OpenIDConnectClientException('Crypt_RSA support unavailable.');
         }
         if (!(property_exists($key, 'n') && property_exists($key, 'e'))) {
@@ -912,14 +930,25 @@ class OpenIDConnectClient
             '  <Modulus>' . b64url2b64($key->n) . "</Modulus>\r\n" .
             '  <Exponent>' . b64url2b64($key->e) . "</Exponent>\r\n" .
             '</RSAKeyValue>';
-        if(class_exists('Crypt_RSA', false)) {
+        if (class_exists('\phpseclib3\Crypt\RSA', false)) {
+            $key = \phpseclib3\Crypt\PublicKeyLoader::load($public_key_xml)
+                ->withHash($hashtype);
+            if ($signatureType === 'PSS') {
+                $key = $key->withMGFHash($hashtype)
+                    ->withPadding(\phpseclib3\Crypt\RSA::SIGNATURE_PSS);
+            } else {
+                $key = $key->withPadding(\phpseclib3\Crypt\RSA::SIGNATURE_PKCS1);
+            }
+            return $key->verify($payload, $signature);
+        } elseif (class_exists('Crypt_RSA', false)) {
             $rsa = new Crypt_RSA();
             $rsa->setHash($hashtype);
             if ($signatureType === 'PSS') {
                 $rsa->setMGFHash($hashtype);
             }
             $rsa->loadKey($public_key_xml, Crypt_RSA::PUBLIC_FORMAT_XML);
-            $rsa->signatureMode = $signatureType === 'PSS' ? Crypt_RSA::SIGNATURE_PSS : Crypt_RSA::SIGNATURE_PKCS1;
+            $rsa->setSignatureMode($signatureType === 'PSS' ? Crypt_RSA::SIGNATURE_PSS : Crypt_RSA::SIGNATURE_PKCS1);
+            return $rsa->verify($payload, $signature);
         } else {
             $rsa = new \phpseclib\Crypt\RSA();
             $rsa->setHash($hashtype);
@@ -927,9 +956,9 @@ class OpenIDConnectClient
                 $rsa->setMGFHash($hashtype);
             }
             $rsa->loadKey($public_key_xml, \phpseclib\Crypt\RSA::PUBLIC_FORMAT_XML);
-            $rsa->signatureMode = $signatureType === 'PSS' ? \phpseclib\Crypt\RSA::SIGNATURE_PSS : \phpseclib\Crypt\RSA::SIGNATURE_PKCS1;
+            $rsa->setSignatureMode($signatureType === 'PSS' ? \phpseclib\Crypt\RSA::SIGNATURE_PSS : \phpseclib\Crypt\RSA::SIGNATURE_PKCS1);
+            return $rsa->verify($payload, $signature);
         }
-        return $rsa->verify($payload, $signature);
     }
 
     /**
@@ -1009,6 +1038,19 @@ class OpenIDConnectClient
     }
 
     /**
+     * @param string $iss
+     * @return bool
+     * @throws OpenIDConnectClientException
+     */
+    protected function validateIssuer($iss) {
+        if ($this->issuerValidator !== null) {
+            return $this->issuerValidator->__invoke($iss);
+        }
+
+        return ($iss === $this->getIssuer() || $iss === $this->getWellKnownIssuer() || $iss === $this->getWellKnownIssuer(true));
+    }
+
+    /**
      * @param object $claims
      * @param string|null $accessToken
      * @return bool
@@ -1024,7 +1066,7 @@ class OpenIDConnectClient
             $len = ((int)$bit)/16;
             $expected_at_hash = $this->urlEncode(substr(hash('sha'.$bit, $accessToken, true), 0, $len));
         }
-        return (($this->issuerValidator->__invoke($claims->iss))
+        return (($this->validateIssuer($claims->iss))
             && (($claims->aud === $this->clientID) || in_array($this->clientID, $claims->aud, true))
             && (!isset($claims->nonce) || $claims->nonce === $this->getNonce())
             && ( !isset($claims->exp) || ((gettype($claims->exp) === 'integer') && ($claims->exp >= time() - $this->leeway)))
@@ -1467,7 +1509,7 @@ class OpenIDConnectClient
         $clientSecret = $clientSecret !== null ? $clientSecret : $this->clientSecret;
 
         // Convert token params to string format
-        $post_params = http_build_query($post_data, null, '&');
+        $post_params = http_build_query($post_data, '', '&');
         $headers = ['Authorization: Basic ' . base64_encode(urlencode($clientId) . ':' . urlencode($clientSecret)),
             'Accept: application/json'];
 
@@ -1498,7 +1540,7 @@ class OpenIDConnectClient
         $clientSecret = $clientSecret !== null ? $clientSecret : $this->clientSecret;
 
         // Convert token params to string format
-        $post_params = http_build_query($post_data, null, '&');
+        $post_params = http_build_query($post_data, '', '&');
         $headers = ['Authorization: Basic ' . base64_encode(urlencode($clientId) . ':' . urlencode($clientSecret)),
             'Accept: application/json'];
 
@@ -1537,7 +1579,7 @@ class OpenIDConnectClient
      * @return bool
      */
     public function canVerifySignatures() {
-        return class_exists('\phpseclib\Crypt\RSA') || class_exists('Crypt_RSA');
+        return class_exists('\phpseclib3\Crypt\RSA') || class_exists('\phpseclib\Crypt\RSA') || class_exists('Crypt_RSA');
     }
 
     /**

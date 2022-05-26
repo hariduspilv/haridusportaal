@@ -6,7 +6,7 @@ package: Web services
 dependencies:
   - jwt:jwt
 
-# Information added by Drupal.org packaging script on 2022-04-17
-version: '8.x-1.0-rc2'
+# Information added by Drupal.org packaging script on 2022-05-23
+version: '8.x-1.0'
 project: 'jwt'
-datestamp: 1650156909
+datestamp: 1653322601

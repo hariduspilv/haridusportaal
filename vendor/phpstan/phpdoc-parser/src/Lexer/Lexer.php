@@ -2,6 +2,13 @@
 
 namespace PHPStan\PhpDocParser\Lexer;
 
+use function array_keys;
+use function assert;
+use function count;
+use function implode;
+use function preg_match_all;
+use const PREG_SET_ORDER;
+
 /**
  * Implementation based on Nette Tokenizer (New BSD License; https://github.com/nette/tokenizer)
  */
@@ -41,12 +48,14 @@ class Lexer
 	public const TOKEN_WILDCARD = 30;
 	public const TOKEN_OPEN_CURLY_BRACKET = 31;
 	public const TOKEN_CLOSE_CURLY_BRACKET = 32;
+	public const TOKEN_NEGATED = 33;
 
 	public const TOKEN_LABELS = [
 		self::TOKEN_REFERENCE => '\'&\'',
 		self::TOKEN_UNION => '\'|\'',
 		self::TOKEN_INTERSECTION => '\'&\'',
 		self::TOKEN_NULLABLE => '\'?\'',
+		self::TOKEN_NEGATED => '\'!\'',
 		self::TOKEN_OPEN_PARENTHESES => '\'(\'',
 		self::TOKEN_CLOSE_PARENTHESES => '\')\'',
 		self::TOKEN_OPEN_ANGLE_BRACKET => '\'<\'',
@@ -122,6 +131,7 @@ class Lexer
 			self::TOKEN_UNION => '\\|',
 			self::TOKEN_INTERSECTION => '&',
 			self::TOKEN_NULLABLE => '\\?',
+			self::TOKEN_NEGATED => '!',
 
 			self::TOKEN_OPEN_PARENTHESES => '\\(',
 			self::TOKEN_CLOSE_PARENTHESES => '\\)',
