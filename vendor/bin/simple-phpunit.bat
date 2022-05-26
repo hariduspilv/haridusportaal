@@ -1,4 +1,5 @@
 @ECHO OFF
 setlocal DISABLEDELAYEDEXPANSION
-SET BIN_TARGET=%~dp0/../symfony/phpunit-bridge/bin/simple-phpunit
+SET BIN_TARGET=%~dp0/simple-phpunit
+SET COMPOSER_RUNTIME_BIN_DIR=%~dp0
 php "%BIN_TARGET%" %*

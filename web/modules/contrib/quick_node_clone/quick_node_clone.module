@@ -93,7 +93,7 @@ function _quick_node_clone_has_clone_permission(ContentEntityInterface $node) {
         // @todo Use group access control handler when we can rely on group 1.0.
         $access = $group_content->getContentPlugin()
           ->createEntityAccess($group_content->getGroup(), $current_user);
-        if ($access) {
+        if ($access->isAllowed()) {
           return TRUE;
         }
       }

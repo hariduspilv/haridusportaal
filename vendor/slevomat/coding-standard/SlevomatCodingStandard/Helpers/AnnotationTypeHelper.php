@@ -11,11 +11,14 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\CallableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\CallableTypeParameterNode;
+use PHPStan\PhpDocParser\Ast\Type\ConditionalTypeForParameterNode;
+use PHPStan\PhpDocParser\Ast\Type\ConditionalTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\ConstTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\OffsetAccessTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
@@ -34,7 +37,6 @@ class AnnotationTypeHelper
 {
 
 	/**
-	 * @param TypeNode $typeNode
 	 * @return IdentifierTypeNode[]|ThisTypeNode[]
 	 */
 	public static function getIdentifierTypeNodes(TypeNode $typeNode): array
@@ -86,13 +88,36 @@ class AnnotationTypeHelper
 			return [];
 		}
 
+		if ($typeNode instanceof ConditionalTypeNode) {
+			return array_merge(
+				self::getIdentifierTypeNodes($typeNode->subjectType),
+				self::getIdentifierTypeNodes($typeNode->targetType),
+				self::getIdentifierTypeNodes($typeNode->if),
+				self::getIdentifierTypeNodes($typeNode->else)
+			);
+		}
+
+		if ($typeNode instanceof ConditionalTypeForParameterNode) {
+			return array_merge(
+				self::getIdentifierTypeNodes($typeNode->targetType),
+				self::getIdentifierTypeNodes($typeNode->if),
+				self::getIdentifierTypeNodes($typeNode->else)
+			);
+		}
+
+		if ($typeNode instanceof OffsetAccessTypeNode) {
+			return array_merge(
+				self::getIdentifierTypeNodes($typeNode->type),
+				self::getIdentifierTypeNodes($typeNode->offset)
+			);
+		}
+
 		/** @var IdentifierTypeNode|ThisTypeNode $typeNode */
 		$typeNode = $typeNode;
 		return [$typeNode];
 	}
 
 	/**
-	 * @param TypeNode $typeNode
 	 * @return ConstTypeNode[]
 	 */
 	public static function getConstantTypeNodes(TypeNode $typeNode): array
@@ -140,6 +165,30 @@ class AnnotationTypeHelper
 			return $constTypeNodes;
 		}
 
+		if ($typeNode instanceof ConditionalTypeNode) {
+			return array_merge(
+				self::getConstantTypeNodes($typeNode->subjectType),
+				self::getConstantTypeNodes($typeNode->targetType),
+				self::getConstantTypeNodes($typeNode->if),
+				self::getConstantTypeNodes($typeNode->else)
+			);
+		}
+
+		if ($typeNode instanceof ConditionalTypeForParameterNode) {
+			return array_merge(
+				self::getConstantTypeNodes($typeNode->targetType),
+				self::getConstantTypeNodes($typeNode->if),
+				self::getConstantTypeNodes($typeNode->else)
+			);
+		}
+
+		if ($typeNode instanceof OffsetAccessTypeNode) {
+			return array_merge(
+				self::getConstantTypeNodes($typeNode->type),
+				self::getConstantTypeNodes($typeNode->offset)
+			);
+		}
+
 		if (!$typeNode instanceof ConstTypeNode) {
 			return [];
 		}
@@ -148,7 +197,6 @@ class AnnotationTypeHelper
 	}
 
 	/**
-	 * @param TypeNode $typeNode
 	 * @return UnionTypeNode[]
 	 */
 	public static function getUnionTypeNodes(TypeNode $typeNode): array
@@ -197,11 +245,34 @@ class AnnotationTypeHelper
 			return $unionTypeNodes;
 		}
 
+		if ($typeNode instanceof ConditionalTypeNode) {
+			return array_merge(
+				self::getUnionTypeNodes($typeNode->subjectType),
+				self::getUnionTypeNodes($typeNode->targetType),
+				self::getUnionTypeNodes($typeNode->if),
+				self::getUnionTypeNodes($typeNode->else)
+			);
+		}
+
+		if ($typeNode instanceof ConditionalTypeForParameterNode) {
+			return array_merge(
+				self::getUnionTypeNodes($typeNode->targetType),
+				self::getUnionTypeNodes($typeNode->if),
+				self::getUnionTypeNodes($typeNode->else)
+			);
+		}
+
+		if ($typeNode instanceof OffsetAccessTypeNode) {
+			return array_merge(
+				self::getUnionTypeNodes($typeNode->type),
+				self::getUnionTypeNodes($typeNode->offset)
+			);
+		}
+
 		return [];
 	}
 
 	/**
-	 * @param TypeNode $typeNode
 	 * @return ArrayTypeNode[]
 	 */
 	public static function getArrayTypeNodes(TypeNode $typeNode): array
@@ -249,12 +320,35 @@ class AnnotationTypeHelper
 			return $arrayTypeNodes;
 		}
 
+		if ($typeNode instanceof ConditionalTypeNode) {
+			return array_merge(
+				self::getArrayTypeNodes($typeNode->subjectType),
+				self::getArrayTypeNodes($typeNode->targetType),
+				self::getArrayTypeNodes($typeNode->if),
+				self::getArrayTypeNodes($typeNode->else)
+			);
+		}
+
+		if ($typeNode instanceof ConditionalTypeForParameterNode) {
+			return array_merge(
+				self::getArrayTypeNodes($typeNode->targetType),
+				self::getArrayTypeNodes($typeNode->if),
+				self::getArrayTypeNodes($typeNode->else)
+			);
+		}
+
+		if ($typeNode instanceof OffsetAccessTypeNode) {
+			return array_merge(
+				self::getArrayTypeNodes($typeNode->type),
+				self::getArrayTypeNodes($typeNode->offset)
+			);
+		}
+
 		return [];
 	}
 
 	/**
 	 * @param IdentifierTypeNode|ThisTypeNode $typeNode
-	 * @return string
 	 */
 	public static function getTypeHintFromNode(TypeNode $typeNode): string
 	{
@@ -265,7 +359,7 @@ class AnnotationTypeHelper
 
 	public static function export(TypeNode $typeNode): string
 	{
-		$exportedTypeNode = preg_replace(['~\\s*(&|\|)\\s*~'], '\\1', (string) $typeNode);
+		$exportedTypeNode = (string) preg_replace(['~\\s*([&|])\\s*~'], '\\1', (string) $typeNode);
 
 		if (
 			$typeNode instanceof UnionTypeNode
@@ -362,6 +456,33 @@ class AnnotationTypeHelper
 			);
 		}
 
+		if ($masterTypeNode instanceof ConditionalTypeNode) {
+			return new ConditionalTypeNode(
+				self::change($masterTypeNode->subjectType, $typeNodeToChange, $changedTypeNode),
+				self::change($masterTypeNode->targetType, $typeNodeToChange, $changedTypeNode),
+				self::change($masterTypeNode->if, $typeNodeToChange, $changedTypeNode),
+				self::change($masterTypeNode->else, $typeNodeToChange, $changedTypeNode),
+				$masterTypeNode->negated
+			);
+		}
+
+		if ($masterTypeNode instanceof ConditionalTypeForParameterNode) {
+			return new ConditionalTypeForParameterNode(
+				$masterTypeNode->parameterName,
+				self::change($masterTypeNode->targetType, $typeNodeToChange, $changedTypeNode),
+				self::change($masterTypeNode->if, $typeNodeToChange, $changedTypeNode),
+				self::change($masterTypeNode->else, $typeNodeToChange, $changedTypeNode),
+				$masterTypeNode->negated
+			);
+		}
+
+		if ($masterTypeNode instanceof OffsetAccessTypeNode) {
+			return new OffsetAccessTypeNode(
+				self::change($masterTypeNode->type, $typeNodeToChange, $changedTypeNode),
+				self::change($masterTypeNode->offset, $typeNodeToChange, $changedTypeNode)
+			);
+		}
+
 		return clone $masterTypeNode;
 	}
 
@@ -449,11 +570,7 @@ class AnnotationTypeHelper
 	}
 
 	/**
-	 * @param TypeNode $typeNode
-	 * @param File $phpcsFile
-	 * @param int $pointer
 	 * @param array<int, string> $traversableTypeHints
-	 * @return bool
 	 */
 	public static function containsTraversableType(TypeNode $typeNode, File $phpcsFile, int $pointer, array $traversableTypeHints): bool
 	{
@@ -485,16 +602,18 @@ class AnnotationTypeHelper
 			}
 		}
 
-		return false;
+		return
+			(
+				$typeNode instanceof ConditionalTypeNode
+				|| $typeNode instanceof ConditionalTypeForParameterNode
+			) && (
+				self::containsTraversableType($typeNode->if, $phpcsFile, $pointer, $traversableTypeHints)
+				|| self::containsTraversableType($typeNode->else, $phpcsFile, $pointer, $traversableTypeHints)
+			);
 	}
 
 	/**
-	 * @param TypeNode $typeNode
-	 * @param File $phpcsFile
-	 * @param int $pointer
 	 * @param array<int, string> $traversableTypeHints
-	 * @param bool $inTraversable
-	 * @return bool
 	 */
 	public static function containsItemsSpecificationForTraversable(
 		TypeNode $typeNode,
@@ -535,6 +654,11 @@ class AnnotationTypeHelper
 		}
 
 		if ($typeNode instanceof IdentifierTypeNode) {
+			if (TypeHintHelper::isTypeDefinedInAnnotation($phpcsFile, $pointer, $typeNode->name)) {
+				// We can expect it's better type for traversable
+				return true;
+			}
+
 			if (!$inTraversable) {
 				return false;
 			}
@@ -582,13 +706,23 @@ class AnnotationTypeHelper
 			}
 		}
 
+		if ($typeNode instanceof ConditionalTypeNode || $typeNode instanceof ConditionalTypeForParameterNode) {
+			return
+				self::containsItemsSpecificationForTraversable($typeNode->if, $phpcsFile, $pointer, $traversableTypeHints, $inTraversable)
+				|| self::containsItemsSpecificationForTraversable(
+					$typeNode->else,
+					$phpcsFile,
+					$pointer,
+					$traversableTypeHints,
+					$inTraversable
+				);
+		}
+
 		return false;
 	}
 
 	/**
 	 * @param CallableTypeNode|GenericTypeNode|IdentifierTypeNode|ThisTypeNode|ArrayTypeNode|ArrayShapeNode|ConstTypeNode $typeNode
-	 * @param bool $enableUnionTypeHint
-	 * @return string
 	 */
 	public static function getTypeHintFromOneType(TypeNode $typeNode, bool $enableUnionTypeHint = false): string
 	{
@@ -643,10 +777,7 @@ class AnnotationTypeHelper
 
 	/**
 	 * @param UnionTypeNode|IntersectionTypeNode $typeNode
-	 * @param File $phpcsFile
-	 * @param int $pointer
 	 * @param array<int, string> $traversableTypeHints
-	 * @param bool $enableUnionTypeHint
 	 * @return string[]
 	 */
 	public static function getTraversableTypeHintsFromType(
@@ -687,7 +818,6 @@ class AnnotationTypeHelper
 
 	/**
 	 * @param UnionTypeNode|IntersectionTypeNode $typeNode
-	 * @return ?TypeNode
 	 */
 	public static function getItemsSpecificationTypeFromType(TypeNode $typeNode): ?TypeNode
 	{

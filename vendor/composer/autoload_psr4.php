@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
+    'phpseclib3\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
     'nodespark\\DESConnector\\' => array($vendorDir . '/nodespark/des-connector/src/DESConnector'),
     'enshrined\\svgSanitize\\' => array($vendorDir . '/enshrined/svg-sanitize/src'),
@@ -71,6 +71,7 @@ return array(
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src/Prophecy'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'PhpLang\\' => array($vendorDir . '/phplang/scope-exit/src'),
+    'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'PHPStan\\PhpDocParser\\' => array($vendorDir . '/phpstan/phpdoc-parser/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Nyholm\\Dsn\\' => array($vendorDir . '/nyholm/dsn/src'),
@@ -143,7 +144,7 @@ return array(
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
     'Composer\\' => array($vendorDir . '/composer/composer/src/Composer'),
-    'Behat\\Mink\\Driver\\' => array($vendorDir . '/behat/mink-selenium2-driver/src', $vendorDir . '/friends-of-behat/mink-browserkit-driver/src'),
+    'Behat\\Mink\\Driver\\' => array($vendorDir . '/friends-of-behat/mink-browserkit-driver/src', $vendorDir . '/behat/mink-selenium2-driver/src'),
     'Behat\\Mink\\' => array($vendorDir . '/behat/mink/src'),
     'Asm89\\Stack\\' => array($vendorDir . '/asm89/stack-cors/src/Asm89/Stack'),
     'Alchemy\\Zippy\\' => array($vendorDir . '/alchemy/zippy/src'),

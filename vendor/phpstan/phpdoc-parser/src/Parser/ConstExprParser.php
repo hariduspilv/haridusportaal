@@ -4,6 +4,8 @@ namespace PHPStan\PhpDocParser\Parser;
 
 use PHPStan\PhpDocParser\Ast;
 use PHPStan\PhpDocParser\Lexer\Lexer;
+use function strtolower;
+use function trim;
 
 class ConstExprParser
 {
@@ -95,7 +97,12 @@ class ConstExprParser
 			return $this->parseArray($tokens, Lexer::TOKEN_CLOSE_SQUARE_BRACKET);
 		}
 
-		throw new \LogicException($tokens->currentTokenValue());
+		throw new ParserException(
+			$tokens->currentTokenValue(),
+			$tokens->currentTokenType(),
+			$tokens->currentTokenOffset(),
+			Lexer::TOKEN_IDENTIFIER
+		);
 	}
 
 
