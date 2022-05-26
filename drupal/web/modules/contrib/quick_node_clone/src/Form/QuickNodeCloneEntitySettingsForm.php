@@ -188,6 +188,14 @@ abstract class QuickNodeCloneEntitySettingsForm extends ConfigFormBase implement
 
     // Save config.
     $this->config('quick_node_clone.settings')->set('exclude.' . $this->getEntityTypeId(), $bundle_names)->save();
+
+    // Display a success message depending on form_id.
+    if ($form['#form_id'] === 'quick_node_clone_paragraph_setting_form') {
+      $this->messenger()->addMessage($this->t('Quick Node Paragraph Clone Settings have been saved.'));
+    }
+    else {
+      $this->messenger()->addMessage($this->t('Quick Node Clone Settings have been saved.'));
+    }
   }
 
   /**

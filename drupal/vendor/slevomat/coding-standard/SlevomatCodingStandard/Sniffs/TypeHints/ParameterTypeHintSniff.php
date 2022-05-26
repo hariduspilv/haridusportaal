@@ -87,7 +87,6 @@ class ParameterTypeHintSniff implements Sniff
 
 	/**
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-	 * @param File $phpcsFile
 	 * @param int $functionPointer
 	 */
 	public function process(File $phpcsFile, $functionPointer): void
@@ -120,8 +119,6 @@ class ParameterTypeHintSniff implements Sniff
 	}
 
 	/**
-	 * @param File $phpcsFile
-	 * @param int $functionPointer
 	 * @param (TypeHint|null)[] $parametersTypeHints
 	 * @param ParameterAnnotation[] $parametersAnnotations
 	 * @param ParameterAnnotation[] $prefixedParametersAnnotations
@@ -380,8 +377,6 @@ class ParameterTypeHintSniff implements Sniff
 	}
 
 	/**
-	 * @param File $phpcsFile
-	 * @param int $functionPointer
 	 * @param (TypeHint|null)[] $parametersTypeHints
 	 * @param ParameterAnnotation[] $parametersAnnotations
 	 * @param ParameterAnnotation[] $prefixedParametersAnnotations
@@ -447,14 +442,6 @@ class ParameterTypeHintSniff implements Sniff
 				continue;
 			}
 
-			if (TypeHintHelper::isTypeDefinedInAnnotation(
-				$phpcsFile,
-				$functionPointer,
-				(string) $parametersAnnotations[$parameterName]->getType()
-			)) {
-				continue;
-			}
-
 			$parameterTypeNode = $parametersAnnotations[$parameterName]->getType();
 
 			if (
@@ -501,8 +488,6 @@ class ParameterTypeHintSniff implements Sniff
 	}
 
 	/**
-	 * @param File $phpcsFile
-	 * @param int $functionPointer
 	 * @param (TypeHint|null)[] $parametersTypeHints
 	 * @param ParameterAnnotation[] $parametersAnnotations
 	 */
