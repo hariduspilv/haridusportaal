@@ -12,6 +12,8 @@
 
 namespace Composer\SelfUpdate;
 
+use Composer\IO\IOInterface;
+use Composer\Pcre\Preg;
 use Composer\Util\HttpDownloader;
 use Composer\Config;
 
@@ -21,7 +23,7 @@ use Composer\Config;
 class Versions
 {
     /** @var string[] */
-    public static $channels = array('stable', 'preview', 'snapshot', '1', '2');
+    public static $channels = array('stable', 'preview', 'snapshot', '1', '2', '2.2');
 
     /** @var HttpDownloader */
     private $httpDownloader;
@@ -29,8 +31,8 @@ class Versions
     private $config;
     /** @var string */
     private $channel;
-    /** @var array<string, array<int, array{path: string, version: string, min-php: int}>> */
-    private $versionsData;
+    /** @var array<string, array<int, array{path: string, version: string, min-php: int, eol?: true}>>|null */
+    private $versionsData = null;
 
     public function __construct(Config $config, HttpDownloader $httpDownloader)
     {
@@ -50,7 +52,7 @@ class Versions
         $channelFile = $this->config->get('home').'/update-channel';
         if (file_exists($channelFile)) {
             $channel = trim(file_get_contents($channelFile));
-            if (in_array($channel, array('stable', 'preview', 'snapshot'), true)) {
+            if (in_array($channel, array('stable', 'preview', 'snapshot', '2.2'), true)) {
                 return $this->channel = $channel;
             }
         }
@@ -63,7 +65,7 @@ class Versions
      *
      * @return void
      */
-    public function setChannel($channel)
+    public function setChannel($channel, IOInterface $io = null)
     {
         if (!in_array($channel, self::$channels, true)) {
             throw new \InvalidArgumentException('Invalid channel '.$channel.', must be one of: ' . implode(', ', self::$channels));
@@ -71,13 +73,21 @@ class Versions
 
         $channelFile = $this->config->get('home').'/update-channel';
         $this->channel = $channel;
-        file_put_contents($channelFile, (is_numeric($channel) ? 'stable' : $channel).PHP_EOL);
+
+        $storedChannel = Preg::isMatch('{^\d+$}D', $channel) ? 'stable' : $channel;
+        $previouslyStored = file_exists($channelFile) ? trim((string) file_get_contents($channelFile)) : null;
+        // rewrite '2' and '1' channels to stable for future self-updates, but LTS ones like '2.2' remain pinned
+        file_put_contents($channelFile, $storedChannel.PHP_EOL);
+
+        if ($io !== null && $previouslyStored !== $storedChannel) {
+            $io->writeError('Storing "<info>'.$storedChannel.'</info>" as default update channel for the next self-update run.');
+        }
     }
 
     /**
      * @param string|null $channel
      *
-     * @return array{path: string, version: string, min-php: int}
+     * @return array{path: string, version: string, min-php: int, eol?: true}
      */
     public function getLatest($channel = null)
     {
@@ -93,11 +103,11 @@ class Versions
     }
 
     /**
-     * @return array<string, array<int, array{path: string, version: string, min-php: int}>>
+     * @return array<string, array<int, array{path: string, version: string, min-php: int, eol?: true}>>
      */
     private function getVersionsData()
     {
-        if (!$this->versionsData) {
+        if (null === $this->versionsData) {
             if ($this->config->get('disable-tls') === true) {
                 $protocol = 'http';
             } else {

@@ -4,7 +4,7 @@ description: Manage one or more RSA public keys per user for JWT authentication
 core_version_requirement: ^8.7.12 || ^9.0
 package: Web services
 
-# Information added by Drupal.org packaging script on 2022-04-17
-version: '8.x-1.0-rc2'
+# Information added by Drupal.org packaging script on 2022-05-23
+version: '8.x-1.0'
 project: 'jwt'
-datestamp: 1650156909
+datestamp: 1653322601

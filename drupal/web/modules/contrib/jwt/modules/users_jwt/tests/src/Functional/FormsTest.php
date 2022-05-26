@@ -18,7 +18,7 @@ class FormsTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['users_jwt', 'block'];
+  protected static $modules = ['users_jwt', 'block'];
 
   /**
    * {@inheritdoc}
@@ -42,10 +42,11 @@ class FormsTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->drupalPlaceBlock('local_actions_block');
-    $this->adminUser = $this->drupalCreateUser(['administer site configuration', 'administer users']);
+    $perms = ['administer site configuration', 'administer users'];
+    $this->adminUser = $this->drupalCreateUser($perms);
     $this->user = $this->drupalCreateUser(['access content']);
     $this->drupalLogin($this->user);
   }
@@ -56,20 +57,21 @@ class FormsTest extends BrowserTestBase {
   public function testForms() {
     // Loading another user's page should fail.
     $this->drupalGet(Url::fromRoute('users_jwt.key_list', ['user' => $this->adminUser->id()]));
-    $this->assertResponse(403);
+    $this->assertSession()->statusCodeEquals(403);
     $this->drupalGet(Url::fromRoute('users_jwt.key_list', ['user' => $this->user->id()]));
-    $this->assertResponse(200);
-    $this->assertText('No keys found.');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains('No keys found.');
     $this->clickLink('Generate Key');
-    $this->assertText('When you click the button, a new key will be generated');
+    $this->assertSession()->pageTextContains('When you click the button, a new key will be generated');
     $this->submitForm([], 'Generate');
     // The test browser sees the response content.
     $generated_private_key = $this->getSession()->getPage()->getContent();
     self::assertNotFalse(\mb_strpos($generated_private_key, '-----BEGIN PRIVATE KEY-----'));
     $this->drupalGet(Url::fromRoute('users_jwt.key_list', ['user' => $this->user->id()]));
-    $this->assertNoText('No keys found.');
-    $this->assertText('-----BEGIN PUBLIC KEY-----');
-    $this->assertCacheTag('users_jwt:' . $this->user->id());
+    $this->assertSession()->pageTextnotContains('No keys found.');
+    $this->assertSession()->pageTextContains('-----BEGIN PUBLIC KEY-----');
+    $expected_cache_tag = 'users_jwt:' . $this->user->id();
+    $this->assertSession()->responseHeaderContains('X-Drupal-Cache-Tags', $expected_cache_tag);
     /** @var \Drupal\users_jwt\UsersJwtKeyRepositoryInterface $key_repository */
     $key_repository = $this->container->get('users_jwt.key_repository');
     $keys = $key_repository->getUsersKeys($this->user->id());
@@ -78,17 +80,20 @@ class FormsTest extends BrowserTestBase {
     // Sleep to make sure the time changes for the next key ID.
     sleep(1);
     $this->clickLink('Add Key');
-    $path = drupal_get_path('module', 'users_jwt') . '/tests/fixtures/users_jwt_rsa1-public.pem';
+    /** @var \Drupal\Core\Extension\ExtensionPathResolver $path_resolver */
+    $path_resolver = $this->container->get('extension.path.resolver');
+    $module_path = $path_resolver->getPath('module', 'users_jwt');
+    $path = $module_path . '/tests/fixtures/users_jwt_rsa1-public.pem';
     $public_key = file_get_contents($path);
-    $path = drupal_get_path('module', 'users_jwt') . '/tests/fixtures/users_jwt_rsa1-private.pem';
+    $path = $module_path . '/tests/fixtures/users_jwt_rsa1-private.pem';
     $private_key1 = file_get_contents($path);
-    $path = drupal_get_path('module', 'users_jwt') . '/tests/fixtures/users_jwt_rsa2-private.pem';
+    $path = $module_path . '/tests/fixtures/users_jwt_rsa2-private.pem';
     $private_key2 = file_get_contents($path);
     $edit = [
       'pubkey' => $this->randomString(),
     ];
     $this->submitForm($edit, 'Save');
-    $this->assertText('This does not look like a PEM formatted RSA public key');
+    $this->assertSession()->pageTextContains('This does not look like a PEM formatted RSA public key');
     $edit = [
       'pubkey' => $public_key,
     ];
@@ -102,45 +107,66 @@ class FormsTest extends BrowserTestBase {
     // Allowed to access the normal user's keys page.
     $url = Url::fromRoute('users_jwt.key_list', ['user' => $this->user->id()]);
     $this->drupalGet($url);
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
     $this->drupalLogout();
-    $iat = \Drupal::time()->getCurrentTime();
-    $good_payload = [
-      'iat' => $iat,
-      'exp' => $iat + 1000,
-      'drupal' => [
-        'uid' => $this->user->id(),
-      ],
+    $variants = [
+      'uid' => $this->user->id(),
+      'uuid' => $this->user->uuid(),
+      'name' => $this->user->getAccountName(),
     ];
-    // Verify requests work with the generated/submitted keys.
-    foreach (['Authorization', 'JWT-Authorization'] as $header_name) {
-      $url = Url::fromRoute('users_jwt.key_list', ['user' => $this->user->id()]);
-      // When changing header name we need to reset the session.
-      $this->getSession()->reset();
-      $token = JWT::encode($good_payload, $generated_private_key, 'RS256', $generated_key->id);
-      self::assertNotEmpty($token);
-      $headers = [$header_name => 'UsersJwt ' . $token];
-      $this->drupalGet($url, [], $headers);
-      $this->assertResponse(200);
-      $token = JWT::encode($good_payload, $private_key1, 'RS256', $submitted_key->id);
-      $headers = [$header_name => 'UsersJwt ' . $token];
-      $this->drupalGet($url, [], $headers);
-      $this->assertResponse(200);
-      // Invalid key ID.
-      $token = JWT::encode($good_payload, $private_key1, 'RS256', 'wxyz');
-      $headers = [$header_name => 'UsersJwt ' . $token];
-      $this->drupalGet($url, [], $headers);
-      $this->assertResponse(403);
-      // Invalid private key.
-      $token = JWT::encode($good_payload, $private_key2, 'RS256', $submitted_key->id);
-      $headers = [$header_name => 'UsersJwt ' . $token];
-      $this->drupalGet($url, [], $headers);
-      $this->assertResponse(403);
-      // Invalid private key, public page.
-      $token = JWT::encode($good_payload, $private_key2, 'RS256', $submitted_key->id);
-      $headers = [$header_name => 'UsersJwt ' . $token];
-      $this->drupalGet('<front>', [], $headers);
-      $this->assertResponse(200);
+    $extra = [
+      'uid' => ['uuid', 'name'],
+      'uuid' => ['name', 'anything'],
+      'name' => ['something'],
+    ];
+    foreach ($variants as $id_type => $id_value) {
+      $iat = \Drupal::time()->getRequestTime();
+      $good_payload = [
+        'iat' => $iat,
+        'exp' => $iat + 1000,
+        'drupal' => [
+          $id_type => $id_value,
+        ],
+      ];
+      // Verify requests work with the generated/submitted keys.
+      foreach (['Authorization', 'JWT-Authorization'] as $header_name) {
+        $url = Url::fromRoute('users_jwt.key_list', ['user' => $this->user->id()]);
+        // When changing header name we need to reset the session.
+        $this->getSession()->reset();
+        $token = JWT::encode($good_payload, $generated_private_key, 'RS256', $generated_key->id);
+        self::assertNotEmpty($token);
+        $headers = [$header_name => 'UsersJwt ' . $token];
+        $this->drupalGet($url, [], $headers);
+        $this->assertSession()->statusCodeEquals(200);
+        $token = JWT::encode($good_payload, $private_key1, 'RS256', $submitted_key->id);
+        $headers = [$header_name => 'UsersJwt ' . $token];
+        $this->drupalGet($url, [], $headers);
+        $this->assertSession()->statusCodeEquals(200);
+        // Add extra claims that should be ignored.
+        $extra_payload = $good_payload;
+        foreach ($extra[$id_type] as $key) {
+          $extra_payload['drupal'][$key] = $this->randomMachineName();
+        }
+        $token = JWT::encode($extra_payload, $generated_private_key, 'RS256', $generated_key->id);
+        $headers = [$header_name => 'UsersJwt ' . $token];
+        $this->drupalGet($url, [], $headers);
+        $this->assertSession()->statusCodeEquals(200);
+        // Invalid key ID.
+        $token = JWT::encode($good_payload, $private_key1, 'RS256', 'wxyz');
+        $headers = [$header_name => 'UsersJwt ' . $token];
+        $this->drupalGet($url, [], $headers);
+        $this->assertSession()->statusCodeEquals(403);
+        // Invalid private key.
+        $token = JWT::encode($good_payload, $private_key2, 'RS256', $submitted_key->id);
+        $headers = [$header_name => 'UsersJwt ' . $token];
+        $this->drupalGet($url, [], $headers);
+        $this->assertSession()->statusCodeEquals(403);
+        // Invalid private key, public page.
+        $token = JWT::encode($good_payload, $private_key2, 'RS256', $submitted_key->id);
+        $headers = [$header_name => 'UsersJwt ' . $token];
+        $this->drupalGet('<front>', [], $headers);
+        $this->assertSession()->statusCodeEquals(200);
+      }
     }
   }
 

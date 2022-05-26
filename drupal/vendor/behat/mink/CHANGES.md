@@ -1,4 +1,21 @@
-1.9.0 / 2020-03-11
+1.10.0 / 2022-03-28
+===================
+
+New features:
+
+* Added support for `symfony/css-selector` 6
+* Added `WebAssert::elementAttributeNotExists`
+
+Removed:
+
+* Removed support for PHP <7.2
+* Removed support for `symfony/css-selector` <4.4
+
+Bug fixes:
+
+* Fixed phpdoc for a bunch of arguments that were not properly marked as nullable
+
+1.9.0 / 2021-10-11
 ==================
 
 New features:

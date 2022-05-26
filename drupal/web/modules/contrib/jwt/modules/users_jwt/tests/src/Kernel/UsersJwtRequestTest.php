@@ -18,7 +18,7 @@ class UsersJwtRequestTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'system',
     'user',
     'users_jwt',
@@ -34,7 +34,7 @@ class UsersJwtRequestTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->installSchema('system', 'sequences');
 
@@ -53,18 +53,44 @@ class UsersJwtRequestTest extends KernelTestBase {
   public function testAuth() {
     /** @var \Drupal\users_jwt\UsersJwtKeyRepositoryInterface $key_repository */
     $key_repository = $this->container->get('users_jwt.key_repository');
-    $path = drupal_get_path('module', 'users_jwt') . '/tests/fixtures/users_jwt_rsa1-public.pem';
+    /** @var \Drupal\Core\Extension\ExtensionPathResolver $path_resolver */
+    $path_resolver = $this->container->get('extension.path.resolver');
+    $module_path = $path_resolver->getPath('module', 'users_jwt');
+    $path = $module_path . '/tests/fixtures/users_jwt_rsa1-public.pem';
     $public_key = file_get_contents($path);
     $key_repository->saveKey($this->testUser->id(), 'wxyz', 'RS256', $public_key);
+    $variants = [
+      'uid' => $this->testUser->id(),
+      'uuid' => $this->testUser->uuid(),
+      'name' => $this->testUser->getAccountName(),
+    ];
+    foreach ($variants as $id_type => $id_value) {
+      $this->dotestAuth($id_type, $id_value, $module_path);
+    }
+  }
+
+  /**
+   * Test a combination of user ID type and value as the claim.
+   *
+   * @param string $id_type
+   *   The name of the ID.
+   * @param string $id_value
+   *   The value of the ID.
+   * @param string $module_path
+   *   Path to the users_jwt module.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  protected function dotestAuth(string $id_type, string $id_value, string $module_path) {
     $iat = \Drupal::time()->getRequestTime();
     $good_payload = [
       'iat' => $iat,
       'exp' => $iat + 1000,
       'drupal' => [
-        'uid' => $this->testUser->id(),
+        $id_type => $id_value,
       ],
     ];
-    $path = drupal_get_path('module', 'users_jwt') . '/tests/fixtures/users_jwt_rsa1-private.pem';
+    $path = $module_path . '/tests/fixtures/users_jwt_rsa1-private.pem';
     $private_key = file_get_contents($path);
     /** @var \Drupal\Core\Authentication\AuthenticationProviderInterface $auth_service */
     $auth_service = $this->container->get('users_jwt.authentication.jwt');
@@ -77,7 +103,6 @@ class UsersJwtRequestTest extends KernelTestBase {
       $request = Request::create('/');
       $request->headers->set($header, 'Bearer ' . $token);
       $this->assertFalse($auth_service->applies($request));
-      $request = Request::create('/');
       // Empty token is ignored.
       $this->assertFalse($auth_service->applies($this->createRequest($header, '')));
       // Good token applies.
@@ -85,7 +110,7 @@ class UsersJwtRequestTest extends KernelTestBase {
       $this->assertTrue($auth_service->applies($request));
       $user = $auth_service->authenticate($request);
       $this->assertNotEmpty($user);
-      $this->assertEqual($this->testUser->id(), $user->id());
+      $this->assertEquals($this->testUser->id(), $user->id());
       // When blocked the account is no longer valid.
       $this->testUser->block()->save();
       $this->assertNull($auth_service->authenticate($request));

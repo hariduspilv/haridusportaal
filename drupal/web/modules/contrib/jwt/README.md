@@ -23,8 +23,11 @@ Go to /admin/config/system/jwt to pick the key to be used.
 
 When creating a JWT to send, the iat and exp claims should be included.
 
-The namespaced claim drupal / uid is used by jwt_auth_consumer to determine the
-user account to be used when authenticated.
+The namespaced claim "drupal / uid" is used by jwt_auth_consumer to determine the
+user account to be used when authenticated. You can also use a user uuid or
+username with claims "drupal / uuid" or "drupal / name". The claims are
+checked in the order listed here, and the first one that's populated is
+used to determine the user.
 
 ## Request Header
 
