@@ -6,24 +6,24 @@
 
 Alerts holds all of the singular Alert components whose id's match with the Alerts list component
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| id | global | - | string | Alert list identifier
-| small | false | true, false | boolean | If set to 'true' then the alert list uses smalle paddings and icons 
-| closeMs | ~ | - | number | Duration for how long until alert closes (ms)
+| Name    | Default | Values      | Type    | Description                                                         |
+|---------|---------|-------------|---------|---------------------------------------------------------------------|
+| id      | global  | -           | string  | Alert list identifier                                               |
+| small   | false   | true, false | boolean | If set to 'true' then the alert list uses smalle paddings and icons |
+| closeMs | ~       | -           | number  | Duration for how long until alert closes (ms)                       |
 
 ### Alert
 
 Alert is one single alert entity
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| message | - | - | string | Message to show on the alert
-| type | - | Warning, Error, Success, Info | AlertType | Set which type of an alert will be shown
-| id | 'global' | - | string | Set which alert block will the alert be shown in
-| closeable | true | true, false | boolean | If set to 'true' then alert can be closed/removed
-| category | - | - | number | No duplicate messages for same id
-| link | - | - | Object | Adds link instead of close button
+| Name      | Default  | Values                        | Type      | Description                                       |
+|-----------|----------|-------------------------------|-----------|---------------------------------------------------|
+| message   | -        | -                             | string    | Message to show on the alert                      |
+| type      | -        | Warning, Error, Success, Info | AlertType | Set which type of an alert will be shown          |
+| id        | 'global' | -                             | string    | Set which alert block will the alert be shown in  |
+| closeable | true     | true, false                   | boolean   | If set to 'true' then alert can be closed/removed |
+| category  | -        | -                             | number    | No duplicate messages for same id                 |
+| link      | -        | -                             | Object    | Adds link instead of close button                 |
 
 ```js
 enum AlertType {

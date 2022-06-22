@@ -2,12 +2,17 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import { data } from './chart.data';
 import { TranslateModule } from '@app/_modules/translate';
-import { RippleService } from '@app/_services';
+import { RippleService, SettingsService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
 import { AddressService } from '@app/_services/AddressService';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
+import { APP_INITIALIZER } from "@angular/core";
+
+export function settingsProviderFactory(provider: SettingsService) {
+	return () => provider.load();
+}
 
 const moduleMetadata = {
   imports: [
@@ -18,7 +23,13 @@ const moduleMetadata = {
     RippleService,
     AddressService,
     QueryParamsService,
-    { provide: ActivatedRoute, useValue: {} },
+		{
+			provide: APP_INITIALIZER,
+			useFactory: settingsProviderFactory,
+			deps: [SettingsService],
+			multi: true,
+		},
+		{ provide: ActivatedRoute, useValue: {} },
   ],
 };
 

@@ -3,12 +3,16 @@ import { AssetsModule } from '@app/_assets';
 import { TranslateModule } from '@app/_modules/translate';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
+import { ActivatedRoute } from "@angular/router";
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
   ],
+	providers: [
+		{ provide: ActivatedRoute, useValue: {}	},
+	],
 };
 
 const stories = storiesOf('Assets/Links', module);
@@ -38,19 +42,19 @@ const attachments = [
   {
     description: 'Kirjeldus',
     entity: {
-      url: 'http://htm.wiseman.ee/sites/default/files/2019-09/Pereliikme%20D%C3%B6k%C3%BCment.pdf',
+      url: 'https://api.haridusportaal.twn.zone/sites/default/files/2019-09/Pereliikme%20D%C3%B6k%C3%BCment.pdf',
     },
   },
   {
     description: 'Kirjeldus 2',
     entity: {
-      url: 'http://htm.wiseman.ee/sites/default/files/2019-09/Pereliikme%20D%C3%B6k%C3%BCment.pdf',
+      url: 'https://api.haridusportaal.twn.zone/sites/default/files/2019-09/Pereliikme%20D%C3%B6k%C3%BCment.pdf',
     },
   },
   {
     description: 'Kirjeldus 3',
     entity: {
-      url: 'http://htm.wiseman.ee/sites/default/files/2019-09/Pereliikme%20D%C3%B6k%C3%BCment.pdf',
+      url: 'https://api.haridusportaal.twn.zone/sites/default/files/2019-09/Pereliikme%20D%C3%B6k%C3%BCment.pdf',
     },
   },
 ];

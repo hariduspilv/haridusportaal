@@ -3,11 +3,15 @@ import { AssetsModule } from '@app/_assets';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
 import { TranslateModule } from '@app/_modules/translate';
+import { ActivatedRoute } from "@angular/router";
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
   ],
+	providers: [
+		{ provide: ActivatedRoute, useValue: {}	},
+	],
 };
 
 const stories = storiesOf('Assets/Toggletip', module);

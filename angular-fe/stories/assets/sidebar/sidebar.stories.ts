@@ -43,8 +43,7 @@ const sidebarData = {
           fieldAuthor: 'TWN',
           fieldIntroductionImage: {
             derivative: {
-              // tslint:disable-next-line: max-line-length
-              url: 'http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2019-07/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd&itok=5NHInAKT',
+              url: 'https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_small/public/2019-07/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd&itok=5NHInAKT',
             },
             title: 'koer',
             alt: 'Alt tekst',
@@ -72,8 +71,7 @@ const sidebarData = {
           fieldAuthor: 'Kalle Kaarel',
           fieldIntroductionImage: {
             derivative: {
-              // tslint:disable-next-line: max-line-length
-              url: 'http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2019-04/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?itok=lo83jJLa',
+              url: 'https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_small/public/2019-04/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?itok=lo83jJLa',
             },
             title: 'Super uudis',
             alt: 'Alt tekst',
@@ -102,7 +100,7 @@ const sidebarData = {
           fieldIntroductionImage: {
             derivative: {
               // tslint:disable-next-line: max-line-length
-              url: 'http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2019-04/3_619.jpg?itok=D4MW0uOe',
+              url: 'https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_small/public/2019-04/3_619.jpg?itok=D4MW0uOe',
             },
             title: 'Pealkiri',
             alt: 'Alt tekst',

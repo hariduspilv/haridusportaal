@@ -8,9 +8,9 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| type | external | external, document | string | Links icon and behaviour
+| Name | Default  | Values             | Type   | Description              |
+|------|----------|--------------------|--------|--------------------------|
+| type | external | external, document | string | Links icon and behaviour |
 
 ## Data structure (same as from the API)
 ```javascript

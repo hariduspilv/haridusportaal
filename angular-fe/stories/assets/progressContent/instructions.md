@@ -14,13 +14,13 @@
 
 ## Progress bar properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| level | - | 1, 2, 3, 4, 5 | number | Fill/progress level
-| id | - | - | string | Unique identifier
-| statusLabel | - | - | string | Status label
-| startLabel| - | - | string | Starting label
-| endLabel | - | - | string | Ending label
+| Name        | Default | Values        | Type   | Description         |
+|-------------|---------|---------------|--------|---------------------|
+| level       | -       | 1, 2, 3, 4, 5 | number | Fill/progress level |
+| id          | -       | -             | string | Unique identifier   |
+| statusLabel | -       | -             | string | Status label        |
+| startLabel  | -       | -             | string | Starting label      |
+| endLabel    | -       | -             | string | Ending label        |
 
 
 

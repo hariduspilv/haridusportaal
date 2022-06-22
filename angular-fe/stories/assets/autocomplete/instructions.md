@@ -12,6 +12,6 @@
 All the properties are the same as in "FormItem" component.
 
 ### Additional properties
-| Name  | Default  | Values  |  Type |
-|---|---|---|---|
-| query | text |  | Choose the type of the form item
+| Name  | Default | Values | Type                             |
+|-------|---------|--------|----------------------------------|
+| query | text    |        | Choose the type of the form item |

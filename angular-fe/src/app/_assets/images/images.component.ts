@@ -85,7 +85,7 @@ export class ImageComponent implements OnInit {
     }
 
     this.images = finalList;
-    this.initGalleryImages();
+		this.initGalleryImages();
   }
 
   coverImageLoaded(): void {
