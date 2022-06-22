@@ -2,23 +2,27 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import { data } from './chart.data';
 import { TranslateModule } from '@app/_modules/translate';
-import { RippleService } from '@app/_services';
+import { RippleService, SettingsService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
 import { AddressService } from '@app/_services/AddressService';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
+import { SettingsModule } from "@app/_modules/settings/settings.module";
+import { RouterTestingModule } from "@angular/router/testing";
 
 const moduleMetadata = {
   imports: [
-    TranslateModule.forRoot(),
-    AssetsModule,
+		AssetsModule,
+		RouterTestingModule,
+		TranslateModule.forRoot(),
+		SettingsModule.forRoot(),
   ],
   providers: [
     RippleService,
     AddressService,
     QueryParamsService,
-    { provide: ActivatedRoute, useValue: {} },
+		{ provide: ActivatedRoute, useValue: {} },
   ],
 };
 

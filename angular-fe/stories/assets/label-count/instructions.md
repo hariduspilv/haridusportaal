@@ -8,9 +8,9 @@
 
 ## Properties
 
-| Name  | Required  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| count | True | - | number | Number of results
+| Name  | Required | Values | Type   | Description       |
+|-------|----------|--------|--------|-------------------|
+| count | True     | -      | number | Number of results |
 
 
 

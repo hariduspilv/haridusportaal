@@ -12,7 +12,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2019-09/4.jpeg?itok=6nd3dmsR",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2019-09/4.jpeg?itok=6nd3dmsR",
     "__typename": "ImageResource"
     },
     "width": 1920,
@@ -71,7 +71,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2019-04/survival.PNG?itok=91C9Gcu9",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2019-04/survival.PNG?itok=91C9Gcu9",
     "__typename": "ImageResource"
     },
     "width": 1819,
@@ -110,7 +110,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2019-04/4.9mb.jpg?itok=fyFja9m1",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2019-04/4.9mb.jpg?itok=fyFja9m1",
     "__typename": "ImageResource"
     },
     "width": 4000,
@@ -232,7 +232,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-12/sykkel-marka-vinter-Tord-Baklund_3.jpg?h=a1526357&itok=2USn3DCE",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-12/sykkel-marka-vinter-Tord-Baklund_3.jpg?h=a1526357&itok=2USn3DCE",
     "__typename": "ImageResource"
     },
     "width": 2900,
@@ -466,7 +466,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2019-02/4_1.jpeg?itok=T9bKQa31",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2019-02/4_1.jpeg?itok=T9bKQa31",
     "__typename": "ImageResource"
     },
     "width": 1920,
@@ -523,7 +523,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-12/sykkel-marka-vinter-Tord-Baklund_4.jpg?itok=O7fM6IDJ",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-12/sykkel-marka-vinter-Tord-Baklund_4.jpg?itok=O7fM6IDJ",
     "__typename": "ImageResource"
     },
     "width": 2900,
@@ -632,7 +632,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2019-02/3_252.jpg?itok=L5l09x7B",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2019-02/3_252.jpg?itok=L5l09x7B",
     "__typename": "ImageResource"
     },
     "width": 1600,
@@ -671,7 +671,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-10/1_4.jpg?itok=dKkyXJVo",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-10/1_4.jpg?itok=dKkyXJVo",
     "__typename": "ImageResource"
     },
     "width": 1600,
@@ -723,7 +723,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2019-03/3_196.jpg?itok=sFwOTLM8",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2019-03/3_196.jpg?itok=sFwOTLM8",
     "__typename": "ImageResource"
     },
     "width": 1600,
@@ -827,7 +827,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-10/1_3.jpg?itok=JuFfSTMC",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-10/1_3.jpg?itok=JuFfSTMC",
     "__typename": "ImageResource"
     },
     "width": 1600,
@@ -866,7 +866,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-10/pulligs1-1.jpg?itok=RphBUYJ_",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-10/pulligs1-1.jpg?itok=RphBUYJ_",
     "__typename": "ImageResource"
     },
     "width": 4160,
@@ -1183,7 +1183,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-10/4_2.jpeg?itok=eaE6YRxR",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-10/4_2.jpeg?itok=eaE6YRxR",
     "__typename": "ImageResource"
     },
     "width": 1920,
@@ -1235,7 +1235,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-10/3_3.jpg?itok=5g0JFqiM",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-10/3_3.jpg?itok=5g0JFqiM",
     "__typename": "ImageResource"
     },
     "width": 1600,
@@ -1292,7 +1292,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-10/3_1.jpg?itok=9RUjnxia",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-10/3_1.jpg?itok=9RUjnxia",
     "__typename": "ImageResource"
     },
     "width": 1600,
@@ -1388,7 +1388,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-10/3_4.jpg?itok=OrMfNKEF",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-10/3_4.jpg?itok=OrMfNKEF",
     "__typename": "ImageResource"
     },
     "width": 1600,
@@ -1458,7 +1458,7 @@ export const data = {
     },
     "fieldOskaFieldPicture": {
     "derivative": {
-    "url": "http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2018-10/1_0.jpg?itok=-GzJGfdY",
+    "url": "https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_large/public/2018-10/1_0.jpg?itok=-GzJGfdY",
     "__typename": "ImageResource"
     },
     "width": 1600,

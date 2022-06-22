@@ -10,9 +10,9 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| data | - | - | array | Input data
+| Name | Default | Values | Type  | Description |
+|------|---------|--------|-------|-------------|
+| data | -       | -      | array | Input data  |
 
 ```javascript
 const data = [

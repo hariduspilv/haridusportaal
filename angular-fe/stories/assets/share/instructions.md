@@ -7,6 +7,6 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| pageTitle | - | - | string | Shareable links title
+| Name      | Default | Values | Type   | Description           |
+|-----------|---------|--------|--------|-----------------------|
+| pageTitle | -       | -      | string | Shareable links title |

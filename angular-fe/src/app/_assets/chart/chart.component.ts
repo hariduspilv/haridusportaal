@@ -415,7 +415,7 @@ export class ChartComponent implements OnInit {
   }
 
   parseData() {
-    this.data = this.data.map((item) => {
+		this.data = this.data.map((item) => {
       try {
         item.filterValues = JSON.parse(item.filterValues);
       } catch (err) {}
@@ -451,7 +451,7 @@ export class ChartComponent implements OnInit {
             options.push(current[o]);
           }
 
-          // Disable multiple selection for wide views and Pie/Doghnut types on following filters.
+          // Disable multiple selection for wide views and Pie/Doughnut types on following filters.
           if ((wideCases.includes(i) && options.length > 1 && this.wide)
             || (pieCases.includes(i) && options.length > 1
             && (item.filterValues.graph_type === 'pie'
@@ -658,7 +658,7 @@ export class ChartComponent implements OnInit {
 			this.requestSubscription[id]
 				= this.http.get(path).subscribe({
           next: (response) => {
-            const data = response['data'].GoogleChartQuery.map((item) => {
+						const data = response['data'].GoogleChartQuery.map((item) => {
               const type = variables['graphType'];
 
               return {
@@ -685,7 +685,7 @@ export class ChartComponent implements OnInit {
             this.filtersData[current.id].loading = false;
           }
         });
-    },                                    300);
+    }, 300);
 
   }
 
