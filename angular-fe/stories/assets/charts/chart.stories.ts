@@ -8,27 +8,20 @@ import { ActivatedRoute } from '@angular/router';
 import { AddressService } from '@app/_services/AddressService';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
-import { APP_INITIALIZER } from "@angular/core";
-
-export function settingsProviderFactory(provider: SettingsService) {
-	return () => provider.load();
-}
+import { SettingsModule } from "@app/_modules/settings/settings.module";
+import { RouterTestingModule } from "@angular/router/testing";
 
 const moduleMetadata = {
   imports: [
-    TranslateModule.forRoot(),
-    AssetsModule,
+		AssetsModule,
+		RouterTestingModule,
+		TranslateModule.forRoot(),
+		SettingsModule.forRoot(),
   ],
   providers: [
     RippleService,
     AddressService,
     QueryParamsService,
-		{
-			provide: APP_INITIALIZER,
-			useFactory: settingsProviderFactory,
-			deps: [SettingsService],
-			multi: true,
-		},
 		{ provide: ActivatedRoute, useValue: {} },
   ],
 };

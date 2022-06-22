@@ -16,7 +16,7 @@
 			<sidemenu-item [items]="data" [type]="'category'" (hideToggle)="hideOthers($event)"></sidemenu-item>
 		</ng-container>
 		<div class="sidemenu__info">
-			<div class="version">{{ 'frontpage.version' | translate }} {{version}}</div>
+			<div class="version">{{ 'frontpage.version' | translate }} {{ version }}</div>
 			<div class="support" innerHtml="{{ 'sidemenu.support_text' | translate }}"></div>
 		</div>
 	</nav>
