@@ -129,7 +129,8 @@ public class Ehis2XRoadServiceImpl extends Ehis2XRoadDatabaseImpl implements Ehi
         return userId != null ? userId : super.getIdCode();
       }
     };
-    XRoadMessage<GetInstitutionsResponse> response = xRoadConsumer.sendRequest(new XmlBeansXRoadMessage<GetInstitutionsRequest>(request), configuration, new RepresentationCallback(partyClass, partyCode), null);
+    XRoadMessage<GetInstitutionsResponse> response = xRoadConsumer.sendRequest(
+        new XmlBeansXRoadMessage<>(request), configuration, new RepresentationCallback(partyClass, partyCode), null);
     return response.getContent();
   }
 

@@ -65,10 +65,10 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
     }
 
     if (userId == null || userId.equalsIgnoreCase("-")) {
-      return send(new XmlBeansXRoadMessage<EeIsikukaart>(request), "eeIsikukaart", "v1");
+      return send(new XmlBeansXRoadMessage<>(request), "eeIsikukaart", "v1");
     }
 
-    return send(new XmlBeansXRoadMessage<EeIsikukaart>(request), "eeIsikukaart", "v1", userId);
+    return send(new XmlBeansXRoadMessage<>(request), "eeIsikukaart", "v1", userId);
   }
 
   public VpTaotlusOpingudResponse vptOpingud(String personalCode, Object applicationId,

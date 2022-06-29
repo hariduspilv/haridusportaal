@@ -14,7 +14,7 @@ public class KutseregisterWorker extends Worker {
 
   private static final Logger log = LoggerFactory.getLogger(KutseregisterWorker.class);
 
-  private KutseregisterXRoadService kutseregisterXRoadService;
+  private final KutseregisterXRoadService kutseregisterXRoadService;
 
   public KutseregisterWorker(KutseregisterXRoadService kutseregisterXRoadService,
       RedisTemplate<String, Object> redisTemplate, Long redisExpire, Long redisFileExpire,

@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration name="htm-liides" status="DEBUG" monitorInterval="30">
+<Configuration name="htm-liides" status="WARN" monitorInterval="30">
+
+  <Properties>
+    <Property name="LOGS" value="./logs" />
+  </Properties>
+
   <Appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout
-        pattern="%d{dd.MM.yyyy HH:mm:ss.S} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}:%L}{bright,yellow} %msg%n%throwable" />
+    <Console name="Console">
+      <PatternLayout>
+        <pattern>%d{dd.MM.yyyy HH:mm:ss.S} %-5level [%t] {%C{1.}:%L %msg%n%throwable</pattern>
+      </PatternLayout>
     </Console>
 
     <RollingFile name="RollingFile"
-      fileName="/logs/$${date:yyyy-MM}/htm-services_loime.log"
-      filePattern="/logs/$${date:yyyy-MM}/htm-services_loime-%d{dd.MM.yyyy}.log.gz">
-<!--      filePattern="/logs/$${date:yyyy-MM}/htm-services_loime-%d{dd.MM.yyyy}-%i.log.gz">-->
+      fileName="${LOGS}/${date:yyyy-MM}/htm-services_loime.log"
+      filePattern="${LOGS}/$${date:yyyy-MM}/htm-services_loime-%d{dd.MM.yyyy}.log.gz">
+<!--      filePattern="${LOGS}/$${date:yyyy-MM}/htm-services_loime-%d{dd.MM.yyyy}-%i.log.gz">-->
       <PatternLayout>
-        <pattern>%d{dd.MM.yyyy HH:mm:ss.S} %-5p [%t] %C{1.}:%L %m%n%ex</pattern>
+        <pattern>%d{dd.MM.yyyy HH:mm:ss.S} %-5level [%t] %C{1.}:%L %msg%n%throwable</pattern>
       </PatternLayout>
       <Policies>
         <!-- rollover on startup, daily and when the file reaches 10 MegaBytes -->
