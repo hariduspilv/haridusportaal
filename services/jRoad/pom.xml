@@ -6,7 +6,7 @@
 
   <groupId>ee.htm.portal.services</groupId>
   <artifactId>jRoad_Clients</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>3.4.0</version>
   <packaging>pom</packaging>
 
   <name>jRoad_Clients</name>

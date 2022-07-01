@@ -6,7 +6,7 @@
 
   <groupId>ee.htm.portal.services</groupId>
   <artifactId>xRoad</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>3.4.0</version>
   <packaging>jar</packaging>
 
   <name>Haridusportaal microservices</name>
@@ -26,6 +26,11 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <jroad-arireg-client.version>3.4.0</jroad-arireg-client.version>
+    <jroad-ehis-client.version>3.4.0</jroad-ehis-client.version>
+    <jroad-ehis2-client.version>3.4.0</jroad-ehis2-client.version>
+    <jroad-eis-client.version>3.4.0</jroad-eis-client.version>
+    <jroad-kutseregister-client.version>3.4.0</jroad-kutseregister-client.version>
   </properties>
 
   <dependencies>
@@ -93,7 +98,7 @@
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_EHIS_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-ehis-client.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>log4j</artifactId>
@@ -114,7 +119,7 @@
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_EHIS2_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-ehis2-client.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>log4j</artifactId>
@@ -135,7 +140,7 @@
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_EIS_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-eis-client.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>log4j</artifactId>
@@ -156,7 +161,7 @@
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_ARIREG_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-arireg-client.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>log4j</artifactId>
@@ -177,7 +182,7 @@
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_KUTSEREGISTER_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-kutseregister-client.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>log4j</artifactId>
