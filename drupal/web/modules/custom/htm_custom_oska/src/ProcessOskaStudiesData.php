@@ -125,7 +125,6 @@ class ProcessOskaStudiesData {
           if (!is_array($value)) {
             $old_node = Node::load($value);
             $old_sidebar_paragraph_job = Paragraph::load($old_node->get('field_sidebar')->getValue()[0]['target_id']);
-            $old_job_paragraphs = $old_sidebar_paragraph_job->get('field_related_profession')->getValue();
             $old_sidebar_paragraph_job->set('field_related_profession', null);
             $old_sidebar_paragraph_job->save();
           }
