@@ -1,16 +1,18 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
 import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { takeUntil } from "rxjs/operators";
+import { TranslateService } from "@app/_modules/translate/translate.service";
+
 @Component({
   selector: 'homeSearchList-view',
   templateUrl: './homeSearchListView.template.html',
   styleUrls: ['./homeSearchListView.styles.scss'],
 })
-
 export class HomeSearchListViewComponent {
   @ViewChild('content') content: ElementRef;
 
@@ -24,6 +26,7 @@ export class HomeSearchListViewComponent {
   public lang = this.settings.currentAppLanguage;
   public param: string = '';
   public loading: boolean = true;
+	public isLangSwitchLoading = false;
   public allFilters: boolean = true;
   public viewChecked: boolean = false;
   public listLimit: number = 24;
@@ -31,6 +34,8 @@ export class HomeSearchListViewComponent {
   public listLength: number;
   public initialCrumbs: any = {
     et: [{ title: 'Avaleht', link: '/' }],
+		en: [{ title: 'Frontpage', link: '/en' }],
+		ru: [{ title: 'Главная', link: '/ru' }],
   };
   public typesByLang: any = {
     et: [
@@ -41,6 +46,22 @@ export class HomeSearchListViewComponent {
       { name: 'studyProgramme.label', sumLabel: 'study_programme', value: false, sum: 0 },
       { name: 'oska.future_job_opportunities', sumLabel: 'Oska', value: false, sum: 0 },
     ],
+		en: [
+			{ name: 'article.label', sumLabel: 'article', value: false, sum: 0 },
+			{ name: 'news.label', sumLabel: 'news', value: false, sum: 0 },
+			{ name: 'event.label', sumLabel: 'event', value: false, sum: 0 },
+			{ name: 'school.label', sumLabel: 'school', value: false, sum: 0 },
+			{ name: 'studyProgramme.label', sumLabel: 'study_programme', value: false, sum: 0 },
+			{ name: 'oska.future_job_opportunities', sumLabel: 'Oska', value: false, sum: 0 },
+		],
+		ru: [
+			{ name: 'article.label', sumLabel: 'article', value: false, sum: 0 },
+			{ name: 'news.label', sumLabel: 'news', value: false, sum: 0 },
+			{ name: 'event.label', sumLabel: 'event', value: false, sum: 0 },
+			{ name: 'school.label', sumLabel: 'school', value: false, sum: 0 },
+			{ name: 'studyProgramme.label', sumLabel: 'study_programme', value: false, sum: 0 },
+			{ name: 'oska.future_job_opportunities', sumLabel: 'Oska', value: false, sum: 0 },
+		],
   };
 
   public oskaTypes: Array<string> = ['oska_survey_page', 'oska_main_profession_page', 'oska_field_page'];
@@ -53,13 +74,16 @@ export class HomeSearchListViewComponent {
   public autocompleteLoader: boolean = false;
   public scrollPositionSet: boolean = false;
 
-  constructor (
-    private router: Router,
-    private route: ActivatedRoute,
-    private http: HttpClient,
-    private settings: SettingsService,
-    private deviceService: DeviceDetectorService,
-  ) {}
+	private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
+
+	constructor (
+		public route: ActivatedRoute,
+		private router: Router,
+		private http: HttpClient,
+		private settings: SettingsService,
+		private deviceService: DeviceDetectorService,
+		private translate: TranslateService,
+	) {}
 
   ngOnInit() {
     this.paramSubscription = this.route.queryParams.subscribe((params) => {
@@ -93,6 +117,21 @@ export class HomeSearchListViewComponent {
     }
 
     this.breadcrumbs = this.constructCrumbs();
+
+		// this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+		// 	if (event instanceof NavigationEnd) {
+		// 		console.log('lang switched', event);
+		// 		this.breadcrumbs = this.constructCrumbs();
+		// 		this.isLangSwitchLoading = true;
+		// 		setTimeout(() => this.isLangSwitchLoading = false);
+		// 	}
+		// });
+
+		this.settings.activeLang$.pipe(takeUntil(this.destroy$)).subscribe((code) => {
+			this.breadcrumbs = this.constructCrumbs();
+			this.isLangSwitchLoading = true;
+			setTimeout(() => this.isLangSwitchLoading = false);
+		});
   }
 
   // temporary fix
@@ -196,6 +235,8 @@ export class HomeSearchListViewComponent {
 
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
+		this.destroy$.next(true);
+		this.destroy$.complete();
   }
 
   setFocus(id) {
@@ -210,15 +251,16 @@ export class HomeSearchListViewComponent {
   }
 
   constructCrumbs() {
-    const lang = this.lang;
-    const crumbs = this.initialCrumbs[lang];
+    const lang = this.settings.currentAppLanguage;
+		const crumbs = this.initialCrumbs[lang];
     let crumbText;
     let crumbUrl;
     if (this.route.snapshot.queryParams['term']) {
-      crumbText = `Otsingu "${this.route.snapshot.queryParams['term']}" tulemused`;
+			const translations = this.translate.get('search.results').split(' ');
+			crumbText = `${translations[0]} "${this.route.snapshot.queryParams['term']}" ${translations[1]}`;
       crumbUrl = `/otsing?term=${this.route.snapshot.queryParams['term']}`;
     } else {
-      crumbText = 'Otsing';
+      crumbText = this.translate.get('search.label');
       crumbUrl = '/otsing';
     }
     return [...crumbs, { title: crumbText }];
@@ -280,7 +322,7 @@ export class HomeSearchListViewComponent {
         this.suggestionSubscription.unsubscribe();
       });
 
-    },                          debounceTime);
+    }, debounceTime);
   }
 
 }

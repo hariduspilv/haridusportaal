@@ -321,6 +321,7 @@ export class HeaderComponent implements OnInit {
 		} else {
 			try {
 				this.navigate(translatePathTo(this.router.url, code));
+				// this.navigate(translatePathTo(this.router.url.split('?')[0], code) +'?' + this.router.url.split('?')[1]);
 			} catch (error) {
 				this.navigate(code === LanguageCodes.ESTONIAN ? '' : code);
 			}

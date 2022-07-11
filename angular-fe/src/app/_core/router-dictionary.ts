@@ -42,4 +42,6 @@ export const routerDictionary = [
 	['õpetan', 'educating'], 																									// , 'obuchenije'
 	['õpingud', 'classes'], 																									// , 'zanjatija'
 	['õppimine', 'learning'],																									// , 'uchjoba'
+	/* Exceptions: */
+	['otsing', 'otsing'],
 ];
