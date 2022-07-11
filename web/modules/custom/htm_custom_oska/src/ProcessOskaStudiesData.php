@@ -83,6 +83,18 @@ class ProcessOskaStudiesData {
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func());
       }else{
+        # Add existing related job id's to "field_job_link" so that they could be removed later during the processing phase.
+        $main_profession = Node::load($object['ametiala']);
+        $existing_sidebar_paragraph = Paragraph::load($main_profession->get('field_sidebar')->getValue()[0]['target_id']);
+        $related_job_paragraph_values = $existing_sidebar_paragraph->get('field_jobs')->getValue();
+        foreach ($related_job_paragraph_values as $related_job => $job_value) {
+          if(Paragraph::load($job_value['target_id'])) {
+            $related_job_paragraph = Paragraph::load($job_value['target_id']);
+            $related_job_id = explode('/', $related_job_paragraph->get('field_job_link')->getValue()[0]['uri'])[1];
+            $results[$object['ametiala']]['field_job_link'][] = $related_job_id;
+          }
+        }
+
         $results[$object['ametiala']]['field_job_link'][] = $object['seotud_amet'];
         $results[$object['ametiala']]['field_iscedf_broad'][] = $object['oppevaldkond'];
         $results[$object['ametiala']]['field_iscedf_narrow'][] = $object['oppesuund'];
@@ -110,13 +122,14 @@ class ProcessOskaStudiesData {
       // Remove existing related profession fields (from job node)
       foreach($context['results']['values'] as $main_proffession => $paragraph_items){
         foreach($paragraph_items['field_job_link'] as $value) {
-            foreach ($value as $old_job => $old_j_nid) {
-              $old_node = Node::load($old_j_nid);
-              $old_sidebar_paragraph_job = Paragraph::load($old_node->get('field_sidebar')->getValue()[0]['target_id']);
-              $old_sidebar_paragraph_job->get('field_related_profession')->setValue(null);
-            }
+          if (!is_array($value)) {
+            $old_node = Node::load($value);
+            $old_sidebar_paragraph_job = Paragraph::load($old_node->get('field_sidebar')->getValue()[0]['target_id']);
+            $old_sidebar_paragraph_job->set('field_related_profession', null);
+            $old_sidebar_paragraph_job->save();
           }
         }
+      }
 
         if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
         $i = $context['sandbox']['current_id'];
@@ -155,6 +168,7 @@ class ProcessOskaStudiesData {
 
           // Merge related job node id's into a single array
           $merged_job_link = [];
+
           foreach($paragraph_items['field_job_link'] as $value) {
             foreach ($value as $merge_job => $merge_j_nid) {
               $merged_job_link[] = $merge_j_nid;
