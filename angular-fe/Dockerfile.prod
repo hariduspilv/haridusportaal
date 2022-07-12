@@ -17,7 +17,7 @@ RUN	apk update && \
 RUN npm i -g @angular/cli
 
 RUN apk --no-cache add --virtual native-deps \
-    g++ gcc libgcc libstdc++ linux-headers make python2 && \
+    g++ gcc libgcc libstdc++ linux-headers make python && \
     npm install --quiet node-gyp -g
 
 WORKDIR /app

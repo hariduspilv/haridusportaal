@@ -69,7 +69,7 @@ RUN	apk update && \
 
 # redis
 RUN	apk update && \
-	apk add make g++ python2 autoconf php7-dev && \
+	apk add make g++ python autoconf php7-dev && \
 	pecl channel-update pecl.php.net && \
     printf "\n" | curl 'http://pecl.php.net/get/redis-4.1.1.tgz' -o redis-4.1.1.tgz && \
     pecl install redis-4.1.1.tgz && \
