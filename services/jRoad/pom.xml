@@ -9,7 +9,7 @@
   <version>3.4.0</version>
   <packaging>pom</packaging>
 
-  <name>jRoad_Clients</name>
+  <name>Haridusportaal xRoad clients</name>
   <description>Haridusportaal xRoad clients. Dependencies for Haridusportaal xRoad microservice.</description>
 
   <parent>
