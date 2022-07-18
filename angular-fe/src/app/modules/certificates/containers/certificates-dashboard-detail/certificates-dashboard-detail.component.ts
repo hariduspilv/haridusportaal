@@ -73,7 +73,7 @@ export class CertificatesDashboardDetailComponent implements OnInit {
   certificateInit(): void {
     this.certificate = window.history.state.certificate;
     if (this.certificate.kehtetu) {
-      this.labels = [...this.labels, { value: 'Kehtetu' }];
+      this.labels = [...this.labels, { value: 'Kehtetu' }];
     }
     if (this.certificate.duplikaat) {
       this.labels = [...this.labels, { value: 'Duplikaat' }];
