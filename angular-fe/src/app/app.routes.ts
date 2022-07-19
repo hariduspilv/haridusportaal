@@ -248,7 +248,7 @@ const routes: Routes = [
 					? { consumed: url.slice(0, 1) }
 					: { consumed: [] }
 			},
-			children: translateRoutes(routes, ['otsing', 'search', 'preview', 'dummy', 'oska']),
+			children: translateRoutes(routes, ['search', 'preview', 'dummy', 'oska']),
 		},
 	])],
 	exports: [RouterModule],

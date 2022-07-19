@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { DeviceDetectorService } from "ngx-device-detector";
-import { getLangCode, isMainPage, isWildcardPage, translatePathTo } from '@app/_core/router-utility';
+import { getLangCode, isMainPage, isWildcardPage, translatePath, translatePathTo } from '@app/_core/router-utility';
 
 @Component({
   selector: 'htm-header',
@@ -69,10 +69,16 @@ export class HeaderComponent implements OnInit {
 
 	// when user clicks "back" or "forward" button, and it goes to the page in another language
 	@HostListener('window:popstate') onBackOrForwardClick() {
+		console.log('=========================');
+		console.log('on back button');
+		console.log(this.settings.currentAppLanguage);
+		console.log(getLangCode());
+		console.log(window.location.href);
+		console.log('=========================');
 		if (this.settings.currentAppLanguage !== getLangCode()) {
 
 			// not good - force refresh
-			window.location.href = window.location.pathname;
+			setTimeout(() => window.location.href = window.location.pathname, 1000);
 
 			// does NOT work correctly - not all data refreshed after back button push
 			// this.settings.currentAppLanguage = getLangCode();
@@ -238,7 +244,7 @@ export class HeaderComponent implements OnInit {
       e instanceof Event ? e.target['0'].value : e
     );
 
-    const url = `/otsing?term=${term}`;
+    const url = `${translatePath('/otsing')}?term=${term}`;
     this.searchTerm = '';
     this.sendAnalyticsData(term);
     this.cdr.detectChanges();
@@ -311,19 +317,25 @@ export class HeaderComponent implements OnInit {
 		const isWithoutTranslation = newUrl?.split('/')?.includes('node');
 
 		if (isMainPage()) {
-			this.navigate(code === LanguageCodes.ESTONIAN ? '' : code);
+			console.log(1);
+			setTimeout(() => this.navigate(code === LanguageCodes.ESTONIAN ? '' : code), 1000);
 		} else if (isWithoutTranslation) {
-			this.navigate(code === LanguageCodes.ESTONIAN ? '**' : `${code}/**`)
+			console.log(2);
+			setTimeout(() => this.navigate(code === LanguageCodes.ESTONIAN ? '**' : `${code}/**`), 1000);
 		} else if (newUrl) {
-			this.navigate(newUrl);
+			console.log(3);
+			setTimeout(()=> this.navigate(newUrl), 1000);
 		} else if (isWildcardPage()) {
-			this.navigateToMainPage();
+			console.log(4);
+			setTimeout(() => this.navigateToMainPage(), 1000);
 		} else {
 			try {
-				this.navigate(translatePathTo(this.router.url, code));
+				console.log(5);
+				setTimeout(() => this.navigate(translatePathTo(this.router.url, code)), 1000);
 				// this.navigate(translatePathTo(this.router.url.split('?')[0], code) +'?' + this.router.url.split('?')[1]);
 			} catch (error) {
-				this.navigate(code === LanguageCodes.ESTONIAN ? '' : code);
+				console.log(6);
+				// this.navigate(code === LanguageCodes.ESTONIAN ? '' : code);
 			}
 		}
 
@@ -355,6 +367,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	private navigate(path: string) {
+		console.log('navigate method');
 		this.router.navigate([path || '']).then(() => this.loading = false);
 	}
 }

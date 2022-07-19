@@ -43,5 +43,5 @@ export const routerDictionary = [
 	['õpingud', 'classes'], 																									// , 'zanjatija'
 	['õppimine', 'learning'],																									// , 'uchjoba'
 	/* Exceptions: */
-	['otsing', 'otsing'],
+	['otsing', 'home-search-list'],
 ];

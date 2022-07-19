@@ -5,8 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
 import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { takeUntil } from "rxjs/operators";
-import { TranslateService } from "@app/_modules/translate/translate.service";
+import { takeUntil } from 'rxjs/operators';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import {findTranslation, translatePath} from "@app/_core/router-utility";
 
 @Component({
   selector: 'homeSearchList-view',
@@ -258,10 +259,11 @@ export class HomeSearchListViewComponent {
     if (this.route.snapshot.queryParams['term']) {
 			const translations = this.translate.get('search.results').split(' ');
 			crumbText = `${translations[0]} "${this.route.snapshot.queryParams['term']}" ${translations[1]}`;
-      crumbUrl = `/otsing?term=${this.route.snapshot.queryParams['term']}`;
+      crumbUrl = `${translatePath('/otsing')}?term=${this.route.snapshot.queryParams['term']}`;
+			console.log('crumbUrl: ', crumbUrl)
     } else {
       crumbText = this.translate.get('search.label');
-      crumbUrl = '/otsing';
+      crumbUrl = `/${translatePath('/otsing')}`;
     }
     return [...crumbs, { title: crumbText }];
   }
