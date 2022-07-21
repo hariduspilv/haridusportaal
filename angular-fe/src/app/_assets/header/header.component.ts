@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 		if (this.settings.currentAppLanguage !== getLangCode()) {
 
 			// not good - force refresh
-			setTimeout(() => window.location.href = window.location.pathname, 1000);
+			window.location.href = window.location.pathname;
 
 			// does NOT work correctly - not all data refreshed after back button push
 			// this.settings.currentAppLanguage = getLangCode();
