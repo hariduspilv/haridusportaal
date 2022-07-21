@@ -2,11 +2,11 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TitleService } from '@app/_services/TitleService';
-import { getLangCode, isMainPage } from "@app/_core/router-utility";
-import { Router } from "@angular/router";
-import { TranslateService } from "@app/_modules/translate/translate.service";
-import { retry, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { getLangCode, isMainPage } from '@app/_core/router-utility';
+import { Router } from '@angular/router';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import { retry, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export interface BreadcrumbsItem {
   title: string;

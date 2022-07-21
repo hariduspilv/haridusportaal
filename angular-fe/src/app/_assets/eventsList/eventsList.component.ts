@@ -8,7 +8,7 @@ import { FiltersService } from '@app/_services/filterService';
 import { filter, delay } from 'rxjs/operators';
 import { SettingsService, ScrollRestorationService, ListRestorationType } from '@app/_services';
 import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
-import { translatePath } from "@app/_core/router-utility";
+import { translatePath } from '@app/_core/router-utility';
 
 export class EventsConfig {
 

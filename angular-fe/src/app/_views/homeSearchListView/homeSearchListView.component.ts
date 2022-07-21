@@ -7,7 +7,7 @@ import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import {findTranslation, translatePath} from "@app/_core/router-utility";
+import { translatePath } from '@app/_core/router-utility';
 
 @Component({
   selector: 'homeSearchList-view',
@@ -173,7 +173,7 @@ export class HomeSearchListViewComponent {
     const path = this.settings.query('homeSearch', variables);
 
     this.dataSubscription = this.http.get(path).subscribe((data) => {
-      this.updateParams('type', type.length ? type : null);
+			this.updateParams('type', type.length ? type : null);
       this.results = this.filteredResults = data['data']['CustomElasticQuery'][0]['entities'];
 
       this.types.forEach((type) => {
@@ -260,7 +260,6 @@ export class HomeSearchListViewComponent {
 			const translations = this.translate.get('search.results').split(' ');
 			crumbText = `${translations[0]} "${this.route.snapshot.queryParams['term']}" ${translations[1]}`;
       crumbUrl = `${translatePath('/otsing')}?term=${this.route.snapshot.queryParams['term']}`;
-			console.log('crumbUrl: ', crumbUrl)
     } else {
       crumbText = this.translate.get('search.label');
       crumbUrl = `/${translatePath('/otsing')}`;
