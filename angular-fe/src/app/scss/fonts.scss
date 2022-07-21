@@ -12,7 +12,46 @@ src: url('../../assets/fonts/iconfont.eot?timestamp=#{$randomNum}#iefix') format
     url('../../assets/fonts/iconfont.svg?timestamp=#{$randomNum}') format('svg'); /* Legacy iOS */
 }
 
-@import "https://fonts.googleapis.com/css?family=Rubik:100,300,400,500,700";
+// instead of import this, loading from the same project
+// @import "https://fonts.googleapis.com/css?family=Rubik:100,300,400,500,700";
+
+/* rubik-300 - latin-ext_latin_hebrew_cyrillic-ext_cyrillic */
+@font-face {
+	font-family: 'Rubik';
+	font-style: normal;
+	font-weight: 300;
+	src: local(''),
+	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-300.woff2') format('woff2'), /* Super Modern Browsers */
+	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-300.woff') format('woff'); /* Modern Browsers */
+}
+/* rubik-regular - latin-ext_latin_hebrew_cyrillic-ext_cyrillic */
+@font-face {
+	font-family: 'Rubik';
+	font-style: normal;
+	font-weight: 400;
+	src: local(''),
+	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-regular.woff2') format('woff2'), /* Super Modern Browsers */
+	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-regular.woff') format('woff'); /* Modern Browsers */
+}
+/* rubik-500 - latin-ext_latin_hebrew_cyrillic-ext_cyrillic */
+@font-face {
+	font-family: 'Rubik';
+	font-style: normal;
+	font-weight: 500;
+	src: local(''),
+	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-500.woff2') format('woff2'), /* Super Modern Browsers */
+	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-500.woff') format('woff'); /* Modern Browsers */
+}
+/* rubik-700 - latin-ext_latin_hebrew_cyrillic-ext_cyrillic */
+@font-face {
+	font-family: 'Rubik';
+	font-style: normal;
+	font-weight: 700;
+	src: local(''),
+	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-700.woff2') format('woff2'), /* Super Modern Browsers */
+	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-700.woff') format('woff'); /* Modern Browsers */
+}
+// ================== end of loading instead of import from googleapis
 
 @font-face {
   font-family: 'roboto';
