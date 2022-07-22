@@ -1,7 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
 import { AuthService } from './_services';
-import { isLanguageCode, translateRoutes } from "@app/_core/router-utility";
+import { isLanguageCode, translateRoutes } from '@app/_core/router-utility';
 
 @Component({
 	selector: 'dummy-view',
@@ -46,6 +46,13 @@ const routes: Routes = [
 		loadChildren: () => import('./_views/newsListView').then(m => m.NewsListViewModule),
 	},
 	{
+		path: 'uudised/:id',
+		loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+		data: {
+			type: 'news',
+		},
+	},
+	{
 	  path: 'otsing',
 	  loadChildren: () => import('./_views/homeSearchListView').then(m => m.HomeSearchListViewModule),
 
@@ -53,13 +60,6 @@ const routes: Routes = [
 	{
 	  path: 'search',
 	  loadChildren: () => import('./modules/home-search/home-search.module').then(module => module.HomeSearchModule),
-	},
-	{
-	  path: 'uudised/:id',
-	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
-	  data: {
-	    type: 'news',
-	  },
 	},
 	{
 	  path: 'sündmused',

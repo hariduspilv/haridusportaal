@@ -4,12 +4,9 @@ $max: 999999999;
 $randomNum: $min + floor($rand * (($max - $min) + 1));
 
 @font-face {
-font-family: "iconfont";
-src: url('../../assets/fonts/iconfont.eot?timestamp=#{$randomNum}'); /* IE9 Compat Modes */
-src: url('../../assets/fonts/iconfont.eot?timestamp=#{$randomNum}#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../../assets/fonts/iconfont.woff?timestamp=#{$randomNum}') format('woff'), /* Pretty Modern Browsers */
-    url('../../assets/fonts/iconfont.ttf?timestamp=#{$randomNum}')  format('truetype'), /* Safari, Android, iOS */
-    url('../../assets/fonts/iconfont.svg?timestamp=#{$randomNum}') format('svg'); /* Legacy iOS */
+	font-family: "iconfont";
+	src: url('../../assets/fonts/iconfont.woff?timestamp=#{$randomNum}') format('woff'); /* Pretty Modern Browsers */
+	font-display: swap;
 }
 
 // instead of import this, loading from the same project
@@ -23,6 +20,7 @@ src: url('../../assets/fonts/iconfont.eot?timestamp=#{$randomNum}#iefix') format
 	src: local(''),
 	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-300.woff2') format('woff2'), /* Super Modern Browsers */
 	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-300.woff') format('woff'); /* Modern Browsers */
+	font-display: swap;
 }
 /* rubik-regular - latin-ext_latin_hebrew_cyrillic-ext_cyrillic */
 @font-face {
@@ -32,6 +30,7 @@ src: url('../../assets/fonts/iconfont.eot?timestamp=#{$randomNum}#iefix') format
 	src: local(''),
 	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-regular.woff2') format('woff2'), /* Super Modern Browsers */
 	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-regular.woff') format('woff'); /* Modern Browsers */
+	font-display: swap;
 }
 /* rubik-500 - latin-ext_latin_hebrew_cyrillic-ext_cyrillic */
 @font-face {
@@ -41,6 +40,7 @@ src: url('../../assets/fonts/iconfont.eot?timestamp=#{$randomNum}#iefix') format
 	src: local(''),
 	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-500.woff2') format('woff2'), /* Super Modern Browsers */
 	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-500.woff') format('woff'); /* Modern Browsers */
+	font-display: swap;
 }
 /* rubik-700 - latin-ext_latin_hebrew_cyrillic-ext_cyrillic */
 @font-face {
@@ -50,23 +50,24 @@ src: url('../../assets/fonts/iconfont.eot?timestamp=#{$randomNum}#iefix') format
 	src: local(''),
 	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-700.woff2') format('woff2'), /* Super Modern Browsers */
 	url('../../assets/fonts/rubik-v21-latin-ext_latin_hebrew_cyrillic-ext_cyrillic-700.woff') format('woff'); /* Modern Browsers */
+	font-display: swap;
 }
 // ================== end of loading instead of import from googleapis
 
 @font-face {
   font-family: 'roboto';
   src: url('../../assets/fonts/roboto-bold-webfont.woff2') format('woff2'),
-       url('../../assets/fonts/roboto-bold-webfont.woff') format('woff'),
-       url('../../assets/fonts/roboto-bold-webfont.ttf') format('truetype');
+       url('../../assets/fonts/roboto-bold-webfont.woff') format('woff');
   font-weight: bold;
   font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
   font-family: 'roboto';
   src: url('../../assets/fonts/roboto-regular-webfont.woff2') format('woff2'),
-       url('../../assets/fonts/roboto-regular-webfont.woff') format('woff'),
-       url('../../assets/fonts/roboto-regular-webfont.ttf') format('truetype');
+       url('../../assets/fonts/roboto-regular-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+	font-display: swap;
 }
