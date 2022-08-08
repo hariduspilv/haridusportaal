@@ -1,9 +1,9 @@
-<div *ngIf="translatedContent" class="content" 
+<div *ngIf="translatedContent" class="content"
   role="text"
   attr.aria-label="{{ show ? '' : (screenReaderContent | ellipsis) }}"
   attr.id="wrapper-{{id}}">
   <div *ngIf="active"
-    class="content__background" 
+    class="content__background"
     aria-hidden="true">
   </div>
   <div class="content__inner"
