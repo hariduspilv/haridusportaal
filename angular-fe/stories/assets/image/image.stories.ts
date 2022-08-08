@@ -5,7 +5,7 @@ import imageMd from './image.md';
 import { TranslateModule } from '@app/_modules/translate';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
-import { ModalService, RippleService } from "@app/_services";
+import { ModalService } from "@app/_services";
 import { ActivatedRoute } from "@angular/router";
 
 const moduleMetadata = {
@@ -15,7 +15,6 @@ const moduleMetadata = {
   ],
 	providers: [
 		ModalService,
-		RippleService,
 		{ provide: ActivatedRoute, useValue: {}	},
 	]
 };
