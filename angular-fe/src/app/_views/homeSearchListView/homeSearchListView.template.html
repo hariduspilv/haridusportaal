@@ -1,4 +1,4 @@
-<base-layout>
+<base-layout *ngIf="!isLangSwitchLoading">
 	<div class="inline">
 		<breadcrumbs [data]="breadcrumbs" [ellipsis]="false"></breadcrumbs>
 	</div><!--/inline-->
@@ -25,7 +25,7 @@
 				<div #content *ngIf="filteredResults && filteredResults.length" class="search__title--filter">
 					{{ 'search.filter_results' | translate }}:</div>
 				<ng-container *ngIf="filteredResults && filteredResults.length">
-					<div class="search__chips" role="group" attr.aria-label="Search filter">
+					<div class="search__chips" role="group" attr.aria-label="{{ 'search.filter' | translate }}">
 						<a role="alert" id="initial" (keyup.enter)="filterAll()" (click)="filterAll()"
 							*ngIf="results && results.length" href="javascript:void(0)"
 							attr.aria-label="{{'button.all' | translate}} {{'search.results' | translate}}, status: {{allFilters ? 'On': 'Off'}}, count: {{ results.length }}"

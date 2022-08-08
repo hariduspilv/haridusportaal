@@ -3,11 +3,11 @@
       <div class="middle__child" *ngFor="let item of generalData[0].fieldMiddleContentLinks; let i = index; let last = last;" [class.middle__child--last]="last">
         <h1 class="frontpage__title frontpage__title--middle" *ngIf="item.entity && item.entity.title">{{item.entity.title}}</h1>
         <div class="frontpage__description frontpage__description--middle" *ngIf="item.entity && item.entity.introduction">{{item.entity.introduction}}</div>
-        <button attr.aria-label="{{ 'button.view_more' | translate }}" htm-button class="text-center" *ngIf="item.entity && item.entity.entityUrl && item.entity.entityUrl.path" [routerLink]="item.entity.entityUrl.path">{{'button.view_more' | translate}}</button> 
+        <button attr.aria-label="{{ 'button.view_more' | translate }}" htm-button class="text-center" *ngIf="item.entity && item.entity.entityUrl && item.entity.entityUrl.path" [routerLink]="item.entity.entityUrl.path">{{'button.view_more' | translate}}</button>
       </div>
     </div>
   </ng-template>
-  
+
   <ng-container>
     <div class="main-container">
       <div class="inline"><triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="top"></triangles></div>
@@ -39,7 +39,7 @@
       </div>
         <inline-articles
           identifier="fields"
-          heading="oska.latest_field_studies" 
+          heading="oska.latest_field_studies"
           [generalLink]="fieldsLink"
           [content]="fieldsData"
           [contentLabels]="fieldsLabels"
@@ -61,7 +61,7 @@
         <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topMiddle" smallAlignment="right"></circles>
       </div>
         <articles-single
-          [heading]="fieldBottomHeading" 
+          [heading]="fieldBottomHeading"
           [title]="generalData[0].fieldBottomTopic.entity.title"
           [image]="generalData[0].fieldBottomTopic.entity.fieldMainProfessionPicture
             || generalData[0].fieldBottomTopic.entity.fieldOskaFieldPicture
@@ -89,5 +89,4 @@
       </div>
     </div><!--/frontpage-->
   </ng-container>
-  
-  
+
