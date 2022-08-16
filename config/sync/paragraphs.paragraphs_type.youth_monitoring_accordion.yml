@@ -1,0 +1,10 @@
+uuid: ebc3cb10-37ca-429c-93b7-da212d2cd7dc
+langcode: et
+status: true
+dependencies: {  }
+id: youth_monitoring_accordion
+label: Akordion
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

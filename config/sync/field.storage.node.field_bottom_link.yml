@@ -1,4 +1,4 @@
-uuid: 83018ef8-764a-4373-b33b-611dfb178e94
+uuid: 62ce4186-559a-41d5-af76-2393166eb192
 langcode: et
 status: true
 dependencies:
@@ -6,8 +6,8 @@ dependencies:
     - entity_reference_revisions
     - node
     - paragraphs
-id: node.field_accordion
-field_name: field_accordion
+id: node.field_bottom_link
+field_name: field_bottom_link
 entity_type: node
 type: entity_reference_revisions
 settings:
