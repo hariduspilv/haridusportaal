@@ -581,7 +581,7 @@ frontpage:
       value: "<p>Teenus võimaldab kolmandal osapoolel (sh tööandjal) kontrollida tunnistusel olevate andmete kehtivust ja vajadusel ka tunnistus alla laadida. Sisestades tunnistuse numbri ja omaniku isikukoodi kuvatakse vastuseks isiku nimi ning tunnistuse andmete staatus. Mõlema välja täitmine on kohustuslik.</p>\r\n\r\n<p>Elektrooniliselt välja antud tunnistusel on samasugune õiguslik jõud nagu varasematel aastatel väljastatud paberkandjal oleval tunnistusel.</p>\r\n"
       format: custom_editor
     en:
-      value: "<p>Teenus võimaldab kolmandal osapoolel (sh tööandjal) kontrollida tunnistusel olevate andmete kehtivust ja vajadusel ka tunnistus alla laadida. Sisestades tunnistuse numbri ja omaniku isikukoodi kuvatakse vastuseks isiku nimi ning tunnistuse andmete staatus. Mõlema välja täitmine on kohustuslik.</p>\r\n\r\n<p>Elektrooniliselt välja antud tunnistusel on samasugune õiguslik jõud nagu varasematel aastatel väljastatud paberkandjal oleval tunnistusel.</p>\r\n"
+      value: "<p>The service allows a third party (incl. The employer) to check the validity of the data on the certificate and, if necessary, also download the certificate. By entering the certificate number and the owner's personal identification code, the person's name and the status of the certificate data are displayed in response. Both fields are required.</p>\r\n\r\n<p>An electronic certificate shall have the same legal value as a paper certificate issued in previous years.</p>\r\n"
       format: custom_editor
   certificate_owner_id:
     translation_type: textarea
@@ -730,11 +730,11 @@ frontpage:
   kvalifikatsioonid:
     translation_type: textarea
     et: Kvalifikatsioonid
-    en: ''
+    en: Qualifications
   lopetatud:
     translation_type: textarea
     et: lõpetatud
-    en: ''
+    en: Finished
   korgeim_haridustase:
     translation_type: textarea
     et: 'Kõrgeim haridustase'
@@ -742,16 +742,16 @@ frontpage:
   check_dashboard:
     translation_type: textarea
     et: 'Vaata oma töölauda'
-    en: ''
+    en: 'Look at your desktop'
   studies:
     openAll:
       translation_type: textarea
       et: 'Ava kõik õpingute andmed'
-      en: ''
+      en: 'Open all study data'
     closeAll:
       translation_type: textarea
       et: 'Sulge kõik õpingute andmed'
-      en: ''
+      en: 'Close all study data'
   login_required_message:
     translation_type: textarea
     et: 'Soovitud teenus eeldab sisse logimist.'
@@ -759,7 +759,7 @@ frontpage:
   dashboard_tabs_financial_report_drafts_label:
     translation_type: textarea
     et: Tegevusnäitajad
-    en: ''
+    en: 'Performance indicators'
   document_check_title:
     translation_type: textarea
     et: Dokumendid
@@ -767,27 +767,27 @@ frontpage:
   document_check:
     translation_type: textarea
     et: 'Lõpudokumendi kehtivuse kontroll'
-    en: 'Lõpudokumendi kehtivuse kontroll - eng'
+    en: 'Verification of the validity of the final document'
   document_id:
     translation_type: textarea
     et: 'Dokumendi number'
-    en: 'Dokumendi number - eng'
+    en: 'Document number'
   document_owner_id:
     translation_type: textarea
     et: 'Isikukood või sünnikuupäev'
-    en: 'Isikukood või sünnikuupäev - eng'
+    en: 'Identity number or date of birth'
   document_check_body:
     translation_type: text_format
     et:
       value: "<h3>Lõpudokumentide alamregister pakub võimalust kontrollida lõpudokumentide kehtivust. Kontrollida saab alates 2004. aasta kevadest välja antud põhikooli ja/või gümnaasiumi lõputunnistuste andmeid.</h3>\r\n\r\n<p>Lõpudokumendi otsimiseks tuleb:</p>\r\n\r\n<ul>\r\n\t<li>sisestada dokumendi number</li>\r\n\t<li>omaniku isikukood või sünniaeg</li>\r\n</ul>\r\n\r\n<p>NB! Andmete õigsus sõltub õppeasutustest – kui korrektselt on õppeasutus andmed sisestanud. Kui otsingu tulemusena ei leita andmebaasist otsitavat dokumenti, ei tähenda see, et niisugust dokumenti pole olemas. Probleem võib olla selles, et õppeasutus ei ole vastavat lõpudokumenti andmebaasi veel sisestanud. Dokumendi õigsuse kontrollimiseks tuleks sel juhul pöörduda vastava õppeasutuse poole.</p>\r\n"
       format: custom_editor
     en:
-      value: "<h3>Lõpudokumentide alamregister pakub võimalust kontrollida lõpudokumentide kehtivust. Kontrollida saab alates 2004. aasta kevadest välja antud põhikooli ja/või gümnaasiumi lõputunnistuste andmeid.</h3>\r\n\r\n<p>Lõpudokumendi otsimiseks tuleb:</p>\r\n\r\n<ul>\r\n\t<li>sisestada dokumendi number</li>\r\n\t<li>omaniku isikukood või sünniaeg</li>\r\n</ul>\r\n\r\n<p>NB! Andmete õigsus sõltub õppeasutustest – kui korrektselt on õppeasutus andmed sisestanud. Kui otsingu tulemusena ei leita andmebaasist otsitavat dokumenti, ei tähenda see, et niisugust dokumenti pole olemas. Probleem võib olla selles, et õppeasutus ei ole vastavat lõpudokumenti andmebaasi veel sisestanud. Dokumendi õigsuse kontrollimiseks tuleks sel juhul pöörduda vastava õppeasutuse poole.</p>\r\n"
+      value: "<h3>The sub-register of final documents offers the possibility to check the validity of final documents. Data on basic school and / or upper secondary school diplomas issued since the spring of 2004 can be checked.</h3>\r\n\r\n<p>To search for the final document, you need to:</p>\r\n\r\n<ul>\r\n\t<li>enter the document number</li>\r\n\t<li>owner's personal identification number or date of birth</li>\r\n</ul>\r\n\r\n<p><br />\r\nNB! The accuracy of the data depends on the educational institutions - how correctly the educational institution has entered the data. If the search does not find the document you are looking for in the database, it does not mean that such a document does not exist. The problem may be that the educational institution has not yet entered the relevant graduation document into the database. In this case, the relevant educational institution should be contacted to verify the accuracy of the document.</p>\r\n"
       format: custom_editor
   dashboard_tabs_graduation_certificates_no_results:
     translation_type: textarea
     et: 'Kehtivad e-tunnistused puuduvad'
-    en: 'Kehtivad e-tunnistused puuduvad - eng'
+    en: 'There are no valid e-certificates'
   dashboard_tabs_certificates_graduation:
     translation_type: textarea
     et: 'Lõputunnistused ja -diplomid'
@@ -795,15 +795,15 @@ frontpage:
   dashboard_view_all_notifications:
     translation_type: textarea
     et: 'Vaata kõiki teavitusi'
-    en: 'Vaata kõiki teavitusi'
+    en: 'See all notifications'
   dashboard_no_notifications:
     translation_type: textarea
     et: 'Sulle ei ole ühtegi teavitust.'
-    en: 'Sulle ei ole ühtegi teavitust.'
+    en: 'You have no notifications.'
   learning:
     translation_type: textarea
     et: Õppimine
-    en: Õppimine
+    en: Learning
   career:
     translation_type: textarea
     et: Karjäär
@@ -819,39 +819,39 @@ frontpage:
   kvalifikatsiooniVastavus:
     translation_type: textarea
     et: 'Kvalifikatsiooni vastavus kehtivas raamistikus'
-    en: 'Kvalifikatsiooni vastavus kehtivas raamistikus'
+    en: 'Conformity of qualifications within the current framework'
   akadKraad:
     translation_type: textarea
     et: 'Akadeemiline kraad või diplom'
-    en: 'Akadeemiline kraad või diplom'
+    en: 'Academic degree or diploma'
   nomLopp:
     translation_type: textarea
     et: 'Nominaalse õppeaja lõpu kuupäev'
-    en: 'Nominaalse õppeaja lõpu kuupäev'
+    en: 'Nominal end date'
   okVahetamine:
     translation_type: textarea
     et: 'Õppekava vahetamine'
-    en: 'Õppekava vahetamine'
+    en: 'Curriculum change'
   oppeasutuseNimiMuusKeeles:
     translation_type: textarea
     et: 'Õppeasutuse nimi muus keeles'
-    en: 'Õppeasutuse nimi muus keeles'
+    en: 'Name of educational institution in another language'
   oppeasutuseNimiTranslit:
     translation_type: textarea
     et: 'Õppeasutuse nime transliteratsioon'
-    en: 'Õppeasutuse nime transliteratsioon'
+    en: 'Transliteration of the name of an educational institution'
   kvalifikatsiooniRiik:
     translation_type: textarea
     et: 'Kvalifikatsiooni välja andnud riik'
-    en: 'Kvalifikatsiooni välja andnud riik'
+    en: 'Transliteration of the name of an educational institution'
   oppekavaNimetusOrig:
     translation_type: textarea
     et: 'Õppekava nimetus originaalis'
-    en: 'Õppekava nimetus originaalis'
+    en: 'Name of the curriculum in the original'
   oppekavaNimetusEesti:
     translation_type: textarea
     et: 'Õppekava nimetus eesti keeles'
-    en: 'Õppekava nimetus eesti keeles'
+    en: 'The name of the curriculum in Estonian'
   lisaKval:
     translation_type: textarea
     et: 'Tiitel, kutsekvalifikatsioon vm lisakvalifikatsioon'
@@ -907,22 +907,22 @@ frontpage:
   job_offers:
     translation_type: textarea
     et: Tööpakkumised
-    en: Tööpakkumised
+    en: 'Job offers'
   cooperation_offers:
     translation_type: textarea
     et: Koostööpakkumised
-    en: Koostööpakkumised
+    en: 'Cooperation offers'
   cooperation_offers_intro:
     translation_type: textarea
     et: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
-    en: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
+    en: 'Become a teacher or youth worker, lorem ipsum dolor sit amet, consectetur.'
   job_offers_description:
     translation_type: text_format
     et:
       value: "<p>Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale või vaata tööpakkumisi <a href=\"https://www.tootukassa.ee/toopakkumised?valdkonnad%5B%5D=EDU\" target=\"_blank\">Töötukassa kodulehelt</a>.</p>\r\n"
       format: custom_editor
     en:
-      value: "<p>Vaata haridusvaldkonna tööpakkumisi vajutades kaardil huvipakkuvale piirkonnale või vaata tööpakkumisi <a href=\"https://www.tootukassa.ee/toopakkumised?valdkonnad%5B%5D=EDU\" target=\"_blank\">Töötukassa kodulehelt</a>.</p>\r\n"
+      value: "<p>See job offers in the field of education by clicking on the map for the area of interest or see job offers on the website of the <a href=\"https://www.tootukassa.ee/en/joboffers?valdkonnad%5B%5D=EDU&amp;grupiIdd=5&amp;haridustaseMin=&amp;haridustaseMaks=DOKTORIOPE&amp;kinnitamiseVanusPaeviMaks=0&amp;varasemTookogemusAastaidMaks=10\">Unemployment Insurance Fund</a></p>\r\n"
       format: custom_editor
   job_offers_description_screen_reader:
     translation_type: text_format
@@ -936,6 +936,30 @@ frontpage:
     translation_type: textarea
     et: Eksamitunnistus
     en: 'Exam certificate'
+  et:
+    translation_type: textarea
+    et: Eesti
+    en: Eesti
+  ru:
+    translation_type: textarea
+    et: Русский
+    en: Русский
+  en:
+    translation_type: textarea
+    et: English
+    en: English
+  selected:
+    translation_type: textarea
+    et: valitud
+    en: selected
+  choose_language:
+    translation_type: textarea
+    et: 'Vali keel'
+    en: 'Choose language'
+  last:
+    translation_type: textarea
+    et: Viimane
+    en: 'The last'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1004,15 +1028,15 @@ xjson:
   validation_errors:
     translation_type: textarea
     et: 'Vormi täitmisel on esinenud vigu.'
-    en: ''
+    en: 'There have been errors filling out the form.'
   allowed_filetypes:
     translation_type: textarea
     et: 'Lubatud failitüübid: '
-    en: ''
+    en: 'Allowed file types:'
   max_size:
     translation_type: textarea
     et: 'Maksimaalne lubatud failisuurus on '
-    en: ''
+    en: 'The maximum allowed file size is'
   exceed_file_limit:
     translation_type: textarea
     et: 'Laaditud faili suurus ületab lubatud piirangut!'
@@ -1695,7 +1719,7 @@ event:
     en: 'Event Group'
   list:
     translation_type: textarea
-    et: List
+    et: Nimekiri
     en: List
   calendar:
     translation_type: textarea
@@ -1872,7 +1896,7 @@ event:
   related_no_results:
     translation_type: textarea
     et: 'Sarnased sündmused puuduvad'
-    en: 'Sarnased sündmused puuduvad'
+    en: 'There are no similar events'
   email:
     translation_type: textarea
     et: E-mail
@@ -2134,7 +2158,7 @@ studyProgramme:
   no_results:
     translation_type: textarea
     et: 'Erialad puuduvad.'
-    en: 'Erialad puuduvad.'
+    en: 'No found specialties.'
   related_label:
     translation_type: textarea
     et: 'Sarnased erialad'
@@ -2307,7 +2331,7 @@ login:
   tooltip-text:
     translation_type: textarea
     et: '2020 üldhariduse lõpudokumendid'
-    en: '2020 üldhariduse lõpudokumendid'
+    en: '2020 general education graduation documents'
   mobile_id_check:
     translation_type: textarea
     et: 'Kontrolli, et näed mobiiltelefoni ekraanil täpselt sama numbrit:'
@@ -2822,12 +2846,12 @@ notFound:
       value: "<p>Soovitud teenus nõuab sisse logimist, logi sisse!</p>\r\n"
       format: custom_editor
     en:
-      value: "<p>Soovitud teenus nõuab sisse logimist, logi sisse!</p>\r\n"
+      value: "<p>The requested service requires login, log in!</p>\r\n"
       format: custom_editor
   auth_explanation_string:
     translation_type: textarea
     et: 'Soovitud teenus nõuab sisse logimist, logi sisse!'
-    en: 'Soovitud teenus nõuab sisse logimist, logi sisse!'
+    en: 'The requested service requires login, log in!'
   explanation_string:
     translation_type: textarea
     et: "Tundub, et otsitud lehte ei leitud. Veakood: 404.\r\n"
@@ -2844,7 +2868,7 @@ errors:
   studies_data_request:
     translation_type: textarea
     et: 'Vabandame. Eesti Hariduse Infosüsteemist õpingute andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.'
-    en: 'Vabandame. Eesti Hariduse Infosüsteemist õpingute andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.'
+    en: 'Sorry. A technical error occurred while reading study data from the Estonian Education Information System. Please try again later.'
   personal_data_missing:
     translation_type: textarea
     et: 'Isikuandmed Eesti Hariduse Infosüsteemis puuduvad.'
@@ -2920,7 +2944,7 @@ errors:
   no_disclosed_certificates_found:
     translation_type: textarea
     et: 'Ei leitud ühtegi avalikustatud lõpudokumenti'
-    en: 'Ei leitud ühtegi avalikustatud lõpudokumenti'
+    en: 'No published final documents were found'
 search:
   label:
     translation_type: textarea
@@ -2928,7 +2952,7 @@ search:
     en: Search
   results:
     translation_type: textarea
-    et: Otsingutulemused
+    et: 'Otsingu tulemused'
     en: 'Search results'
   keyword:
     translation_type: textarea
@@ -2970,6 +2994,10 @@ search:
     translation_type: textarea
     et: 'Nimekirjas kokku'
     en: Results
+  filter:
+    translation_type: textarea
+    et: 'Otsingu filter'
+    en: 'Search filter'
 data:
   dashboard_link:
     translation_type: textarea
@@ -3161,15 +3189,15 @@ oskaProfessions:
   fieldsCompare:
     translation_type: textarea
     et: 'Valdkondade andmed'
-    en: 'Valdkondade andmed-eng'
+    en: 'Sectors data'
   data:
     translation_type: textarea
     et: 'Ametialade andmed'
-    en: 'Ametialade andmed-eng'
+    en: 'Professions data ENG'
   fields_all:
     translation_type: textarea
     et: 'Kõik valdkonnad'
-    en: 'Kõik valdkonnad-eng'
+    en: 'All areas'
   professions_all:
     translation_type: textarea
     et: 'Kõik ametialad'
@@ -3207,7 +3235,7 @@ oska:
   fieldNumberEmployed:
     translation_type: textarea
     et: 'Töötajate arv'
-    en: 'Töötajate arv'
+    en: 'Number of employees'
   title_field:
     translation_type: textarea
     et: Valdkond
@@ -3355,7 +3383,7 @@ oska:
   numberEmployedChange:
     translation_type: textarea
     et: 'Töökohtade arvu muutus'
-    en: 'Töökohtade arvu muutus'
+    en: 'Change in the number of jobs'
   incline:
     translation_type: textarea
     et: 'Väike kasv'
@@ -3423,23 +3451,23 @@ oska:
   latest_field_studies:
     translation_type: textarea
     et: 'Viimased valdkonnauuringud'
-    en: 'Viimased valdkonnauuringud'
+    en: 'Recent field studies'
   footer_intro:
     translation_type: textarea
     et: 'Tuleviku tööjõu- ja oskuste vajaduse prognoosisüsteem OSKA koostab aastaks 2020 kõigil elualadel Eestis tuleviku tööjõu ja oskuste prognoosid ning võrdleb neid pakutava koolitusega kutse- ja kõrghariduses ning täiendõppes.'
-    en: 'Tuleviku tööjõu- ja oskuste vajaduse prognoosisüsteem OSKA koostab aastaks 2020 kõigil elualadel Eestis tuleviku tööjõu ja oskuste prognoosid ning võrdleb neid pakutava koolitusega kutse- ja kõrghariduses ning täiendõppes.'
+    en: 'Forecast of future labor and skills needs OSKA compiles forecasts of future labor and skills in all walks of life in Estonia by 2020 and compares them with the training offered in vocational and higher education and in-service training.'
   footer_outro:
     translation_type: textarea
     et: 'OSKA uuringuid koostab Kutsekoda Euroopa Sotsiaalfondi vahenditest.'
-    en: 'OSKA uuringuid koostab Kutsekoda Euroopa Sotsiaalfondi vahenditest.'
+    en: 'OSKA''s research is prepared by the Vocational Chamber from the European Social Fund.'
   data:
     translation_type: textarea
     et: Andmed
-    en: Andmed-eng
+    en: Data
   no_data_yet:
     translation_type: textarea
     et: 'Hea kasutaja! Andmed on sisestamisel, avaldame need peatselt!'
-    en: 'Hea kasutaja! Andmed on sisestamisel, avaldame need peatselt!-eng'
+    en: 'Good user! Data is being entered, we will publish it soon!'
   compared_to_other_fields:
     translation_type: textarea
     et: 'võrreldes teiste valdkondadega'
@@ -3451,7 +3479,7 @@ oska:
   field_map_introduction:
     translation_type: textarea
     et: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest. '
-    en: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest.'
+    en: 'Here you can compare the data of OSKA''s future labor force and skills surveys. It is mainly possible to compare the location of employees in different fields by counties, for example, the share of employees in one field out of all employees in the county.'
   compared_to_other_professions:
     translation_type: textarea
     et: 'võrreldes teiste ametialadega'
@@ -3459,48 +3487,48 @@ oska:
   large_proportion:
     translation_type: textarea
     et: 'Suur osakaal'
-    en: ''
+    en: 'High proportion'
   small_proportion:
     translation_type: textarea
     et: 'Väike osakaal'
-    en: ''
+    en: 'Low proportion'
   fieldNumberEmployed_explanation:
     translation_type: textarea
     et: 'Joonis näitab valdkonna töötajate arvu võrreldes teiste valdkondadega.'
-    en: 'Joonis näitab valdkonna töötajate arvu võrreldes teiste valdkondadega.'
+    en: 'The figure shows the number of employees in the field compared to other fields.'
   professions_and_jobs:
     translation_type: textarea
     et: 'Ametialad ja ametid'
-    en: 'Ametialad ja ametid'
+    en: 'Professions and occupations'
   professionNumberEmployed_explanation:
     translation_type: textarea
     et: 'Joonis näitab ametiala töötajate arvu võrreldes teiste ametialadega.'
-    en: 'Joonis näitab ametiala töötajate arvu võrreldes teiste ametialadega.'
+    en: 'The figure shows the number of employees in the profession compared to other professions.'
   all_professions_and_jobs:
     translation_type: textarea
     et: 'Kõik ametialad ja ametid'
-    en: 'Kõik ametialad ja ametid'
+    en: 'All professions and occupations'
   competition_by_professions:
     translation_type: textarea
     et: 'Kui kerge/raske on tööd leida'
-    en: 'Kui kerge/raske on tööd leida'
+    en: 'How easy / difficult it is to find a job'
   professions_data:
     translation_type: textarea
     et: 'Ametialade andmed'
-    en: 'Ametialade andmed'
+    en: 'Professions data ENG'
   professions_description:
     translation_type: textarea
     et: 'Ametialad on sarnaste ametite kogumid, mida on analüüsitud OSKA tuleviku-uuringutes.'
-    en: 'Ametialad on sarnaste ametite kogumid, mida on analüüsitud OSKA tuleviku-uuringutes.'
+    en: 'Occupations are sets of similar occupations that have been analyzed in OSKA''s future research.'
   profession_job_description:
     translation_type: textarea
     et: 'Amet või ametikoht on tööülesannete kogum, mida isik täidab oma töökohal ja mille eest ta saab tasu.'
-    en: 'Amet või ametikoht on tööülesannete kogum, mida isik täidab oma töökohal ja mille eest ta saab tasu.'
+    en: 'An occupation or position is a set of tasks that a person performs at his or her workplace for which he or she receives remuneration.'
   fieldFurtherInfo:
     label:
       translation_type: textarea
       et: Lisateave
-      en: Lisateave
+      en: 'Learn more'
   graph_source:
     translation_type: textarea
     et: Allikas
@@ -3508,11 +3536,11 @@ oska:
   professions_or_jobs:
     translation_type: textarea
     et: 'Ametialad või ametid'
-    en: 'Ametialad või ametid'
+    en: 'Professions or occupations'
   search_professions:
     translation_type: textarea
     et: 'Otsi ametialasid ja ameteid'
-    en: 'Otsi ametialasid ja ameteid'
+    en: 'Search for professions and occupations'
   county:
     translation_type: textarea
     et: Maakond
@@ -3627,7 +3655,7 @@ dashboard:
       value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"modal-roleModal\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
       format: custom_editor
     en:
-      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"modal-roleModal\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
+      value: "<p>To submit a business report, select the role of an entrepreneur.</p>\r\n\r\n<p>Under the Applications tab, you can submit a needs-based study grant.</p>\r\n\r\n<p>Under studies, you can see what learning information your khota has in the Estonian Education Information System.</p>\r\n"
       format: custom_editor
   delete_doc:
     translation_type: textarea
@@ -3851,11 +3879,11 @@ generic:
   login_to_haridusportaal:
     translation_type: textarea
     et: 'Logi sisse Haridusportaali'
-    en: MISSING
+    en: 'Log in to the Education Portal'
   cancel:
     translation_type: textarea
     et: Tühista
-    en: 'Tühista - eng'
+    en: Cancel
   download:
     translation_type: textarea
     et: 'Laadi alla'
@@ -3867,7 +3895,7 @@ sidemenu:
       value: "<p>Lehte haldab</p>\r\n\r\n<p>Haridus- ja Teadusministeerium</p>\r\n\r\n<p>koos partneritega</p>\r\n"
       format: custom_editor
     en:
-      value: "<p>Lehte haldab</p>\r\n\r\n<p>Haridus- ja Teadusministeerium</p>\r\n\r\n<p>koos partneritega</p>\r\n"
+      value: "<p>The site is managed by the</p>\r\n\r\n<p>Ministry of Education and Research</p>\r\n\r\n<p>together with partners</p>\r\n"
       format: custom_editor
 filters: {  }
 date:
@@ -3919,7 +3947,7 @@ abitekst:
       value: "<h3>Eesti hariduse infosüsteemist (EHIS) saab vaadata enda huvi-, alus-, üld-, kutse- või kõrghariduse andmeid.</h3>\r\n\r\n<p>EHISes näeb:</p>\r\n\r\n<ul>\r\n\t<li>isiku üldandmeid (ja saab kontrollida, kas on võimalik saada riigi tagatisel õppelaenu)</li>\r\n\t<li>õpingute andmeid</li>\r\n\t<li>õpetaja või õppejõuna töötamise andmeid.</li>\r\n</ul>\r\n\r\n<p><em>Lisaks kuvatakse pedagoogide omandatud tasemehariduse ja täienduskoolituse andmeid ning õppejõudude kvalifikatsiooni andmeid.</em></p>\r\n\r\n<p>EHISesse ei kanta välisriigi õppeasutustes omandatud hariduse või seal töötamise andmeid.</p>\r\n\r\n<p>Üld-, kutse- ja kõrghariduse õppurite ning üld- ja kutsehariduse õpetajate kohta on andmed alates 2005. aastast. Lisaks on toonasest õpilaste ja üliõpilaste registrist EHISesse üle kantud 1998.–2005. aasta kutsehariduse õpilaste ja kõrgkoolide üliõpilaste andmed.</p>\r\n\r\n<p>Üldhariduse lõpudokumentide andmed on registris alates 2004. aastast.</p>\r\n\r\n<p><strong>NB!</strong> EHISesse sisestavad andmeid õppeasutused. Kui andmed teie käimasolevate õpingute kohta on puudulikud või valed, pöörduge andmete täpsustamiseks enda õppeasutuse poole.</p>\r\n\r\n<p><a href=\"mailto:ehis.tugi@hm.ee\">ehis.tugi@hm.ee</a>&nbsp;või Eesti hariduse infosüsteemi (EHIS) kasutajatoe telefon +372 5512<strong>&nbsp;</strong>5050<strong> </strong>(E–R 9.00–16.00).</p>\r\n"
       format: custom_editor
     en:
-      value: ''
+      value: "<p><strong>You can view your interest, basic, general, vocational or higher education data from the Estonian Education Information System (EHIS)</strong>.</p>\r\n\r\n<p>EHIS provides:</p>\r\n\r\n<ul>\r\n\t<li>general information about the person (and it is possible to check whether it is possible to obtain a student loan guaranteed by the state)</li>\r\n\t<li>study data</li>\r\n\t<li>information on working as a teacher or lecturer.</li>\r\n</ul>\r\n\r\n<p><em>In addition, data on the level of education and in-service training acquired by teachers and data on the qualifications of teachers are displayed</em>.</p>\r\n"
       format: custom_editor
   opetan:
     translation_type: text_format
@@ -3927,7 +3955,7 @@ abitekst:
       value: "<p>Esitage põnevaid küsimusi ning olge aktiivsed, et saada parimad teadmised,\" innustab minister Reps õpilasi uuest õppeaastast võimalikult palju teadmisi ammutama. Mailis Reps tunnustab õpetajaid hariduse tipptaseme hoidmisel ja parimal võimalikul viisil teadmiste edasi andmisel. Samuti on oluline ka lapsevanemate tugi - vaid üheskoos, toetudes perele ja kogukonnale, saab laste omandatav haridus vaid parimaks võimalikuks. Minister avaldab lootust, et uus õppeaasta kujuneb meeldejäädavaks tänu uute ja mitmekesiste võimaluste kasutamisel.</p>\r\n"
       format: custom_editor
     en:
-      value: ''
+      value: "<p>Ask exciting questions and be proactive to get the best knowledge, \"Minister Reps encourages students to learn as much as possible from the new school year. Mailis Reps recognizes teachers in maintaining excellence in education and passing on knowledge in the best possible way. The Minister hopes that the new school year will be a memorable one thanks to the use of new and diverse opportunities.</p>\r\n"
       format: custom_editor
   taotlused:
     translation_type: text_format
@@ -3935,7 +3963,7 @@ abitekst:
       value: "<h3>Vajaduspõhine õppetoetus</h3>\r\n\r\n<p>Alates 2013/2014. õppeaastast&nbsp;toetab riik vähemkindlustatud perekondadest pärit tudengeid kõrghariduse omandamisega kaasnevate lisakulude katmisel. Vajaduspõhine õppetoetus on kehtestatud&nbsp;<a href=\"https://www.riigiteataja.ee/akt/122122012008?leiaKehtiv\" target=\"_blank\">õppetoetuste ja õppelaenu seadusega.</a></p>\r\n\r\n<p>Alates 2016/2017. õppeaastast saavad vajaduspõhist õppetoetust taotleda ka üliõpilased, kes immatrikuleeriti enne 2013/2014. õppeaastat.</p>\r\n\r\n<p>Vajaduspõhist õppetoetust saab tudeng:</p>\r\n\r\n<ul>\r\n\t<li>kes õpib täiskoormusega ja täidab õppekava nõudeid 75% ulatuses, kusjuures õppe mahu arvestus on semestrite lõikes kumulatiivne. Esimesel semestril õppetoetuse taotlemisel on piisav ainult täiskoormuse nõude täitmine;</li>\r\n\t<li>kelle perekonna kuusissetulek ühe pereliikme kohta on kuni 468 eurot.</li>\r\n</ul>\r\n"
       format: custom_editor
     en:
-      value: ''
+      value: "<p><strong>Need - based study grant</strong></p>\r\n\r\n<p>From 2013/2014. From the academic year 2006/2007, the state will support students from low-income families to cover the additional costs of acquiring higher education. The need-based study grant is established by the Study Grants and Student Loans Act.</p>\r\n\r\n<p>From 2016/2017. From the academic year 2013/2014, students who matriculated before 2013/2014 can also apply for need-based study support. academic year.</p>\r\n\r\n<p>The student receives a needs-based study grant:</p>\r\n"
       format: custom_editor
   tunnistused:
     translation_type: text_format
@@ -3943,7 +3971,7 @@ abitekst:
       value: "<p>See on abitekst, mis on aga lühikene tupac tupac tupac kaks.</p>\r\n"
       format: custom_editor
     en:
-      value: ''
+      value: "<p>This is a help text, which is a short tupac tupac tupac two.</p>\r\n"
       format: custom_editor
   jur_taotlused:
     translation_type: text_format
@@ -3951,24 +3979,24 @@ abitekst:
       value: "<p>Täiskasvanute täienduskoolituste korraldajad peavad sõltuvalt valdkonnast taotlema õppe korraldamiseks&nbsp;<strong>tegevusloa&nbsp;</strong>või&nbsp;<strong>esitama majandustegevusteate.</strong>&nbsp;<strong>Sama koolituse</strong>&nbsp;kohta ei saa taotleda korraga tegevusluba ja esitada majandustegevusteadet.<br />\r\nTegevusloa taotlusele tuleb lisada asjaomase valdkonna eriseaduses&nbsp;<strong>nõutud dokumendid ja kinnitused</strong>. Tegevusloa taotluse lahendab haridus- ja teadusministeerium või olenevalt valdkonnast ka muu asutus.&nbsp;<br />\r\nNoortelaagrite korraldajad peavad vastavalt noorsootöö seadusele taotlema tegevusloa kas haridus- ja teadusministeeriumilt (püsilaagrid) või kohalikult omavalitsuselt, mille territooriumil laager korraldatakse (projektlaagrid).&nbsp;<br />\r\n<strong>Tegevusluba peavad taotlema</strong>:</p>\r\n\r\n<ul>\r\n\t<li>mootorsõidukijuhtide koolitust korraldavad ettevõtjad,</li>\r\n\t<li>eesti keele tasemeeksami tegemiseks ettevalmistavat eesti keele õpet korraldavad ettevõtjad,</li>\r\n\t<li>turvatöötajate õppe korraldajad,</li>\r\n\t<li>vedurijuhtide koolituse korraldajad,</li>\r\n\t<li>noorte püsi- ja projektlaagrite korraldajad.</li>\r\n</ul>\r\n\r\n<p>Kõigis teistes koolitusvaldkondades&nbsp;<strong>saab esitada majandustegevusteate</strong>. Teate esitamine ei ole kohustuslik, kuid sellega kaasnevad eelised ja kohustused kohalduvad üksnes koolitajatele, kes on majandustegevusteate esitanud.<br />\r\nMajandustegevusteade&nbsp;<strong>loetakse esitatuks hetkest</strong>, mil koolitaja selle kinnitab. Lisaks majandustegevusteate esitamisele&nbsp;<strong>peab koolitaja oma veebilehel avalikustama</strong>&nbsp;õppetöö korraldust ja õppe sisu käsitlevad dokumendid.<br />\r\nLisainfo täiskasvanute täienduskoolituste ning noorte püsi- ja projektlaagrite korraldamiseks väljastatavate tegevuslubade taotlemise ning majandustegevusteate esitamise kohta&nbsp;haridus- ja teadusministeeriumi kodulehelt<br />\r\n<a href=\"mailto:ehis.tugi@hm.ee\" target=\"_blank\">ehis.tugi@hm.ee</a>&nbsp;või Eesti hariduse infosüsteemi (EHIS) kasutajatoe telefon&nbsp;<strong>765 5050&nbsp;</strong>&nbsp;(E-R 9.00–16.00).<br />\r\nTeksti koostanud haridus- ja teadusministeerium</p>\r\n"
       format: custom_editor
     en:
-      value: ''
+      value: "<p>Depending on the field, organizers of in-service training for adults must apply for an activity <strong>license </strong>or submit an economic activity notice. It is not <strong>possible </strong>to apply for an activity license and submit an economic activity notice for the <strong>same training</strong> at the same time.<br />\r\nThe application for an activity license must be accompanied by the documents and confirmations required by the special law of the relevant field. The application for an activity license is decided by the Ministry of Education and Research or, depending on the field, also by another institution.<br />\r\nAccording to the Youth Work Act, the organizers of youth camps must apply for a license from either the Ministry of Education and Research (permanent camps) or the local government in whose territory the camp is organized (project camps).<br />\r\n<strong>The following must apply for an activity license</strong>:</p>\r\n\r\n<ul>\r\n\t<li>undertakings providing training for drivers,</li>\r\n\t<li>Entrepreneurs who organize preparatory Estonian language training for the Estonian language proficiency examination,</li>\r\n\t<li>training providers for security staff,</li>\r\n\t<li>train driver training providers,</li>\r\n\t<li>organizers of permanent and project youth camps.</li>\r\n</ul>\r\n"
       format: custom_editor
   sinu_id_tunnistused:
     translation_type: textarea
     et: 'Siin näed sinuga jagatud e-tunnistusi.'
-    en: MISSING
+    en: 'Here you will see the e-certificates shared with you.'
   ligipääsukoodiga_tunnistused:
     translation_type: textarea
     et: 'Siin saad vaadata tunnistusi, mille kohta oled saanud ligipääsukoodi. Ligipääsukoodi saab anda tunnistuse omanik või väljaandja. '
-    en: MISSING
+    en: 'Here you can view the certificates for which you have received an access code. The passcode can be given by the certificate holder or the issuer.'
   enda_tunnistused:
     translation_type: textarea
-    et: 'Sulle välja antud e-tunnistuste nägemiseks pead olema Haridusportaali sisse logitud. LIsaks saad anda ka teistele isikutele e-tunnistuste vaatamiseks vajalikud ligipääsuõiguseid. '
-    en: MISSING
+    et: 'Sulle välja antud e-tunnistuste nägemiseks pead olema Haridusportaali sisse logitud. Lisaks saad anda ka teistele isikutele e-tunnistuste vaatamiseks vajalikud ligipääsuõiguseid. '
+    en: 'You must be logged in to the Education Portal to see the e-certificates issued to you. In addition, you can grant other people access rights to view e-certificates.'
   avalikustatud_tunnistused:
     translation_type: textarea
     et: 'Lorem ipsum abitekst'
-    en: 'Lorem ipsum abitekst'
+    en: 'Lorem ipsum helptext'
 feedback_add_comment:
   translation_type: textarea
   et: 'Soovi korral lisa kommentaar'
@@ -3980,7 +4008,7 @@ feedback_cancel:
 favourites:
   translation_type: textarea
   et: 'Minu lemmikud'
-  en: ''
+  en: 'My favourites'
 feedback_comment_error:
   translation_type: textarea
   et: '* Kommentaari välja täitmine on kohustustlik'
@@ -3993,19 +4021,19 @@ infosystem:
   label:
     translation_type: textarea
     et: Infosüsteemid
-    en: ''
+    en: Infosystems
   my-details:
     translation_type: textarea
     et: 'Minu andmed'
-    en: 'Minu andmed'
+    en: 'My data'
 fieldLegislationBlock:
   translation_type: textarea
   et: Õigusaktid
-  en: ''
+  en: Legislation
 fieldBlocks:
   translation_type: textarea
   et: 'Leia kiiresti'
-  en: ''
+  en: 'Find fast'
 newsQuery:
   translation_type: textarea
   et: Uudised
@@ -4123,11 +4151,11 @@ messages:
 notifications:
   translation_type: textarea
   et: Teavitused
-  en: 'Teavitused - eng'
+  en: Notifications
 gdpr:
   translation_type: textarea
   et: 'Sinu andmete kasutajad'
-  en: 'Sinu andmete kasutajad - eng'
+  en: 'Users of your data'
   checkData:
     translation_type: textarea
     et: 'Vaata andmete kasutajaid'
@@ -4148,7 +4176,7 @@ gdpr_button:
   checkdata:
     translation_type: textarea
     et: 'Vaata andmete kasutajaid'
-    en: 'Vaata andmete kasutajaid-eng'
+    en: 'View data users'
 loader:
   text:
     translation_type: text_format
@@ -4156,7 +4184,7 @@ loader:
       value: "<p>Uh-Oh! Tundub, et server jäi magama.<br />\r\nPalun varu kannatust!</p>\r\n"
       format: custom_editor
     en:
-      value: "<p>Uh-Oh! It seems like server is down.<br />\r\nPlease be patient!</p>\r\n"
+      value: "<p>Uh-Oh! Looks like the server went to sleep.<br />\r\nPlease be patient!</p>\r\n"
       format: custom_editor
 add:
   translation_type: textarea
@@ -4166,11 +4194,11 @@ session:
   expiring:
     translation_type: textarea
     et: 'Teie sessioon aegub!'
-    en: 'Teie sessioon aegub!'
+    en: 'Your session is about to expire!'
   time_left:
     translation_type: textarea
     et: 'Teie sessioon aegub peatselt: '
-    en: 'Teie sessioon aegub peatselt: '
+    en: 'Your session will expire soon:'
   login:
     translation_type: textarea
     et: 'Palun logige uuesti sisse!'
@@ -4178,7 +4206,7 @@ session:
   continue:
     translation_type: textarea
     et: Jätka
-    en: Jätka
+    en: Continue
   expired:
     translation_type: textarea
     et: 'Teie sessioon on aegunud!'
@@ -4190,7 +4218,7 @@ session:
 gdpr_title:
   translation_type: textarea
   et: 'SINU ANDMETE KASUTAJAD'
-  en: 'SINU ANDMETE KASUTAJAD - eng'
+  en: 'USERS OF YOUR DATA'
 gdpr_yourDataRequests:
   translation_type: textarea
   et: 'Päring minu andmete vaatamise kohta'
@@ -4244,7 +4272,7 @@ certificates:
   view_with_accesscode:
     translation_type: textarea
     et: 'Tunnistuse vaatamine ligipääsukoodiga'
-    en: MISSING
+    en: 'View the certificate with an access code'
   login_to_view:
     translation_type: textarea
     et: 'Logi sisse ja vaata tunnistusi'
@@ -4252,7 +4280,7 @@ certificates:
   no_access:
     translation_type: textarea
     et: 'Pole kehtivat ligipääsu ühelegi tunnistusele'
-    en: MISSING
+    en: 'No valid access to any certificates'
   final_documents:
     translation_type: textarea
     et: Lõpudokumendid
@@ -4268,11 +4296,11 @@ certificates:
   validity_check:
     translation_type: textarea
     et: 'Kehtivuse kontroll'
-    en: MISSING
+    en: 'Validation check'
   no_certificate_or_access:
     translation_type: textarea
     et: 'Tunnistust ei leitud. Ligipääsukood võib olla vale või kehtetu'
-    en: MISSING
+    en: 'No certificate found. The passcode may be incorrect or invalid'
   access_code_field:
     translation_type: textarea
     et: 'Ligipääsukood*'
@@ -4292,7 +4320,7 @@ certificates:
   back_to_search:
     translation_type: textarea
     et: 'Tagasi lõputunnistuse otsingusse'
-    en: MISSING
+    en: 'Back to graduation search'
   certificate_nr:
     translation_type: textarea
     et: 'Tunnistus nr'
@@ -4300,31 +4328,31 @@ certificates:
   loading_error:
     translation_type: textarea
     et: 'Viga dokumendi laadimisel'
-    en: MISSING
+    en: 'Error loading document'
   download_choose_content:
     translation_type: textarea
     et: 'Vali sisu, mida soovid alla laadida'
-    en: MISSING
+    en: 'Select the content you want to download'
   download_choose_type:
     translation_type: textarea
     et: 'Vali failitüüp, mida soovid alla laadida'
-    en: MISSING
+    en: 'Select the type of file you want to download'
   manage_certificates:
     translation_type: textarea
     et: 'Vaata enda tunnistusi'
-    en: MISSING
+    en: 'Look at your testimonies'
   access_code_info:
     translation_type: textarea
     et: 'Sisestatud e-posti aadressile saadetakse ligipääsukood, mis võimaldab tunnsitust näha'
-    en: MISSING
+    en: 'An access code will be sent to the e-mail address you entered to view the authentication'
   id_code_info:
     translation_type: textarea
     et: 'Sisesta selle inimese isikukood, kellele soovid ligipääsu jagada'
-    en: MISSING
+    en: 'Enter the personal identification number of the person you want to share access to'
   disclosed:
     translation_type: textarea
     et: 'Avalikustatud lõpudokumentide vaatamine'
-    en: 'Avalikustatud lõpudokumendid - eng'
+    en: 'View published final documents'
   first_name:
     translation_type: textarea
     et: Eesnimi
@@ -4340,32 +4368,32 @@ certificates:
   disclosure:
     translation_type: textarea
     et: Avalikustatud
-    en: 'Avalikustatud - eng'
+    en: Disclosed
   final_document:
     translation_type: textarea
     et: Lõpudokument
-    en: Lõpudokument
+    en: 'Final document'
   current:
     translation_type: textarea
     et: praegune
-    en: praegune
+    en: current
   current_registry:
     translation_type: textarea
     et: 'praegune rahvastikuregistri järgi'
-    en: 'praegune rahvastikuregistri järgi'
+    en: 'according to the current population register'
   disclosure_info:
     translation_type: textarea
     et: 'Avalikustatud dokumenti näevad kõik, kes teavad sellega seotud isikukoodi või nime'
-    en: ''
+    en: 'The disclosed document is visible to anyone who knows the personal identification code or name associated with it'
 home:
   slogan:
     translation_type: textarea
     et: 'Sinu <b>edu</b>ka <br /> teekonna algus'
-    en: 'Sinu <b>edu</b>ka <br /> teekonna algus'
+    en: 'The beginning of </br> your <b>success</b>ful journey'
   services:
     translation_type: textarea
     et: Teenused
-    en: Teenused
+    en: Services
   what_to_find:
     translation_type: textarea
     et: 'Mida siit leiad?'
@@ -4373,67 +4401,67 @@ home:
   contact:
     translation_type: textarea
     et: Kontakt
-    en: Kontakt
+    en: Contact
   newsletter_subscribe:
     translation_type: textarea
     et: 'Uudiskirja tellimine'
-    en: 'Uudiskirja tellimine'
+    en: 'Subscribe to the news'
   newsletter_join:
     translation_type: textarea
     et: Liitu
-    en: Liitu
+    en: Join
   newsletter_rss:
     translation_type: textarea
     et: 'Telli teemad RSS-iga'
-    en: 'Telli teemad RSS-iga'
+    en: 'Order topics with RSS'
   newsletter_email:
     translation_type: textarea
     et: 'Sisesta oma e-mail'
-    en: 'Sisesta oma e-mail'
+    en: 'Type your e-mail'
   services_title:
     translation_type: textarea
     et: 'Haldusvaldkonna e-teenused'
-    en: 'Haldusvaldkonna e-teenused'
+    en: 'E-services in the field of administration'
   study_title:
     translation_type: textarea
     et: 'Ametialad-ametid ja õppekavad'
-    en: 'Ametialad-ametid ja õppekavad'
+    en: 'Occupations and curricula'
   study_intro:
     translation_type: textarea
-    et: 'Vaata ameteid ja erialasid, et leida endale <br /> sobivaim õpitee'
-    en: 'Vaata ameteid ja erialasid, et leida endale <br /> sobivaim õpitee'
+    et: 'Vaata ameteid ja erialasid, et leida endale sobivaim õpitee'
+    en: 'Look at occupations and specialties to find the perfect learning path for you'
   studyprogramme_compare:
     translation_type: textarea
     et: Õppekavad
-    en: Õppekavad
+    en: Curricula
   view_more:
     translation_type: textarea
     et: 'Uuri lähemalt'
-    en: 'Uuri lähemalt'
+    en: 'Find out more'
   profession_compare:
     translation_type: textarea
     et: 'Ametialad ja ametid'
-    en: 'Ametialad ja ametid'
+    en: 'Professions and occupations'
   topical:
     translation_type: textarea
     et: Päevakajaline
-    en: Päevakajaline
+    en: Daily
   read_more:
     translation_type: textarea
     et: 'Loe lähemalt'
-    en: 'Loe lähemalt'
+    en: 'Read closer'
   external_links:
     translation_type: textarea
     et: VÄLISLINGID
-    en: Välislingid
+    en: 'External links'
   future_career:
     translation_type: textarea
     et: 'Karjäär tulevikus'
-    en: 'Karjäär tulevikus'
+    en: 'Career in the future'
   events:
     translation_type: textarea
     et: 'Sündmused test'
-    en: Sündmused
+    en: Events
   events_text:
     translation_type: textarea
     et: 'Mingi tekst, mis räägib millegist pikemalt pikemalt pikemalt pikemalt pikemalt'
@@ -4441,91 +4469,99 @@ home:
   teachers_slogan:
     translation_type: textarea
     et: 'Õpetajad loovad homse Eesti'
-    en: 'Õpetajad loovad<br />homse Eesti'
+    en: 'Teachers will create the Estonia of tomorrow'
   career_slogan_description:
     translation_type: textarea
     et: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta. Pikem tekst kas läheb logo taha? Haridus- ja Teadusministeerium'
-    en: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta.'
+    en: 'Here you will find practical tips for shaping your career and useful information about future work and skills. Ministry of Education and Research'
   career_slogan:
     translation_type: textarea
     et: 'Sinu teekond <b>unistuste</b> tööni'
-    en: 'Mingisugune <b>slogan</b> <br />karjäärist'
+    en: 'Your journey to the job of your <b>dreams</b>'
   careerDevelopment_title:
     translation_type: textarea
     et: 'Karjääri kujundamine'
-    en: 'Karjääri kujundamine'
+    en: 'Career development'
   careerDevelopment_description:
     translation_type: textarea
     et: ' Karjäär on teekond, mille kujundavad sinu teadlikud valikud'
-    en: 'Karjääri kujundamise sammud, consectetur adipiscing elit, lorem ipsum dolor sit.'
+    en: 'A career is a journey shaped by your conscious choices'
   topics_areas:
     translation_type: textarea
     et: 'VALDKONNAD TÖÖTURUL'
-    en: 'VALDKONNAD TÖÖTURUL'
+    en: 'AREAS IN THE LABOR MARKET'
   topics_professions:
     translation_type: textarea
     et: 'AMETIALAD JA AMETID'
-    en: 'AMETIALAD JA AMETID'
+    en: 'OCCUPATIONS AND OCCUPATIONS'
   toolbox:
     translation_type: textarea
     et: Tööriistakast
-    en: Tööriistakast
+    en: Toolbox
   topical_default:
     translation_type: textarea
     et: Päevakajaline
-    en: Päevakajaline
+    en: 'Up to Date'
   topical_career:
     translation_type: textarea
     et: Päevakajaline
-    en: Päevakajaline
+    en: Daily
   topical_teachers:
     translation_type: textarea
     et: Päevakajaline
-    en: Päevakajaline
+    en: Daily
   topics_curricula:
     translation_type: textarea
     et: Õppekavad
-    en: Õppekavad
+    en: Curricula
   topics_institutions:
     translation_type: textarea
     et: Õppeasutused
-    en: Õppeasutused
+    en: 'Educational institutions'
   learning_slogan:
     translation_type: textarea
     et: 'Mingisugune <b>slogan</b> õpilastele'
-    en: 'Mingisugune <b>slogan</b> õpilastele'
+    en: 'Some <b>slogan</b> to the students'
   exam_period:
     translation_type: textarea
     et: Eksamiperiood
-    en: Eksamiperiood
+    en: 'Examination period'
   learning_path_title:
     translation_type: textarea
     et: Õpitee
-    en: Õpitee
+    en: 'Learning path'
   study_teaching:
     translation_type: textarea
     et: 'Õpi õpetajaks või noorsootöötajaks'
-    en: 'Õpi õpetajaks või noorsootöötajaks'
+    en: 'Become a teacher or youth worker'
   study_teaching_intro:
     translation_type: textarea
     et: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
-    en: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
+    en: 'Become a teacher or youth worker, lorem ipsum dolor sit amet, consectetur.'
   youngth_slogan:
     translation_type: textarea
     et: 'Mingisugune <b>slogan</b> noortele'
-    en: 'Mingisugune <b>slogan</b> noortele'
+    en: 'Some <b>slogan</b> to youth'
   youngth_path_title:
     translation_type: textarea
     et: 'Noorsootöö võimalused'
-    en: 'Noorsootöö võimalused'
+    en: 'Youth work opportunities'
   topics_youngth_center:
     translation_type: textarea
     et: 'Avatud noortekeskused'
-    en: 'Avatud noortekeskused'
+    en: 'Youth work opportunities'
   topics_hobby_education:
     translation_type: textarea
     et: 'Huviharidus ja huvitegevus'
     en: 'Huviharidus ja huvitegevus'
+  logo_alt_text:
+    translation_type: textarea
+    et: 'pealehe logo alt text'
+    en: 'main page logo alt text'
+  career-structure-funds-logo:
+    translation_type: textarea
+    et: 'Struktuurifondide logod'
+    en: 'Logo of the EU Structure funds'
 finalDocumentDownload:
   translation_type: textarea
   et: 'Laadi failid alla'
@@ -4569,24 +4605,24 @@ finalDocument_issue_ISSUER:
 finalDocument_issue_DISPLAY:
   translation_type: textarea
   et: Vaatamine
-  en: 'Vaatamine - eng'
+  en: Viewing
 documentCheck:
   doc_nr_missing:
     translation_type: textarea
     et: '"Dokumendi number" väärtus on sisestamata'
-    en: '"Dokumendi number" väärtus on sisestamata - eng'
+    en: 'The "Document Number" value is not entered'
   idcode_or_bday_missing:
     translation_type: textarea
     et: '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule'
-    en: '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule - eng'
+    en: '"Personal ID or Birthday" value is missing or not formatted'
   no_results:
     translation_type: textarea
     et: 'Sisestatud andmetega dokumenti ei leitud andmebaasist'
-    en: 'Sisestatud andmetega dokumenti ei leitud andmebaasist - eng'
+    en: 'The document with the entered data was not found in the database'
   exists_but_not_for_user:
     translation_type: textarea
     et: 'Sisestatud andmetega dokumenti pole antud isikule väljastatud'
-    en: 'Sisestatud andmetega dokumenti pole antud isikule väljastatud'
+    en: 'The document with the entered data has not been issued to this person'
   invalid_document:
     translation_type: textarea
     et: 'Sisestatud andmetega dokument on kehtetu'
@@ -4748,27 +4784,27 @@ finaldocuments:
   idcode_end_date:
     translation_type: textarea
     et: 'Ligipääsu kehtivuse lõpp:'
-    en: 'Ligipääsu kehtivuse lõpp:'
+    en: 'Access expires:'
   main_document:
     translation_type: textarea
     et: Lõputunnistus
-    en: Lõputunnistus
+    en: 'Graduation certificate'
   main_document_with_grades:
     translation_type: textarea
     et: 'Lõputunnistus koos hinnetelehega'
-    en: 'Lõputunnistus koos hinnetelehega'
+    en: 'Graduation certificate with grade sheet'
   action_history:
     translation_type: textarea
     et: 'Väljaandmise ajalugu'
-    en: 'Väljaandmise ajalugu'
+    en: 'History of issue'
   issue_history:
     translation_type: textarea
     et: 'Vaatamise ajalugu'
-    en: 'Vaatamise ajalugu'
+    en: 'Viewing history'
   date_of_decision:
     translation_type: textarea
     et: 'Otsuse nr ja kuupäev'
-    en: 'Otsuse nr ja kuupäev'
+    en: 'Decision nr and Date'
   inactive_accesses:
     translation_type: textarea
     et: 'Kehtetud ligipääsud'
@@ -4784,7 +4820,7 @@ finaldocuments:
   data:
     translation_type: textarea
     et: 'Lõpudokumendi andmed'
-    en: 'Lõpudokumendi andmed'
+    en: 'Details of the final document'
   number:
     translation_type: textarea
     et: Number
@@ -4792,145 +4828,145 @@ finaldocuments:
   date_of:
     translation_type: textarea
     et: 'Lõpetamise kuupäev'
-    en: 'Lõpetamise kuupäev'
+    en: 'Date of completion'
   duplicate_number:
     translation_type: textarea
     et: 'Duplikaadi algdokumendi number'
-    en: 'Duplikaadi algdokumendi number'
+    en: 'Duplicate source document number'
   date_of_duplicate:
     translation_type: textarea
     et: 'Duplikaadi väljaandmise kuupäev'
-    en: 'Duplikaadi väljaandmise kuupäev'
+    en: 'Date of issue of the duplicate'
   institution_data:
     translation_type: textarea
     et: 'Õppeasutuse andmed'
-    en: 'Õppeasutuse andmed'
+    en: 'Institution data'
   institution_name:
     translation_type: textarea
     et: 'Õppeasutuse nimi'
-    en: 'Õppeasutuse nimi'
+    en: 'Institution name'
   curriculum_data:
     translation_type: textarea
     et: 'Õppekava andmed'
-    en: 'Õppekava andmed'
+    en: 'Curriculum data'
   curriculum_name:
     translation_type: textarea
     et: 'Õppekava nimetus'
-    en: 'Õppekava nimetus'
+    en: 'Curriculum name'
   curriculum_code:
     translation_type: textarea
     et: 'Õppekava kood'
-    en: 'Õppekava kood'
+    en: 'Curriculum code'
   degree_name:
     translation_type: textarea
     et: 'Akadeemilise kraadi nimetus'
-    en: 'Akadeemilise kraadi nimetus'
+    en: 'Title of academic degree'
   level_of_education:
     translation_type: textarea
     et: 'Õppetaseme nimetus'
-    en: 'Õppetaseme nimetus'
+    en: 'Name of study level'
   accreditation_decision:
     translation_type: textarea
     et: 'Õppekava akrediteeringu otsus'
-    en: 'Õppekava akrediteeringu otsus'
+    en: 'Curriculum accreditation decision'
   accreditation_end_date:
     translation_type: textarea
     et: 'Õppekava akrediteeringu kehtivuse lõppkuupäev'
-    en: 'Õppekava akrediteeringu kehtivuse lõppkuupäev'
+    en: 'End date of curriculum accreditation'
   right_to_provide_education_decision:
     translation_type: textarea
     et: 'Õppekavagrupis õppe läbiviimise õiguse otsus'
-    en: 'Õppekavagrupis õppe läbiviimise õiguse otsus'
+    en: 'Decision on the right to conduct studies in a curriculum group'
   right_to_provide_education_end_date:
     translation_type: textarea
     et: 'Õppekavagrupis õppe läbiviimise õiguse lõppkuupäev'
-    en: 'Õppekavagrupis õppe läbiviimise õiguse lõppkuupäev'
+    en: 'End date of the right to conduct studies in a curriculum group'
   type_of_training:
     translation_type: textarea
     et: 'Kutseõppe tase'
-    en: 'Kutseõppe tase'
+    en: 'Level of vocational training'
   credit_point:
     translation_type: textarea
     et: 'Õppekava maht'
-    en: 'Õppekava maht'
+    en: 'Curriculum volume'
   length_of_programme:
     translation_type: textarea
     et: 'Õppekava nominaalkestvus'
-    en: 'Õppekava nominaalkestvus'
+    en: 'Nominal duration of the curriculum'
   level_of_qualification:
     translation_type: textarea
     et: 'Kvalifikatsiooni taseme haridustaseme aste'
-    en: 'Kvalifikatsiooni taseme haridustaseme aste'
+    en: 'Level of education level of qualification'
   estonian_qualification_level:
     translation_type: textarea
     et: 'Eesti kvalifikatsiooniraamistiku tase'
-    en: 'Eesti kvalifikatsiooniraamistiku tase'
+    en: 'Level of the Estonian Qualifications Framework'
   european_qualification_level:
     translation_type: textarea
     et: 'Euroopa kvalifikatsiooniraamistiku tase'
-    en: 'Euroopa kvalifikatsiooniraamistiku tase'
+    en: 'Level of the European Qualifications Framework'
   occupational_qualifications:
     translation_type: textarea
     et: 'Kutse andmed lõpudokumendilt'
-    en: 'Kutse andmed lõpudokumendilt'
+    en: 'Invitation details from the final document'
   occupational_qualification:
     translation_type: textarea
     et: 'Kutse nimetus'
-    en: 'Kutse nimetus'
+    en: 'Name of the invitation'
   occupational_qualification_number:
     translation_type: textarea
     et: 'Kutsetunnistuse number kutseregistris'
-    en: 'Kutsetunnistuse number kutseregistris'
+    en: 'Professional certificate number in the professional register'
   partial_occupational_qualification:
     translation_type: textarea
     et: 'Osakutse nimetus'
-    en: 'Osakutse nimetus'
+    en: 'Name of the unit invitation'
   partial_occupational_qualification_number:
     translation_type: textarea
     et: 'Osakutse tunnistuse number kutseregistris'
-    en: 'Osakutse tunnistuse number kutseregistris'
+    en: 'Unit invitation certificate number in the professional register'
   qualification_within_framework:
     translation_type: textarea
     et: 'Kvalifikatsioon kehtivas raamistikus'
-    en: 'Kvalifikatsioon kehtivas raamistikus'
+    en: 'Qualifications within the current framework'
   choose_access_scope_disclosure:
     translation_type: textarea
     et: 'Vali avalikustamise ulatus: *'
-    en: 'Vali avalikustamise ulatus: *'
+    en: 'Select the scope of disclosure: *'
   choose_disclosure_end_date:
     translation_type: textarea
     et: 'Vali avalikustamise kehtivuse lõpp: *'
-    en: 'Vali avalikustamise kehtivuse lõpp: *'
+    en: 'Select expiration of disclosure: *'
   disclosure_end_date:
     translation_type: textarea
     et: 'Avalikustamise kehtivuse lõpp:'
-    en: 'Avalikustamise kehtivuse lõpp:'
+    en: 'Expiry of publishing:'
   disclosure_scope:
     translation_type: textarea
     et: 'Avalikustamise ulatus:'
-    en: 'Avalikustamise ulatus:'
+    en: 'Scope of publishing:'
   confirm_invalidate_disclosure:
     translation_type: textarea
     et: 'Kas oled kindel, et soovid avalikustamise lõpetada?'
-    en: 'Kas oled kindel, et soovid avalikustamise lõpetada?'
+    en: 'Are you sure you want to stop publishing?'
 finaldocument:
   idcode:
     translation_type: textarea
     et: Isikukood
-    en: Isikukood
+    en: 'Personal code'
 gdpr_intro:
   translation_type: text_format
   et:
     value: "<p>Teil on võimalus vaadata, kes, millal ja mis eesmärgil on teie Eesti hariduse infosüsteemis olevaid andmeid kasutanud. Näete poole aasta jooksul teie kohta tehtud päringuid.</p>\r\n"
     format: custom_editor
   en:
-    value: ''
+    value: "<p>You have the opportunity to see who has used the data in your Estonian education information system, when and for what purpose. You will see inquiries about you in half a year.</p>\r\n"
     format: custom_editor
 form:
   invalid_address:
     translation_type: textarea
     et: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
-    en: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
+    en: 'No matches found. Enter the exact address, eg ''Kase 4-12'' and select the appropriate option from the drop-down menu.'
   invalid_email:
     translation_type: textarea
     et: 'Palun sisesta e-posti aadress kujul: info@info.ee'
@@ -4955,7 +4991,7 @@ finalDocument_issue_DOWNLOAD:
 finalDocumentAccesses:
   translation_type: textarea
   et: Ligipääsud
-  en: 'Ligipääsud - eng'
+  en: Accesses
 finalDocumentAccess:
   translation_type: textarea
   et: Ligipääs
@@ -4964,19 +5000,19 @@ gallery:
   link-title:
     translation_type: textarea
     et: 'Vaata galeriid'
-    en: ''
+    en: 'See the gallery'
   prev:
     translation_type: textarea
     et: 'Eelmine pilt'
-    en: ''
+    en: 'Previous picture'
   next:
     translation_type: textarea
     et: 'Järgmine pilt'
-    en: ''
+    en: 'Next picture'
   title:
     translation_type: textarea
     et: Galerii
-    en: ''
+    en: Gallery
 carousel:
   next:
     translation_type: textarea
@@ -4993,7 +5029,7 @@ carousel:
 'GRANT_STATUS:SUBMITTED':
   translation_type: textarea
   et: 'Esitatud (otsustamisel)'
-  en: ''
+  en: 'Submitted (deciding)'
 labels:
   tags:
     translation_type: textarea
@@ -5039,16 +5075,16 @@ study_programme:
   label:
     translation_type: textarea
     et: Erialad
-    en: Styudyprogammres
+    en: Styudyprogammes
 'finalDocument_ACTION_TYPE:REPEALING':
   translation_type: textarea
   et: 'Kehtetuks muutmine'
-  en: 'Kehtetuks muutmine'
+  en: Repeal
 liveAnnouncer:
   found_x_results:
     translation_type: textarea
     et: 'Leiti %amount% tulemust'
-    en: 'Leiti %amount% tulemust'
+    en: '%amount% results found'
 calendar:
   open:
     translation_type: textarea
@@ -5066,7 +5102,7 @@ olt:
       value: "<p>Kui teil on küsimusi õpetajate lähtetoetuse kohta, kirjutage aadressil oppetoetused@rtk.ee. <a href=\"https://www.rtk.ee/\">Täpsem info</a></p>\r\n"
       format: custom_editor
     en:
-      value: ''
+      value: "<p>If you have any questions about the initial teacher support, write to oppetoetused@rtk.ee</p>\r\n"
       format: custom_editor
   footer_helpertext:
     translation_type: text_format
@@ -5074,7 +5110,7 @@ olt:
       value: "<p>Kinnitan minu poolt esitatud andmete õigsust.<br />\r\nKinnitan, et olen tutvunud õpetaja lähtetoetust reguleerivate õigusaktidega (põhikooli- ja<br />\r\ngümnaasiumiseaduse § 77 ja § 77¹ , kutseõppeseaduse seaduse § 41 ja haridus- ja<br />\r\nteadusministri 2018. aasta 21. veebruari määrus nr 5 Õpetaja ja tugispetsialisti<br />\r\nlähtetoetuse taotlemise, maksmise ja tagasinõudmise kord ning olen teadlik lähtetoetuse<br />\r\nsaamisega kaasnevatest õigustest ja kohustustest.</p>\r\n\r\n<p>Ebakorrektsete andmete muutmiseks palun pöördu EHISe kooli administraatori poole.</p>\r\n"
       format: custom_editor
     en:
-      value: ''
+      value: "<p>I confirm the accuracy of the information provided by me.</p>\r\n\r\n<p>I confirm that I have read the legislation governing the initial teacher allowance (basic school and § 77 and § 77¹ of the Gymnasium Act, § 41 of the Vocational Education Act and the Education and Training Act Regulation No. 5 of the Minister of Research of 21 February 2018 Teacher and support specialist the procedure for applying for, paying and recovering the initial allowance and I am aware of the initial allowance the rights and obligations attached to the receipt.</p>\r\n\r\n<p>To change incorrect data, please contact the EHIS school administrator.</p>\r\n"
       format: custom_editor
   terms_agreement:
     translation_type: text_format
@@ -5082,29 +5118,29 @@ olt:
       value: "<p>Kinnitan minu poolt esitatud andmete õigsust.</p>\r\n\r\n<p>Kinnitan, et olen tutvunud õpetaja lähtetoetust reguleerivate õigusaktidega (<a href=\"https://www.riigiteataja.ee/akt/dyn=102032018001&amp;id=122012018003!pr77lg6\" target=\"_blank\" title=\"põhikooli- ja gümnaasiumiseaduse\">põhikooli- ja gümnaasiumiseaduse</a> § 77 ja § 77¹ , <a href=\"https://www.riigiteataja.ee/akt/122122013002?leiaKehtivhttps://www.riigiteataja.ee/akt/122122013002?leiaKehtiv\" target=\"_blank\">kutseõppeseaduse seaduse</a> § 41 ja haridus- ja teadusministri 2018. aasta 21. veebruari määrus nr 5 <a href=\"https://www.riigiteataja.ee/akt/102032018001\" target=\"_blank\">Õpetaja ja tugispetsialisti lähtetoetuse taotlemise, maksmise ja tagasinõudmise kord</a> ning olen teadlik lähtetoetuse saamisega kaasnevatest õigustest ja kohustustest.</p>\r\n\r\n<p>Ebakorrektsete andmete muutmiseks palun pöördu EHISe kooli administraatori poole.</p>\r\n"
       format: custom_editor
     en:
-      value: ''
+      value: "<p>I confirm the accuracy of the information provided by me.</p>\r\n\r\n<p>I confirm that I have read the legislation regulating the initial allowance for teachers (§ 77 and § 77¹ of the Basic Schools and Upper Secondary Schools Act, § 41 of the Vocational Education Act and Regulation No. 5 of the Minister of Education and Research of 21 February 2018 aware of the rights and obligations attached to the receipt of the initial grant.</p>\r\n\r\n<p>To change incorrect data, please contact the EHIS school administrator.</p>\r\n"
       format: custom_editor
 'GRANT_STATUS:WITHDRAWN':
   translation_type: textarea
   et: 'Tagasi võetud'
-  en: ''
+  en: 'Taken back'
 study:
   search_studies:
     translation_type: textarea
     et: 'Otsi uuringuid'
-    en: ''
+    en: 'Search studies'
   topic:
     translation_type: textarea
     et: Teema
-    en: ''
+    en: Topic
   text_search:
     translation_type: textarea
     et: 'Tekstiotsing (pealkiri, autor, sisukokkuvõte)'
-    en: ''
+    en: 'Text search (title, author, summary)'
   publication_type:
     translation_type: textarea
     et: 'Publikatsiooni liik'
-    en: ''
+    en: 'Publication type'
   publisher:
     translation_type: textarea
     et: Väljaandja
@@ -5120,11 +5156,11 @@ study:
   year_from:
     translation_type: textarea
     et: 'Aasta alates'
-    en: ''
+    en: 'Year from'
   year_to:
     translation_type: textarea
     et: 'Aasta kuni'
-    en: ''
+    en: 'Year until'
   label:
     translation_type: textarea
     et: Uuringud
@@ -5136,53 +5172,71 @@ study:
   view_more:
     translation_type: textarea
     et: 'Vaata lisaks'
-    en: ''
+    en: 'See also'
   study_data:
     translation_type: textarea
     et: 'Uuringu andmed'
-    en: ''
+    en: 'Study data'
   authors:
     translation_type: textarea
     et: Autor(id)
-    en: ''
+    en: Author(s)
   author_institution:
     translation_type: textarea
     et: 'Autori institutsionaalne kuuluvus'
-    en: ''
+    en: 'Institutional affiliation of the author'
   orderer:
     translation_type: textarea
     et: Tellija/rahastaja
-    en: ''
+    en: 'Contracting authority / sponsor'
   year:
     translation_type: textarea
     et: Aasta
-    en: ''
+    en: Year
 jobOffer:
   full_time:
     translation_type: textarea
     et: Täistööaeg
-    en: Täistööaeg
+    en: 'Full time job'
   part_time:
     translation_type: textarea
     et: Osaline
-    en: Osaline
+    en: Participant
   with_shifts:
     translation_type: textarea
     et: Vahetustega
-    en: Vahetustega
+    en: 'With shifts'
   at_night:
     translation_type: textarea
     et: Öösiti
-    en: Öösiti
+    en: Nightly
   offered_by:
     translation_type: textarea
     et: Tööpakkuja
-    en: Tööpakkuja
+    en: Employer
   job_expiry:
     translation_type: textarea
     et: Tähtaeg
-    en: Tähtaeg
+    en: Deadline
 downloadFile:
   translation_type: textarea
   et: 'Laadi fail alla'
   en: 'Download file'
+fieldRelatedProfession:
+  translation_type: textarea
+  et: Ametid
+  en: Jobs
+youthMonitoring:
+  title:
+    translation_type: textarea
+    et: Noorteseire
+    en: 'Youth monitoring'
+  list:
+    introTitle:
+      translation_type: textarea
+      et: Noorteseire
+      en: 'Youth monitoring'
+    introText:
+      translation_type: textarea
+      et: 'Noorteseire pakub asja- ja ajakohast informatsiooni noorte eluoluga seotud valdkondade kohta. See aitab hinnata noorte ja noorsootöö olukorda, arvestada noori puudutavaid aspekte eri poliitikate ja noortele suunatud teenuste väljatöötamisel ja parandamisel ning hinnata poliitikamuudatuste võimalikke mõjusid.'
+      en: 'ENG Noorteseire pakub asja- ja ajakohast informatsiooni noorte eluoluga seotud valdkondade kohta. See aitab hinnata noorte ja noorsootöö olukorda, arvestada noori puudutavaid aspekte eri poliitikate ja noortele suunatud teenuste väljatöötamisel ja parandamisel ning hinnata poliitikamuudatuste võimalikke mõjusid.'
