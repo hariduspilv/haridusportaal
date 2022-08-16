@@ -1,3 +1,18 @@
-<h1>youth monitoring list works</h1>
+<base-layout>
+	<div class="inline">
+		<breadcrumbs path="{{ '/noorteseire' | translatePath }}"></breadcrumbs>
+	</div><!--/inline-->
+	<div class="inline">
+		<block>
+			<block-title><h1>{{ 'youthMonitoring.title' | translate }}</h1></block-title>
+			<block-content>
+        <ng-container *ngIf="data; else loader">
+          <youth-monitoring-banner [title]="'youthMonitoring.list.introTitle' | translate" [body]="'youthMonitoring.list.introText' | translate"></youth-monitoring-banner>
+          <dropdown-list [data]="data"></dropdown-list>
+        </ng-container>
+			</block-content>
+		</block>
+	</div><!--/inline-->
+</base-layout>
 
-<a routerLink="123">123 detail</a>
+<ng-template #loader><loader></loader></ng-template>
