@@ -1,0 +1,19 @@
+uuid: c33cc8ce-4930-4509-8429-c9d85c5b103d
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_video_field
+    - paragraphs
+id: paragraph.field_youth_video
+field_name: field_youth_video
+entity_type: paragraph
+type: custom_video_field_type
+settings: {  }
+module: htm_custom_video_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

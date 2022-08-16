@@ -1,0 +1,48 @@
+uuid: c0e41a2c-5258-450a-9439-ac1f3486f8ce
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.youth_monitoring_page.field_bottom_link
+    - field.field.node.youth_monitoring_page.field_content
+    - field.field.node.youth_monitoring_page.field_end_picture
+    - field.field.node.youth_monitoring_page.field_end_text
+    - field.field.node.youth_monitoring_page.field_end_video
+    - field.field.node.youth_monitoring_page.field_extertnal_link
+    - field.field.node.youth_monitoring_page.field_first_picture
+    - field.field.node.youth_monitoring_page.field_first_picture_or_video
+    - field.field.node.youth_monitoring_page.field_first_video
+    - field.field.node.youth_monitoring_page.field_gallery
+    - field.field.node.youth_monitoring_page.field_introduction
+    - field.field.node.youth_monitoring_page.field_right_column_elements
+    - field.field.node.youth_monitoring_page.field_youth_accordion
+    - node.type.youth_monitoring_page
+  module:
+    - user
+id: node.youth_monitoring_page.teaser
+targetEntityType: node
+bundle: youth_monitoring_page
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_bottom_link: true
+  field_content: true
+  field_end_picture: true
+  field_end_text: true
+  field_end_video: true
+  field_extertnal_link: true
+  field_first_picture: true
+  field_first_picture_or_video: true
+  field_first_video: true
+  field_gallery: true
+  field_introduction: true
+  field_right_column_elements: true
+  field_youth_accordion: true
+  langcode: true
+  search_api_excerpt: true

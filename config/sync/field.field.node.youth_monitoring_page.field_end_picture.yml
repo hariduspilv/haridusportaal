@@ -1,0 +1,38 @@
+uuid: c6c8109e-8029-4027-93b7-d2c1f5441aff
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_end_picture
+    - node.type.youth_monitoring_page
+  module:
+    - image
+id: node.youth_monitoring_page.field_end_picture
+field_name: field_end_picture
+entity_type: node
+bundle: youth_monitoring_page
+label: 'Pilt põhiteksti järel'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

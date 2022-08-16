@@ -1,0 +1,33 @@
+uuid: 19317614-b0bf-4316-a3a9-1a1f64e9aeb4
+langcode: et
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_block_type
+field_name: field_block_type
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: RegularBlock
+      label: 'Parema veeru tavaline plokk'
+    -
+      value: PeopleIconBlock
+      label: 'Inimeste ikooniga plokk'
+    -
+      value: ArrowIconBlock
+      label: 'Rohelise diagonaalse noole ikooniga plokk'
+    -
+      value: DotIconBlock
+      label: 'Rohelise täpi ikooniga plokk'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
