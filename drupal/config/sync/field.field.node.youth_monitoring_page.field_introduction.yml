@@ -1,0 +1,19 @@
+uuid: 833070b0-5ed8-41d8-982d-c5f84fbcba9b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_introduction
+    - node.type.youth_monitoring_page
+id: node.youth_monitoring_page.field_introduction
+field_name: field_introduction
+entity_type: node
+bundle: youth_monitoring_page
+label: Sissejuhatus
+description: 'Maksimaalselt 300 tähemärki'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

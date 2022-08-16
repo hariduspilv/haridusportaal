@@ -2,11 +2,6 @@ uuid: 30fcf012-9f31-49b3-b604-99cc5b035d7e
 langcode: et
 status: true
 dependencies:
-  module:
-    - elasticsearch_connector
-    - paragraphs
-    - node
-    - search_api
   config:
     - field.storage.node.field_accordion_section
     - field.storage.paragraph.field_survey_accordion_title
@@ -30,6 +25,11 @@ dependencies:
     - field.storage.node.field_body_summary
     - field.storage.node.field_educational_institution
     - search_api.server.elasticsearch_server
+  module:
+    - elasticsearch_connector
+    - paragraphs
+    - node
+    - search_api
 third_party_settings:
   elasticsearch_connector:
     ngram_filter_enabled: 0
