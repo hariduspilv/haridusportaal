@@ -1,0 +1,27 @@
+uuid: 7562b482-c8eb-404b-b497-1d6e7cf12374
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_first_picture_or_video
+field_name: field_first_picture_or_video
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: picture
+      label: Esipilt
+    -
+      value: video
+      label: Esivideo
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

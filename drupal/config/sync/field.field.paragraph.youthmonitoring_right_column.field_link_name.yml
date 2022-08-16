@@ -1,0 +1,19 @@
+uuid: 8fc6c976-8efd-4059-bf4e-282a0721ba27
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_link_name
+    - paragraphs.paragraphs_type.youthmonitoring_right_column
+id: paragraph.youthmonitoring_right_column.field_link_name
+field_name: field_link_name
+entity_type: paragraph
+bundle: youthmonitoring_right_column
+label: 'Lingi pealkiri'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

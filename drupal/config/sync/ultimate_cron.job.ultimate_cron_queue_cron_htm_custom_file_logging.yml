@@ -1,0 +1,20 @@
+uuid: e847065c-d27e-4d47-89cd-3a1ece186245
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_file_logging
+title: 'Queue: Delete task worker: log delete queue'
+id: ultimate_cron_queue_cron_htm_custom_file_logging
+weight: 10
+module: htm_custom_file_logging
+callback: 'ultimate_cron.queue_worker:queueCallback'
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+logger:
+  id: database

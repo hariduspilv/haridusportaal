@@ -1,0 +1,21 @@
+uuid: 9a44a8a5-1e47-4140-afb1-cb038745d9d2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_end_text
+    - node.type.youth_monitoring_page
+  module:
+    - text
+id: node.youth_monitoring_page.field_end_text
+field_name: field_end_text
+entity_type: node
+bundle: youth_monitoring_page
+label: 'Lisatekst põhisisu lõpus kuvamiseks'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

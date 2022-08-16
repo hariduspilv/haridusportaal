@@ -1,0 +1,21 @@
+uuid: bb2bd234-52ca-4ab9-bef7-123469416c69
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_end_video
+    - node.type.youth_monitoring_page
+  module:
+    - htm_custom_video_field
+id: node.youth_monitoring_page.field_end_video
+field_name: field_end_video
+entity_type: node
+bundle: youth_monitoring_page
+label: 'Video põhiteksti järel'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: custom_video_field_type
