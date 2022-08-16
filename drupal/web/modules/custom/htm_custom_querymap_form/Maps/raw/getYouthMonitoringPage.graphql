@@ -1,16 +1,6 @@
-query getArticle($path: String!) {
+query getYouthMonitoringPage($path: String!) {
   route(path: $path) {
     ... on EntityCanonicalUrl {
-      entityUrl {
-        ... on EntityCanonicalUrl {
-          path
-          languageSwitchLinks {
-            url {
-              path
-            }
-          }
-        }
-      }
       languageSwitchLinks {
         active
         language {
