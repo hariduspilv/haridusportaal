@@ -1,0 +1,130 @@
+query getArticle($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        language {
+          id
+        }
+        url {
+          path
+        }
+      }
+      entity {
+        ... on NodeYouthMonitoringPage {
+          isFavorite
+          nid
+          title
+          fieldIntroduction
+          fieldContent{
+            value
+          }
+          fieldFirstPictureOrVideo
+          fieldFirstPicture{
+            url
+            title
+            alt
+            title
+          }
+          fieldFirstVideo{
+            input
+            videoDomain
+            videoDescription
+            videoId
+            videoThumbnail
+          }
+          fieldGallery{
+            alt
+            url
+            title
+          }
+          fieldExtertnalLink{
+            entity{
+              ... on ParagraphLink{
+                fieldLinkName
+                fieldWebpageLink{
+                  title
+                  uri
+                }
+              }
+            }
+          }
+          fieldEndPicture{
+            title
+            alt
+            url
+          }
+          fieldEndVideo{
+            input
+            videoDomain
+            videoDescription
+            videoId
+            videoThumbnail
+          }
+          fieldBottomLink{
+            entity{
+              ... on ParagraphLink{
+                fieldLinkName
+                fieldWebpageLink{
+                  title
+                  uri
+                }
+              }
+
+            }
+          }
+          fieldYouthAccordion{
+            entity{
+              ... on ParagraphYouthMonitoringAccordion{
+                fieldTitle
+                fieldYouthBody{
+                  value
+                }
+                fieldYouthLink{
+                  entity{
+                    ... on ParagraphLink{
+                      fieldLinkName
+                      fieldWebpageLink{
+                        title
+                        uri
+                      }
+                    }
+                  }
+                }
+                fieldYouthVideo{
+                  input
+                  videoDomain
+                  videoDescription
+                  videoId
+                  videoThumbnail
+                }
+                fieldYouthPicture{
+                  alt
+                  title
+                  url
+                }
+                fieldYouthIntroduction{
+                  value
+                }
+              }
+            }
+          }
+          fieldEndText{
+            value
+          }
+          fieldRightColumnElements{
+            entity{
+              ... on ParagraphYouthmonitoringRightColumn{
+                fieldBlockType
+                fieldTitle
+                fieldBlockText
+                fieldLinkName
+                fieldWebPageLink
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

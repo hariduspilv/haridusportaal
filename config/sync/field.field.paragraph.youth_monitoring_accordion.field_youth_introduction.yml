@@ -1,0 +1,21 @@
+uuid: 34d131f7-8954-483a-85ed-554b734345a6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_youth_introduction
+    - paragraphs.paragraphs_type.youth_monitoring_accordion
+  module:
+    - text
+id: paragraph.youth_monitoring_accordion.field_youth_introduction
+field_name: field_youth_introduction
+entity_type: paragraph
+bundle: youth_monitoring_accordion
+label: Sissejuhatus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

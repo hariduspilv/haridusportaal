@@ -1,0 +1,21 @@
+uuid: 46bedae0-c37d-4f6a-9f8f-6908045ffc34
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_first_picture_or_video
+    - node.type.youth_monitoring_page
+  module:
+    - options
+id: node.youth_monitoring_page.field_first_picture_or_video
+field_name: field_first_picture_or_video
+entity_type: node
+bundle: youth_monitoring_page
+label: 'Esipilt või esivideo'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

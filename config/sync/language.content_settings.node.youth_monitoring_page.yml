@@ -1,0 +1,16 @@
+uuid: f4ed54ed-14df-4684-820d-cf62738d569d
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.youth_monitoring_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.youth_monitoring_page
+target_entity_type_id: node
+target_bundle: youth_monitoring_page
+default_langcode: site_default
+language_alterable: true

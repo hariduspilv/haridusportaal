@@ -1,0 +1,10 @@
+uuid: 706dabaa-3bcd-4da1-b956-26a695daf5ed
+langcode: et
+status: true
+dependencies: {  }
+id: youthmonitoring_right_column
+label: 'Parema veeru elemendid'
+icon_uuid: null
+icon_default: null
+description: 'Noorteseire sisulehe parema veeru elemendid/plokid'
+behavior_plugins: {  }
