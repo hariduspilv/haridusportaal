@@ -1,6 +1,16 @@
 query getArticle($path: String!) {
   route(path: $path) {
     ... on EntityCanonicalUrl {
+      entityUrl {
+        ... on EntityCanonicalUrl {
+          path
+          languageSwitchLinks {
+            url {
+              path
+            }
+          }
+        }
+      }
       languageSwitchLinks {
         active
         language {
@@ -12,26 +22,11 @@ query getArticle($path: String!) {
       }
       entity {
         ... on NodeYouthMonitoringPage {
-          isFavorite
           nid
           title
           fieldIntroduction
           fieldContent{
             value
-          }
-          fieldFirstPictureOrVideo
-          fieldFirstPicture{
-            url
-            title
-            alt
-            title
-          }
-          fieldFirstVideo{
-            input
-            videoDomain
-            videoDescription
-            videoId
-            videoThumbnail
           }
           fieldGallery{
             alt
