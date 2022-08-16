@@ -89,6 +89,28 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
     ];
   }
 
+  if($form_id === 'node_youth_monitoring_page_form'){
+
+    // Show "field_first_picture" field only when "Picture" is selected on "field_first_picture_or_video" field
+    $form['field_first_picture']['#states'] = [
+      'visible' => [
+        ':input[name="field_first_picture_or_video"]' => [
+          'value' => 'picture'
+        ]
+      ]
+    ];
+    // Show "field_first_video" field only when "Video" is selected on "field_first_picture_or_video" field
+    $form['field_first_video']['#states'] = [
+      'visible' => [
+        ':input[name="field_first_picture_or_video"]' => [
+          'value' => 'video'
+        ]
+      ]
+    ];
+
+    $form['field_introduction']['widget'][0]['value']['#attributes']['maxlength'] = 300;
+  }
+
   if($form_id === 'system_performance_settings'){
     $form['caching']['page_cache_maximum_age']['#options']['2592000'] = t('1 month');
   }
