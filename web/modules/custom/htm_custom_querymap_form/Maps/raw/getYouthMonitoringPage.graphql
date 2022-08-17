@@ -8,6 +8,9 @@ query getYouthMonitoringPage($path: String!) {
         }
         url {
           path
+          routed
+          pathAlias
+          pathInternal
         }
       }
       entity {
