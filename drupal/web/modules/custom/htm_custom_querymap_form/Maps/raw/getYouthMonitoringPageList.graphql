@@ -12,6 +12,9 @@ query ($lang: LanguageId!) {
             languageSwitchLinks {
               url {
                 path
+                routed
+                pathAlias
+                pathInternal
               }
             }
           }
