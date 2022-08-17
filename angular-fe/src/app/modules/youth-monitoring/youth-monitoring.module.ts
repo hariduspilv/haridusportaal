@@ -17,6 +17,8 @@ import { YouthMonitoringBannerComponent } from './components/youth-monitoring-ba
 import { YouthMonitoringApiService } from './youth-monitoring-api.service';
 import { YouthMonitoringSidebarBlockComponent } from './components/youth-monitoring-sidebar-block/youth-monitoring-sidebar-block.component';
 import { YouthMonitoringSidebarComponent } from './containers/youth-monitoring-sidebar/youth-monitoring-sidebar.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RouteUndefinedInterceptor } from '@app/_interceptors/detail-route-undefined.interceptor';
 
 const routes: Routes = [
   {
@@ -46,6 +48,9 @@ const routes: Routes = [
     AppPipes,
   ],
   exports: [],
-  providers: [YouthMonitoringApiService],
+  providers: [
+    YouthMonitoringApiService,
+		{ provide: HTTP_INTERCEPTORS, useClass: RouteUndefinedInterceptor, multi: true }
+  ],
 })
 export class YouthMonitoringModule {}

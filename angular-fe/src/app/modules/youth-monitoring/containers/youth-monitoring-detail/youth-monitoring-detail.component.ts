@@ -22,6 +22,7 @@ export class YouthMonitoringDetailComponent implements OnDestroy {
       this.detailPath = `/${getTranslatedWord('noorteseire')}/${params.id}`;
 
       return this.service.getPage(this.detailPath).pipe(
+        takeUntil(this.destroy$),
         tap({
           next: (response) => {
             this.saveLanguageSwitchLinks(response);
@@ -33,7 +34,6 @@ export class YouthMonitoringDetailComponent implements OnDestroy {
             this.loading = false;
           }
         }),
-        takeUntil(this.destroy$),
         map(
           (response) => YouthMonitoringUtility.mapDetail(response?.data?.route?.entity)
         )
