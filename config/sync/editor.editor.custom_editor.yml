@@ -48,13 +48,14 @@ settings:
             - Copy
             - Paste
             - PasteFromWord
+            - Iframe
             - Maximize
             - Format
   plugins:
-    stylescombo:
-      styles: 'h3|t(''Heading'')'
     language:
       language_list: un
+    stylescombo:
+      styles: 'h3|t(''Heading'')'
 image_upload:
   status: false
   scheme: public

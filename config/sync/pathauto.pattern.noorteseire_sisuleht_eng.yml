@@ -1,0 +1,33 @@
+uuid: 72d103fb-0ff6-4b2d-b8e5-c1b3d86dab73
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: noorteseire_sisuleht_eng
+label: 'Noorteseire sisuleht ENG'
+type: 'canonical_entities:node'
+pattern: 'youth-monitoring/[node:title]'
+selection_criteria:
+  f419f239-6e5c-4e0a-997b-d69552249adb:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: f419f239-6e5c-4e0a-997b-d69552249adb
+    context_mapping:
+      node: node
+    bundles:
+      youth_monitoring_page: youth_monitoring_page
+  d31747c2-55f1-44e4-9267-31913c7330ae:
+    id: language
+    negate: false
+    uuid: d31747c2-55f1-44e4-9267-31913c7330ae
+    context_mapping:
+      language: 'node:langcode:language'
+    langcodes:
+      en: en
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

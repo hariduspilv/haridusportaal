@@ -107,6 +107,7 @@ permissions:
   - 'view any studypage content'
   - 'view any teaching_home_page content'
   - 'view any youth_home_page content'
+  - 'view any youth_monitoring_page content'
   - 'view media'
   - 'view own article content'
   - 'view own avaleht content'
