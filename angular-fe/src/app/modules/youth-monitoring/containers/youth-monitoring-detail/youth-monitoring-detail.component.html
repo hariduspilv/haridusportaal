@@ -9,20 +9,17 @@
       <block-content [noPaddingTop]="true">
         <h2>{{ detail.title }}</h2>
 
-        <labels
-          *ngIf="detail.fieldCustomBoolean"
-          type="orange"
-          [data]="[detail.fieldStudyTag]"
-        >
-        </labels>
-
         <share [pageTitle]="detail?.title"></share>
 
         <p class="bold">
           {{ detail.fieldIntroduction }}
         </p>
 
-        <images *ngIf="detail.images?.length" [image]="detail.images"></images>
+        <images
+          *ngIf="detail.images?.length || detail.videos?.length"
+          [image]="detail.images"
+          [videos]="detail.videos"
+        ></images>
 
         <p *ngIf="detail?.fieldContent?.value">
           <text-truncate-toggler
@@ -48,7 +45,8 @@
         ></links>
 
         <accordion
-          [collapsible]="false"
+          [collapsible]="true"
+          [openFirst]="true"
           *ngIf="detail?.fieldYouthAccordion?.length"
         >
           <accordion-item

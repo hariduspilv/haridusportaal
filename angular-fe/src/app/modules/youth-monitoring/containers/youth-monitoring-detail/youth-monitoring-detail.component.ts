@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map, mergeMap, Observable, skip, Subject, takeUntil, tap } from 'rxjs';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { map, mergeMap, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { YouthMonitoringApiService } from '../../youth-monitoring-api.service';
 import { getTranslatedWord } from '@app/_core/router-utility';
 import { SettingsService } from '@app/_services';
@@ -24,11 +24,12 @@ export class YouthMonitoringDetailComponent implements OnDestroy {
       return this.service.getPage(this.detailPath).pipe(
         tap({
           next: (response) => {
-            this.loading = false;
             this.saveLanguageSwitchLinks(response);
           },
           error: (error) => {
             console.error(error);
+          },
+          complete: () => {
             this.loading = false;
           }
         }),

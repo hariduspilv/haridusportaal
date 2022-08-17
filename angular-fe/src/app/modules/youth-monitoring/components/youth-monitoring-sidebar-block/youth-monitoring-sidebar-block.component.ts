@@ -12,6 +12,7 @@ export class YouthMonitoringSidebarBlockComponent {
 
   public get icon(): string {
     let icon: null | string = null;
+
     switch(this.data.entity.fieldBlockType) {
       case YouthMonitoringSidebarType.ArrowIconBlock:
         icon = 'arrow-diagonal';
@@ -25,6 +26,7 @@ export class YouthMonitoringSidebarBlockComponent {
       default:
         icon = null;
     }
+
     return icon;
   }
 }

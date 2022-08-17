@@ -18,33 +18,6 @@ export interface YouthMonitoringPicture {
   }
 }
 
-export interface YouthMonitoringListItem {
-  entityLabel: string;
-  created: number;
-  entityUrl: {
-    path: string;
-    languageSwitchLinks: {
-      url: {
-        path: string;
-      }
-    }[];
-  },
-  title: string;
-  fieldIntroduction: string;
-  fieldExtertnalLink: {
-    entity: {
-      fieldLinkName: string;
-      fieldWebpageLink: {
-          title: string;
-          uri: string;
-      }
-    }
-  }[];
-  fieldFirstPictureOrVideo: 'picture' | 'video',
-  fieldFirstPicture: YouthMonitoringPicture | null,
-  fieldFirstVideo: YouthMonitoringVideo | null;
-}
-
 export interface YouthMonitoringLanguageSwitchLink {
   active: boolean;
   title: string;
@@ -57,6 +30,21 @@ export interface YouthMonitoringLanguageSwitchLink {
     pathAlias: string;
     pathInternal: string;
   }
+}
+
+export interface YouthMonitoringListItem {
+  entityLabel: string;
+  created: number;
+  entityUrl: {
+    path: string;
+    languageSwitchLinks: YouthMonitoringLanguageSwitchLink[];
+  },
+  title: string;
+  fieldIntroduction: string;
+  fieldExtertnalLink: WebpageLink[];
+  fieldFirstPictureOrVideo: 'picture' | 'video',
+  fieldFirstPicture: YouthMonitoringPicture | null,
+  fieldFirstVideo: YouthMonitoringVideo | null;
 }
 
 export interface WebpageLink {
@@ -105,7 +93,7 @@ export interface YouthMonitoringDetail {
   fieldContent: {
     value: string;
   },
-  fieldGallery: YouthMonitoringPicture[],
+  fieldGallery: (YouthMonitoringPicture | YouthMonitoringVideo)[],
   fieldExtertnalLink?: WebpageLink[];
   fieldEndPicture: YouthMonitoringPicture | null,
   fieldEndVideo: YouthMonitoringVideo | null,
@@ -115,10 +103,6 @@ export interface YouthMonitoringDetail {
     value: string;
   },
   fieldRightColumnElements: YouthMonitoringSidebar[],
-}
-
-export interface YouthMonitoringMappedDetail extends YouthMonitoringDetail {
-  images: YouthMonitoringPicture[];
 }
 
 export interface YouthMonitoringDetailDto {
@@ -136,4 +120,9 @@ export interface YouthMonitoringListDto {
       entities: YouthMonitoringListItem[];
     };
   };
+}
+
+export interface MappedYouthMonitoringDetail extends YouthMonitoringDetail {
+  images: YouthMonitoringPicture[];
+  videos: YouthMonitoringVideo[];
 }

@@ -1,8 +1,7 @@
-import { WebpageLink, YouthMonitoringDetail, YouthMonitoringListDto, YouthMonitoringMappedDetail, YouthMonitoringPicture } from "./models/interfaces";
+import { MappedYouthMonitoringDetail, WebpageLink, YouthMonitoringDetail, YouthMonitoringListDto, YouthMonitoringPicture, YouthMonitoringVideo } from "./models/interfaces";
 
 export class YouthMonitoringUtility {
   public static mapDropdownData(input: YouthMonitoringListDto): any[] {
-    console.log(input);
     return input.data.nodeQuery.entities.map((item) => ({
       title: item.title,
       entityUrl: {
@@ -11,27 +10,32 @@ export class YouthMonitoringUtility {
       },
       fieldOskaFieldPicture: item.fieldFirstPicture
         ? {
-            ...item.fieldFirstPicture,
             derivative: {
               url: item.fieldFirstPicture.url
-            }
+            },
+            ...item.fieldFirstPicture,
           }
         : null,
       fieldOskaVideo: item.fieldFirstVideo,
       fieldIntroduction: item.fieldIntroduction,
-      fieldLinks: item.fieldExtertnalLink?.length
-        ? this.sortTitle(item.fieldExtertnalLink.map((link) => this.mapLink(link)))
-        : null,
+      fieldLinks: this.mapLink(item.fieldExtertnalLink),
       reverseFieldOskaFieldParagraph: {
         entities: []
       },
     }));
   }
 
-  public static mapDetail(input: YouthMonitoringDetail): YouthMonitoringMappedDetail {
+  public static mapDetail(input: YouthMonitoringDetail): MappedYouthMonitoringDetail {
     return {
       ...input,
-      images: input.fieldGallery?.map((item) => this.mapImage(item)),
+      images: input.fieldGallery?.filter(
+          (item) => !(item as YouthMonitoringVideo).videoId
+        ).map(
+          (item: YouthMonitoringPicture) => this.mapImage(item)
+        ),
+      videos: input.fieldGallery?.filter(
+          (item) => !!(item as YouthMonitoringVideo).videoId
+        ) as YouthMonitoringVideo[],
       fieldEndPicture: input.fieldEndPicture
         ? this.mapImage(input.fieldEndPicture)
         : null,
@@ -42,29 +46,25 @@ export class YouthMonitoringUtility {
               fieldYouthPicture: accordion.entity.fieldYouthPicture
                 ? this.mapImage(accordion.entity.fieldYouthPicture)
                 : null,
-              fieldYouthLink: accordion.entity.fieldYouthLink
-                ? this.sortTitle(accordion.entity.fieldYouthLink.map((link) => this.mapLink(link)))
-                : null,
+              fieldYouthLink: this.mapLink(accordion.entity.fieldYouthLink)
             }
           }))
         : null,
-      fieldBottomLink: input.fieldBottomLink
-        ? this.sortTitle(input.fieldBottomLink.map((link) => this.mapLink(link)))
-        : null,
-      fieldExtertnalLink: input.fieldExtertnalLink
-        ? this.sortTitle(input.fieldExtertnalLink.map((link) => this.mapLink(link)))
-        : null,
+      fieldBottomLink: this.mapLink(input.fieldBottomLink),
+      fieldExtertnalLink: this.mapLink(input.fieldExtertnalLink),
     };
   }
 
-  public static mapLink(input: WebpageLink): WebpageLink {
-    return {
-      ...input,
-      title: input.entity.fieldLinkName,
-      url: {
-        path: input.entity.fieldWebpageLink.uri
-      }
-    }
+  public static mapLink(input?: WebpageLink[]): WebpageLink[] {    
+    return input?.length
+      ? this.sortTitle(input.map((input: WebpageLink) => ({
+          ...input,
+          title: input.entity.fieldLinkName,
+          url: {
+            path: input.entity.fieldWebpageLink.uri
+          }
+        })))
+      : null;
   }
 
   public static mapImage(input: YouthMonitoringPicture): YouthMonitoringPicture {
@@ -78,6 +78,7 @@ export class YouthMonitoringUtility {
   }
 
   public static sortTitle<T extends { title?: string; }>(links: T[]): T[] {
-    return links.sort((a, b) => a.title.toString().localeCompare(b.title.toString(), 'et', { numeric: true }));
+    return links.sort(
+      (a, b) => a.title.toString().localeCompare(b.title.toString(), 'et', { numeric: true }));
   }
 }
