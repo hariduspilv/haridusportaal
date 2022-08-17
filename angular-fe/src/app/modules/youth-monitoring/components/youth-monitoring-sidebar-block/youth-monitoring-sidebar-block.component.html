@@ -1,0 +1,21 @@
+<block theme="sidebar">
+	<block-title>
+    <h2>{{ data.entity.fieldTitle }}</h2>
+  </block-title>
+  <block-content>
+    <div class="youth-sidebar__content">
+      <div class="youth-sidebar__icon" *ngIf="icon">
+        <icon aria-hidden="true" size="medium" bg="true" [glyph]="icon"></icon>
+      </div>
+      {{ data.entity.fieldBlockText }}
+    </div>
+    <a
+      *ngIf="data.entity.fieldWebPageLink"
+      [href]="data.entity.fieldWebPageLink"
+      class="youth-sidebar__link"
+      target="_blank"
+    ><icon ariaLabel="{{ 'link.external' | translate }}" glyph="external-link"></icon>
+      {{ data.entity.fieldLinkName }}
+    </a>
+  </block-content>
+</block>

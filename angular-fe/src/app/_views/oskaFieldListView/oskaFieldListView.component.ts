@@ -51,7 +51,6 @@ export class OskaFieldListViewComponent {
         }
         this.hasComparisonPage = response.data.comparisonPage.count;
         this.data = response['data']['nodeQuery']['entities'];
-        console.log(this.data)
         if (document.getElementById('heading')) {
           document.getElementById('heading').focus();
         }

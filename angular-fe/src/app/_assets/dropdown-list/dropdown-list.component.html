@@ -75,6 +75,21 @@
                 </a>
               </li>
             </ul>
+
+            <ng-container *ngIf="modal.fieldLinks?.length">
+              <ul>
+                <li *ngFor="let item of modal.fieldLinks">
+                  <a *ngIf="item?.title" 
+                    [routerLink]="item?.url?.path"
+                    [title]="item?.title"
+                    role="link"
+                    attr.aria-label="{{item.title}}"
+                    tabindex="0">
+                    {{ item.title }}
+                  </a>
+                </li>
+              </ul>
+            </ng-container>
             <!-- <button class="hidden-button" attr.aria-label="{{ 'oskaProfessions.card_close' | translate }}" (click)="modalClose()" (blur)="resetFocus($event, 'modalTitle')"></button> -->
           </div><!--/modal__content-->
         </div>

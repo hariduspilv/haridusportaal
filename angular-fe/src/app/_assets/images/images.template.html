@@ -15,7 +15,7 @@
   <div class="image__title" *ngIf="images[0]?.videoDescription">{{ images[0].videoDescription }}</div>
 </div>
 
-<htm-modal id="gallery" [bottomAction]="false" [blockModal]="false">
+<htm-modal [id]="_id" [bottomAction]="false" [blockModal]="false">
   <ng-template>
     <div class="gallery-container" attr.aria-label="{{ 'gallery.title' | translate }}">
       <div class="navigation-prev flex">
