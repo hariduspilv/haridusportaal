@@ -50,7 +50,7 @@ const routes: Routes = [
   exports: [],
   providers: [
     YouthMonitoringApiService,
-		{ provide: HTTP_INTERCEPTORS, useClass: RouteUndefinedInterceptor, multi: true }
+		{ provide: HTTP_INTERCEPTORS, useClass: RouteUndefinedInterceptor, multi: true },
   ],
 })
 export class YouthMonitoringModule {}
