@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, mergeMap, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { YouthMonitoringApiService } from '../../youth-monitoring-api.service';
