@@ -36,8 +36,7 @@ export class YouthMonitoringDetailComponent implements OnDestroy {
         }),
         map(
           (response) => YouthMonitoringUtility.mapDetail(response?.data?.route?.entity)
-        ),
-        tap((r) => console.log(r))
+        )
       );
     }));
 
