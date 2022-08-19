@@ -9,11 +9,11 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: .75rem;
   }
 
   &__link {
     display: flex;
+    margin-top: .75rem;
 
     icon {
       display: inline-block;
