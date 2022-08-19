@@ -1,0 +1,23 @@
+uuid: 88399e44-1298-45a8-ba64-6ab1a6c08819
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_webpage_link
+    - paragraphs.paragraphs_type.youthmonitoring_right_column
+  module:
+    - link
+id: paragraph.youthmonitoring_right_column.field_webpage_link
+field_name: field_webpage_link
+entity_type: paragraph
+bundle: youthmonitoring_right_column
+label: URL
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

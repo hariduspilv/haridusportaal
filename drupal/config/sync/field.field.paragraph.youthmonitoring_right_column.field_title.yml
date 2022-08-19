@@ -1,4 +1,4 @@
-uuid: b1ef6116-98b9-480c-af0d-8ed7625e680c
+uuid: b3f603a1-f2c9-43b2-8cb7-f57c281ea858
 langcode: et
 status: true
 dependencies:
@@ -11,7 +11,7 @@ entity_type: paragraph
 bundle: youthmonitoring_right_column
 label: Pealkiri
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
