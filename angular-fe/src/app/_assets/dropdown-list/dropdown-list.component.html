@@ -80,8 +80,9 @@
               <ul>
                 <li *ngFor="let item of modal.fieldLinks">
                   <a *ngIf="item?.title" 
-                    [routerLink]="item?.url?.path"
+                    [href]="item?.url?.path"
                     [title]="item?.title"
+                    target="_blank"
                     role="link"
                     attr.aria-label="{{item.title}}"
                     tabindex="0">
