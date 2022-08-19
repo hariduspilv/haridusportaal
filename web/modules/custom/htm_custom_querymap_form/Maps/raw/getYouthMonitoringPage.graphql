@@ -21,10 +21,25 @@ query getYouthMonitoringPage($path: String!) {
           fieldContent{
             value
           }
-          fieldGallery{
-            alt
-            url
-            title
+          fieldYouthGallery{
+            entity{
+              ... on ParagraphMediaImg{
+                fieldMediaImg{
+                  title
+                  alt
+                  url
+                }
+              }
+              ... on ParagraphMediaVid{
+                fieldMediaVid{
+                  input
+                  videoDomain
+                  videoDescription
+                  videoId
+                  videoThumbnail
+                }
+              }
+            }
           }
           fieldExtertnalLink{
             entity{
@@ -106,8 +121,10 @@ query getYouthMonitoringPage($path: String!) {
                 fieldBlockType
                 fieldTitle
                 fieldBlockText
-                fieldLinkName
-                fieldWebPageLink
+                fieldWebpageLink {
+                  uri
+                  title
+                }
               }
             }
           }

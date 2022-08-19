@@ -13,10 +13,10 @@ dependencies:
     - field.field.node.youth_monitoring_page.field_first_picture
     - field.field.node.youth_monitoring_page.field_first_picture_or_video
     - field.field.node.youth_monitoring_page.field_first_video
-    - field.field.node.youth_monitoring_page.field_gallery
     - field.field.node.youth_monitoring_page.field_introduction
     - field.field.node.youth_monitoring_page.field_right_column_elements
     - field.field.node.youth_monitoring_page.field_youth_accordion
+    - field.field.node.youth_monitoring_page.field_youth_gallery
     - node.type.youth_monitoring_page
   module:
     - user
@@ -40,9 +40,9 @@ hidden:
   field_first_picture: true
   field_first_picture_or_video: true
   field_first_video: true
-  field_gallery: true
   field_introduction: true
   field_right_column_elements: true
   field_youth_accordion: true
+  field_youth_gallery: true
   langcode: true
   search_api_excerpt: true
