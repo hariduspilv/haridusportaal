@@ -12,10 +12,11 @@ dependencies:
     - field.field.node.youth_monitoring_page.field_first_picture
     - field.field.node.youth_monitoring_page.field_first_picture_or_video
     - field.field.node.youth_monitoring_page.field_first_video
-    - field.field.node.youth_monitoring_page.field_gallery
     - field.field.node.youth_monitoring_page.field_introduction
     - field.field.node.youth_monitoring_page.field_right_column_elements
     - field.field.node.youth_monitoring_page.field_youth_accordion
+    - field.field.node.youth_monitoring_page.field_youth_gallery
+    - image.style.crop_large
     - node.type.youth_monitoring_page
   module:
     - entity_reference_revisions
@@ -86,7 +87,7 @@ content:
     label: above
     settings:
       image_link: ''
-      image_style: ''
+      image_style: crop_large
       svg_attributes:
         width: null
         height: null
@@ -107,19 +108,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 105
-    region: content
-  field_gallery:
-    type: image
-    label: above
-    settings:
-      image_link: ''
-      image_style: ''
-      svg_attributes:
-        width: null
-        height: null
-      svg_render_as_image: true
-    third_party_settings: {  }
-    weight: 106
     region: content
   field_introduction:
     type: basic_string
@@ -145,6 +133,15 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 117
+    region: content
+  field_youth_gallery:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 119
     region: content
   links:
     settings: {  }
