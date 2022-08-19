@@ -158,6 +158,7 @@
         htm-video {
           height: 70vh;
           width: 65vw;
+          margin: 0;
           display: block;
           @include break-on(xs, max) {
             height: unset;
