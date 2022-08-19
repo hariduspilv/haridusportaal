@@ -121,8 +121,14 @@ query getYouthMonitoringPage($path: String!) {
                 fieldBlockType
                 fieldTitle
                 fieldBlockText
-                fieldLinkName
-                fieldWebPageLink
+                fieldWebpageLink {
+                  uri
+                  title
+                }
+                fieldWebpageLink {
+                  uri
+                  title
+                }
               }
             }
           }
