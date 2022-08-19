@@ -125,10 +125,6 @@ query getYouthMonitoringPage($path: String!) {
                   uri
                   title
                 }
-                fieldWebpageLink {
-                  uri
-                  title
-                }
               }
             }
           }
