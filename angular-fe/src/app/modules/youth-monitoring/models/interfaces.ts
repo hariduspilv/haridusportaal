@@ -67,7 +67,10 @@ export interface YouthMonitoringSidebar {
     fieldTitle: string;
     fieldBlockText: string;
     fieldLinkName: string;
-    fieldWebPageLink: string;
+    fieldWebpageLink?: {
+      uri: string;
+      title: string;
+    };
   }
 }
 
@@ -86,6 +89,13 @@ export interface YouthMonitoringAccordion {
   }
 }
 
+export interface YouthMonitoringGallery {
+  entity: {
+    fieldMediaImg?: YouthMonitoringPicture;
+    fieldMediaVid?: YouthMonitoringVideo;
+  }
+}
+
 export interface YouthMonitoringDetail {
   nid: number;
   title: string;
@@ -93,7 +103,7 @@ export interface YouthMonitoringDetail {
   fieldContent: {
     value: string;
   },
-  fieldGallery: (YouthMonitoringPicture | YouthMonitoringVideo)[],
+  fieldYouthGallery: YouthMonitoringGallery[],
   fieldExtertnalLink?: WebpageLink[];
   fieldEndPicture: YouthMonitoringPicture | null,
   fieldEndVideo: YouthMonitoringVideo | null,

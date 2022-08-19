@@ -11,12 +11,12 @@
     </div>
 
     <a
-      *ngIf="data.entity.fieldWebPageLink"
-      [href]="data.entity.fieldWebPageLink"
+      *ngIf="data.entity.fieldWebpageLink"
+      [href]="data.entity.fieldWebpageLink.uri"
       class="youth-sidebar__link"
       target="_blank"
     ><icon ariaLabel="{{ 'link.external' | translate }}" glyph="external-link"></icon>
-      {{ data.entity.fieldLinkName }}
+      {{ data.entity.fieldWebpageLink.title }}
     </a>
   </block-content>
 </block>

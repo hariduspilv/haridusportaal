@@ -28,14 +28,16 @@ export class YouthMonitoringUtility {
   public static mapDetail(input: YouthMonitoringDetail): MappedYouthMonitoringDetail {
     return {
       ...input,
-      images: input.fieldGallery?.filter(
-          (item) => !(item as YouthMonitoringVideo).videoId
+      images: input.fieldYouthGallery?.filter(
+          (item) => item.entity.fieldMediaImg
         ).map(
-          (item: YouthMonitoringPicture) => this.mapImage(item)
+          (item) => this.mapImage(item.entity.fieldMediaImg)
         ),
-      videos: input.fieldGallery?.filter(
-          (item) => !!(item as YouthMonitoringVideo).videoId
-        ) as YouthMonitoringVideo[],
+      videos: input.fieldYouthGallery?.filter(
+          (item) => item.entity.fieldMediaVid
+        ).map(
+          (item) => item.entity.fieldMediaVid
+        ),
       fieldEndPicture: input.fieldEndPicture
         ? this.mapImage(input.fieldEndPicture)
         : null,
