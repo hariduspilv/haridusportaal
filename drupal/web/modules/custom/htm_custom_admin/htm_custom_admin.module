@@ -89,7 +89,7 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
     ];
   }
 
-  if($form_id === 'node_youth_monitoring_page_form'){
+  if($form_id === 'node_youth_monitoring_page_form' || $form_id === 'node_youth_monitoring_page_edit_form'){
 
     // Show "field_first_picture" field only when "Picture" is selected on "field_first_picture_or_video" field
     $form['field_first_picture']['#states'] = [

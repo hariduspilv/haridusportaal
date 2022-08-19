@@ -12,10 +12,10 @@ dependencies:
     - field.field.node.youth_monitoring_page.field_first_picture
     - field.field.node.youth_monitoring_page.field_first_picture_or_video
     - field.field.node.youth_monitoring_page.field_first_video
-    - field.field.node.youth_monitoring_page.field_gallery
     - field.field.node.youth_monitoring_page.field_introduction
     - field.field.node.youth_monitoring_page.field_right_column_elements
     - field.field.node.youth_monitoring_page.field_youth_accordion
+    - field.field.node.youth_monitoring_page.field_youth_gallery
     - image.style.thumbnail
     - node.type.youth_monitoring_page
   module:
@@ -109,7 +109,7 @@ content:
     third_party_settings: {  }
   field_first_picture:
     type: image_image
-    weight: 14
+    weight: 15
     region: content
     settings:
       progress_indicator: throbber
@@ -118,27 +118,19 @@ content:
       conditional_fields: {  }
   field_first_picture_or_video:
     type: options_select
-    weight: 13
+    weight: 14
     region: content
     settings: {  }
     third_party_settings: {  }
   field_first_video:
     type: custom_video_widget_type
-    weight: 15
+    weight: 16
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings:
       conditional_fields: {  }
-  field_gallery:
-    type: image_image
-    weight: 16
-    region: content
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
   field_introduction:
     type: string_textarea
     weight: 11
@@ -168,6 +160,24 @@ content:
   field_youth_accordion:
     type: paragraphs
     weight: 21
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_youth_gallery:
+    type: paragraphs
+    weight: 13
     region: content
     settings:
       title: Paragraph

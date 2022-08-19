@@ -1,4 +1,4 @@
-uuid: cefdf0ee-edb6-482e-ba85-22afd82219c1
+uuid: f252a4fe-c904-4945-959d-d129daf397fb
 langcode: et
 status: true
 dependencies:
@@ -9,9 +9,9 @@ id: paragraph.youth_monitoring_accordion.field_title
 field_name: field_title
 entity_type: paragraph
 bundle: youth_monitoring_accordion
-label: 'Akordioni pealkiri'
+label: Pealkiri
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''

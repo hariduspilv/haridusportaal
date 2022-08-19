@@ -34,6 +34,11 @@ query ($lang: LanguageId!) {
         }
         fieldFirstPictureOrVideo
         fieldFirstPicture{
+          derivative(style: CROPLARGE){
+            url
+            width
+            height
+          }
           url
           title
           alt
