@@ -1,4 +1,4 @@
-<div [innerHtml]="(expanded || !toggleButton) ? unsanitary : (input | ellipsis: limit)"></div>
+<div [innerHtml]="(expanded || !toggleButton) ? (input | unsafeHtml) : (input | ellipsis: limit)"></div>
 <button
   *ngIf="toggleButton"
   htm-button

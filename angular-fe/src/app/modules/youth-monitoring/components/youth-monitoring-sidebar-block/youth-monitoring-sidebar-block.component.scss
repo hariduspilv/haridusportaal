@@ -14,6 +14,11 @@
   &__link {
     display: flex;
     margin-top: .75rem;
+    text-decoration: none;
+
+    &:hover, &:focus-visible {
+      text-decoration: underline;
+    }
 
     icon {
       display: inline-block;

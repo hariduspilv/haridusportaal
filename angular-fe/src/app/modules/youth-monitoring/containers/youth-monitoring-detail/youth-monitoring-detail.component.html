@@ -61,7 +61,7 @@
 
               <p
                 *ngIf="accordion.entity.fieldYouthBody"
-                [innerHTML]="accordion.entity.fieldYouthBody.value"
+                [innerHTML]="accordion.entity.fieldYouthBody.value | unsafeHtml"
               ></p>
 
               <images

@@ -2,6 +2,10 @@
 
 :host {
   color: $black;
+
+  ::ng-deep iframe {
+    border: 0;
+  }
 }
 
 h1 {
