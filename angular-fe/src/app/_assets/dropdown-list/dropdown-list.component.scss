@@ -157,11 +157,19 @@
     padding: 0 2rem;
     display: flex;
     min-height:4.625rem;
+    @include break-on(xs, max) {
+      margin: -1rem -2rem 0 -2rem;
+      padding: 0 2rem 1rem;
+    }
     &__col {
       flex-grow: 1;
       display: flex;
       align-items: center;
       padding:0 !important;
+      @include break-on(xs, max) {
+        overflow-wrap: anywhere;
+        word-break: break-all;
+      }
       &:first-child { 
         flex-wrap: wrap;
         width:100%;
