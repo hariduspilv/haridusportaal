@@ -12,7 +12,7 @@ bundle: youthmonitoring_right_column
 label: Tekst
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

@@ -1,0 +1,18 @@
+uuid: 919ab59d-5a69-4d1f-98cc-196aa3cc3e3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.youth_monitoring_accordion
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.youth_monitoring_accordion
+target_entity_type_id: paragraph
+target_bundle: youth_monitoring_accordion
+default_langcode: site_default
+language_alterable: true
