@@ -216,6 +216,10 @@ const routes: Routes = [
 		loadChildren: () => import('./modules/study/study.module').then(module => module.StudyModule),
 	},
 	{
+		path: 'noorteseire',
+		loadChildren: () => import('./modules/youth-monitoring/youth-monitoring.module').then(module => module.YouthMonitoringModule),
+	},
+	{
 	  path: 'preview',
 	  loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
 	  data: {

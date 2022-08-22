@@ -15,7 +15,7 @@
   <div class="image__title" *ngIf="images[0]?.videoDescription">{{ images[0].videoDescription }}</div>
 </div>
 
-<htm-modal id="gallery" [bottomAction]="false" [blockModal]="false">
+<htm-modal [id]="_id" [bottomAction]="false" [blockModal]="false">
   <ng-template>
     <div class="gallery-container" attr.aria-label="{{ 'gallery.title' | translate }}">
       <div class="navigation-prev flex">
@@ -38,7 +38,7 @@
               <div class="gallery__items__active-image__title" *ngIf="activeImage?.title">{{ activeImage?.title }}</div>
               <img [src]="activeImage?.derivative?.url" [title]="activeImage?.title ? activeImage.title : ''" [alt]="activeImage?.alt" />
             </ng-container>
-            <htm-video *ngIf="activeImage?.videoId" [videos]="activeImage"></htm-video>
+            <htm-video *ngIf="activeImage?.videoId" [videos]="activeImage" [responsive]="true"></htm-video>
             <div class="navigation-next flex">
               <button attr.aria-label="{{ 'gallery.next' | translate }}" htm-button theme="icon" (click)="handleNext(activeImage)">
                 <icon glyph="chevron-right" size="small" [bg]="true"></icon>

@@ -3,4 +3,10 @@
     margin: .75rem auto 0;
     display: block;
   }
+
+  ::ng-deep iframe {
+    display: block;
+    max-width: 100%;
+    border: none;
+  }
 }
