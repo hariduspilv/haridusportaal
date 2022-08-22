@@ -1,0 +1,18 @@
+uuid: 3b336e66-e735-4723-b1c0-af820304d491
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.youthmonitoring_right_column
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.youthmonitoring_right_column
+target_entity_type_id: paragraph
+target_bundle: youthmonitoring_right_column
+default_langcode: site_default
+language_alterable: true
