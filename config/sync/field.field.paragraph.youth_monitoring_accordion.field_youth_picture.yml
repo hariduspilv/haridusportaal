@@ -6,7 +6,14 @@ dependencies:
     - field.storage.paragraph.field_youth_picture
     - paragraphs.paragraphs_type.youth_monitoring_accordion
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
 id: paragraph.youth_monitoring_accordion.field_youth_picture
 field_name: field_youth_picture
 entity_type: paragraph
@@ -14,7 +21,7 @@ bundle: youth_monitoring_accordion
 label: Pilt
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
