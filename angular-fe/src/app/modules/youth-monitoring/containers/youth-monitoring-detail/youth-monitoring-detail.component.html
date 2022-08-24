@@ -59,11 +59,6 @@
                 [innerHTML]="accordion.entity.fieldYouthIntroduction.value"
               ></p>
 
-              <p
-                *ngIf="accordion.entity.fieldYouthBody"
-                [innerHTML]="accordion.entity.fieldYouthBody.value"
-              ></p>
-
               <images
                 *ngIf="
                   accordion.entity.fieldYouthPicture ||
@@ -72,6 +67,11 @@
                 [image]="accordion.entity.fieldYouthPicture"
                 [videos]="accordion.entity.fieldYouthVideo"
               ></images>
+
+              <p
+                *ngIf="accordion.entity.fieldYouthBody"
+                [innerHTML]="accordion.entity.fieldYouthBody.value | unsafeHtml"
+              ></p>
 
               <links
                 *ngIf="accordion.entity.fieldYouthLink"

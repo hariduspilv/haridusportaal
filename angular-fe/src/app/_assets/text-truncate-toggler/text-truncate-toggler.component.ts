@@ -6,20 +6,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   templateUrl: './text-truncate-toggler.component.html',
   styleUrls: ['./text-truncate-toggler.component.scss'],
 })
-export class TextTruncateTogglerComponent implements OnInit, OnChanges {
+export class TextTruncateTogglerComponent implements OnInit {
   @Input() input: string;
   @Input() limit: number;
   public expanded = false;
   public toggleButton = false;
-  public unsanitary: SafeHtml;
-
-  constructor(private sanitize: DomSanitizer) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.input) {
-      this.unsanitary = this.sanitize.bypassSecurityTrustHtml(changes.input.currentValue);
-    }
-  }
 
   ngOnInit(): void {
     this.toggleButton = this.inputOverLimit();
