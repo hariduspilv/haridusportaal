@@ -8,6 +8,6 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| nid | - | - | string | Content nID (comes from backend)
+| Name | Default | Values | Type   | Description                      |
+|------|---------|--------|--------|----------------------------------|
+| nid  | -       | -      | string | Content nID (comes from backend) |

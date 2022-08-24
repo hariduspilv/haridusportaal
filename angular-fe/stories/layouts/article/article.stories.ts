@@ -27,7 +27,7 @@ const moduleMetadata = {
   ],
   providers: [
 		TitleService,
-    { provide: LOCALE_ID, useValue:'et' },
+    { provide: LOCALE_ID, useValue: 'et' },
   ],
 };
 
@@ -110,7 +110,7 @@ stories.add('Article Layout', () => {
             fieldIntroductionImage: {
               derivative: {
                 // tslint:disable-next-line: max-line-length
-                url: 'http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2019-07/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd&itok=5NHInAKT',
+                url: 'https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_small/public/2019-07/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd&itok=5NHInAKT',
               },
               title: 'koer',
               alt: 'Alt tekst',
@@ -139,7 +139,7 @@ stories.add('Article Layout', () => {
             fieldIntroductionImage: {
               derivative: {
                 // tslint:disable-next-line: max-line-length
-                url: 'http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2019-04/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?itok=lo83jJLa',
+                url: 'https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_small/public/2019-04/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?itok=lo83jJLa',
               },
               title: 'Super uudis',
               alt: 'Alt tekst',
@@ -168,7 +168,7 @@ stories.add('Article Layout', () => {
             fieldIntroductionImage: {
               derivative: {
                 // tslint:disable-next-line: max-line-length
-                url: 'http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2019-04/3_619.jpg?itok=D4MW0uOe',
+                url: 'https://api.haridusportaal.twn.zone/sites/default/files/styles/crop_small/public/2019-04/3_619.jpg?itok=D4MW0uOe',
               },
               title: 'Pealkiri',
               alt: 'Alt tekst',
@@ -253,14 +253,14 @@ stories.add('Article Layout', () => {
         {
           url: {
             routed: false,
-            path: 'http://www.google.com',
+            path: 'https://www.google.com',
           },
           title: 'EHIS avalik vaade',
         },
         {
           url: {
             routed: false,
-            path: 'http://www.priit.party',
+            path: 'https://www.priit.party',
           },
           title: 'Sisene EHIS-sse',
         },

@@ -9,8 +9,8 @@
 
 ## Properties
 
-| Name  | Required  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| placement | true | auto; left; top; right; bottom | String | tooltip placement
-| content | true | - | String | tooltip content
+| Name      | Required | Values                         | Type   | Description       |
+|-----------|----------|--------------------------------|--------|-------------------|
+| placement | true     | auto; left; top; right; bottom | String | tooltip placement |
+| content   | true     | -                              | String | tooltip content   |
 

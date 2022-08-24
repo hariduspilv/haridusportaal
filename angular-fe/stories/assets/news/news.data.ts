@@ -20,7 +20,7 @@ export const list = [
     "fieldAuthor": "TWN",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-07\/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd\u0026itok=5NHInAKT"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-07\/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd\u0026itok=5NHInAKT"
       },
       "alt": "Alt tekst",
       "title": "koer"
@@ -66,7 +66,7 @@ export const list = [
     "fieldAuthor": "Reps Naiulis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/4.9mb_0.jpg?itok=bgrgF0l1"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/4.9mb_0.jpg?itok=bgrgF0l1"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -106,7 +106,7 @@ export const list = [
     "fieldAuthor": "Kalle Kaarel",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?itok=lo83jJLa"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?itok=lo83jJLa"
       },
       "alt": "Alt tekst",
       "title": "Super uudis"
@@ -146,7 +146,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_619.jpg?itok=D4MW0uOe"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_619.jpg?itok=D4MW0uOe"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -180,7 +180,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_618.jpg?itok=wsYvZWb1"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_618.jpg?itok=wsYvZWb1"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -214,7 +214,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_617.jpg?itok=cMTUc4tk"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_617.jpg?itok=cMTUc4tk"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -248,7 +248,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-05\/3_201.jpg?itok=JDtAMGEO"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-05\/3_201.jpg?itok=JDtAMGEO"
       },
       "alt": "SnuSA",
       "title": "snususa"
@@ -282,7 +282,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_615.jpg?itok=m8IWA4_w"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_615.jpg?itok=m8IWA4_w"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -316,7 +316,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_604.jpg?itok=JGPVRgXp"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_604.jpg?itok=JGPVRgXp"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -350,7 +350,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_603.jpg?itok=gzvGDHqg"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_603.jpg?itok=gzvGDHqg"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -384,7 +384,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_602.jpg?itok=pjR5pTB7"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_602.jpg?itok=pjR5pTB7"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -418,7 +418,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_601.jpg?itok=__UXB0oX"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_601.jpg?itok=__UXB0oX"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -452,7 +452,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_600.jpg?itok=C6ZiNUdo"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_600.jpg?itok=C6ZiNUdo"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -486,7 +486,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_589.jpg?itok=0gP9MJs5"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_589.jpg?itok=0gP9MJs5"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -520,7 +520,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_588.jpg?itok=dEGxUeSu"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_588.jpg?itok=dEGxUeSu"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -554,7 +554,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_587.jpg?itok=sEnlbIgp"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_587.jpg?itok=sEnlbIgp"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -588,7 +588,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_586.jpg?itok=EXAAwNM1"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_586.jpg?itok=EXAAwNM1"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -622,7 +622,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_583.jpg?itok=49lD5Iil"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_583.jpg?itok=49lD5Iil"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -656,7 +656,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_574.jpg?itok=UWfu1Lxy"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_574.jpg?itok=UWfu1Lxy"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -690,7 +690,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_553.jpg?itok=TFjQn_2c"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_553.jpg?itok=TFjQn_2c"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -724,7 +724,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-05\/3_202.jpg?itok=e50nOhs0"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-05\/3_202.jpg?itok=e50nOhs0"
       },
       "alt": "au",
       "title": "Mau"
@@ -758,7 +758,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_493.jpg?itok=X1AjJxa-"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_493.jpg?itok=X1AjJxa-"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -792,7 +792,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_479.jpg?itok=8j8ntcxb"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_479.jpg?itok=8j8ntcxb"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"
@@ -826,7 +826,7 @@ export const list = [
     "fieldAuthor": "Kiisu Madis",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_572.jpg?itok=P2oGviF6"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-04\/3_572.jpg?itok=P2oGviF6"
       },
       "alt": "Alt tekst",
       "title": "Pealkiri"

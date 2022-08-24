@@ -8,9 +8,9 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| theme | default | default, selected | string | Tag button appearance
+| Name  | Default | Values            | Type   | Description           |
+|-------|---------|-------------------|--------|-----------------------|
+| theme | default | default, selected | string | Tag button appearance |
 
 
 

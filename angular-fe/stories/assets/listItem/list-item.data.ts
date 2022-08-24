@@ -99,7 +99,7 @@ const news = [
     "fieldAuthor": "TWN",
     "fieldIntroductionImage": {
       "derivative": {
-        "url": "http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-07\/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd\u0026itok=5NHInAKT"
+        "url": "https:\/\/api.haridusportaal.twn.zone\/sites\/default\/files\/styles\/crop_small\/public\/2019-07\/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd\u0026itok=5NHInAKT"
       },
       "alt": "Alt tekst",
       "title": "koer"

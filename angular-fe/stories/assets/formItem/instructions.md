@@ -110,17 +110,17 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| type | text | text, select, multi-select, textarea, checkbox, radio | string | Choose the type of the form item
-| placeholder | - | - | String | Placeholder text which describes the format of current form item
-| title | - | - | string | Title of the form item
-| options | - | - | Array<object> | Array of options [{ key: 'Option title', value: 'Option value' }]. Used for: <b>Multi-select, Select, Radio</b>
-| label | - | - | string | ONLY for checkbox. Used as checkbox label text
-| value | - | – | string | Form item default value
-| height | - | - | number | Textarea optional height
-| disabled | false | true,false | boolean | Wheter the form item is disabled or not
-| error | false | true, false | boolean | Form items error theme
-| errorMessage | - | - | string | Error message for 'error' theme
-| success | false | true, false | boolean | Form items success theme
-| ariaLabel | "" | - | text | aria-label for input element
+| Name         | Default | Values                                                | Type          | Description                                                                                                     |
+|--------------|---------|-------------------------------------------------------|---------------|-----------------------------------------------------------------------------------------------------------------|
+| type         | text    | text, select, multi-select, textarea, checkbox, radio | string        | Choose the type of the form item                                                                                |
+| placeholder  | -       | -                                                     | String        | Placeholder text which describes the format of current form item                                                |
+| title        | -       | -                                                     | string        | Title of the form item                                                                                          |
+| options      | -       | -                                                     | Array<object> | Array of options [{ key: 'Option title', value: 'Option value' }]. Used for: <b>Multi-select, Select, Radio</b> |
+| label        | -       | -                                                     | string        | ONLY for checkbox. Used as checkbox label text                                                                  |
+| value        | -       | –                                                     | string        | Form item default value                                                                                         |
+| height       | -       | -                                                     | number        | Textarea optional height                                                                                        |
+| disabled     | false   | true,false                                            | boolean       | Wheter the form item is disabled or not                                                                         |
+| error        | false   | true, false                                           | boolean       | Form items error theme                                                                                          |
+| errorMessage | -       | -                                                     | string        | Error message for 'error' theme                                                                                 |
+| success      | false   | true, false                                           | boolean       | Form items success theme                                                                                        |
+| ariaLabel    | ""      | -                                                     | text          | aria-label for input element                                                                                    |

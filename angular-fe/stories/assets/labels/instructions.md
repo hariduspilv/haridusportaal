@@ -11,10 +11,10 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| data | - | - | Object[] | Label data
-| type | none | none, plain, orange | string | Label type
+| Name | Default | Values              | Type     | Description |
+|------|---------|---------------------|----------|-------------|
+| data | -       | -                   | Object[] | Label data  |
+| type | none    | none, plain, orange | string   | Label type  |
 
 ## Javascript
 ```javascript
