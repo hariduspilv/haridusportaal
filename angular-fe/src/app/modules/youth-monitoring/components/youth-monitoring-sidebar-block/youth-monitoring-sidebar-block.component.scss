@@ -1,0 +1,34 @@
+@import 'typography.scss';
+
+.youth-sidebar {
+  &__icon {
+    color: #15ADC2;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__link {
+    display: flex;
+    margin-top: .75rem;
+    text-decoration: none;
+
+    &:hover, &:focus-visible {
+      text-decoration: underline;
+    }
+
+    icon {
+      display: inline-block;
+      margin-top: -0.125rem;
+      margin-right: 0.4375rem;
+    }
+  }
+}
+
+h2, h3 {
+  font-size: $small + $half-gutter;
+  margin: 0 0 0.75rem;
+}

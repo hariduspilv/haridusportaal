@@ -18,7 +18,7 @@ export class RouteUndefinedInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
-        if (event.body?.data?.route === null) {
+        if (event.body?.data?.route === null && !event.url.includes('queryName=getBreadcrumbs')) {
           this.router.navigateByUrl('404', {skipLocationChange: true});
         }
       }

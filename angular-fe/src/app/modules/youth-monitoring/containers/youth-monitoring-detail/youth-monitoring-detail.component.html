@@ -1,0 +1,97 @@
+<max-width-wrapper>
+  <loader *ngIf="loading"></loader>
+  <article-layout *ngIf="detail$ | async as detail">
+    <breadcrumbs [path]="detailPath"></breadcrumbs>
+    <block [titleBorder]="false" *ngIf="detail">
+      <block-title
+        ><h1>{{ "youthMonitoring.title" | translate }}</h1></block-title
+      >
+      <block-content [noPaddingTop]="true">
+        <h2>{{ detail.title }}</h2>
+
+        <share [pageTitle]="detail?.title"></share>
+
+        <p class="bold">
+          {{ detail.fieldIntroduction }}
+        </p>
+
+        <images
+          *ngIf="detail.images?.length || detail.videos?.length"
+          [image]="detail.images"
+          [videos]="detail.videos"
+        ></images>
+
+        <p *ngIf="detail?.fieldContent?.value">
+          <text-truncate-toggler
+            [input]="detail.fieldContent.value"
+            [limit]="400"
+          ></text-truncate-toggler>
+        </p>
+
+        <links
+          *ngIf="detail?.fieldExtertnalLink"
+          [data]="detail.fieldExtertnalLink"
+        ></links>
+
+        <images
+          *ngIf="detail.fieldEndVideo || detail.fieldEndPicture"
+          [image]="detail.fieldEndPicture"
+          [videos]="detail.fieldEndVideo"
+        ></images>
+
+        <links
+          *ngIf="detail?.fieldBottomLink"
+          [data]="detail.fieldBottomLink"
+        ></links>
+
+        <accordion
+          [collapsible]="true"
+          [openFirst]="true"
+          *ngIf="detail?.fieldYouthAccordion?.length"
+        >
+          <accordion-item
+            *ngFor="let accordion of detail?.fieldYouthAccordion"
+            [title]="accordion.entity.fieldTitle"
+          >
+            <ng-template>
+              <p
+                *ngIf="accordion.entity.fieldYouthIntroduction"
+                [innerHTML]="accordion.entity.fieldYouthIntroduction.value"
+              ></p>
+
+              <images
+                *ngIf="
+                  accordion.entity.fieldYouthPicture ||
+                  accordion.entity.fieldYouthVideo
+                "
+                [image]="accordion.entity.fieldYouthPicture"
+                [videos]="accordion.entity.fieldYouthVideo"
+              ></images>
+
+              <p
+                *ngIf="accordion.entity.fieldYouthBody"
+                [innerHTML]="accordion.entity.fieldYouthBody.value | unsafeHtml"
+              ></p>
+
+              <links
+                *ngIf="accordion.entity.fieldYouthLink"
+                [data]="accordion.entity.fieldYouthLink"
+              ></links>
+            </ng-template>
+          </accordion-item>
+        </accordion>
+
+        <p
+          *ngIf="detail?.fieldEndText?.value"
+          [innerHTML]="detail.fieldEndText.value"
+        ></p>
+      </block-content>
+    </block>
+
+    <youth-monitoring-sidebar
+      *ngIf="detail"
+      sidebar
+      [data]="detail"
+    ></youth-monitoring-sidebar>
+  </article-layout>
+</max-width-wrapper>

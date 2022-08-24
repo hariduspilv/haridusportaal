@@ -1,0 +1,6 @@
+<ng-container *ngIf="data && data.fieldRightColumnElements?.length">
+  <youth-monitoring-sidebar-block
+    *ngFor="let block of data.fieldRightColumnElements"
+    [data]="block">
+  </youth-monitoring-sidebar-block>
+</ng-container>

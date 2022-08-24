@@ -1,0 +1,25 @@
+.youth-banner {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(126.42deg, rgba(207, 222, 251, 0.51) 5.52%, rgba(255, 227, 202, 0.56) 98.2%), linear-gradient(91.35deg, #EBF1FE 0.97%, rgba(235, 241, 254, 0) 98.42%);
+
+  &__title, &__body {
+    color: #333;
+    margin: 0;
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 30px;
+    margin-bottom: .5rem;
+  }
+
+  &__body {
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: 18px;
+  }
+}

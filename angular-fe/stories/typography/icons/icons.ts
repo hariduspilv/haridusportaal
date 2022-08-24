@@ -49,6 +49,10 @@
     "_fileName": "archive.svg"
   },
   {
+    "_name": "arrow-diagonal",
+    "_fileName": "arrow-diagonal.svg"
+  },
+  {
     "_name": "arrow-down-circle",
     "_fileName": "arrow-down-circle.svg"
   },
@@ -355,6 +359,10 @@
   {
     "_name": "dollar-sign",
     "_fileName": "dollar-sign.svg"
+  },
+  {
+    "_name": "dot",
+    "_fileName": "dot.svg"
   },
   {
     "_name": "download-cloud",
@@ -727,6 +735,10 @@
   {
     "_name": "pen-tool",
     "_fileName": "pen-tool.svg"
+  },
+  {
+    "_name": "people",
+    "_fileName": "people.svg"
   },
   {
     "_name": "percent",

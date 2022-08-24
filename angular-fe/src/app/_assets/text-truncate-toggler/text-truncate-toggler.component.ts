@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'text-truncate-toggler',
@@ -22,5 +23,4 @@ export class TextTruncateTogglerComponent implements OnInit {
   public toggle(): void {
     this.expanded = !this.expanded;
   }
-
 }
