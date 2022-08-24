@@ -25,7 +25,7 @@ public class Worker {
 
   protected JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
-  private Locale locale = new Locale("et", "EE");
+  private final Locale locale = new Locale("et", "EE");
 
   protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", locale);
 

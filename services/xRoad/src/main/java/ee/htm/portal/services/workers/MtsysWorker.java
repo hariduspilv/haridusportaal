@@ -59,12 +59,7 @@ import ee.htm.portal.services.types.eu.x_road.ehis2.PostEducationalInstitution;
 import ee.htm.portal.services.types.eu.x_road.ehis2.PostInstitutionsRequestDocument.PostInstitutionsRequest;
 import ee.htm.portal.services.types.eu.x_road.ehis2.PostInstitutionsResponseDocument.PostInstitutionsResponse;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collection;
@@ -88,11 +83,11 @@ public class MtsysWorker extends Worker {
   private static final String MTSYSKLF_KEY = "klassifikaator";
   private static final String MTSYSFILE_KEY = "mtsysFile";
 
-  private EhisXRoadService ehisXRoadService;
+  private final EhisXRoadService ehisXRoadService;
 
-  private Ehis2XRoadService ehis2XRoadService;
+  private final Ehis2XRoadService ehis2XRoadService;
 
-  private RedisTemplate<String, String> redisFileTemplate;
+  private final RedisTemplate<String, String> redisFileTemplate;
 
   public MtsysWorker(EhisXRoadService ehisXRoadService, Ehis2XRoadService ehis2XRoadService, RedisTemplate<String, Object> redisTemplate,
       RedisTemplate<String, String> redisFileTemplate, Long redisExpire, Long redisFileExpire,
@@ -158,29 +153,6 @@ public class MtsysWorker extends Worker {
               .put("et", item.getNimetus())
               .put("valid", item.getOnKehtiv()));
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "soidukiKategooriad", soidukiKategooriadNode);
-
-/*      ObjectNode oppeasutuseOmandivormidNode = mtsysKlfResponse
-          .putObject("oppeasutuseOmandivormid");
-      response.getOppeasutuseOmandivormid().getOppeasutuseOmandivormList().forEach(
-          item -> oppeasutuseOmandivormidNode.putObject(item.getId().toString())
-              .put("et", item.getNimetus())
-              .put("valid", false));
-      redisTemplate.opsForHash()
-          .put(MTSYSKLF_KEY, "oppeasutuseOmandivormid", oppeasutuseOmandivormidNode);
-
-      ObjectNode oppeasutuseLiigidNode = mtsysKlfResponse.putObject("oppeasutuseLiigid");
-      response.getOppeasutuseLiigid().getOppeasutuseLiikList().forEach(
-          item -> oppeasutuseLiigidNode.putObject(item.getId().toString())
-              .put("et", item.getNimetus())
-              .put("valid", false));
-      redisTemplate.opsForHash().put(MTSYSKLF_KEY, "oppeasutuseLiigid", oppeasutuseLiigidNode);
-
-      ObjectNode pidajaLiigidNode = mtsysKlfResponse.putObject("pidajaLiigid");
-      response.getPidajaLiigid().getPidajaLiikList().forEach(
-          item -> pidajaLiigidNode.putObject(item.getId().toString())
-              .put("et", item.getNimetus())
-              .put("valid", false));
-      redisTemplate.opsForHash().put(MTSYSKLF_KEY, "pidajaLiigid", pidajaLiigidNode);*/
 
       ObjectNode failiTyybidNode = mtsysKlfResponse.putObject("failiTyybid");
       failSafe.putObject("failiTyybid")
@@ -1213,7 +1185,8 @@ public class MtsysWorker extends Worker {
     logForDrupal.setSeverity("notice");
 
     try {
-      XRoadMessage<PostInstitutionsRequest> xRoadMessage = new XmlBeansXRoadMessage<PostInstitutionsRequest>(PostInstitutionsRequest.Factory.newInstance());
+      XRoadMessage<PostInstitutionsRequest> xRoadMessage = new XmlBeansXRoadMessage<>(
+          PostInstitutionsRequest.Factory.newInstance());
       PostInstitutionsResponse response = null;
       String partyCode = jsonNodeRequest.get("ownerId").asText();
 
@@ -1285,7 +1258,7 @@ public class MtsysWorker extends Worker {
               && response.getMessages().getMessageList().stream().anyMatch(s -> s.getType().equalsIgnoreCase("ERROR"))) {
             doXRoadRequest = false;
           } else {
-            xRoadMessage = new XmlBeansXRoadMessage<PostInstitutionsRequest>(PostInstitutionsRequest.Factory.newInstance());
+            xRoadMessage = new XmlBeansXRoadMessage<>(PostInstitutionsRequest.Factory.newInstance());
             xRoadMessage.getContent().setAction(PostInstitutionsRequest.Action.SAVE_CONTACTS);
             xRoadMessage.getContent().setEducationalInstitutionUid(response.getEducationalInstitution().getEducationalInstitutionUid());
             InstitutionsContactsPost contactRequest = xRoadMessage.getContent().addNewContacts();
@@ -1335,13 +1308,14 @@ public class MtsysWorker extends Worker {
           || response.isSetMessages() && response.getMessages().getMessageList() != null
           && response.getMessages().getMessageList().stream().anyMatch(s -> s.getType().equalsIgnoreCase("ERROR")))) {
         logForDrupal.setSeverity("ERROR");
-        String message = response.isSetMessage() ? response.getMessage().getText() : ";";
+        StringBuilder message = new StringBuilder(
+            response.isSetMessage() ? response.getMessage().getText() : ";");
         if(response.isSetMessages()) {
           for (Message m : response.getMessages().getMessageList()) {
-            message += m.getText() + ";";
+            message.append(m.getText()).append(";");
           }
         }
-        logForDrupal.setMessage(message);
+        logForDrupal.setMessage(message.toString());
         logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
         log.info(logForDrupal.toString());
         return jsonNodeResponse.putObject("error").put("message_type", "ERROR")
@@ -1399,7 +1373,7 @@ public class MtsysWorker extends Worker {
       GetInstitutionsResponse response = ehis2XRoadService.getInstitutions(request, null, null, ownerRegCode);
 
       if (response.isSetMessages()) {
-        setEhis2MessageToJsonMessages(jsonNode, response.getMessages(), true);
+        setEhis2MessageToJsonMessages(jsonNode, response.getMessages());
       }
 
       if (response.isSetPerformanceReportResponse()) {
@@ -1518,7 +1492,7 @@ public class MtsysWorker extends Worker {
       GetInstitutionsResponse response = ehis2XRoadService.getInstitutions(request, null, null, ownerRegCode);
 
       if (response.isSetMessages()) {
-        setEhis2MessageToJsonMessages(jsonNode, response.getMessages(), true);
+        setEhis2MessageToJsonMessages(jsonNode, response.getMessages());
       }
 
       if (response.isSetPerformanceReportResponse()) {
@@ -1585,7 +1559,7 @@ public class MtsysWorker extends Worker {
       Long year = dataElementNode.get("aasta").get("value").asLong();
 
       XRoadMessage<PostInstitutionsRequest> xRoadMessage =
-          new XmlBeansXRoadMessage<PostInstitutionsRequest>(PostInstitutionsRequest.Factory.newInstance());
+          new XmlBeansXRoadMessage<>(PostInstitutionsRequest.Factory.newInstance());
       PostInstitutionsRequest request = xRoadMessage.getContent();
       request.setEducationalInstitutionUid(educationalInstitutionsId.toString());
       request.setAction(PostInstitutionsRequest.Action.SAVE_METRICS);
@@ -2021,7 +1995,7 @@ public class MtsysWorker extends Worker {
       GetInstitutionsResponse fileResponse = ehis2XRoadService.getInstitutions(request, null, null, ownerRegCode);
 
       if (fileResponse.isSetMessages()) {
-        setEhis2MessageToJsonMessages(jsonNode, fileResponse.getMessages(), true);
+        setEhis2MessageToJsonMessages(jsonNode, fileResponse.getMessages());
       }
 
       if (fileResponse.isSetFile()) {
@@ -2395,8 +2369,8 @@ public class MtsysWorker extends Worker {
             .put("addressHumanReadable", aadress.getAdsAadressHumanReadable()));
   }
 
-  private void setEhis2MessageToJsonMessages(ObjectNode jsonNode, Messages messages, boolean readOnly) {
-    setEhis2MessageToJsonMessages(jsonNode, messages, null, readOnly);
+  private void setEhis2MessageToJsonMessages(ObjectNode jsonNode, Messages messages) {
+    setEhis2MessageToJsonMessages(jsonNode, messages, null, true);
   }
 
   private void setEhis2MessageToJsonMessages(ObjectNode jsonNode, Messages messages, Message message, boolean readOnly) {

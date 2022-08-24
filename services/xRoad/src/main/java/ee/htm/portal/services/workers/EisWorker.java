@@ -29,7 +29,7 @@ public class EisWorker extends Worker {
 
   private static final Logger log = LoggerFactory.getLogger(EisWorker.class);
 
-  private EisXRoadService eisXRoadService;
+  private final EisXRoadService eisXRoadService;
 
   public EisWorker(EisXRoadService eisXRoadService, RedisTemplate<String, Object> redisTemplate,
       Long redisExpire, Long redisFileExpire, Long redisKlfExpire) {
