@@ -34,10 +34,9 @@
           <icon aria-hidden="true" glyph="search" size="medium"></icon>
         </button>
 
-				<dropdown-menu
+				<dropdown-menu style="display: none;"
  					[languages]="availableLanguages"
 					(onLanguageChange)="changeLanguage($event)"
-					style="display: none;"
 				></dropdown-menu>
 
         <button *ngIf="loginStatus; else other" theme="plain" (click)="openLogOutDropdown($event)" htm-button>
