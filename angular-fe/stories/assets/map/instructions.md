@@ -12,13 +12,13 @@
 
 ## Map properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| type | - | 'markers', 'polygons' | String | Map type
-| options | - | - | Object | Map options
-| markers | - | - | Object[] | Map markers data
-| polygonData | - | - | Object | Polygon map data
-| parameters | - | - | Object[] | Query parameters to show over map
+| Name        | Default | Values                | Type     | Description                       |
+|-------------|---------|-----------------------|----------|-----------------------------------|
+| type        | -       | 'markers', 'polygons' | String   | Map type                          |
+| options     | -       | -                     | Object   | Map options                       |
+| markers     | -       | -                     | Object[] | Map markers data                  |
+| polygonData | -       | -                     | Object   | Polygon map data                  |
+| parameters  | -       | -                     | Object[] | Query parameters to show over map |
 
 ```javascript
 const options: Object = {

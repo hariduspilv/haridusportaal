@@ -1,0 +1,56 @@
+uuid: 0b9b1151-91c0-4567-a371-33daf681d21b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.youthmonitoring_right_column.field_block_text
+    - field.field.paragraph.youthmonitoring_right_column.field_block_type
+    - field.field.paragraph.youthmonitoring_right_column.field_title
+    - field.field.paragraph.youthmonitoring_right_column.field_webpage_link
+    - paragraphs.paragraphs_type.youthmonitoring_right_column
+  module:
+    - link
+    - options
+id: paragraph.youthmonitoring_right_column.default
+targetEntityType: paragraph
+bundle: youthmonitoring_right_column
+mode: default
+content:
+  field_block_text:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_block_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_webpage_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 13
+    region: content
+hidden:
+  field_youth_title: true
+  search_api_excerpt: true

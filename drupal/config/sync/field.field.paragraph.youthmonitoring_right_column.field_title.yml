@@ -1,0 +1,19 @@
+uuid: b3f603a1-f2c9-43b2-8cb7-f57c281ea858
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.youthmonitoring_right_column
+id: paragraph.youthmonitoring_right_column.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: youthmonitoring_right_column
+label: Pealkiri
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

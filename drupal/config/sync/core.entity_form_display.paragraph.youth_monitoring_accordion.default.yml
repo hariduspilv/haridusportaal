@@ -1,0 +1,89 @@
+uuid: 06c0a77e-ea48-4763-8d98-2dc17d29c322
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.youth_monitoring_accordion.field_title
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_body
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_introduction
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_link
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_picture
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_video
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.youth_monitoring_accordion
+  module:
+    - htm_custom_video_field
+    - paragraphs
+    - svg_image
+    - text
+id: paragraph.youth_monitoring_accordion.default
+targetEntityType: paragraph
+bundle: youth_monitoring_accordion
+mode: default
+content:
+  field_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_youth_body:
+    type: text_textarea
+    weight: 4
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_youth_introduction:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_youth_link:
+    type: paragraphs
+    weight: 5
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_youth_picture:
+    type: image_image
+    weight: 2
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_youth_video:
+    type: custom_video_widget_type
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

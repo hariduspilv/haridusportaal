@@ -186,6 +186,7 @@ permissions:
   - 'view any oska_result_page content'
   - 'view any oska_survey_page content'
   - 'view any teaching_home_page content'
+  - 'view any youth_monitoring_page content'
   - 'view article revisions'
   - 'view career_home_page revisions'
   - 'view event revisions'

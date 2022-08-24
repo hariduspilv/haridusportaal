@@ -8,9 +8,9 @@
 
 ## Properties
 
-| Name | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| data | - | - | CarouselItem[] | Items displayed in the carousel
+| Name | Default | Values | Type           | Description                     |
+|------|---------|--------|----------------|---------------------------------|
+| data | -       | -      | CarouselItem[] | Items displayed in the carousel |
 
 
 

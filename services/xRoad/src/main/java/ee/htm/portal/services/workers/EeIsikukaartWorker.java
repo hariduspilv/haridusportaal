@@ -19,7 +19,7 @@ public class EeIsikukaartWorker extends Worker {
 
   private static final Logger log = LoggerFactory.getLogger(EeIsikukaartWorker.class);
 
-  private EhisXRoadService ehisXRoadService;
+  private final EhisXRoadService ehisXRoadService;
 
   public EeIsikukaartWorker(EhisXRoadService ehisXRoadService,
       RedisTemplate<String, Object> redisTemplate, Long redisExpire, Long redisFileExpire,

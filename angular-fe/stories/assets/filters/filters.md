@@ -12,9 +12,9 @@
 
 ## searchResults properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| type | - | news, school, studyProgramme | string | same types as ListItem
+| Name | Default | Values                       | Type   | Description            |
+|------|---------|------------------------------|--------|------------------------|
+| type | -       | news, school, studyProgramme | string | same types as ListItem |
 
 ## filters usage
 Just add "filters" directive to <form> and make sure every <b>&lt;formItem&gt;</b> has <b>"name"</b> attribute.

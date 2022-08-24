@@ -8,6 +8,6 @@
 
 ## Properties
 
-| Name  | Required  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| data | True | - | Object[] | List data
+| Name | Required | Values | Type     | Description |
+|------|----------|--------|----------|-------------|
+| data | True     | -      | Object[] | List data   |

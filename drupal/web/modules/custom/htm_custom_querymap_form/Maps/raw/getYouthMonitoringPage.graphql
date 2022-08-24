@@ -1,0 +1,135 @@
+query getYouthMonitoringPage($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        language {
+          id
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+      entity {
+        ... on NodeYouthMonitoringPage {
+          nid
+          title
+          fieldIntroduction
+          fieldContent{
+            value
+          }
+          fieldYouthGallery{
+            entity{
+              ... on ParagraphMediaImg{
+                fieldMediaImg{
+                  title
+                  alt
+                  url
+                }
+              }
+              ... on ParagraphMediaVid{
+                fieldMediaVid{
+                  input
+                  videoDomain
+                  videoDescription
+                  videoId
+                  videoThumbnail
+                }
+              }
+            }
+          }
+          fieldExtertnalLink{
+            entity{
+              ... on ParagraphLink{
+                fieldLinkName
+                fieldWebpageLink{
+                  title
+                  uri
+                }
+              }
+            }
+          }
+          fieldEndPicture{
+            title
+            alt
+            url
+          }
+          fieldEndVideo{
+            input
+            videoDomain
+            videoDescription
+            videoId
+            videoThumbnail
+          }
+          fieldBottomLink{
+            entity{
+              ... on ParagraphLink{
+                fieldLinkName
+                fieldWebpageLink{
+                  title
+                  uri
+                }
+              }
+
+            }
+          }
+          fieldYouthAccordion{
+            entity{
+              ... on ParagraphYouthMonitoringAccordion{
+                fieldTitle
+                fieldYouthBody{
+                  value
+                }
+                fieldYouthLink{
+                  entity{
+                    ... on ParagraphLink{
+                      fieldLinkName
+                      fieldWebpageLink{
+                        title
+                        uri
+                      }
+                    }
+                  }
+                }
+                fieldYouthVideo{
+                  input
+                  videoDomain
+                  videoDescription
+                  videoId
+                  videoThumbnail
+                }
+                fieldYouthPicture{
+                  alt
+                  title
+                  url
+                }
+                fieldYouthIntroduction{
+                  value
+                }
+              }
+            }
+          }
+          fieldEndText{
+            value
+          }
+          fieldRightColumnElements{
+            entity{
+              ... on ParagraphYouthmonitoringRightColumn{
+                fieldBlockType
+                fieldTitle
+                fieldBlockText
+                fieldWebpageLink {
+                  uri
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

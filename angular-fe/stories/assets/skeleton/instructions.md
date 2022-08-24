@@ -8,6 +8,6 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| type | article | article, line | string | Skeleton template
+| Name | Default | Values        | Type   | Description       |
+|------|---------|---------------|--------|-------------------|
+| type | article | article, line | string | Skeleton template |

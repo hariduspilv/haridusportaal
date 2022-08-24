@@ -8,6 +8,7 @@ import detailViewMd from './detailView.md';
 import { AssetsModule, settingsProviderFactory } from '@app/_assets';
 import { DetailViewComponent } from '@app/_views/detailView/detailView.component';
 import { APP_INITIALIZER } from '@angular/core';
+import { TitleService } from "@app/_services/TitleService";
 
 const notes = { markdown: detailViewMd };
 
@@ -73,14 +74,14 @@ const storyData = (data) => {
         AssetsModule.forRoot(),
       ],
       providers: [
-
-        { provide: Location, useValue: { path: data.path } },
+        { provide: Location, useValue: { path: data.path } },
         {
           provide: APP_INITIALIZER,
           useFactory: settingsProviderFactory,
           deps: [SettingsService],
           multi: true,
         },
+				TitleService,
       ],
     },
     props: {

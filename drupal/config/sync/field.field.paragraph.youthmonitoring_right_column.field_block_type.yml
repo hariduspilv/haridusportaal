@@ -1,0 +1,21 @@
+uuid: 65b6c00f-a38e-4204-89d9-64d3f04a7045
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_block_type
+    - paragraphs.paragraphs_type.youthmonitoring_right_column
+  module:
+    - options
+id: paragraph.youthmonitoring_right_column.field_block_type
+field_name: field_block_type
+entity_type: paragraph
+bundle: youthmonitoring_right_column
+label: 'Ploki tüüp'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

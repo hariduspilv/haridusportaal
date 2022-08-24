@@ -11,10 +11,10 @@
 
 ## Properties
 
-| Name  | Required  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| list | True | - | Object[] | List data
-| type | True | school, studyProgramme, news | string | List item type
+| Name | Required | Values                       | Type     | Description    |
+|------|----------|------------------------------|----------|----------------|
+| list | True     | -                            | Object[] | List data      |
+| type | True     | school, studyProgramme, news | string   | List item type |
 
 ## Javascript
 ```javascript

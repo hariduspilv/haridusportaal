@@ -18,6 +18,6 @@ export default create({
   barBg: '#2e3374',
 
   brandTitle: 'Haridusportaal',
-  brandUrl: 'https://edu.twn.ee/',
-  brandImage: 'https://edu.twn.ee/assets/img/logo_dark.svg',
+  brandUrl: 'https://haridusportaal.twn.zone/',
+  brandImage: 'https://haridusportaal.twn.zone/assets/img/logo_dark.svg',
 });

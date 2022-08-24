@@ -37,9 +37,9 @@ public class OLTWorker extends Worker {
 
   private static final Logger log = LoggerFactory.getLogger(OLTWorker.class);
 
-  private Ehis2XRoadService ehis2XRoadService;
+  private final Ehis2XRoadService ehis2XRoadService;
 
-  private RedisTemplate<String, String> redisFileTemplate;
+  private final RedisTemplate<String, String> redisFileTemplate;
 
   public OLTWorker(Ehis2XRoadService ehis2XRoadService, RedisTemplate<String, Object> redisTemplate,
       RedisTemplate<String, String> redisFileTemplate, Long redisExpire, Long redisFileExpire,
@@ -101,13 +101,12 @@ public class OLTWorker extends Worker {
                 .put("message_type", "ERROR")
                 .putObject("message_text").put("et", faultMessage.getMessage()));
       } else if (xteeResponse.isSetGrants()) {
-        xteeResponse.getGrants().getGrantList().forEach(s -> {
-          ((ArrayNode) responseNode.get("documents")).addObject()
-              .put("form_name", "OLT_OTSUS")
-              .put("identifier", s.getGrantNumber())
-              .put("document_date", ehisDateFormat(s.getSubmitTime()))
-              .put("status", s.getStatus());
-        });
+        xteeResponse.getGrants().getGrantList().forEach(s -> ((ArrayNode) responseNode.get("documents"))
+            .addObject()
+            .put("form_name", "OLT_OTSUS")
+            .put("identifier", s.getGrantNumber())
+            .put("document_date", ehisDateFormat(s.getSubmitTime()))
+            .put("status", s.getStatus()));
       }
 
       logForDrupal.setMessage("EHIS2 - getGrants.v1 teenuselt andmete pärimine õnnestus.");
@@ -164,12 +163,11 @@ public class OLTWorker extends Worker {
         }
 
         if (grant.isSetGrantPaymentList()) {
-          grant.getGrantPaymentList().getGrantPaymentList().forEach(payment -> {
-            paymentValues.addObject()
-                .put("payment_date", payment.getPaymentDate() != null
-                    ? ehisDateFormat(payment.getPaymentDate()) : null)
-                .put("payment_sum", (float) payment.getPaymentSum() / 100);
-          });
+          grant.getGrantPaymentList().getGrantPaymentList().forEach(payment -> paymentValues
+              .addObject()
+              .put("payment_date", payment.getPaymentDate() != null
+                  ? ehisDateFormat(payment.getPaymentDate()) : null)
+              .put("payment_sum", (float) payment.getPaymentSum() / 100));
         }
 
         if (grant.isSetGrantStatusList()) {
@@ -186,18 +184,18 @@ public class OLTWorker extends Worker {
         }
 
         if (grant.isSetGrantRecoveryList()) {
-          grant.getGrantRecoveryList().getGrantRecoveryList().forEach(recovery -> {
-            recoveryValues.addObject().put("decision_number", recovery.getId())
-                .put("recovery_date", recovery.getRecoveryDate() != null
-                    ? ehisDateFormat(recovery.getRecoveryDate()) : null)
-                .put("recovery_sum", (float) recovery.getRecoverySum() / 100);
-          });
+          grant.getGrantRecoveryList().getGrantRecoveryList().forEach(recovery -> recoveryValues
+              .addObject()
+              .put("decision_number", recovery.getId())
+              .put("recovery_date", recovery.getRecoveryDate() != null
+                  ? ehisDateFormat(recovery.getRecoveryDate()) : null)
+              .put("recovery_sum", (float) recovery.getRecoverySum() / 100));
         }
 
         if (grant.isSetGrantFilesList()) {
           grant.getGrantFilesList().getGrantFileList().forEach(file -> {
             String filename = file.getFileName();
-            if (StringUtils.isEmpty(file.getFileName())) {
+            if (!StringUtils.hasText(filename)) {
               filename = grant.getGrantNumber() + "_" + file.getUID();
             }
             if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_APPLICATION")) {
@@ -371,7 +369,7 @@ public class OLTWorker extends Worker {
         ObjectNode requestDataElement = (ObjectNode) jsonNode.get("body").get("steps")
             .get("step_application").get("data_elements");
         XRoadMessage<PostGrantsRequest> xRoadMessage =
-            new XmlBeansXRoadMessage<PostGrantsRequest>(PostGrantsRequest.Factory.newInstance());
+            new XmlBeansXRoadMessage<>(PostGrantsRequest.Factory.newInstance());
         Grant grant = xRoadMessage.getContent().addNewGrant();
         grant.setGrantNumber(jsonNode.get("header").get("identifier").asText());
         grant.setPersonIdCode(personalCode.startsWith("EE") ? personalCode : "EE" + personalCode);
@@ -613,7 +611,7 @@ public class OLTWorker extends Worker {
     if (jsonNode.get("body").get("messages") == null) {
       ((ObjectNode) jsonNode.get("body")).putArray("messages");
     }
-    if (!StringUtils.isEmpty(step)) {
+    if (StringUtils.hasText(step)) {
       ((ObjectNode) jsonNode.get("body").get("steps").get(step)).putArray("messages");
     }
 
@@ -621,7 +619,7 @@ public class OLTWorker extends Worker {
       if (rest400ErrorCodes.contains(e.getCode())) {
         isFatalError.set(false);
       }
-      if (StringUtils.isEmpty(step)) {
+      if (!StringUtils.hasText(step)) {
         ((ArrayNode) jsonNode.get("body").get("messages")).add(e.getCode());
       } else {
         ((ArrayNode) jsonNode.get("body").get("steps").get(step).get("messages")).add(e.getCode());

@@ -1,0 +1,21 @@
+uuid: 8d3826e1-1ff2-48fd-aaf0-6215e1fd8cf6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_youth_body
+    - paragraphs.paragraphs_type.youth_monitoring_accordion
+  module:
+    - text
+id: paragraph.youth_monitoring_accordion.field_youth_body
+field_name: field_youth_body
+entity_type: paragraph
+bundle: youth_monitoring_accordion
+label: Sisu
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

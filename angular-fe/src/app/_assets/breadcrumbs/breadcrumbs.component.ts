@@ -2,9 +2,11 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TitleService } from '@app/_services/TitleService';
-import { getLangCode, isMainPage } from "@app/_core/router-utility";
-import { Router } from "@angular/router";
-import { TranslateService } from "@app/_modules/translate/translate.service";
+import { getLangCode, isMainPage } from '@app/_core/router-utility';
+import { Router } from '@angular/router';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import { ReplaySubject, retry } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export interface BreadcrumbsItem {
   title: string;
@@ -21,6 +23,8 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public data: BreadcrumbsItem[] = [];
   @Input() public path: string = '';
   @Input() public ellipsis: boolean = true;
+
+	private destroyed$ = new ReplaySubject(1);
 
   constructor(
     private settings: SettingsService,
@@ -48,6 +52,9 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 
   public ngOnDestroy(): void {
     this.titleService.setTitle('');
+		this.destroyed$.next(true);
+		this.destroyed$.complete();
+
   }
 
   private parseData(response): void {
@@ -71,8 +78,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
       path: this.path,
     };
 		const path = this.settings.query('getBreadcrumbs', variables);
-
-		const subscription = this.http.get(path).subscribe({
+		const subscription = this.http.get(path).pipe(retry(2), takeUntil(this.destroyed$)).subscribe({
 			next: (response) => {
 				this.saveLanguageSwitchLinks(response);
 				this.parseData(response);

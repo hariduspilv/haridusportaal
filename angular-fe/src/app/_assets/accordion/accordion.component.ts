@@ -66,7 +66,7 @@ export class AccordionItemComponent {
     return 'accordion__item';
   }
 
-  public openAccordion($event?) {
+  public openAccordion($event?, skipRoute = false) {
     if ($event) {
       $event.preventDefault();
     }
@@ -89,7 +89,7 @@ export class AccordionItemComponent {
     const slug = slugifyTitle(this.title);
     const newUrl = this.router.url.split('#')[0];
     this.statusUpdate.next(true);
-    if (this.active) {
+    if (this.active && !skipRoute) {
       this.location.replaceState(`${newUrl}#${slug}`);
     }
   }
@@ -147,6 +147,7 @@ export class AccordionItemComponent {
 export class AccordionComponent implements AfterContentInit, OnChanges, OnDestroy {
 
   @Input() collapsible: boolean = false;
+  @Input() openFirst = false;
   @Output() onChange: EventEmitter<any> = new EventEmitter();
   @ContentChildren(forwardRef(() => AccordionItemComponent))
   items: QueryList<AccordionItemComponent>;
@@ -226,6 +227,17 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
     this.countAccordions();
   }
 
+  openFirstOne() {
+    if (!this.openFirst) {
+      return;
+    }
+
+    const items = this.items.toArray();
+    if (items.length && !items.some((accordion) => accordion.active)) {
+      items[0].openAccordion(undefined, true);
+    }
+  }
+
   destroySubscriptions() {
     this.subscriptions.forEach((item) => {
       item.unsubscribe();
@@ -235,6 +247,7 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
   ngAfterContentInit() {
     setTimeout(
       () => {
+        this.openFirstOne();
         this.closeOthers();
         this.watchItems();
       },

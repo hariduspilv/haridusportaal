@@ -1,0 +1,21 @@
+uuid: b869f842-1185-4cd8-bc86-980c3367ebf2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_youth_video
+    - paragraphs.paragraphs_type.youth_monitoring_accordion
+  module:
+    - htm_custom_video_field
+id: paragraph.youth_monitoring_accordion.field_youth_video
+field_name: field_youth_video
+entity_type: paragraph
+bundle: youth_monitoring_accordion
+label: Video
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: custom_video_field_type

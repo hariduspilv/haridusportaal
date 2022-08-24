@@ -159,7 +159,7 @@ public class HPortalRestController {
           .asText(null) == null
           || requestJson.get("header").get("agents").get(0).get("owner_id")
           .asText(null).equalsIgnoreCase("NULL")) {
-        LOGGER.info("OwnerId is null: " + requestJson.toString());
+        LOGGER.info("OwnerId is null: " + requestJson);
 
         long timestamp = System.currentTimeMillis();
         ((ArrayNode) requestJson.get("header").get("acceptable_activity")).removeAll().add("VIEW");

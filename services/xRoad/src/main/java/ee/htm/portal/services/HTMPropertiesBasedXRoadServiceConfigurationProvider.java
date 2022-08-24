@@ -30,7 +30,7 @@ public class HTMPropertiesBasedXRoadServiceConfigurationProvider extends
   public static final String XROAD_PROTOCOL_VERSION_KEY = "protocol-version";
 
   private Resource resource;
-  private Map<String, Properties> properties = new HashMap<String, Properties>();
+  private final Map<String, Properties> properties = new HashMap<>();
 
   @PostConstruct
   public void init() {

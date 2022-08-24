@@ -11,7 +11,7 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| label | - | - | string | Label
-| vertical | false | true, false | boolean | Set label vertically
+| Name     | Default | Values      | Type    | Description          |
+|----------|---------|-------------|---------|----------------------|
+| label    | -       | -           | string  | Label                |
+| vertical | false   | true, false | boolean | Set label vertically |

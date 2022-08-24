@@ -2,6 +2,8 @@ import { HostListener, Component, Input, OnInit, HostBinding } from '@angular/co
 import { ModalService } from '@app/_services';
 import { VideoEmbedService } from '@app/_services/VideoEmbedService';
 
+let _galleryID = 0;
+
 interface ResponseImage {
   alt?: string;
   title?: string;
@@ -25,6 +27,8 @@ interface ResolvedList extends ResponseVideo, ResponseImage {}
 })
 
 export class ImageComponent implements OnInit {
+  public _id = `gallery-${_galleryID++}`;
+
   @Input() image: ResponseImage | ResponseImage[];
   @Input() videos: ResponseVideo | ResponseVideo[];
   @Input() videoThumb: string;
@@ -85,7 +89,7 @@ export class ImageComponent implements OnInit {
     }
 
     this.images = finalList;
-    this.initGalleryImages();
+		this.initGalleryImages();
   }
 
   coverImageLoaded(): void {
@@ -141,6 +145,6 @@ export class ImageComponent implements OnInit {
   }
 
   openGallery(): void {
-    this.modalService.open('gallery');
+    this.modalService.open(this._id);
   }
 }

@@ -8,9 +8,9 @@
 
 ## Properties
 
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| theme | default | default, inverted, plain, icon | string | Button appearance
+| Name  | Default | Values                         | Type   | Description       |
+|-------|---------|--------------------------------|--------|-------------------|
+| theme | default | default, inverted, plain, icon | string | Button appearance |
 
 
 
