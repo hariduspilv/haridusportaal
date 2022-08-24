@@ -294,6 +294,5 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.paramsWatcher.unsubscribe();
-		this.settings.currentLanguageSwitchLinks = null;
   }
 }

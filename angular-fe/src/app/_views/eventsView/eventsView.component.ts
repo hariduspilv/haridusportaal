@@ -16,8 +16,8 @@ import { translatePath } from "@app/_core/router-utility";
 export class EventsViewComponent implements OnInit, OnDestroy {
   @ViewChild('filterToggle') filterToggle: ElementRef;
   @ViewChild('detailed') detailed: ElementRef;
-  @ViewChild('hiddenFormItem', {read: ElementRef}) hiddenFormItem: ElementRef;
-  public breadcrumbsPath: string = translatePath('/sündmused');
+  @ViewChild('hiddenFormItem', { read: ElementRef }) hiddenFormItem: ElementRef;
+  public breadcrumbsPath: string = translatePath(decodeURI(window.location.pathname));
   public eventsTypes;
   public eventsTags;
   public eventsTypesSet;
@@ -30,7 +30,7 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   private activatedFilters: boolean = false;
 
   constructor(
-    private settings:SettingsService,
+    private settings: SettingsService,
     private http: HttpClient,
     private route: ActivatedRoute,
 		private router: Router,

@@ -14,7 +14,7 @@ import { BlobErrorHttpInterceptor } from './_interceptors/blob-error-interceptor
 import { TitleService } from './_services/TitleService';
 import { RouteUndefinedInterceptor } from './_interceptors/detail-route-undefined.interceptor';
 import { DeviceDetectorService } from 'ngx-device-detector';
-// We dont need short month names at all!
+// We do not need a short month names at all!
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
 });
