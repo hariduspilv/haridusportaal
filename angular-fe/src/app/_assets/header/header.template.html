@@ -17,7 +17,7 @@
 <div class="header__assets" *ngIf="!loading">
   <div class="inline">
     <div class="header__assets--grid">
-      <div [class.hidden]="!headerSearchEnabled()" class="header__search" role="search">
+      <div [class.hidden]="isOnSearchPage" class="header__search" role="search">	<!-- !headerSearchEnabled() -->
         <form>
           <label class="hidden-label" for="homeSearch">{{ 'search.label' | translate }}</label>
           <formItem type="autocomplete" query="testAutocomplete" titleDisabled="true" name="homeSearch"

@@ -5,7 +5,7 @@ import { TitleService } from '@app/_services/TitleService';
 import { getLangCode, isMainPage } from '@app/_core/router-utility';
 import { Router } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { ReplaySubject, retry } from 'rxjs';
+import { retry, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 export interface BreadcrumbsItem {
@@ -24,7 +24,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public path: string = '';
   @Input() public ellipsis: boolean = true;
 
-	private destroyed$ = new ReplaySubject(1);
+	private destroy$ = new Subject<void>();
 
   constructor(
     private settings: SettingsService,
@@ -52,9 +52,9 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 
   public ngOnDestroy(): void {
     this.titleService.setTitle('');
-		this.destroyed$.next(true);
-		this.destroyed$.complete();
 
+		this.destroy$.next();
+		this.destroy$.complete();
   }
 
   private parseData(response): void {
@@ -78,14 +78,13 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
       path: this.path,
     };
 		const path = this.settings.query('getBreadcrumbs', variables);
-		const subscription = this.http.get(path).pipe(retry(2), takeUntil(this.destroyed$)).subscribe({
+
+		const subscription = this.http.get(path).pipe(retry(2), takeUntil(this.destroy$)).subscribe({
 			next: (response) => {
 				this.saveLanguageSwitchLinks(response);
 				this.parseData(response);
 			},
-			complete: () => {
-				subscription.unsubscribe();
-			}
+			complete: () => subscription.unsubscribe(),
 		});
 	}
 
@@ -101,8 +100,6 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 	private saveLanguageSwitchLinks(response: Object) {
 		if (response && response['data'] && response['data']['route'] && response['data']['route']['languageSwitchLinks']) {
 			this.settings.currentLanguageSwitchLinks = response['data']['route']['languageSwitchLinks'];
-		} else {
-			// this.settings.currentLanguageSwitchLinks = null;
 		}
 	}
 }

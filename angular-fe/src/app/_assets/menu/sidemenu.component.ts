@@ -40,7 +40,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   private initialAutoOpen = false;
   private focusBounce: any;
   private visibilityBounce: any;
-	private languageWasChanged = false;
+	private languageWasChanged = false;	/** it's only for the change of background-color after language change */
+
 
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
   @ViewChild('sidemenuCloser', { static: false, read: ElementRef }) private closeBtn: ElementRef;

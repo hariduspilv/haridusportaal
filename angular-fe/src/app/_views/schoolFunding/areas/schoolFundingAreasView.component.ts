@@ -42,7 +42,7 @@ export class SchoolFundingAreasViewComponent {
     },
     {
       link: '',
-      title: 'school.support_projects',
+      title: 'school.municipalities',
     },
   ];
 
