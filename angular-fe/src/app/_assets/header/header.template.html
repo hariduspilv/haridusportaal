@@ -37,6 +37,7 @@
 				<dropdown-menu
  					[languages]="availableLanguages"
 					(onLanguageChange)="changeLanguage($event)"
+					style="display: none;"
 				></dropdown-menu>
 
         <button *ngIf="loginStatus; else other" theme="plain" (click)="openLogOutDropdown($event)" htm-button>
