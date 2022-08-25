@@ -6,25 +6,31 @@
 
   <groupId>ee.htm.portal.services</groupId>
   <artifactId>xRoad</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>3.4.0</version>
   <packaging>jar</packaging>
 
-  <name>HTM portal micro services</name>
-  <description>HTM portal micro services for relaying xRoad massages.
+  <name>Haridusportaal microservices</name>
+  <description>Haridusportaal microservices for relaying xRoad massages.
     Using REST to get request and to response.
   </description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.1.RELEASE</version>
+    <version>2.7.0</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <jroad-arireg-client.version>3.4.0</jroad-arireg-client.version>
+    <jroad-ehis-client.version>3.4.0</jroad-ehis-client.version>
+    <jroad-ehis2-client.version>3.4.0</jroad-ehis2-client.version>
+    <jroad-eis-client.version>3.4.0</jroad-eis-client.version>
+    <jroad-kutseregister-client.version>3.4.0</jroad-kutseregister-client.version>
   </properties>
 
   <dependencies>
@@ -32,25 +38,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-redis</artifactId>
-    </dependency>
-<!--
-    &lt;!&ndash; exclude logback , add log4j2 &ndash;&gt;
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
       <exclusions>
         <exclusion>
           <groupId>org.springframework.boot</groupId>
@@ -62,103 +49,171 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-log4j2</artifactId>
     </dependency>
-    &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core &ndash;&gt;
     <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
--->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-oxm</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-oxm -->
     <!-- needed because com.nortal.jroad/xtee-client-transport -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-oxm</artifactId>
-      <version>4.0.5.RELEASE</version>
+      <version>4.1.7.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.xmlbeans</groupId>
+      <artifactId>xmlbeans</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.17.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-1.2-api</artifactId>
+      <version>2.17.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.17.2</version>
     </dependency>
 
     <!-- JRoad EHIS Client-->
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_EHIS_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-ehis-client.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>log4j</artifactId>
+          <groupId>log4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-oxm</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xmlbeans</artifactId>
+          <groupId>org.apache.xmlbeans</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- JRoad EHIS2 Client-->
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_EHIS2_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-ehis2-client.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>log4j</artifactId>
+          <groupId>log4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-oxm</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xmlbeans</artifactId>
+          <groupId>org.apache.xmlbeans</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- JRoad EIS Client-->
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_EIS_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-eis-client.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>log4j</artifactId>
+          <groupId>log4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-oxm</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xmlbeans</artifactId>
+          <groupId>org.apache.xmlbeans</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- JRoad ARIREG Client-->
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_ARIREG_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${jroad-arireg-client.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>log4j</artifactId>
+          <groupId>log4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-oxm</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xmlbeans</artifactId>
+          <groupId>org.apache.xmlbeans</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- JRoad KUTSEREGISTER Client-->
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_KUTSEREGISTER_Client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>2.0.0-alpha1</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/log4j/log4j -->
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/log4j/apache-log4j-extras -->
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>apache-log4j-extras</artifactId>
-      <version>1.2.17</version>
+      <version>${jroad-kutseregister-client.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>log4j</artifactId>
+          <groupId>log4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-oxm</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>xmlbeans</artifactId>
+          <groupId>org.apache.xmlbeans</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>2.2.2.RELEASE</version>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
         <configuration>
           <excludes>
             <exclude>**/*.properties</exclude>
+            <exclude>log4j2.xml</exclude>
           </excludes>
           <archive>
             <manifestEntries>
@@ -171,7 +226,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.1.0</version>
         <executions>
           <execution>
             <id>copy-resources</id>
@@ -186,6 +240,22 @@
                   <directory>src/main/resources</directory>
                   <includes>
                     <include>**/*.properties</include>
+                    <include>log4j2.xml</include>
+                  </includes>
+                </resource>
+                <!-- <resource>
+                  <directory>src/main/resources</directory>
+                  <targetPath>../../../conf</targetPath>
+                  <includes>
+                    <include>**/*.properties</include>
+                    <include>log4j2.xml</include>
+                  </includes>
+                </resource> -->
+                <resource>
+                  <directory>${project.basedir}/target</directory>
+                  <targetPath>../../../</targetPath>
+                  <includes>
+                    <include>*.jar</include>
                   </includes>
                 </resource>
               </resources>

@@ -14,7 +14,7 @@ public class AriregWorker extends Worker {
 
   private static final Logger log = LoggerFactory.getLogger(AriregWorker.class);
 
-  private AriregXRoadService ariregXRoadService;
+  private final AriregXRoadService ariregXRoadService;
 
   public AriregWorker(AriregXRoadService ariregXRoadService,
       RedisTemplate<String, Object> redisTemplate, Long redisExpire, Long redisFileExpire,

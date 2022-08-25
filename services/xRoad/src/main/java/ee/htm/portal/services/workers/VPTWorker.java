@@ -38,9 +38,9 @@ public class VPTWorker extends Worker {
 
   private static final Logger log = LoggerFactory.getLogger(VPTWorker.class);
 
-  private EhisXRoadService ehisXRoadService;
+  private final EhisXRoadService ehisXRoadService;
 
-  private RedisTemplate<String, String> redisFileTemplate;
+  private final RedisTemplate<String, String> redisFileTemplate;
 
   public VPTWorker(EhisXRoadService ehisXRoadService, RedisTemplate<String, Object> redisTemplate,
       RedisTemplate<String, String> redisFileTemplate, Long redisExpire, Long redisFileExpire,

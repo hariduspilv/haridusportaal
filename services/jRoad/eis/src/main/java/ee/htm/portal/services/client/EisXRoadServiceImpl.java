@@ -62,10 +62,10 @@ public class EisXRoadServiceImpl extends EisXRoadDatabaseImpl implements EisXRoa
     request.setRequest(paring);
 
     if (userId == null || userId.equalsIgnoreCase("-")) {
-      return send(new XmlBeansXRoadMessage<ETunnistusKod>(request), "e_tunnistus_kod", "v1");
+      return send(new XmlBeansXRoadMessage<>(request), "e_tunnistus_kod", "v1");
     }
 
-    return send(new XmlBeansXRoadMessage<ETunnistusKod>(request), "e_tunnistus_kod", "v1", userId);
+    return send(new XmlBeansXRoadMessage<>(request), "e_tunnistus_kod", "v1", userId);
   }
 
   public XRoadMessage<ETunnistusKehtivusResponse> eTunnistusKehtivus(String personalcode,
@@ -78,11 +78,11 @@ public class EisXRoadServiceImpl extends EisXRoadDatabaseImpl implements EisXRoa
     request.setRequest(paring);
 
     if (userId == null || userId.equalsIgnoreCase("-")) {
-      return send(new XmlBeansXRoadMessage<ETunnistusKehtivus>(request), "e_tunnistus_kehtivus",
+      return send(new XmlBeansXRoadMessage<>(request), "e_tunnistus_kehtivus",
           "v1");
     }
 
-    return send(new XmlBeansXRoadMessage<ETunnistusKehtivus>(request), "e_tunnistus_kehtivus", "v1",
+    return send(new XmlBeansXRoadMessage<>(request), "e_tunnistus_kehtivus", "v1",
         userId);
   }
 }

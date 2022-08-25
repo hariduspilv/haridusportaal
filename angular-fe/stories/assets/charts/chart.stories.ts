@@ -27,12 +27,6 @@ const moduleMetadata = {
     RippleService,
     AddressService,
     QueryParamsService,
-		{
-			provide: APP_INITIALIZER,
-			useFactory: settingsProviderFactory,
-			deps: [SettingsService],
-			multi: true,
-		},
 		{ provide: ActivatedRoute, useValue: {} },
   ],
 };
