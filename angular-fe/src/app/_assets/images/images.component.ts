@@ -113,15 +113,17 @@ export class ImageComponent implements OnInit {
   }
 
   handlePrev(image: ResolvedList): void {
-    if (image.index > 0) {
-      this.handleNavigation(image.index - 1);
-    }
+    this.handleNavigation(image.index > 0
+      ? image.index - 1
+      : this.images.length - 1
+    );
   }
 
   handleNext(image: ResolvedList): void {
-    if (image.index < this.images.length - 1) {
-      this.handleNavigation(image.index + 1);
-    }
+    this.handleNavigation(image.index < this.images.length - 1
+      ? image.index + 1
+      : 0
+    );
   }
 
   @HostListener('document:keydown', ['$event'])
