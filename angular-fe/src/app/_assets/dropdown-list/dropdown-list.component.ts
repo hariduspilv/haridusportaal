@@ -10,8 +10,9 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 export class DropdownListComponent implements OnInit {
 
   @Input() data: Object[];
-  private resizeDebounce: any;
+  @Input() reducedColumnSet = false;
   private colsPerRow = 4;
+  private resizeDebounce: any;
   private lastWidth: number = 0;
   private modal:any = false;
   public lastOpenedPosition: number = 0;
@@ -44,7 +45,7 @@ export class DropdownListComponent implements OnInit {
 
     this.lastWidth = winWidth;
 
-    if (winWidth > 1280) {
+    if (winWidth > 1280 && !this.reducedColumnSet) {
       tmpValue = 4;
     } else if (winWidth > 720) {
       tmpValue = 3;
