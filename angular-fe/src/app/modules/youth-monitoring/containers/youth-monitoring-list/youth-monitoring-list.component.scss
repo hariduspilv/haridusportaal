@@ -1,0 +1,9 @@
+@import "breakpoints.scss";
+
+dropdown-list {
+  @include break-on(xs, max) {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    display: block;
+  }
+}

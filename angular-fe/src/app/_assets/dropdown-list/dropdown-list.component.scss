@@ -139,6 +139,9 @@
   padding: 2rem 2rem 0.4rem 2rem;
   margin-top: 0.8rem;
   position: relative;
+  @include break-on(xs, max) {
+    padding: 1rem 1rem 0.4rem 1rem;
+  }
   .hidden-button{
     position:absolute;
     top:0;
@@ -158,8 +161,9 @@
     display: flex;
     min-height:4.625rem;
     @include break-on(xs, max) {
-      margin: -1rem -2rem 0 -2rem;
-      padding: 0 2rem 1rem;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 1rem;
     }
     &__col {
       flex-grow: 1;
@@ -179,7 +183,7 @@
         flex-shrink: 0;
         @include break-on(xs, max) {
           align-items: flex-start;
-          padding-top:18px !important;
+          padding-top: 1.125rem !important;
         }
       }
     }
@@ -212,6 +216,9 @@
       border:none;
       color:$dark-gray;
       margin-left:1.875rem;
+      @include break-on(xs, max) {
+        margin-left: 1rem;
+      }
     }
   }
   &__content{
