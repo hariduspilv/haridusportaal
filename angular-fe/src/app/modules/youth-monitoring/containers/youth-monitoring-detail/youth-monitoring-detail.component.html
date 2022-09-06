@@ -21,28 +21,16 @@
           [videos]="detail.videos"
         ></images>
 
-        <p *ngIf="detail?.fieldContent?.value">
-          <text-truncate-toggler
-            [input]="detail.fieldContent.value"
-            [limit]="400"
-          ></text-truncate-toggler>
+        <p
+          *ngIf="detail?.fieldContent?.value"
+          [innerHTML]="detail.fieldContent.value | unsafeHtml">
         </p>
-
-        <links
-          *ngIf="detail?.fieldExtertnalLink"
-          [data]="detail.fieldExtertnalLink"
-        ></links>
 
         <images
           *ngIf="detail.fieldEndVideo || detail.fieldEndPicture"
           [image]="detail.fieldEndPicture"
           [videos]="detail.fieldEndVideo"
         ></images>
-
-        <links
-          *ngIf="detail?.fieldBottomLink"
-          [data]="detail.fieldBottomLink"
-        ></links>
 
         <accordion
           [collapsible]="true"
@@ -80,6 +68,11 @@
             </ng-template>
           </accordion-item>
         </accordion>
+        
+        <links
+          *ngIf="detail?.fieldBottomLink"
+          [data]="detail.fieldBottomLink"
+        ></links>
 
         <p
           *ngIf="detail?.fieldEndText?.value"
