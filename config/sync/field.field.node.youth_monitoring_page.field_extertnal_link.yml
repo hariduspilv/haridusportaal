@@ -12,7 +12,7 @@ id: node.youth_monitoring_page.field_extertnal_link
 field_name: field_extertnal_link
 entity_type: node
 bundle: youth_monitoring_page
-label: 'Lingi lisamine'
+label: 'Lingi lisamine nimekirja'
 description: ''
 required: false
 translatable: true
@@ -166,7 +166,13 @@ settings:
       youth_content_page_link:
         weight: 95
         enabled: false
+      youth_monitoring_accordion:
+        weight: 98
+        enabled: false
       youth_subject_links:
         weight: 96
+        enabled: false
+      youthmonitoring_right_column:
+        weight: 99
         enabled: false
 field_type: entity_reference_revisions

@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.youth_monitoring_page.field_first_picture
     - field.field.node.youth_monitoring_page.field_first_picture_or_video
     - field.field.node.youth_monitoring_page.field_first_video
+    - field.field.node.youth_monitoring_page.field_gallery
     - field.field.node.youth_monitoring_page.field_introduction
     - field.field.node.youth_monitoring_page.field_right_column_elements
     - field.field.node.youth_monitoring_page.field_youth_accordion
@@ -39,7 +40,7 @@ content:
     third_party_settings: {  }
   field_bottom_link:
     type: paragraphs
-    weight: 20
+    weight: 21
     region: content
     settings:
       title: Paragraph
@@ -159,7 +160,7 @@ content:
     third_party_settings: {  }
   field_youth_accordion:
     type: paragraphs
-    weight: 21
+    weight: 20
     region: content
     settings:
       title: Paragraph
@@ -262,4 +263,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_gallery: true
