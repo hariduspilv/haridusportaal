@@ -6,7 +6,14 @@ dependencies:
     - field.storage.node.field_end_picture
     - node.type.youth_monitoring_page
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
 id: node.youth_monitoring_page.field_end_picture
 field_name: field_end_picture
 entity_type: node
@@ -27,7 +34,7 @@ settings:
   min_resolution: ''
   alt_field: true
   alt_field_required: true
-  title_field: false
+  title_field: true
   title_field_required: false
   default_image:
     uuid: ''
