@@ -58,7 +58,7 @@ content:
     third_party_settings: {  }
   field_content:
     type: text_textarea_with_summary
-    weight: 12
+    weight: 16
     region: content
     settings:
       rows: 9
@@ -110,7 +110,7 @@ content:
     third_party_settings: {  }
   field_first_picture:
     type: image_image
-    weight: 15
+    weight: 13
     region: content
     settings:
       progress_indicator: throbber
@@ -119,13 +119,13 @@ content:
       conditional_fields: {  }
   field_first_picture_or_video:
     type: options_select
-    weight: 14
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
   field_first_video:
     type: custom_video_widget_type
-    weight: 16
+    weight: 14
     region: content
     settings:
       size: 60
@@ -178,7 +178,7 @@ content:
     third_party_settings: {  }
   field_youth_gallery:
     type: paragraphs
-    weight: 13
+    weight: 15
     region: content
     settings:
       title: Paragraph
