@@ -13,7 +13,7 @@ entity_type: paragraph
 bundle: link
 label: URL
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''

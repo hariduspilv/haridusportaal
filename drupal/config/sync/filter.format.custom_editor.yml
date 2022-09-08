@@ -15,7 +15,7 @@ filters:
     status: true
     weight: 1
     settings:
-      allowed_html: '<a href hreflang title target data-entity-type data-entity-uuid> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type> <li> <dl> <dt> <dd> <caption> <h3> <p> <table class id> <tbody> <thead> <tfoot> <th style> <td style> <tr> <iframe longdesc name scrolling src title align height frameborder width>'
+      allowed_html: '<a href hreflang title target data-entity-type data-entity-uuid> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type> <li> <dl> <dt> <dd> <caption> <h3> <p> <table id class=""> <tbody> <thead> <tfoot> <th style> <td style> <tr> <iframe longdesc name scrolling src title align height frameborder width> <img src alt data-entity-type data-entity-uuid data-align data-caption>'
       filter_html_help: true
       filter_html_nofollow: false
   filter_htmlcorrector:
