@@ -50,6 +50,7 @@ settings:
             - PasteFromWord
             - Iframe
             - Maximize
+            - DrupalImage
             - Format
   plugins:
     language:
