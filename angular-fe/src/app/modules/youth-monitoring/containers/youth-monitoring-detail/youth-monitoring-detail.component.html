@@ -44,7 +44,7 @@
             <ng-template>
               <p
                 *ngIf="accordion.entity.fieldYouthIntroduction"
-                [innerHTML]="accordion.entity.fieldYouthIntroduction.value"
+                [innerHTML]="accordion.entity.fieldYouthIntroduction.value | unsafeHtml"
               ></p>
 
               <images
