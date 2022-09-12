@@ -48,9 +48,10 @@ settings:
             - Copy
             - Paste
             - PasteFromWord
+            - Source
             - Iframe
-            - Maximize
             - DrupalImage
+            - Maximize
             - Format
   plugins:
     language:
@@ -58,9 +59,9 @@ settings:
     stylescombo:
       styles: 'h3|t(''Heading'')'
 image_upload:
-  status: false
+  status: true
   scheme: public
-  directory: inline-images
+  directory: inlineImages
   max_size: ''
   max_dimensions:
     width: null
