@@ -12,7 +12,6 @@ dependencies:
     - field.field.node.youth_monitoring_page.field_first_picture
     - field.field.node.youth_monitoring_page.field_first_picture_or_video
     - field.field.node.youth_monitoring_page.field_first_video
-    - field.field.node.youth_monitoring_page.field_gallery
     - field.field.node.youth_monitoring_page.field_introduction
     - field.field.node.youth_monitoring_page.field_right_column_elements
     - field.field.node.youth_monitoring_page.field_youth_accordion
@@ -263,5 +262,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  field_gallery: true
+hidden: {  }
