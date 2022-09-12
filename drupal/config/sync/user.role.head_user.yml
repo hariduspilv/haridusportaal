@@ -70,6 +70,7 @@ dependencies:
     - node
     - node_view_permissions
     - paragraphs
+    - quick_node_clone
     - scheduler
     - search_api_elasticsearch_synonym
     - shortcut
@@ -114,6 +115,7 @@ permissions:
   - 'administer users'
   - 'cancel account'
   - 'change own username'
+  - 'clone event content'
   - 'create article content'
   - 'create audio media'
   - 'create career_home_page content'

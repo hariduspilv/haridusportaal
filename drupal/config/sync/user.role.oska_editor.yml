@@ -34,6 +34,7 @@ dependencies:
     - node
     - node_view_permissions
     - paragraphs
+    - quick_node_clone
     - scheduler
     - search_api_elasticsearch_synonym
     - system
@@ -62,6 +63,7 @@ permissions:
   - 'administer scheduler'
   - 'administer search api elasticsearch synonym'
   - 'administer taxonomy'
+  - 'clone event content'
   - 'create audio media'
   - 'create content translations'
   - 'create crop_images media'

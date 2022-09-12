@@ -5,6 +5,7 @@ dependencies:
   module:
     - editor
     - entity_embed
+    - media
 name: 'Custom editor'
 format: custom_editor
 weight: -10
@@ -13,63 +14,72 @@ filters:
     id: filter_html
     provider: filter
     status: true
-    weight: 1
+    weight: -50
     settings:
-      allowed_html: '<a href hreflang title target data-entity-type data-entity-uuid> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type> <li> <dl> <dt> <dd> <caption> <h3> <p> <table class id> <tbody> <thead> <tfoot> <th style> <td style> <tr> <iframe longdesc name scrolling src title align height frameborder width>'
+      allowed_html: '<0 href hreflang title target data-entity-type data-entity-uuid> <1> <2> <3> <4 cite> <5 type> <6 start type> <7> <8> <9> <10> <11> <12> <13> <14 id class=""> <15> <16> <17> <18 style> <19 style> <20> <21 src alt data-entity-type data-entity-uuid data-align data-caption> <22> <strong> <em> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <blockquote> <ul> <li> <ol> <a href data-entity-type data-entity-uuid> <img src alt data-entity-type data-entity-uuid data-align data-caption> <p> <h3> <iframe longdesc name scrolling src title align height frameborder width> '
       filter_html_help: true
       filter_html_nofollow: false
   filter_htmlcorrector:
     id: filter_htmlcorrector
     provider: filter
     status: true
-    weight: 7
+    weight: -47
     settings: {  }
   filter_caption:
     id: filter_caption
     provider: filter
     status: true
-    weight: 3
+    weight: -49
     settings: {  }
   entity_embed:
     id: entity_embed
     provider: entity_embed
     status: true
-    weight: 5
+    weight: -48
     settings: {  }
   editor_file_reference:
     id: editor_file_reference
     provider: editor
     status: false
-    weight: 11
+    weight: -46
     settings: {  }
   filter_html_escape:
     id: filter_html_escape
     provider: filter
     status: false
-    weight: 9
+    weight: -45
     settings: {  }
   filter_autop:
     id: filter_autop
     provider: filter
     status: false
-    weight: 15
+    weight: -43
     settings: {  }
   filter_html_image_secure:
     id: filter_html_image_secure
     provider: filter
     status: false
-    weight: 19
+    weight: -41
     settings: {  }
   filter_align:
     id: filter_align
     provider: filter
     status: false
-    weight: 13
+    weight: -44
     settings: {  }
   filter_url:
     id: filter_url
     provider: filter
     status: false
-    weight: 17
+    weight: -42
     settings:
       filter_url_length: 72
+  media_embed:
+    id: media_embed
+    provider: media
+    status: false
+    weight: -40
+    settings:
+      default_view_mode: default
+      allowed_view_modes: {  }
+      allowed_media_types: {  }
