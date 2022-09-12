@@ -1,3 +1,5 @@
+@import "breakpoints.scss";
+
 .youth-banner {
   display: flex;
   flex-direction: column;
@@ -21,5 +23,11 @@
     font-weight: 400;
     font-size: .875rem;
     line-height: 18px;
+  }
+
+  @include break-on(xs, max) {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    margin-top: -1.5rem;
   }
 }
