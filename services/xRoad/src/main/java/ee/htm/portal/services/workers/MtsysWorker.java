@@ -2093,8 +2093,8 @@ public class MtsysWorker extends Worker {
     return result;
   }
 
-  private void createTegevuslubaXJSON(String formName, Long identifier, String personalCode,
-      String ownerRegCode, ObjectNode jsonNode) {
+  private void createTegevuslubaXJSON(String formName, Long identifier, String ownerRegCode,
+      String personalCode, ObjectNode jsonNode) {
     jsonNode.putObject("header")
         .put("endpoint", "EHIS")
         .put("form_name", formName)
