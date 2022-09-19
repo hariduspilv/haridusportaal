@@ -36,20 +36,16 @@ export class HTMSwiperComponent implements AfterViewChecked, AfterViewInit, OnDe
 
       if (this.resolveElements) {
         // Set correct pagination element
-        if ((this.config.pagination as PaginationOptions)?.el) {
-          (this.config.pagination as PaginationOptions).el = this.getSwiperDirectChild(
-            (this.config.pagination as PaginationOptions).el as string
-          );
+        const pagination = this.config.pagination as PaginationOptions;
+        if (pagination?.el) {
+          pagination.el = this.getSwiperDirectChild(pagination.el as string);
         }
 
         // Set correct navigation element
-        if ((this.config.navigation as NavigationOptions)?.nextEl) {
-          (this.config.navigation as NavigationOptions).nextEl = this.getSwiperDirectChild(
-            (this.config.navigation as NavigationOptions).nextEl as string
-          );
-          (this.config.navigation as NavigationOptions).prevEl = this.getSwiperDirectChild(
-            (this.config.navigation as NavigationOptions).prevEl as string
-          );
+        const navigation = this.config.navigation as NavigationOptions;
+        if (navigation?.nextEl && navigation?.prevEl) {
+          navigation.nextEl = this.getSwiperDirectChild(navigation.nextEl as string);
+          navigation.prevEl = this.getSwiperDirectChild(navigation.prevEl as string);
         }
       }
       

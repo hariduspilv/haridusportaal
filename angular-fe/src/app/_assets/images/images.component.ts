@@ -1,4 +1,4 @@
-import { HostListener, Component, Input, OnInit, HostBinding, ViewChild, AfterViewChecked, ElementRef, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { HostListener, Component, Input, OnInit, HostBinding } from '@angular/core';
 import { ModalService } from '@app/_services';
 import { VideoEmbedService } from '@app/_services/VideoEmbedService';
 import Swiper, { SwiperOptions } from 'swiper';
