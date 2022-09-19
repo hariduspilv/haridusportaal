@@ -1,6 +1,7 @@
-import { HostListener, Component, Input, OnInit, HostBinding } from '@angular/core';
+import { HostListener, Component, Input, OnInit, HostBinding, ViewChild, AfterViewChecked, ElementRef, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ModalService } from '@app/_services';
 import { VideoEmbedService } from '@app/_services/VideoEmbedService';
+import Swiper, { SwiperOptions } from 'swiper';
 
 let _galleryID = 0;
 
@@ -28,6 +29,7 @@ interface ResolvedList extends ResponseVideo, ResponseImage {}
 
 export class ImageComponent implements OnInit {
   public _id = `gallery-${_galleryID++}`;
+  public swiper: Swiper;
 
   @Input() image: ResponseImage | ResponseImage[];
   @Input() videos: ResponseVideo | ResponseVideo[];
@@ -39,6 +41,11 @@ export class ImageComponent implements OnInit {
   @Input() mediaGallery: (ResponseVideo | ResponseImage)[] | null;
 
   @HostBinding('class') className = 'image';
+  @HostBinding('id') get wrapperId() {
+    return `${this._id}-wrapper`;
+  }
+
+  config: SwiperOptions;
 
   public images: ResolvedList[];
   public activeImage: ResolvedList;
@@ -52,6 +59,53 @@ export class ImageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeGallery();
+    this.config = {
+      pagination: { el: '.swiper-pagination', clickable: true, type: 'bullets' },
+      navigation: {
+        nextEl: '.slides__arrow--right',
+        prevEl: '.slides__arrow--left',
+      },
+      a11y: {
+        enabled: false,
+      },
+      observer: true,
+      observeParents: true,
+      slidesPerView: 1,
+      loop: this.images.length > 1,
+      watchOverflow: true,
+      breakpoints: {
+        1024: {
+          slidesPerView: 'auto',
+        }
+      },
+      on: {
+        slideChangeTransitionStart: (sw: Swiper) => {
+          // Set active image to current active index, so that opening the modal will select the correct image.
+          const index = sw.el.querySelector('.swiper-slide-active')?.getAttribute('data-swiper-slide-index');
+          if (index != null) {
+            this.activeImage = this.images[parseInt(index, 10)];
+          }
+        },
+        update: (sw: Swiper) => {
+          // Hide duplicate slides from screen readers and
+          sw.slides.forEach((el) => {
+            if (el.classList.contains('swiper-slide-duplicate')) {
+              el.setAttribute('aria-hidden', 'true');
+              el.setAttribute('tabindex', '-1');
+
+              el.querySelectorAll('iframe').forEach((el2) => {
+                el2.setAttribute('aria-hidden', 'true');
+                el2.setAttribute('tabindex', '-1');
+              });
+
+              el.querySelectorAll('img').forEach((el2) => {
+                el2.setAttribute('alt', '');
+              });
+            }
+          });
+        }
+      },
+    }
   }
 
   initializeGallery(): void {
