@@ -3,10 +3,34 @@
   *ngIf="images?.length && config"
   [class.swiper-single-item]="images?.length === 1"
 >
-  <a href="javascript:void(0)" attr.aria-label="{{ 'gallery.link-title' | translate }}"
-    *ngIf="images.length > 1 && firstImageLoaded" class="expand-gallery" (click)="openGallery()">
+  <a
+    href="javascript:void(0)"
+    attr.aria-label="{{ 'gallery.link-title' | translate }}"
+    *ngIf="images.length > 1 && firstImageLoaded"
+    class="expand-gallery"
+    (click)="openGallery()"
+  >
     {{ 'gallery.link-title' | translate }} ({{ images.length }})
   </a>
+
+  <button
+    htm-button
+    theme="icon"
+    class="slides__arrow slides__arrow--left"
+    aria-label="Previous slide"
+  >
+    <icon glyph="chevron-left" size="large" [bg]="true" aria-hidden="true"></icon>
+  </button>
+
+  <button
+    htm-button
+    theme="icon"
+    class="slides__arrow slides__arrow--right"
+    aria-label="Next slide"
+  >
+    <icon glyph="chevron-right" size="large" [bg]="true" aria-hidden="true"></icon>
+  </button>
+
   <div
     class="swiper-wrapper"
     aria-roledescription="carousel"
@@ -27,6 +51,7 @@
         />
         <htm-video
           *ngIf="image.videoId"
+          [untabbable]="activeIndex !== i"
           [videos]="image"
           (onLoad)="coverImageLoaded()"
         ></htm-video>
@@ -37,13 +62,7 @@
       </div>
     </ng-container>
   </div>
-  <div class="swiper-pagination" aria-hidden="true" tabindex="-1"></div>
-  <div class="slides__arrow slides__arrow--left" aria-hidden="true" tabindex="-1">
-    <icon glyph="chevron-left" size="large" [bg]="true"></icon>
-  </div>
-  <div class="slides__arrow slides__arrow--right" aria-hidden="true" tabindex="-1">
-    <icon glyph="chevron-right" size="large" [bg]="true"></icon>
-  </div>
+  <div class="swiper-pagination"></div>
 </htm-swiper>
 
 <htm-modal [id]="_id" [bottomAction]="false" [blockModal]="false">
