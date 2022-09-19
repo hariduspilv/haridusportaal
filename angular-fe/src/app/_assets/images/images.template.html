@@ -1,19 +1,50 @@
-<!-- <div class="image__entity" *ngFor="let item of images">
-  <img [src]="item.derivative.url" [title]="item.title" [alt]="item.alt" />
-  <div class="image__title" *ngIf="item.title">{{ item.title }}</div>
-</div> -->
-
-<div *ngIf="images && images.length" class="image-container">
+<htm-swiper
+  [config]="config"
+  *ngIf="images?.length && config"
+  [class.swiper-single-item]="images?.length === 1"
+>
   <a href="javascript:void(0)" attr.aria-label="{{ 'gallery.link-title' | translate }}"
-     *ngIf="images.length > 1 && firstImageLoaded" class="expand-gallery" (click)="openGallery()">
+    *ngIf="images.length > 1 && firstImageLoaded" class="expand-gallery" (click)="openGallery()">
     {{ 'gallery.link-title' | translate }} ({{ images.length }})
   </a>
-  <img *ngIf="!images[0].videoId" [src]="images[0].derivative?.url" [title]="images[0].title"
-       [alt]="images[0].alt" (load)="coverImageLoaded()" />
-  <div class="image__title" *ngIf="images[0]?.title">{{ images[0].title }}</div>
-  <htm-video *ngIf="images[0].videoId" [videos]="images[0]" (onLoad)="coverImageLoaded()"></htm-video>
-  <div class="image__title" *ngIf="images[0]?.videoDescription">{{ images[0].videoDescription }}</div>
-</div>
+  <div
+    class="swiper-wrapper"
+    aria-roledescription="carousel"
+    aria-live="polite"
+  >
+    <ng-container *ngFor="let image of images; let i = index; let l = count">
+      <div class="swiper-slide slides__instance"
+        role="group"
+        aria-roledescription="slide"
+        [attr.aria-label]="'slide ' + (i + 1) + ' of ' + l"
+      >
+        <img
+          *ngIf="!image.videoId"
+          [src]="image.derivative?.url"
+          [title]="image.title"
+          [alt]="image.alt"
+          (load)="coverImageLoaded()"
+        />
+        <htm-video
+          *ngIf="image.videoId"
+          [videos]="image"
+          (onLoad)="coverImageLoaded()"
+        ></htm-video>
+        <div
+          class="image__title"
+          *ngIf="image?.videoDescription || image?.title"
+        >{{ image.videoDescription || image.title }}</div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="swiper-pagination" aria-hidden="true" tabindex="-1"></div>
+  <div class="slides__arrow slides__arrow--left" aria-hidden="true" tabindex="-1">
+    <icon glyph="chevron-left" size="large" [bg]="true"></icon>
+  </div>
+  <div class="slides__arrow slides__arrow--right" aria-hidden="true" tabindex="-1">
+    <icon glyph="chevron-right" size="large" [bg]="true"></icon>
+  </div>
+</htm-swiper>
 
 <htm-modal [id]="_id" [bottomAction]="false" [blockModal]="false">
   <ng-template>
