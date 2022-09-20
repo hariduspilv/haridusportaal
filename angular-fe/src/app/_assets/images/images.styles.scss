@@ -58,7 +58,6 @@
       width: 100%;
 
       padding-bottom: 1.5rem;
-      justify-content: center;
 
       display: flex;
       flex-direction: column;
@@ -75,6 +74,10 @@
 
       &--right {
         right: 8px;
+      }
+
+      &:focus-visible icon {
+        border: 4px solid $blue;
       }
     }
   }
