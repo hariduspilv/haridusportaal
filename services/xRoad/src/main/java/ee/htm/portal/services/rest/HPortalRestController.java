@@ -1,5 +1,6 @@
 package ee.htm.portal.services.rest;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.client.AriregXRoadService;
@@ -16,6 +17,7 @@ import ee.htm.portal.services.workers.OLTWorker;
 import ee.htm.portal.services.workers.VPTWorker;
 import java.math.BigInteger;
 import javax.annotation.Resource;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,21 +68,23 @@ public class HPortalRestController {
   @Value("${redis-klf_expire:1440}")
   private Long redisKlfExpire;
 
-  @RequestMapping(value = "/getDocuments/{identifier}",
+  @RequestMapping(value = "/getDocuments/{personalCode}",
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")
-  public ResponseEntity<?> getDocuments(@PathVariable("identifier") String identifier) {
-    if (identifier.length() == 8) {
+  public ResponseEntity<?> getDocuments(
+      @PathVariable("personalCode") String personalCode,
+      @RequestParam(value = "ownerRegCode", required = false) String ownerRegCode) {
+    if (StringUtils.isNotBlank(ownerRegCode)) {
       MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
           redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
-      new Thread(() -> mtsysWorker.getMtsystegevusLoad(identifier)).start();
+      new Thread(() -> mtsysWorker.getMtsystegevusLoad(personalCode, ownerRegCode)).start();
     } else {
       VPTWorker vptWorker = new VPTWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
-      new Thread(() -> vptWorker.getDocuments(identifier)).start();
+      new Thread(() -> vptWorker.getDocuments(personalCode)).start();
       OLTWorker oltWorker = new OLTWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
-      new Thread(() -> oltWorker.getDocuments(identifier)).start();
+      new Thread(() -> oltWorker.getDocuments(personalCode)).start();
     }
 
     return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
@@ -94,7 +98,8 @@ public class HPortalRestController {
       @PathVariable("personalCode") String personalCode,
       @RequestParam(value = "identifier", required = false) String identifier,
       @RequestParam(value = "year", required = false) Long year,
-      @RequestParam(value = "educationalInstitutionsId", required = false) Long educationalInstitutionsId) {
+      @RequestParam(value = "educationalInstitutionsId", required = false) Long educationalInstitutionsId,
+      @RequestParam(value = "ownerRegCode", required = false) String ownerRegCode) {
     if (formName.startsWith("VPT_ESITATUD")) {
       VPTWorker vptWorker = new VPTWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
@@ -107,28 +112,23 @@ public class HPortalRestController {
       MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
           redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
       if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
-        return new ResponseEntity<>(
-            mtsysWorker.getMtsysTegevusluba(formName, Long.valueOf(identifier), personalCode),
-            HttpStatus.OK);
+        return new ResponseEntity<>(mtsysWorker.getMtsysTegevusluba(formName,
+            Long.valueOf(identifier), personalCode, ownerRegCode), HttpStatus.OK);
       } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
         return new ResponseEntity<>(mtsysWorker.getMtsysTegevusNaitaja(formName,
-            identifier, personalCode, educationalInstitutionsId), HttpStatus.OK);
+            identifier, personalCode, educationalInstitutionsId, ownerRegCode), HttpStatus.OK);
       } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
-        return new ResponseEntity<>(
-            mtsysWorker
-                .getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier), personalCode),
-            HttpStatus.OK);
+        return new ResponseEntity<>(mtsysWorker.getMtsysTegevuslubaTaotlus(formName,
+            Long.valueOf(identifier), personalCode, ownerRegCode), HttpStatus.OK);
       } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_ARUANNE")) {
-        return new ResponseEntity<>(mtsysWorker
-            .getMtsysTegevusNaitajaTaotlus(formName,
-                NumberUtils.isDigits(identifier) ? Long.valueOf(identifier) : null,
-                year, educationalInstitutionsId, personalCode), HttpStatus.OK);
+        return new ResponseEntity<>(mtsysWorker.getMtsysTegevusNaitajaTaotlus(formName,
+            NumberUtils.isDigits(identifier) ? Long.valueOf(identifier) : null,
+            year, educationalInstitutionsId, personalCode, ownerRegCode), HttpStatus.OK);
       } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS")
           || formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS")
           || formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS")) {
-        return new ResponseEntity<>(mtsysWorker
-            .getMtsysEsitaTegevusluba(formName, Long.valueOf(identifier), personalCode),
-            HttpStatus.OK);
+        return new ResponseEntity<>(mtsysWorker.getMtsysEsitaTegevusluba(formName,
+            Long.valueOf(identifier), personalCode, ownerRegCode), HttpStatus.OK);
       }
     }
 
@@ -154,11 +154,9 @@ public class HPortalRestController {
       MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
           redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
 
-      if (requestJson.get("header").get("agents").get(0).get("owner_id") == null
-          || requestJson.get("header").get("agents").get(0).get("owner_id")
-          .asText(null) == null
-          || requestJson.get("header").get("agents").get(0).get("owner_id")
-          .asText(null).equalsIgnoreCase("NULL")) {
+      JsonNode ownerId = requestJson.get("header").get("agents").get(0).get("owner_id");
+      if ( ownerId == null || ownerId.asText(null) == null
+          || ownerId.asText(null).equalsIgnoreCase("NULL")) {
         LOGGER.info("OwnerId is null: " + requestJson);
 
         long timestamp = System.currentTimeMillis();
@@ -172,8 +170,9 @@ public class HPortalRestController {
         if (requestJson.get("messages") == null) {
           requestJson.putObject("messages");
         }
-        ((ObjectNode) requestJson.get("messages")).putObject("error_" + timestamp)
-            .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+        ((ObjectNode) requestJson.get("messages"))
+            .putObject("error_" + timestamp).put("message_type", "ERROR")
+            .putObject("message_text").put("et", "Tehniline viga!");
 
         return new ResponseEntity<>(requestJson, HttpStatus.OK);
       }
@@ -185,8 +184,7 @@ public class HPortalRestController {
       } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS")
           || formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS")
           || formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS")) {
-        return new ResponseEntity<>(mtsysWorker.postMtsysEsitaTegevusluba(requestJson),
-            HttpStatus.OK);
+        return new ResponseEntity<>(mtsysWorker.postMtsysEsitaTegevusluba(requestJson), HttpStatus.OK);
       }
     }
 
@@ -201,13 +199,13 @@ public class HPortalRestController {
       @PathVariable("formName") String formName,
       @PathVariable("personalCode") String personalCode,
       @RequestParam(value = "identifier", required = false) String identifier,
-      @RequestParam(value = "educationalInstitutionsId", required = false) Long educationalInstitutionsId) {
+      @RequestParam(value = "educationalInstitutionsId", required = false) Long educationalInstitutionsId,
+      @RequestParam(value = "ownerRegCode", required = false) String ownerRegCode) {
     MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
         redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
     if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
-      return new ResponseEntity<>(mtsysWorker
-          .getMtsysEsitaTegevusNaitaja(Long.valueOf(identifier), educationalInstitutionsId,
-              personalCode), HttpStatus.OK);
+      return new ResponseEntity<>(mtsysWorker.getMtsysEsitaTegevusNaitaja(Long.valueOf(identifier),
+          educationalInstitutionsId, personalCode, ownerRegCode), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request formName - " + formName);
@@ -395,17 +393,16 @@ public class HPortalRestController {
         ariregWorker.getEsindusOigus(personalCode, countryCode, timestamp), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/getEducationalInstitution/{identifier}/{institutionId}/{personalCode}",
+  @RequestMapping(value = "/getEducationalInstitution/{identifier}/{ownerRegCode}/{personalCode}",
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getEducationalInstitution(
       @PathVariable("identifier") Long identifier,
-      @PathVariable("institutionId") String institutionId,
+      @PathVariable("ownerRegCode") String ownerRegCode,
       @PathVariable("personalCode") String personalCode) {
     MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, ehis2XRoadService, redisTemplate,
         redisFileTemplate, redisExpire, redisFileExpire, redisKlfExpire);
-    return new ResponseEntity<>(
-        mtsysWorker.getMtsysOppeasutus(identifier, institutionId, personalCode), HttpStatus.OK);
+    return new ResponseEntity<>(mtsysWorker.getMtsysOppeasutus(identifier, ownerRegCode, personalCode), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/postEducationalInstitution/{personalCode}",
