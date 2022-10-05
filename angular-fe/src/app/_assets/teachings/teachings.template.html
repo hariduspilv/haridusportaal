@@ -1,7 +1,7 @@
 <div class="accordion">
   <more-block id="1" content="abitekst.opetan"></more-block>
   <div class="digital-sign-wrapper">
-    <a routerLink="{{ 'digitempel' | translatePath }}">{{ 'dashboard.digital_sign.button' | translate }}</a>
+    <a [routerLink]="'/töölaud/digitempel' | translatePath">{{ 'dashboard.digital_sign.button' | translate }}</a>
     <icon glyph="help-circle" ngbTooltip="{{ 'dashboard.digital_sign.tooltip' | translate }}" placement="bottom"></icon>
   </div>
 
