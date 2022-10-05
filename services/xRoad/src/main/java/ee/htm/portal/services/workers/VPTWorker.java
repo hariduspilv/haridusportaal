@@ -349,8 +349,13 @@ public class VPTWorker extends Worker {
             "step_1");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
-        ((ObjectNode) jsonNode.get("header")).put("current_step", "step_1");
-        ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("SAVE");
+        if (response.getHoiatusDto() != null && response.getHoiatusDto().getErrorMessagesList() != null
+            && !response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
+          ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+        } else {
+          ((ObjectNode) jsonNode.get("header")).put("current_step", "step_1");
+          ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("SAVE");
+        }
 //endregion;
 
         logForDrupal.setType("EHIS - VpTaotlusIsikud.v1");
@@ -488,7 +493,12 @@ public class VPTWorker extends Worker {
             "step_2");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
-        ((ObjectNode) jsonNode.get("header")).put("current_step", "step_2");
+        if (response.getHoiatusDto() != null && response.getHoiatusDto().getErrorMessagesList() != null
+            && !response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
+          ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+        } else {
+          ((ObjectNode) jsonNode.get("header")).put("current_step", "step_2");
+        }
 //endregion;
 
         logForDrupal.setType("EHIS - VpTaotlusSissetulekud.v1");
@@ -599,8 +609,13 @@ public class VPTWorker extends Worker {
             "step_3");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
-        ((ObjectNode) jsonNode.get("header")).put("current_step", "step_3");
-        ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("SUBMIT");
+        if (response.getHoiatusDto() != null && response.getHoiatusDto().getErrorMessagesList() != null
+            && !response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
+          ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+        } else {
+          ((ObjectNode) jsonNode.get("header")).put("current_step", "step_3");
+          ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("SUBMIT");
+        }
 //endregion;
 
         logForDrupal.setType("EHIS - VpTaotlusSissetulekud.v1");
@@ -658,8 +673,13 @@ public class VPTWorker extends Worker {
             "step_submit_result");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
-        ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
-        ((ObjectNode) jsonNode.get("header")).put("current_step", "step_submit_result");
+        if (response.getHoiatusDto() != null && response.getHoiatusDto().getErrorMessagesList() != null
+            && !response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
+          ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+        } else {
+          ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+          ((ObjectNode) jsonNode.get("header")).put("current_step", "step_submit_result");
+        }
 //endregion;
 //endregion;
       }

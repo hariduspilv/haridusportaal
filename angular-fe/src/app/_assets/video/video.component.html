@@ -3,7 +3,7 @@
     <div class="video-container" *ngIf="embeddedInputs && embeddedInputs.length && embeddedInputs[i]" [innerHtml]="embeddedInputs[i]"></div>
     <div class="video-container" *ngIf="embedFailed && video.videoId">
       <iframe *ngIf="video.finalUrl" attr.aria-label="{{ 'generic.youtube_video' | translate }}" title="{{ 'generic.youtube_video' | translate }}"
-        [src]="video.finalUrl" frameborder="0" allowfullscreen (load)="onLoad.emit()"></iframe>
+        [src]="video.finalUrl" frameborder="0" allowfullscreen (load)="onLoad.emit()" [tabindex]="untabbable ? -1 : undefined" [attr.aria-hidden]="untabbable"></iframe>
     </div>
     <div *ngIf="video.videoDescription && embedFailed" class="video-alt-text">{{video.videoDescription}}</div>
     <div *ngIf="video.videoDescription && embeddedInputs.length && embeddedInputs[i]" class="video-alt-text">{{video.videoDescription}}</div>
