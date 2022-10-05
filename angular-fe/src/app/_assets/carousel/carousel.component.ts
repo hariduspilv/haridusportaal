@@ -1,6 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SwiperComponent } from 'ngx-useful-swiper';
 import { Swiper, SwiperOptions } from 'swiper';
 import { CarouselItem } from './carousel.model';
 
@@ -11,7 +10,6 @@ import { CarouselItem } from './carousel.model';
 })
 export class CarouselComponent {
   @Input() public data: CarouselItem[];
-  @ViewChild('usefulSwiper', { static: false }) usefulSwiper: SwiperComponent;
   config: SwiperOptions = {
     pagination: { el: '.swiper-pagination', clickable: true },
     navigation: {
@@ -27,6 +25,7 @@ export class CarouselComponent {
       },
       1024: {
         slidesPerView: 3,
+        slidesPerGroup: 1,
       },
     },
     slidesPerView: 1,

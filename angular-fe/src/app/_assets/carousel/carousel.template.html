@@ -1,4 +1,4 @@
-<swiper [config]="config" #usefulSwiper>
+<htm-swiper [config]="config" [resolveElements]="false" #usefulSwiper>
   <div class="swiper-wrapper" aria-roledescription="carousel" aria-live="polite" id="carousel-content">
     <ng-container *ngFor="let item of data; let i = index; let l = count">
       <a class="swiper-slide slides__instance"
@@ -43,7 +43,7 @@
     </ng-container>
   </div>
   <div class="swiper-pagination" aria-hidden="true" tabindex="-1"></div>
-</swiper>
+</htm-swiper>
 <div class="slides__arrow slides__arrow--left" aria-hidden="true" tabindex="-1">
   <icon glyph="chevron-left" size="large"></icon>
 </div>

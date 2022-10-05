@@ -18,7 +18,6 @@ import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { SchoolTable, StudyProgrammeTable, TableComponent } from './table';
 import { AlertsComponent } from './alerts';
 import { VideoComponent } from './video';
-import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -141,6 +140,7 @@ import { TextTruncateTogglerComponent } from './text-truncate-toggler/text-trunc
 import { SkipToContentComponent } from './skip-to-content';
 import { DropdownMenuComponent } from '@app/_assets/header/dropdown-menu/dropdown-menu.component';
 import { getLangCode } from '@app/_core/router-utility';
+import { HTMSwiperModule } from '@app/modules/swiper/swiper.module';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -261,6 +261,7 @@ const exports = [
   BaseLayoutModule,
   IconModule,
   BreadcrumbsModule,
+  HTMSwiperModule,
 ];
 
 const providers = [
@@ -314,10 +315,10 @@ const imports = [
   HttpClientModule,
   ReactiveFormsModule,
   A11yModule,
-  NgxUsefulSwiperModule,
   BaseLayoutModule,
   IconModule,
   BreadcrumbsModule,
+  HTMSwiperModule,
 ];
 
 @NgModule({

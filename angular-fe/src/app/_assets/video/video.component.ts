@@ -21,6 +21,7 @@ export interface VideoItem {
 export class VideoComponent implements OnInit, OnChanges {
   @Input() videos: VideoItem | VideoItem[];
   @Input() responsive = false;
+  @Input() untabbable = false;
   @Output() onLoad: EventEmitter<void> = new EventEmitter();
 
   public videoArray: VideoItem[] = [];
