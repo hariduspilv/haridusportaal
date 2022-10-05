@@ -167,6 +167,11 @@ export class StudyUtility {
   static mapStudyDetailData(studyDetails: MappedStudyPage): MappedStudyPage {
     return {
       ...studyDetails,
+      fieldAccordion: studyDetails.fieldAccordion?.length
+        ? studyDetails.fieldAccordion.filter(
+            (item) => item.entity && item.entity.fieldStudyPageAccordionTitle
+          )
+        : null,
       fieldStudyText: [
         ...studyDetails.fieldAddFile.map((addFile) => ({
           title: addFile.description,
