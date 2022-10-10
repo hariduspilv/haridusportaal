@@ -4343,8 +4343,8 @@ certificates:
     en: 'Look at your testimonies'
   access_code_info:
     translation_type: textarea
-    et: 'Sisestatud e-posti aadressile saadetakse ligipääsukood, mis võimaldab tunnsitust näha'
-    en: 'An access code will be sent to the e-mail address you entered to view the authentication'
+    et: 'Sisestatud e-posti aadressile saadetakse ligipääsukood, mis võimaldab tunnistust näha'
+    en: 'An access code will be sent to the e-mail address you entered to view the certificate'
   id_code_info:
     translation_type: textarea
     et: 'Sisesta selle inimese isikukood, kellele soovid ligipääsu jagada'
