@@ -80,7 +80,7 @@ drush cr
 echo "importing translations"
 drush php-eval "htm_custom_translations_new_import_translations()"
 
-chown -R apache:apache /app/drupal/web/sites/default/files
+chown -R www-data:www-data /app/drupal/web/sites/default/files
 chmod -R 764 /app/drupal/web/sites/default/files/php
 chmod -R 764 /app/drupal/web/sites/default/files/logs
 
