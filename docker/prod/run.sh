@@ -87,4 +87,4 @@ chmod -R 764 /app/drupal/web/sites/default/files/logs
 /usr/sbin/crond -l 8
 
 echo "[i] Starting daemon..."
-httpd -D FOREGROUND
+apache2-foreground
