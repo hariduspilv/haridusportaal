@@ -157,7 +157,14 @@ class EhisConnectorService {
           \Drupal::logger('xjson')->notice('<pre><code>3 Get request time (After Get Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
 
         } else {
-          $response = $client->get($this->loime_url.$service_name . '/' . implode('/',$params['url']) . '?'. implode('&', $params['params'] ));
+          $url_params = '';
+          if (!empty($params['url'])){
+            $url_params.=implode('/', $params['url']) .'?';
+          }
+          if (!empty($params['params'])){
+            $url_params.=implode('&', $params['params']);
+          }
+          $response = $client->get($this->loime_url.$service_name . '/' . $url_params );
         }
       }elseif($type === 'post'){
         $params['headers'] = [
