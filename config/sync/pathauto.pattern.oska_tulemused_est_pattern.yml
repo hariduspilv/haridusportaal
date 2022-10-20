@@ -11,7 +11,7 @@ type: 'canonical_entities:node'
 pattern: 'oska-tulemused/[node:title]'
 selection_criteria:
   9e72a4b8-5101-4038-8169-e1dde0e26d1e:
-    id: node_type
+    id: 'entity_bundle:node'
     negate: false
     uuid: 9e72a4b8-5101-4038-8169-e1dde0e26d1e
     context_mapping:
