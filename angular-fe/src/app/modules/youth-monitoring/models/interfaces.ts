@@ -81,8 +81,8 @@ export interface YouthMonitoringAccordion {
       value: string;
     },
     fieldYouthLink: WebpageLink[];
-    fieldYouthVideo: YouthMonitoringVideo[] | null,
-    fieldYouthPicture: YouthMonitoringPicture[] | null,
+    fieldYouthVideo: YouthMonitoringVideo | null,
+    fieldYouthPicture: YouthMonitoringPicture | null,
     fieldYouthIntroduction?: {
       value: string;
     }
