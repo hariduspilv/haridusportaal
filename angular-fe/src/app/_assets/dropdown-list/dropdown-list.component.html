@@ -36,7 +36,7 @@
           <div class="modal__content">
             <div class="row">
               <div class="col-8 xs-12">
-                <h2 *ngIf="!excludeTitle">{{ 'oskaProfessions.general_info' | translate }}</h2>
+                <h2>{{ 'oskaProfessions.general_info' | translate }}</h2>
                 <p *ngIf="modal.fieldIntroduction" role="text">{{ modal.fieldIntroduction }}</p>
                 <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfession.view_field_info' | translate }}">{{ 'button.read_on' | translate }}</a>
               </div><!--/col-->
