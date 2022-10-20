@@ -11,7 +11,7 @@ type: 'canonical_entities:node'
 pattern: 'study-programmes/[node:title]'
 selection_criteria:
   1e0937ff-268c-49c2-90f8-3bcc08a29595:
-    id: node_type
+    id: 'entity_bundle:node'
     negate: false
     uuid: 1e0937ff-268c-49c2-90f8-3bcc08a29595
     context_mapping:
