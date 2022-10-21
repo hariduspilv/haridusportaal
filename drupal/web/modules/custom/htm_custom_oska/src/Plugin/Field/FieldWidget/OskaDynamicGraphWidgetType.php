@@ -273,7 +273,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 if(isset($form_state->getUserInput()[$field_name][$delta]['graph_options']['indicators'])){
                     foreach($form_state->getUserInput()[$field_name][$delta]['graph_options']['indicators'] as $indicator_input){
                         $graph_indicator[] =  $indicator_input['indicator_set']['graph_indicator'];
-                        $secondary_graph_indicator = array_merge($secondary_graph_indicator, $indicator_input['indicator_set']['secondary_graph_indicator']);
+                        if(is_array($indicator_input['indicator_set']['secondary_graph_indicator'])) {
+                          $secondary_graph_indicator = array_merge($secondary_graph_indicator, $indicator_input['indicator_set']['secondary_graph_indicator']);
+                        }
                     }
                 }else if(isset($data['indicators'])){
                     foreach($data['indicators'] as $indicator_input){
