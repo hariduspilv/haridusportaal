@@ -172,8 +172,10 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
           }
         }
         $title_only = false;
-        if (in_array('oska_main_profession_page',$args['content_type']) && empty($args['query_field'])){
-          $title_only = true;
+        if (!empty($args['content_type'])) {
+          if (in_array('oska_main_profession_page', $args['content_type']) && empty($args['query_field'])) {
+            $title_only = true;
+          }
         }
         if ($title_only){
           foreach ($value['highlight'] as $pos_highlight_key => $pos_highlight){
@@ -395,11 +397,11 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
               $correct_value = false;
             }
           }
-
-          if($correct_value == true && !in_array($autocomplete_value, $this->autocomplete_values)){
-            $this->autocomplete_values[] = trim($autocomplete_value);
+          if (!empty($this->autocomplete_values)) {
+            if ($correct_value == true && !in_array($autocomplete_value, $this->autocomplete_values)) {
+              $this->autocomplete_values[] = trim($autocomplete_value);
+            }
           }
-
         }
       }
     }
