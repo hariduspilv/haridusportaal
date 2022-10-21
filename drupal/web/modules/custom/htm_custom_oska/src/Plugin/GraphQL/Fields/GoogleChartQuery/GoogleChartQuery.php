@@ -31,10 +31,9 @@ class GoogleChartQuery extends FieldPluginBase {
      */
     public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 
-      $value['ChartValue'] = $this->getGoogleChartValue($args);
-      \Drupal::logger('GRAPH')->notice('<pre><code>Value: ' . print_r($value, TRUE) . '</code></pre>' );
+        $value['ChartValue'] = $this->getGoogleChartValue($args);
 
-      yield $value;
+        yield $value;
     }
 
     /**
@@ -109,7 +108,6 @@ class GoogleChartQuery extends FieldPluginBase {
 
         $records = iterator_to_array($stmt->process($reader), false);
 
-      \Drupal::logger('GRAPH')->notice('<pre><code>Value: ' . print_r($records, TRUE) . '</code></pre>' );
         if(isset($records) && count($records) > 0){
             $graph_value = $this->getGoogleGraphValue($records, $graph_info, $filter_values);
 
@@ -156,13 +154,12 @@ class GoogleChartQuery extends FieldPluginBase {
                     $rule_levels[] = $result;
                 }
             }
+            if (!empty($rule_levels)) {
+//              $rule_level = max($rule_levels);
+            }
+          foreach($records as $record){
 
-            $rule_level = max($rule_levels);
-
-            #get value for each label, sum reoccurring labels
-            foreach($records as $record){
-
-                if($rule_level){
+            if(isset($rule_level)){
                     if($rule_level === 0){
                         if(empty($record['valdkond']) || !empty($record['alavaldkond']) || !empty($record['ametiala'])){
                             continue;
@@ -179,6 +176,7 @@ class GoogleChartQuery extends FieldPluginBase {
                         }
                     }
                 }
+
                 if(isset($record[$label_field]) && $record[$label_field] != ''){
                     $xlabel = $record[$label_field];
                 }else{
@@ -222,7 +220,7 @@ class GoogleChartQuery extends FieldPluginBase {
             }
 
             #add values to empty fields
-            if(count($xlabels) > 0){
+            if(is_countable($xlabels) && count($xlabels) > 0){
                 foreach($xlabels as $label){
                     $labelsums = $this->fillEmptyFields($labelsums, $label);
                 }
