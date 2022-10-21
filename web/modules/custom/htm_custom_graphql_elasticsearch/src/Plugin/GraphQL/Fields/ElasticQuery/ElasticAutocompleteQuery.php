@@ -107,8 +107,6 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
       'field_school_search_address',
       'field_school_search_address.keyword',
     ];
-    \Drupal::logger('elastic')->notice('<pre><code>Autocomplete: response: ' . print_r($response, TRUE) . '</code></pre>' );
-    \Drupal::logger('elastic')->notice('<pre><code>Autocomplete: args: ' . print_r($args, TRUE) . '</code></pre>' );
     foreach($response['hits']['hits'] as $key => $value){
       if(isset($value['highlight'])){
         if (isset($args['query_field'])){
@@ -325,7 +323,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     $matches[0] = array_unique($matches[0]);
     $item = array_unique(explode(" ", $item));
     $item_length = count($item);
-    if(count($matches[0]) == count(preg_split('/\s+/', $this->search_input))){
+    if(is_countable($matches[0]) && count($matches[0]) == count(preg_split('/\s+/', $this->search_input))){
       foreach($matches[0] as $match){
         if(mb_strlen($match) < 50){
           $array_locations[] = key(preg_grep('/'.strip_tags($match).'/i', $item));
@@ -390,15 +388,26 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
           }
 
           $mandatory_args = explode(" ", $this->search_input);
-          $autocomplete_value = trim(implode(" ", $autocomplete_value_items));
+          $imploded_items = '';
+          if (is_array($autocomplete_value_items)) {
+            $imploded_items = implode(" ", $autocomplete_value_items);
+          }
+          $autocomplete_value = trim($imploded_items);
           $correct_value = true;
           foreach($mandatory_args as $value){
             if(fnmatch(mb_strtolower('*'.$value.'*'), mb_strtolower($autocomplete_value)) == false){
+
+
               $correct_value = false;
             }
           }
           if (!empty($this->autocomplete_values)) {
             if ($correct_value == true && !in_array($autocomplete_value, $this->autocomplete_values)) {
+              $this->autocomplete_values[] = trim($autocomplete_value);
+            }
+          }
+          else{
+            if ($correct_value == true) {
               $this->autocomplete_values[] = trim($autocomplete_value);
             }
           }
