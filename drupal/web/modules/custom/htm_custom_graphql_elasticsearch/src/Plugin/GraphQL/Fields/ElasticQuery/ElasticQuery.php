@@ -194,6 +194,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
                   'match_phrase_prefix' => array(
                     $condition['field'] => [
                       'query' => ''.$value.'',
+                      ]
+                    )
                 );
               }
               else{
