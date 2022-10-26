@@ -715,8 +715,8 @@ fragment event on NodeEvent {
         date
         unix
     }
-    fieldEventMainStartTime
-    fieldEventMainEndTime
+    fieldEventMainStartTime: fieldEventStartTimeMain
+    fieldEventMainEndTime:fieldEventEndTimeMain
     EventRegistrations {
         entities {
             ... on EventRegEntity {
@@ -762,8 +762,8 @@ fragment event on NodeEvent {
                     date
                     unix
                 }
-                fieldEventStartTime
-                fieldEventEndTime
+                 fieldEventStartTime:fieldEventStartTimeAddition
+                 fieldEventEndTime:fieldEventEndTimeAddition
             }
         }
     }

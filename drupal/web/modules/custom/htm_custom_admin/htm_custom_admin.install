@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Update hooks for the admin parts
+ */
+
+/**
+ * Copy field values to another field
+ */
+function htm_custom_admin_update_9100() {
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'event')
+    ->accessCheck(TRUE);
+  $results = $query->execute();
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($results);
+  if (!empty($nodes)) {
+    foreach ($nodes as $node) {
+      $start_time_old = $node->get('field_event_main_start_time')->value;
+      if (!empty($start_time_old)) {
+        $node->set('field_event_start_time_main',$start_time_old);
+      }
+      $end_time_old = $node->get('field_event_main_end_time')->value;
+      if (!empty($end_time_old)) {
+        $node->set('field_event_end_time_main',$end_time_old);
+      }
+      $additional_dates = $node->get('field_event_date')->referencedEntities();
+      if (!empty($additional_dates)) {
+        foreach ($additional_dates as $additional_date) {
+          $add_start_old = $additional_date->get('field_event_start_time')->value;
+          if (!empty($add_start_old)) {
+            $additional_date->set('field_event_start_time_addition',$add_start_old);
+          }
+          $add_end_old = $additional_date->get('field_event_end_time')->value;
+          if (!empty($add_end_old)) {
+            $additional_date->set('field_event_end_time_addition',$add_end_old);
+          }
+          $additional_date->save();
+        }
+      }
+      $node->save();
+    }
+  }
+}
