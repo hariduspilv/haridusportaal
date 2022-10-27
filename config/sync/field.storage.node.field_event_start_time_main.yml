@@ -1,0 +1,19 @@
+uuid: 6f920495-0cec-4822-971f-419224182ee7
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - time_field
+id: node.field_event_start_time_main
+field_name: field_event_start_time_main
+entity_type: node
+type: time
+settings: {  }
+module: time_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

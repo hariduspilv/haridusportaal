@@ -112,6 +112,7 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  pgsql: 0
   queue_ui: 0
   quick_node_clone: 0
   quickedit: 0
@@ -137,6 +138,7 @@ module:
   taxonomy_multidelete_terms: 0
   telephone: 0
   text: 0
+  time_field: 0
   token: 0
   toolbar: 0
   tour: 0
