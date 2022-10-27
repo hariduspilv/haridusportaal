@@ -1,0 +1,21 @@
+uuid: b92b89d6-64cb-4cf1-af61-ea3421fdfe9c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_start_time_main
+    - node.type.event
+  module:
+    - time_field
+id: node.event.field_event_start_time_main
+field_name: field_event_start_time_main
+entity_type: node
+bundle: event
+label: 'Sündmuse põhikuupäeva alguse kellaaeg'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: time
