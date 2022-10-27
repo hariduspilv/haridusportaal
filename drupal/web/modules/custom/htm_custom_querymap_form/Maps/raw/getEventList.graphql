@@ -36,8 +36,8 @@ query getEventList($tagsValue: [String], $tagsEnabled: Boolean, $typesValue: [St
           date
           unix
         }
-        fieldEventMainStartTime
-        fieldEventMainEndTime
+        fieldEventMainStartTime: fieldEventStartTimeMain
+        fieldEventMainEndTime:fieldEventEndTimeMain
         eventDates: fieldEventDate {
           ...eventdates
         }
@@ -67,8 +67,8 @@ fragment eventdates on FieldNodeFieldEventDate {
         date
         unix
       }
-      fieldEventStartTime
-      fieldEventEndTime
+      fieldEventStartTime:fieldEventStartTimeAddition
+      fieldEventEndTime:fieldEventEndTimeAddition
     }
   }
 }
