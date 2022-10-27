@@ -49,8 +49,11 @@ fieldEventMainDate {
           date
           unix
         }
-        fieldEventMainStartTime
-        fieldEventMainEndTime
+
+        fieldEventMainStartTime: fieldEventStartTimeMain
+        fieldEventMainEndTime: fieldEventEndTimeMain
+
+        # fieldEventMainEndTime
           EventRegistrations{
             entities{
               ... on EventRegEntity{
@@ -96,8 +99,8 @@ fieldEventMainDate {
                   date
                   unix
                 }
-                fieldEventStartTime
-                fieldEventEndTime
+                fieldEventStartTime: fieldEventStartTimeAddition
+                fieldEventEndTime: fieldEventEndTimeAddition
               }
             }
           }
