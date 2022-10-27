@@ -151,7 +151,6 @@ module:
   content_translation: 10
   externalauth: 10
   views: 10
-  pgsql: 0
 
   paragraphs: 11
   standard: 1000
