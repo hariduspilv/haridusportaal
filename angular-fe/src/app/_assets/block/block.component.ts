@@ -210,11 +210,11 @@ export class BlockComponent implements AfterContentInit, OnChanges {
         return item;
       }
     });
-    for (let i = 2; i <= tmpTabs.length; i += 2) {
-      viewTabs.push(tmpTabs.slice(i - 2, i));
+    for (let i = 3; i <= tmpTabs.length; i += 3) {
+      viewTabs.push(tmpTabs.slice(i - 3, i));
     }
-    if (tmpTabs.length % 2) {
-      viewTabs.push(tmpTabs.slice(tmpTabs.length - 2, tmpTabs.length));
+    if (tmpTabs.length % 3) {
+      viewTabs.push(tmpTabs.slice(tmpTabs.length - 3, tmpTabs.length));
     }
     this.viewTabs = viewTabs;
   }
@@ -254,7 +254,7 @@ export class BlockComponent implements AfterContentInit, OnChanges {
       } else {
         this.activeTab = activeTabs[0].tabLabel;
       }
-      if (this.tabs.length > 2 && this.isMobile) {
+      if (this.tabs.length > 3 && this.isMobile) {
         this.constructViewTabs();
       } else {
         this.viewTabs = [this.tabs];

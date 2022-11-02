@@ -74,7 +74,7 @@
     </div><!--/text-center-->
   </block-content>
 
-  <block-content tabLabel="{{ 'event.calendar' | translate }}" tabIcon="calendar" [tabLink]="('/sündmused/kalender' | translatePath) + queryString" [tabActive]="view == 'calendar'">
+  <block-content tabLabel="{{ 'event.calendar' | translate }}" tabIcon="calendar-event" [tabLink]="('/sündmused/kalender' | translatePath) + queryString" [tabActive]="view == 'calendar'">
     <div class="navigation text-center">
       <span tabindex="0" (keyup.enter)="changeMonth(-1);" attr.aria-label="{{'month.prev' | translate}}">
         <span class="icon-wrapper">
