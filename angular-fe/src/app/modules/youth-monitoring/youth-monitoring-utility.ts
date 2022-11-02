@@ -42,13 +42,11 @@ export class YouthMonitoringUtility {
         ? this.mapImage(input.fieldEndPicture)
         : null,
       fieldYouthAccordion: input.fieldYouthAccordion
-        ? input.fieldYouthAccordion
-          .filter((item) => item.entity.fieldTitle)
-          .map((accordion) => ({
+        ? input.fieldYouthAccordion.map((accordion) => ({
             entity: {
               ...accordion.entity,
-              fieldYouthPicture: accordion.entity.fieldYouthPicture?.length
-                ? accordion.entity.fieldYouthPicture.map((item) => this.mapImage(item))
+              fieldYouthPicture: accordion.entity.fieldYouthPicture
+                ? this.mapImage(accordion.entity.fieldYouthPicture)
                 : null,
               fieldYouthLink: this.mapLink(accordion.entity.fieldYouthLink)
             }
