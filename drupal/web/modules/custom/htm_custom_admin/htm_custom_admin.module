@@ -34,6 +34,17 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function htm_custom_admin_theme($existing, $type, $theme, $path)
+{
+  return [
+    'node_news_form_custom' => [
+      'render element' => 'form',
+    ],
+    ];
+}
+/**
  * Implements hook_form_alter() on behalf of form_alter_hook.module.
  *
  * @param                    $form
@@ -110,7 +121,6 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
 
     $form['field_introduction']['widget'][0]['value']['#attributes']['maxlength'] = 300;
   }
-
   if($form_id === 'system_performance_settings'){
     $form['caching']['page_cache_maximum_age']['#options']['2592000'] = t('1 month');
   }
@@ -292,4 +302,49 @@ function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterf
 
   return $response;
   #die();
+}
+
+/**
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function htm_custom_admin_node_presave(Drupal\Core\Entity\EntityInterface $entity) {
+  if (!empty($entity->getType()) && $entity->getType() == 'news') {
+    if ($entity->get('nid')->value) {
+      $daily_important = $entity->get('field_daily_important')->value;
+      if ($daily_important) {
+        $storage = \Drupal::service('entity_type.manager')->getStorage('node');
+        $daily_importants = $storage->loadByProperties([
+          'type' => 'news',
+          'langcode' => $entity->get('langcode')->value,
+          'field_daily_important' => 1,
+        ]);
+
+        foreach ($daily_importants as $daily_important_news) {
+          if ($entity->get('nid')->value != $daily_important_news->get('nid')->value) {
+            $daily_important_news->set('field_daily_important', 0);
+            $daily_important_news->save();
+            $node_link = $daily_important_news->toLink(t('View'))->toString();
+            \Drupal::logger('harno_settings')->notice('Eemaldati "Päevakajalise uudise" märge uudiselt "%title". @link',
+              array(
+                '%title' => $daily_important_news->get('title')->value,
+                '@link' => $node_link,
+              )
+            );
+          }
+        }
+        $storage = \Drupal::service('entity_type.manager')->getStorage('node');
+        $fps = $storage->loadByProperties([
+          'type' => 'frontpage_new',
+          'langcode' => $entity->get('langcode')->value,
+          'status' => 1,
+        ]);
+        if (!empty($fps)) {
+          foreach ($fps as $fp) {
+            $fp->set('field_frontpage_news', $entity->get('nid')->value);
+            $fp->save();
+          }
+        }
+      }
+    }
+  }
 }

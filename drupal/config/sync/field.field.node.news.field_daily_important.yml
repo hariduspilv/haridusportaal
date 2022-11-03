@@ -1,0 +1,23 @@
+uuid: 0c1cc9e7-4b44-4327-9c81-1954dc914dfd
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_daily_important
+    - node.type.news
+id: node.news.field_daily_important
+field_name: field_daily_important
+entity_type: node
+bundle: news
+label: 'Päevakajaline uudis'
+description: "Päevakajaline uudis <br>\r\nAinult üks uudis saab olla korraga päevakajaline.  \r\nKui tehakse valik, siis võetakse teisel päevakajalisel uudisel see linnuke ära."
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean
