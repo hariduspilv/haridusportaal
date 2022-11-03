@@ -1,0 +1,18 @@
+uuid: 42c79a5e-b03d-4620-b439-59b5b1815328
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_daily_important
+field_name: field_daily_important
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
