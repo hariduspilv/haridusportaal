@@ -1,0 +1,26 @@
+Index: themes/contrib/material_admin/inc/form.inc
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/themes/contrib/material_admin/inc/form.inc b/themes/contrib/material_admin/inc/form.inc
+--- a/themes/contrib/material_admin/inc/form.inc	
++++ b/themes/contrib/material_admin/inc/form.inc	(date 1667477040643)
+@@ -82,8 +82,16 @@
+    $form['#attached']['drupalSettings']['material_admin']['material_admin_node_actions'] = theme_get_setting('material_admin_node_actions');
+    $form['actions']['#attributes']['class'][] = 'sticky-node-actions';
+   }
++  switch ($form_id) {
++    case 'node_news_form':
++    case 'node_news_edit_form':
++      $form['#theme'] = ['node_news_form_custom'];
++      break;
+ 
+-  $form['#theme'] = array('node_edit_form');
++    default:
++      $form['#theme'] = array('node_edit_form');
++      break;
++  }
+   $form['advanced']['#type'] = 'container';
+   $is_new = !$node->isNew() ? \Drupal::service('date.formatter')->format($node->getChangedTime(), 'short') : t('Not saved yet');
+   $form['meta'] = array(

@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.news.body
     - field.field.node.news.field_additional_images
     - field.field.node.news.field_author
+    - field.field.node.news.field_daily_important
     - field.field.node.news.field_introduction_image
     - field.field.node.news.field_metatags
     - field.field.node.news.field_news_description
@@ -63,6 +64,13 @@ content:
       maxlength:
         maxlength_js: 50
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+  field_daily_important:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_introduction_image:
     type: image_widget_crop
     weight: 8
@@ -80,9 +88,11 @@ content:
     third_party_settings: {  }
   field_metatags:
     type: metatag_firehose
-    weight: 18
+    weight: 19
     region: content
-    settings: {  }
+    settings:
+      sidebar: true
+      use_details: true
     third_party_settings: {  }
   field_news_description:
     type: text_textarea_with_summary
@@ -126,7 +136,7 @@ content:
         maxlength_js_truncate_html: false
   field_tag:
     type: options_select
-    weight: 19
+    weight: 20
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -154,7 +164,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 17
+    weight: 18
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -171,7 +181,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 15
+    weight: 16
     region: content
     settings:
       display_label: true
@@ -188,7 +198,7 @@ content:
         maxlength_js: 100
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   translation:
-    weight: 16
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
