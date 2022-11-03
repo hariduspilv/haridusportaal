@@ -11,6 +11,7 @@ export class DropdownListComponent implements OnInit {
 
   @Input() data: Object[];
   @Input() reducedColumnSet = false;
+  @Input() excludeTitle = false;
   @Input() links: 'vertical' | 'horizontal' = 'horizontal';
   private colsPerRow = 4;
   private resizeDebounce: any;
