@@ -304,10 +304,62 @@ function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterf
   #die();
 }
 
+function htm_custom_admin_entity_presave(\Drupal\Core\Entity\EntityInterface $entity){
+  $fields = [
+    'field_content',
+    'field_content_text',
+    'field_description',
+    'field_further_info',
+    'field_practical_information',
+    'field_practical_information',
+    'field_registration_',
+    'field_support_content',
+    'field_survey_accordion_content',
+    'field_end_text',
+    'field_body',
+    'field_paragraph_content',
+    'field_youth_introduction',
+    'field_youth_body'
+  ];
+  $entities = [
+    'node',
+    'paragraph'
+  ];
+  foreach ($fields as $field) {
+    if (in_array($entity->getEntityTypeId(), $entities)) {
+      if ($entity->hasField($field) && !empty($entity->get($field))) {
+        $text = $entity->get($field)->value;
+        preg_match_all('/<img[^>]+>/i', $text, $imgs_info);
+        $imgs = array();
+        if (!empty($imgs_info)) {
+          $imgs_info = reset($imgs_info);
+        }
+        foreach ($imgs_info as $img_tag) {
+          $imgs[] = simplexml_load_string($img_tag);
+        }
+        global $base_url;
+        if (!empty($imgs)) {
+          foreach ($imgs as $img) {
+            if (!empty($img->attributes()->{'src'})) {
+              $src = $img->attributes()->{'src'};
+              if (!str_contains($src, $base_url) && str_starts_with($src, '/')) {
+                $text = str_replace($src, $base_url . $src, $text);
+              }
+            }
+          }
+        }
+        $entity->set($field, $text);
+      }
+    }
+  }
+
+}
+
 /**
  * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function htm_custom_admin_node_presave(Drupal\Core\Entity\EntityInterface $entity) {
+
   if (!empty($entity->getType()) && $entity->getType() == 'news') {
     if ($entity->get('nid')->value) {
       $daily_important = $entity->get('field_daily_important')->value;
