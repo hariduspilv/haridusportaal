@@ -25,6 +25,19 @@ function htm_custom_translations_new_import_translations()
           $editable_config->set("$key.$field", $value)->save();
         }
       }
+      else{
+        if (is_array($values)) {
+          foreach($values as $field => $value){
+            $prev_value = $editable_config->get("$key.$field");
+            if ($prev_value == $value){
+              continue;
+            }
+            else {
+              $editable_config->set("$key.$field", $value)->save();
+            }
+          }
+        }
+      }
     }
   }
 }
