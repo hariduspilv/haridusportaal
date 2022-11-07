@@ -387,13 +387,19 @@ function htm_custom_admin_node_presave(Drupal\Core\Entity\EntityInterface $entit
         $storage = \Drupal::service('entity_type.manager')->getStorage('node');
         $fps = $storage->loadByProperties([
           'type' => 'frontpage_new',
-          'langcode' => $entity->get('langcode')->value,
           'status' => 1,
         ]);
         if (!empty($fps)) {
+          $langcodes = \Drupal::languageManager()->getLanguages();
           foreach ($fps as $fp) {
-            $fp->set('field_frontpage_news', $entity->get('nid')->value);
-            $fp->save();
+            $translation = $fp;
+            foreach ($langcodes as $langcode => $langcode_info) {
+              if ($fp->hasTranslation($langcode)){
+                $translation = $fp->getTranslation($langcode);
+              }
+            }
+            $translation->set('field_frontpage_news', $entity->get('nid')->value);
+            $translation->save();
           }
         }
       }
