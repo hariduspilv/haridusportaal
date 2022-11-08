@@ -61,7 +61,11 @@ class OskaFillingBarImportDataForm extends FormBase {
             if ($file_upload->isValid()) {
                 $header_info = $this->detectCSVFileDelimiter($file_upload->getRealPath());
                 foreach($header_info['keys'] as $key => $value) {
-                    $header_info['keys'][cleanString($key)] = cleanString($value);
+                  $value = utf8_encode($value);
+                  if (str_contains($value,'ï»¿')) {
+                    $value = str_replace('ï»¿','',$value);
+                  }
+                  $header_info['keys'][cleanString($key)] = cleanString($value);
                 }
 
                 $delimiter = $header_info['delimiter'];
@@ -91,7 +95,6 @@ class OskaFillingBarImportDataForm extends FormBase {
         $encoders = new CsvEncoder();
 
         $file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
-
         $batch = [
             'title' => t('Processing Oska Filling Bar data ....--'),
             'operations' => [
@@ -111,7 +114,6 @@ class OskaFillingBarImportDataForm extends FormBase {
             'error_message' => t('The migration process has encountered an error.'),
             'finished' => '\Drupal\htm_custom_oska\ProcessOskaFillingBarData::ProcessOskaFillingBarDataFinishedCallback'
         ];
-
         batch_set($batch);
     }
     public function detectCSVFileDelimiter($csvFile) {
