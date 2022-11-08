@@ -362,6 +362,8 @@ function htm_custom_admin_node_presave(Drupal\Core\Entity\EntityInterface $entit
 
   if (!empty($entity->getType()) && $entity->getType() == 'news') {
     if ($entity->get('nid')->value) {
+      $langcodes = \Drupal::languageManager()->getLanguages();
+
       $daily_important = $entity->get('field_daily_important')->value;
       if ($daily_important) {
         $storage = \Drupal::service('entity_type.manager')->getStorage('node');
@@ -390,16 +392,28 @@ function htm_custom_admin_node_presave(Drupal\Core\Entity\EntityInterface $entit
           'status' => 1,
         ]);
         if (!empty($fps)) {
-          $langcodes = \Drupal::languageManager()->getLanguages();
+          $nid = $entity->get('nid')->value;
+          $lang_nids = [];
+          foreach ($langcodes as $langcode => $langcode_info) {
+            if ($entity->hasTranslation($langcode)) {
+              $translated_ent = $entity->getTranslation($langcode);
+              $lang_nids[$langcode] = $translated_ent->get('nid')->value;
+            }
+          }
           foreach ($fps as $fp) {
             $translation = $fp;
             foreach ($langcodes as $langcode => $langcode_info) {
               if ($fp->hasTranslation($langcode)){
                 $translation = $fp->getTranslation($langcode);
               }
+              $trans_lang = $translation->get('langcode')->value;
+              if (isset($lang_nids[$trans_lang])) {
+                $nid = $lang_nids[$trans_lang];
+              }
+              $translation->set('field_frontpage_news', $nid);
+              $translation->save();
             }
-            $translation->set('field_frontpage_news', $entity->get('nid')->value);
-            $translation->save();
+
           }
         }
       }
