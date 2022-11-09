@@ -1,0 +1,181 @@
+uuid: 3c1b8607-cb12-4447-8423-2a4ba243d2a3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_extertnal_link
+    - node.type.youth_monitoring_page_tabbed
+    - paragraphs.paragraphs_type.link
+  module:
+    - entity_reference_revisions
+id: node.youth_monitoring_page_tabbed.field_extertnal_link
+field_name: field_extertnal_link
+entity_type: node
+bundle: youth_monitoring_page_tabbed
+label: 'Lingi lisamine nimekirja'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      link: link
+    negate: 0
+    target_bundles_drag_drop:
+      accordion:
+        weight: 52
+        enabled: false
+      additional_links:
+        weight: 53
+        enabled: false
+      additional_section:
+        weight: 54
+        enabled: false
+      block:
+        weight: 55
+        enabled: false
+      career_contact:
+        weight: 56
+        enabled: false
+      collaboration:
+        weight: 57
+        enabled: false
+      contact_section:
+        weight: 58
+        enabled: false
+      content_page_link:
+        weight: 59
+        enabled: false
+      ehis_icon_link:
+        weight: 60
+        enabled: false
+      ehis_links:
+        weight: 61
+        enabled: false
+      event_date:
+        weight: 62
+        enabled: false
+      favorite_item:
+        weight: 63
+        enabled: false
+      file_mandatory_description:
+        weight: 64
+        enabled: false
+      frontpage_service_image:
+        weight: 65
+        enabled: false
+      frontpage_services:
+        weight: 66
+        enabled: false
+      homepage_reference:
+        weight: 67
+        enabled: false
+      homepage_topics:
+        weight: 68
+        enabled: false
+      homepage_topics_new:
+        weight: 69
+        enabled: false
+      information_system_accordion:
+        weight: 70
+        enabled: false
+      information_system_lower:
+        weight: 71
+        enabled: false
+      information_system_sidebar:
+        weight: 72
+        enabled: false
+      infosystem_support:
+        weight: 73
+        enabled: false
+      intro:
+        weight: 74
+        enabled: false
+      iscedf_search:
+        weight: 75
+        enabled: false
+      job:
+        weight: 76
+        enabled: false
+      learning_carousel:
+        weight: 77
+        enabled: false
+      learning_to_teach:
+        weight: 78
+        enabled: false
+      link:
+        weight: 79
+        enabled: true
+      location:
+        weight: 80
+        enabled: false
+      main_profession_accordion:
+        weight: 81
+        enabled: false
+      main_profession_sidebar:
+        weight: 82
+        enabled: false
+      media_img:
+        weight: 83
+        enabled: false
+      media_vid:
+        weight: 84
+        enabled: false
+      oska_field_sidebar:
+        weight: 85
+        enabled: false
+      registration_period:
+        weight: 86
+        enabled: false
+      right_sidebar_section_info:
+        weight: 87
+        enabled: false
+      school_location:
+        weight: 88
+        enabled: false
+      study:
+        weight: 89
+        enabled: false
+      study_page_accordion:
+        weight: 90
+        enabled: false
+      studypage_right_column:
+        weight: 91
+        enabled: false
+      supernews:
+        weight: 92
+        enabled: false
+      survey_page_accordion:
+        weight: 93
+        enabled: false
+      teaching_themes:
+        weight: 94
+        enabled: false
+      toolbox:
+        weight: 95
+        enabled: false
+      working_time:
+        weight: 96
+        enabled: false
+      yoth_content_page_link_type_2:
+        weight: 97
+        enabled: false
+      youth_content_page_link:
+        weight: 98
+        enabled: false
+      youth_monitor_tab:
+        weight: 101
+        enabled: false
+      youth_monitoring_accordion:
+        weight: 99
+        enabled: false
+      youth_subject_links:
+        weight: 102
+        enabled: false
+      youthmonitoring_right_column:
+        weight: 100
+        enabled: false
+field_type: entity_reference_revisions

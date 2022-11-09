@@ -1,0 +1,10 @@
+uuid: 3967ae03-63c3-4cb0-9600-4b01d7ad64e9
+langcode: et
+status: true
+dependencies: {  }
+id: youth_monitor_tab
+label: 'Noorteseire sakk'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
