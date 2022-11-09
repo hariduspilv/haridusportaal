@@ -76,6 +76,10 @@ class OskaImportDataForm extends FormBase {
                 $header_info = $this->detectCSVFileDelimiter($file_upload->getRealPath());
 
                 foreach($header_info['keys'] as $key => $value) {
+                  $value = utf8_encode($value);
+                  if (str_contains($value,'ï»¿')) {
+                    $value = str_replace('ï»¿','',$value);
+                  }
                     $header_info['keys'][cleanString($key)] = cleanString($value);
                 }
 
