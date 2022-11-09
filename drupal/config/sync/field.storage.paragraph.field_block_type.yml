@@ -23,6 +23,30 @@ settings:
     -
       value: DotIconBlock
       label: 'Rohelise täpi ikooniga plokk'
+    -
+      value: RedArrowIconBlock
+      label: 'Punase diagonaalse noole ikooniga plokk'
+    -
+      value: OrangeArrowIconBlock
+      label: 'Oranži diagonaalse noole ikooniga plokk'
+    -
+      value: StudiesBlock
+      label: Uuringuplokk
+    -
+      value: PodcastBlock
+      label: 'Podcasti plokk'
+    -
+      value: VideoBlock
+      label: Videoplokk
+    -
+      value: BlogBlock
+      label: Blogiplokk
+    -
+      value: StatisticsBlock
+      label: Statistikaplokk
+    -
+      value: PeopleBlock
+      label: 'Inimestega plokk'
   allowed_values_function: ''
 module: options
 locked: false
