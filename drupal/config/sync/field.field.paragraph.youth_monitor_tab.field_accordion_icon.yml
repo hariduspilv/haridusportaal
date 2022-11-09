@@ -1,0 +1,21 @@
+uuid: 3221d759-23c3-4d5e-b983-44df0bb3aa62
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_accordion_icon
+    - paragraphs.paragraphs_type.youth_monitor_tab
+  module:
+    - options
+id: paragraph.youth_monitor_tab.field_accordion_icon
+field_name: field_accordion_icon
+entity_type: paragraph
+bundle: youth_monitor_tab
+label: 'Accordion Icon'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

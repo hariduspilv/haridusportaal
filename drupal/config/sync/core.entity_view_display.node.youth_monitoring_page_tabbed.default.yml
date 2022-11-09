@@ -1,0 +1,85 @@
+uuid: 95091def-9fc9-426d-972c-53a5c13e2f2b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.youth_monitoring_page_tabbed.field_extertnal_link
+    - field.field.node.youth_monitoring_page_tabbed.field_first_picture
+    - field.field.node.youth_monitoring_page_tabbed.field_first_picture_or_video
+    - field.field.node.youth_monitoring_page_tabbed.field_first_video
+    - field.field.node.youth_monitoring_page_tabbed.field_introduction
+    - field.field.node.youth_monitoring_page_tabbed.field_youth_monitor_tab
+    - node.type.youth_monitoring_page_tabbed
+  module:
+    - entity_reference_revisions
+    - htm_custom_video_field
+    - options
+    - svg_image
+    - user
+id: node.youth_monitoring_page_tabbed.default
+targetEntityType: node
+bundle: youth_monitoring_page_tabbed
+mode: default
+content:
+  field_extertnal_link:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_first_picture:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_first_picture_or_video:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_first_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_introduction:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_youth_monitor_tab:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

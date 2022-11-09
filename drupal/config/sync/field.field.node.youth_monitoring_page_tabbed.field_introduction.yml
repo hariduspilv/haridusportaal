@@ -1,0 +1,19 @@
+uuid: e6ae174c-295b-4fb3-a9b7-f91ca20bed10
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_introduction
+    - node.type.youth_monitoring_page_tabbed
+id: node.youth_monitoring_page_tabbed.field_introduction
+field_name: field_introduction
+entity_type: node
+bundle: youth_monitoring_page_tabbed
+label: Sissejuhatus
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
