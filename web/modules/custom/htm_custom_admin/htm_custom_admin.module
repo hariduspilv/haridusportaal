@@ -44,6 +44,35 @@ function htm_custom_admin_theme($existing, $type, $theme, $path)
     ],
     ];
 }
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function htm_custom_admin_field_widget_paragraphs_form_alter(&$element, &$form_state, $context) {
+  /** @var \Drupal\field\Entity\FieldConfig $field_definition */
+  $field_definition = $context['items']->getFieldDefinition();
+  $paragraph_entity_reference_field_name = $field_definition->getName();
+  if ($paragraph_entity_reference_field_name == 'field_right_column_elements') {
+    /** @see \Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget::formElement() */
+    $widget_state = \Drupal\Core\Field\WidgetBase::getWidgetState($element['#field_parents'], $paragraph_entity_reference_field_name, $form_state);
+
+    /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+    $paragraph_instance = $widget_state['paragraphs'][$element['#delta']]['entity'];
+    $paragraph_type = $paragraph_instance->bundle();
+    // Determine which paragraph type is being embedded.
+    if ($paragraph_type == 'youthmonitoring_right_column') {
+      $dependee_field_name = 'field_block_type';
+      $selector = sprintf('select[name="%s[%d][subform][%s]"]', $paragraph_entity_reference_field_name, $element['#delta'], $dependee_field_name);
+      // Dependent fields.
+      $element['subform']['field_green_men_amount']['#states'] = [
+        'visible' => [
+          $selector => ['value' => 'PeopleBlock'],
+        ],
+      ];
+    }
+  }
+}
+
 /**
  * Implements hook_form_alter() on behalf of form_alter_hook.module.
  *
@@ -52,7 +81,6 @@ function htm_custom_admin_theme($existing, $type, $theme, $path)
  * @param                    $form_id
  */
 function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
   if($form_id === 'taxonomy_term_tags_form'){
     if($form['tid']['#value'] == NULL){
       $form['#validate'][] = 'htm_custom_admin_tags_validate';
@@ -104,7 +132,18 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
     case 'node_youth_monitoring_page_tabbed_form':
     case 'node_youth_monitoring_page_edit_form':
     case 'node_youth_monitoring_page_tabbed_edit_form':
-
+    if (isset($form['field_right_column_elements'])){
+      $para_form = $form['field_right_column_elements']['widget'][0]['subform'];
+      if (isset($para_form['field_green_men_amount'])){
+        $para_form['field_green_men_amount']['#states'] = [
+          'visible' => [
+            ':input[name="field_right_column_elements[0][subform][field_block_type][0][value]"]' => [
+              'value' => 'PeopleBlock'
+            ]
+          ]
+        ];
+      }
+    }
     // Show "field_first_picture" field only when "Picture" is selected on "field_first_picture_or_video" field
     $form['field_first_picture']['#states'] = [
       'visible' => [

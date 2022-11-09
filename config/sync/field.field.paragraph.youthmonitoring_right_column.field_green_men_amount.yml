@@ -1,0 +1,21 @@
+uuid: 588ea095-8554-416d-8f08-4a4e62cb13ad
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_green_men_amount
+    - paragraphs.paragraphs_type.youthmonitoring_right_column
+  module:
+    - options
+id: paragraph.youthmonitoring_right_column.field_green_men_amount
+field_name: field_green_men_amount
+entity_type: paragraph
+bundle: youthmonitoring_right_column
+label: 'Roheliste inimeste arv'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer
