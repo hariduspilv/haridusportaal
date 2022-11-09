@@ -104,10 +104,6 @@
                   "input": "./node_modules/@google/markerclustererplus/images",
                   "glob": "*",
                   "output": "/images"
-                },
-                { "glob": "robots.txt",
-                  "input": "src/environments/prelive/",
-                  "output": "/"
                 }
               ],
               "index": {
@@ -147,10 +143,6 @@
                   "input": "./node_modules/@google/markerclustererplus/images",
                   "glob": "*",
                   "output": "/images"
-                },
-                { "glob": "robots.txt",
-                  "input": "src/environments/dev/",
-                  "output": "/"
                 }
               ],
               "index": {
