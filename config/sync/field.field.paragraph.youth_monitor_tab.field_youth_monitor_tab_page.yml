@@ -1,0 +1,31 @@
+uuid: 07381019-b477-4ae4-893d-7560e878020b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_youth_monitor_tab_page
+    - node.type.youth_monitoring_page
+    - paragraphs.paragraphs_type.youth_monitor_tab
+  module:
+    - entity_reference_revisions
+id: paragraph.youth_monitor_tab.field_youth_monitor_tab_page
+field_name: field_youth_monitor_tab_page
+entity_type: paragraph
+bundle: youth_monitor_tab
+label: 'Noorteseire leht'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      youth_monitoring_page: youth_monitoring_page
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference_revisions
