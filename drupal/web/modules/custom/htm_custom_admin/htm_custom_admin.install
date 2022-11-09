@@ -91,5 +91,4 @@ function htm_custom_admin_update_9101() {
     }
   }
 //  dump($nodes);
-  exit();
 }
