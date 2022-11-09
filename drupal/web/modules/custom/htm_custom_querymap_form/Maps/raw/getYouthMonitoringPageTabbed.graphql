@@ -129,6 +129,7 @@ query getYouthMonitoringPage($path: String!) {
                 fieldBlockType
                 fieldTitle
                 fieldBlockText
+                fieldGreenMenAmount
                 fieldWebpageLink {
                   uri
                   title

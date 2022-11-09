@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.field.paragraph.youthmonitoring_right_column.field_block_text
     - field.field.paragraph.youthmonitoring_right_column.field_block_type
+    - field.field.paragraph.youthmonitoring_right_column.field_green_men_amount
+    - field.field.paragraph.youthmonitoring_right_column.field_link_name
     - field.field.paragraph.youthmonitoring_right_column.field_title
     - field.field.paragraph.youthmonitoring_right_column.field_webpage_link
     - paragraphs.paragraphs_type.youthmonitoring_right_column
@@ -17,7 +19,7 @@ mode: default
 content:
   field_block_text:
     type: string_textfield
-    weight: 2
+    weight: 3
     region: content
     settings:
       size: 60
@@ -29,9 +31,15 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_green_men_amount:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_title:
     type: string_textfield
-    weight: 1
+    weight: 2
     region: content
     settings:
       size: 60
@@ -45,7 +53,13 @@ content:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+  translation:
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   created: true
+  field_link_name: true
   field_youth_title: true
   status: true
