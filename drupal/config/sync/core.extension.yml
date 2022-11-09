@@ -82,12 +82,13 @@ module:
   image: 0
   image_widget_crop: 0
   import_school_data: 0
+  inline_entity_form: 0
   jquery_ui: 0
   jquery_ui_autocomplete: 0
-  jquery_ui_menu: 0
   jquery_ui_datepicker: 0
-  jquery_ui_touch_punch: 0
+  jquery_ui_menu: 0
   jquery_ui_slider: 0
+  jquery_ui_touch_punch: 0
   jwt: 0
   jwt_auth_consumer: 0
   jwt_auth_issuer: 0
@@ -151,7 +152,6 @@ module:
   content_translation: 10
   externalauth: 10
   views: 10
-
   paragraphs: 11
   standard: 1000
 theme:

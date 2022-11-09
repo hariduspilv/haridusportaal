@@ -7,6 +7,10 @@
 /**
  * Copy field values to another field
  */
+
+use Drupal\node\Entity\Node;
+use Drupal\paragraphs\Entity\Paragraph;
+
 function htm_custom_admin_update_9100() {
   $query = \Drupal::entityQuery('node')
     ->condition('type', 'event')
@@ -40,4 +44,52 @@ function htm_custom_admin_update_9100() {
       $node->save();
     }
   }
+}
+/**
+ * Copy Noorteseire to tabbed content
+ */
+function htm_custom_admin_update_9101() {
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'youth_monitoring_page')
+    ->accessCheck(TRUE);
+  $results = $query->execute();
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($results);
+  if (!empty($nodes)) {
+    foreach ($nodes as $node) {
+      $tabs = [];
+
+      $new_node = Node::create(['type' => 'youth_monitoring_page_tabbed']);
+      $new_node->set('title', $node->get('title')->value);
+      $new_node->set('field_introduction', $node->get('field_introduction')->value);
+      $video = $node->get('field_first_video')->getValue();
+      if (!empty($video)) {
+        $new_node->set('field_first_video', $video);
+      }
+      $picture = $node->get('field_first_picture')->getValue();
+      if (!empty($picture)) {
+        $new_node->set('field_first_picture', $picture);
+      }
+      $pic_or_vid = $node->get('field_first_picture_or_video')->value;
+      if (!empty($pic_or_vid)) {
+        $new_node->set('field_first_picture_or_video', $pic_or_vid);
+      }
+      $tab = Paragraph::create([
+        'type' => 'youth_monitor_tab',
+        'field_youth_monitor_tab_page' => array(
+          'target_id'  =>  $node->get('nid')->value,
+        )
+      ]);
+      $tab->save();
+      $ext_links = $node->get('field_extertnal_link')->getValue();
+      if (!empty($ext_links)) {
+        $new_node->set('field_extertnal_link', $ext_links);
+      }
+      $new_node->field_youth_monitor_tab->appendItem($tab);
+      $new_node->set('uid',$node->get('uid')->value);
+      $new_node->enforceIsNew();
+      $new_node->save();
+    }
+  }
+//  dump($nodes);
+  exit();
 }

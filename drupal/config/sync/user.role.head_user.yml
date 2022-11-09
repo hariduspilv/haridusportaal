@@ -427,6 +427,7 @@ permissions:
   - 'view any study_programme content'
   - 'view any teaching_home_page content'
   - 'view any youth_monitoring_page content'
+  - 'view any youth_monitoring_page_tabbed content'
   - 'view article revisions'
   - 'view avaleht revisions'
   - 'view career_home_page revisions'

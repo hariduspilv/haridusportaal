@@ -1,0 +1,21 @@
+uuid: 355f9ac1-d11b-4467-aa32-b286739c2932
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_first_video
+    - node.type.youth_monitoring_page_tabbed
+  module:
+    - htm_custom_video_field
+id: node.youth_monitoring_page_tabbed.field_first_video
+field_name: field_first_video
+entity_type: node
+bundle: youth_monitoring_page_tabbed
+label: Esivideo
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: custom_video_field_type

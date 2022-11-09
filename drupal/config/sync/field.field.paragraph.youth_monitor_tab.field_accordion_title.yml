@@ -1,0 +1,19 @@
+uuid: bac9874c-79d8-448f-8633-a97ffd916d58
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_accordion_title
+    - paragraphs.paragraphs_type.youth_monitor_tab
+id: paragraph.youth_monitor_tab.field_accordion_title
+field_name: field_accordion_title
+entity_type: paragraph
+bundle: youth_monitor_tab
+label: Pealkiri
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
