@@ -19,7 +19,6 @@ dependencies:
     - image.style.thumbnail
     - node.type.youth_monitoring_page
   module:
-    - conditional_fields
     - htm_custom_video_field
     - paragraphs
     - path
@@ -39,7 +38,7 @@ content:
     third_party_settings: {  }
   field_bottom_link:
     type: paragraphs
-    weight: 21
+    weight: 17
     region: content
     settings:
       title: Paragraph
@@ -57,7 +56,7 @@ content:
     third_party_settings: {  }
   field_content:
     type: text_textarea_with_summary
-    weight: 16
+    weight: 13
     region: content
     settings:
       rows: 9
@@ -67,7 +66,7 @@ content:
     third_party_settings: {  }
   field_end_picture:
     type: image_image
-    weight: 18
+    weight: 14
     region: content
     settings:
       progress_indicator: throbber
@@ -75,7 +74,7 @@ content:
     third_party_settings: {  }
   field_end_text:
     type: text_textarea
-    weight: 22
+    weight: 18
     region: content
     settings:
       rows: 5
@@ -83,54 +82,12 @@ content:
     third_party_settings: {  }
   field_end_video:
     type: custom_video_widget_type
-    weight: 19
+    weight: 15
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_extertnal_link:
-    type: paragraphs
-    weight: 17
-    region: content
-    settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      closed_mode: summary
-      autocollapse: none
-      closed_mode_threshold: 0
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
-      features:
-        collapse_edit_all: collapse_edit_all
-        duplicate: duplicate
-    third_party_settings: {  }
-  field_first_picture:
-    type: image_image
-    weight: 13
-    region: content
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings:
-      conditional_fields: {  }
-  field_first_picture_or_video:
-    type: options_select
-    weight: 12
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_first_video:
-    type: custom_video_widget_type
-    weight: 14
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings:
-      conditional_fields: {  }
   field_introduction:
     type: string_textarea
     weight: 11
@@ -141,7 +98,7 @@ content:
     third_party_settings: {  }
   field_right_column_elements:
     type: paragraphs
-    weight: 23
+    weight: 19
     region: content
     settings:
       title: Paragraph
@@ -159,7 +116,7 @@ content:
     third_party_settings: {  }
   field_youth_accordion:
     type: paragraphs
-    weight: 20
+    weight: 16
     region: content
     settings:
       title: Paragraph
@@ -177,7 +134,7 @@ content:
     third_party_settings: {  }
   field_youth_gallery:
     type: paragraphs
-    weight: 15
+    weight: 12
     region: content
     settings:
       title: Paragraph
@@ -262,4 +219,8 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_extertnal_link: true
+  field_first_picture: true
+  field_first_picture_or_video: true
+  field_first_video: true
