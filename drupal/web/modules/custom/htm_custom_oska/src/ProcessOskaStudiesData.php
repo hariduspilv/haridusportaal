@@ -37,12 +37,22 @@ class ProcessOskaStudiesData {
     $required_fields = [
       'ametiala'
     ];
-
     foreach ($items as $index => $item){
 
       foreach($item as $key => $value){
+        if (str_ends_with($key,',')){
+          $new_key =  str_replace(',', '', $key);
+          if(mb_detect_encoding($key) == 'UTF-8'){
+            unset($item[$new_key]);
+            $new_key = cleanString($new_key);
+            $item[$new_key] = $value;
+          }
+          $item[$new_key] = $value;
+          unset($item[$key]);
+        }
         if(mb_detect_encoding($key) == 'UTF-8'){
           unset($item[$key]);
+
           $item[cleanString($key)] = $value;
         }
       }
@@ -52,6 +62,10 @@ class ProcessOskaStudiesData {
       if($item['seotud_ametid']) {
         $jobs = explode(',', $item['seotud_ametid']);
         foreach($jobs as $job => $j) {
+
+          if (str_starts_with($j,' ')){
+            $j= ltrim($j,' ');
+          }
           $object['seotud_amet'][] = self::checkEntityReference('node', [
             'type' => 'oska_main_profession_page',
             'field_profession' => true,
@@ -62,6 +76,11 @@ class ProcessOskaStudiesData {
           }
         }
       }
+      if (str_starts_with($item['ametiala'],' ')){
+        $item['ametiala'] = ltrim($item['ametiala'],' ');
+      }
+
+      \Drupal::logger('oska')->notice('<pre><code>PARAMS: ' . print_r($item, TRUE) . '</code></pre>' );
       $object['ametiala'] = self::checkEntityReference('node', ['type' => 'oska_main_profession_page', 'title' =>  $item['ametiala']]);
       $object['oppevaldkond'] = is_numeric($item['oppevaldkond']) ? self::checkEntityReference('taxonomy_term', ['vid' => 'isced_f', 'field_code' => strlen((string)$item['oppevaldkond']) === 1 ? '0'.$item['oppevaldkond'] : $item['oppevaldkond']]) : FALSE;
       $object['oppesuund'] =  is_numeric($item['oppesuund']) ? self::checkEntityReference('taxonomy_term', ['vid' => 'isced_f', 'field_code' => strlen((string)$item['oppesuund']) === 2 ? '0'.$item['oppesuund'] : $item['oppesuund']]) : FALSE;
@@ -124,9 +143,11 @@ class ProcessOskaStudiesData {
         foreach($paragraph_items['field_job_link'] as $value) {
           if (!is_array($value)) {
             $old_node = Node::load($value);
-            $old_sidebar_paragraph_job = Paragraph::load($old_node->get('field_sidebar')->getValue()[0]['target_id']);
-            $old_sidebar_paragraph_job->set('field_related_profession', null);
-            $old_sidebar_paragraph_job->save();
+            if (!empty($old_node) && !empty($old_node->get('field_sidebar'))) {
+              $old_sidebar_paragraph_job = Paragraph::load($old_node->get('field_sidebar')->getValue()[0]['target_id']);
+              $old_sidebar_paragraph_job->set('field_related_profession', null);
+              $old_sidebar_paragraph_job->save();
+            }
           }
         }
       }
