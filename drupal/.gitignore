@@ -1,13 +1,13 @@
 web/sites
 
 
-/vendor/
-/web/core/
-/web/modules/contrib/
-/web/themes/contrib/
-/web/profiles/contrib/
+vendor/
+web/core/
+web/modules/contrib/
+web/themes/contrib/
+web/profiles/contrib/
 # Ignore SimpleTest multi-site environment.
-/web/sites/simpletest
+web/sites/simpletest
 
 # Ignore authentication conf
 /config/sync/htm_custom_authentication.customauthsetting.yml
