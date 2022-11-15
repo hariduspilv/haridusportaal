@@ -1,11 +1,17 @@
 web/sites
 
+
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
 # Ignore SimpleTest multi-site environment.
 /web/sites/simpletest
 
 # Ignore authentication conf
 /config/sync/htm_custom_authentication.customauthsetting.yml
-/config/sync/openid_connect.settings.harid.yml 
+/config/sync/openid_connect.settings.harid.yml
 /config/sync/openid_connect.settings.tara.yml
 /config/sync/htm_custom_admin_form.customadmin.yml
 /config/sync/htm_custom_varnish_purge.varnishpurge.yml
