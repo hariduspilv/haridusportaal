@@ -77,6 +77,14 @@
     "_fileName": "arrow-left.svg"
   },
   {
+    "_name": "arrow-orange",
+    "_fileName": "arrow-orange.svg"
+  },
+  {
+    "_name": "arrow-red",
+    "_fileName": "arrow-red.svg"
+  },
+  {
     "_name": "arrow-right-circle",
     "_fileName": "arrow-right-circle.svg"
   },
@@ -131,6 +139,10 @@
   {
     "_name": "bell",
     "_fileName": "bell.svg"
+  },
+  {
+    "_name": "blogi",
+    "_fileName": "blogi.svg"
   },
   {
     "_name": "bluetooth",
@@ -737,6 +749,14 @@
     "_fileName": "pen-tool.svg"
   },
   {
+    "_name": "people-gray",
+    "_fileName": "people-gray.svg"
+  },
+  {
+    "_name": "people-green",
+    "_fileName": "people-green.svg"
+  },
+  {
     "_name": "people",
     "_fileName": "people.svg"
   },
@@ -799,6 +819,10 @@
   {
     "_name": "pocket",
     "_fileName": "pocket.svg"
+  },
+  {
+    "_name": "podcast",
+    "_fileName": "podcast.svg"
   },
   {
     "_name": "power",
@@ -945,8 +969,16 @@
     "_fileName": "star.svg"
   },
   {
+    "_name": "statistics",
+    "_fileName": "statistics.svg"
+  },
+  {
     "_name": "stop-circle",
     "_fileName": "stop-circle.svg"
+  },
+  {
+    "_name": "studies",
+    "_fileName": "studies.svg"
   },
   {
     "_name": "sun",
@@ -1083,6 +1115,10 @@
   {
     "_name": "users",
     "_fileName": "users.svg"
+  },
+  {
+    "_name": "video-blue",
+    "_fileName": "video-blue.svg"
   },
   {
     "_name": "video-off",

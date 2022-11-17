@@ -4,9 +4,20 @@
   </block-title>
   <block-content>
     <div class="youth-sidebar__content">
-      <div class="youth-sidebar__icon" *ngIf="icon">
+      <div class="youth-sidebar__icon" [ngClass]="icon" *ngIf="icon && data.entity.fieldBlockType !== 'PeopleBlock'">
         <icon aria-hidden="true" size="medium" bg="true" [glyph]="icon"></icon>
       </div>
+
+			<!-- TODO this is NOT ready -->
+			<div class="youth-sidebar__icon" [ngClass]="icon" *ngIf="icon && data.entity.fieldBlockType === 'PeopleBlock'">
+				<icon aria-hidden="true" size="medium" bg="true" [glyph]="'people-green'"></icon>
+			</div>
+			<div class="youth-sidebar__icon" [ngClass]="icon" *ngIf="icon && data.entity.fieldBlockType === 'PeopleBlock'">
+				<icon aria-hidden="true" size="medium" bg="true" [glyph]="'people-green'"></icon>
+			</div>
+			<div class="youth-sidebar__icon" [ngClass]="icon" *ngIf="icon && data.entity.fieldBlockType === 'PeopleBlock'">
+				<icon aria-hidden="true" size="medium" bg="true" [glyph]="'people-gray'"></icon>
+			</div>
       {{ data.entity.fieldBlockText }}
     </div>
 
@@ -20,3 +31,15 @@
     </a>
   </block-content>
 </block>
+
+<!-- TODO delete this comment
+{
+    "entity": {
+        "fieldBlockType": "PeopleBlock",
+        "fieldTitle": "kaheksa inimestega plokk",
+        "fieldBlockText": "kaheksa inimestega plokk",
+        "fieldGreenMenAmount": 8,
+        "fieldWebpageLink": null
+    }
+}
+-->

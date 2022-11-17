@@ -28,6 +28,7 @@ export class YouthMonitoringUtility {
   public static mapDetail(input: YouthMonitoringDetail): MappedYouthMonitoringDetail {
     return {
       ...input,
+			fieldContent: { value: input.fieldContent.value.split('img').join('img style="max-width: 100%"')},
       images: input.fieldYouthGallery?.filter(
           (item) => item.entity.fieldMediaImg
         ).map(
@@ -57,7 +58,7 @@ export class YouthMonitoringUtility {
     };
   }
 
-  public static mapLink(input?: WebpageLink[]): WebpageLink[] {    
+  public static mapLink(input?: WebpageLink[]): WebpageLink[] {
     return input?.length
       ? this.sortTitle(input.map((input: WebpageLink) => ({
           ...input,
@@ -71,10 +72,10 @@ export class YouthMonitoringUtility {
 
   public static mapImage(input: YouthMonitoringPicture): YouthMonitoringPicture {
     return {
-      alt: input.alt,
+      alt: input.alt || '',
       title: input.title || null,
       derivative: {
-        url: input.url,
+        url: input.url || '',
       },
     };
   }

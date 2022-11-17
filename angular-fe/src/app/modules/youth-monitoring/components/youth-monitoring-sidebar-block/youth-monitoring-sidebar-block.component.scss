@@ -3,6 +3,13 @@
 .youth-sidebar {
   &__icon {
     color: #15ADC2;
+
+		&.arrow-red {
+			color: #D5401A;
+		}
+		&.arrow-orange {
+			color: #F8B243;
+		}
   }
 
   &__content {

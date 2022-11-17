@@ -46,7 +46,7 @@ export class YouthMonitoringDetailComponent implements OnDestroy {
     public route: ActivatedRoute,
   ) {}
 
-  ngOnDestroy(): void {
+	ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
