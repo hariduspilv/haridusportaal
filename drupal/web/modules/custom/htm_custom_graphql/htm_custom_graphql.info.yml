@@ -1,0 +1,9 @@
+name: GraphQL HTM
+type: module
+description: 'HTM GRAPHQL FIELD and MAPPINGS'
+package: HTM
+dependencies:
+  - graphql:graphql
+  - node:node
+core_version_requirement: ^9.3 || ^10
+project: 'HTM'

@@ -1,0 +1,67 @@
+schema {
+  query: Query
+}
+
+type Query {
+  article(id: Int!): Article
+  youthMonitoringPage(id: Int!): YouthMonitoringPage
+  articles(
+    offset: Int = 0
+    limit: Int = 10
+  ): ArticleConnection!
+}
+
+type Article implements NodeInterface {
+  id: Int!
+  title: String!
+  field_body: Text
+  field_video: [videoField]
+  field_body_summary: String
+  field_related_article: [Link]
+  field_accordion_section: [AccordionSection]
+  author: String
+}
+
+type Link {
+  uri: String
+  link: String
+  title: String
+}
+
+type Text {
+  format: String
+  value: String
+  processed: String
+}
+interface Paragraph {
+  id: Int!
+}
+interface NodeInterface {
+  id: Int!
+}
+type AccordionSection implements Paragraph {
+  id: Int!
+  field_accordion_title: String
+  field_body: Text
+}
+type ArticleConnection {
+  total: Int!
+  items: [Article!]
+}
+type RelatedArticle {
+  uri: String
+  title: String
+}
+
+type videoField {
+  input: String
+  video_domain: String
+  video_description: String
+  video_id: String
+  video_thumbnail: String
+}
+type YouthMonitoringPage {
+  id: Int!
+  title: String!
+  author: String
+}
