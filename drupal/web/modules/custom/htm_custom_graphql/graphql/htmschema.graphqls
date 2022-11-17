@@ -3,22 +3,25 @@ schema {
 }
 
 type Query {
-  article(id: Int!): Article
+  route(path: String!, lang: String): NodeInterface
+  article(id: Int!,lang: String): Article
   youthMonitoringPage(id: Int!): YouthMonitoringPage
   articles(
     offset: Int = 0
     limit: Int = 10
   ): ArticleConnection!
 }
+type Ents {
+  entities: Article
+}
 
 type Article implements NodeInterface {
   id: Int!
   title: String!
-  field_body: Text
-  field_video: [videoField]
-  field_body_summary: String
-  field_related_article: [Link]
-  field_accordion_section: [AccordionSection]
+  fieldBody: [Text]
+  fieldVideo: [videoField]
+  fieldBodySummary: String
+  fieldAccordionSection(lang: String): [AccordionSection]
   author: String
 }
 
@@ -43,6 +46,7 @@ type AccordionSection implements Paragraph {
   id: Int!
   field_accordion_title: String
   field_body: Text
+  field_related_article: [Link]
 }
 type ArticleConnection {
   total: Int!

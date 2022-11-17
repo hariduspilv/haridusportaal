@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\htm_custom_graphql\Plugin\GraphQL\DataProducer\Field;
+namespace Drupal\htm_custom_graphql\Plugin\GraphQL\DataProducer;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -99,6 +99,7 @@ class LinkProducer extends DataProducerPluginBase implements ContainerFactoryPlu
     }
 
     $value = $entity->get($field);
+    \Drupal::logger('graphql')->notice('<pre><code>PARAMS: ' . print_r($value->getValue(), TRUE) . '</code></pre>' );
 
     if (!$value) {
       return NULL;
