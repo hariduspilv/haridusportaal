@@ -84,7 +84,6 @@
         "drupal/ultimate_cron": "^2.0",
         "drush/drush": "^10.4",
         "elasticsearch/elasticsearch": "^7.0",
-        "elephox/mimey": "*",
         "eluceo/ical": "^0.14.0",
         "hshn/base64-encoded-file": "^v3.0.0",
         "jumbojett/openid-connect-php": "^0.9.0",
@@ -98,7 +97,8 @@
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3",
-        "webonyx/graphql-php": "^0.12.5"
+        "webonyx/graphql-php": "^0.12.5",
+        "xantios/mimey": "^2.2"
     },
     "require-dev": {
         "drupal/core-dev": "^9"
