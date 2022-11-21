@@ -20,7 +20,7 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 	sed -i 's#^DocumentRoot ".*#DocumentRoot "/app/drupal/web"#g' /etc/apache2/httpd.conf && \
 	sed -i 's#/var/www/localhost/htdocs#/app/drupal/web#' /etc/apache2/httpd.conf && \
 	sed -i 's#AllowOverride None#AllowOverride All#' /etc/apache2/httpd.conf && \
-	apk del ${BUILD_DEPS} php8-pear php8-dev && \
+  apk del ${BUILD_DEPS} php8-pear php8-dev && \
 	echo "Success"
 # Install pickle for phpextensions \
 RUN cd /root &&\
@@ -30,7 +30,10 @@ RUN cd /root &&\
     pickle install redis --defaults && \
     pickle install rdkafka && \
     docker-php-ext-enable redis && \
-    docker-php-ext-enable rdkafka
+    docker-php-ext-enable rdkafka && \
+    a2enmod headers && \
+    sed -ri -e 's/^([ \t]*)(<\/VirtualHost>)/\1\tHeader set Access-Control-Allow-Origin "*"\n\1\2/g' /etc/apache2/sites-available/*.conf
+
 
 ADD apache2.conf /apache2.conf
 RUN mv /apache2.conf /etc/apache2/apache2.conf

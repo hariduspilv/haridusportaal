@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "431e33566911c31a99c5a50aea9f0b5c",
+    "content-hash": "6973b6423d6ef464fd7a65226b0a4fbc",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -7709,49 +7709,6 @@
             "time": "2022-09-30T12:28:55+00:00"
         },
         {
-            "name": "elephox/mimey",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/elephox-dev/mimey.git",
-                "reference": "2a0e997c733b7c2f9f8b61cafb006fd5fb9fa15a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/elephox-dev/mimey/zipball/2a0e997c733b7c2f9f8b61cafb006fd5fb9fa15a",
-                "reference": "2a0e997c733b7c2f9f8b61cafb006fd5fb9fa15a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~3.7.0",
-                "satooshi/php-coveralls": ">=1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Mimey\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ralph Khattar",
-                    "email": "ralph.khattar@gmail.com"
-                }
-            ],
-            "description": "PHP package for converting file extensions to MIME types and vice versa.",
-            "support": {
-                "source": "https://github.com/elephox-dev/mimey/tree/1.0.2"
-            },
-            "time": "2016-09-28T03:36:23+00:00"
-        },
-        {
             "name": "eluceo/ical",
             "version": "0.14.0",
             "source": {
@@ -14702,6 +14659,54 @@
                 "source": "https://github.com/webonyx/graphql-php/tree/0.12.x"
             },
             "time": "2018-09-02T14:59:54+00:00"
+        },
+        {
+            "name": "xantios/mimey",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Xantios/mimey.git",
+                "reference": "8cb6f0c29b8eadde38777ed947847f4253c00b60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Xantios/mimey/zipball/8cb6f0c29b8eadde38777ed947847f4253c00b60",
+                "reference": "8cb6f0c29b8eadde38777ed947847f4253c00b60",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.4",
+                "phpunit/phpunit": "^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mimey\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Xantios Krugor",
+                    "email": "git@xantios.nl"
+                },
+                {
+                    "name": "Ralph Khattar",
+                    "email": "ralph.khattar@gmail.com"
+                }
+            ],
+            "description": "PHP package for converting file extensions to MIME types and vice versa.",
+            "support": {
+                "issues": "https://github.com/Xantios/mimey/issues",
+                "source": "https://github.com/Xantios/mimey/tree/v2.2.0"
+            },
+            "time": "2021-06-12T14:33:14+00:00"
         }
     ],
     "packages-dev": [
