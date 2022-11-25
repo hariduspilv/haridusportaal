@@ -12,9 +12,8 @@ use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 
 function htm_custom_admin_update_9100() {
-  $query = \Drupal::entityQuery('node')
-    ->condition('type', 'event')
-    ->accessCheck(TRUE);
+  $query = \Drupal::entityQuery('node');
+  $query->condition('type', 'event');
   $results = $query->execute();
   $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($results);
   if (!empty($nodes)) {
@@ -48,10 +47,9 @@ function htm_custom_admin_update_9100() {
 /**
  * Copy Noorteseire to tabbed content
  */
-function htm_custom_admin_update_9101() {
+function htm_custom_admin_update_9102() {
   $query = \Drupal::entityQuery('node')
-    ->condition('type', 'youth_monitoring_page')
-    ->accessCheck(TRUE);
+    ->condition('type', 'youth_monitoring_page');
   $results = $query->execute();
   $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($results);
   if (!empty($nodes)) {
@@ -73,22 +71,20 @@ function htm_custom_admin_update_9101() {
       if (!empty($pic_or_vid)) {
         $new_node->set('field_first_picture_or_video', $pic_or_vid);
       }
+
       $tab = Paragraph::create([
         'type' => 'youth_monitor_tab',
-        'field_youth_monitor_tab_page' => array(
-          'target_id'  =>  $node->get('nid')->value,
-        )
       ]);
+      $tab->set('field_youth_monitor_tab_page',$node);
       $tab->save();
       $ext_links = $node->get('field_extertnal_link')->getValue();
       if (!empty($ext_links)) {
         $new_node->set('field_extertnal_link', $ext_links);
       }
-      $new_node->field_youth_monitor_tab->appendItem($tab);
+      $new_node->set('field_youth_monitor_tab',$tab);
       $new_node->set('uid',$node->get('uid')->value);
       $new_node->enforceIsNew();
       $new_node->save();
     }
   }
-//  dump($nodes);
 }
