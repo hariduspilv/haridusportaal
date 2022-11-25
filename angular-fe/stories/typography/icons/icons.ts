@@ -45,6 +45,10 @@
     "_fileName": "aperture.svg"
   },
   {
+    "_name": "apps",
+    "_fileName": "apps.svg"
+  },
+  {
     "_name": "archive",
     "_fileName": "archive.svg"
   },
@@ -173,6 +177,10 @@
     "_fileName": "briefcase.svg"
   },
   {
+    "_name": "calendar-event",
+    "_fileName": "calendar-event.svg"
+  },
+  {
     "_name": "calendar",
     "_fileName": "calendar.svg"
   },
@@ -299,6 +307,10 @@
   {
     "_name": "command",
     "_fileName": "command.svg"
+  },
+  {
+    "_name": "compare",
+    "_fileName": "compare.svg"
   },
   {
     "_name": "compass",
@@ -655,6 +667,10 @@
   {
     "_name": "mail",
     "_fileName": "mail.svg"
+  },
+  {
+    "_name": "map-pin-alt",
+    "_fileName": "map-pin-alt.svg"
   },
   {
     "_name": "map-pin",
