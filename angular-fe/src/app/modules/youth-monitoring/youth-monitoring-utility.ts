@@ -49,15 +49,17 @@ export class YouthMonitoringUtility {
             ? this.mapImage(data.fieldEndPicture)
             : null,
           fieldYouthAccordion: data.fieldYouthAccordion
-            ? data.fieldYouthAccordion.map((accordion) => ({
-                entity: {
-                  ...accordion.entity,
-                  fieldYouthPicture: accordion.entity.fieldYouthPicture
-                    ? this.mapImages(accordion.entity.fieldYouthPicture)
-                    : null,
-                  fieldYouthLink: this.mapLink(accordion.entity.fieldYouthLink)
-                }
-              }))
+            ? data.fieldYouthAccordion
+                .filter((item) => item.entity.fieldTitle)
+                .map((accordion) => ({
+                  entity: {
+                    ...accordion.entity,
+                    fieldYouthPicture: accordion.entity.fieldYouthPicture
+                      ? this.mapImages(accordion.entity.fieldYouthPicture)
+                      : null,
+                    fieldYouthLink: this.mapLink(accordion.entity.fieldYouthLink)
+                  }
+                }))
             : null,
           fieldBottomLink: this.mapLink(data.fieldBottomLink),
           fieldExtertnalLink: this.mapLink(data.fieldExtertnalLink),

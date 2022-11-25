@@ -67,5 +67,5 @@
 
 <p
   *ngIf="detail?.fieldEndText?.value"
-  [innerHTML]="detail.fieldEndText.value"
+  [innerHTML]="detail.fieldEndText.value | unsafeHtml"
 ></p>
