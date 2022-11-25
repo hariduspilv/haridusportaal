@@ -1,4 +1,4 @@
-import { MappedYouthMonitoringDetail, WebpageLink, YouthMonitoringDetail, YouthMonitoringListDto, YouthMonitoringPicture, YouthMonitoringVideo } from "./models/interfaces";
+import { MappedYouthMonitoringDetail, MappedYouthMonitoringDetailTab, WebpageLink, YouthMonitoringDetail, YouthMonitoringDetailTab, YouthMonitoringDetailTabDto, YouthMonitoringListDto, YouthMonitoringPicture, YouthMonitoringVideo } from "./models/interfaces";
 
 export class YouthMonitoringUtility {
   public static mapDropdownData(input: YouthMonitoringListDto): any[] {
@@ -25,37 +25,45 @@ export class YouthMonitoringUtility {
     }));
   }
 
-  public static mapDetail(input: YouthMonitoringDetail): MappedYouthMonitoringDetail {
-    return {
-      ...input,
-			fieldContent: { value: input.fieldContent.value.split('img').join('img style="max-width: 100%"')},
-      images: input.fieldYouthGallery?.filter(
-          (item) => item.entity.fieldMediaImg
-        ).map(
-          (item) => this.mapImage(item.entity.fieldMediaImg)
-        ),
-      videos: input.fieldYouthGallery?.filter(
-          (item) => item.entity.fieldMediaVid
-        ).map(
-          (item) => item.entity.fieldMediaVid
-        ),
-      fieldEndPicture: input.fieldEndPicture
-        ? this.mapImage(input.fieldEndPicture)
-        : null,
-      fieldYouthAccordion: input.fieldYouthAccordion
-        ? input.fieldYouthAccordion.map((accordion) => ({
-            entity: {
-              ...accordion.entity,
-              fieldYouthPicture: accordion.entity.fieldYouthPicture
-                ? this.mapImage(accordion.entity.fieldYouthPicture)
-                : null,
-              fieldYouthLink: this.mapLink(accordion.entity.fieldYouthLink)
-            }
-          }))
-        : null,
-      fieldBottomLink: this.mapLink(input.fieldBottomLink),
-      fieldExtertnalLink: this.mapLink(input.fieldExtertnalLink),
-    };
+  public static mapDetail(input: YouthMonitoringDetailTabDto): MappedYouthMonitoringDetailTab[] {
+    const tabs = input.fieldYouthMonitorTab.map((item) => item.entity);
+    return tabs.map((tab) => {
+      const { fieldYouthMonitorTabPage: { entity: data }, fieldAccordionIcon, fieldAccordionTitle } = tab;
+      return {
+        fieldAccordionIcon,
+        fieldAccordionTitle,
+        fieldYouthMonitorTabPage: {
+          ...data,
+          fieldContent: { value: data.fieldContent.value },
+          images: data.fieldYouthGallery?.filter(
+              (item) => item.entity.fieldMediaImg
+            ).map(
+              (item) => this.mapImage(item.entity.fieldMediaImg)
+            ),
+          videos: data.fieldYouthGallery?.filter(
+              (item) => item.entity.fieldMediaVid
+            ).map(
+              (item) => item.entity.fieldMediaVid
+            ),
+          fieldEndPicture: data.fieldEndPicture
+            ? this.mapImage(data.fieldEndPicture)
+            : null,
+          fieldYouthAccordion: data.fieldYouthAccordion
+            ? data.fieldYouthAccordion.map((accordion) => ({
+                entity: {
+                  ...accordion.entity,
+                  fieldYouthPicture: accordion.entity.fieldYouthPicture
+                    ? this.mapImages(accordion.entity.fieldYouthPicture)
+                    : null,
+                  fieldYouthLink: this.mapLink(accordion.entity.fieldYouthLink)
+                }
+              }))
+            : null,
+          fieldBottomLink: this.mapLink(data.fieldBottomLink),
+          fieldExtertnalLink: this.mapLink(data.fieldExtertnalLink),
+        }
+      }
+    });
   }
 
   public static mapLink(input?: WebpageLink[]): WebpageLink[] {
@@ -70,7 +78,9 @@ export class YouthMonitoringUtility {
       : null;
   }
 
-  public static mapImage(input: YouthMonitoringPicture): YouthMonitoringPicture {
+  public static mapImage(
+    input: YouthMonitoringPicture
+  ): YouthMonitoringPicture {
     return {
       alt: input.alt || '',
       title: input.title || null,
@@ -80,8 +90,28 @@ export class YouthMonitoringUtility {
     };
   }
 
+  public static mapImages(input: YouthMonitoringPicture | YouthMonitoringPicture[]) {
+    if (Array.isArray(input)) return input.map((item) => this.mapImage(item));
+    return this.mapImage(input);
+  }
+
   public static sortTitle<T extends { title?: string; }>(links: T[]): T[] {
     return links.sort(
       (a, b) => a.title.toString().localeCompare(b.title.toString(), 'et', { numeric: true }));
   }
+
+  public static icons = {
+    ServiceDevelopmentIcon: 'lightbulb',
+    PublicationsIcon: 'library-alt',
+    StudiesIcon: 'file-search',
+    DevelopmentPlanIcon: 'file-line',
+    YouthReportIcon: 'newspaper',
+    DashboardIcon: 'graph-line',
+    WebReportIcon: 'report',
+    DataSeminarsIcon: 'file-play',
+    DataTrainingIcon: 'users',
+    DataIcon: 'youtube',
+    ScholarshipProgramIcon: 'file-badge',
+    WritingCampIcon: 'users',
+  };
 }

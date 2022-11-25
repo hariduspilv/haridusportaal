@@ -429,12 +429,28 @@
     "_fileName": "figma.svg"
   },
   {
+    "_name": "file-badge",
+    "_fileName": "file-badge.svg"
+  },
+  {
+    "_name": "file-line",
+    "_fileName": "file-line.svg"
+  },
+  {
     "_name": "file-minus",
     "_fileName": "file-minus.svg"
   },
   {
+    "_name": "file-play",
+    "_fileName": "file-play.svg"
+  },
+  {
     "_name": "file-plus",
     "_fileName": "file-plus.svg"
+  },
+  {
+    "_name": "file-search",
+    "_fileName": "file-search.svg"
   },
   {
     "_name": "file-text",
@@ -517,6 +533,10 @@
     "_fileName": "globe.svg"
   },
   {
+    "_name": "graph-line",
+    "_fileName": "graph-line.svg"
+  },
+  {
     "_name": "grid",
     "_fileName": "grid.svg"
   },
@@ -581,12 +601,20 @@
     "_fileName": "layout.svg"
   },
   {
+    "_name": "library-alt",
+    "_fileName": "library-alt.svg"
+  },
+  {
     "_name": "library",
     "_fileName": "library.svg"
   },
   {
     "_name": "life-buoy",
     "_fileName": "life-buoy.svg"
+  },
+  {
+    "_name": "lightbulb",
+    "_fileName": "lightbulb.svg"
   },
   {
     "_name": "link-2",
@@ -725,6 +753,10 @@
     "_fileName": "navigation.svg"
   },
   {
+    "_name": "newspaper",
+    "_fileName": "newspaper.svg"
+  },
+  {
     "_name": "octagon",
     "_fileName": "octagon.svg"
   },
@@ -847,6 +879,10 @@
   {
     "_name": "repeat",
     "_fileName": "repeat.svg"
+  },
+  {
+    "_name": "report",
+    "_fileName": "report.svg"
   },
   {
     "_name": "rewind",

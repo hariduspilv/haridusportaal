@@ -13,10 +13,10 @@ export class YouthMonitoringApiService {
   }
 
   public getList(): Observable<YouthMonitoringListDto> {
-    return this.http.get<YouthMonitoringListDto>(this.settings.query('getYouthMonitoringPageList'));
+    return this.http.get<YouthMonitoringListDto>(this.settings.query('YouthMonitoringPageListTabbed'));
   }
 
   public getPage(path: string): Observable<YouthMonitoringDetailDto> {
-    return this.http.get<YouthMonitoringDetailDto>(this.settings.query('getYouthMonitoringPage', { path }));
+    return this.http.get<YouthMonitoringDetailDto>(this.settings.query('getYouthMonitoringPageTabbed', { path }));
   }
 }

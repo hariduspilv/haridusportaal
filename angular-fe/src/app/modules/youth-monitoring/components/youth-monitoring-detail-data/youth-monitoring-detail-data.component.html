@@ -1,0 +1,71 @@
+<h2>{{ detail.title }}</h2>
+
+<share [pageTitle]="detail?.title"></share>
+
+<p class="bold">
+  {{ detail.fieldIntroduction }}
+</p>
+
+<images
+  *ngIf="detail.images?.length || detail.videos?.length"
+  [image]="detail.images"
+  [videos]="detail.videos"
+></images>
+
+<p
+  *ngIf="detail?.fieldContent?.value"
+  [innerHTML]="detail.fieldContent.value | unsafeHtml">
+</p>
+
+<images
+  *ngIf="detail.fieldEndVideo || detail.fieldEndPicture"
+  [image]="detail.fieldEndPicture"
+  [videos]="detail.fieldEndVideo"
+></images>
+
+<accordion
+  [collapsible]="true"
+  [openFirst]="true"
+  *ngIf="detail?.fieldYouthAccordion?.length"
+>
+  <accordion-item
+    *ngFor="let accordion of detail?.fieldYouthAccordion"
+    [title]="accordion.entity.fieldTitle"
+  >
+    <ng-template>
+      <p
+        *ngIf="accordion.entity.fieldYouthIntroduction"
+        [innerHTML]="accordion.entity.fieldYouthIntroduction.value | unsafeHtml"
+      ></p>
+
+      <images
+        *ngIf="
+          accordion.entity.fieldYouthPicture ||
+          accordion.entity.fieldYouthVideo
+        "
+        [image]="accordion.entity.fieldYouthPicture"
+        [videos]="accordion.entity.fieldYouthVideo"
+      ></images>
+
+      <p
+        *ngIf="accordion.entity.fieldYouthBody"
+        [innerHTML]="accordion.entity.fieldYouthBody.value | unsafeHtml"
+      ></p>
+
+      <links
+        *ngIf="accordion.entity.fieldYouthLink"
+        [data]="accordion.entity.fieldYouthLink"
+      ></links>
+    </ng-template>
+  </accordion-item>
+</accordion>
+
+<links
+  *ngIf="detail?.fieldBottomLink"
+  [data]="detail.fieldBottomLink"
+></links>
+
+<p
+  *ngIf="detail?.fieldEndText?.value"
+  [innerHTML]="detail.fieldEndText.value"
+></p>

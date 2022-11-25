@@ -213,6 +213,10 @@
         }
       }
 
+      img {
+        max-width: 100%;
+      }
+
       &:after {
         content: '';
         display: block;
