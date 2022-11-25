@@ -23,25 +23,29 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
   public tabIcons = YouthMonitoringUtility.icons;
   public tabs: MappedYouthMonitoringDetailTab[] = [];
   public tabs$: Observable<MappedYouthMonitoringDetailTab[]> = this.route.params
-    .pipe(takeUntil(this.destroy$), distinctUntilChanged((prev, curr) => prev.id === curr.id), mergeMap((params) => {
-      this.loading = true;
-      this.detailPath = `/${getTranslatedWord('noorteseire')}/${params.id}`;
+    .pipe(
+      takeUntil(this.destroy$),
+      distinctUntilChanged((prev, curr) => prev.id === curr.id),
+      mergeMap((params) => {
+        this.loading = true;
+        this.detailPath = `/${getTranslatedWord('noorteseire')}/${params.id}`;
 
-      return this.service.getPage(this.detailPath).pipe(
-        takeUntil(this.destroy$),
-        tap({
-          next: (response) => {
-            this.saveLanguageSwitchLinks(response);
-          },
-          error: (error) => {
-            console.error(error);
-          },
-        }),
-        map(
-          (response) => YouthMonitoringUtility.mapDetail(response?.data?.route?.entity)
-        )
-      );
-    }));
+        return this.service.getPage(this.detailPath).pipe(
+          takeUntil(this.destroy$),
+          tap({
+            next: (response) => {
+              this.saveLanguageSwitchLinks(response);
+            },
+            error: (error) => {
+              console.error(error);
+            },
+          }),
+          map(
+            (response) => YouthMonitoringUtility.mapDetail(response?.data?.route?.entity)
+          )
+        );
+      })
+    );
 
   public sidebar$: Observable<MappedYouthMonitoringDetail> = this.tabs$.pipe(switchMap((tabs) => {
     return this.activeTab.pipe(switchMap((tabi) => of(tabs[tabi]?.fieldYouthMonitorTabPage)))
@@ -62,7 +66,9 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.tabs$.subscribe((tabRes) => {
       this.tabs = tabRes;
-      const tabi = tabRes.findIndex((item) => slugifyTitle(item.fieldAccordionTitle) === this.route.snapshot.fragment) ?? 0;
+      const tabi = tabRes.findIndex(
+        (item) => slugifyTitle(item.fieldAccordionTitle) === this.route.snapshot.fragment
+      ) ?? 0;
       this.activeTab.next(tabi);
 
       // Avoid NG0100 error
@@ -78,9 +84,9 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
     }
   }
 
-  public setSideBar(tabLabel: string, tabs: MappedYouthMonitoringDetailTab[]) {
+  public setSideBar(tabLabel: string) {
     const slug = slugifyTitle(tabLabel);
-    this.activeTab.next(tabs.findIndex((tab) => tab.fieldAccordionTitle === tabLabel) ?? 0);
+    this.activeTab.next(this.tabs.findIndex((tab) => tab.fieldAccordionTitle === tabLabel) ?? 0);
     this.location.replaceState(`${this.detailPath}#${slug}`);
   }
 }

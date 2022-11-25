@@ -2,7 +2,12 @@
   <article-layout>
     <breadcrumbs [path]="detailPath"></breadcrumbs>
 
-    <block [titleBorder]="false" tabStyle="middle" [loading]="loading" (tabChange)="setSideBar($event, tabs)">
+    <block
+      [titleBorder]="false"
+      tabStyle="middle"
+      [loading]="loading"
+      (tabChange)="setSideBar($event)"
+    >
       <block-title
         ><h1>{{ "youthMonitoring.title" | translate }}</h1></block-title
       >
@@ -14,7 +19,9 @@
         [tabIcon]="tabIcons[tab.fieldAccordionIcon]"
         [tabVisible]="!(first && last)"
       >
-        <youth-monitoring-detail-data [detail]="tab.fieldYouthMonitorTabPage"></youth-monitoring-detail-data>
+        <youth-monitoring-detail-data
+          [detail]="tab.fieldYouthMonitorTabPage"
+        ></youth-monitoring-detail-data>
       </block-content>
     </block>
 
