@@ -1,4 +1,10 @@
-import { MappedYouthMonitoringDetail, MappedYouthMonitoringDetailTab, WebpageLink, YouthMonitoringDetail, YouthMonitoringDetailTab, YouthMonitoringDetailTabDto, YouthMonitoringListDto, YouthMonitoringPicture, YouthMonitoringVideo } from "./models/interfaces";
+import {
+  MappedYouthMonitoringDetailTab,
+  WebpageLink,
+  YouthMonitoringDetailTabDto,
+  YouthMonitoringListDto,
+  YouthMonitoringPicture
+} from './models/interfaces';
 
 export class YouthMonitoringUtility {
   public static mapDropdownData(input: YouthMonitoringListDto): any[] {

@@ -67,7 +67,7 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
     this.tabs$.subscribe((tabRes) => {
       this.tabs = tabRes;
       const tabi = tabRes.findIndex(
-        (item) => slugifyTitle(item.fieldAccordionTitle) === this.route.snapshot.fragment
+        (item) => slugifyTitle(item.fieldAccordionTitle ?? '') === this.route.snapshot.fragment
       ) ?? 0;
       this.activeTab.next(tabi);
 
