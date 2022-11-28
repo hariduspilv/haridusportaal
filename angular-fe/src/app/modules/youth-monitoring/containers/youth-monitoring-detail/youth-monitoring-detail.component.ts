@@ -69,7 +69,10 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
       const tabi = tabRes.findIndex(
         (item) => slugifyTitle(item.fieldAccordionTitle ?? '') === this.route.snapshot.fragment
       ) ?? 0;
-      this.activeTab.next(tabi);
+
+      if (tabi >= 0) {
+        this.activeTab.next(tabi);
+      }
 
       // Avoid NG0100 error
       setTimeout(() => {
