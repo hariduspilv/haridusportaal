@@ -15,7 +15,7 @@
       <block-content
         *ngFor="let tab of tabs; let first = first; let index = index; let last = last"
         [tabActive]="(activeTab | async) === index"
-        [tabLabel]="tab?.fieldAccordionTitle ?? ''"
+        [tabLabel]="tab?.fieldAccordionTitle || ''"
         [tabIcon]="tab?.fieldAccordionIcon && tabIcons[tab.fieldAccordionIcon]"
         [tabVisible]="!(first && last)"
         [noPaddingTop]="first && last"
