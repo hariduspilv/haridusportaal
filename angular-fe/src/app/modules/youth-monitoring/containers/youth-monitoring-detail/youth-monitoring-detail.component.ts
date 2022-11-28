@@ -66,12 +66,14 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.tabs$.subscribe((tabRes) => {
       this.tabs = tabRes;
-      const tabi = tabRes.findIndex(
-        (item) => slugifyTitle(item.fieldAccordionTitle || '') === this.route.snapshot.fragment
-      );
+      if (tabRes.some((item) => item.fieldAccordionTitle != null)) {
+        const tabi = tabRes.findIndex(
+          (item) => slugifyTitle(item.fieldAccordionTitle || '') === this.route.snapshot.fragment
+        );
 
-      if (tabi >= 0) {
-        this.activeTab.next(tabi);
+        if (tabi >= 0) {
+          this.activeTab.next(tabi);
+        }
       }
 
       // Avoid NG0100 error
@@ -88,6 +90,7 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
   }
 
   public setSideBar(tabLabel: string) {
+    if (!tabLabel) return;
     const slug = slugifyTitle(tabLabel);
     const tabIndex = this.tabs.findIndex((tab) => tab.fieldAccordionTitle === tabLabel);
     if (tabIndex < 0) return;
