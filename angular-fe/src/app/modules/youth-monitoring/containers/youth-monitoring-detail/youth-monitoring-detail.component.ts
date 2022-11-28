@@ -67,8 +67,8 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
     this.tabs$.subscribe((tabRes) => {
       this.tabs = tabRes;
       const tabi = tabRes.findIndex(
-        (item) => slugifyTitle(item.fieldAccordionTitle ?? '') === this.route.snapshot.fragment
-      ) ?? 0;
+        (item) => slugifyTitle(item.fieldAccordionTitle || '') === this.route.snapshot.fragment
+      );
 
       if (tabi >= 0) {
         this.activeTab.next(tabi);
@@ -89,7 +89,9 @@ export class YouthMonitoringDetailComponent implements OnDestroy, OnInit {
 
   public setSideBar(tabLabel: string) {
     const slug = slugifyTitle(tabLabel);
-    this.activeTab.next(this.tabs.findIndex((tab) => tab.fieldAccordionTitle === tabLabel) ?? 0);
+    const tabIndex = this.tabs.findIndex((tab) => tab.fieldAccordionTitle === tabLabel);
+    if (tabIndex < 0) return;
+    this.activeTab.next(tabIndex);
     this.location.replaceState(`${this.detailPath}#${slug}`);
   }
 }
