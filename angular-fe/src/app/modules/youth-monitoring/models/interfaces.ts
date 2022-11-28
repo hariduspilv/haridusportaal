@@ -81,8 +81,8 @@ export interface YouthMonitoringAccordion {
       value: string;
     },
     fieldYouthLink: WebpageLink[];
-    fieldYouthVideo: YouthMonitoringVideo[] | null,
-    fieldYouthPicture: YouthMonitoringPicture[] | null,
+    fieldYouthVideo: YouthMonitoringVideo | YouthMonitoringVideo[] | null,
+    fieldYouthPicture: YouthMonitoringPicture | YouthMonitoringPicture[] | null,
     fieldYouthIntroduction?: {
       value: string;
     }
@@ -115,10 +115,24 @@ export interface YouthMonitoringDetail {
   fieldRightColumnElements: YouthMonitoringSidebar[],
 }
 
+export interface YouthMonitoringDetailTab {
+  fieldAccordionIcon: string;
+  fieldAccordionTitle: string;
+  fieldYouthMonitorTabPage: {
+    entity: YouthMonitoringDetail;
+  };
+}
+
+export interface YouthMonitoringDetailTabDto {
+  fieldYouthMonitorTab: {
+    entity: YouthMonitoringDetailTab;
+  }[];
+};
+
 export interface YouthMonitoringDetailDto {
   data: {
     route: {
-      entity: YouthMonitoringDetail;
+      entity: YouthMonitoringDetailTabDto;
       languageSwitchLinks: YouthMonitoringLanguageSwitchLink[];
     }
   }
@@ -135,4 +149,10 @@ export interface YouthMonitoringListDto {
 export interface MappedYouthMonitoringDetail extends YouthMonitoringDetail {
   images: YouthMonitoringPicture[];
   videos: YouthMonitoringVideo[];
+}
+
+export interface MappedYouthMonitoringDetailTab {
+  fieldAccordionIcon: string;
+  fieldAccordionTitle: string;
+  fieldYouthMonitorTabPage: MappedYouthMonitoringDetail;
 }

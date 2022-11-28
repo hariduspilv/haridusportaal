@@ -1,90 +1,34 @@
 <max-width-wrapper>
-  <loader *ngIf="loading"></loader>
-  <article-layout *ngIf="detail$ | async as detail">
+  <article-layout>
     <breadcrumbs [path]="detailPath"></breadcrumbs>
-    <block [titleBorder]="false" *ngIf="detail">
+
+    <block
+      [titleBorder]="false"
+      tabStyle="middle"
+      [loading]="loading"
+      (tabChange)="setSideBar($event)"
+    >
       <block-title
         ><h1>{{ "youthMonitoring.title" | translate }}</h1></block-title
       >
-      <block-content [noPaddingTop]="true">
-        <h2>{{ detail.title }}</h2>
 
-        <share [pageTitle]="detail?.title"></share>
-
-        <p class="bold">
-          {{ detail.fieldIntroduction }}
-        </p>
-
-        <images
-          *ngIf="detail.images?.length || detail.videos?.length"
-          [image]="detail.images"
-          [videos]="detail.videos"
-        ></images>
-
-        <p
-          *ngIf="detail?.fieldContent?.value"
-          [innerHTML]="detail.fieldContent.value | unsafeHtml">
-        </p>
-
-        <images
-          *ngIf="detail.fieldEndVideo || detail.fieldEndPicture"
-          [image]="detail.fieldEndPicture"
-          [videos]="detail.fieldEndVideo"
-        ></images>
-
-        <accordion
-          [collapsible]="true"
-          [openFirst]="true"
-          *ngIf="detail?.fieldYouthAccordion?.length"
-        >
-          <accordion-item
-            *ngFor="let accordion of detail?.fieldYouthAccordion"
-            [title]="accordion.entity.fieldTitle"
-          >
-            <ng-template>
-              <p
-                *ngIf="accordion.entity.fieldYouthIntroduction"
-                [innerHTML]="accordion.entity.fieldYouthIntroduction.value | unsafeHtml"
-              ></p>
-
-              <images
-                *ngIf="
-                  accordion.entity.fieldYouthPicture ||
-                  accordion.entity.fieldYouthVideo
-                "
-                [image]="accordion.entity.fieldYouthPicture"
-                [videos]="accordion.entity.fieldYouthVideo"
-              ></images>
-
-              <p
-                *ngIf="accordion.entity.fieldYouthBody"
-                [innerHTML]="accordion.entity.fieldYouthBody.value | unsafeHtml"
-              ></p>
-
-              <links
-                *ngIf="accordion.entity.fieldYouthLink"
-                [data]="accordion.entity.fieldYouthLink"
-              ></links>
-            </ng-template>
-          </accordion-item>
-        </accordion>
-        
-        <links
-          *ngIf="detail?.fieldBottomLink"
-          [data]="detail.fieldBottomLink"
-        ></links>
-
-        <p
-          *ngIf="detail?.fieldEndText?.value"
-          [innerHTML]="detail.fieldEndText.value"
-        ></p>
+      <block-content
+        *ngFor="let tab of tabs; let first = first; let index = index; let last = last"
+        [tabActive]="(activeTab | async) === index"
+        [tabLabel]="tab.fieldAccordionTitle"
+        [tabIcon]="tabIcons[tab.fieldAccordionIcon]"
+        [tabVisible]="!(first && last)"
+      >
+        <youth-monitoring-detail-data
+          [detail]="tab.fieldYouthMonitorTabPage"
+        ></youth-monitoring-detail-data>
       </block-content>
     </block>
 
     <youth-monitoring-sidebar
-      *ngIf="detail"
+      *ngIf="sidebar$ | async as sidebar"
       sidebar
-      [data]="detail"
+      [data]="sidebar"
     ></youth-monitoring-sidebar>
   </article-layout>
 </max-width-wrapper>
