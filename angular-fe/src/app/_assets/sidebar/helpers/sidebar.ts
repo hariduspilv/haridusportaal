@@ -151,23 +151,13 @@ export const parseProfessionData = (inputData, translate) => {
 			}
 		});
 
-		if (Object.keys(searchParams).length > 0) {
+		if (mappedData['fieldProfession']) {
       mappedData['fieldLearningOpportunities'] = [
         {
           title: translate.get('professions.go_to_subjects'),
           url: {
             path: `/erialad`,
-            params: searchParams,
-            routed: true,
-          },
-        },
-      ];
-    } else if (mappedData['fieldProfession']) {
-      mappedData['fieldLearningOpportunities'] = [
-        {
-          title: translate.get('professions.go_to_subjects'),
-          url: {
-            path: `/erialad`,
+						params: searchParams,
             routed: true,
           },
         },
