@@ -3588,6 +3588,19 @@ sidebar:
     translation_type: textarea
     et: Neutraalne
     en: Neutral
+  icon:
+    people:
+      colored:
+        translation_type: textarea
+        et: 'Inimese ikoon (värvitud)'
+        en: 'People icon colored'
+      translation_type: textarea
+      et: 'Inimese ikoon'
+      en: 'People icon'
+    peopleColored:
+      translation_type: textarea
+      et: 'Inimese ikoon (värvitud)'
+      en: 'People icon (colored)'
 url:
   copied_to_clipboard:
     translation_type: textarea
