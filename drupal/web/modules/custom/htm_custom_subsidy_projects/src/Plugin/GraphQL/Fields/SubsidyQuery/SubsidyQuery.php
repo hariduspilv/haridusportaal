@@ -94,6 +94,7 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
         $params = $this->getElasticQuery($args);
 
+      \Drupal::logger('elastic')->notice('<pre><code>PARAMS: ' . print_r($params, TRUE) . '</code></pre>' );
         $response = $client->search($params);
 
         if($response['hits']['total'] > 0){
@@ -181,28 +182,34 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         $elastic_must_filters = [];
         $elastic_should_filters = [];
 
-        if(count($args) > 0){
-            foreach($args as $arglabel => $argvalues){
-                if(count($argvalues) > 1){
-                    foreach($argvalues as $argvalue){
-                        $elastic_should_filters[] = array(
-                            'match' => array(
-                                $arglabel => $argvalue
-                            )
-                        );
-                    }
-                }else{
-                    foreach($argvalues as $argvalue){
-                        $elastic_must_filters[] = array(
-                            'term' => array(
-                                $arglabel => $argvalue
-                            )
-                        );
-                    }
-                }
-            }
-        }
+      \Drupal::logger('elastic')->notice('<pre><code>ARGS: ' . print_r($args, TRUE) . '</code></pre>' );
+        if (!empty($args)) {
+          if (count($args) > 0) {
+            foreach ($args as $arglabel => $argvalues) {
+              if (!empty($argvalues)) {
 
+                \Drupal::logger('elastic')->notice('<pre><code>ARGVALUES: ' . print_r($argvalues, TRUE) . '</code></pre>' );
+                if (is_countable($argvalues) && count($argvalues) > 1) {
+                  foreach ($argvalues as $argvalue) {
+                    $elastic_should_filters[] = array(
+                      'match' => array(
+                        $arglabel => $argvalue
+                      )
+                    );
+                  }
+                } else {
+                  foreach ($argvalues as $argvalue) {
+                    $elastic_must_filters[] = array(
+                      'term' => array(
+                        $arglabel => $argvalue
+                      )
+                    );
+                  }
+                }
+              }
+            }
+          }
+        }
         $query = array(
             'query' => array(
                 'bool' => array(

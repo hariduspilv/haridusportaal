@@ -22,15 +22,15 @@ class WriteService {
       $logpath_year = '/app/drupal/web/sites/default/files/logs/'.date('Y');
       if(!file_exists($logpath_year)) {
         mkdir($logpath_year, 0744, true);
-        chown($logpath_year, 'apache');
-        chgrp($logpath_year, 'apache');
+        chown($logpath_year, 'www-data');
+        chgrp($logpath_year, 'www-data');
       }
       // For month directory
       $logpath = $logpath_year.'/'.date('m');
       if(!file_exists($logpath)) {
         mkdir($logpath, 0744, true);
-        chown($logpath, 'apache');
-        chgrp($logpath, 'apache');
+        chown($logpath, 'www-data');
+        chgrp($logpath, 'www-data');
       }
       $logpath .= '/'.$type.'.log';
       fopen($logpath, 'a');
@@ -39,9 +39,9 @@ class WriteService {
         $user = fileowner($logpath);
         $userinfo = posix_getpwuid($user);
         if (!empty($userinfo)){
-          if ($userinfo['name']!='apache'){
-            chown($logpath,'apache');
-            chgrp($logpath,'apache');
+          if ($userinfo['name']!='www-data'){
+            chown($logpath,'www-data');
+            chgrp($logpath,'www-data');
           }
         }
       }

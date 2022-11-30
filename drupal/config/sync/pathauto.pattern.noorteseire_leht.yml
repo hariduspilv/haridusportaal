@@ -1,0 +1,33 @@
+uuid: 5fb650ef-0c78-4011-8a11-37f0f057b03b
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: noorteseire_leht
+label: 'Noorteseire leht EST'
+type: 'canonical_entities:node'
+pattern: 'noorteseire/[node:title]'
+selection_criteria:
+  d41aac08-b31c-4fdc-9a50-b47ecd9fd4be:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: d41aac08-b31c-4fdc-9a50-b47ecd9fd4be
+    context_mapping:
+      node: node
+    bundles:
+      youth_monitoring_page_tabbed: youth_monitoring_page_tabbed
+  1498ca81-a822-495c-b7fd-c1248dd32e54:
+    id: language
+    negate: false
+    uuid: 1498ca81-a822-495c-b7fd-c1248dd32e54
+    context_mapping:
+      language: 'node:langcode:language'
+    langcodes:
+      et: et
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

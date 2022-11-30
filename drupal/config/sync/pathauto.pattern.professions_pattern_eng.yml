@@ -11,7 +11,7 @@ type: 'canonical_entities:node'
 pattern: 'professions/[node:title]'
 selection_criteria:
   396ba41a-eac9-47fd-8f8a-3e35beae5f7c:
-    id: node_type
+    id: 'entity_bundle:node'
     negate: false
     uuid: 396ba41a-eac9-47fd-8f8a-3e35beae5f7c
     context_mapping:

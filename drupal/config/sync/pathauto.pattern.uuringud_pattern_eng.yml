@@ -11,7 +11,7 @@ type: 'canonical_entities:node'
 pattern: 'studies/[node:title]'
 selection_criteria:
   79509529-322b-41d6-9deb-5256d1c33fac:
-    id: node_type
+    id: 'entity_bundle:node'
     negate: false
     uuid: 79509529-322b-41d6-9deb-5256d1c33fac
     context_mapping:

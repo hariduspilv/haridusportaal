@@ -59,7 +59,6 @@ class DefaultSubscriber implements EventSubscriberInterface {
      */
     public function elasticsearchConnectorPrepareIndexMapping(PrepareIndexMappingEvent $event) {
         $index = $this->loadIndexFromIndexName($event->getIndexName());
-
         $params = $event->getIndexMappingParams();
 
         $event->setIndexMappingParams($params);
@@ -73,9 +72,8 @@ class DefaultSubscriber implements EventSubscriberInterface {
      *   The event.
      */
     public function elasticsearchConnectorPrepareIndex(PrepareIndexEvent $event) {
-        $index = $this->loadIndexFromIndexName($event->getIndexName());
-
-        $settings = $index->getThirdPartySettings('elasticsearch_connector');
+      $index = $this->loadIndexFromIndexName($event->getIndex()->get('id'));
+      $settings = $index->getThirdPartySettings('elasticsearch_connector');
 
         $indexConfig = $event->getIndexConfig();
 

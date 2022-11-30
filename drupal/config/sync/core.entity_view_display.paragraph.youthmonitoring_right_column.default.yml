@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.youthmonitoring_right_column.field_block_text
     - field.field.paragraph.youthmonitoring_right_column.field_block_type
+    - field.field.paragraph.youthmonitoring_right_column.field_green_men_amount
     - field.field.paragraph.youthmonitoring_right_column.field_title
     - field.field.paragraph.youthmonitoring_right_column.field_webpage_link
     - paragraphs.paragraphs_type.youthmonitoring_right_column
@@ -31,6 +32,13 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  field_green_men_amount:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 14
+    region: content
   field_title:
     type: string
     label: above
@@ -52,5 +60,6 @@ content:
     weight: 13
     region: content
 hidden:
+  field_link_name: true
   field_youth_title: true
   search_api_excerpt: true

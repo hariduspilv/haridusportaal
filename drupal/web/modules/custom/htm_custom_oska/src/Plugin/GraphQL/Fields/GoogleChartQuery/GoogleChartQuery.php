@@ -150,16 +150,16 @@ class GoogleChartQuery extends FieldPluginBase {
             ];
             foreach($rule_check as $value){
                 $result = array_search($value, $skip_rule_levels);
-                if(!result){
+                if(!empty($result)){
                     $rule_levels[] = $result;
                 }
             }
-            $rule_level = max($rule_levels);
+            if (!empty($rule_levels)) {
+//              $rule_level = max($rule_levels);
+            }
+          foreach($records as $record){
 
-            #get value for each label, sum reoccurring labels
-            foreach($records as $record){
-
-                if($rule_level){
+            if(isset($rule_level)){
                     if($rule_level === 0){
                         if(empty($record['valdkond']) || !empty($record['alavaldkond']) || !empty($record['ametiala'])){
                             continue;
@@ -220,7 +220,7 @@ class GoogleChartQuery extends FieldPluginBase {
             }
 
             #add values to empty fields
-            if(count($xlabels) > 0){
+            if(is_countable($xlabels) && count($xlabels) > 0){
                 foreach($xlabels as $label){
                     $labelsums = $this->fillEmptyFields($labelsums, $label);
                 }
