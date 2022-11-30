@@ -81,6 +81,14 @@
     "_fileName": "arrow-left.svg"
   },
   {
+    "_name": "arrow-orange",
+    "_fileName": "arrow-orange.svg"
+  },
+  {
+    "_name": "arrow-red",
+    "_fileName": "arrow-red.svg"
+  },
+  {
     "_name": "arrow-right-circle",
     "_fileName": "arrow-right-circle.svg"
   },
@@ -135,6 +143,10 @@
   {
     "_name": "bell",
     "_fileName": "bell.svg"
+  },
+  {
+    "_name": "blogi",
+    "_fileName": "blogi.svg"
   },
   {
     "_name": "bluetooth",
@@ -429,12 +441,28 @@
     "_fileName": "figma.svg"
   },
   {
+    "_name": "file-badge",
+    "_fileName": "file-badge.svg"
+  },
+  {
+    "_name": "file-line",
+    "_fileName": "file-line.svg"
+  },
+  {
     "_name": "file-minus",
     "_fileName": "file-minus.svg"
   },
   {
+    "_name": "file-play",
+    "_fileName": "file-play.svg"
+  },
+  {
     "_name": "file-plus",
     "_fileName": "file-plus.svg"
+  },
+  {
+    "_name": "file-search",
+    "_fileName": "file-search.svg"
   },
   {
     "_name": "file-text",
@@ -517,6 +545,10 @@
     "_fileName": "globe.svg"
   },
   {
+    "_name": "graph-line",
+    "_fileName": "graph-line.svg"
+  },
+  {
     "_name": "grid",
     "_fileName": "grid.svg"
   },
@@ -581,12 +613,20 @@
     "_fileName": "layout.svg"
   },
   {
+    "_name": "library-alt",
+    "_fileName": "library-alt.svg"
+  },
+  {
     "_name": "library",
     "_fileName": "library.svg"
   },
   {
     "_name": "life-buoy",
     "_fileName": "life-buoy.svg"
+  },
+  {
+    "_name": "lightbulb",
+    "_fileName": "lightbulb.svg"
   },
   {
     "_name": "link-2",
@@ -729,6 +769,10 @@
     "_fileName": "navigation.svg"
   },
   {
+    "_name": "newspaper",
+    "_fileName": "newspaper.svg"
+  },
+  {
     "_name": "octagon",
     "_fileName": "octagon.svg"
   },
@@ -751,6 +795,14 @@
   {
     "_name": "pen-tool",
     "_fileName": "pen-tool.svg"
+  },
+  {
+    "_name": "people-gray",
+    "_fileName": "people-gray.svg"
+  },
+  {
+    "_name": "people-green",
+    "_fileName": "people-green.svg"
   },
   {
     "_name": "people",
@@ -817,6 +869,10 @@
     "_fileName": "pocket.svg"
   },
   {
+    "_name": "podcast",
+    "_fileName": "podcast.svg"
+  },
+  {
     "_name": "power",
     "_fileName": "power.svg"
   },
@@ -839,6 +895,10 @@
   {
     "_name": "repeat",
     "_fileName": "repeat.svg"
+  },
+  {
+    "_name": "report",
+    "_fileName": "report.svg"
   },
   {
     "_name": "rewind",
@@ -961,8 +1021,16 @@
     "_fileName": "star.svg"
   },
   {
+    "_name": "statistics",
+    "_fileName": "statistics.svg"
+  },
+  {
     "_name": "stop-circle",
     "_fileName": "stop-circle.svg"
+  },
+  {
+    "_name": "studies",
+    "_fileName": "studies.svg"
   },
   {
     "_name": "sun",
@@ -1099,6 +1167,10 @@
   {
     "_name": "users",
     "_fileName": "users.svg"
+  },
+  {
+    "_name": "video-blue",
+    "_fileName": "video-blue.svg"
   },
   {
     "_name": "video-off",

@@ -3,10 +3,22 @@
     <h2>{{ data.entity.fieldTitle }}</h2>
   </block-title>
   <block-content>
-    <div class="youth-sidebar__content">
-      <div class="youth-sidebar__icon" *ngIf="icon">
-        <icon aria-hidden="true" size="medium" bg="true" [glyph]="icon"></icon>
-      </div>
+    <div class="youth-sidebar__content" [class.column]="peopleBlock">
+      <ng-container *ngIf="peopleBlock; else iconElement">
+        <div class="list" aria-hidden="true">
+          <div class="list__icon" *ngFor="let item of createArr(data.entity.fieldGreenMenAmount)"><img
+            alt="{{ 'sidebar.icon.peopleColored' | translate }}" src="/assets/img/person_filled.svg" /></div>
+          <div class="list__icon" *ngFor="let elem of createArr(10 - data.entity.fieldGreenMenAmount)"><img
+            alt="{{ 'sidebar.icon.people' | translate }}" src="/assets/img/person.svg" /></div>
+        </div>
+      </ng-container>
+
+      <ng-template #iconElement>
+        <div class="youth-sidebar__icon" [ngClass]="icon" *ngIf="icon">
+          <icon aria-hidden="true" size="medium" bg="true" [glyph]="icon"></icon>
+        </div>
+      </ng-template>
+
       {{ data.entity.fieldBlockText }}
     </div>
 

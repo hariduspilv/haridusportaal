@@ -5,4 +5,6 @@ export const environment = {
   EHIS_URL: "https://tehis.edu.ee/api",
   DEV_AUTH: true,
   GA_TRACKING: false,
+  LANGUAGE_SWITCHER: true,
+  LANGUAGES: ['et', 'en']
 };
