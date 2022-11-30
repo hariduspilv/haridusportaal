@@ -27,6 +27,8 @@
       color: $dark-gray;
       font-size: $small;
       justify-content: space-between;
+      flex-direction: column;
+      align-items: flex-start;
 
       h1 {
         all:unset;
@@ -35,8 +37,6 @@
       &--border {
         border-bottom: $gray 0.0625rem solid;
       }
-
-      align-items: center;
 
       &__text {
         flex-grow: 1;
@@ -57,7 +57,12 @@
       }
 
       &__tabs {
-        height: 4.5rem;
+        height: 3.875rem;
+        padding: 0 1.5rem;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        width: 100%;
 
         button {
           color: $blue;
@@ -69,7 +74,6 @@
           border: none;
           height: 100%;
           background: none;
-          border-left: $light-gray 0.0625rem solid;
           cursor: pointer;
           position: relative;
           overflow: hidden;
@@ -211,6 +215,10 @@
         &:last-child {
           margin-bottom: 0;
         }
+      }
+
+      img {
+        max-width: 100%;
       }
 
       &:after {

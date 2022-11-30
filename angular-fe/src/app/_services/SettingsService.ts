@@ -36,8 +36,9 @@ export class SettingsService {
 	availableLanguages: Record<string, string | LanguageCodes>[] = [
 		{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
 		{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
-		// { label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
-	];
+		{ label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
+	].filter(({ code }) => (environment.LANGUAGES || ['et']).includes(code as string));
+
 	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN;
 	activeLang$ = new Subject();	// new BehaviorSubject(this.activeLang); - sidemenu will be opened on the first app load
 	get currentAppLanguage() { return this.activeLang; }

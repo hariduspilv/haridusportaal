@@ -10,6 +10,8 @@ export const environment = {
   EHIS_URL: "https://ehis2.twn.zone/api",
   DEV_AUTH: true,
   GA_TRACKING: false,
+  LANGUAGE_SWITCHER: true,
+  LANGUAGES: ['et', 'en']
 };
 
 /*

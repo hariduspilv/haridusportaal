@@ -19,6 +19,7 @@ import { YouthMonitoringSidebarBlockComponent } from './components/youth-monitor
 import { YouthMonitoringSidebarComponent } from './containers/youth-monitoring-sidebar/youth-monitoring-sidebar.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouteUndefinedInterceptor } from '@app/_interceptors/detail-route-undefined.interceptor';
+import { YouthMonitoringDetailDataComponent } from './components/youth-monitoring-detail-data/youth-monitoring-detail-data.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,7 @@ const routes: Routes = [
   declarations: [
     YouthMonitoringListComponent,
     YouthMonitoringDetailComponent,
+    YouthMonitoringDetailDataComponent,
     YouthMonitoringBannerComponent,
     YouthMonitoringSidebarBlockComponent,
     YouthMonitoringSidebarComponent,

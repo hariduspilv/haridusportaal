@@ -41,14 +41,32 @@ use Elasticsearch\ClientBuilder;
        'index' => $index_full_name,
        'body'=>[],
      ];
+     $params['body']['settings']['index'] = array(
+       "analysis" => array(
+         "analyzer" => array(
+           "synonym" => array(
+             "tokenizer" => "whitespace",
+             "filter" => array(
+               "synonym",
+             )
+           ),
+           "standard_hyphen" => array(
+             "tokenizer" => "whitespace",
+             "filter" => array(
+               "lowercase"
+             )
+           )
+         ),
+         "filter" => array(
+           "synonym" => array(
+             "type" => $config->get('token_filter_type') ?? "synonym",
+             "lenient" => true,
+             "synonyms" => $synonyms
+           )
+         )
+       )
+     );
 
-        $params['body']['settings']['index']['analysis'] = array(
-          "filter" => array(
-            "synonym" => array(
-              "synonyms" => $synonyms
-            )
-          )
-        );
         if (!empty($default)){
           $params['body']['settings']['index']['analysis']['analyzer']['default'] = $default;
         }
@@ -57,6 +75,8 @@ use Elasticsearch\ClientBuilder;
        $updateSettings = $client->indices()->putSettings($params);
      }
      catch (Exception $e){
+
+       \Drupal::logger('elastic')->notice('<pre><code>Synonym: values: ' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
      }
 
      $client->indices()->open(['index'=>$index_full_name]);

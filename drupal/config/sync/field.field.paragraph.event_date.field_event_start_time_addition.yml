@@ -1,0 +1,21 @@
+uuid: 04ee90eb-b762-43a3-b551-79a6b981772b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_event_start_time_addition
+    - paragraphs.paragraphs_type.event_date
+  module:
+    - time_field
+id: paragraph.event_date.field_event_start_time_addition
+field_name: field_event_start_time_addition
+entity_type: paragraph
+bundle: event_date
+label: 'Sündmuse alguse kellaaeg'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: time

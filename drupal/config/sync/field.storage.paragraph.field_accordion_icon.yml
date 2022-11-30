@@ -1,0 +1,57 @@
+uuid: e98cdf84-c2f1-487a-9601-c7b6205ae8b9
+langcode: et
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_accordion_icon
+field_name: field_accordion_icon
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: ServiceDevelopmentIcon
+      label: 'Noortevaldkonna teenuste arendamine'
+    -
+      value: PublicationsIcon
+      label: 'Noorteseire aastaraamatud'
+    -
+      value: StudiesIcon
+      label: Uuringud
+    -
+      value: DevelopmentPlanIcon
+      label: 'Arengukava tulemusaruanded'
+    -
+      value: YouthReportIcon
+      label: Noorteraport
+    -
+      value: DashboardIcon
+      label: Juhtimislaud
+    -
+      value: WebReportIcon
+      label: Veebiraport
+    -
+      value: DataSeminarsIcon
+      label: Andmeseminarid
+    -
+      value: DataTrainingIcon
+      label: Andmekoolitus
+    -
+      value: DataIcon
+      label: 'Andmed ja nende kasutamine'
+    -
+      value: ScholarshipProgramIcon
+      label: Stipendiumiprogramm
+    -
+      value: WritingCampIcon
+      label: Kirjutuslaager
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

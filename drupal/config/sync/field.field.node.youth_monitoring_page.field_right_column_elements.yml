@@ -15,7 +15,7 @@ bundle: youth_monitoring_page
 label: 'Parema veeru elemendid'
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -165,6 +165,12 @@ settings:
         enabled: false
       youth_content_page_link:
         weight: 96
+        enabled: false
+      youth_monitor_tab:
+        weight: 101
+        enabled: false
+      youth_monitoring_accordion:
+        weight: 99
         enabled: false
       youth_subject_links:
         weight: 98

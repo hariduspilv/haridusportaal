@@ -1,0 +1,34 @@
+uuid: 5b97b4a6-c981-4fe7-bca7-3fbebdd5a400
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.youth_monitoring_page_tabbed.field_extertnal_link
+    - field.field.node.youth_monitoring_page_tabbed.field_first_picture
+    - field.field.node.youth_monitoring_page_tabbed.field_first_picture_or_video
+    - field.field.node.youth_monitoring_page_tabbed.field_first_video
+    - field.field.node.youth_monitoring_page_tabbed.field_introduction
+    - field.field.node.youth_monitoring_page_tabbed.field_youth_monitor_tab
+    - node.type.youth_monitoring_page_tabbed
+  module:
+    - user
+id: node.youth_monitoring_page_tabbed.teaser
+targetEntityType: node
+bundle: youth_monitoring_page_tabbed
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_extertnal_link: true
+  field_first_picture: true
+  field_first_picture_or_video: true
+  field_first_video: true
+  field_introduction: true
+  field_youth_monitor_tab: true
+  langcode: true
+  search_api_excerpt: true

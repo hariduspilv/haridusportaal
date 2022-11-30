@@ -82,9 +82,13 @@ module:
   image: 0
   image_widget_crop: 0
   import_school_data: 0
+  inline_entity_form: 0
   jquery_ui: 0
   jquery_ui_autocomplete: 0
+  jquery_ui_datepicker: 0
   jquery_ui_menu: 0
+  jquery_ui_slider: 0
+  jquery_ui_touch_punch: 0
   jwt: 0
   jwt_auth_consumer: 0
   jwt_auth_issuer: 0
@@ -109,6 +113,7 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  pgsql: 0
   queue_ui: 0
   quick_node_clone: 0
   quickedit: 0
@@ -134,6 +139,7 @@ module:
   taxonomy_multidelete_terms: 0
   telephone: 0
   text: 0
+  time_field: 0
   token: 0
   toolbar: 0
   tour: 0

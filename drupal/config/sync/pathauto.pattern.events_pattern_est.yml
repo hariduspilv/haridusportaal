@@ -11,7 +11,7 @@ type: 'canonical_entities:node'
 pattern: 'sündmused/[node:title]'
 selection_criteria:
   42c07bc8-0851-4d2b-a170-66ccf50fbfd5:
-    id: node_type
+    id: 'entity_bundle:node'
     negate: false
     uuid: 42c07bc8-0851-4d2b-a170-66ccf50fbfd5
     context_mapping:

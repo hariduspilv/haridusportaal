@@ -27,7 +27,7 @@ class ElasticFieldDeriver extends DeriverBase {
         #remove entity:path field from deriver
         unset($fields[array_search('entity_path', $fields)]);
 
-        if(count($fields) > 0){
+        if(is_array($fields) && count($fields) > 0){
             foreach($fields as $field){
                 $field = $derivative['type'] = StringHelper::camelCase($field);
                 $this->derivatives[$field] = $base_plugin_definition;

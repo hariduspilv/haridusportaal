@@ -85,7 +85,7 @@
 		<block titleBorder="true">
             <block-title><h1>{{ 'school.label' | translate }}</h1></block-title>
 			<block-content tabLabel="{{ 'school.list' | translate }}" tabLink="{{ '/kool' | translatePath }}" [queryParams]="params" tabIcon="list"></block-content>
-			<block-content tabLabel="{{ 'school.map' | translate }}" tabLink="{{ '/kool/kaart' | translatePath }}" [tabActive]="true" tabIcon="map-pin">
+			<block-content tabLabel="{{ 'school.map' | translate }}" tabLink="{{ '/kool/kaart' | translatePath }}" [tabActive]="true" tabIcon="map-pin-alt">
 				<loader *ngIf="!markers"></loader>
 				<a class="sr-only" routerLink="{{ '/kool' | translatePath }}" attr.aria-label="{{ 'school.view_institutions' | translate }}"></a>
 				<map *ngIf="markers" [loading]="loading" type="markers" [markers]="markers" [options]="options" role="application" ariaLabel="{{ 'home.topics_institutions' | translate }}" aria-hidden="true"  (mapLoaded)="mapLoaded()"></map>
