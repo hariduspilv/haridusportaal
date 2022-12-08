@@ -73,8 +73,8 @@
   3. docker push harbor.twn.zone/haridusportaal/angular:prod
   4. docker push harbor.twn.zone/haridusportaal/angular:prelive
 ## BE Building for production environments in /drupal/docker/prod if updating drupal or other dependecies (not required on every release)
-  1. docker build . -t hub.wiseman.ee/htm/drupal:prod
-  2. docker push hub.wiseman.ee/htm/drupal:prod
+  1. docker build . -t harbor.twn.zone/haridusportaal/drupal:prod
+  2. docker push harbor.twn.zone/haridusportaal/drupal:prod
 ## Dev server and CI
   * root@haridusportaal.twn.zone
 
