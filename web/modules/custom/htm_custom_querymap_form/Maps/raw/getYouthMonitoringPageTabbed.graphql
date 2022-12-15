@@ -20,7 +20,7 @@ query getYouthMonitoringPage($path: String!) {
           ... on ParagraphYouthMonitorTab {
             fieldAccordionTitle
             fieldAccordionIcon
-            fieldYouthMonitorTabPage {
+            fieldYouthMonitorTabPage:fieldYouthMonitorTabRef {
               entity {
         ... on NodeYouthMonitoringPage {
           nid
