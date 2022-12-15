@@ -14,6 +14,7 @@ use Drupal\jwt\JsonWebToken\JsonWebToken;
 use Drupal\jwt\Transcoder\JwtTranscoderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -189,10 +190,10 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function handleException (GetResponseForExceptionEvent $event) {
-		$exception = $event->getException();
+	public function handleException (ExceptionEvent $event) {
+		$exception = $event->getThrowable();
 		if ($exception instanceof AccessDeniedHttpException) {
-			$event->setException(
+			$event->setThrowable(
 				new UnauthorizedHttpException('Invalid consumer origin.', $exception)
 			);
 			return true;
