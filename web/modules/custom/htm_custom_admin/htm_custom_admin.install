@@ -87,4 +87,31 @@ function htm_custom_admin_update_9102() {
       $new_node->save();
     }
   }
+
+}
+/**
+ * Copy Noorteseire to tabbed content
+ */
+function htm_custom_admin_update_9103() {
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'youth_monitoring_page_tabbed');
+  $results = $query->execute();
+  $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($results);
+  if (!empty($nodes)) {
+    foreach ($nodes as $node) {
+      if ($node->hasField('field_youth_monitor_tab')){
+        $tabs = $node->get('field_youth_monitor_tab')->referencedEntities();
+        foreach ($tabs as $tab) {
+          if ($tab->hasField('field_youth_monitor_tab_page') and $tab->hasField('field_youth_monitor_tab_ref')){
+            $youth_page_id = $tab->get('field_youth_monitor_tab_page')->target_id;
+            if (!empty($youth_page_id)) {
+              $tab->set('field_youth_monitor_tab_page', null);
+              $tab->set('field_youth_monitor_tab_ref', $youth_page_id);
+              $tab->save();
+            }
+          }
+        }
+      }
+    }
+  }
 }
