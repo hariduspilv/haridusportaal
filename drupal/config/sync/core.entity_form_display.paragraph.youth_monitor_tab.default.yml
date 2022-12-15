@@ -6,6 +6,7 @@ dependencies:
     - field.field.paragraph.youth_monitor_tab.field_accordion_icon
     - field.field.paragraph.youth_monitor_tab.field_accordion_title
     - field.field.paragraph.youth_monitor_tab.field_youth_monitor_tab_page
+    - field.field.paragraph.youth_monitor_tab.field_youth_monitor_tab_ref
     - paragraphs.paragraphs_type.youth_monitor_tab
   module:
     - inline_entity_form
@@ -32,7 +33,7 @@ content:
       maxlength:
         maxlength_js: null
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
-  field_youth_monitor_tab_page:
+  field_youth_monitor_tab_ref:
     type: inline_entity_form_complex
     weight: 2
     region: content
@@ -51,4 +52,5 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_youth_monitor_tab_page: true
   status: true
