@@ -1,5 +1,0 @@
-Administer Quick Node Clone Settings:
-  title: 'Quick Node Clone Settings'
-  description: 'Administer Quick Node Clone Settings'
-permission_callbacks:
-  - \Drupal\quick_node_clone\QuickNodeClonePermissions::cloneTypePermissions

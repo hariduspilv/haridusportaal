@@ -3,3 +3,7 @@ angular-fe/scripts/conf-storybook.js
 angular-fe/scripts/conf-edu.js
 /dump
 /docker/develop/root/data/postgres*
+drupal/vendor/
+
+drupal/web/modules/contrib/
+drupal/web/modules/core/

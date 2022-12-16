@@ -1,3 +1,0 @@
-bypass maxlength:
-  title: 'Bypass maxlength setting'
-  description: 'If a maxlength is configured for a certain field, the user does not see the value.'
