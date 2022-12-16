@@ -7,3 +7,5 @@ drupal/vendor/
 
 drupal/web/modules/contrib/
 drupal/web/modules/core/
+
+drupal/web/core/
