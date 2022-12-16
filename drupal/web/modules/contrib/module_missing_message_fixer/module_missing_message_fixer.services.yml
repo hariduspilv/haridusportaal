@@ -1,4 +1,0 @@
-services:
-  module_missing_message_fixer.fixer:
-    class: \Drupal\module_missing_message_fixer\ModuleMissingMessageFixer
-    arguments: ['@database', '@messenger']
