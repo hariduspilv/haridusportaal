@@ -1,5 +1,0 @@
-openid_connect.admin_settings:
-  title: 'OpenID Connect'
-  description: 'Configure OpenID Connect, choose active OpenID Connect clients etc.'
-  route_name: openid_connect.admin_settings
-  parent: 'system.admin_config_services'

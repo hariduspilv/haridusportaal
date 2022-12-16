@@ -1,6 +1,0 @@
-hms_field:
-  js:
-    js/hms_field.js: {}
-  dependencies:
-    - core/jquery
-    - core/drupalSettings
