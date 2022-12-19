@@ -6,9 +6,9 @@
     <div class="youth-sidebar__content" [class.column]="peopleBlock">
       <ng-container *ngIf="peopleBlock; else iconElement">
         <div class="list" aria-hidden="true">
-          <div class="list__icon" *ngFor="let item of createArr(data.entity.fieldGreenMenAmount)"><img
+          <div class="list__icon" *ngFor="let item of createArr(data.entity.fieldGreenMenAmount || 0)"><img
             alt="{{ 'sidebar.icon.peopleColored' | translate }}" src="/assets/img/person_filled.svg" /></div>
-          <div class="list__icon" *ngFor="let elem of createArr(10 - data.entity.fieldGreenMenAmount)"><img
+          <div class="list__icon" *ngFor="let elem of createArr(10 - (data.entity.fieldGreenMenAmount || 0))"><img
             alt="{{ 'sidebar.icon.people' | translate }}" src="/assets/img/person.svg" /></div>
         </div>
       </ng-container>

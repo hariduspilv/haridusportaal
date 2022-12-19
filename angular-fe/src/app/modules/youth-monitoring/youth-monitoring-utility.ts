@@ -40,7 +40,7 @@ export class YouthMonitoringUtility {
         fieldAccordionTitle,
         fieldYouthMonitorTabPage: {
           ...data,
-          fieldContent: { value: data.fieldContent.value },
+          fieldContent: { value: data.fieldContent?.value || '' },
           images: data.fieldYouthGallery?.filter(
               (item) => item.entity.fieldMediaImg
             ).map(
