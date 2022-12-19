@@ -1,0 +1,58 @@
+query ($lang: LanguageId!) {
+  nodeQuery(
+    limit:100
+    sort: {field: "created", direction: DESC},
+    filter: {conditions: [{operator: EQUAL, field: "type", value: ["youth_monitoring_page_tabbed"], language: $lang}]}) {
+    entities(language: $lang) {
+      ... on NodeYouthMonitoringPageTabbed {
+        entityLabel
+        created
+        entityUrl {
+          ... on EntityCanonicalUrl {
+            path
+            languageSwitchLinks {
+              url {
+                path
+                routed
+                pathAlias
+                pathInternal
+              }
+            }
+          }
+        }
+        title
+        fieldIntroduction
+        fieldExtertnalLink{
+          entity{
+            ... on ParagraphLink{
+              fieldLinkName
+              fieldWebpageLink{
+                title
+                uri
+              }
+            }
+          }
+        }
+        fieldFirstPictureOrVideo
+        fieldFirstPicture{
+          derivative(style: CROPLARGE){
+            url
+            width
+            height
+          }
+          url
+          title
+          alt
+          title
+        }
+        fieldFirstVideo{
+          input
+          videoDomain
+          videoDescription
+          videoId
+          videoThumbnail
+        }
+      }
+    }
+  }
+}

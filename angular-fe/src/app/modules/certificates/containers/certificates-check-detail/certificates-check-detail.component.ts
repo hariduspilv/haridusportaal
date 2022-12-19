@@ -71,7 +71,7 @@ export class CertificatesCheckDetailComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.http.post('https://htm.wiseman.ee/certificate-public', this.model.value).subscribe({
+    this.http.post(`${this.settings.url}/certificate-public`, this.model.value).subscribe({
       next: (response: any) => {
         if (response.value && response.value.tunnistus === null) {
           this.alertsService

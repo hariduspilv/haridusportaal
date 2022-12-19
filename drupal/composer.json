@@ -13,11 +13,37 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ckeditor-plugin/fakeobjects",
+                "version": "4.17.1",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://download.ckeditor.com/fakeobjects/releases/fakeobjects_4.17.1.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ckeditor-plugin/iframe",
+                "version": "4.17.1",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://download.ckeditor.com/iframe/releases/iframe_4.17.1.zip",
+                    "type": "zip"
+                }
+            }
         }
     ],
     "require": {
         "ext-curl": "*",
         "ext-dom": "*",
+        "ckeditor-plugin/fakeobjects": "^4.17",
+        "ckeditor-plugin/iframe": "^4.17",
         "composer/installers": "^1.2",
         "cweagans/composer-patches": "^1",
         "drupal/admin_toolbar": "^3.0",
@@ -28,14 +54,14 @@
         "drupal/config_sync": "^2.0",
         "drupal/console": "~1.0",
         "drupal/console-extend-plugin": "^0.9.5",
-        "drupal/core": "9.4.8 as 8.9.17",
+        "drupal/core": "9.5.0 as 8.9.17",
         "drupal/core-composer-scaffold": "^9",
         "drupal/core-project-message": "^9",
         "drupal/devel": "^4.1",
         "drupal/devel_entity_updates": "^3.0",
         "drupal/editor_advanced_link": "^1.4",
         "drupal/editor_file": "^1.2",
-        "drupal/elasticsearch_connector": "^8.0",
+        "drupal/elasticsearch_connector": "7.x-dev@dev",
         "drupal/elasticsearch_connector_autocomp": "1.x-dev",
         "drupal/entity_embed": "^1.0@beta",
         "drupal/entity_reference_revisions": "^1.9",
@@ -48,15 +74,15 @@
         "drupal/hms_field": "^1.0@beta",
         "drupal/image_widget_crop": "^2.1",
         "drupal/inline_entity_form": "^1.0@RC",
-        "drupal/jquery_ui": "^1.4",
-        "drupal/jquery_ui_autocomplete": "^1.1",
+        "drupal/jquery_ui": "^1.6",
+        "drupal/jquery_ui_autocomplete": "^2.0",
         "drupal/json_feed": "^1.1",
         "drupal/jwt": "^1.0@alpha",
         "drupal/material_admin": "^2.0",
         "drupal/maxlength": "^1.0@beta",
         "drupal/memcache": "^2.3",
         "drupal/menu_breadcrumb": "^1.6",
-        "drupal/menu_item_role_access": "^2.0",
+        "drupal/menu_item_role_access": "^2.1",
         "drupal/metatag": "^1.18",
         "drupal/module_missing_message_fixer": "^2.0",
         "drupal/monolog": "^2.0.1",
@@ -90,6 +116,7 @@
         "justinrainbow/json-schema": "^5.2",
         "kint-php/kint": "^3.3",
         "league/csv": "^9.0",
+        "politsin/jquery-ui-touch-punch": "^1.0",
         "psr/log": "*",
         "ruflin/elastica": "^7",
         "swaggest/json-schema": "^0.12.7",
@@ -170,16 +197,14 @@
                 "Material Admin Fixing Array to String Notice for PHP 7 on 2.X": "https://www.drupal.org/files/issues/2021-02-08/material_admin-v2-array_to_string_notice.patch",
                 "Drupal 9 deprecated code fix": "https://www.drupal.org/files/issues/2021-06-17/deprecated-3075746-3.patch",
                 "Drupal 9 autocomplete fix": "web/patches/mat_admin_autocomplete_D9.txt",
-                "Alter form for admin purposes": "web/patches/news_edit_form_alter.patch"
+                "Alter form for admin purposes": "web/patches/news_edit_form_alter.patch",
+                "Autocomplete fix" : "https://www.drupal.org/files/issues/2021-12-09/3247116-autocomplete-2.patch"
             },
             "drupal/cache_tags": {
                 "Cache Tags Drupal 9 patch": "https://www.drupal.org/files/issues/2021-01-19/cache_tags-3139751.patch"
             },
             "drupal/hms_field": {
                 "HMS Field Drupal 9 patch": "https://www.drupal.org/files/issues/2021-05-09/3147750-d9-compatibility-2.patch"
-            },
-            "drupal/menu_item_role_access": {
-                "Call to a member function hasField() on null": "https://www.drupal.org/files/issues/2021-02-09/hasField-on-null-3197539-2.patch"
             },
             "drupal/search_api_elasticsearch_synonym": {
                 "Recognize hyphen as part of the word": "web/patches/elasticsearch_synonym_hyphen.txt"

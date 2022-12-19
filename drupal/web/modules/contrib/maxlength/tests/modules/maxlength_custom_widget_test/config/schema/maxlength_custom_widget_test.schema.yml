@@ -1,3 +1,0 @@
-field.widget.settings.text_textarea_custom_widget:
-  type: field.widget.settings.text_textarea_with_summary
-  label: 'Text area custom widget'
