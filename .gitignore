@@ -9,3 +9,7 @@ drupal/web/modules/contrib/
 drupal/web/modules/core/
 
 drupal/web/core/
+
+drupal/web/themes/contrib/
+
+drupal/web/libraries/
