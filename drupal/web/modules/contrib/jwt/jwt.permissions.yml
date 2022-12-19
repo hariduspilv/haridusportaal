@@ -1,4 +1,0 @@
-administer jwt:
-  title: 'Administer JSON Web Token module'
-  description: 'Provides access to the JWT administration pages.'
-  restrict access: TRUE
