@@ -72,7 +72,7 @@ class DefaultSubscriber implements EventSubscriberInterface {
      *   The event.
      */
     public function elasticsearchConnectorPrepareIndex(PrepareIndexEvent $event) {
-      $index = $this->loadIndexFromIndexName($event->getName());
+      $index = $this->loadIndexFromIndexName($event->getIndexName());
       $settings = $index->getThirdPartySettings('elasticsearch_connector');
 
         $indexConfig = $event->getIndexConfig();
