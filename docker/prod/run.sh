@@ -31,6 +31,7 @@ else
   git reset --hard $BUILD_VERSION
   cd /app/drupal
   composer install
+  drush cr
   if [ "$ENVIRONMENT" = "Live" ]; then
     echo $ENVIRONMENT
     cd /app/drupal
@@ -52,6 +53,7 @@ else
   git reset --hard $BUILD_VERSION
   cd /app/drupal
   composer install
+  drush cr
   if [ -d /app/drupal/web/sites/default/live-conf ]; then
     cd /app/drupal/web/sites/default/live-conf
     cp * /app/drupal/config/sync/
