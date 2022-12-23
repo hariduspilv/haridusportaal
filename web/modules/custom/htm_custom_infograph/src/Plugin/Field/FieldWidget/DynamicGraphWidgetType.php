@@ -46,9 +46,12 @@ class DynamicGraphWidgetType extends WidgetBase {
     ];
 
     $source_file_options = [];
-    $source_files = array_slice(scandir('/app/drupal/web/sites/default/files/private/infograph/'), 2);
-    foreach ($source_files as $file) {
-      $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
+    $scan_dir = scandir('/app/drupal/web/sites/default/files/private/infograph/');
+    if ($scan_dir!== FALSE) {
+      $source_files = array_slice($scan_dir, 2);
+      foreach ($source_files as $file) {
+        $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
+      }
     }
 
     $element['graph_source_file'] = [
