@@ -75,7 +75,12 @@ export class ListItemComponent implements OnInit, OnChanges{
     this.list = this.list.map((listItem: any) => ({
       ...listItem,
       video: listItem.video
-        ? this.videoEmbedService.mapVideo(listItem.video, listItem.videoThumb?.derivative?.url)
+        ? this.videoEmbedService.mapVideo(
+            Array.isArray(listItem.video)
+              ? listItem.video[0]
+              : listItem.video,
+            listItem.videoThumb?.derivative?.url
+          )
         : undefined,
     }));
   }
