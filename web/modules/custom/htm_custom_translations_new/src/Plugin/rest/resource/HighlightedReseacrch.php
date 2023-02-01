@@ -114,7 +114,6 @@ class HighlightedReseacrch extends ResourceBase {
       ];
     }
     $response = new ResourceResponse($data, 200);
-    $response->addCacheableDependency(['#cache'=> ['tags'=>'node_list:studypage']]);
     return $response;
   }
   private function entityFields(){
