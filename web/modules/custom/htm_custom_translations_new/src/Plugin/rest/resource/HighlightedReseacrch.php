@@ -9,6 +9,7 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
@@ -113,7 +114,7 @@ class HighlightedReseacrch extends ResourceBase {
         'message' => t('No highlihgted research found')
       ];
     }
-    $response = new ResourceResponse($data, 200);
+    $response = new jsonResponse($data, 200);
     return $response;
   }
   private function entityFields(){
