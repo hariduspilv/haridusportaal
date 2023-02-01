@@ -371,6 +371,9 @@ function htm_custom_admin_entity_presave(\Drupal\Core\Entity\EntityInterface $en
     if (in_array($entity->getEntityTypeId(), $entities)) {
       if ($entity->hasField($field) && !empty($entity->get($field))) {
         $text = $entity->get($field)->value;
+        if (empty($text)){
+          continue;
+        }
         preg_match_all('/<img[^>]+>/i', $text, $imgs_info);
         $imgs = array();
         if (!empty($imgs_info)) {
