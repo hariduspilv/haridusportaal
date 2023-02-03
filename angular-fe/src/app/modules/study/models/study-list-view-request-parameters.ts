@@ -23,4 +23,6 @@ export interface StudyListViewRequestParameters {
   limit: number;
   offset: number;
   lang: string;
+  highlightedStudyNidEnabled?: boolean;
+  highlightedStudyNid?: string;
 }
