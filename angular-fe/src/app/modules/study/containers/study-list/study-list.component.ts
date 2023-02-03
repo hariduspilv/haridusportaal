@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ListOffsetParameters } from '@app/_core/models/list-offset-parameters';
-import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, switchMap, takeUntil } from 'rxjs/operators';
 import { MappedStudy } from '../../models/mapped-study';
 import { MappedStudyFilters } from '../../models/mapped-study-filters';
 import { StudyListIntro } from '../../models/study-list-intro';
@@ -11,6 +11,8 @@ import { StudyListViewQueryResponse } from '../../models/study-list-view-query-r
 import { StudyApiService } from '../../study-api.service';
 import { StudyUtility } from '../../study-utility';
 import { getLangCode } from "@app/_core/router-utility";
+import { StudyListViewRequestParameters } from '../../models/study-list-view-request-parameters';
+import { Study } from '../../models/study';
 
 @Component({
 	selector: 'study-list',
@@ -67,22 +69,46 @@ export class StudyListComponent implements OnInit, OnDestroy {
       loadMore: loadMoreContent,
     };
     const requestParameters = StudyUtility.generateStudyListViewRequestParameters(
-      parameters, this.offsetParameters);
-		this.api.studyListViewQuery(requestParameters)
-      .pipe(takeUntil(this.componentDestroyed$))
-      .subscribe({
-        next: (response: StudyListViewQueryResponse) => {
-					const { entities, count } = response.data.nodeQuery;
-          const { list, highlight } = StudyUtility.studyListMappedData(this.list, entities, loadMoreContent);
+      parameters, this.offsetParameters, this.highlight);
+
+    const includeHighlight = !loadMoreContent ? this.highlight : undefined;
+    const observable = this.highlight
+      ? this.getStudyList(requestParameters, loadMoreContent, includeHighlight)
+      : this.api
+          .studyHighlightedQuery()
+          .pipe(
+            takeUntil(this.componentDestroyed$),
+            catchError(() => of(null)),
+            switchMap((response) => {
+              if (response?.status === 200) {
+                this.highlight = StudyUtility.takeHighlightedStudy(response);
+                requestParameters.highlightedStudyNidEnabled = true;
+                requestParameters.highlightedStudyNid = this.highlight.nid.toString();
+              } else {
+                requestParameters.highlightedStudyNidEnabled = false;
+              }
+
+              return this.getStudyList(requestParameters, loadMoreContent, this.highlight);
+            })
+          );
+
+    observable.subscribe({
+      complete: () => this.resetLoading(),
+    });
+  }
+
+  private getStudyList(requestParameters: StudyListViewRequestParameters, loadMoreContent: boolean, highlight?: Study) {
+    return this.api
+      .studyListViewQuery(requestParameters)
+      .pipe(
+        takeUntil(this.componentDestroyed$),
+        map((response: StudyListViewQueryResponse) => {
+          const { entities, count } = response.data.nodeQuery;
+          const list = StudyUtility.studyListMappedData(this.list, entities, loadMoreContent);
           this.offsetParameters.count = count;
-          this.list = list;
-          this.highlight = highlight;
-          this.resetLoading();
-        },
-        error: () => {
-          this.resetLoading();
-        }
-      });
+          this.list = highlight ? [highlight, ...list] : list;
+        })
+      );
   }
 
   private resetLoading(): void {
