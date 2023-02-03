@@ -4,7 +4,7 @@
 .large-title {
   font-weight: 500;
   font-size: $medium;
-  line-height: $medium + $half-gutter * 3/2;
+  line-height: $medium + calc($half-gutter * 3/2);
   text-transform: none;
   color: $black;
 }

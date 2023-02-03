@@ -64,7 +64,8 @@
                 "src/app/_assets"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["moment", "file-saver"]
           },
           "configurations": {
             "production": {

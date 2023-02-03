@@ -382,26 +382,26 @@ $grid-columns: 12;
     box-sizing: border-box;
     @for $i from 1 through $grid-columns {
       .col-#{$i} {
-        width: percentage($i / $grid-columns);
+        width: percentage(calc($i / $grid-columns));
       }
       @include break-on(md, max) {
         .md-#{$i} {
-          width: percentage($i / $grid-columns) !important;
+          width: percentage(calc($i / $grid-columns)) !important;
         }
       }
       @include break-on(sm, max) {
         .sm-#{$i} {
-          width: percentage($i / $grid-columns) !important;
+          width: percentage(calc($i / $grid-columns)) !important;
         }
       }
       @include break-on(xs, max) {
         .xs-#{$i} {
-          width: percentage($i / $grid-columns) !important;
+          width: percentage(calc($i / $grid-columns)) !important;
         }
       }
       @include break-on(xxs, max) {
         .xxs-#{$i} {
-          width: percentage($i / $grid-columns) !important;
+          width: percentage(calc($i / $grid-columns)) !important;
         }
       }
     }
@@ -423,11 +423,11 @@ $grid-columns: 12;
   }
   @for $i from 1 through $grid-columns {
     .error-#{$i} {
-      width: percentage($i / $grid-columns);
+      width: percentage(calc($i / $grid-columns));
     }
     @include break-on(sm, max) {
       .error-sm-#{$i} {
-        width: percentage($i / $grid-columns) !important;
+        width: percentage(calc($i / $grid-columns)) !important;
       }
     }
   }
@@ -439,16 +439,16 @@ $grid-columns: 12;
     //flex-direction: column;
     @for $i from 1 through $grid-columns {
       .col-#{$i} {
-        width: percentage($i / $grid-columns);
+        width: percentage(calc($i / $grid-columns));
       }
       @include break-on(md, max) {
         .md-#{$i} {
-          width: percentage($i / $grid-columns) !important;
+          width: percentage(calc($i / $grid-columns)) !important;
         }
       }
       @include break-on(sm, max) {
         .sm-#{$i} {
-          width: percentage($i / $grid-columns) !important;
+          width: percentage(calc($i / $grid-columns)) !important;
         }
         .sm-hide {
           display: none !important;
@@ -456,7 +456,7 @@ $grid-columns: 12;
       }
       @include break-on(xs, max) {
         .xs-#{$i} {
-          width: percentage($i / $grid-columns) !important;
+          width: percentage(calc($i / $grid-columns)) !important;
         }
         .xs-hide {
           display: none !important;
@@ -464,7 +464,7 @@ $grid-columns: 12;
       }
       @include break-on(xxs, max) {
         .xxs-#{$i} {
-          width: percentage($i / $grid-columns) !important;
+          width: percentage(calc($i / $grid-columns)) !important;
         }
       }
     }
@@ -485,11 +485,11 @@ $grid-columns: 12;
   }
   @for $i from 1 through $grid-columns {
     .error-#{$i} {
-      width: percentage($i / $grid-columns);
+      width: percentage(calc($i / $grid-columns));
     }
     @include break-on(sm, max) {
       .error-sm-#{$i} {
-        width: percentage($i / $grid-columns) !important;
+        width: percentage(calc($i / $grid-columns)) !important;
       }
     }
   }
