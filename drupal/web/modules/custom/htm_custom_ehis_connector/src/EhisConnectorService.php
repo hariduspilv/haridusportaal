@@ -131,7 +131,6 @@ class EhisConnectorService {
             return $redis_response;
           } else {
             \Drupal::logger('xjson')->notice('<pre><code>1 Get request time (InvokeWithRedis > Invoke): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
-
             return $this->invoke($service_name, $params);
           }
         }
@@ -152,8 +151,16 @@ class EhisConnectorService {
       if($type === 'get'){
         if($service_name === 'getDocument' || $service_name === 'changeDocument'){
           \Drupal::logger('xjson')->notice('<pre><code>2 Get request time (Before Get Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
-
-          $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode('&', $params['url']));
+          $request_url = $this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode('&', $params['url']);
+          if (!empty($params['ownerRegCode'])) {
+            if (substr($request_url, -1) == '?') {
+              $request_url .= 'ownerRegCode='. $params['ownerRegCode'];
+            }
+            else{
+              $request_url .= '&ownerRegCode=' . $params['ownerRegCode'];
+            }
+          }
+          $response = $client->get($request_url);
           \Drupal::logger('xjson')->notice('<pre><code>3 Get request time (After Get Response): ' . print_r(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], TRUE) . '</code></pre>' );
 
         } else {
@@ -164,6 +171,15 @@ class EhisConnectorService {
           if (!empty($params['params'])){
             $url_params.=implode('&', $params['params']);
           }
+          if (!empty($params['ownerRegCode'])) {
+            if (substr($url_params, -1) == '?') {
+              $url_params .= 'ownerRegCode='. $params['ownerRegCode'];
+            }
+            else{
+              $url_params .= '&ownerRegCode=' . $params['ownerRegCode'];
+            }
+          }
+          \Drupal::logger('debugging')->debug('request '. $this->loime_url.$service_name . '/' . $url_params );
           $response = $client->get($this->loime_url.$service_name . '/' . $url_params );
         }
       }elseif($type === 'post'){
@@ -178,6 +194,7 @@ class EhisConnectorService {
         //TODO throw error
       }
       $response = json_decode($response->getBody()->getContents(), TRUE);
+
       #dump('liidese vastus', $response);
       return $response;
     }catch (RequestException $e){
@@ -423,6 +440,9 @@ class EhisConnectorService {
     if(!$regcode) {
       $params['idcode'] = $this->getCurrentUserIdRegCode();
     }
+    if (!empty($this->currentRole['current_role'])&& $this->currentRole['current_role']['type'] == 'juridical_person') {
+      $params['ownerRegCode'] = $this->currentRole['current_role']['data']['reg_kood'];
+    }
     return $this->invokeWithRedis('getDocument', $params, FALSE);
   }
 
@@ -434,6 +454,10 @@ class EhisConnectorService {
   public function changeDocument(array $params = [], $regcode = false){
     if(!$regcode) {
       $params['idcode'] = $this->getCurrentUserIdRegCode();
+    }
+
+    if (!empty($this->currentRole['current_role'])&& $this->currentRole['current_role']['type'] == 'juridical_person') {
+      $params['ownerRegCode'] = $this->currentRole['current_role']['data']['reg_kood'];
     }
     return $this->invokeWithRedis('changeDocument', $params, FALSE);
   }
@@ -588,21 +612,29 @@ class EhisConnectorService {
 
     // we need to start getDocument service
     if($params['init'] && !isset($response['redis_hit'])){
+      if (!empty($this->currentRole)) {
+        if (!empty($this->currentRole['current_role'])) {
+          if (!empty($this->currentRole['current_role']['data'])) {
+            if (!empty($this->currentRole['current_role']['data']['reg_kood'])) {
+              $params['ownerRegCode'] = $this->currentRole['current_role']['data']['reg_kood'];
+            }
+          }
+        }
+      }
       $queryparams = $params;
+      \Drupal::logger('debugging')->debug(print_r($params));
       $queryparams['hash'] = 'getDocuments';
       $init = $this->invokeWithRedis('getDocuments', $queryparams, FALSE);
       if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
         throw new RequestException('Service down');
       }
     }
-
     $workedResponse = $this->applicationPathWorker($response);
     if(isset($workedResponse['educationalInstitutions'])){
       foreach($workedResponse['educationalInstitutions'] as &$institution){
         $institution = $this->applicationPathWorker($institution);
       }
     }
-
     if(is_array($params['hash'])) {
       foreach($params['hash'] as $hash) {
         $this->getFormDefinitionTitle($workedResponse, $hash);
@@ -667,7 +699,6 @@ class EhisConnectorService {
    */
   private function getFormDefinitionTitle(&$response, $type){
     $form_topics = ['documents', 'drafts', 'acceptable_forms'];
-
     switch ($type){
       case 'mtsys':
         foreach($response['educationalInstitutions'] as &$educationalInstitution){
