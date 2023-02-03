@@ -44,10 +44,10 @@ query studyListViewQuery($nid: [String],
         {operator: GREATER_THAN_OR_EQUAL, field: "field_right_column.entity.field_study.entity.field_year", value: [$dateFrom], enabled: $dateFromEnabled},
         {operator: SMALLER_THAN_OR_EQUAL, field: "field_right_column.entity.field_study.entity.field_year", value: [$dateTo], enabled: $dateToEnabled},
         {operator: EQUAL, field: "field_custom_boolean", value: "0", language: $lang, enabled: $highlightedStudyEnabled},
+        {operator: NOT_EQUAL, field: "nid",value:$highlightedStudyNid,enabled: $highlightedStudyNidEnabled},
       ],
       groups: [{conjunction: OR, conditions: [
 
-        {operator: NOT_EQUAL, field: "nid",value:$highlightedStudyNid,enabled: $highlightedStudyNidEnabled},
         {operator: LIKE, field: "title",  value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_content", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_introduction", value: [$titleValue], language: $lang, enabled: $titleEnabled},
