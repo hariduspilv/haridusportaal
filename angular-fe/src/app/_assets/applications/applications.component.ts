@@ -11,13 +11,13 @@ import {
 } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { TableService } from '@app/_services/tableService';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AddressService } from '@app/_services/AddressService';
 
 const acceptableFormsRestrictedLength = 4;
 
-const autocompleteValidator = (control: FormControl) => {
+const autocompleteValidator = (control: UntypedFormControl) => {
   let output = null;
 
   if (typeof control.value !== 'object') {
@@ -89,7 +89,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     studyInstitutionType: [],
   };
   formOptionsQueried = false;
-  public formGroup: FormGroup = this.formBuilder.group({});
+  public formGroup: UntypedFormGroup = this.formBuilder.group({});
   private debounce;
   private delay: number = 200;
   private subscriptions: Subscription[] = [];
@@ -103,7 +103,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     public auth: AuthService,
     public settings: SettingsService,
     public modalService: ModalService,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public cdr: ChangeDetectorRef,
     private translate: TranslateService,
     private address: AddressService,

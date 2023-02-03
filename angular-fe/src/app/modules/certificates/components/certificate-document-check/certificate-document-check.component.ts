@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AlertsService, SettingsService, AuthService } from '@app/_services';
 import { take } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class CertificateDocumentCheckComponent implements OnInit {
     certificate_id: null,
   };
 
-  public model: FormGroup = this.formBuilder.group({
+  public model: UntypedFormGroup = this.formBuilder.group({
     id_code: ['', [Validators.required, this.validateIdCodeOrBirthday]],
     document_id: ['', Validators.required],
   });
@@ -34,7 +34,7 @@ export class CertificateDocumentCheckComponent implements OnInit {
   public path = this.location.path();
   @ViewChild('scrollTarget') public scrollTarget;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private alertsService: AlertsService,
     private translate: TranslateService,
     private settings: SettingsService,

@@ -143,7 +143,7 @@ export class CertificatesComponent implements OnInit {
         next: (response) => {
           if ((response['value'] && response['value']['teade'])
             || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et'])
-            || response['value']['testsessioonid_kod_jada'] === []) {
+            || !response['value']['testsessioonid_kod_jada']?.length) {
             const message = (response['error'] && response['error']['message_text'])
               ? response['error']['message_text']['et']
               : response['value']['teade'];

@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { SettingsService, ScrollRestorationService, ListRestorationType } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'relatedStudyProgrammesList',
@@ -18,7 +18,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
   constructor (
     private settings: SettingsService,
     private http: HttpClient,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private scrollRestoration: ScrollRestorationService,
@@ -37,7 +37,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
   public totalItems: number = 0;
   public searchWithParams: boolean = false;
 
-  public relatedProgrammesForm: FormGroup = this.formBuilder.group(
+  public relatedProgrammesForm: UntypedFormGroup = this.formBuilder.group(
     {
       address: [''],
       displayRelated: [''],

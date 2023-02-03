@@ -247,7 +247,6 @@
       }
     }
   },
-  "defaultProject": "haridusportaal-fe",
   "cli": {
     "analytics": false
   }

@@ -17,7 +17,7 @@ import {
 	SidemenuService,
 } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -68,11 +68,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public availableAuthMethods = [];
   public mobileIdRequest: Subscription = new Subscription();
   public offClickHandler: any;
-  public loginForm: FormGroup = this.formBuilder.group({
+  public loginForm: UntypedFormGroup = this.formBuilder.group({
     password: ['', Validators.required],
     username: ['', Validators.required],
   });
-  public mobileIdForm: FormGroup = this.formBuilder.group({
+  public mobileIdForm: UntypedFormGroup = this.formBuilder.group({
     phoneNumber: ['', Validators.required],
   });
 
@@ -102,7 +102,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public sidemenuService: SidemenuService,
     public modalService: ModalService,
     private translate: TranslateService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public auth: AuthService,
     private settings: SettingsService,
     private http: HttpClient,
