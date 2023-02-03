@@ -172,7 +172,7 @@ class HighlightedReseacrch extends ResourceBase {
           $data['values'][$nid][$field_key] =$entity->get($field)->value;
         }
         if ($field_key == 'entityUrl') {
-          $data['values'][$nid]['entityUrl'] =  \Drupal::service('path_alias.manager')->getAliasByPath('/node/'.$nid);
+          $data['values'][$nid]['entityUrl']['path'] =  \Drupal::service('path_alias.manager')->getAliasByPath('/node/'.$nid);
         }
       }
       foreach ($this->entityEntityFields() as $entityfieldkey => $entityField) {
