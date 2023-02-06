@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import colorsHtml from './colors.html';
-import colorsScss from '../../../src/app/scss/colors.scss';
+import colorsScss from '!raw-loader!css-loader!sass-loader!../../../src/app/scss/colors.scss';
 import colorsMd from './colors.md';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
@@ -28,7 +28,7 @@ stories.add('Colors', () => {
     const name = /color-([^;]+){/gm.exec(item)[1];
     colorsObj[color] = name;
     return color;
-  });
+  }).filter((item) => !item.startsWith('$') && !item.startsWith('['));
 
   const count = colors.length;
   return {
