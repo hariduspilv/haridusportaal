@@ -81,7 +81,6 @@ const sidebarOrder = {
   field: [
     'indicator',
     'prosCons',
-    'fieldOskaResults',
     'fieldQuickFind',
     'fieldRelatedPages'
   ],
