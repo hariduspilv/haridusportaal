@@ -1,0 +1,12 @@
+name: 'GraphQL Tests: Menu'
+type: module
+package: Testing
+core_version_requirement: ^8.8 || ^9
+hidden: TRUE
+dependencies:
+  - drupal:system
+
+# Information added by Drupal.org packaging script on 2020-10-29
+version: '8.x-3.1'
+project: 'graphql'
+datestamp: 1603962171

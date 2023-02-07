@@ -1,0 +1,11 @@
+query {
+  languages:availableLanguages {
+    id
+    name
+    isDefault
+    isLocked
+    direction
+    weight
+    argument
+  }
+}
