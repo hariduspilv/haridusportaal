@@ -1,0 +1,13 @@
+type: module
+name: GraphQL Override Test
+description: Test plugin overrides in graphql schema.
+package: Testing
+core_version_requirement: ^8.8 || ^9
+hidden: TRUE
+dependencies:
+- graphql:graphql_plugin_test
+
+# Information added by Drupal.org packaging script on 2020-10-29
+version: '8.x-3.1'
+project: 'graphql'
+datestamp: 1603962171
