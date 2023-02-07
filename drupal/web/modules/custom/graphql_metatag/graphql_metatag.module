@@ -1,0 +1,6 @@
+<?php
+
+define('SCHEMA_METATAG_MODULE_NAME', 'schema_metatag');
+define('EXTERNAL_HREFLANG_MODULE_NAME', 'external_hreflang');
+define('METATAG_HREFLANG_MODULE_NAME', 'metatag_hreflang');
+
