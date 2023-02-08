@@ -75,9 +75,9 @@ export class SchoolFundingViewComponent implements OnInit {
   getData(params: any = {}) {
     this.loading = true;
     const variables = {
-      ownershipType: params.institutionOwnership,
-      investmentMeasure: params.investmentMeasure,
-      investmentDeadline: params.investmentDeadlineYear,
+      ownershipType: Number(params.institutionOwnership),
+      investmentMeasure: Number(params.investmentMeasure),
+      investmentDeadline: Number(params.investmentDeadlineYear),
       levelOfDetail: 3,
     };
 
