@@ -54,7 +54,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
     let queryKey = '';
 
     if (this.type === 'school') {
-      variables['schoolId'] = nid;
+      variables['schoolId'] = nid.toString();
       queryKey = 'relatedStudyProgrammeList';
     } else {
       variables['nid'] = nid;
