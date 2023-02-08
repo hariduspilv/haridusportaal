@@ -14,6 +14,7 @@ export class LocaleOrderByPipe implements PipeTransform {
   }
 
   public transform(value: Array<any>, field: string, direction: number = 1): Array<any> {
+    if (!value) return [];
 		if (direction === 0 || field == null) {
 			return value;
     }

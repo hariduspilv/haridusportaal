@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { SettingsService, AlertsService, ModalService, AuthService } from '@app/_services';
 import * as _moment from 'moment';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ApplicationsComponent } from '@app/_assets/applications/applications.component';
 import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   eventsListDone = false;
   favouritesListDone = false;
   public breadcrumbs: any;
-  public formGroup: FormGroup = this.formBuilder.group({
+  public formGroup: UntypedFormGroup = this.formBuilder.group({
     roleSelection: [''],
   });
   public routerSub: Subscription = new Subscription();
@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public auth: AuthService,
     public location: Location,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public cdr: ChangeDetectorRef,
     public router: Router,
     public route: ActivatedRoute,

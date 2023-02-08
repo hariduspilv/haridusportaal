@@ -1,5 +1,5 @@
-import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { CertificateIndex } from './certificate-index';
+import { Content } from './content';
 import { CurrentOwnerData } from './current-owner-data';
 import { Role } from './role';
 

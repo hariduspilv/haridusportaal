@@ -64,7 +64,8 @@
                 "src/app/_assets"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["moment", "file-saver"]
           },
           "configurations": {
             "production": {
@@ -239,7 +240,6 @@
       }
     }
   },
-  "defaultProject": "haridusportaal-fe",
   "cli": {
     "analytics": false
   }

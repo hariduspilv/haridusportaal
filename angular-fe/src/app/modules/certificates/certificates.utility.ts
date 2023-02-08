@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { FinalDocumentDownloadSidebar, FinalDocumentHistorySidebar } from '@app/_assets/sidebar/models/final-document-download-sidebar';
 import { sortByMultipleKeys } from '@app/_core/sortingUtilities';
 import { CertificateData } from './models/interfaces/certificate-data';
@@ -87,8 +87,8 @@ export class CertificatesUtility {
   }
 
   public static gatherTranscriptRequestParameters(
-    transcriptFormGroup: FormGroup,
-    transcriptDocumentsFormGroup: FormGroup,
+    transcriptFormGroup: UntypedFormGroup,
+    transcriptDocumentsFormGroup: UntypedFormGroup,
     sidebarData: FinalDocumentDownloadSidebar,
     accessorCode?: string,
   ): CertificateTranscriptParams {

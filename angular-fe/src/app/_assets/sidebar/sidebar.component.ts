@@ -22,7 +22,7 @@ import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { Subject, Subscription } from 'rxjs';
@@ -579,7 +579,7 @@ export class SidebarRegisterComponent {
   constructor(
     private settings: SettingsService,
     public modal: ModalService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private http: HttpClient,
     private auth: AuthService,
   ) {
@@ -726,7 +726,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     mustHaveEndDateOption: 'Vali kehtivuse lõpp',
     invalidDate: 'Sisesta korrektne kuupäev',
   };
-  public addAccessForm: FormGroup = this.formBuilder.group(
+  public addAccessForm: UntypedFormGroup = this.formBuilder.group(
     {
       type: [],
       emailAddress: [],
@@ -757,7 +757,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
 
   constructor(
     public modal: ModalService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private settings: SettingsService,
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -1073,7 +1073,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   }
 
   private emailAddressOrIdCodeValidator: ValidatorFn
-    = (control: FormGroup): ValidationErrors | null => {
+    = (control: UntypedFormGroup): ValidationErrors | null => {
       const accessorCode = control.get('accessorCode');
       const emailAddress = control.get('emailAddress');
       const accessType = control.get('type');
@@ -1099,7 +1099,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       return {};
     }
   private endDateOrNoEndDateValidator: ValidatorFn
-    = (control: FormGroup): ValidationErrors | null => {
+    = (control: UntypedFormGroup): ValidationErrors | null => {
       const noEndDate = control.get('noEndDate');
       const endDate = control.get('endDate');
       if (!noEndDate.value && !endDate.value) {
@@ -1300,8 +1300,8 @@ export class SidebarFinalDocumentDownloadComponent {
   @Input() public data: FinalDocumentDownloadSidebar;
 
   public hasAccessToAccompanyingDocuments = false;
-  public downloadForm: FormGroup;
-  public documentsForm: FormGroup = this.fb.group({});
+  public downloadForm: UntypedFormGroup;
+  public documentsForm: UntypedFormGroup = this.fb.group({});
   public loading = false;
   public downloadOptions = {
     fileFormat: [
@@ -1328,7 +1328,7 @@ export class SidebarFinalDocumentDownloadComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public modal: ModalService,
     private certificatesApi: CertificatesApi,
     private alertsService: AlertsService,
@@ -1402,7 +1402,7 @@ export class SidebarFinalDocumentDownloadComponent {
 
   constructTranscriptDocumentsFormGroup(documents: CertificateDocumentWithClassifier[]): void {
     documents.forEach((document) => {
-      this.documentsForm.addControl(`${document.id}`, new FormControl(
+      this.documentsForm.addControl(`${document.id}`, new UntypedFormControl(
         document.isMainDocument,
       ));
       if (document.isMainDocument) {

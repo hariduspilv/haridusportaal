@@ -3,7 +3,7 @@ import { AlertsService, AuthService, SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CertificatesApi } from '../../certificates.api.service';
 import { AccessType } from '../../models/enums/access-type.enum';
@@ -22,7 +22,7 @@ export class CertificateFinalDocumentsComponent {
     private authService: AuthService,
     public http: HttpClient,
     public settings: SettingsService,
-    public fb: FormBuilder,
+    public fb: UntypedFormBuilder,
     private router: Router,
     private alertsService: AlertsService,
     private certificatesApi: CertificatesApi,
