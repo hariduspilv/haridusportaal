@@ -30,7 +30,7 @@ RUN git reset --hard ${BUILD_VERSION}
 WORKDIR /app/angular-fe
 RUN npm version ${BUILD_VERSION}
 RUN npm ci
-RUN ng build --prod
+RUN ng build --configuration=production
 
 WORKDIR /app/node
 RUN npm ci
