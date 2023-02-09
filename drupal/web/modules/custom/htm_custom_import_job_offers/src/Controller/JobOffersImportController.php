@@ -42,7 +42,7 @@ class JobOffersImportController extends ControllerBase {
 
     //-- Get all the offers from 'Haridus' field and return only the necessary data
     foreach($data_from_json as $key => $value){
-      if(strpos($value['VALDKOND_NIMETUS'], 'haridus:') !== false){
+      if(strpos($value['GRUPP_NIMETUS'], 'haridus:') !== false){
         $offers_education[] = [
           'profession' => $value['NIMETUS'],
           'working_time' => [
