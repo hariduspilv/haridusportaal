@@ -48,7 +48,15 @@ ADD auth.conf /auth.conf
 RUN mv /auth.conf /etc/apache2/conf-available/auth.conf
 #
 ADD crontab.txt /crontab.txt
-RUN /usr/bin/crontab /crontab.txt
+RUN /usr/bin/crontab -u www-data /crontab.txt
+
+#
+RUN mkdir /scripts
+ADD crontask.sh /scripts/crontask.sh
+RUN chown www-data:www-data /scripts/crontask.sh
+RUN chmod +x /scripts/crontask.sh
+RUN ln -s /usr/local/bin/php /usr/bin/php
+
 
 EXPOSE 8080
 #

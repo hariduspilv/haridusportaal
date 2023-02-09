@@ -1,0 +1,20 @@
+uuid: 8cb818aa-a3c5-496a-ba54-31015719b197
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_translations_new
+    - jwt
+    - serialization
+    - user
+id: highlighted_research
+plugin_id: highlighted_research
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - jwt_auth
+    - cookie
