@@ -1,6 +1,6 @@
 const path = require('path');
-const IconfontPlugin = require('iconfont-plugin-webpack');
-const iconJSON = require('../.webpack/iconJSON');
+const IconfontPlugin = require('../.webpack/iconFontGenerator');
+const IconJSON = require('../.webpack/iconJSON');
 const resolve = path.resolve.bind(path, __dirname);
 
 // Export a function. Accept the base config as the only param.
@@ -18,7 +18,7 @@ module.exports = async ({ config, mode }) => {
         pattern: '../src/icons/*.svg'
       }
     }),
-    new iconJSON({
+    new IconJSON({
       watch: {
         cwd: __dirname,
         pattern: '../src/icons/*.svg'

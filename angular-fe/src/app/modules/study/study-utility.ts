@@ -8,7 +8,6 @@ import {MappedStudyFilters} from './models/mapped-study-filters';
 import {MappedStudyPageFieldRightColumn} from './models/mapped-study-page-field-right-column';
 import {MappedStudyPageFieldRightColumnStudyData} from './models/mapped-study-page-field-right-column-study-data';
 import {Study} from './models/study';
-import {StudyListMappedData} from './models/study-list-mapped-data';
 import {StudyListViewFilterQueryResponse} from './models/study-list-view-filter-query-response';
 import {StudyListViewQueryParameters} from './models/study-list-view-query-parameters';
 import {StudyListViewRequestParameters} from './models/study-list-view-request-parameters';
@@ -17,6 +16,7 @@ import {StudyPageFieldRightColumnDataEntity} from './models/study-page-field-rig
 import {YearOption} from './models/year-option';
 import {MappedStudyPage} from '@app/modules/study/models/mapped-study-page';
 import {getLangCode} from "@app/_core/router-utility";
+import { StudyListViewHighlightedResponse } from './models/study-list-view-highlighted-response';
 
 export class StudyUtility {
 
@@ -36,7 +36,7 @@ export class StudyUtility {
   private static gatherJoinedInlineFields(study: Study): string[] {
     const flattenedFieldPublicationTypes =
       study.fieldRightColumn.entity.fieldStudy?.entity?.fieldPublicationType
-        .map(publication => publication.entity.entityLabel);
+        .map(publication => publication.entity?.entityLabel || '');
     return [
       this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy?.entity?.fieldAuthor),
       this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy?.entity?.fieldYear),
@@ -46,9 +46,9 @@ export class StudyUtility {
 
   private static gatherJoinedRightColumnDataFields(studyData: StudyPageFieldRightColumnDataEntity):
     MappedStudyPageFieldRightColumnStudyData {
-    const flattenedFieldPublicationTypes = studyData.fieldPublicationType.map(type => type.entity.entityLabel);
+    const flattenedFieldPublicationTypes = studyData.fieldPublicationType?.map(type => type.entity.entityLabel);
     const flattenedFieldPublicationLanguages =
-      studyData.fieldPublicationLang.map(publication => publication.entity.entityLabel);
+      studyData.fieldPublicationLang?.map(publication => publication.entity.entityLabel);
     return {
       fieldAuthor: this.joinArrayToString(studyData?.fieldAuthor || []),
       fieldAuthorInstitution: this.joinArrayToString(studyData?.fieldAuthorInstitution || []),
@@ -105,7 +105,7 @@ export class StudyUtility {
    * @returns formatted parameters for http request
    */
   public static generateStudyListViewRequestParameters(
-    parameters: StudyListViewQueryParameters, offsetParameters: ListOffsetParameters):
+    parameters: StudyListViewQueryParameters, offsetParameters: ListOffsetParameters, highlight?: MappedStudy):
     StudyListViewRequestParameters {
     return {
       titleValue: `%${parameters.tekstiOtsing}%`,
@@ -132,6 +132,8 @@ export class StudyUtility {
       limit: offsetParameters?.limit,
       offset: offsetParameters?.offset,
       lang: getLangCode().toUpperCase(),
+      highlightedStudyNid: highlight ? highlight.nid.toString() : undefined,
+      highlightedStudyNidEnabled: !!highlight,
     };
   }
 
@@ -151,17 +153,8 @@ export class StudyUtility {
   }
 
   public static studyListMappedData(
-    list: MappedStudy[], studyListResponseEntities: Study[], loadMoreContent?: boolean): StudyListMappedData {
-    return this.listWithHighlight(
-      this.joinResponseWithPreviousValues(list, studyListResponseEntities, loadMoreContent));
-  }
-
-  private static listWithHighlight(list: MappedStudy[]): StudyListMappedData {
-    const highlight = this.extractRandomHighlightedStudy(list);
-    return {
-      highlight,
-      list: highlight ? [highlight, ...list.filter(study => study !== highlight)] : list,
-    };
+    list: MappedStudy[], studyListResponseEntities: Study[], loadMoreContent?: boolean): MappedStudy[] {
+    return this.joinResponseWithPreviousValues(list, studyListResponseEntities, loadMoreContent);
   }
 
   static mapStudyDetailData(studyDetails: MappedStudyPage): MappedStudyPage {
@@ -192,15 +185,8 @@ export class StudyUtility {
     };
   }
 
-  /**
-   *
-   * @param list
-   * @returns a random selection from studies list where fieldCustomBoolean (highlight status) is truthy
-   */
-  private static extractRandomHighlightedStudy(list: MappedStudy[]): MappedStudy {
-    const highlightedStudies = list.filter(study => study.fieldCustomBoolean);
-    const selection: number = Math.floor(Math.random() * highlightedStudies.length);
-    return highlightedStudies?.length ? highlightedStudies[selection] : null;
+  static takeHighlightedStudy(response: StudyListViewHighlightedResponse) {
+    const takeFirstNid = response.values[Object.keys(response.values)[0]];
+    return StudyUtility.mapStudyListViewEntities([takeFirstNid])[0];
   }
-
 }

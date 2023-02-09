@@ -13,7 +13,6 @@ export const collection = {
 	'fieldRelatedProfession': 'links',
   'fieldOskaField': 'links',
   'fieldQualificationStandard': 'links',
-  'fieldOskaResults': 'links',
   'fieldQuickFind': 'links',
   'fieldOskaFieldQuickFind': 'links',
   'fieldRelatedArticle': 'links',
@@ -312,17 +311,6 @@ const getIndicators = (mappedData, translate) => {
 
 export const parseFieldData = (inputData, translate) => {
   let mappedData = inputData;
-
-  mappedData['fieldOskaResults'] = [{
-    title: translate.get('oska.go_to_results'),
-    url: {
-      path: '/oska-tulemused/ettepanekute-elluviimine',
-      params: {
-        field: inputData.title,
-      },
-      routed: true,
-    },
-  }];
 
   try {
 

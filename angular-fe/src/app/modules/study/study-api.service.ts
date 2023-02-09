@@ -7,15 +7,21 @@ import {StudyListViewQueryResponse} from './models/study-list-view-query-respons
 import {StudyListViewRequestParameters} from './models/study-list-view-request-parameters';
 import {StudyDetailViewQuery} from '@app/modules/study/models/study-detail-view-query';
 import { StudyListIntro } from './models/study-list-intro';
+import { StudyListViewHighlightedResponse } from './models/study-list-view-highlighted-response';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class StudyApiService {
-
 	constructor(
 		private http: HttpClient,
 		private settingsService: SettingsService) {
+	}
+
+	studyHighlightedQuery(): Observable<StudyListViewHighlightedResponse> {
+		return this.http.get<StudyListViewHighlightedResponse>(
+			`${this.settingsService.url}/api/highlighted_research?_format=json&lang=${this.settingsService.currentAppLanguage}`
+		);
 	}
 
 	studyListViewQuery(parameters: StudyListViewRequestParameters): Observable<StudyListViewQueryResponse> {

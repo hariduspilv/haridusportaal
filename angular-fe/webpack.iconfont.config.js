@@ -1,6 +1,6 @@
 const path = require('path');
-const IconfontPlugin = require('iconfont-plugin-webpack');
 const iconJSON = require('./.webpack/iconJSON');
+const IconfontPlugin = require('./.webpack/iconFontGenerator');
 const resolve = path.resolve.bind(path, __dirname);
 
 module.exports = {
