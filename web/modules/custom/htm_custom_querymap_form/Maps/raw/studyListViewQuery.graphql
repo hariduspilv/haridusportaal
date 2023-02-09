@@ -22,24 +22,32 @@ query studyListViewQuery($nid: [String],
   $dateFromEnabled: Boolean,
   $dateTo: String,
   $dateToEnabled: Boolean,
-  $highlightedStudy: [String],
-  $highlightedStudyEnabled: Boolean
-  ) {
-  nodeQuery(offset: $offset, limit: $limit, sort: {field: $sortField, direction: $sortDirection, language: $lang},
-    filter: {conjunction: AND, conditions: [
-      {operator: EQUAL, field: "status", value : "1", language: $lang},
-      {operator: GREATER_THAN, field: $sortField, value: "0", enabled: $indicatorSort},
-      {operator: EQUAL, field: "type", value: ["studypage"], language: $lang},
-      {operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled},
-      {operator: IN, field: "field_custom_boolean", value: $highlightedStudy, language: $lang, enabled: $highlightedStudyEnabled},
-      {operator: IN, field: "field_label", value: $studyLabelValue, language: $lang, enabled: $studyLabelEnabled},
-      {operator: IN, field: "field_study_topic", value: $studyTopicValue, language: $lang, enabled: $studyTopicEnabled},
-      {operator: IN, field: "field_right_column.entity.field_study.entity.field_publication_type", value: $publicationTypeValue, language: $lang, enabled: $publicationTypeEnabled},
-      {operator: IN, field: "field_right_column.entity.field_study.entity.field_publication_lang", value: $publicationLanguageValue, language: $lang, enabled: $publicationLanguageEnabled},
-      {operator: GREATER_THAN_OR_EQUAL, field: "field_right_column.entity.field_study.entity.field_year", value: [$dateFrom], enabled: $dateFromEnabled},
-      {operator: SMALLER_THAN_OR_EQUAL, field: "field_right_column.entity.field_study.entity.field_year", value: [$dateTo], enabled: $dateToEnabled},
-    ],
+  $highlightedStudyEnabled: Boolean,
+  $highlightedStudyNid: [String],
+  $highlightedStudyNidEnabled: Boolean,
+
+) {
+  nodeQuery(offset: $offset, limit: $limit, sort: {
+
+    field: $sortField, direction: $sortDirection, language: $lang,
+  },
+    filter: {
+      conjunction: AND, conditions: [
+        {operator: EQUAL, field: "status", value : "1", language: $lang},
+        {operator: GREATER_THAN, field: $sortField, value: "0", enabled: $indicatorSort},
+        {operator: EQUAL, field: "type", value: ["studypage"], language: $lang},
+        {operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled},
+        {operator: IN, field: "field_label", value: $studyLabelValue, language: $lang, enabled: $studyLabelEnabled},
+        {operator: IN, field: "field_study_topic", value: $studyTopicValue, language: $lang, enabled: $studyTopicEnabled},
+        {operator: IN, field: "field_right_column.entity.field_study.entity.field_publication_type", value: $publicationTypeValue, language: $lang, enabled: $publicationTypeEnabled},
+        {operator: IN, field: "field_right_column.entity.field_study.entity.field_publication_lang", value: $publicationLanguageValue, language: $lang, enabled: $publicationLanguageEnabled},
+        {operator: GREATER_THAN_OR_EQUAL, field: "field_right_column.entity.field_study.entity.field_year", value: [$dateFrom], enabled: $dateFromEnabled},
+        {operator: SMALLER_THAN_OR_EQUAL, field: "field_right_column.entity.field_study.entity.field_year", value: [$dateTo], enabled: $dateToEnabled},
+        {operator: EQUAL, field: "field_custom_boolean", value: "0", language: $lang, enabled: $highlightedStudyEnabled},
+        {operator: NOT_EQUAL, field: "nid",value:$highlightedStudyNid,enabled: $highlightedStudyNidEnabled},
+      ],
       groups: [{conjunction: OR, conditions: [
+
         {operator: LIKE, field: "title",  value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_content", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_introduction", value: [$titleValue], language: $lang, enabled: $titleEnabled},
@@ -47,7 +55,7 @@ query studyListViewQuery($nid: [String],
         {operator: LIKE, field: "field_accordion.entity.field_study_accordion_intro", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_accordion.entity.field_study_accordion_content", value: [$titleValue], language: $lang, enabled: $titleEnabled},
         {operator: LIKE, field: "field_accordion.entity.field_body", value: [$titleValue], language: $lang, enabled: $titleEnabled},
-      	{operator: LIKE, field: "field_right_column.entity.field_study.entity.field_publisher", value: $publisherValue, language: $lang, enabled: $publisherEnabled},
+        {operator: LIKE, field: "field_right_column.entity.field_study.entity.field_publisher", value: $publisherValue, language: $lang, enabled: $publisherEnabled},
         {operator: LIKE, field: "field_right_column.entity.field_study.entity.field_author", value: [$titleValue], language: $lang, enabled: $titleEnabled}
       ]}]
     }) {
