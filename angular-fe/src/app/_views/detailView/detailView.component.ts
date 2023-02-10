@@ -52,7 +52,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
   private getSidebar(): void {
     const variables = {
 			lang: this.settings.currentAppLanguage.toUpperCase(),
-      nid: this.data.nid,
+      nid: this.data.nid?.toString(),
     };
 
     let queryKey: string | boolean = false;
