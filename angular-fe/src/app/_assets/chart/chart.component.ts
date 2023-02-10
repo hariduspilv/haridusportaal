@@ -628,7 +628,7 @@ export class ChartComponent implements OnInit {
           ? filters.alavaldkond : subFieldList,
         oskaMainProfession: filters.ametiala && filters.ametiala.length > 0
           ? filters.ametiala : professionList,
-        period: filters.periood || '',
+        period: filters.periood?.toString() || '',
         label: filters.silt || '',
         graphGroupBy: filters['grupeeri'] || '',
         graphVAxis: current['graph_v_axis'],

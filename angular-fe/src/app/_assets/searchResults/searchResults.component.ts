@@ -123,9 +123,8 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           } else {
             tmpParams[item] = moment.utc(tmpParams[item], 'DD.MM.YYYY').unix();
           }
-        } else {
-          tmpParams[item] = tmpParams[item].toString();
         }
+        tmpParams[item] = tmpParams[item].toString();
       }
       if (searchResultKeys[this.parsedType][item]) {
         if (typeof searchResultKeys[this.parsedType][item] === 'string') {
