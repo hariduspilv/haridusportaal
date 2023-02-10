@@ -9,6 +9,7 @@ use Drupal\Core\Config\Config;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\htm_custom_translations_new\translationHelper;
+use Drupal\State;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -81,6 +82,7 @@ abstract class TranslationFormBase extends ConfigFormBase {
 		$form['#tree'] = TRUE;
 
 		$config = $this->config('htm_custom_translations_new.translation');
+    $state = \Drupal::state()->get('htm_custom_translations');
 		$this->buildFormData($form, $form_state, $config, $translation_key);
 
 		return parent::buildForm($form, $form_state);
@@ -113,14 +115,21 @@ abstract class TranslationFormBase extends ConfigFormBase {
 		$redirect = FALSE;
 
 		$config_key = 'htm_custom_translations_new.translation';
-
+    $state_key = 'htm_translations';
+    $state_keys = \Drupal::state()->get('translation_keys');
+    if (empty($state_keys)){
+      $state_keys = [];
+    }
 		switch ($this->actionType()){
 			case 'add':
 			case 'edit':
 			$translation = $form_state->getValues()['translation'];
 			$translation_key = $translation['key'];
-			$translation_type = $form_state->getValues()['translation']['translation_type'];
-
+      $state_key = $state_key.'.'.$translation_key;
+      $state_keys[$state_key] = [];
+      $translation_type = $form_state->getValues()['translation']['translation_type'];
+      \Drupal::state()->set($state_key.".translation_type",$translation_type);
+      $state_keys[$state_key] [] = $state_key.".translation_type";
 			if($form_state->get('delete_old_key')){
 					$translationKeyDefaultValue = $form['translation']['key']['#default_value'];
 					$this->config($config_key)->clear($translationKeyDefaultValue);
@@ -129,6 +138,8 @@ abstract class TranslationFormBase extends ConfigFormBase {
 				$this->config($config_key)->set("$translation_key.translation_type", $translation_type);
 				foreach($translation['translations'] as $key => $value){
 					$this->config($config_key)->set("$translation_key.$key", $value)->save();
+          \Drupal::state()->set($state_key . "." . $key,$value);
+          $state_keys[$state_key][] = $state_key.".".$key;
 				}
 
 				$message = ($this->actionType() === 'add') ? $this->t('Translation saved') : $this->t('Translation updated');
@@ -169,6 +180,7 @@ abstract class TranslationFormBase extends ConfigFormBase {
 				break;
 		}
 
+    \Drupal::state()->set('translation_keys',$state_keys);
         Cache::invalidateTags(['config:htm_custom_translations_new.translation']);
 	}
 	protected function SaveConfig(){
