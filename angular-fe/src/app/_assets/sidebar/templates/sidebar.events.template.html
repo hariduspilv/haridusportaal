@@ -3,8 +3,8 @@
 		<a target="_blank" [href]="item.entityUrl.path">
 			<p>
 				{{item.fieldEventMainDate.unix * 1000 | date:"dd.MM.yyyy"}}
-				<span *ngIf="item.fieldEventMainStartTime">
-					kell {{item.fieldEventMainStartTime | unixToTime}}</span
+				<ng-container *ngIf="item.fieldEventMainStartTime">
+					kell {{item.fieldEventMainStartTime | unixToTime}}</ng-container
 				>
 			</p>
 			<span>{{item.title}}</span>
