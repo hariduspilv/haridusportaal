@@ -1,0 +1,34 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+	margin: 0 -1.5rem;
+
+	.map {
+		&__wrapper {
+			display: block;
+			position: relative;
+			box-sizing: border-box;
+			min-height: 10rem;
+			@include break-on(sm, min) {
+				padding-bottom: 56%;
+			}
+		}
+
+		&__container {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+			::ng-deep b {
+				font-weight: 500;
+			}
+			@include break-on(sm, max) {
+				position: initial;
+				height: 525px;
+			}
+		}
+	}
+}

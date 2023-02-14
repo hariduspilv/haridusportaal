@@ -141,6 +141,7 @@ import { SkipToContentComponent } from './skip-to-content';
 import { DropdownMenuComponent } from '@app/_assets/header/dropdown-menu/dropdown-menu.component';
 import { getLangCode } from '@app/_core/router-utility';
 import { HTMSwiperModule } from '@app/modules/swiper/swiper.module';
+import { OlMapModule } from '@app/modules/olmap/olmap.module';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -293,6 +294,7 @@ const providers = [
 ];
 
 const imports = [
+  OlMapModule,
   CommonModule,
   RouterModule,
   TranslateModule,

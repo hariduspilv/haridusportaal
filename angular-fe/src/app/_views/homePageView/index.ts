@@ -26,6 +26,7 @@ import { HomePageLearningViewComponent } from './views/homePageView.learning.com
 import { HomePageYouthViewComponent } from './views/homePageView.youth.component';
 import { JobOffersMapModule } from './components/job-offers-map/job-offers-map.module';
 import { translateRoutes } from "@app/_core/router-utility";
+import { OlMapModule } from '@app/modules/olmap/olmap.module';
 
 const routes: Routes = [
   {
@@ -93,6 +94,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgPipesModule,
     JobOffersMapModule,
+    OlMapModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

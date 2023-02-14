@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const picto = require(`${__dirname}/modules/picto`);
 const amp = require(`${__dirname}/modules/amp`);
+const mapproxy = require(`${__dirname}/modules/mapproxy`);
 const angularImporter = require(`${__dirname}/modules/import`);
 const storybookServer = require(`${__dirname}/modules/storybook`);
 const compression = require('compression')
@@ -29,6 +30,7 @@ app.use('/', express.static(`${__dirname}/dist`, {
 }));
 
 app.get('/amp/*', amp.serve);
+app.get('/mapproxy/*', mapproxy.serve);
 app.get('/picto', picto.serve);
 app.get('/stats', stats);
 app.get('/storybook', storybookServer);
