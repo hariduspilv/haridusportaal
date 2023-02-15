@@ -29,8 +29,8 @@ app.use('/', express.static(`${__dirname}/dist`, {
   setHeaders: setCustomCacheControl
 }));
 
-app.get('/amp/*', amp.serve);
 app.get('/mapproxy/*', mapproxy.serve);
+app.get('/amp/*', amp.serve);
 app.get('/picto', picto.serve);
 app.get('/stats', stats);
 app.get('/storybook', storybookServer);

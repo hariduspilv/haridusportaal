@@ -2,7 +2,7 @@ const http = require("http");
 
 const dev = process.env.NODE_ENV === "development";
 
-module.exports.serve = async (req, res) => {
+module.exports.serve = (req, res, next) => {
   const [z, x, negy] = req.path.split("/").slice(2);
   const attribution = `ASUTUS=HM&KESKKOND=${dev ? "TEST" : "LIVE"}&IS=HP`;
   const options = {
@@ -10,7 +10,10 @@ module.exports.serve = async (req, res) => {
     port: 80,
     path: `/tm/tms/1.0.0/hallkaart@LEST/${z}/${x}/${negy}?${attribution}`,
     method: "GET",
-    headers: req.headers,
+    headers: {
+      ...req.headers,
+      host: 'tiles.maaamet.ee:80'
+    },
   };
 
   const creq = http
