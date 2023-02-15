@@ -1,4 +1,20 @@
-import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, Host, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  Host,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Optional,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { Overlay } from 'ol';
 import { Coordinate } from 'ol/coordinate';
 import { fromLonLat } from 'ol/proj';
@@ -7,10 +23,12 @@ import { OlMapComponent } from '../ol-map/ol-map.component';
 @Component({
   selector: 'ol-overlay',
   templateUrl: './ol-overlay.component.html',
-  styleUrls: ['./ol-overlay.component.scss']
+  styleUrls: ['./ol-overlay.component.scss'],
 })
-export class OlOverlayComponent implements OnChanges, AfterContentInit, OnDestroy, AfterViewInit {
-  @ViewChild("mapTooltipContainer") private tooltip: ElementRef<HTMLDivElement>;
+export class OlOverlayComponent
+  implements OnChanges, AfterContentInit, OnDestroy, AfterViewInit
+{
+  @ViewChild('mapTooltipContainer') private tooltip: ElementRef<HTMLDivElement>;
   @ContentChild(TemplateRef) contentTemplate?: TemplateRef<any>;
 
   @Input() isOpen?: boolean;
@@ -21,14 +39,19 @@ export class OlOverlayComponent implements OnChanges, AfterContentInit, OnDestro
   @Input() manager?: OlMapComponent;
   @Input() offset?: [number, number] = [0, 0];
   @Output() isOpenChange = new EventEmitter<boolean>();
-  
+
   public overlay!: Overlay;
   public coordinate?: Coordinate;
 
   constructor(@Optional() @Host() public parentManager: OlMapComponent) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.isOpen || changes.latitude || changes.longitude || changes.offset) {
+    if (
+      changes.isOpen ||
+      changes.latitude ||
+      changes.longitude ||
+      changes.offset
+    ) {
       this.changeInfoWindow();
     }
   }
@@ -46,9 +69,9 @@ export class OlOverlayComponent implements OnChanges, AfterContentInit, OnDestro
   }
 
   showOverlay() {
-    if (!this.overlay) return;    
+    if (!this.overlay) return;
     this.isOpenChange.emit(true);
-    // Wait for Angular to render the template
+    // Wait for Angular to render the template so that autopan works
     setTimeout(() => {
       this.overlay?.setOffset(this.offset);
       this.overlay?.setPosition(this.coordinate);
@@ -73,9 +96,7 @@ export class OlOverlayComponent implements OnChanges, AfterContentInit, OnDestro
   private changeInfoWindow() {
     if (isNaN(this.latitude) || isNaN(this.longitude)) return;
     // Get projected coordinate from inputs
-    this.coordinate = fromLonLat([
-      this.longitude, this.latitude
-    ], 'EPSG:3301');
+    this.coordinate = fromLonLat([this.longitude, this.latitude], 'EPSG:3301');
 
     if (!!this.isOpen) {
       if (!this.template && !this.contentTemplate) return;
@@ -93,7 +114,7 @@ export class OlOverlayComponent implements OnChanges, AfterContentInit, OnDestro
           duration: 250,
         },
       },
-      positioning: "bottom-center",
+      positioning: 'bottom-center',
     });
 
     this.activeManager.map.addOverlay(this.overlay);

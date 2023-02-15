@@ -8,19 +8,19 @@ import {
   OnInit,
   SimpleChanges,
   TemplateRef,
-} from "@angular/core";
-import { Feature, MapBrowserEvent } from "ol";
-import { Point } from "ol/geom";
-import { Cluster, Vector as VectorSource } from "ol/source";
-import VectorLayer from "ol/layer/Vector";
-import { fromLonLat, toLonLat } from "ol/proj";
-import { OlMapComponent } from "../ol-map/ol-map.component";
-import Style from "ol/style/Style";
-import Icon from "ol/style/Icon";
-import Text from "ol/style/Text";
-import Fill from "ol/style/Fill";
-import { boundingExtent } from "ol/extent";
-import { Coordinate } from "ol/coordinate";
+} from '@angular/core';
+import { Feature, MapBrowserEvent } from 'ol';
+import { Point } from 'ol/geom';
+import { Cluster, Vector as VectorSource } from 'ol/source';
+import VectorLayer from 'ol/layer/Vector';
+import { fromLonLat, toLonLat } from 'ol/proj';
+import { OlMapComponent } from '../ol-map/ol-map.component';
+import Style from 'ol/style/Style';
+import Icon from 'ol/style/Icon';
+import Text from 'ol/style/Text';
+import Fill from 'ol/style/Fill';
+import { boundingExtent } from 'ol/extent';
+import { Coordinate } from 'ol/coordinate';
 
 type InputLocation = Record<string, unknown> & {
   Lat?: number;
@@ -30,9 +30,9 @@ type InputLocation = Record<string, unknown> & {
 };
 
 @Component({
-  selector: "ol-clusters",
-  templateUrl: "./ol-clusters.component.html",
-  styleUrls: ["./ol-clusters.component.scss"],
+  selector: 'ol-clusters',
+  templateUrl: './ol-clusters.component.html',
+  styleUrls: ['./ol-clusters.component.scss'],
 })
 export class OlClustersComponent implements OnInit, OnDestroy, OnChanges {
   private _layer = new VectorLayer();
@@ -95,7 +95,7 @@ export class OlClustersComponent implements OnInit, OnDestroy, OnChanges {
           ? new Text({
               text: featureCount.toString(),
               font: `${this.styles[0].fontWeight} 11px ${this.styles[0].fontFamily}`,
-              fill: new Fill({ color: "#fff" }),
+              fill: new Fill({ color: '#fff' }),
             })
           : undefined,
     });
@@ -116,7 +116,7 @@ export class OlClustersComponent implements OnInit, OnDestroy, OnChanges {
         new Point(
           fromLonLat(
             [marker.Lon || marker.lon, marker.Lat || marker.lat],
-            "EPSG:3301"
+            'EPSG:3301'
           )
         )
       );
@@ -137,7 +137,7 @@ export class OlClustersComponent implements OnInit, OnDestroy, OnChanges {
     this._layer.getFeatures(event.pixel).then((clickedFeatures) => {
       if (clickedFeatures.length) {
         // Get clustered Coordinates
-        const features = clickedFeatures[0].get("features");
+        const features = clickedFeatures[0].get('features');
         if (features.length > 1) {
           const extent = boundingExtent(
             features.map((r) => r.getGeometry().getCoordinates())
@@ -150,7 +150,7 @@ export class OlClustersComponent implements OnInit, OnDestroy, OnChanges {
           this.selectedFeature = (features[0] as Feature).getProperties();
           this.coordinate = toLonLat(
             ((features[0] as Feature).getGeometry() as Point).getCoordinates(),
-            "EPSG:3301"
+            'EPSG:3301'
           );
         }
       } else {
@@ -167,8 +167,9 @@ export class OlClustersComponent implements OnInit, OnDestroy, OnChanges {
       const lon = parseFloat(`${item.Lon || item.lon}`);
       item.Lat = lat;
       item.Lon = lon;
+
       if (lat != null) {
-        const coords = `${lat}","${lon}`;
+        const coords = `${lat.toFixed(5)},${lon.toFixed(5)}`;
 
         if (clusters[coords]) {
           clusters[coords].push(item);
@@ -181,7 +182,7 @@ export class OlClustersComponent implements OnInit, OnDestroy, OnChanges {
     // Spread clusters
     Object.keys(clusters).forEach((coordinate) => {
       const items = clusters[coordinate];
-      if (items.length) {
+      if (items.length > 1) {
         items.forEach((item, index) => {
           const angle = 360.0 / items.length;
           item.Lat += -0.00005 * Math.cos(((+angle * index) / 180) * Math.PI);

@@ -8,18 +8,18 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-} from "@angular/core";
-import VectorLayer from "ol/layer/Vector";
-import { OlMapComponent } from "../ol-map/ol-map.component";
-import GeoJSON from "ol/format/GeoJSON";
-import VectorSource from "ol/source/Vector";
-import Style from "ol/style/Style";
-import { FeatureLike } from "ol/Feature";
-import Stroke from "ol/style/Stroke";
-import Fill from "ol/style/Fill";
-import { Select } from "ol/interaction";
-import { click } from "ol/events/condition";
-import { getUid, MapBrowserEvent } from "ol";
+} from '@angular/core';
+import VectorLayer from 'ol/layer/Vector';
+import { OlMapComponent } from '../ol-map/ol-map.component';
+import GeoJSON from 'ol/format/GeoJSON';
+import VectorSource from 'ol/source/Vector';
+import Style from 'ol/style/Style';
+import { FeatureLike } from 'ol/Feature';
+import Stroke from 'ol/style/Stroke';
+import Fill from 'ol/style/Fill';
+import { Select } from 'ol/interaction';
+import { click } from 'ol/events/condition';
+import { getUid, MapBrowserEvent } from 'ol';
 
 export interface MapLayerClickEvent {
   mapBrowserEvent: MapBrowserEvent<any>;
@@ -27,9 +27,9 @@ export interface MapLayerClickEvent {
 }
 
 @Component({
-  selector: "ol-data-layer",
-  templateUrl: "./ol-data-layer.component.html",
-  styleUrls: ["./ol-data-layer.component.scss"],
+  selector: 'ol-data-layer',
+  templateUrl: './ol-data-layer.component.html',
+  styleUrls: ['./ol-data-layer.component.scss'],
 })
 export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() geoJson: Object;
@@ -92,7 +92,7 @@ export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
   private resetGeoJson() {
     this._layer.setSource(undefined);
     const readFeatures = new GeoJSON().readFeatures(this.geoJson, {
-      featureProjection: "EPSG:3301",
+      featureProjection: 'EPSG:3301',
     });
     const vectorSource = new VectorSource({
       features: readFeatures,
@@ -107,7 +107,7 @@ export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
       if (clickedFeatures.length) {
         [feature] = clickedFeatures;
       }
-      this.layerClick.emit({ 
+      this.layerClick.emit({
         mapBrowserEvent: event,
         feature,
       });

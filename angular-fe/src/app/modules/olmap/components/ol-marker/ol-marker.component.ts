@@ -1,5 +1,13 @@
-import { Component, Host, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Feature, Overlay } from 'ol';
+import {
+  Component,
+  Host,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import { Feature } from 'ol';
 import { Point } from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
 import { fromLonLat } from 'ol/proj';
@@ -14,7 +22,7 @@ import { OlMapComponent } from '../ol-map/ol-map.component';
 @Component({
   selector: 'ol-marker',
   templateUrl: './ol-marker.component.html',
-  styleUrls: ['./ol-marker.component.scss']
+  styleUrls: ['./ol-marker.component.scss'],
 })
 export class OlMarkerComponent implements OnInit, OnDestroy, OnChanges {
   private _layer = new VectorLayer();
@@ -42,30 +50,29 @@ export class OlMarkerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private setupLabel() {
-    const coordinate = fromLonLat([
-      this.longitude,
-      this.latitude
-    ], 'EPSG:3301');
+    const coordinate = fromLonLat([this.longitude, this.latitude], 'EPSG:3301');
 
     const feature = new Feature(new Point(coordinate));
     const source = new VectorSource({
       features: [feature],
     });
 
-    this._layer.setStyle(new Style({
-      text: new Text({
-        text: this.label.text,
-        fill: new Fill({
-          color: this.label.color
+    this._layer.setStyle(
+      new Style({
+        text: new Text({
+          text: this.label.text,
+          fill: new Fill({
+            color: this.label.color,
+          }),
+          font: `${this.label.fontWeight} ${this.label.fontSize} Ariel,sans-serif`,
         }),
-        font: `${this.label.fontWeight} ${this.label.fontSize} Ariel,sans-serif`
-      }),
-      image: this.iconUrl
-        ? new Icon({
-            src: this.iconUrl
-          })
-        : undefined
-    }));
+        image: this.iconUrl
+          ? new Icon({
+              src: this.iconUrl,
+            })
+          : undefined,
+      })
+    );
 
     this._layer.setSource(source);
   }

@@ -1,4 +1,4 @@
-import { Map } from "ol";
+import { Map } from 'ol';
 
 export interface IOlMap {
   map: Map;
