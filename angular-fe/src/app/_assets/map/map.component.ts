@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { MapService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { OlMapComponent } from '@app/modules/olmap/components/ol-map/ol-map.component';
 interface MapOptions {
   centerLat: any;
   centerLng: any;
@@ -39,7 +40,7 @@ export class MapComponent {
   @Output() layerChange: EventEmitter<string> = new EventEmitter;
   @Output() mapLoaded = new EventEmitter<boolean>();
 
-  private map: any;
+  private map: OlMapComponent;
   private heatmap: any;
   private polygonCoords: any;
   private polygons: any;
@@ -52,13 +53,6 @@ export class MapComponent {
   public infoWindowFunding: Boolean | Number;
   public activeLegendParameters: object;
   public paramValue: string;
-  private polygonIcon = {
-    url: '',
-    scaledSize: {
-      width: 0,
-      height: 0,
-    },
-  };
 
   constructor(
     private http: HttpClient,
@@ -66,7 +60,7 @@ export class MapComponent {
     private mapService: MapService,
     private route: ActivatedRoute) {}
 
-  mapReady(map) {
+  mapReady(map: OlMapComponent) {
     this.map = map;
     this.mapService.activeMap = this.map;
     this.map.setZoom(this.options.zoom);
@@ -75,12 +69,12 @@ export class MapComponent {
   }
 
   setCenter(activeMap: any, options: MapOptions, defaultMapOptions: any) {
-    let centerCoords: {};
+    let centerCoords: [number, number];
     if (options.centerLat && options.centerLng) {
-      centerCoords = {
-        lat: parseFloat(options.centerLat),
-        lng: parseFloat(options.centerLng),
-      };
+      centerCoords = [
+        parseFloat(options.centerLng),
+        parseFloat(options.centerLat),
+      ];
     } else {
       centerCoords = defaultMapOptions.center;
     }
@@ -89,14 +83,14 @@ export class MapComponent {
 
   zoomChange($event) {
     if (this.type === 'polygons' && this.polygonCoords) {
-      if ($event < 9 && this.mapService.activeFontSize !== this.mapService.fontSizes['sm']) {
+      if ($event < 10 && this.mapService.activeFontSize !== this.mapService.fontSizes['sm']) {
         this.mapService.activeFontSize = this.mapService.fontSizes['sm'];
         this.setPolyLabels();
-      } else if ($event === 9 &&
+      } else if ($event === 10 &&
           this.mapService.activeFontSize !== this.mapService.fontSizes['md']) {
         this.mapService.activeFontSize = this.mapService.fontSizes['md'];
         this.setPolyLabels();
-      } else if ($event === 10 &&
+      } else if ($event === 11 &&
           this.mapService.activeFontSize !== this.mapService.fontSizes['lg']) {
         this.mapService.activeFontSize = this.mapService.fontSizes['lg'];
         this.setPolyLabels();

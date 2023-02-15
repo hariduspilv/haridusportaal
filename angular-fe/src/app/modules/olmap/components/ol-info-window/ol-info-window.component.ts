@@ -1,5 +1,4 @@
-import { Component, Host } from '@angular/core';
-import { OlMapComponent } from '../ol-map/ol-map.component';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'ol-info-window',
@@ -7,5 +6,5 @@ import { OlMapComponent } from '../ol-map/ol-map.component';
   styleUrls: ['./ol-info-window.component.scss']
 })
 export class OlInfoWindowComponent {
-  constructor(@Host() public manager: OlMapComponent) {}
+  @Output() close = new EventEmitter<void>();
 }

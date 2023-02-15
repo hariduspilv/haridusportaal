@@ -14,11 +14,11 @@ export default {
     '#8B2F17',
   ],
   defaultMapOptions: {
-    center: {
-      lat: 58.5822061,
-      lng: 24.7065513,
-    },
-    zoom: 7.4,
+    center: [
+      24.7065513,
+      58.5822061,
+    ],
+    zoom: 8.5,
     icon: '/assets/img/marker.svg',
     clusterStyles: [
       {

@@ -28,7 +28,7 @@ stories.add('With markers, modal', () => {
     enableParameters: false,
     enableLayerSelection: false,
     enablePolygonLegend: false,
-    zoom: 7.4,
+    zoom: 7.8,
     maxZoom: 16,
     draggable: true,
     enablePolygonModal: false,

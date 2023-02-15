@@ -44,12 +44,13 @@ export class SchoolListMapComponent implements AfterViewInit {
   private listSub: Subscription;
   public options: Object = {
     polygonType: 'investment', // ...
-    zoom: 7.4,
-    maxZoom: 16,
-    minZoom: 7,
+    zoom: 8.5,
+    maxZoom: 20,
+    minZoom: 8,
     draggable: true,
     enablePolygonModal: false,
     enableStreetViewControl: false,
+    enableZoomControl: true,
     enableLabels: true,
   };
   public bounds = {
@@ -185,7 +186,7 @@ export class SchoolListMapComponent implements AfterViewInit {
       },
       complete: () => {
         this.loading = false;
-        if (window['google'] && this.markers && this.markers.length) {
+        if (this.markers && this.markers.length) {
           this.mapService.setBounds(this.markers);
         } else {
           this.mapService.resetCenter();

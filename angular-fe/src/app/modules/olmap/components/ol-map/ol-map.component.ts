@@ -1,26 +1,35 @@
 import {
   AfterViewInit,
   Component,
-  ContentChild,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
 } from "@angular/core";
 import { IOlMap } from "../../interfaces/ol-map.interface";
-import { Feature, Map, MapBrowserEvent, Overlay, View } from "ol";
+import { Map, MapBrowserEvent, View } from "ol";
 import { register } from "ol/proj/proj4";
 import proj4 from "proj4";
 import XYZ from "ol/source/XYZ";
 import TileLayer from "ol/layer/Tile";
-import { fromLonLat } from "ol/proj";
+import { fromLonLat, transformExtent } from "ol/proj";
 import TileGrid from "ol/tilegrid/TileGrid";
-import { defaults as defaultInteractions } from "ol/interaction";
+import {
+  defaults as defaultInteractions,
+  DoubleClickZoom,
+  DragPan,
+  DragZoom,
+  KeyboardPan,
+  KeyboardZoom,
+  MouseWheelZoom,
+  PinchZoom,
+} from "ol/interaction";
 import { Attribution } from "ol/control";
-import { Point } from "ol/geom";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
+import { Coordinate } from "ol/coordinate";
+import { Extent } from "ol/extent";
 
 proj4.defs(
   "EPSG:3301",
@@ -56,31 +65,26 @@ type HandlerFn = (event: MapBrowserEvent<any>) => boolean | Promise<boolean>;
 })
 export class OlMapComponent implements IOlMap, OnInit, AfterViewInit {
   @ViewChild("mapContainer") private container: ElementRef<HTMLDivElement>;
-  @ViewChild("mapTooltipContainer") private tooltip: ElementRef<HTMLDivElement>;
 
-  @Input() minZoom = mapMinZoom;
-  @Input() maxZoom = mapMaxZoom;
-  @Input() zoom = 7;
-  @Input() draggable = true;
-  @Input() enableZoomControl = true;
+  @Input() minZoom? = mapMinZoom;
+  @Input() maxZoom? = mapMaxZoom;
+  @Input() zoom? = 7;
+  @Input() draggable? = true;
+  @Input() enableZoomControl? = true;
+  @Output() mapReady = new EventEmitter<OlMapComponent>();
+  @Output() zoomChange = new EventEmitter<number>();
 
   private clickHandlers: HandlerFn[] = [];
+  private interactions = defaultInteractions({
+    altShiftDragRotate: false,
+    pinchRotate: false,
+  });
   public activeTooltip: TemplateRef<any>;
   public activeTooltipContext: any;
-  public overlay!: Overlay;
 
   public map = new Map({
     controls: [attribution],
-    interactions: defaultInteractions({
-      doubleClickZoom: this.enableZoomControl,
-      pinchZoom: this.enableZoomControl,
-      mouseWheelZoom: this.enableZoomControl,
-      shiftDragZoom: this.enableZoomControl,
-      dragPan: this.draggable,
-      keyboard: this.draggable,
-      altShiftDragRotate: false,
-      pinchRotate: false,
-    }),
+    interactions: this.interactions,
     layers: [
       new TileLayer({
         source: new XYZ({
@@ -95,13 +99,17 @@ export class OlMapComponent implements IOlMap, OnInit, AfterViewInit {
   });
 
   ngOnInit(): void {
+    // i don't know why angular doesn't do this by itself...
+    if (this.enableZoomControl === undefined) this.enableZoomControl = true;
+    if (this.draggable === undefined) this.draggable = true;
+
     this.map.setView(
       new View({
         projection: "EPSG:3301",
         center: fromLonLat([24.7065513, 58.5822061], "EPSG:3301"),
-        zoom: this.zoom + 1,
+        zoom: this.zoom,
         minZoom: this.minZoom,
-        maxZoom: this.maxZoom + 2,
+        maxZoom: this.maxZoom,
         extent: mapExtent,
       })
     );
@@ -110,7 +118,8 @@ export class OlMapComponent implements IOlMap, OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.map.setTarget(this.container.nativeElement);
-    this.initOverlay();
+    this.setInteractions();
+    this.mapReady.emit(this);
   }
 
   addClickHandler(handler: HandlerFn) {
@@ -123,26 +132,17 @@ export class OlMapComponent implements IOlMap, OnInit, AfterViewInit {
     this.clickHandlers.splice(index, 1);
   }
 
-  showOverlay(
-    template: TemplateRef<any>,
-    feature: Feature,
-    event?: MapBrowserEvent<any>,
-    offset = [0, 0]
-  ) {
-    this.activeTooltipContext = feature.getProperties();
-    this.activeTooltip = template;
-
-    // Wait for Angular to render the template
-    setTimeout(() => {
-      const coordinate = (feature.getGeometry() as Point).getCoordinates();
-      this.overlay.setOffset(offset);
-      this.overlay.setPosition(coordinate);
-    });
+  setZoom(zoom: number) {
+    this.map.getView().setZoom(zoom);
+    this.zoom = zoom;
   }
 
-  hideOverlay() {
-    this.activeTooltip = undefined;
-    this.activeTooltipContext = undefined;
+  setCenter(center: Coordinate) {
+    this.map.getView().setCenter(fromLonLat(center, "EPSG:3301"));
+  }
+
+  fitBounds(extent: Extent, padding = [50,50,50,50]) {
+    this.map.getView().fit(transformExtent(extent, 'EPSG:4326', 'EPSG:3301'), { padding })
   }
 
   private mapEvents() {
@@ -173,18 +173,35 @@ export class OlMapComponent implements IOlMap, OnInit, AfterViewInit {
         this.getTargetElement().style.cursor = "";
       }
     });
+
+    const currZoom = this.map.getView().getZoom();
+    this.map.on("moveend", (e) => {
+      const newZoom = this.map.getView().getZoom();
+      if (currZoom != newZoom) {
+        this.zoom = newZoom;
+        this.zoomChange.emit(newZoom);
+      }
+    });
   }
 
-  private initOverlay() {
-    this.overlay = new Overlay({
-      element: this.tooltip.nativeElement,
-      autoPan: {
-        animation: {
-          duration: 250,
-        },
-      },
-      positioning: "bottom-center",
+  private setInteractions() {
+    this.interactions.forEach((interaction) => {
+      if (
+        interaction instanceof DoubleClickZoom ||
+        interaction instanceof PinchZoom ||
+        interaction instanceof MouseWheelZoom ||
+        interaction instanceof DragZoom ||
+        interaction instanceof KeyboardZoom
+      ) {
+        interaction.setActive(this.enableZoomControl);
+      }
+
+      if (
+        interaction instanceof DragPan ||
+        interaction instanceof KeyboardPan
+      ) {
+        interaction.setActive(this.draggable);
+      }
     });
-    this.map.addOverlay(this.overlay);
   }
 }

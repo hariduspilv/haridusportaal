@@ -1,6 +1,5 @@
 import {
   Component,
-  ContentChild,
   EventEmitter,
   Host,
   Input,
@@ -9,7 +8,6 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  TemplateRef,
 } from "@angular/core";
 import VectorLayer from "ol/layer/Vector";
 import { OlMapComponent } from "../ol-map/ol-map.component";
@@ -21,7 +19,12 @@ import Stroke from "ol/style/Stroke";
 import Fill from "ol/style/Fill";
 import { Select } from "ol/interaction";
 import { click } from "ol/events/condition";
-import { SelectEvent } from "ol/interaction/Select";
+import { getUid, MapBrowserEvent } from "ol";
+
+export interface MapLayerClickEvent {
+  mapBrowserEvent: MapBrowserEvent<any>;
+  feature?: FeatureLike;
+}
 
 @Component({
   selector: "ol-data-layer",
@@ -31,7 +34,7 @@ import { SelectEvent } from "ol/interaction/Select";
 export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() geoJson: Object;
   @Input() styles?: (feature: any) => any;
-  @Output() layerClick = new EventEmitter<SelectEvent>();
+  @Output() layerClick = new EventEmitter<MapLayerClickEvent>();
 
   private _layer = new VectorLayer();
   private _select?: Select;
@@ -47,16 +50,18 @@ export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.resetGeoJson();
     this.manager.map.addLayer(this._layer);
-    this.createSelect();
+    this.manager.addClickHandler(this.clickHandlerFunc);
   }
 
   ngOnDestroy(): void {
-    this.manager.map.removeLayer(this._layer);
-    this._select && this.manager.map.removeInteraction(this._select);
+    this.manager?.map.removeLayer(this._layer);
+    this.manager?.removeClickHandler(this.clickHandlerFunc);
+    this._select && this.manager?.map.removeInteraction(this._select);
   }
 
   private createSelect() {
     this._select = new Select({
+      layers: (layer) => this._layer && getUid(layer) === getUid(this._layer),
       condition: click,
       style: this.styleFunc,
     });
@@ -96,5 +101,19 @@ export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
     this._layer.setStyle(this.styleFunc);
   }
 
+  private clickHandler(event: MapBrowserEvent<any>) {
+    this._layer.getFeatures(event.pixel).then((clickedFeatures) => {
+      let feature: FeatureLike;
+      if (clickedFeatures.length) {
+        [feature] = clickedFeatures;
+      }
+      this.layerClick.emit({ 
+        mapBrowserEvent: event,
+        feature,
+      });
+    });
+  }
+
   private styleFunc = this.convertStyles?.bind(this);
+  private clickHandlerFunc = this.clickHandler.bind(this);
 }

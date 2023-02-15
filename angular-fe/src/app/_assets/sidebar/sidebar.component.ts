@@ -404,9 +404,9 @@ export class SidebarLocationComponent {
   private options = {
     centerLat: null,
     centerLng: null,
-    zoom: 11,
-    maxZoom: 11,
-    minZoom: 11,
+    zoom: 14,
+    maxZoom: 14,
+    minZoom: 14,
     enableOuterLink: true,
     enableZoomControl: false,
     enableStreetViewControl: false,

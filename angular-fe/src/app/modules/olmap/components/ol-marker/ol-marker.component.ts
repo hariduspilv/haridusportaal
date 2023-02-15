@@ -19,7 +19,7 @@ import { OlMapComponent } from '../ol-map/ol-map.component';
 export class OlMarkerComponent implements OnInit, OnDestroy, OnChanges {
   private _layer = new VectorLayer();
 
-  @Input() iconUrl: { url: string; };
+  @Input() iconUrl?: string;
   @Input() latitude: number;
   @Input() longitude: number;
   @Input() label: OlMarkerLabel;
@@ -58,11 +58,11 @@ export class OlMarkerComponent implements OnInit, OnDestroy, OnChanges {
         fill: new Fill({
           color: this.label.color
         }),
-        font: `${this.label.fontWeight} ${this.label.fontSize}px Ariel,sans-serif`
+        font: `${this.label.fontWeight} ${this.label.fontSize} Ariel,sans-serif`
       }),
-      image: this.iconUrl?.url
+      image: this.iconUrl
         ? new Icon({
-            src: this.iconUrl.url
+            src: this.iconUrl
           })
         : undefined
     }));

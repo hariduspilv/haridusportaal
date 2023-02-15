@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+import { OlMapComponent } from '@app/modules/olmap/components/ol-map/ol-map.component';
 import conf from '@app/_core/conf';
 import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
+import { boundingExtent } from 'ol/extent';
+import { toLonLat } from 'ol/proj';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -15,11 +18,18 @@ export class MapService {
     md: '18px',
     lg: '22px',
   };
-  public activeMap: any;
+  public activeMap: OlMapComponent;
   public latlngBounds: any;
   public polygonLayer: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   public previousPolygonLayer: number;
-  public infoLayer: {} = {};
+  public infoLayer: {
+    latitude?: number;
+    longitude?: number;
+    status?: boolean;
+    title?: string;
+    currency?: string;
+    value?: string;
+  } = {};
   public polygonValueLabels: {} = {};
   public polygonColors: {} = {};
   public fieldMaxRanges: Object = {};
@@ -27,7 +37,7 @@ export class MapService {
     lightColor: 'white',
     color: 'black',
     fontSize: '13px',
-    fontWeight: 'regular',
+    fontWeight: 'normal',
   };
 
   /**
@@ -240,23 +250,22 @@ export class MapService {
    * @param type - investment
    */
   layerClick($event, type) {
+    if (!$event.feature) {
+      this.infoLayer.status = false;
+      return;
+    };
+
+    const pos = this.activeMap.map.getCoordinateFromPixel($event.mapBrowserEvent.pixel);
+    const coordinate = toLonLat(pos, 'EPSG:3301');
     switch (type) {
       case 'investment':
-        let mouse;
-        for (const i in $event) {
-          if (typeof $event[i] === 'object' && $event[i]['clientX']) {
-            mouse = $event[i];
-          }
-        }
         this.infoLayer = {
-          left: `${mouse['clientX']}px`,
-          top: `${mouse['clientY']}px`,
-          latitude: $event.latLng.lat(),
-          longitude: $event.latLng.lng(),
+          latitude: coordinate[1],
+          longitude: coordinate[0],
           status: true,
-          title: $event.feature.getProperty('NIMI_LUHIKE') || $event.feature.getProperty('NIMI'),
-          currency: $event.feature.getProperty('investmentAmountSum') || '',
-          value: $event.feature.getProperty('value'),
+          title: $event.feature.get('NIMI_LUHIKE') || $event.feature.get('NIMI'),
+          currency: $event.feature.get('investmentAmountSum') || '',
+          value: $event.feature.get('value'),
         };
     }
   }
@@ -268,14 +277,16 @@ export class MapService {
   setBounds(markers: Object[]) {
     let hasBounds: boolean = false;
     if (markers) {
-      this.latlngBounds = new window['google'].maps.LatLngBounds();
+      let boundingCoordinates = [];
+
       markers.filter(elem => elem['Lat']).forEach((elem) => {
         hasBounds = true;
-        this.latlngBounds.extend(
-          new window['google'].maps.LatLng(parseFloat(elem['Lat']), parseFloat(elem['Lon'])));
+        boundingCoordinates.push([parseFloat(elem['Lon']), parseFloat(elem['Lat'])])
       });
+
       if (hasBounds) {
-        this.activeMap.fitBounds(this.latlngBounds);
+        const box = boundingExtent(boundingCoordinates);
+        this.activeMap.fitBounds(box);
       }
     }
   }

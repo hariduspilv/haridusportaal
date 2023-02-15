@@ -1,16 +1,4 @@
-<div class="map__wrapper">
-	<div class="map__container" #mapContainer>
-		<div class="map__tooltip-box" #mapTooltipContainer>
-			<ng-container *ngIf="activeTooltip">
-				<ng-container
-					*ngTemplateOutlet="
-						activeTooltip;
-						context: { feature: activeTooltipContext, close: hideOverlay }
-					"
-				></ng-container>
-			</ng-container>
-		</div>
-	</div>
-	<!-- /.map__container -->
+<div class="map__container" #mapContainer>
+	<ng-content></ng-content>
 </div>
 <!-- /.map__wrapper -->
