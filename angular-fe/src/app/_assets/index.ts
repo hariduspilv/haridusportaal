@@ -79,9 +79,6 @@ import {
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
-import { AgmCoreModule } from '@agm/core';
-import { AgmMarkerClustererModule } from '@agm/markerclusterer';
-import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { ShareComponent } from './share';
 import { ClipboardService } from 'ngx-clipboard';
 import { LabelsComponent } from './labels';
@@ -141,6 +138,7 @@ import { SkipToContentComponent } from './skip-to-content';
 import { DropdownMenuComponent } from '@app/_assets/header/dropdown-menu/dropdown-menu.component';
 import { getLangCode } from '@app/_core/router-utility';
 import { HTMSwiperModule } from '@app/modules/swiper/swiper.module';
+import { OlMapModule } from '@app/modules/olmap/olmap.module';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -293,17 +291,12 @@ const providers = [
 ];
 
 const imports = [
+  OlMapModule,
   CommonModule,
   RouterModule,
   TranslateModule,
   FormsModule,
   AppPipes,
-  AgmMarkerClustererModule,
-  AgmCoreModule.forRoot({
-    apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
-    language: getLangCode(),
-  }),
-  AgmSnazzyInfoWindowModule,
   NgbDatepickerModule,
   NgPipesModule,
   NgSelectModule,

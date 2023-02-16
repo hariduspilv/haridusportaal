@@ -28,44 +28,11 @@ stories.add('With markers, modal', () => {
     enableParameters: false,
     enableLayerSelection: false,
     enablePolygonLegend: false,
-    zoom: 7.4,
+    zoom: 7.8,
     maxZoom: 16,
     draggable: true,
     enablePolygonModal: false,
     enableStreetViewControl: true,
-    enableLabels: true,
-  };
-  return {
-    moduleMetadata,
-    props: {
-      markerData,
-      optionsData,
-    },
-    template: `
-      <map
-        type='markers'
-        [options]='optionsData'
-        [markers]='markerData'>
-      </map>
-    `,
-  };
-},          {
-  notes: { Instructions: instructionsMd, Documentation: documentationMd },
-});
-
-stories.add('With markers, disabled labels', () => {
-  const optionsData: Object = {
-    enableOuterLink: false,
-    enableParameters: false,
-    enableLayerSelection: false,
-    enablePolygonLegend: false,
-    zoom: 7.4,
-    maxZoom: 16,
-    draggable: true,
-    enablePolygonModal: false,
-    enableZoomControl: false,
-    enableStreetViewControl: false,
-    enableLabels: false,
   };
   return {
     moduleMetadata,
@@ -94,7 +61,6 @@ stories.add('With marker, outerLink and disabled controls', () => {
     centerLat: 59.4371821,
     centerLng: 24.7450143,
     enableOuterLink: true,
-    enableLabels: true,
     enablePolygonLegend: false,
     enablePolygonModal: false,
   };
@@ -127,7 +93,6 @@ stories.add('With polygons, modals and parameters', () => {
     enableZoomControl: true,
     enableStreetViewControl: false,
     enableOuterLink: false,
-    enableLabels: false,
     enableParameters: true,
     enableLayerSelection: false,
     enablePolygonLegend: false,
@@ -164,7 +129,6 @@ stories.add('With polygons, text values and legend', () => {
     enableZoomControl: false,
     enableStreetViewControl: false,
     enableOuterLink: false,
-    enableLabels: false,
     enableParameters: false,
     enableLayerSelection: true,
     enablePolygonLegend: true,

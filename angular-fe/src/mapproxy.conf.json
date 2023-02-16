@@ -1,0 +1,10 @@
+{
+  "/mapproxy": {
+    "target": "http://tiles.maaamet.ee",
+    "secure": false,
+    "pathRewrite": {
+      "^/mapproxy": "/tm/tms/1.0.0/hallkaart@LEST/"
+    },
+    "changeOrigin": true
+  }
+}

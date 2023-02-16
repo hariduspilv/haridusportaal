@@ -47,5 +47,4 @@ module.exports.redirect = (req, res, next, ) => {
     logger.debug(`No bot detected, redirecting -> ${req.url}`);
     return next();
   }
-
 }
