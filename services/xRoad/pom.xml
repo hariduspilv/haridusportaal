@@ -6,7 +6,7 @@
 
   <groupId>ee.htm.portal.services</groupId>
   <artifactId>xRoad</artifactId>
-  <version>3.4.x</version>
+  <version>3.5.3</version>
   <packaging>jar</packaging>
 
   <name>Haridusportaal microservices</name>
