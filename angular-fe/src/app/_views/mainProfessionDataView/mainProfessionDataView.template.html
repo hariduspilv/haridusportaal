@@ -6,12 +6,12 @@
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
       <block-title><h1>{{ 'oskaProfessions.data' | translate }}</h1></block-title>
-			<block-content tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="{{ '/ametialad' | translatePath }}">
+			<block-content tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="list" tabLink="{{ '/ametialad' | translatePath }}">
 			</block-content>
-      <block-content tabLabel="{{ 'oska.professions_data' | translate }}" tabIcon="info"  tabLink="{{ '/ametialad/andmed' | translatePath }}" [tabActive]="true">
+      <block-content tabLabel="{{ 'oska.professions_data' | translate }}" tabIcon="compare"  tabLink="{{ '/ametialad/andmed' | translatePath }}" [tabActive]="true">
         <ng-container *ngIf="data">
 
-          <h2 *ngIf="data.title">{{data.title}}</h2>
+          <!-- <h2 *ngIf="data.title">{{data.title}}</h2> -->
 
           <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 

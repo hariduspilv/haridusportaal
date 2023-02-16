@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AlertsService, SettingsService } from '@app/_services';
 import { Location } from '@angular/common';
@@ -17,7 +17,7 @@ export class CertificatesCheckDetailComponent implements OnInit {
     certificate_id: null,
   };
 
-  public model: FormGroup = this.formBuilder.group({
+  public model: UntypedFormGroup = this.formBuilder.group({
     captcha: ['', Validators.required],
     id_code: ['', Validators.required],
     certificate_id: ['', Validators.required],
@@ -33,7 +33,7 @@ export class CertificatesCheckDetailComponent implements OnInit {
   public path = this.location.path();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private alertsService: AlertsService,
     private translate: TranslateService,
     private settings: SettingsService,
@@ -71,7 +71,7 @@ export class CertificatesCheckDetailComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.http.post('https://htm.wiseman.ee/certificate-public', this.model.value).subscribe({
+    this.http.post(`${this.settings.url}/certificate-public`, this.model.value).subscribe({
       next: (response: any) => {
         if (response.value && response.value.tunnistus === null) {
           this.alertsService

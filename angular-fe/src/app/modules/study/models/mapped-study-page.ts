@@ -12,7 +12,7 @@ export interface MappedStudyPage {
 	fieldAdditionalImages: ImageEntity[];
 	fieldStudyText: FullTextUrl[];
 	fieldAddFile: StudyAddFile[];
-	fieldAccordion: MappedStudyAccordion;
+	fieldAccordion: MappedStudyAccordion[];
 	fieldLabel: EntityObject[];
 	fieldRightColumn: StudyPageFieldRightColumn;
 }

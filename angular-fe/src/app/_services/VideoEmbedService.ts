@@ -88,6 +88,11 @@ export class VideoEmbedService {
   }
 
   public mapVideo(record: InputVideo, derivative?: string): Record<string, string> {
+    // Nothing provided
+    if (!record) {
+      return null;
+    }
+
     // Already properly mapped
     if (record.videoThumbnail && record.videoEmbed) {
       return record as Record<string, string>;

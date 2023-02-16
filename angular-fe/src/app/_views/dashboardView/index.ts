@@ -23,6 +23,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        component: DashboardComponent,
       },
       {
         path: 'taotlused',
@@ -59,7 +60,6 @@ const routes: Routes = [
     loadChildren: () => import('../../modules/certificates/containers/certificates-dashboard-detail/certificates-dashboard-detail.module')
       .then(m => m.CertificatesDashboardDetailModule),
   },
-
 ];
 
 @NgModule({

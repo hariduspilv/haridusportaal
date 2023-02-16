@@ -17,7 +17,7 @@ import {
 	SidemenuService,
 } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -48,6 +48,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('sidemenuToggle', { static: false, read: ElementRef }) public toggleBtn: ElementRef;
   private sidemenuInit = false;
   private focusBounce: any;
+  private destroyed$ = new ReplaySubject(1);
+
   public loginTooltip = this.settings?.data?.login_tooltip;
   public searchTerm: any;
   public logoutActive = false;
@@ -66,16 +68,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public availableAuthMethods = [];
   public mobileIdRequest: Subscription = new Subscription();
   public offClickHandler: any;
-  public loginForm: FormGroup = this.formBuilder.group({
+  public loginForm: UntypedFormGroup = this.formBuilder.group({
     password: ['', Validators.required],
     username: ['', Validators.required],
   });
-  public mobileIdForm: FormGroup = this.formBuilder.group({
+  public mobileIdForm: UntypedFormGroup = this.formBuilder.group({
     phoneNumber: ['', Validators.required],
   });
-	public availableLanguages: Record<string, string | LanguageCodes>[];
-	public isOnSearchPage: boolean;
-	private destroyed$ = new ReplaySubject(1);
+
+  public availableLanguages: Record<string, string | LanguageCodes>[] = this.settings.availableLanguages;
+  public languageSwitcherVisible = environment.LANGUAGE_SWITCHER === true && this.availableLanguages.length > 1;
+
+  public isOnSearchPage: boolean;
 
 	// when user clicks "back" or "forward" button, and it goes to the page in another language
 	@HostListener('window:popstate') onBackOrForwardClick() {
@@ -98,7 +102,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public sidemenuService: SidemenuService,
     public modalService: ModalService,
     private translate: TranslateService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public auth: AuthService,
     private settings: SettingsService,
     private http: HttpClient,
@@ -108,7 +112,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private analytics: AnalyticsService,
     private deviceDetector: DeviceDetectorService,
-  ) {	this.availableLanguages = settings.availableLanguages; }
+  ) { }
 
   @HostBinding('class') get hostClasses(): string {
     return `header header--${this.theme}`;

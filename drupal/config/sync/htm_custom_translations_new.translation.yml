@@ -1719,8 +1719,8 @@ event:
     en: 'Event Group'
   list:
     translation_type: textarea
-    et: Nimekiri
-    en: List
+    et: 'Sündmuste list'
+    en: 'Events list'
   calendar:
     translation_type: textarea
     et: Kalender
@@ -1956,12 +1956,12 @@ school:
     en: 'Special Educational Needs'
   list:
     translation_type: textarea
-    et: Nimekiri
-    en: List
+    et: 'Õppeasutuste list'
+    en: 'List of educational institutions'
   map:
     translation_type: textarea
-    et: Kaart
-    en: Map
+    et: 'Õppeasutused kaardil'
+    en: 'Educational institutions on the map'
   no_results:
     translation_type: textarea
     et: 'Otsingu tingimustele vastavaid õppeasutusi ei leitud'
@@ -3132,8 +3132,8 @@ oskaProfessions:
     en: Close
   fields:
     translation_type: textarea
-    et: Valdkonnad
-    en: Sector
+    et: 'Valdkonnad tööturul'
+    en: 'Fields in the labor market'
   indicator:
     translation_type: textarea
     et: Näitaja
@@ -3188,12 +3188,12 @@ oskaProfessions:
     en: 'Ametialade sildid-eng'
   fieldsCompare:
     translation_type: textarea
-    et: 'Valdkondade andmed'
-    en: 'Sectors data'
+    et: 'Valdkondade võrdlus'
+    en: 'Comparison of fields'
   data:
     translation_type: textarea
-    et: 'Ametialade andmed'
-    en: 'Professions data ENG'
+    et: 'Ametialade võrdlus'
+    en: 'Comparison of professions'
   fields_all:
     translation_type: textarea
     et: 'Kõik valdkonnad'
@@ -3204,8 +3204,8 @@ oskaProfessions:
     en: 'Kõik ametialad- eng'
   map:
     translation_type: textarea
-    et: Kaart
-    en: Map
+    et: 'Võrdlus Eesti kaardil'
+    en: 'Comparison on the map of Estonia'
   card_opened:
     translation_type: textarea
     et: 'Detailvaade avanes'
@@ -3462,8 +3462,8 @@ oska:
     en: 'OSKA''s research is prepared by the Vocational Chamber from the European Social Fund.'
   data:
     translation_type: textarea
-    et: Andmed
-    en: Data
+    et: 'Valdkondade võrdlus'
+    en: 'Comparison of fields'
   no_data_yet:
     translation_type: textarea
     et: 'Hea kasutaja! Andmed on sisestamisel, avaldame need peatselt!'
@@ -3478,8 +3478,8 @@ oska:
     en: 'Fields map'
   field_map_introduction:
     translation_type: textarea
-    et: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest. '
-    en: 'Here you can compare the data of OSKA''s future labor force and skills surveys. It is mainly possible to compare the location of employees in different fields by counties, for example, the share of employees in one field out of all employees in the county.'
+    et: 'Siin saad võrrelda sind huvitava valdkonna andmeid maakondade võrdluses. Andmed pärinevad OSKA uuringutest, millega analüüsitakse Eesti tööturul vajaminevat tööjõu- ja oskuste vajadust. OSKA aitab õppida õigeid asju!'
+    en: 'Here you can compare the data of the field you are interested in in comparison of counties. The data comes from OSKA studies, which analyze the workforce and skills needed in the Estonian labor market. OSKA helps you learn the right things!'
   compared_to_other_professions:
     translation_type: textarea
     et: 'võrreldes teiste ametialadega'
@@ -3514,8 +3514,8 @@ oska:
     en: 'How easy / difficult it is to find a job'
   professions_data:
     translation_type: textarea
-    et: 'Ametialade andmed'
-    en: 'Professions data ENG'
+    et: 'Ametialade võrdlus'
+    en: 'Comparison of professions'
   professions_description:
     translation_type: textarea
     et: 'Ametialad on sarnaste ametite kogumid, mida on analüüsitud OSKA tuleviku-uuringutes.'
@@ -3588,6 +3588,19 @@ sidebar:
     translation_type: textarea
     et: Neutraalne
     en: Neutral
+  icon:
+    people:
+      colored:
+        translation_type: textarea
+        et: 'Inimese ikoon (värvitud)'
+        en: 'People icon colored'
+      translation_type: textarea
+      et: 'Inimese ikoon'
+      en: 'People icon'
+    peopleColored:
+      translation_type: textarea
+      et: 'Inimese ikoon (värvitud)'
+      en: 'People icon (colored)'
 url:
   copied_to_clipboard:
     translation_type: textarea
@@ -4343,8 +4356,8 @@ certificates:
     en: 'Look at your testimonies'
   access_code_info:
     translation_type: textarea
-    et: 'Sisestatud e-posti aadressile saadetakse ligipääsukood, mis võimaldab tunnsitust näha'
-    en: 'An access code will be sent to the e-mail address you entered to view the authentication'
+    et: 'Sisestatud e-posti aadressile saadetakse ligipääsukood, mis võimaldab tunnistust näha'
+    en: 'An access code will be sent to the e-mail address you entered to view the certificate'
   id_code_info:
     translation_type: textarea
     et: 'Sisesta selle inimese isikukood, kellele soovid ligipääsu jagada'

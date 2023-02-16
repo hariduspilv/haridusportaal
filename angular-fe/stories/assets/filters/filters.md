@@ -7,7 +7,7 @@
   <formItem name="title"></formItem>
   <formItem name="location"></formItem>
 </form>
-<searchResults [type]="type" limit="10"></searchResults>
+<searchResults [type]="type" [limit]="10"></searchResults>
 ```
 
 ## searchResults properties

@@ -13,7 +13,6 @@ export const collection = {
 	'fieldRelatedProfession': 'links',
   'fieldOskaField': 'links',
   'fieldQualificationStandard': 'links',
-  'fieldOskaResults': 'links',
   'fieldQuickFind': 'links',
   'fieldOskaFieldQuickFind': 'links',
   'fieldRelatedArticle': 'links',
@@ -151,23 +150,13 @@ export const parseProfessionData = (inputData, translate) => {
 			}
 		});
 
-		if (Object.keys(searchParams).length > 0) {
+		if (mappedData['fieldProfession']) {
       mappedData['fieldLearningOpportunities'] = [
         {
           title: translate.get('professions.go_to_subjects'),
           url: {
             path: `/erialad`,
-            params: searchParams,
-            routed: true,
-          },
-        },
-      ];
-    } else if (mappedData['fieldProfession']) {
-      mappedData['fieldLearningOpportunities'] = [
-        {
-          title: translate.get('professions.go_to_subjects'),
-          url: {
-            path: `/erialad`,
+						params: searchParams,
             routed: true,
           },
         },
@@ -322,17 +311,6 @@ const getIndicators = (mappedData, translate) => {
 
 export const parseFieldData = (inputData, translate) => {
   let mappedData = inputData;
-
-  mappedData['fieldOskaResults'] = [{
-    title: translate.get('oska.go_to_results'),
-    url: {
-      path: '/oska-tulemused/ettepanekute-elluviimine',
-      params: {
-        field: inputData.title,
-      },
-      routed: true,
-    },
-  }];
 
   try {
 

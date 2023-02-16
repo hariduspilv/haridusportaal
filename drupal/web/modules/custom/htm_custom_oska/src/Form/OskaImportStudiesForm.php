@@ -61,9 +61,16 @@ class OskaImportStudiesForm extends FormBase {
       if ($file_upload->isValid()) {
         $header_info = $this->detectCSVFileDelimiter($file_upload->getRealPath());
         foreach($header_info['keys'] as $key => $value) {
+
+          $value = utf8_encode($value);
+          if (str_contains($value,'ï»¿')) {
+            $value = str_replace('ï»¿','',$value);
+          }
+          if (str_ends_with($value,',')){
+            $value = str_replace(',','',$value);
+          }
           $header_info['keys'][cleanString($key)] = cleanString($value);
         }
-
         $delimiter = $header_info['delimiter'];
         //check delimiter
         if($delimiter != ';'){
@@ -71,7 +78,7 @@ class OskaImportStudiesForm extends FormBase {
         }
         //check headers
         foreach($required_headers as $required_header){
-          if(!in_array($required_header, $header_info['keys'])){
+          if(!in_array($required_header, $header_info['keys'], TRUE)){
             $form_state->setErrorByName('file', $this->t("$required_header header is wrongly spelled or missing"));
           }
         }

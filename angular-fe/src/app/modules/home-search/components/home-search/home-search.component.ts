@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BreadcrumbsItem } from '@app/_assets/breadcrumbs';
 import { Observable } from 'rxjs';
@@ -19,13 +19,13 @@ export class HomeSearchComponent implements OnInit {
   constructor (
     private router: Router,
     private route: ActivatedRoute,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     private api: HomeSearchApiService,
 		private settings: SettingsService,
 	) {}
 
   breadcrumbs: BreadcrumbsItem[];
-  searchGroup: FormGroup = this.formBuilder.group({
+  searchGroup: UntypedFormGroup = this.formBuilder.group({
     parameter: [''],
   });
   oskaTypesToMerge: string[] =

@@ -1,0 +1,21 @@
+uuid: 1caafbef-ccef-4754-aede-1546b9bb61b6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_event_end_time_addition
+    - paragraphs.paragraphs_type.event_date
+  module:
+    - time_field
+id: paragraph.event_date.field_event_end_time_addition
+field_name: field_event_end_time_addition
+entity_type: paragraph
+bundle: event_date
+label: "Sündmuse lõpu kellaaeg\t"
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: time

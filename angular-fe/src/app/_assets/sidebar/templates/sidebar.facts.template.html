@@ -21,9 +21,9 @@
     </ng-template>
     <div class="list" aria-hidden="true">
       <div class="list__icon" *ngFor="let item of createArr(indicator.icon)"><img
-        alt="inimese ikoon (värvitud)" src="/assets/img/person_filled.svg" /></div>
+        alt="{{ 'sidebar.icon.peopleColored' | translate }}" src="/assets/img/person_filled.svg" /></div>
       <div class="list__icon" *ngFor="let elem of createArr(11 - indicator.icon)"><img
-        alt="inimese ikoon" src="/assets/img/person.svg" /></div>
+        alt="{{ 'sidebar.icon.people' | translate }}" src="/assets/img/person.svg" /></div>
     </div>
     <hr aria-hidden="true" *ngIf="!last">
   </ng-container>

@@ -7,6 +7,7 @@ dependencies:
     - rest.resource.dashboard_service_rest_resource
     - rest.resource.feedback_rest_resource
     - rest.resource.get_certificate_public_rest_resource
+    - rest.resource.highlighted_research
     - rest.resource.jwt_token_rest_resource
     - rest.resource.mobile_id_rest_resource
     - rest.resource.translations_rest_resource
@@ -43,6 +44,7 @@ permissions:
   - 'restful get auth_methods_rest_resource'
   - 'restful get dashboard_service_rest_resource'
   - 'restful get get_certificate_public_rest_resource'
+  - 'restful get highlighted_research'
   - 'restful get translations_rest_resource'
   - 'restful get variables_rest_resource'
   - 'restful post feedback_rest_resource'
@@ -74,6 +76,7 @@ permissions:
   - 'view any teaching_home_page content'
   - 'view any youth_home_page content'
   - 'view any youth_monitoring_page content'
+  - 'view any youth_monitoring_page_tabbed content'
   - 'view media'
   - 'view own article content'
   - 'view own avaleht content'

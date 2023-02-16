@@ -4,7 +4,7 @@ cd /app
 git init
 git remote add origin https://github.com/hariduspilv/haridusportaal.git
 
-if [ $ENVIRONMENT == "Development" ]; then
+if [ "$ENVIRONMENT" = "Development" ]; then
 
   echo $ENVIRONMENT
   git fetch origin
@@ -29,36 +29,17 @@ else
 
   git fetch --tags
   git reset --hard $BUILD_VERSION
+  cd /app/drupal
+  composer install
+  drush cr
 
-  if [ $ENVIRONMENT == "Live" ]; then
-    echo $ENVIRONMENT
-    cd /app/drupal
-    drush cex -y
-    cp /app/drupal/config/sync/htm_custom_variables.variable.yml /app/drupal/web/sites/default/live-conf/
-    cp /app/drupal/config/sync/htm_custom_translations_new.translation.yml /app/drupal/web/sites/default/live-conf/
-    cp /app/drupal/config/sync/htm_custom_authentication.customauthsetting.yml /app/drupal/web/sites/default/live-conf/
-  fi
 
-  if [ $ENVIRONMENT == "Prelive" ]; then
-    echo $ENVIRONMENT
-    cd /app/drupal
-    drush cex -y
-    cp /app/drupal/config/sync/htm_custom_variables.variable.yml /app/drupal/web/sites/default/live-conf/
-    cp /app/drupal/config/sync/htm_custom_translations_new.translation.yml /app/drupal/web/sites/default/live-conf/
-  fi
 
   cd /app
   git reset --hard $BUILD_VERSION
-
-  if [ -d /app/drupal/web/sites/default/live-conf ]; then
-    cd /app/drupal/web/sites/default/live-conf
-    cp * /app/drupal/config/sync/
-  fi
-
-  if [ -d /app/drupal/config/sync ]; then
-    cd /app/drupal
-    drush cim
-  fi
+  cd /app/drupal
+  composer install
+  drush cr
 fi
 
 cd /app/drupal
@@ -73,18 +54,18 @@ cp composer.lock ./
 composer install --no-scripts --no-autoloader --no-dev
 cp . ./
 composer dump-autoload --optimize && \
-	composer run-script post-install-cmd
+composer run-script post-install-cmd
 
 drush cr
 
 echo "importing translations"
 drush php-eval "htm_custom_translations_new_import_translations()"
 
-chown -R apache:apache /app/drupal/web/sites/default/files
+chown -R www-data:www-data /app/drupal/web/sites/default/files
 chmod -R 764 /app/drupal/web/sites/default/files/php
 chmod -R 764 /app/drupal/web/sites/default/files/logs
 
-/usr/sbin/crond -l 8
 
 echo "[i] Starting daemon..."
-httpd -D FOREGROUND
+cron
+apache2-foreground

@@ -8,16 +8,6 @@
     .swiper-slide {
       height: auto;
     }
-    .swiper-pagination-bullet {
-      width: 16px;
-      height: 16px;
-      background: transparent;
-      opacity: 1;
-      border: 0.15rem solid $blue;
-      &-active {
-        background-color: $blue;
-      }
-    }
     .swiper-container {
       width: auto !important;
       margin: 0 4rem;
@@ -45,34 +35,12 @@
     }
 
     &__arrow {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      outline: none;
-      color: $blue;
-      width: 4.3125rem;
-      ::ng-deep {
-        icon i {
-          font-size: 2.8125rem !important;
-          border-radius: 3.125rem;
-          width: 3.125rem;
-          height: 3.125rem;
-          line-height: 2.6875rem !important;
-          transition: background 0.25s;
-        }
-      }
-
       &--left {
         left: 0;
       }
 
       &--right {
         right: 0;
-        text-align: right;
-        justify-content: flex-end;
       }
 
       @include break-on(sm, max) {

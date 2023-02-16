@@ -78,9 +78,9 @@ export class SchoolFundingAreasViewComponent {
     this.loading = true;
     const variables = {
       levelOfDetail,
-      ownershipType: params.institutionOwnership,
-      investmentMeasure: params.investmentMeasure,
-      investmentDeadline: params.investmentDeadlineYear,
+      ownershipType: Number(params.institutionOwnership),
+      investmentMeasure: Number(params.investmentMeasure),
+      investmentDeadline: Number(params.investmentDeadlineYear),
     };
     const query = this.settingsService.query('subsidyProjectQueryLocation', variables);
     this.http.get(query).subscribe({

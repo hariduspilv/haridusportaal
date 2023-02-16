@@ -109,12 +109,16 @@
     .emblem {
       position: absolute;
       top: 50%;
-      right:0;
-      width: 5rem;
-      height:8.625rem;
-      margin-top:-4.325rem;
-      background: url('/assets/img/homepage-eu.svg') center center no-repeat;
+      right: 0;
+      width: 4.7rem;
+      height: 8.625rem;
+      margin-top: -4.325rem;
+      background: url('/assets/img/kaasrahastanud-el.jpg') center center no-repeat;
       background-size: contain;
+      transform: scale(1.15);
+      transform-origin: right center;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
     }
     .navBlock {
       display: block;

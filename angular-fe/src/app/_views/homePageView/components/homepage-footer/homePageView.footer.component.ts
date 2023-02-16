@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
   HostBinding,
 } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService, AlertsService, ModalService } from '@app/_services';
@@ -25,7 +25,7 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
   public subscribedStatus: boolean = false;
   public subscribedError: boolean = false;
   public loading: boolean = false;
-  public formGroup: FormGroup = this.formBuilder.group({
+  public formGroup: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
   @ViewChild('scrollTarget') public scrollTarget;
@@ -35,7 +35,7 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     public settings: SettingsService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private alertsService: AlertsService,
     private translate: TranslateService,
     private http: HttpClient,

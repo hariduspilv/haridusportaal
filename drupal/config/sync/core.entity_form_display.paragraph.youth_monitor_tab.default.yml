@@ -1,0 +1,56 @@
+uuid: 9bdb1f30-a498-42e5-beb5-d885ab34911e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.youth_monitor_tab.field_accordion_icon
+    - field.field.paragraph.youth_monitor_tab.field_accordion_title
+    - field.field.paragraph.youth_monitor_tab.field_youth_monitor_tab_page
+    - field.field.paragraph.youth_monitor_tab.field_youth_monitor_tab_ref
+    - paragraphs.paragraphs_type.youth_monitor_tab
+  module:
+    - inline_entity_form
+    - maxlength
+id: paragraph.youth_monitor_tab.default
+targetEntityType: paragraph
+bundle: youth_monitor_tab
+mode: default
+content:
+  field_accordion_icon:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_accordion_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+  field_youth_monitor_tab_ref:
+    type: inline_entity_form_complex
+    weight: 2
+    region: content
+    settings:
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      allow_existing: true
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: true
+      collapsed: true
+      revision: false
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_youth_monitor_tab_page: true
+  status: true

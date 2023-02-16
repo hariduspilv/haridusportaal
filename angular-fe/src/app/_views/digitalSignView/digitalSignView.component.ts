@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SettingsService, AuthService, AlertsService, NgbDateCustomParserFormatter } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
 import { DSVResponse, DSVValue } from './digitalSignView.model';
@@ -44,7 +44,7 @@ export class DigitalSignViewComponent implements OnInit {
   defaultChecked = true;
   selectedCard = '';
 
-  formGroup: FormGroup = this.formBuilder.group({});
+  formGroup: UntypedFormGroup = this.formBuilder.group({});
 
   constructor(
     private http: HttpClient,
@@ -53,7 +53,7 @@ export class DigitalSignViewComponent implements OnInit {
     public auth: AuthService,
     private router: ActivatedRoute,
     private translate: TranslateService,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     private location: Location,
   ) { }
 

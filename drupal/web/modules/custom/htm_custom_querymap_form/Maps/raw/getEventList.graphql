@@ -1,15 +1,15 @@
 query getEventList($tagsValue: [String], $tagsEnabled: Boolean, $typesValue: [String], $typesEnabled: Boolean, $titleValue: String, $titleEnabled: Boolean, $timeEnabled: Boolean, $dateFrom: String, $dateTo: String, $timeFrom: String, $timeTo: String, $lang: LanguageId!, $offset: Int, $limit: Int) {
   nodeQuery(offset: $offset, limit: $limit, sort: {field: "field_event_main_date.value", direction: ASC}, filter:
-    {conjunction: AND, conditions: [
-      {operator: EQUAL, field: "type", value: ["event"], language: $lang},
-      {operator: EQUAL, field: "status", value: "1", language: $lang},
-      {operator: IN, field: "field_tag.entity.tid", value: $tagsValue, language: $lang, enabled: $tagsEnabled},
-      {operator: IN, field: "field_event_type.entity.tid", value: $typesValue, language: $lang, enabled: $typesEnabled},
-      {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled},
-      {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateFrom]},
-      {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateTo]},
-      {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeFrom], enabled: $timeEnabled},
-      {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeTo], enabled: $timeEnabled}]}) {
+  {conjunction: AND, conditions: [
+    {operator: EQUAL, field: "type", value: ["event"], language: $lang},
+    {operator: EQUAL, field: "status", value: "1", language: $lang},
+    {operator: IN, field: "field_tag.entity.tid", value: $tagsValue, language: $lang, enabled: $tagsEnabled},
+    {operator: IN, field: "field_event_type.entity.tid", value: $typesValue, language: $lang, enabled: $typesEnabled},
+    {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled},
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateFrom]},
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateTo]},
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeFrom], enabled: $timeEnabled},
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeTo], enabled: $timeEnabled}]}) {
     count
     entities(language: $lang) {
       ... on NodeEvent {
@@ -36,8 +36,8 @@ query getEventList($tagsValue: [String], $tagsEnabled: Boolean, $typesValue: [St
           date
           unix
         }
-        fieldEventMainStartTime
-        fieldEventMainEndTime
+        fieldEventMainStartTime: fieldEventStartTimeMain
+        fieldEventMainEndTime:fieldEventEndTimeMain
         eventDates: fieldEventDate {
           ...eventdates
         }
@@ -59,7 +59,7 @@ query getEventList($tagsValue: [String], $tagsEnabled: Boolean, $typesValue: [St
   }
 }
 
-fragment eventdates on FieldNodeFieldEventDate {
+fragment eventdates on FieldNodeEventFieldEventDate {
   entity {
     ... on ParagraphEventDate {
       fieldEventDate:fieldEventAdditionalDate{
@@ -67,13 +67,13 @@ fragment eventdates on FieldNodeFieldEventDate {
         date
         unix
       }
-      fieldEventStartTime
-      fieldEventEndTime
+      fieldEventStartTime:fieldEventStartTimeAddition
+      fieldEventEndTime:fieldEventEndTimeAddition
     }
   }
 }
 
-fragment registrationdates on FieldNodeFieldRegistrationDate {
+fragment registrationdates on FieldNodeEventFieldRegistrationDate {
   entity {
     ... on ParagraphRegistrationPeriod {
       fieldRegistrationFirstDate {

@@ -1,6 +1,0 @@
-edit menu_item_role_access:
-  title: 'Edit The Menu Item Role Access Field'
-  description: 'Edit the Menu Item Role Access Field on the menu link content page.'
-administer menu_item_role_access:
-  title: 'Administer Menu Item Role Access Configuration'
-  description: 'Administer The Menu Item Role Access Configuration Page.'

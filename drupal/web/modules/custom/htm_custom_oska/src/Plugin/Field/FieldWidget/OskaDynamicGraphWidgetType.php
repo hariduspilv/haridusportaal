@@ -45,10 +45,13 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
           ];
 
         $source_file_options = [];
-        $source_files = array_slice(scandir('/app/drupal/web/sites/default/files/private/oska_csv/'), 2);
-        foreach ($source_files as $file) {
-          if( $file !== 'oska_csv.csv' && $file !== 'oska_map_csv.csv') {
-            $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
+        $folder_content = scandir('/app/drupal/web/sites/default/files/private/oska_csv/');
+        if (!empty($folder_content)) {
+          $source_files = array_slice($folder_content, 2);
+          foreach ($source_files as $file) {
+            if ($file !== 'oska_csv.csv' && $file !== 'oska_map_csv.csv') {
+              $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
+            }
           }
         }
 
@@ -270,7 +273,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 if(isset($form_state->getUserInput()[$field_name][$delta]['graph_options']['indicators'])){
                     foreach($form_state->getUserInput()[$field_name][$delta]['graph_options']['indicators'] as $indicator_input){
                         $graph_indicator[] =  $indicator_input['indicator_set']['graph_indicator'];
-                        $secondary_graph_indicator = array_merge($secondary_graph_indicator, $indicator_input['indicator_set']['secondary_graph_indicator']);
+                        if(is_array($indicator_input['indicator_set']['secondary_graph_indicator'])) {
+                          $secondary_graph_indicator = array_merge($secondary_graph_indicator, $indicator_input['indicator_set']['secondary_graph_indicator']);
+                        }
                     }
                 }else if(isset($data['indicators'])){
                     foreach($data['indicators'] as $indicator_input){

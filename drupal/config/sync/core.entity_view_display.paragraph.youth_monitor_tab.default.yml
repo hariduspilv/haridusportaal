@@ -1,0 +1,53 @@
+uuid: 7bd3cde6-f511-46de-a64f-8ba720dd836a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.youth_monitor_tab.field_accordion_icon
+    - field.field.paragraph.youth_monitor_tab.field_accordion_title
+    - field.field.paragraph.youth_monitor_tab.field_youth_monitor_tab_page
+    - field.field.paragraph.youth_monitor_tab.field_youth_monitor_tab_ref
+    - paragraphs.paragraphs_type.youth_monitor_tab
+  module:
+    - entity_reference_revisions
+    - options
+id: paragraph.youth_monitor_tab.default
+targetEntityType: paragraph
+bundle: youth_monitor_tab
+mode: default
+content:
+  field_accordion_icon:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_accordion_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_youth_monitor_tab_page:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_youth_monitor_tab_ref:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

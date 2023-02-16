@@ -1,6 +1,7 @@
 import { HostListener, Component, Input, OnInit, HostBinding } from '@angular/core';
 import { ModalService } from '@app/_services';
 import { VideoEmbedService } from '@app/_services/VideoEmbedService';
+import Swiper, { SwiperOptions } from 'swiper';
 
 let _galleryID = 0;
 
@@ -16,9 +17,10 @@ interface ResponseImage {
 interface ResponseVideo {
   input?: string;
   videoThumbnail?: string;
+  videoDescription?: string;
 }
 
-interface ResolvedList extends ResponseVideo, ResponseImage {}
+export interface ResolvedList extends ResponseVideo, ResponseImage {}
 
 @Component({
   selector: 'images',
@@ -28,6 +30,7 @@ interface ResolvedList extends ResponseVideo, ResponseImage {}
 
 export class ImageComponent implements OnInit {
   public _id = `gallery-${_galleryID++}`;
+  public swiper: Swiper;
 
   @Input() image: ResponseImage | ResponseImage[];
   @Input() videos: ResponseVideo | ResponseVideo[];
@@ -39,9 +42,15 @@ export class ImageComponent implements OnInit {
   @Input() mediaGallery: (ResponseVideo | ResponseImage)[] | null;
 
   @HostBinding('class') className = 'image';
+  @HostBinding('id') get wrapperId() {
+    return `${this._id}-wrapper`;
+  }
+
+  config: SwiperOptions;
 
   public images: ResolvedList[];
   public activeImage: ResolvedList;
+  public activeIndex = 0;
   public loadBounce = false;
   public firstImageLoaded = true;
 
@@ -52,6 +61,46 @@ export class ImageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeGallery();
+    this.config = {
+      pagination: { el: '.swiper-pagination', clickable: true, type: 'bullets' },
+      navigation: {
+        prevEl: '.slides__arrow--left',
+        nextEl: '.slides__arrow--right'
+      },
+      a11y: {
+        enabled: true,
+      },
+      observer: true,
+      observeParents: true,
+      keyboard: true,
+      slidesPerView: 1,
+      loop: false,
+      rewind: true,
+      breakpoints: {
+        1024: {
+          slidesPerView: 'auto',
+        }
+      },
+      on: {
+        observerUpdate: (swiper) => {
+          const left = swiper.el.querySelector('.slides__arrow--left') as HTMLElement;
+          const right = swiper.el.querySelector('.slides__arrow--right') as HTMLElement;
+          const slidesLength = swiper.slides.length;
+
+          if (slidesLength <= 1) {
+            left.style.display = 'none';
+            right.style.display = 'none';
+          } else {
+            left.style.display = '';
+            right.style.display = '';
+          }
+        },
+        slideChangeTransitionStart: (sw: Swiper) => {
+          this.activeIndex = sw.activeIndex;
+          this.activeImage = this.images[this.activeIndex];
+        }
+      },
+    }
   }
 
   initializeGallery(): void {

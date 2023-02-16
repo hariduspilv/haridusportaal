@@ -22,7 +22,7 @@ export const routerDictionary = [
 	['lõpudokumentide-kehtivuse-kontroll', 'finishing-docs-validity-check'],	// , 'proverka-dejstvitelnosti-dokumentov-ob-okonchanii'
 	['lõputunnistused' , 'finishing-certificates'], 													// , 'svidetelstva-ob-okonchanii'
 	['noored', 'youth'], 																											// , 'molodjoz'
-	['noorteseire', 'youth-monitoring'],
+	['noorteseire', 'youth-monitoring'],																			// , 'monitoring-molodjozi'
 	['noortevaldkond', 'youth'],																							// , 'molodjoznaja-sfera'
 	['oska-tulemused', 'oska-results'],																				// , 'oska-rezultaty'
 	['sündmused', 'events'],																									// , 'sobytija'
