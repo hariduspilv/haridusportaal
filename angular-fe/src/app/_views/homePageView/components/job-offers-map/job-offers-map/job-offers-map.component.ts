@@ -30,7 +30,6 @@ export class JobOffersMapComponent implements OnInit {
     draggable: true,
     enablePolygonModal: false,
     enableStreetViewControl: false,
-    enableLabels: true,
   };
 
   constructor(private service: JobOffersMapService) {}

@@ -3,8 +3,10 @@ import { OlMapComponent } from '@app/modules/olmap/components/ol-map/ol-map.comp
 import conf from '@app/_core/conf';
 import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
+import { Feature } from 'ol';
 import { boundingExtent } from 'ol/extent';
 import { toLonLat } from 'ol/proj';
+import { Fill, Stroke, Style } from 'ol/style';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -225,24 +227,22 @@ export class MapService {
    * @param feature - polygon style data from API
    * @returns  - changed colors and values
    */
-  polygonStyles(feature) {
+  polygonStyles(feature: Feature) {
     let color = '#cfcfcf';
-    const keys = Object.keys(feature).join(',').split(',');
 
-    for (const i in keys) {
-      const key = keys[i];
-      if (feature[key] && feature[key]['color']) {
-        color = feature[key]['color'];
-      }
+    if (feature.get('color')) {
+      color = feature.get('color');
     }
-    return {
-      fillColor: color,
-      fillOpacity: 1,
-      strokeColor: '#ffffff',
-      strokeWeight: 1,
-      strokeOpacity: 1,
-      clickable: true,
-    };
+
+    return new Style({
+      stroke: new Stroke({
+        color: '#ffffff',
+        width: 1,
+      }),
+      fill: new Fill({
+        color: color,
+      }),
+    });
   }
   /**
    * Layers click event

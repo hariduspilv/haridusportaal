@@ -53,7 +53,6 @@ export class SchoolFundingViewComponent implements OnInit {
     draggable: true,
     enablePolygonModal: false,
     enableStreetViewControl: false,
-    enableLabels: true,
   };
 
   watchParams() {

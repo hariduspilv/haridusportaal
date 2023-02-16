@@ -51,7 +51,6 @@ export class SchoolListMapComponent implements AfterViewInit {
     enablePolygonModal: false,
     enableStreetViewControl: false,
     enableZoomControl: true,
-    enableLabels: true,
   };
   public bounds = {
     minLat: '0',

@@ -29,10 +29,9 @@ const options: Object = {
   maxZoom: 11,
   minZoom: 11,
   draggable: true,
-  zoomControl: false,
+  enableZoomControl: false,
   streetViewControl: false,
   showOuterLink: true,
-  showLabels: true,
   showParameters: false,
   showPolygonLayerSelection: false,
   showPolygonLegend: false
@@ -42,8 +41,8 @@ const options: Object = {
 const markers: Object[] = [
   {
     Nid: '43317',
-    Lat: null,
-    Lon: null,
+    Lat: 59.4371821,
+    Lon: 24.7450143,
     EntityPath: '/kool/5mpc',
     info: {
       FieldSchoolName: '5MPC',

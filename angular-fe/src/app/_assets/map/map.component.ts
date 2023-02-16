@@ -21,7 +21,6 @@ interface MapOptions {
   enableZoomControl: boolean;
   enableStreetViewControl: boolean;
   enableOuterLink: boolean;
-  enableLabels: boolean;
   enableParameters: boolean;
   polygonType: string;
   enablePolygonLegend: boolean;
@@ -153,16 +152,6 @@ export class MapComponent {
       },
     });
   }
-  mapLabelSwitcher(state) {
-    this.defaultMapOptions.styles = [];
-    this.defaultMapOptions.styles = [
-      {
-        elementType: 'labels',
-        stylers: [{ visibility: state ? 'on' : 'off' }],
-      },
-      ...conf.defaultMapStyles,
-    ];
-  }
 
   changeLayer(name) {
     this.polygonLayer = name;
@@ -191,17 +180,12 @@ export class MapComponent {
       if (this.paramValue) {
         this.activeLegendParameters = this.legendLabels[this.paramValue];
       }
-      this.mapLabelSwitcher(this.options.enableLabels);
     });
   }
 
   ngOnDestroy() {
     this.paramSub?.unsubscribe();
     if (this.polygonSub) this.polygonSub.unsubscribe();
-  }
-
-  ngOnChanges() {
-    this.mapLabelSwitcher(this.options.enableLabels);
   }
 
   layerClickStatus($isOpen: boolean) {

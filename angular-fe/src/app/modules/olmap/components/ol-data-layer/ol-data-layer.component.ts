@@ -13,10 +13,8 @@ import VectorLayer from 'ol/layer/Vector';
 import { OlMapComponent } from '../ol-map/ol-map.component';
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorSource from 'ol/source/Vector';
-import Style from 'ol/style/Style';
+import { StyleLike } from 'ol/style/Style';
 import { FeatureLike } from 'ol/Feature';
-import Stroke from 'ol/style/Stroke';
-import Fill from 'ol/style/Fill';
 import { Select } from 'ol/interaction';
 import { click } from 'ol/events/condition';
 import { getUid, MapBrowserEvent } from 'ol';
@@ -33,7 +31,7 @@ export interface MapLayerClickEvent {
 })
 export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() geoJson: Object;
-  @Input() styles?: (feature: any) => any;
+  @Input() styles?: (feature: FeatureLike) => StyleLike;
   @Output() layerClick = new EventEmitter<MapLayerClickEvent>();
 
   private _layer = new VectorLayer();
@@ -42,7 +40,12 @@ export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
   constructor(@Host() public manager: OlMapComponent) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.geoJson || changes.styles) {
+    if (changes.styles) {
+      this.styleFunc = this.styles?.bind(this);
+      this._layer.setStyle(this.styleFunc);
+    }
+
+    if (changes.geoJson) {
       this.resetGeoJson();
     }
   }
@@ -65,48 +68,36 @@ export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
       condition: click,
       style: this.styleFunc,
     });
+
     this._select.on('select', (event) => {
       this.layerClick.emit(event);
     });
+
     this.manager.map.addInteraction(this._select);
-  }
-
-  private convertStyles(feature: FeatureLike) {
-    if (!this.styles) return {};
-    const response = this.styles(feature);
-    if (response instanceof Style) return response;
-    const flatStyle = response as Record<string, any>;
-
-    // TODO: move to mapservice
-    return new Style({
-      stroke: new Stroke({
-        color: flatStyle.strokeColor,
-        width: flatStyle.strokeWeight,
-      }),
-      fill: new Fill({
-        color: flatStyle.fillColor,
-      }),
-    });
   }
 
   private resetGeoJson() {
     this._layer.setSource(undefined);
+
     const readFeatures = new GeoJSON().readFeatures(this.geoJson, {
       featureProjection: 'EPSG:3301',
     });
+
     const vectorSource = new VectorSource({
       features: readFeatures,
     });
+
     this._layer.setSource(vectorSource);
-    this._layer.setStyle(this.styleFunc);
   }
 
   private clickHandler(event: MapBrowserEvent<any>) {
     this._layer.getFeatures(event.pixel).then((clickedFeatures) => {
       let feature: FeatureLike;
+
       if (clickedFeatures.length) {
         [feature] = clickedFeatures;
       }
+
       this.layerClick.emit({
         mapBrowserEvent: event,
         feature,
@@ -114,6 +105,6 @@ export class OlDataLayerComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  private styleFunc = this.convertStyles?.bind(this);
+  private styleFunc = this.styles?.bind(this);
   private clickHandlerFunc = this.clickHandler.bind(this);
 }
