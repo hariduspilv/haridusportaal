@@ -118,7 +118,13 @@
               <p class="title with--border">{{ marker.FieldSchoolName }}</p>
               <p *ngIf="marker.FieldAddress">
                 {{ 'school.legal_address' | translate }}:
-                <b>{{ marker.FieldAddress }}</b>
+                <b>
+                  <a
+                    [href]="'https://google.com/maps/place/' + (marker.Lat || marker.lat) + ',' + (marker.Lon || marker.lon)"
+                    rel="nofollow"
+                    target="_blank"
+                  >{{ marker.FieldAddress }}</a>
+                </b>
               </p>
 
               <p *ngIf="marker.FieldEducationalInstitutionTy">
@@ -129,16 +135,17 @@
                 *ngIf="marker.FieldSchoolContactPhone || marker.FieldSchoolContactEmail"
               >
                 {{ 'school.contact_info' | translate }}:
-                <b *ngIf="marker.FieldSchoolContactPhone"
-                  >{{ marker.FieldSchoolContactPhone }}</b
+                <a *ngIf="marker.FieldSchoolContactPhone"
+                  href="tel:{{ marker.FieldSchoolContactPhone }}"
+                  >{{ marker.FieldSchoolContactPhone }}</a
                 ><span
                   *ngIf="marker.FieldSchoolContactPhone && marker.FieldSchoolContactEmail"
-                  >,</span
+                  >, </span
                 >
                 <a
                   *ngIf="marker.FieldSchoolContactEmail"
-                  href="mailto:{{ marker.FieldSchoolContactEmail}}"
-                  ><b>{{ marker.FieldSchoolContactEmail}}</b></a
+                  href="mailto:{{ marker.FieldSchoolContactEmail }}"
+                  ><b>{{ marker.FieldSchoolContactEmail }}</b></a
                 >
               </p>
 
@@ -177,7 +184,13 @@
               </p>
               <p *ngIf="marker.FieldAddress" class="no-margin">
                 {{ 'event.aadress' | translate }}:
-                <b>{{ marker.FieldAddress }}</b>
+                <b>
+                  <a
+                    [href]="'https://google.com/maps/place/' + (marker.Lat || marker.lat) + ',' + (marker.Lon || marker.lon)"
+                    rel="nofollow"
+                    target="_blank"
+                  >{{ marker.FieldAddress }}</a>
+                </b>
               </p>
               <p *ngIf="marker.FieldDate" class="no-margin end-item">
                 {{ 'jobOffer.job_expiry' | translate }}:
