@@ -136,6 +136,8 @@ class TranslationsNewRestResource extends ResourceBase {
     }
     $output= [];
     foreach ($values as $value_key => $value) {
+      $value_field = '';
+      $context = '';
      $value_key = str_replace('htm_translations.','',$value_key);
      $value_key_exploded = explode('.',$value_key);
      if (!empty($value_key_exploded[0])){
@@ -146,6 +148,9 @@ class TranslationsNewRestResource extends ResourceBase {
      }
      if (!empty($context) && !empty($value_field)) {
        $output[$context][$value_field] = $value;
+     }
+     elseif (!empty($context) && empty($value_field)) {
+       $output[$context] = $value;
      }
     }
     return $output;
