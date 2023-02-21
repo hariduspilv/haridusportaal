@@ -78,13 +78,11 @@ abstract class TranslationFormBase extends ConfigFormBase {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function buildForm(array $form, FormStateInterface $form_state, $translation_key = NULL) {
+	public function buildForm(array $form, FormStateInterface $form_state, $translation_key = NULL, $state_type = NULL) {
 		$form['#tree'] = TRUE;
-
 		$config = $this->config('htm_custom_translations_new.translation');
     $state = \Drupal::state()->get('htm_custom_translations');
 		$this->buildFormData($form, $form_state, $config, $translation_key);
-
 		return parent::buildForm($form, $form_state);
 
 	}
@@ -113,7 +111,6 @@ abstract class TranslationFormBase extends ConfigFormBase {
 	 */
 	public function submitForm(array &$form, FormStateInterface $form_state) {
 		$redirect = FALSE;
-
 		$config_key = 'htm_custom_translations_new.translation';
     $state_key = 'htm_translations';
     $state_keys = \Drupal::state()->get('translation_keys');

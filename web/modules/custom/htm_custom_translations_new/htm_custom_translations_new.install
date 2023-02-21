@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Convert config translations to state translations
+ */
+function htm_custom_translations_new_update_9001() {
+ $config = \Drupal::config('htm_custom_translations_new.translation');
+  $state_keys = \Drupal::state()->get('translation_keys');
+  $config_values = $config->get();
+  $flatten = new \Drupal\htm_custom_translations_new\translationHelper();
+  $config_values = $flatten->flatten($config_values);
+  $state_values = [];
+  $state_key_original = 'htm_translations';
+  foreach ($config_values as $config_key => $config_value) {
+    $state_key = $state_key_original.'.'.$config_key;
+    if (!isset($state_keys[$state_key])) {
+      $state_keys[$state_key] = [];
+    }
+    $full_state_key = $state_key;
+    foreach ($config_value as $config_key_key => $config_key_value) {
+      $full_state_key = $state_key.'.'.$config_key_key;
+      $state_keys[$state_key][] = $full_state_key;
+      $state_values[$full_state_key] = $config_key_value;
+    }
+
+//    dump($config_value);
+  }
+  if (!empty($state_keys)) {
+    \Drupal::state()->set('translation_keys',$state_keys);
+  }
+  if (!empty($state_values)) {
+    \Drupal::state()->setMultiple($state_values);
+  }
+
+}

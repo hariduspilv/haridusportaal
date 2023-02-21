@@ -11,29 +11,60 @@ use Drupal\htm_custom_translations_new\translationHelper;
 
 function htm_custom_translations_new_import_translations()
 {
+  $state = \Drupal::state();
   $config = \Drupal::config('htm_custom_translations_new.translation');
   $editable_config = \Drupal::configFactory()->getEditable('htm_custom_translations_new.translation');
   $formatter = new translationHelper();
-
-  $file = @file_get_contents(__DIR__ . '/translations.json',true);
-  if($file !== FALSE){
-    $new_translations = $formatter->flatten(json_decode($file, true));
-    $existing_translations = $formatter->flatten($config->get());
-    foreach($new_translations as $key => $values){
-      if(!isset($existing_translations[$key])){
-        foreach($values as $field => $value){
-          $editable_config->set("$key.$field", $value)->save();
+  $translation_keys = $state->get('translation_keys');
+  $file = @file_get_contents(__DIR__ . '/translations_new.json', true);
+  if ($file !== FALSE) {
+    $file_decoded = json_decode($file);
+    foreach ($file_decoded as $translation_state_key => $translations){
+      if (!isset($translation_keys[$translation_state_key])) {
+        dump($translations);
+        $translation_keys[$translation_state_key] = [];
+        foreach ($translations as $translation_key => $translation) {
+          $state->set($translation_key,$translation);
+          $translation_keys[$translation_state_key][] = $translation_key;
         }
       }
     }
+    $state->set('translation_keys', $translation_keys);
+//    dump($file_decoded);
+//    exit();
+//    $new_translations = $formatter->flatten(json_decode($file, true));
+//    $existing_translations = $formatter->flatten($config->get());
+//    foreach ($new_translations as $key => $values) {
+//      if (!isset($existing_translations[$key])) {
+//        foreach ($values as $field => $value) {
+//          $editable_config->set("$key.$field", $value)->save();
+//        }
+//      }
+//    }
   }
 }
 
 function htm_custom_translations_new_export_translations()
 {
   $translations = \Drupal::config('htm_custom_translations_new.translation')->get();
+  $translations_keys = \Drupal::state()->get('translation_keys');
+  $translations_array = [];
+  foreach ($translations_keys as $translation_key => $translations_key_value) {
+    $translations_array[$translation_key] = [];
+    if (is_array($translations_key_value)) {
+      foreach ($translations_key_value as $state_key => $translation_actual_key) {
+        $translations_array[$translation_key][$translation_actual_key] = \Drupal::state()->get($translation_actual_key);
+      }
+    }
+  }
 
-  $fp = fopen(__DIR__ . '/translations.json', 'c');
-  fwrite($fp, json_encode($translations));
+  $fp = fopen(__DIR__ . '/translations_new.json', 'c');
+  fwrite($fp, json_encode($translations_array));
   fclose($fp);
+//  dump($translations_array);
+//  dump($translations_keys);
+//  exit();
+//  $fp = fopen(__DIR__ . '/translations.json', 'c');
+//  fwrite($fp, json_encode($translations));
+//  fclose($fp);
 }
