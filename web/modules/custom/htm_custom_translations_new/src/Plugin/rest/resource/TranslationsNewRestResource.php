@@ -146,6 +146,9 @@ class TranslationsNewRestResource extends ResourceBase {
      if (!empty($value_key_exploded[1])){
        $value_field = $value_key_exploded[1];
      }
+      if (is_array($value)){
+        $value = $value['value'];
+      }
      if (!empty($context) && !empty($value_field)) {
        $output[$context][$value_field] = $value;
      }
