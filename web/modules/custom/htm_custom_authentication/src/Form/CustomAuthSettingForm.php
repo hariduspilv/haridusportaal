@@ -40,29 +40,31 @@ class CustomAuthSettingForm extends ConfigFormBase {
         $form['tabs'] = [
             '#type' => 'vertical_tabs',
         ];
-
-
+        $state = \Drupal::state();
         $form['auth_methods'] = [
             '#type' => 'fieldset',
             '#title' => $this->t('Authentication methods')
         ];
 
+      $state_default = $state->get('auth_methods.harid');
         $form['auth_methods']['harid'] = [
             '#type' => 'checkbox',
             '#title' => $this->t('HarID'),
-            '#default_value' => $config->get('auth_methods.harid'),
+            '#default_value' => $state_default,
         ];
 
+      $state_default = $state->get('auth_methods.tara');
         $form['auth_methods']['tara'] = [
             '#type' => 'checkbox',
             '#title' => $this->t('TARA'),
-            '#default_value' => $config->get('auth_methods.tara'),
+            '#default_value' => $state_default,
         ];
 
+      $state_default = $state->get('auth_methods.mobile_id');
         $form['auth_methods']['mobile_id'] = [
             '#type' => 'checkbox',
             '#title' => $this->t('Mobile-ID'),
-            '#default_value' => $config->get('auth_methods.mobile_id'),
+            '#default_value' => $state_default,
         ];
 
         return $form;
@@ -84,13 +86,11 @@ class CustomAuthSettingForm extends ConfigFormBase {
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
         parent::submitForm($form, $form_state);
+        $state = \Drupal::state();
 
-        $this->config('htm_custom_authentication.customauthsetting')
-            ->set('auth_methods.harid', $form_state->getValue('harid'))
-            ->set('auth_methods.tara', $form_state->getValue('tara'))
-            ->set('auth_methods.mobile_id', $form_state->getValue('mobile_id'))
-            ->save();
-
+       $state  ->set('auth_methods.harid', $form_state->getValue('harid'));
+       $state ->set('auth_methods.tara', $form_state->getValue('tara'));
+       $state ->set('auth_methods.mobile_id', $form_state->getValue('mobile_id'));
         Cache::invalidateTags(['config:htm_custom_authentication.customauthsetting']);
     }
 

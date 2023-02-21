@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_translations_new\Form;
 
+use Drupal;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -17,17 +18,22 @@ class TranslationFormEditTranslation extends TranslationFormAddTranslation {
 	public function buildFormData(array &$form, FormStateInterface $form_state, Config $config, $translation_key)
 	{
 		parent::buildFormData($form, $form_state, $config, $translation_key);
+    $request = $_REQUEST;
 		$current_conf = $config->get($translation_key);
+    if (!empty($request['translation_type'])) {
+      $translation_type = $request['translation_type'];
+    }
+    $current_state = Drupal::state()->get($translation_key);
 		#dump($current_conf);
-		$form['translation']['key'] += [
-			'#default_value' => $translation_key,
-			#'#attributes' => ['disabled' => 'disabled']
-		];
+//		$form['translation']['key'] += [
+//			'#default_value' => $translation_key,
+//			#'#attributes' => ['disabled' => 'disabled']
+//		];
 
-		$form['translation']['translation_type'] += [
-			'#default_value' => $current_conf['translation_type'],
-			'#attributes' => ['disabled' => 'disabled']
-		];
+//		$form['translation']['translation_type'] += [
+//			'#default_value' => $current_conf['translation_type'],
+//			'#attributes' => ['disabled' => 'disabled']
+//		];
 
 		//override translations value & type
 		foreach ($this->languageManager->getLanguages() as $lang_key => $language){
@@ -37,6 +43,23 @@ class TranslationFormEditTranslation extends TranslationFormAddTranslation {
 				'#title' => $this->t('Translation in ' . $language->getName()),
 			];
 		}
+    $form['translation']['key'] += [
+      '#default_value' => str_replace('htm_translations.','',$translation_key),
+    ];
+//  dump(Drupal::state()->get($translation_key.'.type'));
+//  dump($translation_key);
+    $form['translation']['translation_type'] += [
+      '#default_value' => Drupal::state()->get($translation_key.'.translation_type'),
+//      '#attributes' => ['disabled' => 'disabled']
+    ];
+    foreach ($this->languageManager->getLanguages() as $lang_key => $language){
+      $trans_state = Drupal::state()->get($translation_key.'.'.$language->getId());
+      $form['translation']['translations'][$lang_key] = [
+        '#default_value' => (is_array($trans_state)) ? $trans_state['value'] : $trans_state,
+        '#type' => Drupal::state()->get($translation_key.'.translation_type'),
+        '#title' => $this->t('Translation in ' . $language->getName()),
+      ];
+    }
 	}
 
 	public function validateForm(array &$form, FormStateInterface $form_state)

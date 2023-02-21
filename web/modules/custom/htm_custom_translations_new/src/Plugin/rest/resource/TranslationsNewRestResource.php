@@ -101,9 +101,9 @@ class TranslationsNewRestResource extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
     $current_lang = $this->languageManager->getCurrentLanguage()->getId();
-
+    $state_values= $this->getStateValues();
 		$values = $this->flatten($values, '', $current_lang);
-		$response = new ResourceResponse($values, 200);
+		$response = new ResourceResponse($state_values, 200);
     $response->addCacheableDependency($config);
 
     return $response;
@@ -124,5 +124,30 @@ class TranslationsNewRestResource extends ResourceBase {
 		#dump($result);
 		return $result;
 	}
-
+  private function getStateValues(){
+    $state_keys = \Drupal::state()->get('translation_keys');
+    $lang = $this->languageManager->getCurrentLanguage()->getId();
+    $values = [];
+    foreach ($state_keys as $state_key => $state_key_value) {
+      $state_val = \Drupal::state()->get($state_key.'.'.$lang);
+      if (!empty($state_val)) {
+        $values[$state_key] = $state_val;
+      }
+    }
+    $output= [];
+    foreach ($values as $value_key => $value) {
+     $value_key = str_replace('htm_translations.','',$value_key);
+     $value_key_exploded = explode('.',$value_key);
+     if (!empty($value_key_exploded[0])){
+       $context = $value_key_exploded[0];
+     }
+     if (!empty($value_key_exploded[1])){
+       $value_field = $value_key_exploded[1];
+     }
+     if (!empty($context) && !empty($value_field)) {
+       $output[$context][$value_field] = $value;
+     }
+    }
+    return $output;
+  }
 }
