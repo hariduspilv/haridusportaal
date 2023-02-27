@@ -99,23 +99,32 @@ abstract class VariableFormBase extends ConfigFormBase {
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
         $redirect = FALSE;
+        $state = \Drupal::state();
 
         $config_key = 'htm_custom_variables.variable';
-
+        $state_keys = $state->get('htm_custom_variable_keys');
         switch ($this->actionType()){
             case 'add':
             case 'edit':
                 $variable = $form_state->getValues()['variable'];
                 $variable_key = $variable['key'];
-
+                $state_key = 'htm_variables.' . $variable['key'];
+                $state_keys[$state_key] = $state_key;
                 if($form_state->get('delete_old_key')){
                     $variableKeyDefaultValue = $form['variable']['key']['#default_value'];
                     $this->config($config_key)->clear($variableKeyDefaultValue);
+                    if (isset($state_keys[$state_key])) {
+                      unset($state_keys[$state_key]);
+                      $state->delete($state_key);
+                    }
                     $redirect = TRUE;
                 }
 
                 $this->config($config_key)->set($variable_key, $variable['variables'])->save();
-
+                $state->set($state_key,$variable['variables']);
+                if (!isset($state_keys[$state_key])){
+                  $state_keys[$state_key] = $state_key;
+                }
                 $message = ($this->actionType() === 'add') ? $this->t('Variable saved') : $this->t('Variable updated');
                 $this->messenger->addMessage($message);
                 if($redirect){
@@ -142,6 +151,9 @@ abstract class VariableFormBase extends ConfigFormBase {
             default:
                 $this->messenger->addError('Action type not recognized');
                 break;
+        }
+        if (!empty($state_keys)) {
+          $state->set('htm_custom_variable_keys', $state_keys);
         }
     }
     protected function SaveConfig(){
