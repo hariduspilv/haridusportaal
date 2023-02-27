@@ -14,7 +14,8 @@ function htm_custom_subscriptions_mail($key, &$message, $params) {
 			$token_service = \Drupal::token();
 			$langcode = $entity->language->value;
 			$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
-			$link_root = $config->get('general.fe_url');
+      $state = \Drupal::state();
+			$link_root = $state->get('general.fe_url');
 
 			if(isset($params['tags'])){
 				$title = $token_service->replace($params['subject'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
@@ -46,6 +47,7 @@ function htm_custom_subscriptions_entity_insert(Drupal\Core\Entity\EntityInterfa
 
 		$langcode = $entity->language->value;
 		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+    $state = \Drupal::state();
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'htm_custom_subscriptions';
 		$key = 'subscription_email';
@@ -60,8 +62,8 @@ function htm_custom_subscriptions_entity_insert(Drupal\Core\Entity\EntityInterfa
 		}
 		$params['entity'] = $entity;
 
-		$params['subject'] = $config->get('emails.email_subscription.create_email_subject');
-		$params['body'] = $config->get('emails.email_subscription.create_email_body');
+		$params['subject'] = $state->get('emails.email_subscription.create_email_subject');
+		$params['body'] = $state->get('emails.email_subscription.create_email_body');
 
 		$send = true;
 
@@ -85,6 +87,7 @@ function htm_custom_subscriptions_entity_update(Drupal\Core\Entity\EntityInterfa
 
 		$langcode = $entity->language->value;
 		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+    $state = \Drupal::state();
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'htm_custom_subscriptions';
 		$key = 'subscription_email';
@@ -107,11 +110,11 @@ function htm_custom_subscriptions_entity_update(Drupal\Core\Entity\EntityInterfa
 		if(count($params['newtags']) > 0){
 			$params['entity'] = $entity;
 			if(count($fields['tag']) > 0 && $fields['status'][0]['value'] != '0'){
-				$params['subject'] = $config->get('emails.email_subscription.update_email_subject');
-				$params['body'] = $config->get('emails.email_subscription.update_email_body');
+				$params['subject'] = $state->get('emails.email_subscription.update_email_subject');
+				$params['body'] = $state->get('emails.email_subscription.update_email_body');
 			}else{
-				$params['subject'] = $config->get('emails.email_subscription.create_email_subject');
-				$params['body'] = $config->get('emails.email_subscription.create_email_body');
+				$params['subject'] = $state->get('emails.email_subscription.create_email_subject');
+				$params['body'] = $state->get('emails.email_subscription.create_email_body');
 			}
 			if(isset($params['subject'])){
 
