@@ -94,8 +94,9 @@ class VariablesRestResource extends ResourceBase {
      *   Throws exception expected.
      */
     public function get() {
-        $config = \Drupal::config('htm_custom_variables.variable');
-        $values = $config->get();
+//        $config = \Drupal::config('htm_custom_variables.variable');
+        $state_config = \Drupal::state()->get('htm_variables');
+//        $values = $config->get();
         // You must to implement the logic of your REST Resource here.
         // Use current user after pass authentication to validate access.
         if (!$this->currentUser->hasPermission('access content')) {
@@ -103,7 +104,8 @@ class VariablesRestResource extends ResourceBase {
         }
         $current_lang = $this->languageManager->getCurrentLanguage()->getId();
 
-        $values = $this->flatten($values, '', $current_lang);
+//        $values = $this->flatten($values, '', $current_lang);
+        $values = $this->getStateToArray();
         $queryMaps['request'] = $this->discoverQueryMaps();
         $values = array_merge($values, $queryMaps);
 
@@ -111,6 +113,29 @@ class VariablesRestResource extends ResourceBase {
         $response->addCacheableDependency($config);
 
         return $response;
+    }
+
+    protected function getStateToArray() {
+      $state = \Drupal::state();
+      $state_keys = $state->get('htm_custom_variable_keys');
+      $array = [];
+      foreach ($state_keys as $value_key => $state_key_val){
+        $value = $state->get($value_key);
+        $value_key = str_replace('htm_variables.','',$value_key);
+        $value_key_exploded = explode('.',$value_key);
+        if (is_array($value)){
+          $value = $value['value'];
+        }
+        $reference = &$array;
+        foreach ($value_key_exploded as $key) {
+          if (!array_key_exists($key, $reference)) {
+            $reference[$key] = [];
+          }
+          $reference = &$reference[$key];
+        }
+        $reference = $value;
+      }
+      return $array;
     }
 
     protected function discoverQueryMaps() {

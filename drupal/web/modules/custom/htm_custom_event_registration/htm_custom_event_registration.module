@@ -60,11 +60,11 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 		// load email config
 		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
 		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
-
-		$params['subject'] = $config->get('emails.email_event_registration.registration_email_subject');
-		$params['body'] = $config->get('emails.email_event_registration.registration_email_body');
+    $state = \Drupal::state();
+		$params['subject'] = $state->get('emails.email_event_registration.registration_email_subject');
+		$params['body'] = $state->get('emails.email_event_registration.registration_email_body');
 		$params['entity'] = $entity;
-		$params['link_root'] = $config->get('general.fe_url');
+		$params['link_root'] = $state->get('general.fe_url');
 		$params['ref_event'] = $translated_reference_event;
 		// I think we do not need this one!
 		$params['title'] = 'Üritusele registreerumise kinnitus';
@@ -90,8 +90,8 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 			$to = $translated_reference_event->field_registration_date->entity->field_notification_email->value;
 		}
 		if($to){
-			$params['subject'] = $config->get('emails.email_event_registration.organizer_email_subject');
-			$params['body'] = $config->get('emails.email_event_registration.organizer_email_body');
+			$params['subject'] = $state->get('emails.email_event_registration.organizer_email_subject');
+			$params['body'] = $state->get('emails.email_event_registration.organizer_email_body');
 
 			ob_start();
 			$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);

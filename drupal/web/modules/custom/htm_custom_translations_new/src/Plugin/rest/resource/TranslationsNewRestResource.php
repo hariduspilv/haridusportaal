@@ -134,28 +134,34 @@ class TranslationsNewRestResource extends ResourceBase {
         $values[$state_key] = $state_val;
       }
     }
-    $output= [];
+    $array = [];
     foreach ($values as $value_key => $value) {
       $value_field = '';
       $context = '';
      $value_key = str_replace('htm_translations.','',$value_key);
      $value_key_exploded = explode('.',$value_key);
-     if (!empty($value_key_exploded[0])){
-       $context = $value_key_exploded[0];
-     }
-     if (!empty($value_key_exploded[1])){
-       $value_field = $value_key_exploded[1];
-     }
+
       if (is_array($value)){
         $value = $value['value'];
       }
-     if (!empty($context) && !empty($value_field)) {
-       $output[$context][$value_field] = $value;
-     }
-     elseif (!empty($context) && empty($value_field)) {
-       $output[$context] = $value;
-     }
+       $reference = &$array;
+       foreach ($value_key_exploded as $key) {
+         if (!array_key_exists($key, $reference)) {
+           $reference[$key] = [];
+         }
+         $reference = &$reference[$key];
+       }
+       $reference = $value;
+       $x = count($value_key_exploded) - 1;
+       $value_key_exploded[$x] = $value;
+       $temp = array();
+       for($i = $x; $i >= 0; $i--)
+       {
+         $temp = array($value_key_exploded[$i] => $temp);
+       }
+
+
     }
-    return $output;
+    return $array;
   }
 }
