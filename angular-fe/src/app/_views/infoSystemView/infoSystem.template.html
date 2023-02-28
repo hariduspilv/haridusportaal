@@ -23,7 +23,7 @@
           <img src="{{data.image.derivative.url}}" alt="{{data.image.alt}}">
         </div>
         <h2 class="intro" *ngIf="data.introductionText">{{data.introductionText}}</h2>
-        <div class="description" *ngIf="data.content" [innerHTML]="data.content.processed"></div>
+        <div class="description" *ngIf="data.content" [innerHTML]="data.content.value"></div>
         <ul class="link-list mt-0">
           <ng-container *ngIf="data.webpage">
             <ng-container *ngTemplateOutlet="links;context:{linksData:data.webpage}">
@@ -42,7 +42,7 @@
       <block-content *ngIf="data.accordion?.entity" [tabLabel]="data.accordion.entity.fieldAccordionTitle" tabIcon="book-open">
         <div *ngIf="data.accordion && data.accordion.entity && data.accordion.entity.fieldBody"
              class="description"
-             [innerHTML]="data.accordion.entity.fieldBody.processed"></div>
+             [innerHTML]="data.accordion.entity.fieldBody.value"></div>
         <ul class="link-list mt-0"
             *ngIf="data.accordion && data.accordion.entity && (data.accordion.entity.fieldLinks || data.fieldInfosystemAccordion.entity.fieldAttachmentFile)">
 
@@ -65,7 +65,7 @@
             [title]="accordion.entity.fieldParagraphTitle">
             <ng-template>
               <div class="accordion__body" *ngIf="accordion.entity.fieldParagraphContent"
-                   [innerHTML]="accordion.entity.fieldParagraphContent.processed"></div>
+                   [innerHTML]="accordion.entity.fieldParagraphContent.value"></div>
               <div class="accordion__links"
                    *ngIf="(accordion.entity.fieldParagraphLink && accordion.entity.fieldParagraphLink.length) || (accordion.entity.fieldParagraphAttachment && accordion.entity.fieldParagraphAttachment.length)">
                 <ul class="link-list mt-0 mb-0">
@@ -86,8 +86,8 @@
         </accordion>
       </block-content>
       <block-content *ngIf="data.support?.entity" [tabLabel]="data.support.entity.fieldSupportTitle" tabIcon="message-square">
-        <div *ngIf="data.support.entity?.fieldSupportContent?.processed"
-        [innerHTML]="data.support.entity.fieldSupportContent.processed"></div>
+        <div *ngIf="data.support.entity?.fieldSupportContent?.value"
+        [innerHTML]="data.support.entity.fieldSupportContent.value"></div>
       </block-content>
     </block>
   </article-layout>
