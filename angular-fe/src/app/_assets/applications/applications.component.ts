@@ -244,7 +244,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   this.educationalInstitutionError = true;
                   this.alertsService
                     .info(response.error.message_text.et, 'general', 'applications', false, false);
-                } else if (this.currentRole === 'natural_person') {
+                }
+
+                if (this.currentRole === 'natural_person') {
                   this.data.acceptable_forms = response['acceptable_forms'] || [];
                   this.data.drafts = response['drafts'] || [];
                   this.data.documents = response['documents'] || [];
