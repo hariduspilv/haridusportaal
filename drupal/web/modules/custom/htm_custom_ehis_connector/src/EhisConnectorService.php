@@ -622,7 +622,6 @@ class EhisConnectorService {
         }
       }
       $queryparams = $params;
-      \Drupal::logger('debugging')->debug(print_r($params));
       $queryparams['hash'] = 'getDocuments';
       $init = $this->invokeWithRedis('getDocuments', $queryparams, FALSE);
       if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
