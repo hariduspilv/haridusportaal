@@ -19,7 +19,6 @@ function htm_custom_juhan_import_cron() {
     $queue_factory = \Drupal::service('queue');
     /** @var QueueInterface $queue */
     $queue = $queue_factory->get('cron_htm_custom_juhan_import');
-
     $eventnodes = $import_controller->import();
     foreach($eventnodes as $eventnode){
         $queue->createItem($eventnode);
