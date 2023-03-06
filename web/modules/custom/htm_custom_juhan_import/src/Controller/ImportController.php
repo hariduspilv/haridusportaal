@@ -3,6 +3,7 @@
 namespace Drupal\htm_custom_juhan_import\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\State\State;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 
@@ -13,10 +14,17 @@ class ImportController extends ControllerBase {
 
     public function import() {
 
+      $state = \Drupal::state();
+      $juhan_enabled = $state->get('htm_variables.htm.import_juhan');
+      if ($juhan_enabled == "TRUE" || $juhan_enabled == 1 || $juhan_enabled == "true") {
         $data = $this->get_public_trainings();
         $nodes = $this->create_queue_items($data);
 
         return $nodes;
+      }
+      else{
+        return [];
+      }
     }
 
     public function get_public_trainings(){
@@ -58,15 +66,14 @@ class ImportController extends ControllerBase {
             #$response = \Drupal::httpClient()->request('GET', 'https://inaadress.maaamet.ee/inaadress/gazetteer?address='.$item->venueFullAddress);
             #$address = $response->getBody();
             #}
-
             $queue_items[] = [
                 'nid' => $result,
                 'status' => '1',
                 'field_external_id' => $item->id,
-                'title' => $item->courseDescription->trainingName,
-                'field_description_summary' => $item->courseDescription->lead,
+                'title' => $item->course_description->training_name,
+                'field_description_summary' => $item->course_description->lead,
                 'field_event_type' => $event_type,
-                'field_description' => strip_tags($item->courseDescription->fullDescription),
+                'field_description' => strip_tags($item->course_description->fullDescription),
                 'field_event_link' => [
                     'uri' => $item->publicUrl,
                     'title' => 'Täpsem info täienduskoolituste infosüsteemis'
@@ -75,18 +82,17 @@ class ImportController extends ControllerBase {
                 'field_event_location' => [
                     'name' => isset($item->venueFullAddress) ? $item->venueFullAddress : '',
                 ],
-                'field_organizer' => isset($item->institution) ? $item->institution->name : '',
+                'field_organizer' => isset($item->course_description->institution) ? $item->course_description->institution->name : '',
                 'field_contact_person' => $item->projectManager->projectManagerFullName,
                 'field_contact_phone' => $item->projectManager->phone,
                 'field_contact_email' => $item->projectManager->email,
                 'field_entry_type' => 'juhan',
-                'field_practical_information' => $item->venueInfo,
-                'field_event_main_date' => $item->startingDate,
-                'field_event_main_end_date' => $item->endingDate
+                'field_practical_information' => $item->venue_info,
+                'field_event_main_date' => $item->starting_date,
+                'field_event_main_end_date' => $item->ending_date
             ];
 
         }
-
         // get unused id's
         $queue_items = $this->get_unpublish_nodes($data, $queue_items);
 
