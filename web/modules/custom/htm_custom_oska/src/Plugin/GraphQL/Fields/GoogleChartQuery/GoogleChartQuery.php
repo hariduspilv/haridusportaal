@@ -107,7 +107,6 @@ class GoogleChartQuery extends FieldPluginBase
       ->where([$this, 'applyFilters']);
 
     $records = iterator_to_array($stmt->process($reader), false);
-
     if (isset($records) && count($records) > 0) {
       $graph_value = $this->getGoogleGraphValue($records, $graph_info, $filter_values);
 
@@ -126,7 +125,6 @@ class GoogleChartQuery extends FieldPluginBase
         unset($graph_data[$key]);
       }
     }
-
     #find label and value fields
     $label_field = $graph_data['graph_v_axis'];
     $value_field = 'vaartus';
@@ -154,7 +152,7 @@ class GoogleChartQuery extends FieldPluginBase
         }
       }
       if (!empty($rule_levels)) {
-              $rule_level = max($rule_levels);
+//              $rule_level = max($rule_levels);
       }
       foreach ($records as $record) {
 
@@ -175,11 +173,26 @@ class GoogleChartQuery extends FieldPluginBase
             }
           }
         }
-//        if (!empty($filter_values['valdkond'])) {
-//          if (!in_array($record['valdkond'],$filter_values['valdkond'])){
-//            continue;
-//          }
-//        }
+        if (!empty($filter_values['valdkond'])) {
+          if (!in_array($record['valdkond'],$filter_values['valdkond'])){
+            continue;
+          }
+        }
+        if (!empty($filter_values['ametiala'])) {
+          if (!in_array($record['ametiala'],$filter_values['ametiala'])){
+            continue;
+          }
+        }
+        if (!empty($filter_values['silt'])) {
+          if (!in_array($record['silt'],$filter_values['silt'])){
+            continue;
+          }
+        }
+        if (!empty($filter_values['alavaldkond'])) {
+          if (!in_array($record['alavaldkond'],$filter_values['alavaldkond'])){
+            continue;
+          }
+        }
         if (isset($record[$label_field]) && $record[$label_field] != '') {
           $xlabel = $record[$label_field];
         } else {
