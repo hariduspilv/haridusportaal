@@ -1,0 +1,5 @@
+services:
+  hms_field.hms:
+    class: Drupal\hms_field\HMSService
+    arguments: []
+
