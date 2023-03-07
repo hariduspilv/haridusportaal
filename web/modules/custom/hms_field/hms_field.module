@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * Contains hms_field.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function hms_field_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the hms_field module.
+    case 'help.page.hms_field':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides a field for Hours, Minutes and Seconds stored as seconds.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function hms_field_theme() {
+  $theme = array(
+    'hms' => array(
+      'variables' => array('value' => 0, 'format' => 'h:mm', 'leading_zero' => TRUE, 'running_since' => 0, 'offset' => 0, 'default_value' => 0),
+    ),
+    'hms_natural_language' => array(
+      'variables' => array('value' => 0, 'format' => 'w:d:h:m:s', 'separator' => ', ', 'last_separator' => ' and '),
+    ),
+  );
+  return $theme;
+}
+
+/**
+ * Preprocess theme hms.
+ *
+ * Attach JS when needed.
+ */
+function template_preprocess_hms(&$variables) {
+  $classes = array('hms', str_replace(':', '-', 'hms-format-' . $variables['format']));
+
+  $value = $variables['value'];
+  $offset = $variables['offset'];
+  $default_value = $variables['default_value'];
+
+  if ($variables['running_since'] !== 0) {
+    if (!$offset && !$default_value && $value) {
+      // Backwards compatible.
+      $offset = $value;
+      $default_value = $value;
+      $value = 0;
+    }
+    $value = $default_value;
+    // It is not possible to run longer then from 1970-01-01 00:00:01
+    $classes[] = 'hms-running';
+    // We also need to pass the running since value to JS.
+    // When format h is presented, the underlaying value can be at 3599
+    // The next second h needs to update.
+    // Be sure to pass running_since as time() (== GMT time)
+    if ($variables['running_since'] < 0) {
+      $variables['running_since'] = REQUEST_TIME;
+    }
+    $classes[] = 'hms-since-' . $variables['running_since'];
+    $classes[] = 'hms-offset-' . $offset;
+    $classes[] = 'hms-leading_zero-' . $variables['leading_zero'];
+    if ($offset) {
+      $value = (REQUEST_TIME - $variables['running_since']) + $offset;
+    }
+    $variables['#attached']['library'][] = 'hms_field/hms_field';
+    $variables['#attached']['drupalSettings']['hms_field']['servertime'] = REQUEST_TIME;
+    $variables['#attached']['drupalSettings']['hms_field']['factor_map'] = \Drupal::service('hms_field.hms')->factor_map();
+  }
+  $variables['classes'] = implode(' ' , $classes);
+  $variables['hms_value_formatted'] = \Drupal::service('hms_field.hms')->seconds_to_formatted($value, $variables['format'], $variables['leading_zero']);
+}
+
+
+/**
+ * Preprocess theme hms_natural_language.
+ *
+ * TODO: Investigate running since options (see theme_hms)
+ *   Would be cool if we can also make this format a 'Forrest Gump' format.
+ */
+function template_preprocess_hms_natural_language(&$variables) {
+
+  $hms_service = \Drupal::service('hms_field.hms');
+  $labels = $hms_service->factor_map(TRUE);
+
+  // Assign keyed values array.
+  $values = array_combine(
+    explode(':', $variables['format']),
+    explode(':', $hms_service->seconds_to_formatted($variables['value'], $variables['format'], TRUE))
+  );
+  $variables['labels'] = $labels;
+  $variables['formatted_values'] = array();
+  // Build array for output in template.
+  foreach ($values as $key => $value) {
+    if ($value != 0) {
+      $variables['formatted_values'][$key] = \Drupal::translation()->formatPlural($value, '@count ' . $labels[$key]['label single'], '@count ' . $labels[$key]['label multiple']);
+    }
+  }
+}
