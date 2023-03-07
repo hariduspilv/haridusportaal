@@ -11,14 +11,14 @@ dependencies:
     - field.field.node.event.field_description_summary
     - field.field.node.event.field_entry_type
     - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_end_time_main
     - field.field.node.event.field_event_group
     - field.field.node.event.field_event_link
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_location_link
     - field.field.node.event.field_event_main_date
     - field.field.node.event.field_event_main_end_date
-    - field.field.node.event.field_event_main_end_time
-    - field.field.node.event.field_event_main_start_time
+    - field.field.node.event.field_event_start_time_main
     - field.field.node.event.field_event_type
     - field.field.node.event.field_event_video
     - field.field.node.event.field_external_id
@@ -38,7 +38,6 @@ dependencies:
     - entity_reference_revisions
     - file
     - google_map_field
-    - hms_field
     - htm_custom_video_field
     - link
     - metatag
@@ -169,24 +168,6 @@ content:
     third_party_settings: {  }
     weight: 31
     region: content
-  field_event_main_end_time:
-    type: hms_default_formatter
-    label: above
-    settings:
-      format: 'h:mm'
-      leading_zero: true
-    third_party_settings: {  }
-    weight: 28
-    region: content
-  field_event_main_start_time:
-    type: hms_default_formatter
-    label: above
-    settings:
-      format: 'h:mm'
-      leading_zero: true
-    third_party_settings: {  }
-    weight: 27
-    region: content
   field_event_type:
     type: entity_reference_label
     label: above
@@ -287,6 +268,8 @@ content:
     weight: 2
     region: content
 hidden:
+  field_event_end_time_main: true
+  field_event_start_time_main: true
   field_picture: true
   langcode: true
   links: true

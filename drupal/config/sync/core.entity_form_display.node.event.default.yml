@@ -18,8 +18,6 @@ dependencies:
     - field.field.node.event.field_event_location_link
     - field.field.node.event.field_event_main_date
     - field.field.node.event.field_event_main_end_date
-    - field.field.node.event.field_event_main_end_time
-    - field.field.node.event.field_event_main_start_time
     - field.field.node.event.field_event_start_time_main
     - field.field.node.event.field_event_type
     - field.field.node.event.field_event_video
@@ -41,7 +39,6 @@ dependencies:
     - datetime
     - file
     - google_map_field
-    - hms_field
     - htm_custom_video_field
     - image_widget_crop
     - link
@@ -181,24 +178,6 @@ content:
     weight: 23
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_event_main_end_time:
-    type: hms_default
-    weight: 26
-    region: content
-    settings:
-      format: 'h:mm'
-      default_placeholder: 1
-      placeholder: ''
-    third_party_settings: {  }
-  field_event_main_start_time:
-    type: hms_default
-    weight: 24
-    region: content
-    settings:
-      format: 'h:mm'
-      default_placeholder: 1
-      placeholder: ''
     third_party_settings: {  }
   field_event_start_time_main:
     type: time_widget

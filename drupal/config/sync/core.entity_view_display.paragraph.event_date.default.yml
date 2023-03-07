@@ -4,12 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.event_date.field_event_additional_date
-    - field.field.paragraph.event_date.field_event_end_time
-    - field.field.paragraph.event_date.field_event_start_time
+    - field.field.paragraph.event_date.field_event_end_time_addition
+    - field.field.paragraph.event_date.field_event_start_time_addition
     - paragraphs.paragraphs_type.event_date
   module:
     - datetime
-    - hms_field
 id: paragraph.event_date.default
 targetEntityType: paragraph
 bundle: event_date
@@ -24,23 +23,7 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-  field_event_end_time:
-    type: hms_default_formatter
-    label: above
-    settings:
-      format: 'hh:mm'
-      leading_zero: '1'
-    third_party_settings: {  }
-    weight: 2
-    region: content
-  field_event_start_time:
-    type: hms_default_formatter
-    label: above
-    settings:
-      format: 'hh:mm'
-      leading_zero: '1'
-    third_party_settings: {  }
-    weight: 1
-    region: content
 hidden:
+  field_event_end_time_addition: true
+  field_event_start_time_addition: true
   search_api_excerpt: true
