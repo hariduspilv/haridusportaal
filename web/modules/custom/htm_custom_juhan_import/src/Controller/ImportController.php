@@ -28,7 +28,7 @@ class ImportController extends ControllerBase {
     }
 
     public function get_public_trainings(){
-        $json_url = 'https://koolitus.hitsa.ee/api/public/trainings';
+        $json_url = 'https://koolitus.edu.ee/api/public/trainings';
 
         $client = \Drupal::httpClient();
 
@@ -41,7 +41,6 @@ class ImportController extends ControllerBase {
         }
 
         $data = json_decode($response->getBody()->getContents());
-
         return $data;
     }
 
