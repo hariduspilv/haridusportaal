@@ -1,0 +1,17 @@
+uuid: 33a3c351-0e65-4879-9fb7-56a5412dd841
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_juhan_import
+title: 'Default cron handler'
+id: htm_custom_juhan_import_cron
+weight: 0
+module: htm_custom_juhan_import
+callback: htm_custom_juhan_import_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
