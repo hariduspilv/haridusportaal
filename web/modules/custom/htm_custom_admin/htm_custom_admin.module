@@ -47,6 +47,7 @@ function htm_custom_admin_theme($existing, $type, $theme, $path)
 
     'our_sitemap_menu' => [
       'variables' => [
+        'fe_url' => $fe_url,
         'menu_name' => NULL,
         'items' => [],
         'attributes' => [],
