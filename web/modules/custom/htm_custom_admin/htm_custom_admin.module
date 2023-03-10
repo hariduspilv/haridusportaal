@@ -7,6 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\simple_sitemap\Entity\SimpleSitemapInterface;
 use \Drupal\views\ViewExecutable;
 use Drupal\Core\Cache\Cache;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,9 +39,18 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
  */
 function htm_custom_admin_theme($existing, $type, $theme, $path)
 {
+  $fe_url = \Drupal::state()->get('general.fe_url');
   return [
     'node_news_form_custom' => [
       'render element' => 'form',
+    ],
+
+    'our_sitemap_menu' => [
+      'variables' => [
+        'menu_name' => NULL,
+        'items' => [],
+        'attributes' => [],
+      ],
     ],
     ];
 }
@@ -463,5 +473,39 @@ function htm_custom_admin_node_presave(Drupal\Core\Entity\EntityInterface $entit
         }
       }
     }
+  }
+}
+
+/**
+ * Alter the generated link data before the sitemap is saved.
+ *
+ * This hook gets invoked for every sitemap chunk generated.
+ *
+ * @param array &$links
+ *   Array containing multilingual links generated for each path to be indexed.
+ * @param \Drupal\simple_sitemap\Entity\SimpleSitemapInterface $sitemap
+ *   Sitemap entity.
+ */
+function htm_custom_admin_simple_sitemap_links_alter(array &$links, SimpleSitemapInterface $sitemap) {
+  global $base_url;
+  $fe_url = \Drupal::state()->get('general.fe_url');
+  // Remove German URL for a certain path in the hreflang sitemap.
+  foreach ($links as $key => &$link) {
+    if (!empty($base_url) && !empty($fe_url)){
+      $link['url'] = str_replace($base_url,$fe_url,$link['url']);
+      if (!empty($link['alternate_urls'])) {
+        foreach ($link['alternate_urls'] as $link_key => &$alt_url) {
+          $alt_url = str_replace($base_url,$fe_url,$alt_url);
+        }
+      }
+    }
+  }
+}
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function htm_custom_admin_preprocess_sitemap_item(&$variables) {
+  if ($variables['title'] == 'Põhinavigatsioon'){
+    $variables['content']['#theme'] = 'our_sitemap_menu';
   }
 }
