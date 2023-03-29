@@ -6,6 +6,7 @@ git remote add origin https://github.com/hariduspilv/haridusportaal.git
 
 if [[ "$ENVIRONMENT" == "Development" ]]; then
 
+ln -s /app/drupal/vendor/bin/drush /usr/local/bin/drush
 echo "$ENVIRONMENT"
 git fetch origin
 git checkout -b develop --track origin/develop
