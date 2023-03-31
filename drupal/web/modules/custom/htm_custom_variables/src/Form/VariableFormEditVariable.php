@@ -19,6 +19,7 @@ class VariableFormEditVariable extends VariableFormAddVariable {
 	{
 		parent::buildFormData($form, $form_state, $config, $variable_key);
 		$current_value = $config->get($variable_key);
+    $current_value = \Drupal::state()->get('htm_variables.' . $variable_key);
 		#dump($current_conf);
 		$form['variable']['key'] += [
 			'#default_value' => $variable_key,

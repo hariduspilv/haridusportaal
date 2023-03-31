@@ -1,0 +1,21 @@
+<?php
+
+function htm_custom_admin_form_update_9001() {
+  $configs = [
+    'emails.email_subscription.create_email_subject',
+'emails.email_subscription.create_email_body',
+'emails.email_subscription.update_email_subject',
+'emails.email_subscription.update_email_body',
+'emails.email_subscription.notify_email_subject',
+'emails.email_subscription.notify_email_body',
+'emails.email_event_registration.registration_email_subject',
+'emails.email_event_registration.registration_email_body',
+'emails.email_event_registration.organizer_email_subject',
+'emails.email_event_registration.organizer_email_body',
+'general.fe_url',
+  ];
+ $dr_conf =  \Drupal::config('htm_custom_admin_form.customadmin');
+  foreach ($configs as $config) {
+    \Drupal::state()->set($config,$dr_conf->get($config));
+  }
+}

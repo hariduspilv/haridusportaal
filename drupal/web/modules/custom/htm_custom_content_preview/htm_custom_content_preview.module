@@ -33,12 +33,13 @@ function htm_custom_content_preview_form_node_form_alter(&$form, \Drupal\Core\Fo
 
 function redirectExternal($form, \Drupal\Core\Form\FormStateInterface $form_state){
 	$fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+	$fe_url = \Drupal::state()->get('general.fe_url');
 	$language = \Drupal::languageManager()->getCurrentLanguage()->getId();
 	$old_url = $form_state->getRedirect();
-	
+
 	$new_url = $fe_url . '/preview/' . $old_url->getRouteParameters()['node_preview'];
 	$redirect_url = \Drupal\Core\Url::fromUri($new_url , ['http' => true])->toString();
-	
+
 	$redirect = new \Drupal\Core\Routing\TrustedRedirectResponse($redirect_url);
 	\Drupal\Core\Cache\Cache::invalidateTags(['preview_cachetag']);
 	$form_state->setResponse($redirect);
