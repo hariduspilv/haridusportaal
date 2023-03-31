@@ -1,0 +1,10 @@
+<div class="map__tooltip-box" #mapTooltipContainer>
+  <ng-container *ngIf="isOpen && inUseTemplate">
+    <ng-container
+      *ngTemplateOutlet="
+        inUseTemplate;
+        context: { feature: feature, close: boundCloseButton }
+      "
+    ></ng-container>
+  </ng-container>
+</div>

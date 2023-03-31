@@ -1,0 +1,21 @@
+<div class="if-wrapper-top if-has-border">
+  <div class="if-shadow-wrapper-top">
+    <div class="if-frame if-shadow-frame"></div>
+    <div class="if-shadow-pointer-top">
+      <div class="if-shadow-inner-pointer-top"></div>
+    </div>
+  </div>
+  <div class="if-frame if-content-wrapper">
+    <button type="button" class="if-close-button" (click)="close.emit()">
+      ×
+    </button>
+    <div class="if-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <div class="if-pointer-top if-pointer-border-top"></div>
+  <div
+    class="if-pointer-top if-pointer-bg-top"
+    style="border-width: 15px; margin-bottom: 0px; top: -1px"
+  ></div>
+</div>

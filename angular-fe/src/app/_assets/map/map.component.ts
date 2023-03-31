@@ -1,9 +1,16 @@
-import { Component, Input, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectorRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import conf from '@app/_core/conf';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { OlMapComponent } from '@app/modules/olmap/components/ol-map/ol-map.component';
 interface MapOptions {
   centerLat: any;
   centerLng: any;
@@ -14,7 +21,6 @@ interface MapOptions {
   enableZoomControl: boolean;
   enableStreetViewControl: boolean;
   enableOuterLink: boolean;
-  enableLabels: boolean;
   enableParameters: boolean;
   polygonType: string;
   enablePolygonLegend: boolean;
@@ -26,7 +32,6 @@ interface MapOptions {
   templateUrl: './map.template.html',
   styleUrls: ['./map.styles.scss'],
 })
-
 export class MapComponent {
   @Input() polygonData: any = false;
   @Input() options: MapOptions;
@@ -36,10 +41,10 @@ export class MapComponent {
   @Input() legendLabels: Object;
   @Input() legendKey: string;
   @Input() loading: boolean;
-  @Output() layerChange: EventEmitter<string> = new EventEmitter;
-  @Output() mapLoaded = new EventEmitter<boolean>();
+  @Output() layerChange: EventEmitter<string> = new EventEmitter();
+  @Output() mapLoaded = new EventEmitter<void>();
 
-  private map: any;
+  private map: OlMapComponent;
   private heatmap: any;
   private polygonCoords: any;
   private polygons: any;
@@ -52,21 +57,15 @@ export class MapComponent {
   public infoWindowFunding: Boolean | Number;
   public activeLegendParameters: object;
   public paramValue: string;
-  private polygonIcon = {
-    url: '',
-    scaledSize: {
-      width: 0,
-      height: 0,
-    },
-  };
 
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private mapService: MapService,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute
+  ) {}
 
-  mapReady(map) {
+  mapReady(map: OlMapComponent) {
     this.map = map;
     this.mapService.activeMap = this.map;
     this.map.setZoom(this.options.zoom);
@@ -75,12 +74,12 @@ export class MapComponent {
   }
 
   setCenter(activeMap: any, options: MapOptions, defaultMapOptions: any) {
-    let centerCoords: {};
+    let centerCoords: [number, number];
     if (options.centerLat && options.centerLng) {
-      centerCoords = {
-        lat: parseFloat(options.centerLat),
-        lng: parseFloat(options.centerLng),
-      };
+      centerCoords = [
+        parseFloat(options.centerLng),
+        parseFloat(options.centerLat),
+      ];
     } else {
       centerCoords = defaultMapOptions.center;
     }
@@ -89,15 +88,22 @@ export class MapComponent {
 
   zoomChange($event) {
     if (this.type === 'polygons' && this.polygonCoords) {
-      if ($event < 9 && this.mapService.activeFontSize !== this.mapService.fontSizes['sm']) {
+      if (
+        $event < 10 &&
+        this.mapService.activeFontSize !== this.mapService.fontSizes['sm']
+      ) {
         this.mapService.activeFontSize = this.mapService.fontSizes['sm'];
         this.setPolyLabels();
-      } else if ($event === 9 &&
-          this.mapService.activeFontSize !== this.mapService.fontSizes['md']) {
+      } else if (
+        $event === 10 &&
+        this.mapService.activeFontSize !== this.mapService.fontSizes['md']
+      ) {
         this.mapService.activeFontSize = this.mapService.fontSizes['md'];
         this.setPolyLabels();
-      } else if ($event === 10 &&
-          this.mapService.activeFontSize !== this.mapService.fontSizes['lg']) {
+      } else if (
+        $event === 11 &&
+        this.mapService.activeFontSize !== this.mapService.fontSizes['lg']
+      ) {
         this.mapService.activeFontSize = this.mapService.fontSizes['lg'];
         this.setPolyLabels();
       }
@@ -106,7 +112,10 @@ export class MapComponent {
 
   setPolyLabels() {
     this.polygonMarkers = this.mapService.mapPolygonLabels(
-      this.polygonCoords, !this.options.enablePolygonModal, this.options.polygonType);
+      this.polygonCoords,
+      !this.options.enablePolygonModal,
+      this.options.polygonType
+    );
   }
 
   getPolygons() {
@@ -115,28 +124,33 @@ export class MapComponent {
     const subscription = this.http.get(url).subscribe({
       next: (data) => {
         this.polygonCoords = data;
-        this.heatmap = this.mapService.generateHeatMap(this.options.polygonType,
-                                                      this.polygonData[this.polygonLayer]);
-        this.polygons = this.mapService.mapPolygonData(this.options.polygonType, data,
-                                                      this.polygonData[this.polygonLayer],
-                                                      this.heatmap);
+        this.heatmap = this.mapService.generateHeatMap(
+          this.options.polygonType,
+          this.polygonData[this.polygonLayer]
+        );
+
+        this.polygons = this.mapService.mapPolygonData(
+          this.options.polygonType,
+          data,
+          this.polygonData[this.polygonLayer],
+          this.heatmap
+        );
+
         this.polygonMarkers = this.mapService.mapPolygonLabels(
-          data, !this.options.enablePolygonModal, this.options.polygonType);
+          data,
+          !this.options.enablePolygonModal,
+          this.options.polygonType
+        );
+
         if (this.polygonMarkers) {
           this.cdr.detectChanges();
         }
-      }, complete: () => {
+      },
+      complete: () => {
         this.loading = false;
         subscription.unsubscribe();
-      }
+      },
     });
-  }
-  mapLabelSwitcher(state) {
-    this.defaultMapOptions.styles = [];
-    this.defaultMapOptions.styles = [
-      { elementType: 'labels', stylers: [{ visibility: state ? 'on' : 'off' }] },
-      ...conf.defaultMapStyles,
-    ];
   }
 
   changeLayer(name) {
@@ -145,7 +159,7 @@ export class MapComponent {
   }
 
   ngOnInit() {
-		this.watchSearch();
+    this.watchSearch();
     if (this.type === 'polygons') {
       this.polygonSub = this.mapService.polygonLayer.subscribe((layer) => {
         this.getPolygons();
@@ -157,13 +171,15 @@ export class MapComponent {
   watchSearch() {
     this.paramSub = this.route?.queryParams?.subscribe((params) => {
       this.params = params;
-      this.paramValue = params[this.legendKey]
-        || (this.parameters
-          && this.parameters.find(param => param['key'] === this.legendKey)['value']);
+      this.paramValue =
+        params[this.legendKey] ||
+        (this.parameters &&
+          this.parameters.find((param) => param['key'] === this.legendKey)[
+            'value'
+          ]);
       if (this.paramValue) {
-				this.activeLegendParameters = this.legendLabels[this.paramValue];
+        this.activeLegendParameters = this.legendLabels[this.paramValue];
       }
-      this.mapLabelSwitcher(this.options.enableLabels);
     });
   }
 
@@ -172,18 +188,13 @@ export class MapComponent {
     if (this.polygonSub) this.polygonSub.unsubscribe();
   }
 
-  ngOnChanges() {
-    this.mapLabelSwitcher(this.options.enableLabels);
-  }
-
   layerClickStatus($isOpen: boolean) {
     this.mapService.infoLayer['status'] = $isOpen;
     if (!this.cdr['destroyed']) this.cdr.detectChanges();
   }
 
-  showFunding(year: string, infoWindow:any = false) {
+  showFunding(year: string, infoWindow: any = false) {
     this.infoWindowFunding = parseFloat(year);
     if (!this.cdr['destroyed']) this.cdr.detectChanges();
   }
-
 }

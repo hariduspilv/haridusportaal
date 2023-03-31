@@ -47,13 +47,12 @@ export class SchoolFundingViewComponent implements OnInit {
 
   public options: Object = {
     polygonType: 'investment', // ...
-    zoom: 7.9,
-    maxZoom: 16,
-    minZoom: 7,
+    zoom: 8.5,
+    maxZoom: 20,
+    minZoom: 8.5,
     draggable: true,
     enablePolygonModal: false,
     enableStreetViewControl: false,
-    enableLabels: true,
   };
 
   watchParams() {
