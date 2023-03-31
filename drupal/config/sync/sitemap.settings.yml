@@ -5,6 +5,18 @@ page_title: Sitemap
 message:
   value: ''
   format: restricted_html
+plugins:
+  frontpage:
+    enabled: false
+  'menu:main':
+    enabled: true
+    weight: 0
+    settings:
+      title: Põhinavigatsioon
+      show_disabled: false
+    id: 'menu:main'
+    provider: sitemap
+include_css: false
 show_front: true
 show_titles: true
 show_books: {  }
