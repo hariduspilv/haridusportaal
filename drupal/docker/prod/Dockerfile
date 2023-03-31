@@ -11,9 +11,7 @@ RUN apt-get update &&\
     apt-get install cron -y
 # Install drush globally
 RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-	composer global require drush/drush && \
 	composer global update && \
-	ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush && \
 	mkdir -p /app/drupal  && \
 	chown -R www-data:www-data /app/drupal && \
 	mkdir /run/apache2; exit 0 && \
