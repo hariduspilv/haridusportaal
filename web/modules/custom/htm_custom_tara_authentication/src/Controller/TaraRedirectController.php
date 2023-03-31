@@ -79,7 +79,7 @@ class TaraRedirectController extends OpenIDConnectRedirectController{
 
     // Get parameters from the session, and then clean up.
     $parameters = [
-      'destination' => $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url'),
+      'destination' => \Drupal::state()->get('general.fe_url'),
       'op' => 'login',
       'connect_uid' => NULL,
     ];
@@ -157,7 +157,7 @@ class TaraRedirectController extends OpenIDConnectRedirectController{
       }
     }
 
-    $fe_url = $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url').'/auth.html';
+    $fe_url = \Drupal::state()->get('general.fe_url').'/auth.html';
     if(empty($this->messenger()->all()) && !$redirect_home){
       $query = ['jwt' => $this->jsonAuth->generateToken(), 'error' => 'false'];
     }elseif($redirect_home){

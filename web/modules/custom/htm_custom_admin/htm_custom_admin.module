@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains form_alter_hook.module.
@@ -287,7 +286,8 @@ function htm_custom_admin_hms_format_alter(&$format){
  * @param $variables
  */
 function htm_custom_admin_preprocess_views_view_row_rss(&$variables){
-  $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+//  $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+  $fe_url = \Drupal::state()->get('general.fe_url');
   foreach($variables['item_elements'] as &$item_element){
     if($item_element['key'] === 'guid'){
       /* @var $item_value \Drupal\Core\Render\Markup */
