@@ -53,7 +53,6 @@ class ImportController extends ControllerBase {
 
         // go through each imported data and look, if it exists
         foreach($data as $item){
-
             $result = \Drupal::entityQuery('node')
                 ->condition('field_external_id', $item->id)
                 ->condition('type', 'event')
@@ -69,26 +68,28 @@ class ImportController extends ControllerBase {
                 'nid' => $result,
                 'status' => '1',
                 'field_external_id' => $item->id,
-                'title' => $item->course_description->training_name,
-                'field_description_summary' => $item->course_description->lead,
+                'title' => $item->courseDescription->trainingName,
+                'field_description_summary' => $item->courseDescription->lead ?? '',
                 'field_event_type' => $event_type,
-                'field_description' => strip_tags($item->course_description->fullDescription),
+                'field_description' => strip_tags($item->courseDescription->fullDescription,'<p><b><ul><li><ol><h1><h2><br>'),
                 'field_event_link' => [
-                    'uri' => $item->publicUrl,
+                    'uri' => !empty($item->publicUrl) ? $item->publicUrl : 'https://koolitus.edu.ee/training/' . $item->id,
                     'title' => 'Täpsem info täienduskoolituste infosüsteemis'
                 ],
-                'field_registration_url' => $item->publicUrl,
-                'field_event_location' => [
-                    'name' => isset($item->venueFullAddress) ? $item->venueFullAddress : '',
+                'field_registration_url' => [
+                  'uri'=> !empty($item->publicUrl) ? $item->publicUrl : 'https://koolitus.edu.ee/training/' . $item->id
                 ],
-                'field_organizer' => isset($item->course_description->institution) ? $item->course_description->institution->name : '',
-                'field_contact_person' => $item->projectManager->projectManagerFullName,
-                'field_contact_phone' => $item->projectManager->phone,
-                'field_contact_email' => $item->projectManager->email,
+                'field_event_location' => [
+                    'name' => $item->venueFullAddress ?? '',
+                ],
+                'field_organizer' => isset($item->courseDescription->institution) ? $item->courseDescription->institution->name : '',
+                'field_contact_person' => $item->projectManager->projectManagerFullName ?? '',
+                'field_contact_phone' => $item->projectManager->phone ?? '',
+                'field_contact_email' => $item->projectManager->email ?? '',
                 'field_entry_type' => 'juhan',
-                'field_practical_information' => $item->venue_info,
-                'field_event_main_date' => $item->starting_date,
-                'field_event_main_end_date' => $item->ending_date
+                'field_practical_information' => $item->venueInfo ?? '',
+                'field_event_main_date' => $item->startingDate ?? '',
+                'field_event_main_end_date' => $item->endingDate ?? '',
             ];
 
         }
