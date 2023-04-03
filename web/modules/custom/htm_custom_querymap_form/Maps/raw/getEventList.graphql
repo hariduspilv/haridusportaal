@@ -8,8 +8,8 @@ query getEventList($tagsValue: [String], $tagsEnabled: Boolean, $typesValue: [St
     {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled},
     {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateFrom]},
     {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateTo]},
-    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeFrom], enabled: $timeEnabled},
-    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeTo], enabled: $timeEnabled}]}) {
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_start_time_main", value: [$timeFrom], enabled: $timeEnabled},
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_end_time_main", value: [$timeTo], enabled: $timeEnabled}]}) {
     count
     entities(language: $lang) {
       ... on NodeEvent {

@@ -35,7 +35,7 @@ class CustomAdminForm extends ConfigFormBase {
 	public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
     $config = $this->config('htm_custom_admin_form.customadmin');
-
+    $state = \Drupal::state();
     $form['tabs'] = [
       '#type' => 'vertical_tabs',
       #'#default_tab' => 'edit-email',
@@ -65,48 +65,55 @@ class CustomAdminForm extends ConfigFormBase {
       '#type' => 'fieldset',
       '#title' => $this->t('Subscription create confirmation')
     ];
+    $state_default = $state->get('emails.email_subscription.create_email_subject');
     $form['email_subscription']['fieldset']['email_subscription_create_subject'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Subject'),
-      '#default_value' => $config->get('emails.email_subscription.create_email_subject'),
+      '#default_value' => $state_default,
       '#maxlength' => 180,
     ];
+    $state_default = $state->get('emails.email_subscription.create_email_body');
     $form['email_subscription']['fieldset']['email_subscription_create_body'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Body'),
-      '#default_value' => $config->get('emails.email_subscription.create_email_body'),
+      '#default_value' => $state_default,
     ];
 
     $form['email_subscription']['fieldset2'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Subscription update confirmation')
     ];
+    $state_default = $state->get('emails.email_subscription.update_email_subject');
     $form['email_subscription']['fieldset2']['email_subscription_update_subject'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Subject'),
-      '#default_value' => $config->get('emails.email_subscription.update_email_subject'),
+      '#default_value' => $state_default,
       '#maxlength' => 180,
     ];
+    $state_default = $state->get('emails.email_subscription.update_email_body');
     $form['email_subscription']['fieldset2']['email_subscription_update_body'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Body'),
-      '#default_value' => $config->get('emails.email_subscription.update_email_body'),
+      '#default_value' => $state_default,
     ];
 
     $form['email_subscription']['fieldset3'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Subscription notification confirmation')
     ];
+
+    $state_default = $state->get('emails.email_subscription.notify_email_subject');
     $form['email_subscription']['fieldset3']['email_subscription_notify_subject'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Subject'),
-      '#default_value' => $config->get('emails.email_subscription.notify_email_subject'),
+      '#default_value' => $state_default,
       '#maxlength' => 180,
     ];
+    $state_default = $state->get('emails.email_subscription.notify_email_body');
     $form['email_subscription']['fieldset3']['email_subscription_notify_body'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Body'),
-      '#default_value' => $config->get('emails.email_subscription.notify_email_body'),
+      '#default_value' => $state_default,
     ];
 
     /* Event emails ------------------------------------------------------------- */
@@ -130,32 +137,38 @@ class CustomAdminForm extends ConfigFormBase {
       '#type' => 'fieldset',
       '#title' => $this->t('Event registration confirmation')
     ];
+
+    $state_default = $state->get('emails.email_event_registration.registration_email_subject');
     $form['email_event_registration']['fieldset']['email_event_registration_subject'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Subject'),
-      '#default_value' => $config->get('emails.email_event_registration.registration_email_subject'),
+      '#default_value' => $state_default,
       '#maxlength' => 180,
     ];
+
+    $state_default = $state->get('emails.email_event_registration.registration_email_body');
     $form['email_event_registration']['fieldset']['email_event_registration_body'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Body'),
-      '#default_value' => $config->get('emails.email_event_registration.registration_email_body'),
+      '#default_value' => $state_default,
     ];
 
     $form['email_event_registration']['fieldset_2'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Event organizer notice')
     ];
+    $state_default = $state->get('emails.email_event_registration.organizer_email_subject');
     $form['email_event_registration']['fieldset_2']['email_event_notice_subject'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Subject'),
-      '#default_value' => $config->get('emails.email_event_registration.organizer_email_subject'),
+      '#default_value' => $state_default,
       '#maxlength' => 180,
     ];
+    $state_default = $state->get('emails.email_event_registration.organizer_email_body');
     $form['email_event_registration']['fieldset_2']['email_event_notice_body'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Body'),
-      '#default_value' => $config->get('emails.email_event_registration.organizer_email_body'),
+      '#default_value' => $state_default,
     ];
 
 
@@ -166,10 +179,11 @@ class CustomAdminForm extends ConfigFormBase {
       '#group' => 'tabs',
       '#weight' => -1
     ];
+    $state_default = $state->get('general.fe_url');
     $form['general']['fe_url'] = [
       '#type' => 'url',
       '#title' => $this->t('Front-end location'),
-      '#default_value' => $config->get('general.fe_url'),
+      '#default_value' => $state_default,
       '#maxlength' => 255,
       '#size' => 30,
     ];
@@ -193,7 +207,7 @@ class CustomAdminForm extends ConfigFormBase {
 	 */
 	public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
-
+    $state = \Drupal::state();
     $this->config('htm_custom_admin_form.customadmin')
     ->set('emails.email_event_registration.registration_email_subject', $form_state->getValue('email_event_registration_subject'))
     ->set('emails.email_event_registration.registration_email_body', $form_state->getValue('email_event_registration_body'))
@@ -207,7 +221,19 @@ class CustomAdminForm extends ConfigFormBase {
     ->set('emails.email_subscription.notify_email_body', $form_state->getValue('email_subscription_notify_body'))
 
     ->set('general.fe_url', $form_state->getValue('fe_url'))
+
     ->save();
+    $state->set('emails.email_event_registration.registration_email_subject', $form_state->getValue('email_event_registration_subject'));
+     $state ->set('emails.email_event_registration.registration_email_body', $form_state->getValue('email_event_registration_body'));
+      $state->set('emails.email_event_registration.organizer_email_subject', $form_state->getValue('email_event_notice_subject'));
+      $state->set('emails.email_event_registration.organizer_email_body', $form_state->getValue('email_event_notice_body'));
+      $state->set('emails.email_subscription.create_email_subject', $form_state->getValue('email_subscription_create_subject'));
+      $state->set('emails.email_subscription.create_email_body', $form_state->getValue('email_subscription_create_body'));
+      $state->set('emails.email_subscription.update_email_subject', $form_state->getValue('email_subscription_update_subject'));
+      $state->set('emails.email_subscription.update_email_body', $form_state->getValue('email_subscription_update_body'));
+      $state->set('emails.email_subscription.notify_email_subject', $form_state->getValue('email_subscription_notify_subject'));
+      $state->set('emails.email_subscription.notify_email_body', $form_state->getValue('email_subscription_notify_body'));
+      $state->set('general.fe_url', $form_state->getValue('fe_url'));
   }
 
 }

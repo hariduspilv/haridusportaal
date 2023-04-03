@@ -29,9 +29,10 @@ class CalendarExportController extends ControllerBase {
   	if($event_node_id->bundle() === 'event'){
 
 			$config  = \Drupal::config('htm_custom_admin_form.customadmin');
+      $state = \Drupal::state();
 			$language = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
-			$url = $config->get('general.fe_url');
+			$url = $state->get('general.fe_url');
 
 			$vCalendar = new Calendar($url);
 			$event_title  = $event_node_id->getTitle();

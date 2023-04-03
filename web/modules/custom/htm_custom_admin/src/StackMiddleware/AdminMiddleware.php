@@ -71,6 +71,7 @@ class AdminMiddleware implements HttpKernelInterface {
       $this->anonymous &&
       !$request->headers->get('authorization')){
       $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+      $fe_url = \Drupal::state()->get('general.fe_url');
       $response = new RedirectResponse($fe_url);
       $response->send();
     }

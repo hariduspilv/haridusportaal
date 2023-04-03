@@ -78,7 +78,18 @@ class TranslationFormDeleteTranslation extends ConfigFormBase {
 	public function submitForm(array &$form, FormStateInterface $form_state) {
 		$config_key = 'htm_custom_translations_new.translation';
 		$translation_key = $form_state->getValue('key_to_delete');
-
+    $state = \Drupal::state();
+    $traslation_keys = \Drupal::state()->get('translation_keys');
+    $translation = $state->get($translation_key);
+    $langs = \Drupal::languageManager()->getLanguages();
+    foreach ($langs as $lang_key => $Lang) {
+      $translation = $state->get($translation_key.'.'.$lang_key);
+      $state->delete($translation.'.'.$lang_key);
+    }
+    if (isset($traslation_keys[$translation_key])) {
+      unset($traslation_keys[$translation_key]);
+      $state->set('translation_keys',$traslation_keys);
+    }
 		$this->config($config_key)->clear($translation_key)->save();
 		$this->messenger->addMessage($this->t('Key deleted'));
 		$form_state->setRedirect('htm_custom_translations_new.translation_form');
