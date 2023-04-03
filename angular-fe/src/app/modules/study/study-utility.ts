@@ -21,7 +21,7 @@ import { StudyListViewHighlightedResponse } from './models/study-list-view-highl
 export class StudyUtility {
 
   private static joinArrayToString(elements: (string | number)[]): string {
-    return elements.join(', ');
+    return elements?.join(', ') || '';
   }
 
   private static mapOptionTypesToFormItemOptions(options: Entity[]): FormItemOption[] {
@@ -35,11 +35,11 @@ export class StudyUtility {
    */
   private static gatherJoinedInlineFields(study: Study): string[] {
     const flattenedFieldPublicationTypes =
-      study.fieldRightColumn.entity.fieldStudy?.entity?.fieldPublicationType
+      study.fieldRightColumn?.entity?.fieldStudy?.entity?.fieldPublicationType
         .map(publication => publication.entity?.entityLabel || '');
     return [
-      this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy?.entity?.fieldAuthor),
-      this.joinArrayToString(study.fieldRightColumn.entity.fieldStudy?.entity?.fieldYear),
+      this.joinArrayToString(study.fieldRightColumn?.entity?.fieldStudy?.entity?.fieldAuthor),
+      this.joinArrayToString(study.fieldRightColumn?.entity?.fieldStudy?.entity?.fieldYear),
       this.joinArrayToString(flattenedFieldPublicationTypes),
     ];
   }

@@ -50,7 +50,10 @@
               <loader></loader>
             </div><!--/chart-wrapper__loader-->
 
-            <google-chart [data]="filtersData[item.id]" *ngIf="filtersData[item.id].dataTable"></google-chart>
+            <google-chart
+              [data]="filtersData[item.id]"
+              *ngIf="filtersData[item.id].dataTable && !filtersData[item.id].loading"
+            ></google-chart>
 
           </ng-container>
         </div><!--/chart-wrapper-->

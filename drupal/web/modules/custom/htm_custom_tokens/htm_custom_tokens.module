@@ -83,7 +83,7 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 		$node = $data['node'];
 		$node_type = $node->getType();
 		#$node_type = $node
-		$fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+		$fe_url = \Drupal::state()->get('general.fe_url');
 
 		foreach($tokens as $name => $original){
 			#dump($name);

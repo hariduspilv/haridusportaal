@@ -1,0 +1,17 @@
+<?php
+
+use Drupal\Core\Cache\Cache;
+
+function htm_custom_authentication_update_9001() {
+  $confs = [
+    'auth_methods.mobile_id',
+    'auth_methods.tara',
+    'auth_methods.harid'
+  ];
+  $config = \Drupal::config('htm_custom_authentication.customauthsetting');
+  foreach ($confs as $conf) {
+    $conf_value = $config->get($conf);
+    \Drupal::state()->set($conf,$conf_value);
+  }
+  Cache::invalidateTags(['config:htm_custom_authentication.customauthsetting']);
+}

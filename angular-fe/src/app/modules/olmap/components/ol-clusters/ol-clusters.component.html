@@ -1,0 +1,11 @@
+<ol-overlay
+  [offset]="[0, -44]"
+  [manager]="manager"
+  [feature]="selectedFeature"
+  [isOpen]="!!selectedFeature && enableTooltip"
+  [longitude]="coordinate?.[0]"
+  [latitude]="coordinate?.[1]"
+  [template]="contentTemplate"
+  (isOpenChange)="openChanged($event)">
+  <ng-content></ng-content>
+</ol-overlay>

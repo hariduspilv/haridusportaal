@@ -1,0 +1,12 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+	display: block;
+	.map {
+		&__container {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}

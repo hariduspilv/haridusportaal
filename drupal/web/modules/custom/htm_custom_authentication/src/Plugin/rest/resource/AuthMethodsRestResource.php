@@ -82,14 +82,32 @@ class AuthMethodsRestResource extends ResourceBase {
      */
     public function get() {
         $config = \Drupal::config('htm_custom_authentication.customauthsetting');
-        $values = $config->get();
+        $state = \Drupal::state();
+        $keys = [
+          'auth_methods.harid',
+          'auth_methods.tara',
+          'auth_methods.mobile_id'
+        ];
+        $array = [];
+        foreach ($keys as $key){
+          $value = $state->get($key);
+          $reference = &$array;
+          $value_key_exploded = explode('.',$key);
+          foreach ($value_key_exploded as $key) {
+            if (!array_key_exists($key, $reference)) {
+              $reference[$key] = [];
+            }
+            $reference = &$reference[$key];
+          }
+          $reference = $value;
+        }
         // You must to implement the logic of your REST Resource here.
         // Use current user after pass authentication to validate access.
         if (!$this->currentUser->hasPermission('access content')) {
             throw new AccessDeniedHttpException();
         }
 
-        $response = new ResourceResponse($values, 200);
+        $response = new ResourceResponse($array, 200);
         $response->addCacheableDependency($config);
 
         return $response;
