@@ -17,6 +17,7 @@ module:
   conditional_fields: 0
   config: 0
   config_translation: 0
+  consumers: 0
   contact: 0
   contextual: 0
   crop: 0
@@ -47,7 +48,6 @@ module:
   graphql_metatag: 0
   help: 0
   history: 0
-  hms_field: 0
   htm_custom_admin: 0
   htm_custom_admin_form: 0
   htm_custom_authentication: 0
