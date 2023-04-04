@@ -83,6 +83,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() public pattern: any = false;
   @Output() public onChange: EventEmitter<any> = new EventEmitter();
   @Output() public onUpdate: EventEmitter<any> = new EventEmitter();
+  @Output() public onBlur: EventEmitter<any> = new EventEmitter();
   @Output() public autoCompleteChanged: EventEmitter<any> = new EventEmitter();
   @Input() public name: string = '';
   @Input() public checked: string;
@@ -241,6 +242,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   public update(action: string = '', elem = undefined) {
+    if (action === 'blur') {
+      this.onBlur.emit();
+    }
 
     if (action === 'datepicker') {
       if (this.dateField && this.dateField.year) {
