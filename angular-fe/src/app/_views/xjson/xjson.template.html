@@ -90,12 +90,17 @@
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [(ngModel)]="data_elements[element].value" [name]="element"
                           [error]="error[element] ? true : false"
-                          [errorMessage]="error[element] ? error[element].message : ''">
+                          [errorMessage]="error[element] ? error[element].message : ''"
+                          (onBlur)="onFieldBlur(element)">
                         </formItem>
                         <div class="tooltip">
                           <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
                             ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
                         </div>
+
+                        <ng-container *ngIf="data_elements[element].type === 'iban'">
+                          <alerts [id]="'iban-valid-' + element" [small]="true"></alerts>
+                        </ng-container>
                       </ng-container> <!-- /TEXT -->
 
                       <ng-container *ngIf="data_elements[element].type == 'textarea'">
