@@ -21,7 +21,6 @@ function htm_custom_translations_new_import_translations()
     $file_decoded = json_decode($file);
     foreach ($file_decoded as $translation_state_key => $translations){
       if (!isset($translation_keys[$translation_state_key])) {
-        dump($translations);
         $translation_keys[$translation_state_key] = [];
         foreach ($translations as $translation_key => $translation) {
           $state->set($translation_key,$translation);
