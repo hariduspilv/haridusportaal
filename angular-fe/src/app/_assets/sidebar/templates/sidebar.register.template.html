@@ -115,7 +115,7 @@
   </htm-modal>
 </ng-container>
 
-<ng-container *ngIf="data.fieldEntryType == 'external_inv'">
+<ng-container *ngIf="data.fieldEntryType == 'external_inv' || data.fieldEntryType === 'juhan'">
   <h3>{{ 'event.registration' | translate }}</h3>
   <div class="actions" *ngIf="data.fieldRegistrationUrl">
     <a target="_blank" [href]="data.fieldRegistrationUrl.url.path">{{ 'event.external_registration' | translate }}</a>
