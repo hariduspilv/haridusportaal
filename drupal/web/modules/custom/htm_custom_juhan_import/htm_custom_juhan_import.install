@@ -1,0 +1,6 @@
+<?php
+
+function htm_custom_juhan_import_install() {
+  \Drupal::state()->set('htm_variables.htm.import_juhan',"FALSE" );
+
+}
