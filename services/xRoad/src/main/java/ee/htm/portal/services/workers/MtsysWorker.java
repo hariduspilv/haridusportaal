@@ -808,45 +808,64 @@ public class MtsysWorker extends Worker {
       }
 
       if (oppeasutusedNode != null) {
-        if (addAddress) {
+        if (addAddress && oppeasutusedNode.get("educationalInstitution").has("address")) {
           ((ArrayNode) stepAndmed.get("aadressid").get("value")).addObject().putObject("aadress")
-              .put("seqNo", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("seqNo").asLong())
-              .put("adsId", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("adsId").asLong())
-              .put("adsOid", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("adsOid").asText(""))
-              .put("klElukoht", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("klElukoht").asLong())
-              .put("county", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("county").asText(""))
-              .put("localGovernment", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("localGovernment").asText(""))
-              .put("settlementUnit", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("settlementUnit").asText(""))
-              .put("address", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("address").asText(""))
-              .put("addressFull", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("addressFull").asText(""))
-              .put("addressHumanReadable", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("addressHumanReadable").asText(""));
+              .put("seqNo", oppeasutusedNode.get("educationalInstitution").get("address").has("seqNo")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("seqNo").asLong()
+                  : null)
+              .put("adsId", oppeasutusedNode.get("educationalInstitution").get("address").has("adsId")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("adsId").asLong()
+                  : null)
+              .put("adsOid", oppeasutusedNode.get("educationalInstitution").get("address").has("adsOid")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("adsOid").asText("")
+                  : null)
+              .put("klElukoht", oppeasutusedNode.get("educationalInstitution").get("address").has("klElukoht")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("klElukoht").asLong()
+                  : null)
+              .put("county", oppeasutusedNode.get("educationalInstitution").get("address").has("county")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("county").asText("")
+                  : null)
+              .put("localGovernment", oppeasutusedNode.get("educationalInstitution").get("address").has("localGovernment")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("localGovernment").asText("")
+                  : null)
+              .put("settlementUnit", oppeasutusedNode.get("educationalInstitution").get("address").has("settlementUnit")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("settlementUnit").asText("")
+                  : null)
+              .put("address", oppeasutusedNode.get("educationalInstitution").get("address").has("address")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("address").asText("")
+                  : null)
+              .put("addressFull", oppeasutusedNode.get("educationalInstitution").get("address").has("addressFull")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("addressFull").asText("")
+                  : null)
+              .put("addressHumanReadable", oppeasutusedNode.get("educationalInstitution").get("address").has("addressHumanReadable")
+                  ? oppeasutusedNode.get("educationalInstitution").get("address").get("addressHumanReadable").asText("")
+                  : null);
         }
 
-        stepAndmed.putObject("oppeasutuseNimetus")
-            .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
-                .get("name").asText());
-        stepAndmed.putObject("omanik")
-            .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
-                .get("owner").asText());
-        stepAndmed.putObject("telefon")
-            .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
-                .get("contactPhone").asText());
-        stepAndmed.putObject("epost")
-            .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
-                .get("contactEmail").asText());
-        stepAndmed.putObject("koduleht")
-            .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
-                .get("webpageAddress").asText());
+        if (oppeasutusedNode.get("educationalInstitution").has("generalData")) {
+          stepAndmed.putObject("oppeasutuseNimetus")
+              .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData").has("name")
+                  ? oppeasutusedNode.get("educationalInstitution").get("generalData").get("name").asText()
+                  : null);
+          stepAndmed.putObject("omanik")
+              .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData").has("owner")
+                  ? oppeasutusedNode.get("educationalInstitution").get("generalData").get("owner").asText()
+                  : null);
+        }
+        if (oppeasutusedNode.get("educationalInstitution").has("contacts")) {
+          stepAndmed.putObject("telefon")
+              .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts").has("contactPhone")
+                  ? oppeasutusedNode.get("educationalInstitution").get("contacts").get("contactPhone").asText()
+                  : null);
+          stepAndmed.putObject("epost")
+              .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts").has("contactEmail")
+                  ? oppeasutusedNode.get("educationalInstitution").get("contacts").get("contactEmail").asText()
+                  : null);
+          stepAndmed.putObject("koduleht")
+              .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts").has("webpageAddress")
+                  ? oppeasutusedNode.get("educationalInstitution").get("contacts").get("webpageAddress").asText()
+                  : null);
+        }
       }
 
       ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
