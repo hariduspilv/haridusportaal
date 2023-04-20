@@ -1,0 +1,29 @@
+uuid: b4976423-89be-4c22-8348-b034589701e4
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.list
+    - field.field.paragraph.additional_links.field_links
+    - paragraphs.paragraphs_type.additional_links
+  module:
+    - link
+id: paragraph.additional_links.list
+targetEntityType: paragraph
+bundle: additional_links
+mode: list
+content:
+  field_links:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

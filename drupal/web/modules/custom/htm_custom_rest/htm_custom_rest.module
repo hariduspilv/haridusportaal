@@ -1,0 +1,23 @@
+<?php
+
+use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+
+/**
+ * Implements hook_entity_view_mode_info().
+ */
+function htm_custom_rest_entity_view_mode_info() {
+  $view_modes = [];
+
+  $view_modes['node'] = [
+    'list_view' => [
+      'label' => t('List view'),
+      'targetEntityType' => 'node',
+    ],
+    'detail_viw' => [
+      'label' => t('List view'),
+      'targetEntityType' => 'node',
+    ],
+  ];
+
+  return $view_modes;
+}

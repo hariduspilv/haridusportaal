@@ -1,0 +1,28 @@
+uuid: 19b48624-795b-4e63-9b57-d0da612b824c
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.list
+    - field.field.paragraph.studypage_right_column.field_additional_links
+    - field.field.paragraph.studypage_right_column.field_study
+    - paragraphs.paragraphs_type.studypage_right_column
+  module:
+    - entity_reference_revisions
+id: paragraph.studypage_right_column.list
+targetEntityType: paragraph
+bundle: studypage_right_column
+mode: list
+content:
+  field_study:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_additional_links: true
+  search_api_excerpt: true
