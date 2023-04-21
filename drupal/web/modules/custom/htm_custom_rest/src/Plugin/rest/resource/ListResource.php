@@ -175,8 +175,11 @@ class ListResource extends ResourceBase {
             return $count_query->execute()->fetchField();
           }
 
-          $offset = isset($filters['offset']) ? $filters['offset'] : 0;
-          $limit = isset($filters['limit']) ? $filters['limit'] : 16;
+          $offset = intval(isset($filters['offset']) ? $filters['offset'] : 0);
+          $limit = intval( isset($filters['limit']) ? $filters['limit'] : 16);
+          if ($offset == 0) {
+            $limit += 1;
+          }
           $base_query->range($offset, $limit);
 
           $nids = $base_query->execute()->fetchCol();
@@ -190,19 +193,60 @@ class ListResource extends ResourceBase {
       $subquery->fields('n', ['nid']);
       $aliases = [];
       if (!empty($filters['titleValue'])) {
-        $subquery->join('node_field_data','nfd','n.nid=nfd.nid');
-        $subquery->join('node__field_content','nfc','n.nid=nfc.entity_id');
-        $subquery->join('node__field_introduction','nfi','n.nid=nfi.entity_id');
+        if (!in_array('nfd',$aliases)) {
+          $subquery->join('node_field_data', 'nfd', 'n.nid=nfd.nid');
+          $aliases[] = 'nfd';
+        }
+        if (!in_array('nfc',$aliases)) {
+          $subquery->join('node__field_content', 'nfc', 'n.nid=nfc.entity_id');
+          $aliases[] = 'nfc';
+        }
+
+        if (!in_array('nfi',$aliases)) {
+          $subquery->join('node__field_introduction', 'nfi', 'n.nid=nfi.entity_id');
+          $aliases[] = 'nfi';
+        }
         // Akkordion fields
-        $subquery->join('node__field_accordion','nfa','n.nid=nfa.entity_id');
-        $subquery->join('paragraph__field_study_accordion_intro','pfsai','nfa.field_accordion_target_id=pfsai.entity_id');
-        $subquery->join('paragraph__field_study_accordion_content','pfsac','nfa.field_accordion_target_id=pfsac.entity_id');
-        $subquery->join('paragraph__field_body','pfb','nfa.field_accordion_target_id=pfb.entity_id');
+
+        if (!in_array('nfa',$aliases)) {
+          $subquery->join('node__field_accordion', 'nfa', 'n.nid=nfa.entity_id');
+          $aliases[] = 'nfa';
+        }
+
+        if (!in_array('pfsai',$aliases)) {
+          $subquery->join('paragraph__field_study_accordion_intro', 'pfsai', 'nfa.field_accordion_target_id=pfsai.entity_id');
+          $aliases[] = 'pfsai';
+        }
+
+        if (!in_array('pfsac',$aliases)) {
+          $subquery->join('paragraph__field_study_accordion_content', 'pfsac', 'nfa.field_accordion_target_id=pfsac.entity_id');
+          $aliases[] = 'pfsac';
+        }
+
+        if (!in_array('pfb',$aliases)) {
+          $subquery->join('paragraph__field_body', 'pfb', 'nfa.field_accordion_target_id=pfb.entity_id');
+          $aliases[] = 'pfb';
+        }
         // Right side fields
-        $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
-        $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
-        $subquery->join('paragraph__field_publisher','pfp','pfs.field_study_target_id=pfp.entity_id');
-        $subquery->join('paragraph__field_author','pfa','pfs.field_study_target_id=pfa.entity_id');
+
+        if (!in_array('nfrc',$aliases)) {
+          $subquery->join('node__field_right_column', 'nfrc', 'n.nid=nfrc.entity_id');
+          $aliases[] = 'nfrc';
+        }
+        if (!in_array('pfs',$aliases)) {
+          $subquery->join('paragraph__field_study', 'pfs', 'nfrc.field_right_column_target_id=pfs.entity_id');
+          $aliases[] = 'pfs';
+        }
+
+        if (!in_array('pfp',$aliases)) {
+          $subquery->join('paragraph__field_publisher', 'pfp', 'pfs.field_study_target_id=pfp.entity_id');
+          $aliases[] = 'pfp';
+        }
+
+        if (!in_array('pfa',$aliases)) {
+          $subquery->join('paragraph__field_author', 'pfa', 'pfs.field_study_target_id=pfa.entity_id');
+          $aliases[] = 'pfa';
+        }
 
         $or_group = $subquery->orConditionGroup();
         $or_group->condition('nfd.title',$filters['titleValue'],'LIKE');
@@ -216,10 +260,12 @@ class ListResource extends ResourceBase {
 
         $subquery->condition($or_group);
       }
-
       if (!empty($filters['studyLabelValue'])) {
         $filter_vals = explode(';',$filters['studyLabelValue']);
-        $subquery->join('node__field_label','nfsl','n.nid=nfsl.entity_id');
+        if (!in_array('nfsl',$aliases)) {
+          $subquery->join('node__field_label','nfsl','n.nid=nfsl.entity_id');
+          $aliases[] = 'nfsl';
+        }
         $or_group = $subquery->orConditionGroup();
         foreach ($filter_vals as $filter_val) {
           $or_group->condition('nfsl.field_label_target_id', $filter_val);
@@ -228,7 +274,10 @@ class ListResource extends ResourceBase {
       }
     if (!empty($filters['studyTopicValue'])){
       $filter_vals = explode(';',$filters['studyTopicValue']);
-      $subquery->join('node__field_study_topic','nfst','n.nid=nfst.entity_id');
+      if (!in_array('nfst',$aliases)) {
+        $subquery->join('node__field_study_topic','nfst','n.nid=nfst.entity_id');
+        $aliases[] = 'nfst';
+      }
       $or_group = $subquery->orConditionGroup();
       foreach ($filter_vals as $filter_val) {
         $or_group->condition('nfst.field_study_topic_target_id', $filter_val);
@@ -237,9 +286,21 @@ class ListResource extends ResourceBase {
     }
     if (!empty($filters['publicationTypeValue'])){
       $or_group = $subquery->orConditionGroup();
-      $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
-      $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
-      $subquery->join('paragraph__field_publication_type','pfpt','pfs.field_study_target_id=pfpt.entity_id');
+
+      if (!in_array('nfrc',$aliases)) {
+        $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
+        $aliases[] = 'nfrc';
+      }
+
+      if (!in_array('pfs',$aliases)) {
+        $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
+        $aliases[] = 'pfs';
+      }
+
+      if (!in_array('pfpt',$aliases)) {
+        $subquery->join('paragraph__field_publication_type','pfpt','pfs.field_study_target_id=pfpt.entity_id');
+        $aliases[] = 'pfpt';
+      }
       $publication_types = explode(';',$filters['publicationTypeValue']);
       foreach ($publication_types as $publication_type) {
         $or_group->condition('pfpt.field_publication_type_target_id', $publication_type);
@@ -248,25 +309,59 @@ class ListResource extends ResourceBase {
     }
     if (!empty($filters['publicationLanguageValue'])){
       $or_group = $subquery->orConditionGroup();
-      $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
-      $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
-      $subquery->join('paragraph__field_publication_lang','pfpl','pfs.field_study_target_id=pfpl.entity_id');
-      $publication_langss = explode(';',$filters['publicationLanguageValue']);
-      foreach ($publication_langss as $publication_lang) {
+
+      if (!in_array('nfrc',$aliases)) {
+        $subquery->join('node__field_right_column', 'nfrc', 'n.nid=nfrc.entity_id');
+        $aliases[] = 'nfrc';
+      }
+      if (!in_array('pfs',$aliases)) {
+        $subquery->join('paragraph__field_study', 'pfs', 'nfrc.field_right_column_target_id=pfs.entity_id');
+        $aliases[] = 'pfs';
+      }
+      if (!in_array('pfpl',$aliases)) {
+        $subquery->join('paragraph__field_publication_lang', 'pfpl', 'pfs.field_study_target_id=pfpl.entity_id');
+        $aliases[] = 'pfpl';
+      }
+      $publication_langs = explode(';',$filters['publicationLanguageValue']);
+      foreach ($publication_langs as $publication_lang) {
         $or_group->condition('pfpl.field_publication_lang_target_id', $publication_lang);
       }
       $subquery->condition($or_group);
     }
     if (!empty($filters['dateFrom'])){
-      $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
-      $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
-      $subquery->join('paragraph__field_year','pfy','pfs.field_study_target_id=pfy.entity_id');
+
+      if (!in_array('nfrc',$aliases)) {
+        $subquery->join('node__field_right_column', 'nfrc', 'n.nid=nfrc.entity_id');
+        $aliases[] = 'nfrc';
+      }
+
+      if (!in_array('pfs',$aliases)) {
+        $subquery->join('paragraph__field_study', 'pfs', 'nfrc.field_right_column_target_id=pfs.entity_id');
+        $aliases[] = 'pfs';
+      }
+
+      if (!in_array('pfy',$aliases)) {
+        $subquery->join('paragraph__field_year', 'pfy', 'pfs.field_study_target_id=pfy.entity_id');
+        $aliases[] = 'pfy';
+      }
       $subquery->condition('pfy.field_year_value', intval($filters['dateFrom']),'>=');
     }
     if (!empty($filters['dateTo'])){
-      $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
-      $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
-      $subquery->join('paragraph__field_year','pfy','pfs.field_study_target_id=pfy.entity_id');
+
+      if (!in_array('nfrc',$aliases)) {
+        $subquery->join('node__field_right_column', 'nfrc', 'n.nid=nfrc.entity_id');
+        $aliases[] = 'nfrc';
+      }
+
+      if (!in_array('pfs',$aliases)) {
+        $subquery->join('paragraph__field_study', 'pfs', 'nfrc.field_right_column_target_id=pfs.entity_id');
+        $aliases[] = 'pfs';
+      }
+
+      if (!in_array('pfy',$aliases)) {
+        $subquery->join('paragraph__field_year', 'pfy', 'pfs.field_study_target_id=pfy.entity_id');
+        $aliases[] = 'pfy';
+      }
       $subquery->condition('pfy.field_year_value', intval($filters['dateTo']),'<=');
     }
     // Implement the subquery logic here, based on the original query
