@@ -12,6 +12,7 @@ dependencies:
     - rest.resource.get_certificate_public_rest_resource
     - rest.resource.get_signed_file
     - rest.resource.highlighted_research
+    - rest.resource.htm_custom_rest_list_view
     - rest.resource.jwt_token_renew_rest_resource
     - rest.resource.jwt_token_rest_resource
     - rest.resource.mobile_id_rest_resource
@@ -65,6 +66,7 @@ permissions:
   - 'restful get educational_form_rest_resource'
   - 'restful get get_certificate_public_rest_resource'
   - 'restful get highlighted_research'
+  - 'restful get htm_custom_rest_list_view'
   - 'restful get jwt_token_renew_rest_resource'
   - 'restful get roles_rest_resource'
   - 'restful get state_exams_rest_resource'

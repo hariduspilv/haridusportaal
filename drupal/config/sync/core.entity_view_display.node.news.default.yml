@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.news.body
     - field.field.node.news.field_additional_images
     - field.field.node.news.field_author
+    - field.field.node.news.field_daily_important
     - field.field.node.news.field_introduction_image
     - field.field.node.news.field_metatags
     - field.field.node.news.field_news_description
@@ -17,9 +18,9 @@ dependencies:
     - node.type.news
   module:
     - htm_custom_video_field
-    - image
     - link
     - metatag
+    - svg_image
     - text
     - user
 id: node.news.default
@@ -96,6 +97,12 @@ content:
     settings:
       image_link: ''
       image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 115
     region: content
@@ -106,6 +113,7 @@ content:
     region: content
 hidden:
   field_additional_images: true
+  field_daily_important: true
   field_introduction_image: true
   langcode: true
   search_api_excerpt: true

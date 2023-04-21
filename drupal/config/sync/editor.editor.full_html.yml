@@ -59,11 +59,7 @@ settings:
             - DrupalFile
             - ShowBlocks
             - Source
-  plugins:
-    stylescombo:
-      styles: ''
-    language:
-      language_list: un
+  plugins: {  }
 image_upload:
   status: true
   scheme: public

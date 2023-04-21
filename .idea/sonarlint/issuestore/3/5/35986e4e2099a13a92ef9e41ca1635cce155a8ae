@@ -1,0 +1,33 @@
+
+Y	php:S1808("=Move this open curly brace to the beginning of the next line.(–˜ëõ8ØÒíğø0
+Y	php:S1808O"=Move this open curly brace to the beginning of the next line.(§´ù8ØÒíğø0
+Y	php:S1808X"=Move this open curly brace to the beginning of the next line.(±ÛÛ8ØÒíğø0
+Y	php:S1808k"=Move this open curly brace to the beginning of the next line.(–Œ¡À8ØÒíğø0
+_	php:S1808‚"=Move this open curly brace to the beginning of the next line.(ÉöŠßøÿÿÿÿ8ØÒíğø0
+_	php:S1808¡"=Move this open curly brace to the beginning of the next line.(ÃÙÛ¸úÿÿÿÿ8ØÒíğø0
+g	php:S1808Š"JPut one space between the closing parenthesis and the opening curly brace.(Ê»±û8ÙÒíğø0
+R	php:S1808v"6Put exactly one space after comma separated arguments.(äºë¥8ÙÒíğø0
+W	php:S1808w"6Put exactly one space after comma separated arguments.(…½Áùÿÿÿÿ8ÙÒíğø0
+X	php:S1808…"6Put exactly one space after comma separated arguments.(ßÊ€áüÿÿÿÿ8ÙÒíğø0
+X	php:S1808‡"6Put exactly one space after comma separated arguments.(õÕÜúÿÿÿÿ8ÙÒíğø0
+X	php:S1808‰"6Put exactly one space after comma separated arguments.(¨ÖÖ¢ûÿÿÿÿ8ÙÒíğø0
+a	php:S1808±"DPut one space between this "if" keyword and the opening parenthesis.(òñõ×8¢Óşğø0
+P	php:S1808I"/Align all arguments in this list at column "6".(¾™…èùÿÿÿÿ8ÙÒíğø0
+a	php:S1808O"EMove the closing parenthesis with the opening brace on the next line.(§´ù8ÙÒíğø0
+P	php:S1808Z"/Align all arguments in this list at column "8".(ó²Ùûÿÿÿÿ8ÙÒíğø0
+X	php:S1144¡"6Remove this unused private "getviewmodefields" method.(ÃÙÛ¸úÿÿÿÿ8Éµ†ñø0
+F	php:S1781v"*Write this "FALSE" constant in lower case.(äºë¥8ÙÒíğø0
+J	php:S1781w")Write this "TRUE" constant in lower case.(…½Áùÿÿÿÿ8ÙÒíğø0
+wphp:S117J"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(—Ñ®˜øÿÿÿÿ8ÙÒíğø0
+zphp:S117K"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ØÛ€Ö8ÙÒíğø0
+{php:S117L"`Rename this parameter "$serializer_formats" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¢«ÆÜ8ÙÒíğø0
+tphp:S117N"ZRename this parameter "$current_user" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ÁØÊ8ÙÒíğø0
+rphp:S117X"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ8ÙÒíğø0
+zphp:S117X"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ8ÙÒíğø0
+|php:S117q"aRename this local variable "$allowed_params" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ó÷ÊÆ8ÙÒíğø0
+php:S117‹"^Rename this local variable "$count_query" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Û½Ş“şÿÿÿÿ8ÙÒíğø0
+€	php:S1488"^Immediately return this expression instead of assigning it to the temporary variable "$nodes".(ÂÉÂ÷ûÿÿÿÿ8ÙÒíğø0
+P	php:S1481q"4Remove this unused "$allowed_params" local variable.(ó÷ÊÆ8ÙÒíğø0
+J	php:S1481v".Remove this unused "$entities" local variable.(äºë¥8ÙÒíğø0
+L	php:S1481w"+Remove this unused "$count" local variable.(…½Áùÿÿÿÿ8ÙÒíğø0
+J	php:S1481z".Remove this unused "$language" local variable.(¢É„Ë8ÙÒíğø0

@@ -1,3 +1,4 @@
+langcode: et
 enabled: false
 settings:
   client_id: ''

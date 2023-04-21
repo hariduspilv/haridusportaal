@@ -53,11 +53,7 @@ settings:
             - DrupalImage
             - Maximize
             - Format
-  plugins:
-    language:
-      language_list: un
-    stylescombo:
-      styles: 'h3|t(''Heading'')'
+  plugins: {  }
 image_upload:
   status: true
   scheme: public

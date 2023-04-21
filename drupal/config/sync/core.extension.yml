@@ -69,6 +69,7 @@ module:
   htm_custom_oska: 0
   htm_custom_professional_certific: 0
   htm_custom_querymap_form: 0
+  htm_custom_rest: 0
   htm_custom_study_programme_import: 0
   htm_custom_subscriptions: 0
   htm_custom_subscriptions_notification: 0
@@ -130,7 +131,6 @@ module:
   serialization: 0
   session_limit: 0
   shortcut: 0
-  simple_sitemap: 0
   sitemap: 0
   smtp: 0
   statistics: 0

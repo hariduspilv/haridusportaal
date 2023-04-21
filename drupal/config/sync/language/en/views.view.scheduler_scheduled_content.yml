@@ -71,6 +71,7 @@ display:
     display_options:
       menu:
         title: Scheduled
+        description: 'Content scheduled for publishing and unpublishing'
       tab_options:
         title: Content
         description: 'Find and manage scheduled content'

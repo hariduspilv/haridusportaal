@@ -1,3 +1,6 @@
+_core:
+  default_config_hash: 6LIpKkpajaLVzp7vCiTE8WQxllcMEoQ3vrFIq4FRYSE
+langcode: et
 session_limit_max: 1
 session_limit_masquerade_ignore: false
 session_limit_behaviour: 0
@@ -8,6 +11,3 @@ session_limit_roles:
   content_editor: 0
   head_user: 0
   oska_editor: 0
-_core:
-  default_config_hash: 6LIpKkpajaLVzp7vCiTE8WQxllcMEoQ3vrFIq4FRYSE
-langcode: et

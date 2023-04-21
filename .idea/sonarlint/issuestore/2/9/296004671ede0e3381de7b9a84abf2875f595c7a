@@ -1,0 +1,49 @@
+
+otypescript:S1121Á"SExtract the assignment of "this.data_elements[element].value" from this expression.(¼ŠÚ.
+typescript:S1121Â"bExtract the assignment of "this.data_elements[element].value[rowindex][col]" from this expression.(—”‚¶
+ztypescript:S3923Ğ"]This conditional operation returns the same value whether the condition is "true" or "false".(¶Ğ›÷
+qtypescript:S3776ß"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(§öÜÂ
+ztypescript:S3923«"]This conditional operation returns the same value whether the condition is "true" or "false".(±¤çú
+qtypescript:S3776¾"TRefactor this function to reduce its Cognitive Complexity from 21 to the 15 allowed.(×şıœ
+‡typescript:S1874æ"ä'subscribe' is deprecated. Instead of passing separate callback arguments, use an observer argument. Signatures taking separate callback arguments will be removed in v8. Details: https://rxjs.dev/deprecations/subscribe-arguments(÷íõ–úÿÿÿÿ
+vtypescript:S3776ƒ"TRefactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.( Á„ûÿÿÿÿ
+vtypescript:S3776”"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(‘€ÅÖüÿÿÿÿ
+vtypescript:S3776÷"TRefactor this function to reduce its Cognitive Complexity from 79 to the 15 allowed.(ÊÜó¿úÿÿÿÿ
+Ftypescript:S5869¼"*Remove duplicates in this character class.(«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u02AF\u0300' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u07FF\u0900' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u0BFF\u0C00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u0CFF\u0D00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u1A1F\u1B00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u1DBF\u1DC0' outside of [...](«Û²
+Ftypescript:S5869¼"*Remove duplicates in this character class.(«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u02AF\u0300' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u07FF\u0900' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u0BFF\u0C00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u0CFF\u0D00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u1A1F\u1B00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u1DBF\u1DC0' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u1FFF\u20D0' outside of [...](«Û²
+Ftypescript:S5869¼"*Remove duplicates in this character class.(«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u02AF\u0300' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u07FF\u0900' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u0BFF\u0C00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u0CFF\u0D00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u1A1F\u1B00' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u1DBF\u1DC0' outside of [...](«Û²
+`typescript:S5868¼"DMove this Unicode combined character '\u1FFF\u20D0' outside of [...](«Û²
+rtypescript:S5843Î"USimplify this regular expression to reduce its complexity from 451 to the 20 allowed.(±ÿè¥
+Ftypescript:S3504ç")Unexpected var, use let or const instead.(Ã•µø
+qtypescript:S3776Ø"TRefactor this function to reduce its Cognitive Complexity from 32 to the 15 allowed.(ç©¹’
+vtypescript:S3776ş"TRefactor this function to reduce its Cognitive Complexity from 22 to the 15 allowed.(Ì˜—æşÿÿÿÿ
+Dtypescript:S1186®"'Unexpected empty method 'errorHandler'.(Óü®
+vtypescript:S3776È"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(ïÀ«¼ÿÿÿÿÿ
+@typescript:S125¶"Remove this commented out code.(î®ôëûÿÿÿÿ
+vtypescript:S3776Ö"TRefactor this function to reduce its Cognitive Complexity from 30 to the 15 allowed.(íñ±½üÿÿÿÿ
+qtypescript:S3776›	"TRefactor this function to reduce its Cognitive Complexity from 26 to the 15 allowed.(·³¢¬
+Qtypescript:S1135¿	"4Complete the task associated to this "TODO" comment.(’ï®°
+\typescript:S1854ğ	":Remove this useless assignment to variable "subscription".(ÜÕ•úÿÿÿÿ
+gtypescript:S905ü	"FExpected an assignment or function call and instead saw an expression.(ğ¿ÄÃûÿÿÿÿ
+Btypescript:S878ü	"!Unexpected use of comma operator.(ğ¿ÄÃûÿÿÿÿ
+Qtypescript:S1135…
+"4Complete the task associated to this "TODO" comment.(ŞÇİŒ

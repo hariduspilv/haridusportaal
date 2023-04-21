@@ -1,0 +1,16 @@
+
+_php:S103h"KSplit this 128 characters long line (which is greater than 120 authorized).(£¯©ø
+R	php:S1808"=Move this open curly brace to the beginning of the next line.(™œò
+W	php:S1808>"=Move this open curly brace to the beginning of the next line.(Ù‹Àµûÿÿÿÿ
+R	php:S1808G"=Move this open curly brace to the beginning of the next line.(±ÛÛ
+W	php:S1808_"=Move this open curly brace to the beginning of the next line.(ºñˆÍÿÿÿÿÿ
+I	php:S18088"/Align all arguments in this list at column "6".(¾™…èùÿÿÿÿ
+_	php:S1808>"EMove the closing parenthesis with the opening brace on the next line.(Ù‹Àµûÿÿÿÿ
+I	php:S1808I"/Align all arguments in this list at column "8".(ó²Ùûÿÿÿÿ
+hphp:S101"TRename class "xJsonGetFormName" to match the regular expression ^[A-Z][a-zA-Z0-9]*$.(™œò
+pphp:S1179"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(—Ñ®˜øÿÿÿÿ
+sphp:S117:"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ØÛ€Ö
+tphp:S117;"`Rename this parameter "$serializer_formats" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¢«ÆÜ
+sphp:S117>"ZRename this parameter "$current_user" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Ù‹Àµûÿÿÿÿ
+kphp:S117G"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ
+sphp:S117G"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ

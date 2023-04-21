@@ -271,7 +271,9 @@ class xJsonService implements xJsonServiceInterface {
     $path = \Drupal::service('path_alias.manager')->getPathByAlias($form_path);
     $system_path = explode('/', $path);
     $entityStorage = \Drupal::entityTypeManager()->getStorage($system_path[1]);
-    $entity = reset($entityStorage->loadByProperties(['id' => $system_path[2]]));
+
+    $array = $entityStorage->loadByProperties(['id' => $system_path[2]]);
+    $entity = reset($array);
 
     $definition = json_decode($entity->get('xjson_definition')->value);
 
@@ -314,7 +316,6 @@ class xJsonService implements xJsonServiceInterface {
     $response_body = isset($response['body']) ? $response['body'] : null;
     $response_header = isset($response['header']) ? $response['header'] : null;
     $response_messages = isset($response['messages']) ? $response['messages'] : null;
-
     $this->validatexJsonHeader($response_header);
     $form_name = $response['header']['form_name'];
     $definition = $this->getEntityJsonObject($form_name);

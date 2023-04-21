@@ -156,315 +156,124 @@ class ListResource extends ResourceBase {
 
     if (isset($filters['content_type'])) {
       $query->condition('n.type', $filters['content_type']);
+      switch ($filters['content_type']) {
+        case 'studypage':
+          $base_query = $db->select('node', 'n');
+          $base_query->fields('n', ['nid']);
 
-    }
-    $mapped_filters = $this->mapFilterFields();
-    $query->join('node_field_data', 'nfd', 'n.nid = nfd.nid');
-    $alias_list = [
-      'nfd',
-      'n'
-    ];
-    foreach ($mapped_filters as $query_param => $field_name) {
-      if (isset($filters[$query_param]) && !empty($filters[$query_param])) {
-        $filter_type = '';
-        switch ($query_param) {
-          case "titleValue":
-            $filter_type = "LIKE";
-            break;
-          default:
-            break;
-        }
-        if (is_array($field_name) && count($field_name)>1) {
-          $or_group = $query->orConditionGroup();
-          $active_filter = 'or_group';
-        }
-        else{
-          $active_filter = 'query';
-        }
-        if (is_array($field_name)) {
-          foreach ($field_name as $table_field_name => $or_filter) {
-            $mapped_alias = null;
-            $mapped_parent = null;
-            $mapped_value_field = null;
-            $mapped_type = null;
-            $mapped_table = null;
-            foreach ($or_filter as $key => $value) {
-              if ($key === 'table_alias') {
-                $mapped_alias = $value ?? null;
-                unset($or_filter[$key]);
-              } elseif ($key === 'parent') {
-                $mapped_parent = $value ?? null;
-                unset($or_filter[$key]);
-              } elseif ($key === 'value_field') {
-                $mapped_value_field = $value ?? null;
-                unset($or_filter[$key]);
-              } elseif ($key === 'type') {
-                $mapped_type = $value ?? null;
-                unset($or_filter[$key]);
-              } elseif ($key === 'table') {
-                $mapped_table = $value ?? null;
-                unset($or_filter[$key]);
-              }
-            }
-
-            if (is_array($or_filter)) {
-              if (!empty($mapped_alias)){
-                if ($mapped_type == "LIKE") {
-                  $$active_filter->condition($mapped_alias.".".$table_field_name, $filters[$query_param],'LIKE');
-                }
-                else {
-                  $$active_filter->condition($mapped_alias.".".$table_field_name, $filters[$query_param]);
-                 }
-              }
-              if (isset($mapped_parent)) {
-                $full_field_name = $mapped_parent."__".$table_field_name;
-                $value_field = $table_field_name.'_'.$mapped_value_field;
-                $words = explode('_', $full_field_name);
-                $field_alias = "";
-                foreach ($words as $word) {
-                  $field_alias .= substr($word, 0, 1);
-                }
-                dump($field_alias);
-                if (!in_array($field_alias,$alias_list)) {
-                    // The alias exists, do something.
-                    $query->join($full_field_name, $field_alias, $field_alias . ".entity_id = " . $table_alias . ".nid");
-                    $alias_list[] = $field_alias;
-                }
-                if ($mapped_value_field == 'value') {
-                  if ($mapped_type == "LIKE") {
-                    $$active_filter->condition($field_alias . "." . $value_field, $filters[$query_param], 'LIKE');
-                  }
-                  else {
-                    $$active_filter->condition($field_alias . "." . $value_field, $filters[$query_param]);
-                  }
-                }
-                else{
-                  if (!empty($or_filter) and is_array($or_filter)) {
-                    foreach ($or_filter as $o_key => $o_filter) {
-                      $o_parent = $o_filter['parent'] ?? null;
-                      unset($o_filter['parent']);
-                      if (!empty($o_parent)){
-                        $o_value = $o_key.'_'.$o_filter['value_field'] ?? null;
-                        unset($o_filter['value_field']);
-                        $o_type = $o_filter['type'] ?? null;
-                        unset($o_filter['type']);
-                        $full_o_table = $o_parent.'__'.$o_key;
-                        $words = explode('_', $full_o_table);
-                        $o_alias = "";
-                        foreach ($words as $word) {
-                          $o_alias .= substr($word, 0, 1);
-                        }
-                        if (!in_array($o_alias,$alias_list)) {
-                          $query->join($full_o_table, $o_alias, $o_alias . '.entity_id =' . $field_alias . '.' . $value_field);
-                          $alias_list[] = $o_alias;
-                        }
-                        if (empty($o_filter)) {
-                          if ($o_type == "LIKE") {
-                            $$active_filter->condition($o_alias . "." . $o_value, $filters[$query_param], 'LIKE');
-                          }
-                          else {
-                            $$active_filter->condition($o_alias . "." . $o_value, $filters[$query_param]);
-                          }
-                        }
-                        else{
-                          foreach ($o_filter as $os_key => $os_filter) {
-                            $os_parent = $os_filter['parent'] ?? null;
-                            unset($os_filter['parent']);
-                            if (!empty($o_parent)){
-                              $os_value = $os_key.'_'.$os_filter['value_field'] ?? null;
-                              unset($os_filter['value_field']);
-                              $os_type = $os_filter['type'] ?? null;
-                              unset($os_filter['type']);
-                              $full_os_table = $os_parent.'__'.$os_key;
-                              $words = explode('_', $full_os_table);
-                              $os_alias = "";
-                              foreach ($words as $word) {
-                                $os_alias .= substr($word, 0, 1);
-                              }
-
-                              if (!in_array($os_alias,$alias_list)) {
-                                $query->join($full_os_table, $os_alias, $os_alias . '.entity_id =' . $o_alias . '.' . $o_value);
-                                $alias_list[] = $os_alias;
-                              }
-                              if (empty($os_filter)) {
-                                if ($os_type == "LIKE") {
-                                  $$active_filter->condition($os_alias . "." . $os_value, $filters[$query_param], 'LIKE');
-                                }
-                                else {
-                                  $$active_filter->condition($os_alias . "." . $os_value, $filters[$query_param]);
-                                }
-                              }
-                              else{
-                                foreach ($os_filter as $oss_key => $oss_filter) {
-
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+          if (!empty($filters)) {
+            $subquery = $this->buildSubquery($db, $filters);
+            $base_query->condition('n.nid', $subquery, 'IN');
           }
-          if ($active_filter == 'or_group') {
-            $query->condition($$active_filter);
+
+          $base_query->join('node_field_data', 'nfd', 'n.nid = nfd.nid');
+          $base_query->condition('nfd.status', 1);
+          $base_query->orderBy('nfd.created', 'DESC');
+
+          if ($count) {
+            $count_query = $base_query->countQuery();
+            return $count_query->execute()->fetchField();
           }
-        }
+
+          $offset = isset($filters['offset']) ? $filters['offset'] : 0;
+          $limit = isset($filters['limit']) ? $filters['limit'] : 16;
+          $base_query->range($offset, $limit);
+
+          $nids = $base_query->execute()->fetchCol();
+          return $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
       }
     }
-    $query->fields('n', ['nid']);
+  }
 
-    // Sort by created field in descending order (newest first).
-    $query->orderBy('nfd.created', 'DESC');
-    $query->condition('nfd.status', 1);
+  private function buildSubquery($db, $filters) {
+      $subquery = $db->select('node', 'n');
+      $subquery->fields('n', ['nid']);
+      $aliases = [];
+      if (!empty($filters['titleValue'])) {
+        $subquery->join('node_field_data','nfd','n.nid=nfd.nid');
+        $subquery->join('node__field_content','nfc','n.nid=nfc.entity_id');
+        $subquery->join('node__field_introduction','nfi','n.nid=nfi.entity_id');
+        // Akkordion fields
+        $subquery->join('node__field_accordion','nfa','n.nid=nfa.entity_id');
+        $subquery->join('paragraph__field_study_accordion_intro','pfsai','nfa.field_accordion_target_id=pfsai.entity_id');
+        $subquery->join('paragraph__field_study_accordion_content','pfsac','nfa.field_accordion_target_id=pfsac.entity_id');
+        $subquery->join('paragraph__field_body','pfb','nfa.field_accordion_target_id=pfb.entity_id');
+        // Right side fields
+        $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
+        $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
+        $subquery->join('paragraph__field_publisher','pfp','pfs.field_study_target_id=pfp.entity_id');
+        $subquery->join('paragraph__field_author','pfa','pfs.field_study_target_id=pfa.entity_id');
 
-    if ($count) {
-      $count_query = $query->countQuery();
-      return $count_query->execute()->fetchField();
+        $or_group = $subquery->orConditionGroup();
+        $or_group->condition('nfd.title',$filters['titleValue'],'LIKE');
+        $or_group->condition('nfc.field_content_value',$filters['titleValue'],'LIKE');
+        $or_group->condition('nfi.field_introduction_value',$filters['titleValue'],'LIKE');
+        $or_group->condition('pfsai.field_study_accordion_intro_value',$filters['titleValue'],'LIKE');
+        $or_group->condition('pfsac.field_study_accordion_content_value',$filters['titleValue'],'LIKE');
+        $or_group->condition('pfb.field_body_value',$filters['titleValue'],'LIKE');
+        $or_group->condition('pfp.field_publisher_value',$filters['titleValue'],'LIKE');
+        $or_group->condition('pfa.field_author_value',$filters['titleValue'],'LIKE');
+
+        $subquery->condition($or_group);
+      }
+
+      if (!empty($filters['studyLabelValue'])) {
+        $filter_vals = explode(';',$filters['studyLabelValue']);
+        $subquery->join('node__field_label','nfsl','n.nid=nfsl.entity_id');
+        $or_group = $subquery->orConditionGroup();
+        foreach ($filter_vals as $filter_val) {
+          $or_group->condition('nfsl.field_label_target_id', $filter_val);
+        }
+        $subquery->condition($or_group);
+      }
+    if (!empty($filters['studyTopicValue'])){
+      $filter_vals = explode(';',$filters['studyTopicValue']);
+      $subquery->join('node__field_study_topic','nfst','n.nid=nfst.entity_id');
+      $or_group = $subquery->orConditionGroup();
+      foreach ($filter_vals as $filter_val) {
+        $or_group->condition('nfst.field_study_topic_target_id', $filter_val);
+      }
+      $subquery->condition($or_group);
     }
-
-    $offset = isset($filters['offset']) ? $filters['offset'] : 0;
-    $limit = isset($filters['limit']) ? $filters['limit'] : 16; // Default limit to 16 if not provided
-    $query->range($offset, $limit); // Apply the limit and offset to the query.
-
-    $nids = $query->execute()->fetchCol(); // Fetch column directly to optimize the code.
-
-    return $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
+    if (!empty($filters['publicationTypeValue'])){
+      $or_group = $subquery->orConditionGroup();
+      $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
+      $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
+      $subquery->join('paragraph__field_publication_type','pfpt','pfs.field_study_target_id=pfpt.entity_id');
+      $publication_types = explode(';',$filters['publicationTypeValue']);
+      foreach ($publication_types as $publication_type) {
+        $or_group->condition('pfpt.field_publication_type_target_id', $publication_type);
+      }
+      $subquery->condition($or_group);
+    }
+    if (!empty($filters['publicationLanguageValue'])){
+      $or_group = $subquery->orConditionGroup();
+      $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
+      $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
+      $subquery->join('paragraph__field_publication_lang','pfpl','pfs.field_study_target_id=pfpl.entity_id');
+      $publication_langss = explode(';',$filters['publicationLanguageValue']);
+      foreach ($publication_langss as $publication_lang) {
+        $or_group->condition('pfpl.field_publication_lang_target_id', $publication_lang);
+      }
+      $subquery->condition($or_group);
+    }
+    if (!empty($filters['dateFrom'])){
+      $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
+      $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
+      $subquery->join('paragraph__field_year','pfy','pfs.field_study_target_id=pfy.entity_id');
+      $subquery->condition('pfy.field_year_value', intval($filters['dateFrom']),'>=');
+    }
+    if (!empty($filters['dateTo'])){
+      $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
+      $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
+      $subquery->join('paragraph__field_year','pfy','pfs.field_study_target_id=pfy.entity_id');
+      $subquery->condition('pfy.field_year_value', intval($filters['dateTo']),'<=');
+    }
+    // Implement the subquery logic here, based on the original query
+    // This subquery should return the relevant nids based on the applied filters
+    return $subquery;
   }
 
-
-  private function mapFilterFields() {
-    return [
-      "titleValue" => [
-        "title" => [
-          'table' => 'node_field_data',
-          'table_alias' => 'nfd',
-          'type' => 'LIKE'
-        ],
-        "field_content" => [
-          'parent' => 'node',
-          'type' => 'LIKE',
-          'value_field' => 'value',
-        ],
-        "field_introduction" => [
-          'parent' => 'node',
-          'type' => 'LIKE',
-          'value_field' => 'value',
-        ],
-        "field_accordion" => [
-          'parent' => 'node',
-          'value_field' => 'target_id',
-          "field_study_page_accordion_title" => [
-            'parent' => 'paragraph',
-            'value_field' => 'value',
-            'type' => 'LIKE',
-          ],
-          "field_study_accordion_intro" => [
-            'parent' => 'paragraph',
-
-            'value_field' => 'value',
-            'type' => 'LIKE',
-          ],
-          "field_study_accordion_content" => [
-            'parent' => 'paragraph',
-            'value_field' => 'value',
-            'type' => 'LIKE',
-          ],
-          "field_body" => [
-            'parent' => 'paragraph',
-            'value_field' => 'value',
-            'type' => 'LIKE',
-          ],
-        ],
-        "field_right_column" => [
-          "parent" => 'node',
-          'value_field' => 'target_id',
-          "field_study" => [
-            "field_author"=> [
-              'parent' => 'paragraph',
-              'type' => 'LIKE',
-              'value_field' => 'value',
-            ],
-          ],
-        ],
-      ],
-      "studyTopicValue" => "field_study_topic",
-      "publicationTypeValue" => [
-        "field_right_column" => [
-          'parent' => 'node',
-          'value_field' => 'target_id',
-          "field_study" => [
-            'parent' => 'paragraph',
-            'value_field' => 'target_id',
-            "field_publication_type" => [
-              'parent' => 'paragraph',
-              'value_field' => 'target_id',
-            ],
-          ],
-        ],
-      ],
-      "publisherValue" => [
-        'parent' => 'node',
-        'value_field' => 'target_id',
-        "field_right_column" => [
-          'parent' => 'paragraph',
-          "field_study" => [
-            'parent' => 'paragraph',
-            "field_publisher" => [
-              'parent' => 'paragraph'
-    ],
-          ],
-        ],
-      ],
-      "publicationLanguageValue" => [
-        'parent' => 'node',
-        'value_field' => 'target_id',
-        "field_right_column" => [
-          'parent' => 'paragraph',
-          "field_study" => [
-            'parent' => 'paragraph',
-            "field_publication_lang"=> [
-              'parent' => 'paragraph',
-              ],
-          ],
-        ],
-      ],
-      "studyLabelValue" => "field_label",
-      "dateFrom" => [
-        'parent' => 'node',
-        'value_field' => 'target_id',
-        "field_right_column" => [
-          'parent' => 'paragraph',
-          "field_study" => [
-            'parent' => 'paragraph',
-            "field_year" => [
-              'parent' => 'paragraph'
-            ],
-          ],
-        ],
-      ],
-      "dateTo" => [
-        'parent' => 'node',
-        'value_field' => 'target_id',
-        "field_right_column" => [
-          'parent' => 'paragraph',
-          "field_study" => [
-            'parent' => 'paragraph',
-            "field_year" => [
-              'parent' => 'paragraph'
-            ],
-
-          ],
-        ],
-      ],
-      "lang" => "language",
-      "highlightedStudyNid" => "nid",
-    ];
-
-  }
 
   /**
    * Get fields for a specific view mode.
@@ -606,7 +415,7 @@ class ListResource extends ResourceBase {
           case 'number_integer':
           case 'text_default':
           case 'boolean':
-            $field_value = $entity->get($field_name)->value;
+            $field_value = $entity->get($field_name)->getValue();
             break;
           default:
             break;

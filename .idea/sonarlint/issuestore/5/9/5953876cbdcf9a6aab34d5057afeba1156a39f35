@@ -1,0 +1,49 @@
+
+_php:S103@"KSplit this 148 characters long line (which is greater than 120 authorized).(È“¹Ö
+dphp:S103J"KSplit this 129 characters long line (which is greater than 120 authorized).(é«Ûµÿÿÿÿÿ
+dphp:S103L"KSplit this 123 characters long line (which is greater than 120 authorized).(ßÇ™¬øÿÿÿÿ
+_php:S103U"KSplit this 133 characters long line (which is greater than 120 authorized).(¿©õí
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(¦äıÕşÿÿÿÿ
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(ìâ˜Öúÿÿÿÿ
+[	php:S1808"FMove this "else" to the same line as the previous closing curly brace.(á¢–¬
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(…ş¸îûÿÿÿÿ
+\	php:S1808&"GMove this "catch" to the same line as the previous closing curly brace.(õÌ»…
+R	php:S1808/"=Move this open curly brace to the beginning of the next line.(éÃ‚Ğ
+W	php:S1808g"=Move this open curly brace to the beginning of the next line.(‘ğ¼Ÿùÿÿÿÿ
+R	php:S1808~"=Move this open curly brace to the beginning of the next line.(‰¾ö‚
+S	php:S1808—"=Move this open curly brace to the beginning of the next line.(ÏëÕñ
+d	php:S1808"JPut one space between the closing parenthesis and the opening curly brace.(…ş¸îûÿÿÿÿ
+_	php:S1808&"JPut one space between the closing parenthesis and the opening curly brace.(õÌ»…
+_	php:S1808/"JPut one space between the closing parenthesis and the opening curly brace.(éÃ‚Ğ
+d	php:S18087"JPut one space between the closing parenthesis and the opening curly brace.(õŸ³‡şÿÿÿÿ
+d	php:S1808g"JPut one space between the closing parenthesis and the opening curly brace.(‘ğ¼Ÿùÿÿÿÿ
+_	php:S1808p"JPut one space between the closing parenthesis and the opening curly brace.(Ğô®
+_	php:S1808~"JPut one space between the closing parenthesis and the opening curly brace.(‰¾ö‚
+e	php:S1808ƒ"JPut one space between the closing parenthesis and the opening curly brace.(õŸ³‡şÿÿÿÿ
+e	php:S1808"JPut one space between the closing parenthesis and the opening curly brace.(Ãé“¹ıÿÿÿÿ
+`	php:S1808—"JPut one space between the closing parenthesis and the opening curly brace.(ÏëÕñ
+`	php:S1808™"JPut one space between the closing parenthesis and the opening curly brace.(××¤Â
+`	php:S1808œ"JPut one space between the closing parenthesis and the opening curly brace.(ÏÖÌû
+`	php:S1808ª"JPut one space between the closing parenthesis and the opening curly brace.(ÏÖÌû
+P	php:S1808J"6Put exactly one space after comma separated arguments.(é«Ûµÿÿÿÿÿ
+[	php:S1808"FPut one space between this "else" keyword and the opening curly brace.(á¢–¬
+_	php:S1808#"EPut one space between this "try" keyword and the opening curly brace.(¡»¢üùÿÿÿÿ
+\	php:S1808&"GPut one space between this "catch" keyword and the opening parenthesis.(õÌ»…
+c	php:S18087"IPut one space between this "foreach" keyword and the opening parenthesis.(õŸ³‡şÿÿÿÿ
+Y	php:S1808p"DPut one space between this "if" keyword and the opening parenthesis.(Ğô®
+[	php:S1808s"FPut one space between this "else" keyword and the opening curly brace.(å¥‡
+d	php:S1808ƒ"IPut one space between this "foreach" keyword and the opening parenthesis.(õŸ³‡şÿÿÿÿ
+d	php:S1808"IPut one space between this "foreach" keyword and the opening parenthesis.(Ãé“¹ıÿÿÿÿ
+Z	php:S1808™"DPut one space between this "if" keyword and the opening parenthesis.(××¤Â
+_	php:S1808œ"IPut one space between this "foreach" keyword and the opening parenthesis.(ÏÖÌû
+\	php:S1808Ÿ"FPut one space between this "else" keyword and the opening curly brace.(å¥‡
+_	php:S1808ª"IPut one space between this "foreach" keyword and the opening parenthesis.(ÏÖÌû
+tphp:S117"`Rename this local variable "$juhan_enabled" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(÷İĞâ
+ophp:S117"[Rename this local variable "$json_url" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(•ıš
+rphp:S1171"^Rename this local variable "$queue_items" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Œ§¦¸
+vphp:S1174"]Rename this local variable "$event_type" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¬¾ò”ıÿÿÿÿ
+vphp:S117€"\Rename this local variable "$juhan_ids" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(åŠ¥¾üÿÿÿÿ
+zphp:S117‡"`Rename this local variable "$unpublish_ids" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¨‡Óäüÿÿÿÿ
+x	php:S1488"^Immediately return this expression instead of assigning it to the temporary variable "$nodes".(úúïÙüÿÿÿÿ
+r	php:S1488+"]Immediately return this expression instead of assigning it to the temporary variable "$data".(ÿíÕ¼
+8php:S125?"Remove this commented out code.(š•¡½ûÿÿÿÿ

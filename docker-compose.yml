@@ -1,0 +1,88 @@
+version: '3.1'
+
+services:
+
+  backend:
+    depends_on:
+      - db
+      - redis
+    container_name: backend
+    image: 'hub.wiseman.ee/htm/drupal:develop'
+    environment:
+      ENVIRONMENT: Development
+    ports:
+      - 30000:8080
+    networks:
+      - htm
+    volumes:
+      - "/home/madisloik/Server/Haridusportaal:/app"
+      - "/home/madisloik/Server/ServerFiles/sites/sites:/app/drupal/web/sites"
+    restart: unless-stopped
+    build:
+      context: 'drupal/docker'
+
+  db:
+    container_name: db
+    #    image: 'hub.wiseman.ee/htm/db'
+    image: postgres:13.2
+    environment:
+      MYSQL_DATABASE: hsilmdb
+      MYSQL_USER: hsilmusr
+      MYSQL_PASSWORD: pwhsilm9128
+      MYSQL_ROOT_PASSWORD: pwhsilm9128
+      POSTGRES_DB: drupaldb
+      POSTGRES_USER: drupaluser
+      POSTGRES_PASSWORD: drupalpassword
+      PGDATA: /var/lib/postgresql/data
+    networks:
+      - htm
+    ports:
+      - '5432:5432'
+    volumes:
+      - "/home/madisloik/Server/DBS/data:/var/lib/postgresql/data"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  redis:
+    container_name: redis
+    image: 'docker.io/bitnami/redis:6.0-debian-10'
+    restart: unless-stopped
+    networks:
+      - htm
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    #image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
+    environment:
+      - discovery.type:single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx1024m"
+    networks:
+      - htm
+    restart: unless-stopped
+    env_file:
+      - 'docker/root/containers.env'
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - 'elastic_data:/user/share/elasticsearch/data'
+
+networks:
+  htm:
+volumes:
+  redis_data:
+    driver: local
+  elastic_data:
+    driver: local

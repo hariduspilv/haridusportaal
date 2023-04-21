@@ -544,7 +544,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
+          submit_button: Filtreeri
           reset_button: false
           reset_button_label: Tühista
           exposed_sorts_label: 'Sort by'

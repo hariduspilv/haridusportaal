@@ -2,9 +2,14 @@ label: 'Recent comments'
 description: 'Recent comments.'
 display:
   default:
-    display_title: Master
+    display_title: Default
     display_options:
       title: 'Recent comments'
+      fields:
+        changed:
+          settings:
+            future_format: '@interval hence'
+            past_format: '@interval ago'
       empty:
         area_text_custom:
           content: 'No comments available.'

@@ -1,0 +1,43 @@
+
+Qphp:S105"EReplace all tab characters in this file by sequences of white-spaces.
+dphp:S103x"KSplit this 123 characters long line (which is greater than 120 authorized).(·¬È¼ûÿÿÿÿ
+R	php:S1808"=Move this open curly brace to the beginning of the next line.(ÄÍÅ‰
+R	php:S1808>"=Move this open curly brace to the beginning of the next line.(§´ù
+R	php:S1808G"=Move this open curly brace to the beginning of the next line.(±ÛÛ
+R	php:S1808_"=Move this open curly brace to the beginning of the next line.(âƒ“
+R	php:S1808p"=Move this open curly brace to the beginning of the next line.(Éù¢¡
+[	php:S1808w"FMove this "else" to the same line as the previous closing curly brace.(á¢–¬
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(ÅĞÊëùÿÿÿÿ
+V	php:S1808Ÿ";Move this open curly brace to the end of the previous line.(ÒÌâ–øÿÿÿÿ
+d	php:S1808"JPut one space between the closing parenthesis and the opening curly brace.(ÅĞÊëùÿÿÿÿ
+`	php:S1808"JPut one space between the closing parenthesis and the opening curly brace.(ı¾Š
+L	php:S1808"6Put exactly one space after comma separated arguments.(ÚÁ¤ì
+L	php:S1808"6Put exactly one space after comma separated arguments.(’ŒÄ¤
+^	php:S1808r"IPut one space between this "foreach" keyword and the opening parenthesis.(Öˆ‹
+^	php:S1808s"DPut one space between this "if" keyword and the opening parenthesis.(ÒƒÇùÿÿÿÿ
+Y	php:S1808t"DPut one space between this "if" keyword and the opening parenthesis.(‰á´ˆ
+`	php:S1808"EPut one space between this "for" keyword and the opening parenthesis.(ä‚Óëşÿÿÿÿ
+I	php:S18088"/Align all arguments in this list at column "6".(¾™…èùÿÿÿÿ
+Z	php:S1808>"EMove the closing parenthesis with the opening brace on the next line.(§´ù
+I	php:S1808I"/Align all arguments in this list at column "8".(ó²Ùûÿÿÿÿ
+pphp:S1179"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(—Ñ®˜øÿÿÿÿ
+sphp:S117:"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ØÛ€Ö
+tphp:S117;"`Rename this parameter "$serializer_formats" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¢«ÆÜ
+mphp:S117="ZRename this parameter "$current_user" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ÁØÊ
+kphp:S117G"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ
+sphp:S117G"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ
+sphp:S117g"_Rename this local variable "$current_lang" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(óâÆ“
+xphp:S117h"_Rename this local variable "$state_values" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(½‰¦µùÿÿÿÿ
+kphp:S117p"WRename this parameter "$lang_code" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Éù¢¡
+}php:S117x"dRename this local variable "$translation_value" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(·¬È¼ûÿÿÿÿ
+wphp:S117€"]Rename this local variable "$state_keys" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ñ®»ÿÿÿÿÿ
+qphp:S117„"\Rename this local variable "$state_val" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(€”ØÌ
+sphp:S117‹"^Rename this local variable "$value_field" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Ÿ’³ú
+qphp:S117"\Rename this local variable "$value_key" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ÚÁ¤ì
+zphp:S117"eRename this local variable "$value_key_exploded" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(’ŒÄ¤
+G	php:S1481‹"1Remove this unused "$value_field" local variable.(Ÿ’³ú
+C	php:S1481Œ"-Remove this unused "$context" local variable.(Óèı¦
+D	php:S1172p"/Remove the unused function parameter "$prefix".(Éù¢¡
+3php:S125|"Remove this commented out code.(Ñ«¤œ
+S	php:S1788p">Move arguments "$prefix" after arguments without default value(Éù¢¡
+Iphp:S121s"0Add curly braces around the nested statement(s).(ÒƒÇùÿÿÿÿ

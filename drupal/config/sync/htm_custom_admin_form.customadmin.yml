@@ -1,3 +1,6 @@
+langcode: et
+general:
+  fe_url: 'https://haridusportaal.twn.zone'
 emails:
   email_event_registration:
     registration_email_subject: ''
@@ -11,6 +14,3 @@ emails:
     update_email_body: "Tere!\r\n\r\nAadressile [subscription_entity:subscriber_email] on tellitud teavitused teemadel: [htm_custom_subscription_tokens:tags].\r\n\r\nMuudetud tellimus sisaldab teemasid: [htm_custom_subscription_tokens:newtags].\r\n\r\nVarasema tellimuse muutmiseks palun vajutage seda linki: [htm_custom_subscription_tokens:subscribe_link].\r\n\r\nKui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: [htm_custom_subscription_tokens:unsubscribe_link]."
     notify_email_subject: 'Haridusteemalised uudised'
     notify_email_body: "Uudised:\r\n[htm_custom_subscription_tokens:news]\r\n\r\nSündmused:\r\n[htm_custom_subscription_tokens:events]"
-general:
-  fe_url: 'https://haridusportaal.twn.zone'
-langcode: et

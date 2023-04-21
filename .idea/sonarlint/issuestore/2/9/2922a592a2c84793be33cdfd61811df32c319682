@@ -1,0 +1,24 @@
+
+Qphp:S105"EReplace all tab characters in this file by sequences of white-spaces.
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(››µ§ÿÿÿÿÿ
+W	php:S1808;"=Move this open curly brace to the beginning of the next line.(Ù‹Àµûÿÿÿÿ
+R	php:S1808E"=Move this open curly brace to the beginning of the next line.(±ÛÛ
+R	php:S1808X"=Move this open curly brace to the beginning of the next line.(¸Šúœ
+Y	php:S1808i"DPut one space between this "if" keyword and the opening parenthesis.(–œÕã
+Y	php:S1808l"DPut one space between this "if" keyword and the opening parenthesis.(Àåİ’
+I	php:S18084"/Align all arguments in this list at column "5".(¾™…èùÿÿÿÿ
+_	php:S1808;"EMove the closing parenthesis with the opening brace on the next line.(Ù‹Àµûÿÿÿÿ
+I	php:S1808G"/Align all arguments in this list at column "6".(ó²Ùûÿÿÿÿ
+`php:S1073"GThis function has 8 parameters, which is greater than the 7 authorized.(“ ‘Äşÿÿÿÿ
+mphp:S101"TRename class "xJsonGetDocument" to match the regular expression ^[A-Z][a-zA-Z0-9]*$.(››µ§ÿÿÿÿÿ
+pphp:S1175"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(—Ñ®˜øÿÿÿÿ
+sphp:S1176"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ØÛ€Ö
+tphp:S1177"`Rename this parameter "$serializer_formats" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¢«ÆÜ
+sphp:S117;"ZRename this parameter "$current_user" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Ù‹Àµûÿÿÿÿ
+kphp:S117E"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ
+sphp:S117E"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ
+kphp:S117X"WRename this parameter "$form_name" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¸Šúœ
+uphp:S117h"aRename this local variable "$builded_header" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¨Æï
+|php:S117k"cRename this local variable "$builded_response" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(È…ºïıÿÿÿÿ
+Dphp:S121i"0Add curly braces around the nested statement(s).(–œÕã
+Dphp:S121l"0Add curly braces around the nested statement(s).(Àåİ’

@@ -1,0 +1,84 @@
+
+_php:S103n"KSplit this 124 characters long line (which is greater than 120 authorized).(º°Ø
+_php:S103x"KSplit this 133 characters long line (which is greater than 120 authorized).(àù‘
+`php:S103“"KSplit this 164 characters long line (which is greater than 120 authorized).(œé—ß
+`php:S103Ã"KSplit this 123 characters long line (which is greater than 120 authorized).(‘ö©õ
+ephp:S103É"KSplit this 131 characters long line (which is greater than 120 authorized).(¢‘‹¿øÿÿÿÿ
+W	php:S1808"=Move this open curly brace to the beginning of the next line.(â–•§øÿÿÿÿ
+W	php:S1808;"=Move this open curly brace to the beginning of the next line.(Î‚†ãıÿÿÿÿ
+R	php:S1808F"=Move this open curly brace to the beginning of the next line.(±ÛÛ
+W	php:S1808`"=Move this open curly brace to the beginning of the next line.(ºñˆÍÿÿÿÿÿ
+X	php:S1808‹"=Move this open curly brace to the beginning of the next line.(¡à½Ñûÿÿÿÿ
+X	php:S1808 "=Move this open curly brace to the beginning of the next line.(å—Óàùÿÿÿÿ
+X	php:S1808¥"=Move this open curly brace to the beginning of the next line.(ıäóµúÿÿÿÿ
+X	php:S1808¶"=Move this open curly brace to the beginning of the next line.(½î»“ÿÿÿÿÿ
+S	php:S1808Ç"=Move this open curly brace to the beginning of the next line.(ÿ­Ë¬
+S	php:S1808Ì"=Move this open curly brace to the beginning of the next line.(³µè«
+X	php:S1808Ñ"=Move this open curly brace to the beginning of the next line.(©ê÷«şÿÿÿÿ
+_	php:S1808b"JPut one space between the closing parenthesis and the opening curly brace.(›˜Å«
+d	php:S1808f"JPut one space between the closing parenthesis and the opening curly brace.(Ãíëÿÿÿÿÿ
+d	php:S1808g"JPut one space between the closing parenthesis and the opening curly brace.(å§Ñóûÿÿÿÿ
+d	php:S1808v"JPut one space between the closing parenthesis and the opening curly brace.(ÚÜÏûÿÿÿÿ
+d	php:S1808w"JPut one space between the closing parenthesis and the opening curly brace.(İÂé£ıÿÿÿÿ
+`	php:S1808"JPut one space between the closing parenthesis and the opening curly brace.(¼öæĞ
+e	php:S1808"JPut one space between the closing parenthesis and the opening curly brace.(–æÁˆÿÿÿÿÿ
+E	php:S1808”"0Remove all space before the closing parenthesis.(µ…‰V
+E	php:S1808²"0Remove all space before the closing parenthesis.(µ…‰V
+`	php:S1808¹"JPut one space between the closing parenthesis and the opening curly brace.(Ş¯À
+F	php:S1808Ã"0Remove all space before the closing parenthesis.(‘ö©õ
+`	php:S1808Ó"JPut one space between the closing parenthesis and the opening curly brace.(…á«ó
+e	php:S1808Õ"JPut one space between the closing parenthesis and the opening curly brace.(´‰£­ıÿÿÿÿ
+`	php:S1808à"JPut one space between the closing parenthesis and the opening curly brace.(æ®Ğ€
+m	php:S18082"SRemove all space between the method name "__construct" and the opening parenthesis.(“ ‘Äşÿÿÿÿ
+c	php:S1808F"NRemove all space between the method name "create" and the opening parenthesis.(±ÛÛ
+f	php:S1808`"LRemove all space between the method name "post" and the opening parenthesis.(ºñˆÍÿÿÿÿÿ
+u	php:S1808‹"ZRemove all space between the method name "returnDynamicXjson" and the opening parenthesis.(¡à½Ñûÿÿÿÿ
+r	php:S1808¥"WRemove all space between the method name "returnMainXjson" and the opening parenthesis.(ıäóµúÿÿÿÿ
+x	php:S1808¶"]Remove all space between the method name "returnBuildedResponse" and the opening parenthesis.(½î»“ÿÿÿÿÿ
+j	php:S1808Ç"TRemove all space between the method name "getXJsonForm" and the opening parenthesis.(ÿ­Ë¬
+k	php:S1808Ì"URemove all space between the method name "postXJsonForm" and the opening parenthesis.(³µè«
+q	php:S1808Ñ"VRemove all space between the method name "checkxJsonForm" and the opening parenthesis.(©ê÷«şÿÿÿÿ
+Y	php:S1808b"DPut one space between this "if" keyword and the opening parenthesis.(›˜Å«
+^	php:S1808f"DPut one space between this "if" keyword and the opening parenthesis.(Ãíëÿÿÿÿÿ
+^	php:S1808g"DPut one space between this "if" keyword and the opening parenthesis.(å§Ñóûÿÿÿÿ
+[	php:S1808o"FPut one space between this "else" keyword and the opening curly brace.(å¥‡
+^	php:S1808v"DPut one space between this "if" keyword and the opening parenthesis.(ÚÜÏûÿÿÿÿ
+^	php:S1808w"DPut one space between this "if" keyword and the opening parenthesis.(İÂé£ıÿÿÿÿ
+_	php:S1808"IPut one space between this "foreach" keyword and the opening parenthesis.(¼öæĞ
+_	php:S1808"DPut one space between this "if" keyword and the opening parenthesis.(–æÁˆÿÿÿÿÿ
+^	php:S1808¹"HPut one space between this "switch" keyword and the opening parenthesis.(Ş¯À
+Z	php:S1808Ó"DPut one space between this "if" keyword and the opening parenthesis.(…á«ó
+_	php:S1808Õ"DPut one space between this "if" keyword and the opening parenthesis.(´‰£­ıÿÿÿÿ
+Z	php:S1808à"DPut one space between this "if" keyword and the opening parenthesis.(æ®Ğ€
+I	php:S18083"/Align all arguments in this list at column "6".(¾™…èùÿÿÿÿ
+_	php:S1808;"EMove the closing parenthesis with the opening brace on the next line.(Î‚†ãıÿÿÿÿ
+I	php:S1808H"/Align all arguments in this list at column "8".(ó²Ùûÿÿÿÿ
+`php:S1072"GThis function has 9 parameters, which is greater than the 7 authorized.(“ ‘Äşÿÿÿÿ
+nphp:S101"URename class "xJsonRestResource" to match the regular expression ^[A-Z][a-zA-Z0-9]*$.(â–•§øÿÿÿÿ
+V	php:S1142`"<This method has 7 returns, which is more than the 3 allowed.(ºñˆÍÿÿÿÿÿ
+>	php:S1781”")Write this "TRUE" constant in lower case.(µ…‰V
+>	php:S1781²")Write this "TRUE" constant in lower case.(µ…‰V
+@	php:S1781½"*Write this "FALSE" constant in lower case.(–‘¤
+@	php:S1781¾"*Write this "FALSE" constant in lower case.(å´”Ó
+E	php:S1781¿"*Write this "FALSE" constant in lower case.(¼Ìè¤ÿÿÿÿÿ
+?	php:S1781Ã")Write this "TRUE" constant in lower case.(‘ö©õ
+pphp:S1174"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(—Ñ®˜øÿÿÿÿ
+sphp:S1175"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ØÛ€Ö
+tphp:S1176"`Rename this parameter "$serializer_formats" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¢«ÆÜ
+mphp:S117:"ZRename this parameter "$current_user" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(ÁØÊ
+kphp:S117F"WRename this parameter "$plugin_id" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ
+sphp:S117F"_Rename this parameter "$plugin_definition" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(±ÛÛ
+sphp:S117d"_Rename this local variable "$checked_data" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¿ó°›
+wphp:S117Œ"]Rename this local variable "$url_params" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Âó¼ÿÿÿÿÿ
+vphp:S117˜"\Rename this local variable "$form_name" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(’œÙ£øÿÿÿÿ
+vphp:S117š"aRename this local variable "$builded_header" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(¨Æï
+yphp:S117¨"_Rename this local variable "$request_body" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(½—Ì…úÿÿÿÿ
+xphp:S117·"cRename this local variable "$builded_response" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Äê†
+xphp:S117Ú"^Rename this local variable "$system_path" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(•Úİ´ûÿÿÿÿ
+n	php:S3776`"TRefactor this function to reduce its Cognitive Complexity from 40 to the 15 allowed.(ºñˆÍÿÿÿÿÿ
+D	php:S1066i"/Merge this if statement with the enclosing one.(üĞÿ
+W	php:S1793Õ"<Replace this "else if" keyword sequence by "elseif" keyword.(´‰£­ıÿÿÿÿ
+4php:S125±"Remove this commented out code.(ƒ‡—×
+Jphp:S121›"0Add curly braces around the nested statement(s).(Ìïäàûÿÿÿÿ
+Ephp:S121¸"0Add curly braces around the nested statement(s).(Â‚Êë
+Lphp:S131¹"7Add a "case default" clause to this "switch" statement.(Ş¯À
