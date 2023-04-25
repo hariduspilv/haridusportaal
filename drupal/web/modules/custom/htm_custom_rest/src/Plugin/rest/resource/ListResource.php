@@ -10,6 +10,7 @@ use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\htm_custom_graphql_elasticsearch\Plugin\GraphQL\Fields\ElasticQuery\ElasticQuery;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
@@ -133,240 +134,470 @@ class ListResource extends ResourceBase {
     // Set default range if not provided.
     $params = $request->query->all();
     $params['limit'] = $params['limit'] ?? 24;
-
+    $count = 0;
     // Get entities and count.
-    $entities = $this->queryEntities($params, FALSE);
-    $count = $this->queryEntities($params, TRUE);
-
+    if (isset($params['content_type'])) {
+      if ($params['content_type'] == 'school') {
+        $el_service = \Drupal::service('htm_custom_rest.elastic_service');
+        $params['elasticsearch_index'] = ['elasticsearch_index_drupaldb_schools'];
+        $params['sortField'] = 'field_school_name';
+        $params['sortDirection'] = 'ASC';
+        $el_list = $el_service->elasticSearch($params);
+        $entities = $this->convertElastic($el_list);
+        if (isset($el_list['count']['value'])) {
+          $count = $el_list['count']['value'];
+        }
+      }
+      else{
+        $entities = $this->queryEntities($params, FALSE);
+        $count = $this->queryEntities($params, TRUE);
+      }
+    }
     // Get fields for the view mode and filter the field values.
     $fields = $this->getViewModeFields('node', $params['content_type'], 'list');
     $returnable_values = $this->filterFieldsAndReturnValues($entities, $fields, 'list');
 
     $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-    $cachable_response = new CacheableResponse(json_encode($returnable_values));
-    $cachable_response->addCacheableDependency($params);
+    $data = [
+      'entities' => $returnable_values,
+      'count' => $count,
+    ];
+    $cachable_response = new CacheableResponse(json_encode($data));
+    $cachable_response->addCacheableDependency($params['content_type']);
 //    $cachable_response = new ResourceResponse($returnable_values);
     return $cachable_response;
   }
+  /**
+   * This function converts an array of Elasticsearch results to an array of node ids.
+   * @param $el_list array The Elasticsearch results.
+   * @return array The array of node ids.
+   */
+  private function convertElastic($el_list) {
+    $nids = [];
 
+    // Loop through each value in the Elasticsearch results.
+    foreach ($el_list['values'] as $value) {
+      // Check if the '_source' field exists before accessing the 'nid' property.
+      if (isset($value['_source']['nid'])) {
+        $nid = $value['_source']['nid'][0];
+        $nids[$nid] = $nid;
+      }
+    }
+    return $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
+  }
   private function queryEntities($filters, $count) {
     $db = $this->db;
-    $table_alias = 'n';
-    $query = $db->select('node', $table_alias);
-
+    $base_query = $db->select('node', 'n');
+    $base_query->fields('n', ['nid']);
     if (isset($filters['content_type'])) {
-      $query->condition('n.type', $filters['content_type']);
+      $base_query->condition('n.type', $filters['content_type']);
       switch ($filters['content_type']) {
         case 'studypage':
-          $base_query = $db->select('node', 'n');
-          $base_query->fields('n', ['nid']);
 
           if (!empty($filters)) {
-            $subquery = $this->buildSubquery($db, $filters);
+            $subquery = $this->buildStudyPageSubquery($db, $filters);
             $base_query->condition('n.nid', $subquery, 'IN');
           }
-
-          $base_query->join('node_field_data', 'nfd', 'n.nid = nfd.nid');
-          $base_query->condition('nfd.status', 1);
-          $base_query->orderBy('nfd.created', 'DESC');
-
-          if ($count) {
-            $count_query = $base_query->countQuery();
-            return $count_query->execute()->fetchField();
-          }
-
-          $offset = intval(isset($filters['offset']) ? $filters['offset'] : 0);
-          $limit = intval( isset($filters['limit']) ? $filters['limit'] : 16);
-          if ($offset == 0) {
-            $limit += 1;
-          }
-          $base_query->range($offset, $limit);
-
-          $nids = $base_query->execute()->fetchCol();
-          return $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
+          break;
+        case 'event':
+        if (!empty($filters)) {
+          $subquery = $this->buildEventPageSubquery($db, $filters);
+          $base_query->condition('n.nid', $subquery, 'IN');
+        }
+          break;
+        case 'article':
+        if (!empty($filters)) {
+          $subquery = $this->buildArticlePageSubquery($db, $filters);
+          $base_query->condition('n.nid', $subquery, 'IN');
+        }
+          break;
+        case 'oska_main_profession_page':
+        if (!empty($filters)) {
+          $subquery = $this->buildOskaProfessionQuery($db, $filters);
+          $base_query->condition('n.nid', $subquery, 'IN');
+        }
+          break;
+        case 'news':
+        if (!empty($filters)) {
+          $subquery = $this->buildNewsPageSubquery($db, $filters);
+          $base_query->condition('n.nid', $subquery, 'IN');
+        }
+          break;
       }
+      $base_query->join('node_field_data', 'nfd', 'n.nid = nfd.nid');
+      $base_query->condition('nfd.status', 1);
+      $base_query->orderBy('nfd.created', 'DESC');
+
+      if ($count) {
+        $count_query = $base_query->countQuery();
+        return $count_query->execute()->fetchField();
+      }
+
+      $offset = intval(isset($filters['offset']) ? $filters['offset'] : 0);
+      $limit = intval( isset($filters['limit']) ? $filters['limit'] : 16);
+      if ($offset == 0) {
+        $limit += 1;
+      }
+      $base_query->range($offset, $limit);
+
+      $nids = $base_query->execute()->fetchCol();
+      return $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
     }
   }
+  private function buildStudyPageSubquery($db, $filters) {
+    $subquery = $db->select('node', 'n');
+    $subquery->fields('n', ['nid']);
 
-  private function buildSubquery($db, $filters) {
-      $subquery = $db->select('node', 'n');
-      $subquery->fields('n', ['nid']);
-      $aliases = [];
-      if (!empty($filters['titleValue'])) {
-        if (!in_array('nfd',$aliases)) {
-          $subquery->join('node_field_data', 'nfd', 'n.nid=nfd.nid');
-          $aliases[] = 'nfd';
-        }
-        if (!in_array('nfc',$aliases)) {
-          $subquery->join('node__field_content', 'nfc', 'n.nid=nfc.entity_id');
-          $aliases[] = 'nfc';
-        }
+    $join_clauses = [];
+    $condition_clauses = [];
 
-        if (!in_array('nfi',$aliases)) {
-          $subquery->join('node__field_introduction', 'nfi', 'n.nid=nfi.entity_id');
-          $aliases[] = 'nfi';
-        }
-        // Akkordion fields
+    if (!empty($filters['titleValue'])) {
+      $join_clauses[] = [
+        'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
+        'node__field_content' => ['nfc', 'n.nid=nfc.entity_id'],
+        'node__field_introduction' => ['nfi', 'n.nid=nfi.entity_id'],
+        'node__field_accordion' => ['nfa', 'n.nid=nfa.entity_id'],
+        'paragraph__field_study_accordion_intro' => ['pfsai', 'nfa.field_accordion_target_id=pfsai.entity_id'],
+        'paragraph__field_study_accordion_content' => ['pfsac', 'nfa.field_accordion_target_id=pfsac.entity_id'],
+        'paragraph__field_body' => ['pfb', 'nfa.field_accordion_target_id=pfb.entity_id'],
+        'node__field_right_column' => ['nfrc', 'n.nid=nfrc.entity_id'],
+        'paragraph__field_study' => ['pfs', 'nfrc.field_right_column_target_id=pfs.entity_id'],
+        'paragraph__field_publisher' => ['pfp', 'pfs.field_study_target_id=pfp.entity_id'],
+        'paragraph__field_author' => ['pfa', 'pfs.field_study_target_id=pfa.entity_id']
+      ];
 
-        if (!in_array('nfa',$aliases)) {
-          $subquery->join('node__field_accordion', 'nfa', 'n.nid=nfa.entity_id');
-          $aliases[] = 'nfa';
-        }
+      $condition_clauses[] = [
+        'or' => [
+          ['nfd.title', $filters['titleValue'], 'LIKE'],
+          ['nfc.field_content_value', $filters['titleValue'], 'LIKE'],
+          ['nfi.field_introduction_value', $filters['titleValue'], 'LIKE'],
+          ['pfsai.field_study_accordion_intro_value', $filters['titleValue'], 'LIKE'],
+          ['pfsac.field_study_accordion_content_value', $filters['titleValue'], 'LIKE'],
+          ['pfb.field_body_value', $filters['titleValue'], 'LIKE'],
+          ['pfp.field_publisher_value', $filters['titleValue'], 'LIKE'],
+          ['pfa.field_author_value', $filters['titleValue'], 'LIKE']
+        ]
+      ];
+    }
 
-        if (!in_array('pfsai',$aliases)) {
-          $subquery->join('paragraph__field_study_accordion_intro', 'pfsai', 'nfa.field_accordion_target_id=pfsai.entity_id');
-          $aliases[] = 'pfsai';
-        }
+    if (!empty($filters['studyLabelValue'])) {
+      $join_clauses[] = ['node__field_label' => ['nfsl', 'n.nid=nfsl.entity_id']];
+      $condition_clauses[] = [
+        'or' => [
+          [
+            'nfsl.field_label_target_id', explode(';', $filters['studyLabelValue']), 'IN']
+        ]
+      ];
+    }
 
-        if (!in_array('pfsac',$aliases)) {
-          $subquery->join('paragraph__field_study_accordion_content', 'pfsac', 'nfa.field_accordion_target_id=pfsac.entity_id');
-          $aliases[] = 'pfsac';
-        }
+    if (!empty($filters['studyTopicValue'])) {
+      $join_clauses[] = ['node__field_study_topic' => ['nfst', 'n.nid=nfst.entity_id']];
+      $condition_clauses[] = ['or' => [['nfst.field_study_topic_target_id', explode(';', $filters['studyTopicValue']), 'IN']]];
+    }
 
-        if (!in_array('pfb',$aliases)) {
-          $subquery->join('paragraph__field_body', 'pfb', 'nfa.field_accordion_target_id=pfb.entity_id');
-          $aliases[] = 'pfb';
-        }
-        // Right side fields
+    if (!empty($filters['publicationTypeValue'])) {
+      $join_clauses[] = [
+        'node__field_right_column' => ['nfrc', 'n.nid=nfrc.entity_id'],
+        'paragraph__field_study' => ['pfs', 'nfrc.field_right_column_target_id=pfs.entity_id'],
+        'paragraph__field_publication_type' => ['pfpt', 'pfs.field_study_target_id=pfpt.entity_id']
+      ];
 
-        if (!in_array('nfrc',$aliases)) {
-          $subquery->join('node__field_right_column', 'nfrc', 'n.nid=nfrc.entity_id');
-          $aliases[] = 'nfrc';
-        }
-        if (!in_array('pfs',$aliases)) {
-          $subquery->join('paragraph__field_study', 'pfs', 'nfrc.field_right_column_target_id=pfs.entity_id');
-          $aliases[] = 'pfs';
-        }
+      $publication_types = explode(';', $filters['publicationTypeValue']);
+      $condition_clauses[] = ['or' => [['pfpt.field_publication_type_target_id', $publication_types, 'IN']]];
+    }
+    if (!empty($filters['publicationLanguageValue'])) {
+      $join_clauses[] = [
+        'node__field_right_column' => ['nfrc', 'n.nid=nfrc.entity_id'],
+        'paragraph__field_study' => ['pfs', 'nfrc.field_right_column_target_id=pfs.entity_id'],
+        'paragraph__field_publication_lang' => ['pfpl', 'pfs.field_study_target_id=pfpl.entity_id']
+      ];
 
-        if (!in_array('pfp',$aliases)) {
-          $subquery->join('paragraph__field_publisher', 'pfp', 'pfs.field_study_target_id=pfp.entity_id');
-          $aliases[] = 'pfp';
-        }
+      $publication_langs = explode(';', $filters['publicationLanguageValue']);
+      $condition_clauses[] = ['or' => [['pfpl.field_publication_lang_target_id', $publication_langs, 'IN']]];
+    }
 
-        if (!in_array('pfa',$aliases)) {
-          $subquery->join('paragraph__field_author', 'pfa', 'pfs.field_study_target_id=pfa.entity_id');
-          $aliases[] = 'pfa';
-        }
+    if (!empty($filters['dateFrom'])) {
+      $join_clauses[] = [
+        'node__field_right_column' => ['nfrc', 'n.nid=nfrc.entity_id'],
+        'paragraph__field_study' => ['pfs', 'nfrc.field_right_column_target_id=pfs.entity_id'],
+        'paragraph__field_year' => ['pfy', 'pfs.field_study_target_id=pfy.entity_id']
+      ];
 
+      $condition_clauses[] = ['pfy.field_year_value', intval($filters['dateFrom']), '>='];
+    }
+
+    if (!empty($filters['dateTo'])) {
+      $join_clauses[] = [
+        'node__field_right_column' => ['nfrc', 'n.nid=nfrc.entity_id'],
+        'paragraph__field_study' => ['pfs', 'nfrc.field_right_column_target_id=pfs.entity_id'],
+        'paragraph__field_year' => ['pfy', 'pfs.field_study_target_id=pfy.entity_id']
+      ];
+
+      $condition_clauses[] = ['pfy.field_year_value', intval($filters['dateTo']), '<='];
+    }
+    return $this->createSubQuery($condition_clauses,$join_clauses,$db);
+  }
+  private function buildEventPageSubquery($db, $filters) {
+    $subquery = $db->select('node', 'n');
+    $subquery->fields('n', ['nid']);
+
+    $join_clauses = [];
+    $condition_clauses = [];
+
+
+
+    if (!empty($filters['tags'])) {
+      $join_clauses[] = ['node__field_tag' => ['nft', 'n.nid=nft.entity_id']];
+      $condition_clauses[] = [
+        'or' => [
+          [
+            'nft.field_tag_target_id', explode(';', $filters['tags']), 'IN']
+        ]
+      ];
+    }
+    if (!empty($filters['title'])) {
+      $join_clauses[] = ['node_field_data' => ['nfd', 'n.nid=nfd.nid']];
+      $condition_clauses[] = ['nfd.title', '%'.$filters['title'].'%', 'LIKE'];
+    }
+
+    if (!empty($filters['studyTopicValue'])) {
+      $join_clauses[] = ['node__field_study_topic' => ['nfst', 'n.nid=nfst.entity_id']];
+      $condition_clauses[] = ['or' => [['nfst.field_study_topic_target_id', explode(';', $filters['studyTopicValue']), 'IN']]];
+    }
+
+    if (!empty($filters['publicationTypeValue'])) {
+      $join_clauses[] = [
+        'node__field_right_column' => ['nfrc', 'n.nid=nfrc.entity_id'],
+        'paragraph__field_study' => ['pfs', 'nfrc.field_right_column_target_id=pfs.entity_id'],
+        'paragraph__field_publication_type' => ['pfpt', 'pfs.field_study_target_id=pfpt.entity_id']
+      ];
+
+      $publication_types = explode(';', $filters['publicationTypeValue']);
+      $condition_clauses[] = ['or' => [['pfpt.field_publication_type_target_id', $publication_types, 'IN']]];
+    }
+    if (!empty($filters['publicationLanguageValue'])) {
+      $join_clauses[] = [
+        'node__field_right_column' => ['nfrc', 'n.nid=nfrc.entity_id'],
+        'paragraph__field_study' => ['pfs', 'nfrc.field_right_column_target_id=pfs.entity_id'],
+        'paragraph__field_publication_lang' => ['pfpl', 'pfs.field_study_target_id=pfpl.entity_id']
+      ];
+
+      $publication_langs = explode(';', $filters['publicationLanguageValue']);
+      $condition_clauses[] = ['or' => [['pfpl.field_publication_lang_target_id', $publication_langs, 'IN']]];
+    }
+
+    if (!empty($filters['dateFrom'])) {
+      $join_clauses[] = [
+        'node__field_event_main_date' => ['nfemd', 'n.nid=nfemd.entity_id'],
+      ];
+
+      $condition_clauses[] = ['nfemd.field_event_main_date_value', intval($filters['dateFrom']), '>='];
+    }
+
+    if (!empty($filters['types'])) {
+      $join_clauses[] = [
+        'node__field_event_type' => ['nfet', 'n.nid=nfet.entity_id'],
+      ];
+      $condition_clauses[] = ['or' => [['nfet.field_event_type_target_id', explode(';', $filters['types']), 'IN']]];
+    }
+    if (!empty($filters['timeFrom'])) {
+      $join_clauses[] = [
+        'node__field_event_start_time_main' => ['nfestm', 'n.nid=nfestm.entity_id'],
+      ];
+
+      $condition_clauses[] = ['nfestm.field_event_start_time_main_value', intval($filters['timeFrom']), '>='];
+    }
+
+    if (!empty($filters['dateTo'])) {
+      $join_clauses[] = [
+        'node__field_event_main_date' => ['nfemd', 'n.nid=nfemd.entity_id'],
+      ];
+
+      $condition_clauses[] = ['nfemd.field_event_main_date_value', intval($filters['dateTo']), '<='];
+    }
+    if (!empty($filters['timeTo'])) {
+      $join_clauses[] = [
+        'node__field_event_end_time_main' => ['nfeetm', 'n.nid=nfeetm.entity_id'],
+      ];
+
+      $condition_clauses[] = ['nfeetm.field_event_end_time_main_value', intval($filters['dateTo']), '<='];
+    }
+    return $this->createSubQuery($condition_clauses,$join_clauses,$db);
+  }
+  private function buildArticlePageSubquery($db, $filters) {
+    $subquery = $db->select('node', 'n');
+    $subquery->fields('n', ['nid']);
+
+    $join_clauses = [];
+    $condition_clauses = [];
+
+
+
+    if (!empty($filters['title'])) {
+      $join_clauses[] = ['node_field_data' => ['nfd', 'n.nid=nfd.nid']];
+      $condition_clauses[] = ['nfd.title', '%'.$filters['title'].'%', 'LIKE'];
+    }
+    if (!empty($filters['tag'])) {
+      $join_clauses[] = ['node__field_tag' => ['nft', 'n.nid=nft.entity_id']];
+      $condition_clauses[] = [
+        'or' => [
+          [
+            'nft.field_tag_target_id', explode(';', $filters['tag'])]
+        ]
+      ];
+    }
+
+    if (!empty($filters['minDate'])) {
+      $join_clauses[] = [
+        'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
+      ];
+
+      $condition_clauses[] = ['nfd.created', strtotime($filters['minDate']), '>='];
+    }
+
+
+    if (!empty($filters['maxDate'])) {
+      $join_clauses[] = [
+        'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
+      ];
+
+      $condition_clauses[] = ['nfd.created', strtotime($filters['maxDate']), '<='];
+    }
+
+
+    return $this->createSubQuery($condition_clauses,$join_clauses,$db);
+  }
+  private function buildNewsPageSubquery($db, $filters) {
+    $subquery = $db->select('node', 'n');
+    $subquery->fields('n', ['nid']);
+
+    $join_clauses = [];
+    $condition_clauses = [];
+
+
+
+    if (!empty($filters['title'])) {
+      $join_clauses[] = ['node_field_data' => ['nfd', 'n.nid=nfd.nid']];
+      $condition_clauses[] = ['nfd.title', '%'.$filters['title'].'%', 'LIKE'];
+    }
+    if (!empty($filters['tag'])) {
+      $join_clauses[] = ['node__field_tag' => ['nft', 'n.nid=nft.entity_id']];
+      $condition_clauses[] = [
+        'or' => [
+          [
+            'nft.field_tag_target_id', explode(';', $filters['tag'])]
+        ]
+      ];
+    }
+
+    if (!empty($filters['minDate'])) {
+      $join_clauses[] = [
+        'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
+      ];
+
+      $condition_clauses[] = ['nfd.created', strtotime($filters['minDate']), '>='];
+    }
+
+
+    if (!empty($filters['maxDate'])) {
+      $join_clauses[] = [
+        'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
+      ];
+
+      $condition_clauses[] = ['nfd.created', strtotime($filters['maxDate']), '<='];
+    }
+
+
+    return $this->createSubQuery($condition_clauses,$join_clauses,$db);
+  }
+  private function buildOskaProfessionQuery($db, $filters) {
+    $subquery = $db->select('node', 'n');
+    $subquery->fields('n', ['nid']);
+
+    $join_clauses = [];
+    $condition_clauses = [];
+
+
+
+    if (!empty($filters['title'])) {
+      $join_clauses[] = [
+        'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
+        'node__field_sidebar' => ['nfs', 'n.nid=nfs.entity_id'],
+        'paragraph__field_jobs' => ['pfj', 'nfs.field_sidebar_target_id=pfj.entity_id','LEFT'],
+        'paragraph__field_job_name' => ['pfjn', 'pfj.field_jobs_target_id=pfjn.entity_id','LEFT'],
+      ];
+      $condition_clauses[] = [
+        'or' => [
+          ['nfd.title', '%'.$filters['title'].'%', 'LIKE'],
+//          ['pfjn.field_job_name_value', '%'.$filters['title'].'%', 'LIKE'],
+        ]
+      ];
+    }
+    if (!empty($filters['oskaField'])) {
+      $join_clauses[] = ['node__field_sidebar' => ['nfs', 'n.nid=nfs.entity_id']];
+      $join_clauses[] = ['paragraph__field_oska_field' => ['pfof', 'nfs.field_sidebar_target_id=pfof.entity_id']];
+      $condition_clauses[] = [
+        'or' => [
+          [
+            'pfof.field_oska_field_target_id', explode(';', $filters['oskaField'])]
+        ]
+      ];
+    }
+    if (!empty($filters['fillingBar'])) {
+      $join_clauses[] = ['node__field_filling_bar' => ['nffb', 'n.nid=nffb.entity_id']];
+      $condition_clauses[] = [
+        'or' => [
+          [
+            'nffb.field_filling_bar_value', explode(';', $filters['fillingBar'])]
+        ]
+      ];
+    }
+
+
+
+    return $this->createSubQuery($condition_clauses,$join_clauses,$db);
+  }
+  private function createSubQuery($condition_clauses, $join_clauses, $db) {
+    $subquery = $db->select('node', 'n');
+    $subquery->fields('n', ['nid']);
+
+    $aliases = [];
+    foreach ($join_clauses as $join_clause) {
+      foreach ($join_clause as $table => $join) {
+        if (!in_array($table, $aliases)) {
+          [$alias, $condition,$join_type] = $join;
+          if ($join_type == 'LEFT'){
+            $subquery->leftJoin($table,$alias,$condition);
+          }
+          else {
+            $subquery->join($table, $alias, $condition);
+          }
+        }
+        $aliases[] = $table;
+      }
+    }
+    foreach ($condition_clauses as $condition_clause) {
+      if (is_array($condition_clause) && isset($condition_clause['or'])) {
         $or_group = $subquery->orConditionGroup();
-        $or_group->condition('nfd.title',$filters['titleValue'],'LIKE');
-        $or_group->condition('nfc.field_content_value',$filters['titleValue'],'LIKE');
-        $or_group->condition('nfi.field_introduction_value',$filters['titleValue'],'LIKE');
-        $or_group->condition('pfsai.field_study_accordion_intro_value',$filters['titleValue'],'LIKE');
-        $or_group->condition('pfsac.field_study_accordion_content_value',$filters['titleValue'],'LIKE');
-        $or_group->condition('pfb.field_body_value',$filters['titleValue'],'LIKE');
-        $or_group->condition('pfp.field_publisher_value',$filters['titleValue'],'LIKE');
-        $or_group->condition('pfa.field_author_value',$filters['titleValue'],'LIKE');
-
-        $subquery->condition($or_group);
-      }
-      if (!empty($filters['studyLabelValue'])) {
-        $filter_vals = explode(';',$filters['studyLabelValue']);
-        if (!in_array('nfsl',$aliases)) {
-          $subquery->join('node__field_label','nfsl','n.nid=nfsl.entity_id');
-          $aliases[] = 'nfsl';
-        }
-        $or_group = $subquery->orConditionGroup();
-        foreach ($filter_vals as $filter_val) {
-          $or_group->condition('nfsl.field_label_target_id', $filter_val);
+        foreach ($condition_clause['or'] as $or_grouping) {
+          [$column, $value, $operator] = $or_grouping;
+          if (is_array($value)) {
+            foreach ($value as $val) {
+              $or_group->condition($column, $val, $operator);
+            }
+          }
+          else{
+            $or_group->condition($column, $value, $operator);
+          }
         }
         $subquery->condition($or_group);
+      } else {
+        [$column, $value, $operator] = $condition_clause;
+        $subquery->condition($column, $value, $operator);
       }
-    if (!empty($filters['studyTopicValue'])){
-      $filter_vals = explode(';',$filters['studyTopicValue']);
-      if (!in_array('nfst',$aliases)) {
-        $subquery->join('node__field_study_topic','nfst','n.nid=nfst.entity_id');
-        $aliases[] = 'nfst';
-      }
-      $or_group = $subquery->orConditionGroup();
-      foreach ($filter_vals as $filter_val) {
-        $or_group->condition('nfst.field_study_topic_target_id', $filter_val);
-      }
-      $subquery->condition($or_group);
     }
-    if (!empty($filters['publicationTypeValue'])){
-      $or_group = $subquery->orConditionGroup();
-
-      if (!in_array('nfrc',$aliases)) {
-        $subquery->join('node__field_right_column','nfrc','n.nid=nfrc.entity_id');
-        $aliases[] = 'nfrc';
-      }
-
-      if (!in_array('pfs',$aliases)) {
-        $subquery->join('paragraph__field_study','pfs','nfrc.field_right_column_target_id=pfs.entity_id');
-        $aliases[] = 'pfs';
-      }
-
-      if (!in_array('pfpt',$aliases)) {
-        $subquery->join('paragraph__field_publication_type','pfpt','pfs.field_study_target_id=pfpt.entity_id');
-        $aliases[] = 'pfpt';
-      }
-      $publication_types = explode(';',$filters['publicationTypeValue']);
-      foreach ($publication_types as $publication_type) {
-        $or_group->condition('pfpt.field_publication_type_target_id', $publication_type);
-      }
-      $subquery->condition($or_group);
-    }
-    if (!empty($filters['publicationLanguageValue'])){
-      $or_group = $subquery->orConditionGroup();
-
-      if (!in_array('nfrc',$aliases)) {
-        $subquery->join('node__field_right_column', 'nfrc', 'n.nid=nfrc.entity_id');
-        $aliases[] = 'nfrc';
-      }
-      if (!in_array('pfs',$aliases)) {
-        $subquery->join('paragraph__field_study', 'pfs', 'nfrc.field_right_column_target_id=pfs.entity_id');
-        $aliases[] = 'pfs';
-      }
-      if (!in_array('pfpl',$aliases)) {
-        $subquery->join('paragraph__field_publication_lang', 'pfpl', 'pfs.field_study_target_id=pfpl.entity_id');
-        $aliases[] = 'pfpl';
-      }
-      $publication_langs = explode(';',$filters['publicationLanguageValue']);
-      foreach ($publication_langs as $publication_lang) {
-        $or_group->condition('pfpl.field_publication_lang_target_id', $publication_lang);
-      }
-      $subquery->condition($or_group);
-    }
-    if (!empty($filters['dateFrom'])){
-
-      if (!in_array('nfrc',$aliases)) {
-        $subquery->join('node__field_right_column', 'nfrc', 'n.nid=nfrc.entity_id');
-        $aliases[] = 'nfrc';
-      }
-
-      if (!in_array('pfs',$aliases)) {
-        $subquery->join('paragraph__field_study', 'pfs', 'nfrc.field_right_column_target_id=pfs.entity_id');
-        $aliases[] = 'pfs';
-      }
-
-      if (!in_array('pfy',$aliases)) {
-        $subquery->join('paragraph__field_year', 'pfy', 'pfs.field_study_target_id=pfy.entity_id');
-        $aliases[] = 'pfy';
-      }
-      $subquery->condition('pfy.field_year_value', intval($filters['dateFrom']),'>=');
-    }
-    if (!empty($filters['dateTo'])){
-
-      if (!in_array('nfrc',$aliases)) {
-        $subquery->join('node__field_right_column', 'nfrc', 'n.nid=nfrc.entity_id');
-        $aliases[] = 'nfrc';
-      }
-
-      if (!in_array('pfs',$aliases)) {
-        $subquery->join('paragraph__field_study', 'pfs', 'nfrc.field_right_column_target_id=pfs.entity_id');
-        $aliases[] = 'pfs';
-      }
-
-      if (!in_array('pfy',$aliases)) {
-        $subquery->join('paragraph__field_year', 'pfy', 'pfs.field_study_target_id=pfy.entity_id');
-        $aliases[] = 'pfy';
-      }
-      $subquery->condition('pfy.field_year_value', intval($filters['dateTo']),'<=');
-    }
-    // Implement the subquery logic here, based on the original query
-    // This subquery should return the relevant nids based on the applied filters
     return $subquery;
+
   }
 
 
@@ -513,6 +744,7 @@ class ListResource extends ResourceBase {
             $field_value = $entity->get($field_name)->getValue();
             break;
           default:
+            $field_value = $entity->get($field_name)->getValue();
             break;
         }
 
