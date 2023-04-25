@@ -39,7 +39,7 @@ fi
 
 
 # source directory
-src_dir="/app/drupal/web/sites/live-conf"
+src_dir="/app/drupal/web/sites/default/live-conf"
 
 # destination directory
 dst_dir="/app/drupal/config/sync"
