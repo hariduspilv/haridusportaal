@@ -8,6 +8,7 @@
  * Copy field values to another field
  */
 
+use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 
@@ -112,6 +113,67 @@ function htm_custom_admin_update_9103() {
           }
         }
       }
+    }
+  }
+}
+/**
+ * Delete disabled menu links and hide content
+ */
+function htm_custom_admin_update_9104() {
+  // Get the MenuLinkTree service.
+  $menu_tree_service = \Drupal::service('menu.link_tree');
+
+  // Load the main menu links.
+  $menu_tree = $menu_tree_service->load('main', new MenuTreeParameters());
+
+  // Transform the tree to an array of menu links.
+  $manipulators = [
+    ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+    ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+  ];
+  $menu_links = $menu_tree_service->transform($menu_tree, $manipulators);
+
+  // Delete disabled menu links and unpublish their internal content.
+  htm_custom_admin_get_disabled_links($menu_links);
+}
+/**
+ * Recursively deletes disabled menu links and unpublishes their internal content.
+ *
+ * @param array $menu_links
+ *   An array of menu links.
+ */
+function htm_custom_admin_get_disabled_links(array $menu_links) {
+  foreach ($menu_links as $menu_link) {
+    if (!$menu_link->link->isEnabled()) {
+      $url = $menu_link->link->getUrlObject();
+      // Check if the link is internal.
+      if (!$url->isExternal()) {
+        if ($url->isRouted()) {
+          // Unpublish the internal
+          // Unpublish the internal content associated with the disabled menu link.
+          $route_parameters = $url->getRouteParameters();
+          if (isset($route_parameters['node'])) {
+            $node = Node::load($route_parameters['node']);
+            if ($node) {
+              $node->setUnpublished();
+              $node->save();
+            }
+          }
+
+          // Delete the disabled menu link.
+          if (empty($menu_link->subtree)) {
+            if ($menu_link->link->isDeletable()) {
+              $menu_link->link->deleteLink();
+            }
+          }
+        }
+      }
+
+      // Process the subtree.
+      htm_custom_admin_get_disabled_links($menu_link->subtree);
+    } else {
+      // Process the subtree for enabled menu links.
+      htm_custom_admin_get_disabled_links($menu_link->subtree);
     }
   }
 }

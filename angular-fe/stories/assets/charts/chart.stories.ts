@@ -10,6 +10,11 @@ import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
 import { SettingsModule } from "@app/_modules/settings/settings.module";
 import { RouterTestingModule } from "@angular/router/testing";
+import { APP_INITIALIZER } from "@angular/core";
+
+export function settingsProviderFactory(provider: SettingsService) {
+	return () => provider.load();
+}
 
 const moduleMetadata = {
   imports: [

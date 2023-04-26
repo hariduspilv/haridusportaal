@@ -166,7 +166,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         'index' => $args['elasticsearch_index']
       ];
     }
-
+    $special_fields = ['field_search_address'];
     if ($args['filter']['conjunction'] === 'AND') {
       foreach ($args['filter']['conditions'] as $condition) {
         if ((isset($condition['enabled']) && $condition['enabled'] === true) || (!isset($condition['enabled']))) {
@@ -188,15 +188,27 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
               if ($condition['field']=='langcode'){
                 $value = strtolower($value);
               }
-              $elastic_must_filters[] = array(
-                'query_string' => array(
-                  'query' => '*'.mb_strtolower($value).'*',
-                  'fields' => array(
-                    $condition['field']
-                  ),
-                  'default_operator' => 'AND'
-                )
-              );
+
+              if (in_array($condition['field'],$special_fields)) {
+                $elastic_must_filters[] = array(
+                  'match_phrase_prefix' => array(
+                    $condition['field'] => [
+                      'query' => ''.$value.'',
+                      ]
+                    )
+                );
+              }
+              else{
+                $elastic_must_filters[] = array(
+                  'query_string' => array(
+                    'query' => '*'.mb_strtolower($value).'*',
+                    'fields' => array(
+                      $condition['field']
+                    ),
+                    'default_operator' => 'AND'
+                  )
+                );
+              }
               break;
             case 'IN':
               if (isset($condition['value'])) {

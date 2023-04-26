@@ -15,7 +15,7 @@ const moduleMetadata = {
   ],
 	providers: [
 		ModalService,
-		RippleService,
+    RippleService,
 		{ provide: ActivatedRoute, useValue: {}	},
 	]
 };

@@ -1,3 +1,4 @@
+import { translatePath } from '@app/_core/router-utility';
 
 export const collection = {
   'nodeQuery': 'articles',
@@ -130,10 +131,26 @@ export const parseProfessionData = (inputData, translate) => {
 			mappedData.fieldRelatedProfession.map((profession) => {
 				const professionEntity = profession.entity.fieldSidebar.entity.fieldIscedfSearchLink.entity;
 
-				searchParams['iscedf_detailed'] = [...searchParams['iscedf_detailed'], ...professionEntity.iscedf_detailed.filter(val => val.entity).map(val => val.entity.entityId)];
-				searchParams['iscedf_narrow'] = [...searchParams['iscedf_narrow'], ...professionEntity.iscedf_narrow.filter(val => val.entity).map(val => val.entity.entityId)];
-				searchParams['iscedf_broad'] = [...searchParams['iscedf_broad'], ...professionEntity.iscedf_broad.filter(val => val.entity).map(val => val.entity.entityId)];
-				searchParams['level'] = [...searchParams['level'], ...professionEntity.level.map(val => val.entity ? val.entity.entityId: false).filter(val => val)];
+				searchParams['iscedf_detailed'] = [...searchParams['iscedf_detailed'], ...professionEntity.iscedf_detailed.filter(val => val.entity).map(val => {
+					if (!searchParams['iscedf_detailed'].includes(val.entity.entityId)) {
+						return val.entity.entityId;
+					}
+				})];
+				searchParams['iscedf_narrow'] = [...searchParams['iscedf_narrow'], ...professionEntity.iscedf_narrow.filter(val => val.entity).map(val => {
+					if (!searchParams['iscedf_narrow'].includes(val.entity.entityId)) {
+						return val.entity.entityId;
+					}
+				})];
+				searchParams['iscedf_broad'] = [...searchParams['iscedf_broad'], ...professionEntity.iscedf_broad.filter(val => val.entity).map(val => {
+					if (!searchParams['iscedf_broad'].includes(val.entity.entityId)) {
+						return val.entity.entityId;
+					}
+				})];
+				searchParams['level'] = [...searchParams['level'], ...professionEntity.level.map(val => val.entity ? val.entity.entityId : false).filter(val => {
+					if (val && !searchParams['level'].includes(val)) {
+						return val;
+					}
+				})];
 			});
 
 			Object.assign(searchParams, {
@@ -319,16 +336,16 @@ export const parseFieldData = (inputData, translate) => {
     }
     const additionalData = [
       {
-        title: 'Valdkondade andmed',
+        title: translate.get('oskaProfessions.fieldsCompare'),
         url: {
-          path: '/valdkonnad/andmed',
+          path: translatePath('/valdkonnad/andmed'),
           routed: true,
         },
       },
       {
-        title: 'Kõik valdkonnad',
+        title: translate.get('oskaProfessions.fields_all'),
         url: {
-          path: '/valdkonnad',
+          path: translatePath('/valdkonnad'),
           routed: true,
         },
       },
