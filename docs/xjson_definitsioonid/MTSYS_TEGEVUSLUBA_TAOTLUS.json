@@ -183,6 +183,7 @@
             "row_label": {
               "et": "aadress"
             },
+            "required": true,
             "add_del_rows": true,
             "table_columns": {
               "aadress": {

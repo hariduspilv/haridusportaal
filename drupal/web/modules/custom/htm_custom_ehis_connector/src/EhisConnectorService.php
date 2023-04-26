@@ -442,6 +442,7 @@ class EhisConnectorService {
     }
     if (!empty($this->currentRole['current_role'])&& $this->currentRole['current_role']['type'] == 'juridical_person') {
       $params['ownerRegCode'] = $this->currentRole['current_role']['data']['reg_kood'];
+      $params['idcode'] = $this->currentUser->getIdCode();
     }
     return $this->invokeWithRedis('getDocument', $params, FALSE);
   }
