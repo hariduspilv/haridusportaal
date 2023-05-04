@@ -1,0 +1,3 @@
+services:
+  htm_custom_rest.elastic_service:
+    class: Drupal\htm_custom_rest\Services\CustomElasticQueryService
