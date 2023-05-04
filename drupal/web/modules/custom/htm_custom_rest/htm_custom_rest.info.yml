@@ -1,0 +1,5 @@
+name: 'HTM Rest module'
+type: module
+description: 'Provides different rest endpoints for HP'
+core_version_requirement: ^9 || ^8 || ^10
+package: 'HTM'

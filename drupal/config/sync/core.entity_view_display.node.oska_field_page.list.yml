@@ -1,0 +1,79 @@
+uuid: 965bccff-6046-4799-9726-5bc059d9fb7e
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.list
+    - field.field.node.oska_field_page.body
+    - field.field.node.oska_field_page.field_dynamic_graph
+    - field.field.node.oska_field_page.field_gallery_btn
+    - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_media_gallery
+    - field.field.node.oska_field_page.field_oska_attachment_file
+    - field.field.node.oska_field_page.field_oska_field_accordion
+    - field.field.node.oska_field_page.field_oska_field_picture
+    - field.field.node.oska_field_page.field_oska_field_sidebar
+    - field.field.node.oska_field_page.field_oska_video
+    - field.field.node.oska_field_page.field_oska_web_page
+    - node.type.oska_field_page
+  module:
+    - htm_custom_video_field
+    - options
+    - svg_image
+    - user
+id: node.oska_field_page.list
+targetEntityType: node
+bundle: oska_field_page
+mode: list
+content:
+  field_gallery_btn:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_introduction:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_oska_field_picture:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_oska_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  body: true
+  field_dynamic_graph: true
+  field_media_gallery: true
+  field_oska_attachment_file: true
+  field_oska_field_accordion: true
+  field_oska_field_sidebar: true
+  field_oska_web_page: true
+  langcode: true
+  search_api_excerpt: true
