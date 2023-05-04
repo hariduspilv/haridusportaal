@@ -148,6 +148,22 @@ class ListResource extends ResourceBase {
           $count = $el_list['count']['value'];
         }
       }
+      elseif ($params['content_type'] == 'study_programme') {
+        $el_service = \Drupal::service('htm_custom_rest.elastic_service');
+        $params['elasticsearch_index'] = ['elasticsearch_index_drupaldb_study_programmes'];
+        if (!isset($params['sortField'])) {
+          $params['sortField'] = 'title';
+        }
+        if (!isset($params['sortDirection'])) {
+          $params['sortDirection'] = 'ASC';
+        }
+        $params['status'] = 1;
+        $el_list = $el_service->elasticSearchStudyProgramme($params);
+        $entities = $this->convertElastic($el_list);
+        if (isset($el_list['count']['value'])) {
+          $count = $el_list['count']['value'];
+        }
+      }
       else{
         $entities = $this->queryEntities($params, FALSE);
         $count = $this->queryEntities($params, TRUE);
@@ -226,6 +242,9 @@ class ListResource extends ResourceBase {
       }
       $base_query->join('node_field_data', 'nfd', 'n.nid = nfd.nid');
       $base_query->condition('nfd.status', 1);
+      if (isset($filters['lang'])) {
+        $base_query->condition('nfd.langcode',strtolower($filters['lang']));
+      }
       $base_query->orderBy('nfd.created', 'DESC');
 
       if ($count) {

@@ -77,6 +77,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
    */
   public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info)
   {
+    \Drupal::logger('elastic')->debug(print_r($args,TRUE));
     $responsevalues = [];
     $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
     $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];

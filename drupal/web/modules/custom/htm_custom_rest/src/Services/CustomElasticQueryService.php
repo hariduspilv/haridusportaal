@@ -7,6 +7,125 @@ use Elasticsearch\ClientBuilder;
 use GraphQL\Type\Definition\ResolveInfo;
 
 class CustomElasticQueryService {
+
+  public function elasticSearchStudyProgramme($params) {
+    $args = [];
+    $args['filter']['conjunction'] = 'AND';
+    if (isset($params[''])){
+      $args[] = $params[''];
+    }
+    if (isset($params['type'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'tid',
+        'value' => explode(';',$params['type']),
+        'operator' => 'IN'
+      ];
+    }
+    if (isset($params['location'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'field_school_search_address',
+        'value' => explode(';',$params['location']),
+        'operator' => 'LIKE'
+      ];
+    }
+    if (isset($params['iscedf_broad'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'field_iscedf_board',
+        'value' => explode(';',$params['iscedf_broad']),
+        'operator' => 'IN'
+      ];
+    }
+    if (isset($params['iscedf_narrow'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'field_iscedf_narrow',
+        'value' => explode(';',$params['iscedf_narrow']),
+        'operator' => 'IN'
+      ];
+    }
+    if (isset($params['iscedf_detailed'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'tid_2',
+        'value' => explode(';',$params['iscedf_detailed']),
+        'operator' => 'IN'
+      ];
+    }
+    if (isset($params['level'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'tid_1',
+        'value' => explode(';',$params['level']),
+        'operator' => 'IN'
+      ];
+    }
+    if (isset($params['language'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'field_teaching_language',
+        'value' => explode(';',$params['language']),
+        'operator' => 'IN'
+      ];
+    }
+    if (isset($params['school'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'field_school_name',
+        'value' => explode(';',$params['school']),
+        'operator' => 'LIKE'
+      ];
+    }
+    if (isset($params['status'])){
+      $args['filter']['conditions'][] = [
+        'field' => 'status',
+        'value' => 1,
+        'operator' => '='
+      ];
+    }
+      $args['filter']['conditions'][] = [
+        'field' => 'content_type',
+        'value' => ['study_programme'],
+        'operator' => '='
+      ];
+
+    if (isset($params['title'])){
+      $args['filter']['groups'] = [];
+
+      $args['filter']['groups'][0]['conjunction'] = 'OR';
+      $args['filter']['groups'][0]['conditions'] = [];
+      $args['filter']['groups'][0]['conditions'][] = [
+        'field' => 'field_short_description',
+        'value' => [$params['title']],
+        'operator' => 'LIKE'
+      ];
+      $args['filter']['groups'][0]['conditions'][] = [
+        'field' => 'title',
+        'value' => [$params['title']],
+        'operator' => 'LIKE'
+      ];
+      $args['filter']['groups'][0]['conditions'][] = [
+        'field' => 'field_specialization',
+        'value' => [$params['title']],
+        'operator' => 'LIKE'
+      ];
+      $args['filter']['groups'][0]['conditions'][] = [
+        'field' => 'field_degree_or_diploma_awarded',
+        'value' => [$params['title']],
+        'operator' => 'LIKE'
+      ];
+    }
+    if (isset($params['elasticsearch_index'])) {
+      $args['elasticsearch_index'] = $params['elasticsearch_index'];
+    }
+    if (isset($params['offset'])) {
+      $args['offset'] = $params['offset'];
+    }
+    if (isset($params['limit'])) {
+      $args['limit'] = $params['limit'];
+    }
+    if (isset($params['sortField'])) {
+      $args['sortField'] = $params['sortField'];
+    }
+    if (isset($params['sortDirection'])) {
+      $args['sortDirection'] = $params['sortDirection'];
+    }
+    return  $this->resolveValues($args);
+  }
   public function elasticSearch($params) {
 
       $args = [];
