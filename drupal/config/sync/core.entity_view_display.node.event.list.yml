@@ -1,0 +1,165 @@
+uuid: 749a70fc-b839-45d2-a780-56c013c30ada
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.list
+    - field.field.node.event.field_attachment_file
+    - field.field.node.event.field_contact_email
+    - field.field.node.event.field_contact_person
+    - field.field.node.event.field_contact_phone
+    - field.field.node.event.field_description
+    - field.field.node.event.field_description_summary
+    - field.field.node.event.field_entry_type
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_end_time_main
+    - field.field.node.event.field_event_group
+    - field.field.node.event.field_event_link
+    - field.field.node.event.field_event_location
+    - field.field.node.event.field_event_location_link
+    - field.field.node.event.field_event_main_date
+    - field.field.node.event.field_event_main_end_date
+    - field.field.node.event.field_event_start_time_main
+    - field.field.node.event.field_event_type
+    - field.field.node.event.field_event_video
+    - field.field.node.event.field_external_id
+    - field.field.node.event.field_max_number_of_participants
+    - field.field.node.event.field_metatags
+    - field.field.node.event.field_organizer
+    - field.field.node.event.field_organizer_idcode
+    - field.field.node.event.field_picture
+    - field.field.node.event.field_practical_information
+    - field.field.node.event.field_registration_
+    - field.field.node.event.field_registration_date
+    - field.field.node.event.field_registration_url
+    - field.field.node.event.field_tag
+    - node.type.event
+  module:
+    - datetime
+    - entity_reference_revisions
+    - link
+    - metatag
+    - options
+    - time_field
+    - user
+id: node.event.list
+targetEntityType: node
+bundle: event
+mode: list
+content:
+  field_entry_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_event_date:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_event_end_time_main:
+    type: time_formatter
+    label: above
+    settings:
+      time_format: 'h:i a'
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_event_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_event_main_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_event_main_end_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_event_start_time_main:
+    type: time_formatter
+    label: above
+    settings:
+      time_format: 'h:i a'
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_event_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_metatags:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_registration_date:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_tag:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 8
+    region: content
+hidden:
+  field_attachment_file: true
+  field_contact_email: true
+  field_contact_person: true
+  field_contact_phone: true
+  field_description: true
+  field_description_summary: true
+  field_event_group: true
+  field_event_location: true
+  field_event_location_link: true
+  field_event_video: true
+  field_external_id: true
+  field_max_number_of_participants: true
+  field_organizer: true
+  field_organizer_idcode: true
+  field_picture: true
+  field_practical_information: true
+  field_registration_: true
+  field_registration_url: true
+  langcode: true
+  links: true
+  search_api_excerpt: true
