@@ -1,0 +1,121 @@
+uuid: f021d801-4200-4448-bc32-d42eab2c60a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.list
+    - field.field.node.news.body
+    - field.field.node.news.field_additional_images
+    - field.field.node.news.field_author
+    - field.field.node.news.field_daily_important
+    - field.field.node.news.field_introduction_image
+    - field.field.node.news.field_metatags
+    - field.field.node.news.field_news_description
+    - field.field.node.news.field_news_link
+    - field.field.node.news.field_news_video
+    - field.field.node.news.field_short_description
+    - field.field.node.news.field_tag
+    - field.field.node.news.field_video_thumbnail
+    - node.type.news
+  module:
+    - htm_custom_video_field
+    - link
+    - metatag
+    - svg_image
+    - user
+id: node.news.list
+targetEntityType: node
+bundle: news
+mode: list
+content:
+  field_author:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_introduction_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_metatags:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_news_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_news_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_short_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_tag:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_video_thumbnail:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  body: true
+  field_additional_images: true
+  field_daily_important: true
+  field_news_description: true
+  langcode: true
+  search_api_excerpt: true
