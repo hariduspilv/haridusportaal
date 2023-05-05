@@ -1,0 +1,78 @@
+uuid: 5b9e4937-2d6b-4ed2-9b00-87efc6d5bee3
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.list
+    - field.field.paragraph.study.field_author
+    - field.field.paragraph.study.field_author_institution
+    - field.field.paragraph.study.field_orderer
+    - field.field.paragraph.study.field_publication_lang
+    - field.field.paragraph.study.field_publication_type
+    - field.field.paragraph.study.field_publisher
+    - field.field.paragraph.study.field_year
+    - paragraphs.paragraphs_type.study
+id: paragraph.study.list
+targetEntityType: paragraph
+bundle: study
+mode: list
+content:
+  field_author:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_author_institution:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_orderer:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_publication_lang:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_publication_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_publisher:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_year:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  search_api_excerpt: true
