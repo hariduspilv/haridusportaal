@@ -1,0 +1,193 @@
+uuid: e3a4aba4-62cd-4680-8bfe-8e31d2bc5815
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.list
+    - field.field.node.study_programme.field_accreditation_status
+    - field.field.node.study_programme.field_accreditation_valid_until
+    - field.field.node.study_programme.field_amount
+    - field.field.node.study_programme.field_amount_unit
+    - field.field.node.study_programme.field_created_from_ehis_datetime
+    - field.field.node.study_programme.field_degree_or_diploma_awarded
+    - field.field.node.study_programme.field_duration
+    - field.field.node.study_programme.field_educational_institution
+    - field.field.node.study_programme.field_ehis_id
+    - field.field.node.study_programme.field_iscedf_board
+    - field.field.node.study_programme.field_iscedf_detailed
+    - field.field.node.study_programme.field_iscedf_narrow
+    - field.field.node.study_programme.field_metatags
+    - field.field.node.study_programme.field_practical_training_amount
+    - field.field.node.study_programme.field_qualification_standard_id
+    - field.field.node.study_programme.field_school_address
+    - field.field.node.study_programme.field_school_search_address
+    - field.field.node.study_programme.field_school_website
+    - field.field.node.study_programme.field_short_description
+    - field.field.node.study_programme.field_specialization
+    - field.field.node.study_programme.field_study_programme_level
+    - field.field.node.study_programme.field_study_programme_type
+    - field.field.node.study_programme.field_teaching_language
+    - field.field.node.study_programme.field_update_from_ehis
+    - field.field.node.study_programme.field_web_page_address
+    - node.type.study_programme
+  module:
+    - datetime
+    - metatag
+    - user
+id: node.study_programme.list
+targetEntityType: node
+bundle: study_programme
+mode: list
+content:
+  field_accreditation_status:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_accreditation_valid_until:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_degree_or_diploma_awarded:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_duration:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_educational_institution:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  field_iscedf_board:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 16
+    region: content
+  field_iscedf_detailed:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  field_iscedf_narrow:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  field_metatags:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  field_school_address:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_school_search_address:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_school_website:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_short_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_specialization:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_study_programme_level:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_study_programme_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_teaching_language:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_amount: true
+  field_amount_unit: true
+  field_created_from_ehis_datetime: true
+  field_ehis_id: true
+  field_practical_training_amount: true
+  field_qualification_standard_id: true
+  field_update_from_ehis: true
+  field_web_page_address: true
+  langcode: true
+  search_api_excerpt: true
