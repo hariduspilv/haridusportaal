@@ -1,0 +1,115 @@
+uuid: e4897db3-75bf-4067-afb1-f508fbb89764
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.list
+    - field.field.node.school.body
+    - field.field.node.school.field_adrid
+    - field.field.node.school.field_created_from_ehis_datetime
+    - field.field.node.school.field_educational_institution_ty
+    - field.field.node.school.field_ehis_id
+    - field.field.node.school.field_metatags
+    - field.field.node.school.field_ownership_type
+    - field.field.node.school.field_registration_code
+    - field.field.node.school.field_school_contact_email
+    - field.field.node.school.field_school_contact_phone
+    - field.field.node.school.field_school_location
+    - field.field.node.school.field_school_webpage_address
+    - field.field.node.school.field_special_class
+    - field.field.node.school.field_student_home
+    - field.field.node.school.field_teaching_language
+    - field.field.node.school.field_update_from_ehis
+    - field.field.node.school.field_update_location_from_ehis
+    - node.type.school
+  module:
+    - entity_reference_revisions
+    - user
+id: node.school.list
+targetEntityType: node
+bundle: school
+mode: list
+content:
+  field_educational_institution_ty:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_ownership_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_school_contact_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_school_contact_phone:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_school_location:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_school_webpage_address:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_special_class:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_teaching_language:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  body: true
+  field_adrid: true
+  field_created_from_ehis_datetime: true
+  field_ehis_id: true
+  field_metatags: true
+  field_registration_code: true
+  field_student_home: true
+  field_update_from_ehis: true
+  field_update_location_from_ehis: true
+  langcode: true
+  search_api_excerpt: true
