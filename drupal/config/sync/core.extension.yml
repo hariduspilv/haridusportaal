@@ -19,7 +19,6 @@ module:
   config_filter: 0
   config_ignore: 0
   config_translation: 0
-  consumers: 0
   contact: 0
   contextual: 0
   crop: 0
@@ -71,6 +70,7 @@ module:
   htm_custom_oska: 0
   htm_custom_professional_certific: 0
   htm_custom_querymap_form: 0
+  htm_custom_rest: 0
   htm_custom_study_programme_import: 0
   htm_custom_subscriptions: 0
   htm_custom_subscriptions_notification: 0

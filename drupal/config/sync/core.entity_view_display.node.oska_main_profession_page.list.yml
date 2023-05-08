@@ -1,0 +1,64 @@
+uuid: 1cdd265f-0424-4379-af53-60380f295125
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.list
+    - field.field.node.oska_main_profession_page.body
+    - field.field.node.oska_main_profession_page.field_bruto
+    - field.field.node.oska_main_profession_page.field_change_in_employment
+    - field.field.node.oska_main_profession_page.field_dynamic_graph
+    - field.field.node.oska_main_profession_page.field_education_indicator
+    - field.field.node.oska_main_profession_page.field_filling_bar
+    - field.field.node.oska_main_profession_page.field_fixed_label
+    - field.field.node.oska_main_profession_page.field_further_info
+    - field.field.node.oska_main_profession_page.field_gallery_btn
+    - field.field.node.oska_main_profession_page.field_introduction
+    - field.field.node.oska_main_profession_page.field_main_profession_accordion
+    - field.field.node.oska_main_profession_page.field_main_profession_picture
+    - field.field.node.oska_main_profession_page.field_main_profession_tag
+    - field.field.node.oska_main_profession_page.field_media_gallery
+    - field.field.node.oska_main_profession_page.field_number_of_employees
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_file
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_links
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_video
+    - field.field.node.oska_main_profession_page.field_pictogram
+    - field.field.node.oska_main_profession_page.field_profession
+    - field.field.node.oska_main_profession_page.field_sidebar
+    - node.type.oska_main_profession_page
+  module:
+    - user
+id: node.oska_main_profession_page.list
+targetEntityType: node
+bundle: oska_main_profession_page
+mode: list
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  body: true
+  field_bruto: true
+  field_change_in_employment: true
+  field_dynamic_graph: true
+  field_education_indicator: true
+  field_filling_bar: true
+  field_fixed_label: true
+  field_further_info: true
+  field_gallery_btn: true
+  field_introduction: true
+  field_main_profession_accordion: true
+  field_main_profession_picture: true
+  field_main_profession_tag: true
+  field_media_gallery: true
+  field_number_of_employees: true
+  field_oska_main_profession_file: true
+  field_oska_main_profession_links: true
+  field_oska_main_profession_video: true
+  field_pictogram: true
+  field_profession: true
+  field_sidebar: true
+  langcode: true
+  search_api_excerpt: true

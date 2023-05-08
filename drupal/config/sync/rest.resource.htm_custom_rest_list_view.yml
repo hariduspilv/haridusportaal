@@ -1,0 +1,22 @@
+uuid: 58ff675e-222e-49bb-8711-30e539a4d9a6
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_authentication
+    - htm_custom_rest
+    - jwt
+    - serialization
+    - user
+id: htm_custom_rest_list_view
+plugin_id: htm_custom_rest_list_view
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - jwt_auth
+    - json_authentication_provider
+    - cookie
