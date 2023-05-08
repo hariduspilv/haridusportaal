@@ -1,0 +1,158 @@
+uuid: 4c1878c2-3bb7-422b-9554-857db8b81471
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.list
+    - field.field.node.youth_monitoring_page.field_bottom_link
+    - field.field.node.youth_monitoring_page.field_content
+    - field.field.node.youth_monitoring_page.field_end_picture
+    - field.field.node.youth_monitoring_page.field_end_text
+    - field.field.node.youth_monitoring_page.field_end_video
+    - field.field.node.youth_monitoring_page.field_extertnal_link
+    - field.field.node.youth_monitoring_page.field_first_picture
+    - field.field.node.youth_monitoring_page.field_first_picture_or_video
+    - field.field.node.youth_monitoring_page.field_first_video
+    - field.field.node.youth_monitoring_page.field_introduction
+    - field.field.node.youth_monitoring_page.field_right_column_elements
+    - field.field.node.youth_monitoring_page.field_youth_accordion
+    - field.field.node.youth_monitoring_page.field_youth_gallery
+    - image.style.crop_large
+    - node.type.youth_monitoring_page
+  module:
+    - entity_reference_revisions
+    - htm_custom_video_field
+    - options
+    - svg_image
+    - text
+    - user
+id: node.youth_monitoring_page.list
+targetEntityType: node
+bundle: youth_monitoring_page
+mode: list
+content:
+  field_bottom_link:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_content:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_end_picture:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_end_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_end_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_extertnal_link:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_first_picture:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: crop_large
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_first_picture_or_video:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_first_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_introduction:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_right_column_elements:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 115
+    region: content
+  field_youth_accordion:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 117
+    region: content
+  field_youth_gallery:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 119
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true
