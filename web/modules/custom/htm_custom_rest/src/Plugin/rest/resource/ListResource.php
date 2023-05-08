@@ -577,13 +577,13 @@ class ListResource extends ResourceBase {
         ]
       ];
     }
-    if (!empty($filters['oskaField'])) {
+    if (!empty($filters['oskaFieldValue'])) {
       $join_clauses[] = ['node__field_sidebar' => ['nfs', 'n.nid=nfs.entity_id']];
       $join_clauses[] = ['paragraph__field_oska_field' => ['pfof', 'nfs.field_sidebar_target_id=pfof.entity_id']];
       $condition_clauses[] = [
         'or' => [
           [
-            'pfof.field_oska_field_target_id', explode(';', $filters['oskaField'])]
+            'pfof.field_oska_field_target_id', explode(';', $filters['oskaFieldValue'])]
         ]
       ];
     }
