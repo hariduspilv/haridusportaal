@@ -166,6 +166,24 @@ class ListResource extends ResourceBase {
           $count = $el_list['count']['value'];
         }
       }
+      elseif ($params['content_type'] == 'search') {
+        $el_service = \Drupal::service('htm_custom_rest.elastic_service');
+        if (!isset($params['sortField'])) {
+          $params['sortField'] = 'title';
+        }
+        if (!isset($params['sortDirection'])) {
+          $params['sortDirection'] = 'ASC';
+        }
+        if (!empty($params['search_term'])) {
+//          $params['title'] = $params['search_term'];
+        }
+        $params['status'] = 1;
+        $el_list = $el_service->elasticSearch($params);
+        $entities = $this->convertElastic($el_list);
+        if (isset($el_list['count']['value'])) {
+          $count = $el_list['count']['value'];
+        }
+      }
       else{
         $entities = $this->queryEntities($params, FALSE);
         if ($params['content_type'] == 'oska_field_page') {
@@ -176,7 +194,12 @@ class ListResource extends ResourceBase {
     }
     // Get fields for the view mode and filter the field values.
     $fields = $this->getViewModeFields('node', $params['content_type'], 'list');
-    $returnable_values = $this->filterFieldsAndReturnValues($entities, $fields, 'list');
+    if ($params['content_type'] != 'search') {
+      $returnable_values = $this->filterFieldsAndReturnValues($entities, $fields, 'list');
+    }
+    else{
+      $returnable_values = $this->filterFieldsAndReturnValues($entities, $fields, 'search');
+    }
 
     $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $data = [
@@ -723,7 +746,6 @@ class ListResource extends ResourceBase {
 
         $field_value = '';
         $field_name_out = $this->camelize($field_name);
-
         // Process fields based on their type.
         switch ($field['type']) {
           case 'entity_reference_revisions_entity_view':
@@ -798,6 +820,9 @@ class ListResource extends ResourceBase {
                 $field_value = $field_value['value'];
               }
             }
+            else{
+              $field_value = $this->convertToArray($field_value);
+            }
             break;
           default:
             $field_value = $entity->get($field_name)->getValue();
@@ -810,11 +835,22 @@ class ListResource extends ResourceBase {
               $field_value = $field_value['value'];
             }
           }
+            else{
+              $field_value = $this->convertToArray($field_value);
+            }
             break;
         }
-
+        if ($view_mode == 'search' && !$field_mode){
+          if (!empty($entity->bundle())){
+            $values[$id]['content_type'] = $entity->bundle();
+          }
+        }
         // Assign field values to the output array.
+        if (empty($field_value)) {
+          $field_value = null;
+        }
         if ($field_mode) {
+
           $values[$field_name_out] = $field_value;
         } else {
           $values[$id][$field_name_out] = $field_value;
@@ -824,7 +860,18 @@ class ListResource extends ResourceBase {
 
     return $values;
   }
-
+  private function convertToArray($objects){
+    $output = [];
+    foreach ($objects as $object){
+      if(isset($object['value'])){
+        $output[] = $object['value'];
+      }
+      else{
+        $output[] = reset($object);
+      }
+    }
+    return $output;
+  }
   /**
    * Processes and returns values for reference fields.
    *
@@ -859,6 +906,17 @@ class ListResource extends ResourceBase {
         // Get field list only once for the first paragraph of the same type.
         if (empty($field_list[$para_type])) {
           $field_list[$para_type] = $this->getViewModeFields('paragraph', $para_type, $view_mode);
+        }
+
+        // Process paragraph fields and add them to the field value.
+        $field_value[$referenced_entity_id] = $this->filterFieldsAndReturnValues([$referenced_entity], $field_list[$para_type], $view_mode, TRUE);
+      }elseif ($referenced_entity_type === 'node') {
+        // If the referenced entity is a paragraph, process its fields and add them to the field value.
+        $para_type = $referenced_entity->bundle();
+
+        // Get field list only once for the first paragraph of the same type.
+        if (empty($field_list[$para_type])) {
+          $field_list[$para_type] = $this->getViewModeFields('node', $para_type, $view_mode);
         }
 
         // Process paragraph fields and add them to the field value.
