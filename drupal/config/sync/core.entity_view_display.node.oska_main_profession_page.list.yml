@@ -27,38 +27,124 @@ dependencies:
     - field.field.node.oska_main_profession_page.field_sidebar
     - node.type.oska_main_profession_page
   module:
+    - entity_reference_revisions
+    - text
     - user
 id: node.oska_main_profession_page.list
 targetEntityType: node
 bundle: oska_main_profession_page
 mode: list
 content:
+  body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_bruto:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_change_in_employment:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_education_indicator:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_filling_bar:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_fixed_label:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_further_info:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_number_of_employees:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_profession:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_sidebar:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  langcode:
+    type: language
+    label: above
+    settings:
+      link_to_entity: false
+      native_language: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 0
     region: content
 hidden:
-  body: true
-  field_bruto: true
-  field_change_in_employment: true
   field_dynamic_graph: true
-  field_education_indicator: true
-  field_filling_bar: true
-  field_fixed_label: true
-  field_further_info: true
   field_gallery_btn: true
   field_introduction: true
   field_main_profession_accordion: true
   field_main_profession_picture: true
   field_main_profession_tag: true
   field_media_gallery: true
-  field_number_of_employees: true
   field_oska_main_profession_file: true
   field_oska_main_profession_links: true
   field_oska_main_profession_video: true
   field_pictogram: true
-  field_profession: true
-  field_sidebar: true
-  langcode: true
   search_api_excerpt: true
