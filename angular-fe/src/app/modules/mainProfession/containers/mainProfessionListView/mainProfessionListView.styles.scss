@@ -1,0 +1,284 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+@import "grid.scss";
+:host {
+  .col-25 {
+    width: 20.83%;
+  }
+  
+  .filter-wrapper {
+    padding: 1.5rem;
+    background: #fff;
+    @include break-on(sm, min) {
+      margin: 1rem 0 1.5rem;
+      padding: 0.5rem 1.5rem;
+      @include break-on(lg, max) {
+        .inline {
+          margin: 0 -1.5rem;
+        }
+      }
+    }
+    @include break-on(sm, max) {
+      margin-bottom: 0;
+      padding: .75rem 1.5rem;
+      .filter-control{
+          padding: 0 !important;
+          span {
+              margin-right: 0;
+          }
+      }
+      &.filtersActive {
+        display: block;
+      }
+    }
+    .filter-control {
+      padding: 1.5rem 0rem 0.5rem;
+    }
+    .text-right {
+      text-align: right;
+    }
+  }
+
+  .highlighted__job {
+    &__main {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    &__wrapper {
+      display: flex;
+      @include break-on(xs, max) {
+        flex-direction: column;
+      }
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+        h2 {
+          font-size: 1.25rem;
+          margin-bottom: 0.5rem;
+          color: $blue;
+        }
+      }
+      a.highlighted__job__footer__link {
+        text-decoration: underline;
+        &:hover {
+          text-decoration: none;
+        }
+        &.extra-styles {
+          display: flex;
+          justify-content: center;
+          margin-top: 1rem;
+          @include break-on(xs, max) {
+            display: none;
+          }
+        }
+        @include break-on(xs, max) {
+          display: none;
+        }
+      }
+      labels {
+        display: block;
+        margin-bottom: .5rem;
+      }
+    }
+    picto {
+      margin-right: -3rem;
+      margin-top: -1rem;
+      margin-bottom: -1.5rem;
+      @include break-on(xs, max) {
+        margin: -1.5rem auto 0 auto;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    @include break-on(xs, max) {
+      ::ng-deep picto {
+        .image {
+          margin-bottom: 1rem;
+        }
+        .picto {
+          left: -1.5rem;
+        }
+      }
+    }
+    
+    .description {
+      color: $black;
+      font-size: $small;
+      line-height: 1.375rem;
+      padding-right: $large;
+      @include lineClamp($lines: 2);
+      a[target="_blank"]::after {
+        content: "";
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 24 24' style='enable-background:new 0 0 24 24%3B' xml:space='preserve'%3E%3Cg%3E%3Cpath d='M16 22H5c-1.7 0-3-1.3-3-3V8c0-1.7 1.3-3 3-3h6c0.6 0 1 0.4 1 1s-0.4 1-1 1H5C4.4 7 4 7.4 4 8v11c0 0.6 0.4 1 1 1h11c0.6 0 1-0.4 1-1v-6c0-0.6 0.4-1 1-1s1 0.4 1 1v6C19 20.7 17.7 22 16 22z'/%3E%3C/g%3E%3Cg%3E%3Cpath d='M21 10c-0.6 0-1-0.4-1-1V4h-5c-0.6 0-1-0.4-1-1s0.4-1 1-1h6c0.6 0 1 0.4 1 1v6C22 9.6 21.6 10 21 10z'/%3E%3C/g%3E%3Cg%3E%3Cpath d='M10 15c-0.3 0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1 0-1.4l11-11c0.4-0.4 1-0.4 1.4 0s0.4 1 0 1.4l-11 11C10.5 14.9 10.3 15 10 15z'/%3E%3C/g%3E%3C/svg%3E");
+        position: relative;
+        top: .125rem;
+        left: .125rem;
+        width: 1rem;
+        height: 1rem;
+        display: inline-block;
+      }
+      @include break-on(xs, max) {
+        display: none;
+      }
+    }
+    &__footer__mobile {
+      text-align: center;
+      @include break-on(xs, min) {
+        display: none;
+      }
+    }
+  }
+  @include break-on(xxs, max) {
+    ::ng-deep ngb-tooltip-window {
+      max-width: 275px !important;
+    }
+  }
+  .search__title {
+    padding: 0 0.5rem;
+    line-height: 2rem;
+    color: $dark_gray;
+    text-transform: uppercase;
+  }
+  .search__title__filter {
+    color: $black;
+    font-weight: 500;
+  }
+  .row {
+    margin: 0 -0.5rem;
+    &.first {
+			@include break-on(sm, max) {
+				margin-top: .5rem;
+			}
+		}
+    .align-end {
+      align-self: flex-end;
+      margin-bottom: auto;
+    }
+    .inline-flex {
+      display: inline-flex;
+      justify-content: flex-end;
+    }
+    .text-right {
+      text-align: right;
+    }
+    .align-center {
+      align-self: center;
+    }
+    .filter-state {
+      margin: 0 auto;
+      position: relative;
+      right: 0.5rem;
+      text-align: center;
+      text-decoration: underline;
+      &:hover {
+          text-decoration: none;
+      }
+    }
+  }
+  
+  ::ng-deep block-content button[tag] {
+    margin: 1rem 1.5rem 1.5rem 0;
+    &:last-of-type {
+      margin-right: 0;
+      margin-bottom: 2rem;
+    }
+    @include break-on(xs, max) {
+      margin: 1rem 1.5rem 0 0;
+      &:last-of-type {
+        margin-right: 0;
+        margin-bottom: 2.5rem;
+      }
+    }
+  }
+
+  
+
+  div[class*="col-"] {
+    padding: 0.5rem !important;
+  }
+  
+  .button-row {
+    @include break-on(sm, max) {
+      width: 100%;
+    }
+    button {
+      width: 100%;
+    }
+  }
+  
+  .xxs-show {
+    display: none !important;
+  }
+  .xxs-flex {
+    display: none !important;
+  }
+  .xs-show {
+    display: none !important;
+  }
+  .xs-flex {
+    display: none !important;
+  }
+  .sm-show {
+    display: none !important;
+  }
+  .sm-flex {
+    display: none !important;
+  }
+  .md-show {
+    display: none !important;
+  }
+  .md-flex {
+    display: none !important;
+  }
+  @include break-on(xxs, max) {
+    .xxs-hide {
+      display: none !important;
+    }
+    .xxs-show {
+      display: block !important;
+    }
+    .xxs-flex {
+      display: flex !important;
+    }
+  }
+  @include break-on(xs, max) {
+    .xs-hide {
+      display: none !important;
+    }
+    .xs-show {
+      display: block !important;
+    }
+    .xs-flex {
+      display: flex !important;
+    }
+  }
+  @include break-on(sm, max) {
+    .sm-hide {
+      display: none !important;
+    }
+    .sm-show {
+      display: block !important;
+    }
+    .sm-flex {
+      display: flex !important;
+    }
+  }
+  @include break-on(md, max) {
+    .md-hide {
+      display: none !important;
+    }
+    .md-show {
+      display: block !important;
+    }
+    .md-flex {
+      display: flex !important;
+    }
+  }
+  
+  .hidden {
+    display: none;
+  }  
+}

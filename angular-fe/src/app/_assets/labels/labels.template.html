@@ -1,5 +1,11 @@
 <ul [attr.aria-label]="'labels.tags' | translate" *ngIf="data && data.length">
-  <ng-container *ngFor="let label of data;">
-    <li [ngStyle]="!type && childStyles" *ngIf="label.entityLabel || label.value">{{label.entityLabel || label.value | translate }}</li>
-  </ng-container>
+	<ng-container *ngFor="let label of data;">
+		<li
+			[ngStyle]="!type && childStyles"
+			*ngIf="label.entityLabel || label.value || label"
+		>
+			{{ label.entityLabel || (label.value ? (label.value | translate) : label)
+			}}
+		</li>
+	</ng-container>
 </ul>

@@ -1,18 +1,21 @@
 <labels
-  *ngIf="highlighted && study?.fieldStudyTag"
-  class="study__list__item__labels--highlight"
-  type="orange"
-  [data]="[study?.fieldStudyTag]">
+	*ngIf="highlighted && study?.fieldStudyTag"
+	class="study__list__item__labels--highlight"
+	type="orange"
+	[data]="study?.fieldStudyTag"
+>
 </labels>
-<a [routerLink]="study.entityUrl?.path">
-  <h2>{{ study.title }}</h2>
+<a [routerLink]="study.path">
+	<h2>{{ study.title }}</h2>
 </a>
 <study-list-item-inline-elements
-  *ngIf="study?.mappedInlineFields.length"
-  [inlineFields]="study.mappedInlineFields">
+	*ngIf="study?.mappedInlineFields.length"
+	[inlineFields]="study.mappedInlineFields"
+>
 </study-list-item-inline-elements>
 <labels
-  class="study__list__item__labels"
-  *ngIf="study.fieldLabel?.length"
-  [data]="study.fieldLabel">
+	class="study__list__item__labels"
+	*ngIf="study.fieldLabel?.length"
+	[data]="study.fieldLabel"
+>
 </labels>
