@@ -11,7 +11,7 @@ class CustomElasticQueryService {
   public function elasticSearchStudyProgramme($params) {
     $args = [];
     $args['filter']['conjunction'] = 'AND';
-    if (isset($params[''])){
+    if (!empty($params[''])){
       $args[] = $params[''];
     }
     if (isset($params['type'])){
@@ -21,56 +21,56 @@ class CustomElasticQueryService {
         'operator' => 'IN'
       ];
     }
-    if (isset($params['location'])){
+    if (!empty($params['location'])){
       $args['filter']['conditions'][] = [
         'field' => 'field_school_search_address',
         'value' => explode(';',$params['location']),
         'operator' => 'LIKE'
       ];
     }
-    if (isset($params['iscedf_broad'])){
+    if (!empty($params['iscedf_broad'])){
       $args['filter']['conditions'][] = [
         'field' => 'field_iscedf_board',
         'value' => explode(';',$params['iscedf_broad']),
         'operator' => 'IN'
       ];
     }
-    if (isset($params['iscedf_narrow'])){
+    if (!empty($params['iscedf_narrow'])){
       $args['filter']['conditions'][] = [
         'field' => 'field_iscedf_narrow',
         'value' => explode(';',$params['iscedf_narrow']),
         'operator' => 'IN'
       ];
     }
-    if (isset($params['iscedf_detailed'])){
+    if (!empty($params['iscedf_detailed'])){
       $args['filter']['conditions'][] = [
         'field' => 'tid_2',
         'value' => explode(';',$params['iscedf_detailed']),
         'operator' => 'IN'
       ];
     }
-    if (isset($params['level'])){
+    if (!empty($params['level'])){
       $args['filter']['conditions'][] = [
         'field' => 'tid_1',
         'value' => explode(';',$params['level']),
         'operator' => 'IN'
       ];
     }
-    if (isset($params['language'])){
+    if (!empty($params['language'])){
       $args['filter']['conditions'][] = [
         'field' => 'field_teaching_language',
         'value' => explode(';',$params['language']),
         'operator' => 'IN'
       ];
     }
-    if (isset($params['school'])){
+    if (!empty($params['school'])){
       $args['filter']['conditions'][] = [
         'field' => 'field_school_name',
         'value' => explode(';',$params['school']),
         'operator' => 'LIKE'
       ];
     }
-    if (isset($params['status'])){
+    if (!empty($params['status'])){
       $args['filter']['conditions'][] = [
         'field' => 'status',
         'value' => 1,
@@ -83,7 +83,7 @@ class CustomElasticQueryService {
         'operator' => '='
       ];
 
-    if (isset($params['title'])){
+    if (!empty($params['title'])){
       $args['filter']['groups'] = [];
 
       $args['filter']['groups'][0]['conjunction'] = 'OR';
@@ -109,19 +109,19 @@ class CustomElasticQueryService {
         'operator' => 'LIKE'
       ];
     }
-    if (isset($params['elasticsearch_index'])) {
+    if (!empty($params['elasticsearch_index'])) {
       $args['elasticsearch_index'] = $params['elasticsearch_index'];
     }
-    if (isset($params['offset'])) {
+    if (!empty($params['offset'])) {
       $args['offset'] = $params['offset'];
     }
-    if (isset($params['limit'])) {
+    if (!empty($params['limit'])) {
       $args['limit'] = $params['limit'];
     }
-    if (isset($params['sortField'])) {
+    if (!empty($params['sortField'])) {
       $args['sortField'] = $params['sortField'];
     }
-    if (isset($params['sortDirection'])) {
+    if (!empty($params['sortDirection'])) {
       $args['sortDirection'] = $params['sortDirection'];
     }
     return  $this->resolveValues($args);
@@ -130,96 +130,96 @@ class CustomElasticQueryService {
 
       $args = [];
     $args['filter']['conjunction'] = 'AND';
-      if (isset($params['title'])){
+      if (!empty($params['title'])){
         $args['filter']['conditions'][] = [
           'operator'=>'LIKE',
           'field' => 'field_school_name',
           'value' => [$params['title']],
         ];
       }
-      if (isset($params['langcode'])) {
+      if (!empty($params['langcode'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'EQUAL',
           'field' => 'langcode',
           'value' => [$params['langcode']],
         ];
       }
-      if (isset($params['location'])) {
+      if (!empty($params['location'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'LIKE',
           'field' => 'field_search_address',
           'value' => [$params['location']],
         ];
       }
-      if (isset($params['type'])) {
+      if (!empty($params['type'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'IN',
           'field' => 'field_educational_institution_ty_id',
           'value' => $params['type'],
         ];
       }
-      if (isset($params['primaryTypes'])) {
+      if (!empty($params['primaryTypes'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'IN',
           'field' => 'field_educational_institution_ty_id',
           'value' => explode(';',$params['primaryTypes']),
         ];
       }
-      if (isset($params['secondaryTypes'])) {
+      if (!empty($params['secondaryTypes'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'IN',
           'field' => 'field_educational_institution_ty_id',
           'value' => explode(';',$params['secondaryTypes']),
         ];
       }
-      if (isset($params['language'])) {
+      if (!empty($params['language'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'IN',
           'field' => 'field_teaching_language_id',
           'value' => explode(';', $params['language']),
         ];
       }
-      if (isset($params['ownership'])) {
+      if (!empty($params['ownership'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'IN',
           'field' => 'field_ownership_type_id',
           'value' => explode(';',$params['ownership']),
         ];
       }
-      if (isset($params['specialClass'])) {
+      if (!empty($params['specialClass'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'EQUAL',
           'field' => 'field_special_class',
           'value' => [$params['specialClass']],
         ];
       }
-      if (isset($params['studentHome'])) {
+      if (!empty($params['studentHome'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'EQUAL',
           'field' => 'field_student_home',
           'value' => [$params['studentHome']],
         ];
       }
-      if (isset($params['studentHome'])) {
+      if (!empty($params['studentHome'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'EQUAL',
           'field' => 'status',
           'value' => "1",
         ];
       }
-      if (isset($params['elasticsearch_index'])) {
+      if (!empty($params['elasticsearch_index'])) {
         $args['elasticsearch_index'] = $params['elasticsearch_index'];
       }
-      if (isset($params['offset'])) {
+      if (!empty($params['offset'])) {
         $args['offset'] = $params['offset'];
       }
-      if (isset($params['limit'])) {
+      if (!empty($params['limit'])) {
         $args['limit'] = $params['limit'];
       }
-      if (isset($params['sortField'])) {
+      if (!empty($params['sortField'])) {
         $args['sortField'] = $params['sortField'];
       }
-      if (isset($params['sortDirection'])) {
+      if (!empty($params['sortDirection'])) {
         $args['sortDirection'] = $params['sortDirection'];
       }
      return  $this->resolveValues($args);

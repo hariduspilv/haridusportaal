@@ -1,0 +1,49 @@
+uuid: 1a4df347-fc5a-4f6c-84a9-6286032235ce
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.list
+    - field.field.paragraph.career_contact.field_email
+    - field.field.paragraph.career_contact.field_institution
+    - field.field.paragraph.career_contact.field_name_occupation
+    - field.field.paragraph.career_contact.field_skype
+    - paragraphs.paragraphs_type.career_contact
+id: paragraph.career_contact.list
+targetEntityType: paragraph
+bundle: career_contact
+mode: list
+content:
+  field_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_institution:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_name_occupation:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_skype:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  search_api_excerpt: true
