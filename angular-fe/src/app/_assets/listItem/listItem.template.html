@@ -53,7 +53,7 @@
 					>
 						<img
 							[class.lastImg]="last"
-							src="{{ item.image.derivative.url }}"
+							src="{{ item.image.derivative?.url || item.image.url }}"
 							alt="{{ item.image.alt }}"
 							width="100%"
 							height="100%"
@@ -101,7 +101,7 @@
 				<ng-container *ngIf="type === 'news'">
 					<div class="xs-show col-12 resp-fields">
 						<a
-							[routerLink]="item.url.path ? item.url.path : item.url"
+							[routerLink]="item.url?.path || item.url || item.path"
 							class="mb-0"
 						>
 							<h3 class="title">{{ item.title }}</h3>
@@ -221,17 +221,17 @@
 							>
 							<span
 								class="item"
-								*ngIf="fieldName === 'educationalInstitution' ||
-                                       fieldName === 'studyProgrammeLevel' ||
-                                       fieldName === 'fieldSchoolName'"
+								*ngIf="fieldName === 'studyProgrammeLevel' ||
+                       fieldName === 'fieldSchoolName'"
 								>{{ item[fieldName] }}</span
 							>
 							<span class="item" *ngIf="fieldName === 'address'"
 								>{{ item[fieldName]?.[0]?.fieldAddress }}</span
 							>
-							<ng-container
-								*ngIf="fieldName === 'teachingLanguage' && (item[fieldName]).length"
+							<span class="item" *ngIf="fieldName === 'educationalInstitution'"
+								>{{ item[fieldName]?.[0]?.title }}</span
 							>
+							<ng-container *ngIf="fieldName === 'teachingLanguage'">
 								<span class="item" *ngIf="isArray((item[fieldName]))">
 									<ng-container
 										*ngFor="let item of (item[fieldName]); let i = index;"

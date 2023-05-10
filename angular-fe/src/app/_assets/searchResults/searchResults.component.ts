@@ -97,7 +97,7 @@ export class SearchResultsComponent
 		let tmpValue = value;
 		try {
 			tmpValue =
-				likeFields[this.parsedType].indexOf(key) !== -1
+				likeFields[this.parsedType].indexOf(key) !== -1 && value
 					? `%25${value}%25`
 					: value;
 		} catch (err) {}
@@ -239,12 +239,11 @@ export class SearchResultsComponent
 				delete values.open_admission;
 			}
 
-			const variables = new URLSearchParams({
-				...values,
-				content_type: this.queryName,
-			});
-			const path =
-				`${this.settings.url}/api/list?_format=json&${variables}`.trim();
+			if (!values.type) {
+				delete values.type; // TODO: pending BE fix
+			}
+
+			const path = this.settings.queryList(this.queryName, values);
 
 			if (!this.loadingMore) {
 				this.loading = true;

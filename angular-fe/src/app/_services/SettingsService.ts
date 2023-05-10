@@ -124,6 +124,14 @@ export class SettingsService {
 		return params.toString();
 	}
 
+	public queryList<T = Record<string, unknown>>(
+		contentType: string,
+		params: T
+	) {
+		const parameterized = this.queryParams(params);
+		return `${this.url}/api/list?_format=json&content_type=${contentType}&${parameterized}`;
+	}
+
 	/**
 	 * Get query ID
 	 * @param [name] - query name found in variables API request

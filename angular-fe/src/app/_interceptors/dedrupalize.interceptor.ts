@@ -19,9 +19,8 @@ export class DedrupalizeInterceptor implements HttpInterceptor {
 		return next.handle(request).pipe(
 			map((event: HttpEvent<any>) => {
 				if (event instanceof HttpResponse) {
-					if (event.body && !event.body.data) {
+					if (event.url.includes('/api') && event.body && !event.body.data) {
 						const parsed = this.recurseObject(event.body);
-						console.log(parsed);
 						return event.clone({
 							body: parsed,
 						});
@@ -41,6 +40,8 @@ export class DedrupalizeInterceptor implements HttpInterceptor {
 			return input.map((entry) => this.recurseObject(entry));
 		}
 
+		// Convert ID-keyed PHP "arrays" into JavaScript arrays
+		// `{ 1234: {...}, 5678: {...} }` -> `[{...}, {...}]`
 		const objectKeys = Object.keys(input);
 		if (objectKeys.every((key) => !isNaN(Number(key)))) {
 			return this.recurseObject(Object.values(input));

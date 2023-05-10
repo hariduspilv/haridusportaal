@@ -82,7 +82,7 @@ const routes: Routes = [
 	{
 		path: 'sündmused',
 		loadChildren: () =>
-			import('./_views/eventsView').then((m) => m.EventsViewModule),
+			import('./modules/events').then((m) => m.EventsViewModule),
 	},
 	{
 		path: 'sündmused/:id',
