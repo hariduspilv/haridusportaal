@@ -178,7 +178,7 @@ class ListResource extends ResourceBase {
 //          $params['title'] = $params['search_term'];
         }
         $params['status'] = 1;
-        $el_list = $el_service->elasticSearch($params);
+        $el_list = $el_service->elasticPageSearch($params);
         $entities = $this->convertElastic($el_list);
         if (isset($el_list['count']['value'])) {
           $count = $el_list['count']['value'];
