@@ -28,6 +28,7 @@ dependencies:
     - node.type.oska_main_profession_page
   module:
     - entity_reference_revisions
+    - link
     - text
     - user
 id: node.oska_main_profession_page.list
@@ -102,6 +103,18 @@ content:
     third_party_settings: {  }
     weight: 9
     region: content
+  field_oska_main_profession_links:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 12
+    region: content
   field_profession:
     type: boolean
     label: above
@@ -144,7 +157,6 @@ hidden:
   field_main_profession_tag: true
   field_media_gallery: true
   field_oska_main_profession_file: true
-  field_oska_main_profession_links: true
   field_oska_main_profession_video: true
   field_pictogram: true
   search_api_excerpt: true
