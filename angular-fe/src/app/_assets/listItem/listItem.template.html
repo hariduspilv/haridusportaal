@@ -37,8 +37,8 @@
 						</div>
 
 						<labels
-							*ngIf="item.fixedLabel && item.fixedLabel.entity"
-							[data]="[item.fixedLabel]"
+							*ngIf="item.fixedLabel?.length"
+							[data]="item.fixedLabel"
 							type="orange"
 						>
 						</labels>
@@ -114,25 +114,25 @@
 				</ng-container>
 
 				<ng-container
-					*ngIf="item.sidebar && item.sidebar.entity && item.sidebar.entity.fieldOskaField && item.sidebar.entity.fieldOskaField[0] && item.sidebar.entity.fieldOskaField[0].entity"
+					*ngIf="item.sidebar?.length && item.sidebar?.[0]?.fieldOskaField?.length"
 				>
 					<div class="inline__items sm-hide">
 						<ng-container
-							*ngFor="let oskaField of item.sidebar.entity.fieldOskaField; let ind = index; let last = last;"
+							*ngFor="let oskaField of item.sidebar[0].fieldOskaField; let ind = index; let last = last;"
 						>
-							<ng-container *ngIf="ind < 2 && oskaField.entity">
+							<ng-container *ngIf="ind < 2 && oskaField">
 								<span
 									aria-hidden="true"
 									class="bar"
-									*ngIf="oskaField.entity.title && ind !== 0"
+									*ngIf="oskaField.title && ind !== 0"
 									>|</span
 								>
 								<div class="item item--inline">
 									<a
-										[href]="oskaField.entity.entityUrl.path || oskaField.entity.entityUrl"
+										[href]="oskaField.path"
 										tabindex="0"
-										attr.aria-label="{{ 'oska.title_field' | translate }} {{ oskaField.entity.title }}"
-										>{{ oskaField.entity.title }}</a
+										attr.aria-label="{{ 'oska.title_field' | translate }} {{ oskaField.title }}"
+										>{{ oskaField.title }}</a
 									>
 								</div>
 							</ng-container>
@@ -143,22 +143,22 @@
 				<div *ngIf="type === 'mainProfession'" class="sm-show inline__items">
 					<ng-container *ngIf="item.fillingBar">
 						<ng-container
-							*ngIf="item.fillingBar.entities && item.fillingBar.entities[0] && item.fillingBar.entities[0].value
-                        && item.fillingBar.entities[0].value > 0 && item.fillingBar.entities[0].value < 6"
+							*ngIf="item.fillingBar?.length && item.fillingBar[0].value
+									&& item.fillingBar[0].value > 0 && item.fillingBar[0].value < 6"
 						>
 							<span class="item item--expanded"
 								>{{ 'oska.competition' | translate | ucfirst }}:
 								<span class="dark"
-									>{{ getCompetitionLabel(item.fillingBar.entities[0].value) |
-									translate }}</span
+									>{{ getCompetitionLabel(item.fillingBar[0].value) | translate
+									}}</span
 								>
 							</span>
 						</ng-container>
-						<ng-container *ngIf="item.indicator?.entities?.length">
+						<ng-container *ngIf="item.indicator?.length">
 							<ng-container
-								*ngFor="let elem of indicatorValues(item.indicator.entities); let ind = index;"
+								*ngFor="let elem of indicatorValues(item.indicator); let ind = index;"
 							>
-								<ng-container *ngIf="elem.oskaId && elem.oskaId === 1">
+								<ng-container *ngIf="elem.oskaId && elem.oskaId == 1">
 									<span class="item item--expanded"
 										>{{ 'oska.fieldNumberEmployed' | translate }}:
 										<span class="dark">{{ elem.value | localeNumber }}</span>
@@ -277,42 +277,39 @@
 								*ngIf="fieldName === 'fillingBar' && !item.fieldProfession"
 							>
 								<ng-container
-									*ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value)
-                                    || (item.indicator.entities && item.indicator.entities.length)"
+									*ngIf="(item[fieldName]?.length && item[fieldName][0]?.value) || item.indicator?.length"
 								>
 									<ng-container
-										*ngIf="item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
-                                    && item[fieldName].entities[0].value > 0 && item[fieldName].entities[0].value < 6"
+										*ngIf="item[fieldName][0].value > 0 && item[fieldName][0].value < 6"
 									>
 										<span class="item"
 											>{{ 'oska.competition' | translate | ucfirst }}:
 											<span class="dark"
-												>{{
-												getCompetitionLabel(item[fieldName].entities[0].value) |
+												>{{ getCompetitionLabel(item[fieldName][0].value) |
 												translate }}</span
 											></span
 										>
 									</ng-container>
-									<ng-container
-										*ngIf="item.indicator.entities && item.indicator.entities.length"
-									>
+									<ng-container *ngIf="item.indicator?.length">
 										<ng-container
-											*ngFor="let elem of indicatorValues(item.indicator.entities); let ind = index;"
+											*ngFor="let elem of indicatorValues(item.indicator); let ind = index;"
 										>
 											<ng-container *ngIf="elem.oskaId">
 												<span
 													class="bar"
-													*ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
-                                            && item[fieldName].entities[0].value > 0 && item[fieldName].entities[0].value < 6) || ind === 1"
+													*ngIf="(
+														item[fieldName]?.length && item[fieldName][0]?.value &&
+														item[fieldName][0].value > 0 && item[fieldName][0].value < 6
+													) || ind === 1"
 													>|</span
 												>
 												<span class="item"
-													>{{ elem.oskaId === 1 ? ('oska.fieldNumberEmployed' |
+													>{{ elem.oskaId == 1 ? ('oska.fieldNumberEmployed' |
 													translate) : (elem.oskaIndicator | ucfirst) }}:
-													<span *ngIf="elem.oskaId === 1" class="dark"
+													<span *ngIf="elem.oskaId == 1" class="dark"
 														>{{ elem.value | localeNumber }}</span
 													>
-													<span *ngIf="elem.oskaId === 3" class="dark"
+													<span *ngIf="elem.oskaId == 3" class="dark"
 														>{{ elem.value | currency:"EUR" }}
 													</span>
 												</span>

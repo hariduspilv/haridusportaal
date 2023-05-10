@@ -342,16 +342,16 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
 			}
 
 			const filteredList: Object[] = this.list.filter(
-				(elem) => elem.fieldFillingBar === 1 || elem.fieldFillingBar === 2
+				(elem) =>
+					Number(elem.fieldFillingBar) === 1 ||
+					Number(elem.fieldFillingBar) === 2
 			);
 			if (filteredList.length) {
 				const filteredItem: number = Math.floor(
 					Math.random() * filteredList.length
 				);
 				const initialFilteredJob = filteredList[filteredItem];
-				const initialFilteredJobPath = initialFilteredJob['entityUrl']
-					? initialFilteredJob['entityUrl']['path']
-					: initialFilteredJob['url']['path'];
+				const initialFilteredJobPath = initialFilteredJob['path'];
 				// Remove selected from the list
 				this.list.splice(this.list.indexOf(initialFilteredJob), 1);
 				// TODO: GET RID OF THIS NIGHTMARE PLEASE!!!

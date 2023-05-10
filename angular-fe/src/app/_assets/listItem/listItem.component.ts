@@ -77,7 +77,8 @@ export class ListItemComponent implements OnInit, OnChanges {
 		this.parseList();
 	}
 
-	getCompetitionLabel(val) {
+	getCompetitionLabel(input: string | number) {
+		const val = Number(input);
 		if (val > 0 && val < 6) {
 			return this.competitionLabels[val - 1];
 		}
@@ -89,11 +90,13 @@ export class ListItemComponent implements OnInit, OnChanges {
 		let employed = {};
 		let pay = {};
 		item.forEach((elem) => {
-			if (elem.oskaId === 1) employed = elem;
-			if (elem.oskaId === 3) pay = elem;
+			if (elem.oskaId === '1') employed = elem;
+			if (elem.oskaId === '3') pay = elem;
 		});
+
 		if (employed['oskaId']) res.push(employed);
 		if (pay['oskaId']) res.push(pay);
+
 		return res;
 	}
 
