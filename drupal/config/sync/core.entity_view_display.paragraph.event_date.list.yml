@@ -1,0 +1,30 @@
+uuid: 3e3f078c-84bf-4378-8d93-a37dfed4a863
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.list
+    - field.field.paragraph.event_date.field_event_additional_date
+    - field.field.paragraph.event_date.field_event_end_time_addition
+    - field.field.paragraph.event_date.field_event_start_time_addition
+    - paragraphs.paragraphs_type.event_date
+  module:
+    - datetime
+id: paragraph.event_date.list
+targetEntityType: paragraph
+bundle: event_date
+mode: list
+content:
+  field_event_additional_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  field_event_end_time_addition: true
+  field_event_start_time_addition: true
+  search_api_excerpt: true
