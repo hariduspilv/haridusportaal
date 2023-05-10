@@ -189,6 +189,9 @@ class ListResource extends ResourceBase {
         if ($params['content_type'] == 'oska_field_page') {
           $entities = $this->getSubEntities($entities);
         }
+        if ($params['content_type'] == 'oska_main_profession_page') {
+          $entities = $this->getOskaMainSubEntities($entities);
+        }
         $count = $this->queryEntities($params, TRUE);
       }
     }
@@ -198,6 +201,8 @@ class ListResource extends ResourceBase {
       $returnable_values = $this->filterFieldsAndReturnValues($entities, $fields, 'list');
     }
     else{
+      $fields = $this->getViewModeFields('node', $params['content_type'], 'search');
+
       $returnable_values = $this->filterFieldsAndReturnValues($entities, $fields, 'search');
     }
 
@@ -210,6 +215,27 @@ class ListResource extends ResourceBase {
     $cachable_response->addCacheableDependency($params['content_type']);
 //    $cachable_response = new ResourceResponse($returnable_values);
     return $cachable_response;
+  }
+
+  private function getOskaMainSubEntities($entities) {
+    $storage = $this->entityTypeManager->getStorage('oska_indicator_entity');
+    $storage2 = $this->entityTypeManager->getStorage('oska_filling_bar_entity');
+
+    foreach ($entities as &$entity) {
+      $entity_query = $storage->getQuery();
+      $entity_query->condition('oska_main_profession.target_id',$entity->Id());
+      $sub_entities = $entity_query->execute();
+      if (!empty($sub_entities)) {
+        $entity->subOska = $storage->loadMultiple($sub_entities);
+      }
+      $entity_query2 = $storage2->getQuery();
+      $entity_query2->condition('oska_main_profession.target_id',$entity->id());
+      $sub_entities2 = $entity_query2->execute();
+      if (!empty($sub_entities2)) {
+        $entity->subOska2 = $storage2->loadMultiple($sub_entities2);
+      }
+    }
+    return  $entities;
   }
   private function getSubEntities($entities) {
     $db = $this->db;
@@ -736,8 +762,32 @@ class ListResource extends ResourceBase {
         if (isset($entity->subnids)){
           $values[$id]['subentities'] = $this->filterFieldsAndReturnValues($entity->subnids,$fields,$view_mode);
         }
-      }
+        if (isset($entity->subOska)){
+          $values[$id]['reverseOskaMainProfessionOskaIndicatorEntity'] = [];
+          foreach ($entity->subOska as $oska) {
+            $oska_out = [
+              'icon' => $oska->get('icon')->value??null,
+              'value' => $oska->get('value')->value??null,
+              'oskaIndicator' => $oska->get('oska_indicator')->value??null,
+              'oskaId' => $oska->get('oska_id')->value??null,
 
+            ];
+            $values[$id]['reverseOskaMainProfessionOskaIndicatorEntity'][] = $oska_out;
+          }
+        }
+        if (isset($entity->subOska2)){
+          $values[$id]['reverseOskaMainProfessionOskaFillingBarEntity'] = [];
+          foreach ($entity->subOska2 as $oska2) {
+            $oska_out = [
+              'value' => $oska2->get('value')->value??null,
+            ];
+            $values[$id]['reverseOskaMainProfessionOskaFillingBarEntity'][] = $oska_out;
+          }
+        }
+      }
+      if ($view_mode == 'search' && !$field_mode){
+        $fields = $this->getViewModeFields('node',$entity->bundle(),'search');
+      }
       // Iterate through each field.
       foreach ($fields as $field_name => $field) {
         if (!$entity->hasField($field_name)){
@@ -803,7 +853,9 @@ class ListResource extends ResourceBase {
             }
             break;
           case 'link':
-            $field_link = $entity->get($field_name);
+
+            $field_link = $entity->get($field_name)->getValue();
+            $field_value = $field_link;
             break;
           case 'string':
           case 'basic_string':
