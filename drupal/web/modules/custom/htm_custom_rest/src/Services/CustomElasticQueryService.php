@@ -224,6 +224,104 @@ class CustomElasticQueryService {
       }
      return  $this->resolveValues($args);
   }
+  public function elasticPageSearch($params) {
+
+      $args = [];
+    $args['filter']['conjunction'] = 'AND';
+
+      if (!empty($params['langcode'])) {
+        $args['filter']['conditions'][] = [
+          'operator'=>'EQUAL',
+          'field' => 'langcode',
+          'value' => [$params['langcode']],
+        ];
+      }
+
+    $args['filter']['conditions'][] = [
+      'operator'=>'EQUAL',
+      'field' => 'status',
+      'value' => [1],
+    ];
+      if(!empty($params['term']) || !empty($params['search_term'])) {
+        $term = '';
+        if (!empty($params['term'])) {
+          $term = $params['term'];
+        }
+        if (!empty($params['search_term'])) {
+          $term = $params['search_term'];
+        }
+        $args['score']=[
+          'search_value'=> $term,
+          'conditions' => [
+            0 =>  [
+              "field" => "title",
+              "weight" => 5
+            ],
+            1 =>  [
+              "field" => "field_body_summary",
+              "weight" => 2
+            ],
+            2 => [
+              "field" => "field_body",
+              "weight" => 2
+            ],
+            3 =>  [
+              "field" => "field_accordion_body",
+              "weight" => 2
+            ],
+            4 => [
+              "field" => "field_accordion_title",
+              "weight" => 2
+            ],
+            5 =>  [
+              "field" => "field_event_type",
+              "weight" => 2
+            ],
+            6 => [
+              "field" => "field_description",
+              "weight" => 2
+            ],
+            7 =>  [
+              "field" => "field_tag",
+              "weight" => 2
+            ],
+            8 => [
+              "field" => "field_organizer",
+              "weight" => 2
+            ],
+            9 => [
+              "field" => "field_author",
+              "weight" => 2,
+              ],
+            10 => [
+              "field" => "field_short_description",
+              "weight" => 2
+            ],
+            11 =>  [
+              "field" => "field_registration_code",
+              "weight" => 5
+            ]
+          ],
+        ];
+      }
+      if (!empty($params['elasticsearch_index'])) {
+        $args['elasticsearch_index'] = $params['elasticsearch_index'];
+      }
+      if (!empty($params['offset'])) {
+        $args['offset'] = $params['offset'];
+      }
+      if (!empty($params['limit'])) {
+        $args['limit'] = $params['limit'];
+      }
+      if (!empty($params['sortField'])) {
+        $args['sortField'] = $params['sortField'];
+      }
+
+      if (!empty($params['sortDirection'])) {
+        $args['sortDirection'] = $params['sortDirection'];
+      }
+     return  $this->resolveValues($args);
+  }
   public function resolveValues(array $args)
   {
     $responsevalues = [];
@@ -268,7 +366,6 @@ class CustomElasticQueryService {
       return NULL;
     }else{
       $response = $client->search($params);
-
       if($args['offset'] == null && $args['limit'] == null){
         while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
           $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
@@ -325,6 +422,7 @@ class CustomElasticQueryService {
         if ((isset($condition['enabled']) && $condition['enabled'] === true) || (!isset($condition['enabled']))) {
           switch ($condition['operator']) {
             case '=':
+            case 'EQUAL':
               foreach ($condition['value'] as $value) {
                 if ($condition['field']=='langcode'){
                   $value = strtolower($value);
