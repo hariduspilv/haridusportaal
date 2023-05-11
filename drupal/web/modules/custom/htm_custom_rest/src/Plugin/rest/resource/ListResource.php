@@ -332,7 +332,6 @@ class ListResource extends ResourceBase {
         $limit += 1;
       }
       $base_query->range($offset, $limit);
-
       $nids = $base_query->execute()->fetchCol();
       return $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
     }
@@ -484,7 +483,7 @@ class ListResource extends ResourceBase {
         'node__field_event_main_date' => ['nfemd', 'n.nid=nfemd.entity_id'],
       ];
 
-      $condition_clauses[] = ['nfemd.field_event_main_date_value', intval($filters['dateFrom']), '>='];
+      $condition_clauses[] = ['nfemd.field_event_main_date_value',$filters['dateFrom'], '>='];
     }
 
     if (!empty($filters['types'])) {
@@ -506,7 +505,7 @@ class ListResource extends ResourceBase {
         'node__field_event_main_date' => ['nfemd', 'n.nid=nfemd.entity_id'],
       ];
 
-      $condition_clauses[] = ['nfemd.field_event_main_date_value', intval($filters['dateTo']), '<='];
+      $condition_clauses[] = ['nfemd.field_event_main_date_value', $filters['dateTo'], '<='];
     }
     if (!empty($filters['timeTo'])) {
       $join_clauses[] = [
@@ -545,7 +544,7 @@ class ListResource extends ResourceBase {
         'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
       ];
 
-      $condition_clauses[] = ['nfd.created', strtotime($filters['minDate']), '>='];
+      $condition_clauses[] = ['nfd.created', $filters['minDate'], '>='];
     }
 
 
@@ -554,7 +553,7 @@ class ListResource extends ResourceBase {
         'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
       ];
 
-      $condition_clauses[] = ['nfd.created', strtotime($filters['maxDate']), '<='];
+      $condition_clauses[] = ['nfd.created', $filters['maxDate'], '<='];
     }
 
 
@@ -566,8 +565,6 @@ class ListResource extends ResourceBase {
 
     $join_clauses = [];
     $condition_clauses = [];
-
-
 
     if (!empty($filters['title'])) {
       $join_clauses[] = ['node_field_data' => ['nfd', 'n.nid=nfd.nid']];
@@ -587,8 +584,7 @@ class ListResource extends ResourceBase {
       $join_clauses[] = [
         'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
       ];
-
-      $condition_clauses[] = ['nfd.created', strtotime($filters['minDate']), '>='];
+      $condition_clauses[] = ['nfd.created', $filters['minDate'], '>='];
     }
 
 
@@ -597,7 +593,7 @@ class ListResource extends ResourceBase {
         'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
       ];
 
-      $condition_clauses[] = ['nfd.created', strtotime($filters['maxDate']), '<='];
+      $condition_clauses[] = ['nfd.created', $filters['maxDate'], '<='];
     }
 
 
