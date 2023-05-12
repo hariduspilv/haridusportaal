@@ -17,6 +17,7 @@ class SchoolImportController extends ControllerBase {
     $schoolnodes = [];
     $retrieved_ehis_ids = [];
     $schools = $this->get_school_data('school');
+    $school_nodes = $this->getSchoolOpenNodes();
     $update_from_ehis_nodes = $this->get_ehis_updateable_nodes();
     $update_location_from_ehis_nodes = $this->get_ehis_location_updateable_nodes();
     $ownershiptypes = $this->get_taxonomy_terms('ownership_type');
@@ -26,10 +27,11 @@ class SchoolImportController extends ControllerBase {
     foreach($schools as $school){
       $schoolnode['node_response'] = $this->check_school_existance($school, $update_from_ehis_nodes, $update_location_from_ehis_nodes);
       if($schoolnode['node_response']['school_field']['field_update_from_ehis'] === '1'){
-        $schoolnode['edited_node'] = $this->add_school_fields($school, $schoolnode['node_response'], $ownershiptypes, $teachinglanguages, $schooltypes);
+        $schoolnode['edited_node'] = $this->add_school_fields($school, $schoolnode['node_response'], $ownershiptypes, $teachinglanguages, $schooltypes,$school_nodes);
         $schoolnodes[] = $schoolnode['edited_node'];
       }
       $retrieved_ehis_ids[$school->koolId] = '';
+      break;
     }
     $unused_ehis_ids = $this->get_unused_ehis_ids($existing_ehis_ids, $retrieved_ehis_ids);
     foreach($unused_ehis_ids as $id){
@@ -169,7 +171,7 @@ class SchoolImportController extends ControllerBase {
     return $schoolnode;
   }
 
-  public function add_school_fields($school, $schoolnode, $ownershiptypes, $teachinglanguages, $schooltypes){
+  public function add_school_fields($school, $schoolnode, $ownershiptypes, $teachinglanguages, $schooltypes, $schoolnodes){
     if($schoolnode['school_field']['field_update_from_ehis'] == '1'){
       $schoolnode['school_field']['title'] = html_entity_decode(htmlspecialchars_decode($school->nimetus), ENT_QUOTES | ENT_HTML5);
       $schoolnode['school_field']['field_registration_code'] = $school->regNr;
@@ -296,6 +298,29 @@ class SchoolImportController extends ControllerBase {
             }
           }
         }
+      }
+      if (isset($schoolnode['school_field']['field_ehis_id'])){
+        $ehis_id = $schoolnode['school_field']['field_ehis_id'];
+        if (isset($schoolnodes[$ehis_id])) {
+          $schoolOpenEhis = $schoolnodes[$ehis_id];
+          if (!empty($schoolOpenEhis['hooned']) && !empty($schoolOpenEhis['hooned']['hoone'])){
+            $buildings = $schoolOpenEhis['hooned']['hoone'];
+            foreach ($buildings as $building) {
+              if (!is_array($building)){
+                continue;
+              }
+              if ($building['peahoone'] == 'jah') {
+                $schoolnode['school_location_paragraph'][]['field_address'] = $building['aadress'];
+                $schoolnode['school_location_paragraph'][]['field_search_address'] = substr($building['aadress'], strpos($building['aadress'], ',') + 2);
+                $schoolnode['school_location_paragraph'][]['field_coordinates']['name'] = $building['nimetus'];
+                $schoolnode['school_location_paragraph'][]['field_coordinates']['lat'] = $building['koordinaatX'];
+                $schoolnode['school_location_paragraph'][]['field_coordinates']['lon'] = $building['koordinaatY'];
+                $schoolnode['school_location_paragraph'][]['field_location_type'] = 'L';
+              }
+            }
+          }
+        }
+
       }
     }
     return $schoolnode;
@@ -437,5 +462,39 @@ class SchoolImportController extends ControllerBase {
 
   private function parse_key($key){
     return mb_strtolower(str_replace(' ', '_', $key));
+  }
+  public function getSchoolOpenNodes() {
+    $ehis_xml_url = 'http://enda.ehis.ee/avaandmed/rest/hooned';
+    $client = \Drupal::httpClient();
+    try{
+      $response = $client->request('GET', $ehis_xml_url);
+    }
+    catch(RequestException $e){
+      $message = t('EHIS avaandmete päringu viga: @error', array('@error' => $e));
+      \Drupal::service('htm_custom_file_logging.write')->write('error', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
+    }
+    if (!empty($response)) {
+      $xml = $response->getBody()->getContents();
+      $xml = simplexml_load_string($xml);
+      $json = json_encode($xml);
+      $array = json_decode($json,TRUE);
+      if (!empty($array['body']) && !empty($array['body']['kool'])){
+        $schools = $array['body']['kool'];
+      }
+      if (empty($schools)){
+        \Drupal::logger('school_import')->error('Schools missing from ehis response');
+      }
+      $schools_out = [];
+      foreach ($schools as $school) {
+        if (empty($school['oppeasutusId'])){
+          if (!empty($school['oppeasutusNimetus'])){
+            \Drupal::logger('school_import')->error('Oppeasutusel @schoolname puudub id',['@schoolname'=>$school['oppeasutusNimetus']]);
+            continue;
+          }
+        }
+        $schools_out[$school['oppeasutusId']] = $school;
+      }
+      return $schools_out;
+    }
   }
 }
