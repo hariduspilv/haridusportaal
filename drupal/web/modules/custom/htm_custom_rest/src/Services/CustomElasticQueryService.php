@@ -145,6 +145,13 @@ class CustomElasticQueryService {
           'value' => [$params['langcode']],
         ];
       }
+      if (!empty($params['lang'])) {
+        $args['filter']['conditions'][] = [
+          'operator'=>'EQUAL',
+          'field' => 'langcode',
+          'value' => [$params['lang']],
+        ];
+      }
       if (!empty($params['location'])) {
         $args['filter']['conditions'][] = [
           'operator'=>'LIKE',
