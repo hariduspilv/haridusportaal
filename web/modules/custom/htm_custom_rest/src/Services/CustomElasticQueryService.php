@@ -10,6 +10,7 @@ class CustomElasticQueryService {
 
   public function elasticSearchStudyProgramme($params) {
     $args = [];
+
     $args['filter']['conjunction'] = 'AND';
     if (!empty($params[''])){
       $args[] = $params[''];
@@ -63,10 +64,10 @@ class CustomElasticQueryService {
         'operator' => 'IN'
       ];
     }
-    if (!empty($params['school'])){
+    if (isset($params['title'])){
       $args['filter']['conditions'][] = [
         'field' => 'field_school_name',
-        'value' => explode(';',$params['school']),
+        'value' => explode(';',$params['title']),
         'operator' => 'LIKE'
       ];
     }
@@ -212,6 +213,9 @@ class CustomElasticQueryService {
       }
       if (!empty($params['offset'])) {
         $args['offset'] = $params['offset'];
+      }
+      else{
+        $args['offset'] = 0;
       }
       if (!empty($params['limit'])) {
         $args['limit'] = $params['limit'];
@@ -411,8 +415,8 @@ class CustomElasticQueryService {
       ];
     } else {
       $params = [
-        'from' => $args['offset'],
-        'size' => $args['limit'],
+        'from' => intval($args['offset']),
+        'size' => intval($args['limit']),
         'index' => $args['elasticsearch_index']
       ];
     }
@@ -610,7 +614,6 @@ class CustomElasticQueryService {
       }
       $params['body']['sort'] = [$args['sortField'] => ['order' => $args['sortDirection']]];
     }
-
     return $params;
   }
   protected function getSynonyms() {
