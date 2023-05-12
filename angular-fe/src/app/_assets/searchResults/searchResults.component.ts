@@ -291,13 +291,13 @@ export class SearchResultsComponent
 							tmpList = [];
 						}
 
-						this.canLoadMore = tmpList.length >= this.limit ? true : false;
-
 						if (append) {
 							this.list = [...this.list, ...tmpList];
 						} else {
 							this.list = tmpList;
 						}
+
+						this.canLoadMore = this.listItemCount > this.list.length;
 
 						this.scrollRestoration.restorationValues.next({
 							...this.scrollRestorationValues,
