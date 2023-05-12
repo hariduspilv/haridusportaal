@@ -221,9 +221,9 @@
 									<span><div class="marker"></div></span>
 									<span
 										class="content__medium"
-										*ngIf="event.fieldEventMainStartTime"
+										*ngIf="event.fieldEventStartTimeMain"
 									>
-										{{ event.fieldEventMainStartTime | unixToTime }}</span
+										{{ event.fieldEventStartTimeMain | unixToTime }}</span
 									>
 									<span class="content__strong"> {{ event.title }}</span>
 								</a>
@@ -262,12 +262,11 @@
 												<ng-container *ngSwitchCase="'juhan'">
 													<div>
 														<span>{{ 'event_duration' | translate }}: </span>{{
-														event.fieldEventMainDate.unix*1000 | date:
-														'dd.MM.yyyy' }}
+														event.fieldEventMainDate | date: 'dd.MM.yyyy' }}
 														<ng-container
-															*ngIf="event.fieldEventMainEndDate && event.fieldEventMainDate.unix !== event.fieldEventMainEndDate.unix"
-															>- {{ event.fieldEventMainEndDate.unix*1000 |
-															date: 'dd.MM.yyyy' }}</ng-container
+															*ngIf="event.fieldEventMainEndDate && event.fieldEventMainDate !== event.fieldEventMainEndDate"
+															>- {{ event.fieldEventMainEndDate | date:
+															'dd.MM.yyyy' }}</ng-container
 														>
 													</div>
 												</ng-container>
@@ -279,10 +278,10 @@
 													</div>
 													<div
 														role="none"
-														*ngIf="event.fieldEventMainStartTime"
+														*ngIf="event.fieldEventStartTimeMain"
 													>
 														<span>{{ 'event.start_time' | translate }}: </span
-														>{{ event.fieldEventMainStartTime | unixToTime }}
+														>{{ event.fieldEventStartTimeMain | unixToTime }}
 													</div>
 													<div *ngIf="event.location">
 														<span>{{ 'event.location' | translate }}: </span>{{
@@ -301,7 +300,7 @@
 											<a
 												href="javascript:void(0)"
 												(blur)="trapFocus('firstClose')"
-												[routerLink]="event.entityUrl.path"
+												[routerLink]="event.path"
 												tabindex="0"
 												>{{'button.view_more' | translate}}</a
 											>
@@ -365,7 +364,7 @@
 													href="javascript:void(0)"
 													(blur)="isLast && trapFocus('secondClose')"
 													class="cal__event pointer"
-													[routerLink]="event.entityUrl.path"
+													[routerLink]="event.path"
 												>
 													<div class="content content__more">
 														<span
@@ -373,8 +372,8 @@
 														></span>
 														<span
 															class="content__medium"
-															*ngIf="event.fieldEventMainStartTime"
-															>{{ event.fieldEventMainStartTime | unixToTime
+															*ngIf="event.fieldEventStartTimeMain"
+															>{{ event.fieldEventStartTimeMain | unixToTime
 															}}</span
 														>
 														<span class="content__strong"

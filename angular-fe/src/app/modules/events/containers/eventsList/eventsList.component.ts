@@ -524,9 +524,9 @@ export class EventsListComponent extends FiltersService implements OnInit {
 
 		for (let i in list) {
 			let current = list[i];
-			let eventDate = moment(
-				current['fieldEventMainDate']['unix'] * 1000
-			).format('YYYY-MM-DDz');
+			let eventDate = moment(current['fieldEventMainDate']).format(
+				'YYYY-MM-DDz'
+			);
 			let dateString = this.year + '-' + this.month + '-';
 
 			for (var o in this.calendarDays) {
@@ -558,7 +558,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
 
 	parseDay(day: any) {
 		if (day.events && day.events.length > 0) {
-			day.events = this.sort('fieldEventMainStartTime', day.events);
+			day.events = this.sort('fieldEventStartTimeMain', day.events);
 			return day.events;
 		} else {
 			return day.events;
@@ -758,7 +758,6 @@ export class EventsListComponent extends FiltersService implements OnInit {
 			const path = this.settings.queryList('event', variables);
 			this.dataSubscription = this.http.get(path).subscribe({
 				next: (data) => {
-					console.log(data);
 					try {
 						data['entities'] = data['entities'].map((item) => {
 							const type = item.fieldEventType || [];

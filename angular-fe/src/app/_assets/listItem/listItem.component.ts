@@ -66,8 +66,6 @@ export class ListItemComponent implements OnInit, OnChanges {
 				  )
 				: undefined,
 		}));
-
-		console.log(this.list);
 	}
 	ngOnInit() {
 		this.parseList();

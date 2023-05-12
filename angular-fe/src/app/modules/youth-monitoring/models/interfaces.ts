@@ -51,6 +51,13 @@ export interface WebpageLink {
 	url?: {
 		path: string;
 	};
+	entity?: {
+		fieldLinkName?: string;
+		fieldWebpageLink?: {
+			title?: string;
+			uri?: string;
+		};
+	};
 }
 
 export interface YouthMonitoringSidebar {

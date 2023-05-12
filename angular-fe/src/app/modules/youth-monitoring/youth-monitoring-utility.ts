@@ -10,10 +10,7 @@ export class YouthMonitoringUtility {
 	public static mapDropdownData(input: YouthMonitoringListDto): any[] {
 		return input.entities.map((item) => ({
 			title: item.title,
-			entityUrl: {
-				routed: true,
-				path: item.path,
-			},
+			path: item.path,
 			fieldOskaFieldPicture: item.fieldFirstPicture
 				? {
 						derivative: {
@@ -83,9 +80,13 @@ export class YouthMonitoringUtility {
 			? this.sortTitle(
 					input.map((input: WebpageLink) => ({
 						...input,
-						title: input.fieldLinkName,
+						title: input.entity
+							? input.entity.fieldLinkName
+							: input.fieldLinkName,
 						url: {
-							path: input.fieldWebpageLink,
+							path: input.entity
+								? input.entity.fieldWebpageLink.uri
+								: input.fieldWebpageLink,
 						},
 					}))
 			  )
