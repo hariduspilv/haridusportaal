@@ -21,6 +21,8 @@ import { LocaleOrderByPipe } from './localeOrderBy';
 import { TranslatePath } from './translatePath';
 import { TranslateWord } from "@app/_pipes/translateWord";
 import { UnsafeHtmlPipe } from './unsafeHtml';
+import { TakeFirstValue } from './takeFirstValue.pipe';
+import { TakeValues } from './takeValues.pipe';
 
 const pipes = [
   EllipsisPipe,
@@ -51,6 +53,8 @@ const pipes = [
 	TranslatePath,
 	TranslateWord,
   UnsafeHtmlPipe,
+  TakeFirstValue,
+  TakeValues,
 ];
 
 @NgModule({

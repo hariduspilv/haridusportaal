@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { getLangCode } from "@app/_core/router-utility";
-import { LanguageSwitchLink } from "@app/_core/models/interfaces/main";
+import { getLangCode } from '@app/_core/router-utility';
+import { LanguageSwitchLink } from '@app/_core/models/interfaces/main';
 
 export enum LanguageCodes {
 	ESTONIAN = 'et',
@@ -16,10 +16,7 @@ export enum LanguageCodes {
 	providedIn: 'root',
 })
 export class SettingsService {
-	constructor(
-		private http: HttpClient,
-		public route: ActivatedRoute,
-) {
+	constructor(private http: HttpClient, public route: ActivatedRoute) {
 		this.activeLang = getLangCode();
 		this.setUrl();
 		this.ehisUrl = environment.EHIS_URL;
@@ -37,11 +34,15 @@ export class SettingsService {
 		{ label: 'frontpage.et', code: LanguageCodes.ESTONIAN },
 		{ label: 'frontpage.en', code: LanguageCodes.ENGLISH },
 		{ label: 'frontpage.ru', code: LanguageCodes.RUSSIAN },
-	].filter(({ code }) => (environment.LANGUAGES || ['et']).includes(code as string));
+	].filter(({ code }) =>
+		(environment.LANGUAGES || ['et']).includes(code as string)
+	);
 
 	private activeLang: LanguageCodes = LanguageCodes.ESTONIAN;
-	activeLang$ = new Subject();	// new BehaviorSubject(this.activeLang); - sidemenu will be opened on the first app load
-	get currentAppLanguage() { return this.activeLang; }
+	activeLang$ = new Subject(); // new BehaviorSubject(this.activeLang); - sidemenu will be opened on the first app load
+	get currentAppLanguage() {
+		return this.activeLang;
+	}
 	set currentAppLanguage(code: LanguageCodes) {
 		document.documentElement.lang = code;
 		if (this.activeLang === code) return;
@@ -61,7 +62,11 @@ export class SettingsService {
 	}
 
 	setUrl(): void {
-		this.url = `${environment.API_URL}${this.activeLang === LanguageCodes.ESTONIAN ? '' : `/${this.activeLang.toLowerCase()}`}`;
+		this.url = `${environment.API_URL}${
+			this.activeLang === LanguageCodes.ESTONIAN
+				? ''
+				: `/${this.activeLang.toLowerCase()}`
+		}`;
 	}
 
 	/**
@@ -74,7 +79,7 @@ export class SettingsService {
 		return path
 			.replace(/\[|\]\.?/g, '.')
 			.split('.')
-			.filter(s => s)
+			.filter((s) => s)
 			.reduce((acc, val) => acc && acc[val], obj);
 	}
 
@@ -85,20 +90,46 @@ export class SettingsService {
 	 * @returns - url string to use in http request
 	 */
 	public query(name: string = '', variables: object = {}) {
-		if (variables && variables['path'] && this.activeLang !== LanguageCodes.ESTONIAN) {
+		if (
+			variables &&
+			variables['path'] &&
+			this.activeLang !== LanguageCodes.ESTONIAN
+		) {
 			Object.assign(variables, {
-				path: `${this.activeLang}${variables['path']}`
+				path: `${this.activeLang}${variables['path']}`,
 			});
 		}
 
 		const requestName = this.get(`request.${name}`);
 		let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
-		path = `${path}&variables=${encodeURI(JSON.stringify({
-			...variables,
-			lang: this.activeLang.toUpperCase()
-		}))}`;
+		path = `${path}&variables=${encodeURI(
+			JSON.stringify({
+				...variables,
+				lang: this.activeLang.toUpperCase(),
+			})
+		)}`;
 
 		return path;
+	}
+
+	public queryParams<T = Record<string, unknown>>(variables?: T) {
+		const stringified = Object.keys(variables).reduce<Record<string, string>>(
+			(object, key) => ({
+				...object,
+				[key]: variables[key] != null ? `${variables[key]}` : '',
+			}),
+			{}
+		);
+		const params = new URLSearchParams(stringified);
+		return params.toString();
+	}
+
+	public queryList<T = Record<string, unknown>>(
+		contentType: string,
+		params: T
+	) {
+		const parameterized = this.queryParams(params);
+		return `${this.url}/api/list?_format=json&content_type=${contentType}&${parameterized}`;
 	}
 
 	/**
@@ -117,7 +148,7 @@ export class SettingsService {
 	public get(key: string = '') {
 		this.findObj(this.data, key);
 		let output = this.findObj(this.data, key) || undefined;
-		if (key.match(/request\./gmi)) {
+		if (key.match(/request\./gim)) {
 			output = `${output}:1`;
 		}
 		return output;
@@ -129,7 +160,9 @@ export class SettingsService {
 	 */
 	public load() {
 		return new Promise((resolve, reject) => {
-			const path = `${this.url}/variables?_format=json&lang=${this.activeLang.toLowerCase()}`;
+			const path = `${
+				this.url
+			}/variables?_format=json&lang=${this.activeLang.toLowerCase()}`;
 			this.http.get(path).subscribe({
 				next: (response) => {
 					this.data = response;
@@ -138,7 +171,7 @@ export class SettingsService {
 				error: (err) => {
 					this.error = true;
 					resolve(true);
-				}
+				},
 			});
 		});
 	}

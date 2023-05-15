@@ -8,33 +8,34 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { AppPipes } from '@app/_pipes';
 import { HomeSearchListViewComponent } from './homeSearchListView.component';
-import { translateRoutes } from "@app/_core/router-utility";
+import { translateRoutes } from '@app/_core/router-utility';
+import { DedrupalizeInterceptor } from '@app/_interceptors/dedrupalize.interceptor';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomeSearchListViewComponent,
-  },
+	{
+		path: '',
+		component: HomeSearchListViewComponent,
+	},
 ];
 
 @NgModule({
-  declarations: [
-    HomeSearchListViewComponent,
-  ],
-  imports: [
-    RouterModule.forChild(translateRoutes(routes)),
-    AssetsModule,
-    TranslateModule,
-    CommonModule,
-    FormsModule,
-    AppPipes,
-  ],
-  exports: [
-    HomeSearchListViewComponent,
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  ],
+	declarations: [HomeSearchListViewComponent],
+	imports: [
+		RouterModule.forChild(translateRoutes(routes)),
+		AssetsModule,
+		TranslateModule,
+		CommonModule,
+		FormsModule,
+		AppPipes,
+	],
+	exports: [HomeSearchListViewComponent],
+	providers: [
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: DedrupalizeInterceptor,
+			multi: true,
+		},
+	],
 })
-
-export class HomeSearchListViewModule { }
+export class HomeSearchListViewModule {}

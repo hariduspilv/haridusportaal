@@ -1,9 +1,9 @@
 
 export const queryList = {
-  news: 'newsList',
-  studyprogramme: 'studyProgrammeList',
-  school: 'schoolMapQuery',
-  mainprofession: 'oskaMainProfessionListView',
+  news: 'news',
+  studyprogramme: 'study_programme',
+  school: 'school',
+  mainprofession: 'oska_main_profession_page',
   homesearch: 'homeSearchRevised',
 };
 
