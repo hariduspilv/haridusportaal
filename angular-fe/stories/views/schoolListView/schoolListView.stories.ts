@@ -7,26 +7,26 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import schoolListViewHtml from './schoolListView.html';
 import schoolListViewMd from './schoolListView.md';
 import { AssetsModule } from '@app/_assets';
-import { SchoolListViewModule } from '@app/_views/schoolListView';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { SchoolListViewModule } from '@app/modules/schoolListView/schoolListView.module';
 
 const moduleMetadata = {
-  imports: [
-    RouterTestingModule,
-    TranslateModule.forRoot(),
-    BrowserAnimationsModule,
-    SchoolListViewModule,
-    AssetsModule,
-  ],
-  providers: [
-    TranslateService,
-    SettingsService,
-    RippleService,
-    ModalService,
-    QueryParamsService,
-    { provide: ActivatedRoute, useValue: {} },
-  ],
+	imports: [
+		RouterTestingModule,
+		TranslateModule.forRoot(),
+		BrowserAnimationsModule,
+		SchoolListViewModule,
+		AssetsModule,
+	],
+	providers: [
+		TranslateService,
+		SettingsService,
+		RippleService,
+		ModalService,
+		QueryParamsService,
+		{ provide: ActivatedRoute, useValue: {} },
+	],
 };
 
 // const stories = storiesOf('List views', module);

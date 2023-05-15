@@ -7,26 +7,26 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import mainProfessionListViewHtml from './mainProfessionListView.html';
 import mainProfessionListViewMd from './mainProfessionListView.md';
 import { AssetsModule } from '@app/_assets';
-import { MainProfessionListViewModule } from '@app/_views/mainProfessionListView';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { MainProfessionListViewModule } from '@app/modules/mainProfession/mainProfessionListView.module';
 
 const moduleMetadata = {
-  imports: [
-    RouterTestingModule,
-    TranslateModule.forRoot(),
-    BrowserAnimationsModule,
-    MainProfessionListViewModule,
-    AssetsModule,
-  ],
-  providers: [
-    TranslateService,
-    SettingsService,
-    RippleService,
-    ModalService,
-    QueryParamsService,
-    { provide: ActivatedRoute, useValue: {} },
-  ],
+	imports: [
+		RouterTestingModule,
+		TranslateModule.forRoot(),
+		BrowserAnimationsModule,
+		MainProfessionListViewModule,
+		AssetsModule,
+	],
+	providers: [
+		TranslateService,
+		SettingsService,
+		RippleService,
+		ModalService,
+		QueryParamsService,
+		{ provide: ActivatedRoute, useValue: {} },
+	],
 };
 
 const path = '/ametialad';
