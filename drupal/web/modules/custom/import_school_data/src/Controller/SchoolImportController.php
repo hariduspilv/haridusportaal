@@ -2,6 +2,7 @@
 
 namespace Drupal\import_school_data\Controller;
 
+use Drupal\ckeditor_iframe\Plugin\CKEditorPlugin\IFrame;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
@@ -68,6 +69,7 @@ class SchoolImportController extends ControllerBase {
         $message = t('Puuduvad kohustuslikud andmed: @ehisid', array('@ehisid' => $school->koolId));
         \Drupal::service('htm_custom_file_logging.write')->write('error', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
       }
+      break;
     }
     return $schools;
   }
@@ -305,18 +307,21 @@ class SchoolImportController extends ControllerBase {
           $schoolOpenEhis = $schoolnodes[$ehis_id];
           if (!empty($schoolOpenEhis['hooned']) && !empty($schoolOpenEhis['hooned']['hoone'])){
             $buildings = $schoolOpenEhis['hooned']['hoone'];
+            $i = 0;
             foreach ($buildings as $building) {
               if (!is_array($building)){
                 continue;
               }
               if ($building['peahoone'] == 'jah') {
-                $schoolnode['school_location_paragraph'][]['field_address'] = $building['aadress'];
-                $schoolnode['school_location_paragraph'][]['field_search_address'] = substr($building['aadress'], strpos($building['aadress'], ',') + 2);
-                $schoolnode['school_location_paragraph'][]['field_coordinates']['name'] = $building['nimetus'];
-                $schoolnode['school_location_paragraph'][]['field_coordinates']['lat'] = $building['koordinaatX'];
-                $schoolnode['school_location_paragraph'][]['field_coordinates']['lon'] = $building['koordinaatY'];
-                $schoolnode['school_location_paragraph'][]['field_location_type'] = 'L';
+                $schoolnode['ehis_schools'][$i]['field_address'] = $building['aadress'];
+                $schoolnode['ehis_schools'][$i]['field_search_address'] = substr($building['aadress'], strpos($building['aadress'], ',') + 2);
+                $schoolnode['ehis_schools'][$i]['field_coordinates']['name'] = $building['nimetus'];
+                $schoolnode['ehis_schools'][$i]['field_coordinates']['lat'] = $building['koordinaatX'];
+                $schoolnode['ehis_schools'][$i]['field_coordinates']['lon'] = $building['koordinaatY'];
+                $schoolnode['ehis_schools'][$i]['field_location_type'] = 'L';
+                $schoolnode['ehis_schools'][$i]['field_adr_id'] = $building['adsAdrId'];
               }
+              $i++;
             }
           }
         }
@@ -429,7 +434,93 @@ class SchoolImportController extends ControllerBase {
     foreach($school['school_field'] as $fieldlabel => $fieldvalue){
       $node->set($this->parse_key($fieldlabel), $fieldvalue);
     }
+    if (!empty($school['ehis_schools'])) {
+      if (empty($node->toArray()['field_school_location'])){
+        $this->add_address($node, $school['ehis_schools']);
+      }
+      else{
+        $locations_saved = $node->toArray()['field_school_location'];
+        foreach ($school['ehis_schools'] as $ehis_school) {
+          $ehis_location_id = $ehis_school['field_adr_id'];
+          $location_changed = false;
+          $location_exists = false;
+          foreach ($locations_saved as $location) {
+            $loaded =  \Drupal::entityTypeManager()->getStorage('paragraph')->load($location['target_id']);
+            $loaded_location_id = $loaded->get('field_adr_id')->value;
+            if ($loaded_location_id == $ehis_location_id){
+              $location_exists = TRUE;
+              if ($loaded->get('field_address')->value != $ehis_school['field_address']) {
+                $loaded->set('field_address', $ehis_school['field_address']);
+                $location_changed = TRUE;
+              }
+              if ($loaded->get('field_search_address')!=$ehis_school['field_search_address']){
+                $loaded->set('field_search_address', $ehis_school['field_search_address']);
+                $location_changed = TRUE;
+              }
+              $coordinates = $loaded->get('field_coordinates')->getValue();
+              $changed_coords = FALSE;
+              if (!empty($coordinates)){
+                $coordinates = reset($coordinates);
+                if ($coordinates['lat']!=$ehis_school['field_coordinates']['lat']){
+                  $lat = $ehis_school['field_coordinates']['lat'];
+                  $changed_coords = TRUE;
+                }
+                else{
+                  $lat = $coordinates['lat'];
+                }
+                if ($coordinates['lon']!=$ehis_school['field_coordinates']['lon']){
+                  $lon = $ehis_school['field_coordinates']['lon'];
+                  $changed_coords = TRUE;
+                }
+                else{
+                  $lon = $coordinates['lon'];
+                }
+                if ($coordinates['name']!=$ehis_school['field_coordinates']['name']){
+                  $name = $ehis_school['field_coordinates']['name'];
+                  $changed_coords = TRUE;
+                }
+                else{
+                  $name = $coordinates['name'];
+                }
+              }
+              if ($changed_coords) {
+                $coords = [
+                  'lat'=> $lat,
+                  'lon' => $lon,
+                  'name' => $name
+                ];
+                $loaded->set('field_coordinates', $coords);
+                $location_changed = TRUE;
+              }
+            }
+            if ($location_changed) {
+              $loaded ->save();
+            }
+
+          }
+          if (!$location_exists) {
+            $para_loc = Paragraph::create([
+              'type' => 'school_location',
+              'field_address' => $ehis_school['field_address'],
+              'field_search_address' => $ehis_school['field_search_address_address'],
+              'field_coordinates' => [
+                'lat' => $ehis_school['field_coordinates']['lat'],
+                'lon' => $ehis_school['field_coordinates']['lon'],
+                'name' => $ehis_school['field_coordinates']['name'],
+              ],
+            ]);
+            $para_loc->save();
+            $node->field_school_location->appendItem($para_loc);
+          }
+            \Drupal::logger('ehis_schools')->debug(print_r($loaded, TRUE));
+        }
+        dump($locations_saved);
+        \Drupal::logger('ehis_schools')->debug(print_r($locations_saved, TRUE));
+      }
+      \Drupal::logger('ehis_schools')->debug(print_r($school['ehis_schools'], TRUE));
+    }
     $node->save();
+    exit();
     return $action;
   }
 
