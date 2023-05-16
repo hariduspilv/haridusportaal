@@ -168,12 +168,7 @@ class ListResource extends ResourceBase {
       }
       elseif ($params['content_type'] == 'search') {
         $el_service = \Drupal::service('htm_custom_rest.elastic_service');
-        if (!isset($params['sortField'])) {
-          $params['sortField'] = 'title';
-        }
-        if (!isset($params['sortDirection'])) {
-          $params['sortDirection'] = 'ASC';
-        }
+
         if (!empty($params['search_term'])) {
 //          $params['title'] = $params['search_term'];
         }
@@ -280,7 +275,15 @@ class ListResource extends ResourceBase {
     $base_query = $db->select('node', 'n');
     $base_query->fields('n', ['nid']);
     if (isset($filters['content_type'])) {
-      $base_query->condition('n.type', $filters['content_type']);
+      if ($filters['content_type'] == 'study_comparison'){
+        $base_query->condition('n.type', 'study_programme');
+      }
+      elseif ($filters['content_type'] == 'related_study_programme'){
+        $base_query->condition('n.type', 'study_programme');
+      }
+      else {
+        $base_query->condition('n.type', $filters['content_type']);
+      }
       switch ($filters['content_type']) {
         case 'studypage':
 
@@ -313,6 +316,20 @@ class ListResource extends ResourceBase {
           $base_query->condition('n.nid', $subquery, 'IN');
         }
           break;
+        case 'study_comparison' : {
+          $subquery = $this->buildStudyComparisonQuery($db,$filters);
+          $base_query ->condition('n.nid',$subquery, 'IN');
+        }
+        break;
+        case 'related_study_programme' : {
+//          $subquery = $this->buildRelatedStudyComparisonQuery($db,$filters);
+          if (!empty($filters['schoolId'])){
+            $base_query->join('node__field_educational_institution','nfei','n.nid = nfei.entity_id');
+            $base_query->condition('nfei.field_educational_institution_target_id',[$filters['schoolId']],'IN');
+          }
+//          $base_query ->condition('n.nid',$subquery, 'IN');
+        }
+        break;
       }
       $base_query->join('node_field_data', 'nfd', 'n.nid = nfd.nid');
       $base_query->condition('nfd.status', 1);
@@ -599,6 +616,44 @@ class ListResource extends ResourceBase {
 
     return $this->createSubQuery($condition_clauses,$join_clauses,$db);
   }
+  private function buildStudyComparisonQuery($db, $filters) {
+    $subquery = $db->select('node', 'n');
+    $subquery->fields('n', ['nid']);
+
+    $join_clauses = [];
+    $condition_clauses = [];
+    if (!empty($filters['nidValues'])) {
+      $nidValues = $filters['nidValues'];
+      $nidValues = str_replace('[','',$nidValues);
+      $nidValues = str_replace('"','',$nidValues);
+      $nidValues = str_replace(']','',$nidValues);
+      $nids = explode(',', $nidValues);
+      $or_clauses = [];
+//      foreach ($nids as $nid) {
+        $condition_clauses[] = [
+          'or' =>[
+            ['n.nid',$nids,'=']
+          ]
+        ];
+//      }
+    }
+
+    return $this->createSubQuery($condition_clauses,$join_clauses,$db);
+  }
+  private function buildRelatedStudyComparisonQuery($db, $filters) {
+    $subquery = $db->select('node', 'n');
+    $subquery->fields('n', ['nid']);
+    $join_clauses = [];
+    $condition_clauses = [];
+    $join_clauses[] = [
+      'node__field_educational_institution',['nfei','n.nid=nfei.entity_id']
+    ];
+    $condition_clauses = [];
+    if (!empty($filters['schoolId'])) {
+      $condition_clauses[] = ['nfei.field_educational_institution_target_id', [$filters['schoolId']], '='];
+    }
+    return $this->createSubQuery($condition_clauses,$join_clauses,$db);
+  }
   private function buildOskaProfessionQuery($db, $filters) {
     $subquery = $db->select('node', 'n');
     $subquery->fields('n', ['nid']);
@@ -705,6 +760,12 @@ class ListResource extends ResourceBase {
    */
   private function getViewModeFields(string $entity_type, string $bundle, string $view_mode) {
     // Use dependency injection for the entity display repository.
+    if ($bundle == 'study_comparison') {
+      $bundle = 'study_programme';
+    }
+    if ($bundle == 'related_study_programme') {
+      $bundle = 'study_programme';
+    }
     $entityDisplayRepository = $this->entityDisplayRepository;
 
     // Load the entity display for the specified content type and view mode.
