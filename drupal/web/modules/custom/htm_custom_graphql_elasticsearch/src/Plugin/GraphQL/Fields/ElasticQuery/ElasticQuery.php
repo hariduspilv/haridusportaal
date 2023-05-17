@@ -193,7 +193,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
                 $elastic_must_filters[] = array(
                   'match_phrase_prefix' => array(
                     $condition['field'] => [
-                      'query' => ''.$value.'',
+                      'query' => ''.mb_strtolower($value).'',
                       ]
                     )
                 );
