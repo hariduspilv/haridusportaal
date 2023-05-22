@@ -8,6 +8,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { AppPipes } from '@app/_pipes';
 import { translateRoutes } from "@app/_core/router-utility";
+import { DedrupalizeInterceptor } from '@app/_interceptors/dedrupalize.interceptor';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: DedrupalizeInterceptor, multi: true },
   ],
 })
 
