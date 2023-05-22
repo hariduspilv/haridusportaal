@@ -56,6 +56,23 @@ content:
     third_party_settings: {  }
     weight: 11
     region: content
+  field_amount:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 19
+    region: content
+  field_amount_unit:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 18
+    region: content
   field_degree_or_diploma_awarded:
     type: entity_reference_label
     label: above
@@ -111,6 +128,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 17
+    region: content
+  field_practical_training_amount:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 20
     region: content
   field_school_address:
     type: string
@@ -181,11 +207,8 @@ content:
     weight: 0
     region: content
 hidden:
-  field_amount: true
-  field_amount_unit: true
   field_created_from_ehis_datetime: true
   field_ehis_id: true
-  field_practical_training_amount: true
   field_qualification_standard_id: true
   field_update_from_ehis: true
   field_web_page_address: true
