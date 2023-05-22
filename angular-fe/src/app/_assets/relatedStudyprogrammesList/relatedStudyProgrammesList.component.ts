@@ -59,7 +59,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
 			queryKey = 'related_study_programme';
 		} else {
 			variables['nid'] = nid;
-			queryKey = 'similarStudyProgrammes2';
+			queryKey = 'similar_programmes';
 		}
 
 		if (this.relatedProgrammesForm.controls.address.value) {
@@ -89,35 +89,15 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
 			this.loading = false;
 			this.loadingMore = false;
 		} else {
-			const query =
-				this.type === 'school'
-					? this.settings.queryList(queryKey, variables)
-					: this.settings.query(queryKey, variables);
+			const query = this.settings.queryList(queryKey, variables);
 
 			this.http.get(query).subscribe((res: any) => {
 				if (!loadMore) {
-					if (this.type === 'school') {
-						this.totalItems = res.entities.length;
-						this.list = this.localFieldVary(res.entities);
-					} else {
-						this.totalItems = res.data.CustomStudyProgrammeElasticQuery2.count;
-						this.list = this.localFieldVary(
-							res.data.CustomStudyProgrammeElasticQuery2.entities
-						);
-					}
+					this.totalItems = Number(res.count);
+					this.list = this.localFieldVary(res.entities);
 				} else {
-					if (this.type === 'school') {
-						this.totalItems = res.entities.length;
-						this.list = [...this.list, ...this.localFieldVary(res.entities)];
-					} else {
-						this.totalItems = res.data.CustomStudyProgrammeElasticQuery2.count;
-						this.list = [
-							...this.list,
-							...this.localFieldVary(
-								res.data.CustomStudyProgrammeElasticQuery2.entities
-							),
-						];
-					}
+					this.totalItems = Number(res.count);
+					this.list = [...this.list, ...this.localFieldVary(res.entities)];
 				}
 				this.loading = false;
 				this.loadingMore = false;
@@ -138,35 +118,31 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
 	}
 	localFieldVary(data) {
 		return data.map((el: any) => {
-			let fieldTeachingLanguage =
-				el.FieldTeachingLanguage || el.fieldTeachingLanguage || [];
-			const fieldStudyProgrammeLevel =
-				el.FieldStudyProgrammeLevel || el.fieldStudyProgrammeLevel || [];
+			let fieldTeachingLanguage = el.fieldTeachingLanguage || [];
+			const fieldStudyProgrammeLevel = el.fieldStudyProgrammeLevel || [];
+
 			if (typeof fieldTeachingLanguage === 'string') {
 				fieldTeachingLanguage = fieldTeachingLanguage
 					.split(',')
 					.map((el: any) => el.trim());
-			} else {
-				fieldTeachingLanguage = fieldTeachingLanguage.map((elem) =>
-					elem.entity ? elem.entity.name.trim() : elem
-				);
 			}
 
 			if (!fieldTeachingLanguage.length) {
 				fieldTeachingLanguage = null;
 			}
 
+			if (this.type === 'school') {
+				delete el.fieldEducationalInstitution;
+			}
+
 			return {
 				...el,
 				fieldTeachingLanguage,
 				nid: parseInt(el.Nid || el.nid, 10),
-				educationalInstitution: el.FieldSchoolName,
 				title: el.Name || el.title,
 				head: fieldStudyProgrammeLevel.length
 					? typeof fieldStudyProgrammeLevel === 'string'
 						? fieldStudyProgrammeLevel
-						: fieldStudyProgrammeLevel[0].entity
-						? fieldStudyProgrammeLevel[0].entity.name
 						: fieldStudyProgrammeLevel[0]
 					: null,
 			};
