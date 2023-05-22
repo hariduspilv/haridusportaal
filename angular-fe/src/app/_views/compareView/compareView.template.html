@@ -20,96 +20,96 @@
             <tbody>
               <tr *ngIf="compareService.list">
                 <td class="firstCell lastCell centered bold layoutCell" *ngFor="let item of compareService.list; let i = index;" id="studyProgramme{{i+1}}">
-                  <a [routerLink]="item.entityUrl.path" role="link">{{item.name | titlecase }}</a>
+                  <a [routerLink]="item.path" role="link">{{item.title | titlecase }}</a>
                 </td>
               </tr>
-              <ng-container *ngIf="compareService.existingFields.includes('EducationalInstitution')">
+              <ng-container *ngIf="compareService.existingFields.includes('fieldEducationalInstitution')">
                 <tr class="shade" *ngIf="compareService.list">
                   <th [attr.colspan]="compareService.list.length" class="dark center" id="school" headers="blank" >{{ 'studyProgramme.school' | translate | uppercase }}</th>
                 </tr>
                 <tr>
                   <td  class="firstCell lastCell" *ngFor="let item of compareService.list; let i = index;"  attr.aria-labelledby="studyProgramme{{i+1}} school">
-                    <span *ngIf="item.EducationalInstitution?.entity">{{ item.EducationalInstitution.entity.name | titlecase }}</span>
-                    <span *ngIf="!item.EducationalInstitution?.entity">-</span>
+                    <span *ngIf="item.fieldEducationalInstitution?.length">{{ item.fieldEducationalInstitution[0].title | titlecase }}</span>
+                    <span *ngIf="!item.fieldEducationalInstitution?.length">-</span>
                   </td>
                 </tr>
               </ng-container>
 
-              <ng-container *ngIf="compareService.existingFields.includes('level')">
+              <ng-container *ngIf="compareService.existingFields.includes('fieldStudyProgrammeLevel')">
                 <tr class="shade" *ngIf="compareService.list">
                   <th [attr.colspan]="compareService.list.length" class="dark center" headers="blank" id="level">{{ 'studyProgramme.level' | translate | uppercase }}</th>
                 </tr>
                 <tr>
                   <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
-                    && !compareService.existingFields.includes('duration')
-                    && !compareService.existingFields.includes('practicalTrainingAmount')
+                    && !compareService.existingFields.includes('fieldDuration')
+                    && !compareService.existingFields.includes('fieldPracticalTrainingAmount')
                     && !compareService.existingFields.includes('fieldAmount')
-                    && !compareService.existingFields.includes('teachingLanguage')
-                    && !compareService.existingFields.includes('specialization')
-                    && !compareService.existingFields.includes('degreeOrDiplomaAwarded')"
+                    && !compareService.existingFields.includes('fieldTeachingLanguage')
+                    && !compareService.existingFields.includes('fieldSpecialization')
+                    && !compareService.existingFields.includes('fieldDegreeOrDiplomaAwarded')"
                     class="firstCell lastCell" 
                     *ngFor="let item of compareService.list; let i = index;"  attr.aria-labelledby="studyProgramme{{i+1}} level">
-                    <span *ngIf="item.level && item.level?.length">{{ item?.level[0]?.entity?.name | titlecase }}</span>
-                    <span *ngIf="item.level && !item.level?.length">-</span>
+                    <span *ngIf="item.fieldStudyProgrammeLevel?.length">{{ item?.fieldStudyProgrammeLevel[0] | titlecase }}</span>
+                    <span *ngIf="item.fieldStudyProgrammeLevel && !item.fieldStudyProgrammeLevel?.length">-</span>
                   </td>
                 </tr>
               </ng-container>
 
-              <ng-container *ngIf="compareService.existingFields.includes('degreeOrDiplomaAwarded')">
+              <ng-container *ngIf="compareService.existingFields.includes('fieldDegreeOrDiplomaAwarded')">
                 <tr class="shade" *ngIf="compareService.list">
                   <th [attr.colspan]="compareService.list.length" class="dark center" headers="blank" id="degree">{{ 'studyProgramme.degree_or_diploma' | translate | uppercase }}</th>
                 </tr>
                 <tr>
                   <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
-                    && !compareService.existingFields.includes('duration')
-                    && !compareService.existingFields.includes('practicalTrainingAmount')
+                    && !compareService.existingFields.includes('fieldDuration')
+                    && !compareService.existingFields.includes('fieldPracticalTrainingAmount')
                     && !compareService.existingFields.includes('fieldAmount')
-                    && !compareService.existingFields.includes('teachingLanguage')
-                    && !compareService.existingFields.includes('specialization')"
+                    && !compareService.existingFields.includes('fieldTeachingLanguage')
+                    && !compareService.existingFields.includes('fieldSpecialization')"
                     class="firstCell lastCell" 
                     *ngFor="let item of compareService.list; let i = index;" attr.aria-labelledby="studyProgramme{{i+1}} degree">
-                    <span *ngIf="item.degreeOrDiplomaAwarded">{{ item.degreeOrDiplomaAwarded?.entity?.name | titlecase }}</span>
-                    <span *ngIf="!item.degreeOrDiplomaAwarded">-</span>
+                    <span *ngIf="item.fieldDegreeOrDiplomaAwarded?.length">{{ item.fieldDegreeOrDiplomaAwarded[0] | titlecase }}</span>
+                    <span *ngIf="!item.fieldDegreeOrDiplomaAwarded?.length">-</span>
                   </td>
                 </tr>
               </ng-container>
 
-              <ng-container *ngIf="compareService.existingFields.includes('specialization')">
+              <ng-container *ngIf="compareService.existingFields.includes('fieldSpecialization')">
                 <tr class="shade" *ngIf="compareService.list">
                   <th  [attr.colspan]="compareService.list.length" class="dark center" id="specialization" headers="blank">{{ 'studyProgramme.specialization' | translate | uppercase }}</th>
                 </tr>
                 <tr>
                   <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
-                    && !compareService.existingFields.includes('duration')
-                    && !compareService.existingFields.includes('practicalTrainingAmount')
+                    && !compareService.existingFields.includes('fieldDuration')
+                    && !compareService.existingFields.includes('fieldPracticalTrainingAmount')
                     && !compareService.existingFields.includes('fieldAmount')
-                    && !compareService.existingFields.includes('teachingLanguage')"
+                    && !compareService.existingFields.includes('fieldTeachingLanguage')"
                     class="firstCell lastCell"
                     *ngFor="let item of compareService.list; let i = index;" attr.aria-labelledby="studyProgramme{{i+1}} specialization">
-                    <span *ngIf="item.specialization">{{ item.specialization | titlecase }}</span>
-                    <span *ngIf="!item.specialization">-</span>
+                    <span *ngIf="item.fieldSpecialization">{{ item.fieldSpecialization | titlecase }}</span>
+                    <span *ngIf="!item.fieldSpecialization">-</span>
                   </td>
                 </tr>
               </ng-container>
 
-              <ng-container *ngIf="compareService.existingFields.includes('teachingLanguage')">
+              <ng-container *ngIf="compareService.existingFields.includes('fieldTeachingLanguage')">
                 <tr class="shade" *ngIf="compareService.list">
                   <th  [attr.colspan]="compareService.list.length" class="dark center" id="languages" headers="blank">{{ 'studyProgramme.languages' | translate | uppercase }}</th>
                 </tr>
                 <tr>
                   <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
-                    && !compareService.existingFields.includes('duration')
-                    && !compareService.existingFields.includes('practicalTrainingAmount')
+                    && !compareService.existingFields.includes('fieldDuration')
+                    && !compareService.existingFields.includes('fieldPracticalTrainingAmount')
                     && !compareService.existingFields.includes('fieldAmount')"
                     class="firstCell lastCell" 
                     *ngFor="let item of compareService.list; let i = index;" attr.aria-labelledby="studyProgramme{{i+1}} languages">
-                    <ng-container *ngIf="item.teachingLanguage && item.teachingLanguage.length">
-                      <ng-container *ngFor="let lang of item.teachingLanguage; let last = last;">
-                        <span *ngIf="!last">{{ lang.entity.name | titlecase }}, </span>
-                        <span *ngIf="last">{{ lang.entity.name | titlecase }}</span>
+                    <ng-container *ngIf="item.fieldTeachingLanguage && item.fieldTeachingLanguage.length">
+                      <ng-container *ngFor="let lang of item.fieldTeachingLanguage; let last = last;">
+                        <span *ngIf="!last">{{ lang | titlecase }}, </span>
+                        <span *ngIf="last">{{ lang | titlecase }}</span>
                       </ng-container>
                     </ng-container>
-                    <ng-container *ngIf="!item.teachingLanguage || (item.teachingLanguage && !item.teachingLanguage.length)">-</ng-container>
+                    <ng-container *ngIf="!item.fieldTeachingLanguage || (item.fieldTeachingLanguage && !item.fieldTeachingLanguage.length)">-</ng-container>
                   </td>
                 </tr>
               </ng-container>
@@ -121,8 +121,8 @@
                 <tr>
                   <td 
                     [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
-                      && !compareService.existingFields.includes('duration')
-                      && !compareService.existingFields.includes('practicalTrainingAmount')" 
+                      && !compareService.existingFields.includes('fieldDuration')
+                      && !compareService.existingFields.includes('fieldPracticalTrainingAmount')" 
                     class="firstCell lastCell" 
                     *ngFor="let item of compareService.list; let i = index;" attr.aria-labelledby="studyProgramme{{i+1}} studyCapacity">
                     <span *ngIf="item.fieldAmount">
@@ -134,25 +134,25 @@
                 </tr>
               </ng-container>
 
-              <ng-container *ngIf="compareService.existingFields.includes('practicalTrainingAmount')">
+              <ng-container *ngIf="compareService.existingFields.includes('fieldPracticalTrainingAmount')">
                 <tr class="shade" *ngIf="compareService.list">
                   <th  [attr.colspan]="compareService.list.length" class="dark center" id="internshipCapacity" headers="blank">{{ 'studyProgramme.internship_capacity' | translate | uppercase }}</th>
                 </tr>
                 <tr>
                   <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
-                    && !compareService.existingFields.includes('duration')" 
+                    && !compareService.existingFields.includes('fieldDuration')" 
                     class="firstCell lastCell"
                     *ngFor="let item of compareService.list; let i = index;" attr.aria-labelledby="studyProgramme{{i+1}} internshipCapacity">
-                    <span *ngIf="item.practicalTrainingAmount">
-                      {{ item.practicalTrainingAmount }}
+                    <span *ngIf="item.fieldPracticalTrainingAmount">
+                      {{ item.fieldPracticalTrainingAmount }}
                       <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
                     </span>
-                    <span *ngIf="!item.practicalTrainingAmount">-</span>
+                    <span *ngIf="!item.fieldPracticalTrainingAmount">-</span>
                   </td>
                 </tr>
               </ng-container>
 
-              <ng-container *ngIf="compareService.existingFields.includes('duration')">
+              <ng-container *ngIf="compareService.existingFields.includes('fieldDuration')">
                 <tr class="shade" *ngIf="compareService.list">
                   <th  [attr.colspan]="compareService.list.length" class="dark center" id="nominalTime" headers="blank">{{ 'studyProgramme.nominal_time' | translate | uppercase }}</th>
                 </tr>
@@ -160,8 +160,8 @@
                   <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')"
                     class="firstCell lastCell"
                     *ngFor="let item of compareService.list; let i = index;" attr.aria-labelledby="studyProgramme{{i+1}} nominalTime">
-                    <span *ngIf="item.duration">{{ item.duration | monthsToYears }}</span>
-                    <span *ngIf="!item.duration">-</span>
+                    <span *ngIf="item.fieldDuration">{{ item.fieldDuration | monthsToYears }}</span>
+                    <span *ngIf="!item.fieldDuration">-</span>
                   </td>
                 </tr>
               </ng-container>

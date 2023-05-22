@@ -16,7 +16,6 @@ export class CompareViewComponent extends CompareComponent {
   @Input() key: string = this.route.snapshot.data.type;
   @Input() queryName: string = this.route.snapshot.data.query;
   public typeUrl: string;
-  private queryId: string;
   public loading: boolean = false;
   public translations = translationsPerType;
   public compare: String[] = [];
@@ -35,7 +34,6 @@ export class CompareViewComponent extends CompareComponent {
     this.typeUrl = this.key === 'oskaProfessionsComparison'
       ? '/ametialad/võrdlus' : '/erialad/võrdlus';
     this.compare = this.readFromLocalStorage(this.key);
-    this.queryId = this.settings.query(this.queryName);
     this.getData();
   }
 
@@ -68,12 +66,10 @@ export class CompareViewComponent extends CompareComponent {
     };
     const variables = allVars[this.key];
 
-    let query = `queryName=${this.queryName}`;
-    query += `&queryId=${this.queryId}&variables=${JSON.stringify(variables)}`;
-    const path = `${this.settings.url}/graphql?${query}`.trim();
+    const path = this.settings.queryList('study_comparison', variables);
     this.http.get(path).subscribe({
       next: (response) => {
-        const data = response['data']['nodeQuery']['entities'];
+        const data = response['entities'];
         this.compareService.formatData(data, this.compare, this.key);
         this.loading = false;
         if (!data.length) this.rerouteToParent();
