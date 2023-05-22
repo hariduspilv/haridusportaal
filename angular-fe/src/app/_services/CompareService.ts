@@ -215,14 +215,14 @@ export class CompareService {
         this.existingFields = [];
         this.list = data;
         const fieldsToCheck = [
-          'EducationalInstitution',
-          'level',
-          'degreeOrDiplomaAwarded',
-          'specialization',
-          'teachingLanguage',
+          'fieldEducationalInstitution',
+          'fieldStudyProgrammeLevel',
+          'fieldDegreeOrDiplomaAwarded',
+          'fieldSpecialization',
+          'fieldTeachingLanguage',
           'fieldAmount',
-          'practicalTrainingAmount',
-          'duration',
+          'fieldPracticalTrainingAmount',
+          'fieldDuration',
           'admissionStatus',
         ];
         fieldsToCheck.forEach((item) => {
