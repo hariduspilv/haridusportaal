@@ -290,6 +290,9 @@ class ListResource extends ResourceBase {
       elseif ($filters['content_type'] == 'related_study_programme'){
         $base_query->condition('n.type', 'study_programme');
       }
+      elseif ($filters['content_type'] == 'similar_programmes'){
+        $base_query->condition('n.type', 'study_programme');
+      }
       else {
         $base_query->condition('n.type', $filters['content_type']);
       }
@@ -773,6 +776,9 @@ class ListResource extends ResourceBase {
       $bundle = 'study_programme';
     }
     if ($bundle == 'related_study_programme') {
+      $bundle = 'study_programme';
+    }
+    if ($bundle == 'similar_programmes') {
       $bundle = 'study_programme';
     }
     $entityDisplayRepository = $this->entityDisplayRepository;
