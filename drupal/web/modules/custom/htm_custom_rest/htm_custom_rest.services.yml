@@ -1,3 +1,5 @@
 services:
   htm_custom_rest.elastic_service:
     class: Drupal\htm_custom_rest\Services\CustomElasticQueryService
+  htm_custom_rest.similarProgramme:
+    class: Drupal\htm_custom_rest\Services\StudyProgrammeElastic

@@ -179,6 +179,16 @@ class ListResource extends ResourceBase {
           $count = $el_list['count']['value'];
         }
       }
+      elseif ($params['content_type'] == 'similar_programmes') {
+        $el_service = \Drupal::service('htm_custom_rest.similarProgramme');
+
+        $params['status'] = 1;
+        $el_list = $el_service->similarSearch($params);
+        $entities = $this->convertElastic($el_list);
+        if (isset($el_list['count']['value'])) {
+          $count = $el_list['count']['value'];
+        }
+      }
       else{
         $entities = $this->queryEntities($params, FALSE);
         if ($params['content_type'] == 'oska_field_page') {
@@ -259,7 +269,6 @@ class ListResource extends ResourceBase {
    */
   private function convertElastic($el_list) {
     $nids = [];
-
     // Loop through each value in the Elasticsearch results.
     foreach ($el_list['values'] as $value) {
       // Check if the '_source' field exists before accessing the 'nid' property.
