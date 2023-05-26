@@ -64,13 +64,6 @@ class CustomElasticQueryService {
         'operator' => 'IN'
       ];
     }
-    if (isset($params['title'])){
-      $args['filter']['conditions'][] = [
-        'field' => 'field_school_name',
-        'value' => explode(';',$params['title']),
-        'operator' => 'LIKE'
-      ];
-    }
     if (!empty($params['status'])){
       $args['filter']['conditions'][] = [
         'field' => 'status',
@@ -132,10 +125,12 @@ class CustomElasticQueryService {
       $args = [];
     $args['filter']['conjunction'] = 'AND';
       if (!empty($params['title'])){
-        $args['filter']['conditions'][] = [
-          'operator'=>'LIKE',
+        $args['filter']['groups'][0]['conjunction'] = 'OR';
+        $args['filter']['groups'][0]['conditions'] = [];
+        $args['filter']['groups'][0]['conditions'][] = [
           'field' => 'field_school_name',
           'value' => [$params['title']],
+          'operator' => 'LIKE'
         ];
       }
       if (!empty($params['langcode'])) {
@@ -435,7 +430,6 @@ class CustomElasticQueryService {
         'index' => $args['elasticsearch_index']
       ];
     }
-
     if ($args['filter']['conjunction'] === 'AND') {
       foreach ($args['filter']['conditions'] as $condition) {
         if ((isset($condition['enabled']) && $condition['enabled'] === true) || (!isset($condition['enabled']))) {
@@ -448,7 +442,7 @@ class CustomElasticQueryService {
                 }
                 $elastic_must_filters[] = array(
                   'match' => array(
-                    $condition['field'] => $value
+                    $condition['field'] => $value,
                   )
                 );
               }
@@ -458,15 +452,29 @@ class CustomElasticQueryService {
               if ($condition['field']=='langcode'){
                 $value = strtolower($value);
               }
-              $elastic_must_filters[] = array(
-                'query_string' => array(
-                  'query' => '*'.mb_strtolower($value).'*',
-                  'fields' => array(
-                    $condition['field']
-                  ),
-                  'default_operator' => 'AND'
-                )
-              );
+              if ($condition['field']!='langcode'){
+                $elastic_must_filters[] = array(
+                  'query_string' => array(
+                    'query' => '*'.mb_strtolower($value).'*',
+                    'fields' => array(
+                      $condition['field']
+                    ),
+                    'analyzer'=>'synonym',
+                    'default_operator' => 'AND'
+                  )
+                );
+              }
+              else{
+                $elastic_must_filters[] = array(
+                  'query_string' => array(
+                    'query' => '*'.mb_strtolower($value).'*',
+                    'fields' => array(
+                      $condition['field']
+                    ),
+                    'default_operator' => 'AND'
+                  )
+                );
+              }
               break;
             case 'IN':
               if (isset($condition['value'])) {
@@ -530,7 +538,7 @@ class CustomElasticQueryService {
               if (isset($condition['value'])) {
                 $elastic_should_filters[] = array(
                   'terms' => array(
-                    $condition['field'] => $condition['value']
+                    $condition['field'] => $condition['value'],
                   )
                 );
               }
