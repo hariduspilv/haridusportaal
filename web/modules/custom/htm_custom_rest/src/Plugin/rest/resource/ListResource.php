@@ -368,25 +368,59 @@ class ListResource extends ResourceBase {
   private function buildStudyPageSubquery($db, $filters) {
     $subquery = $db->select('node', 'n');
     $subquery->fields('n', ['nid']);
-
+    $synonyms = $this->getSynonyms();
     $join_clauses = [];
     $condition_clauses = [];
 
     if (!empty($filters['titleValue'])) {
       $join_clauses[] = [
         'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
-        'node__field_content' => ['nfc', 'n.nid=nfc.entity_id'],
-        'node__field_introduction' => ['nfi', 'n.nid=nfi.entity_id'],
+        'node__field_content' => ['nfc', 'n.nid=nfc.entity_id','LEFT'],
+        'node__field_introduction' => ['nfi', 'n.nid=nfi.entity_id','LEFT'],
         'node__field_accordion' => ['nfa', 'n.nid=nfa.entity_id'],
-        'paragraph__field_study_accordion_intro' => ['pfsai', 'nfa.field_accordion_target_id=pfsai.entity_id'],
-        'paragraph__field_study_accordion_content' => ['pfsac', 'nfa.field_accordion_target_id=pfsac.entity_id'],
-        'paragraph__field_body' => ['pfb', 'nfa.field_accordion_target_id=pfb.entity_id'],
+        'paragraph__field_study_accordion_intro' => ['pfsai', 'nfa.field_accordion_target_id=pfsai.entity_id','LEFT'],
+        'paragraph__field_study_accordion_content' => ['pfsac', 'nfa.field_accordion_target_id=pfsac.entity_id','LEFT'],
+        'paragraph__field_body' => ['pfb', 'nfa.field_accordion_target_id=pfb.entity_id','LEFT'],
         'node__field_right_column' => ['nfrc', 'n.nid=nfrc.entity_id'],
         'paragraph__field_study' => ['pfs', 'nfrc.field_right_column_target_id=pfs.entity_id'],
-        'paragraph__field_publisher' => ['pfp', 'pfs.field_study_target_id=pfp.entity_id'],
-        'paragraph__field_author' => ['pfa', 'pfs.field_study_target_id=pfa.entity_id']
+        'paragraph__field_publisher' => ['pfp', 'pfs.field_study_target_id=pfp.entity_id','LEFT'],
+        'paragraph__field_author' => ['pfa', 'pfs.field_study_target_id=pfa.entity_id','LEFT']
       ];
+      $pos_search = null;
+      foreach ($synonyms as $key => $synonym_array) {
+        $filter_to_search = str_replace('%','',$filters['titleValue']);
+        if (in_array($filter_to_search, $synonym_array)) {
+          $pos_search = $synonym_array;
+        }
+      }
+      if ($pos_search) {
+        $ors = [];
+        foreach ($pos_search as $key => $pos_value) {
+          $ors[] = ['nfd.title', '%' . $pos_value . '%', 'LIKE'];
 
+          $ors[] = ['nfd.title',  '%' . $pos_value . '%' , 'LIKE'];
+          $ors[] =  ['nfc.field_content_value','%' . $pos_value . '%', 'LIKE'];
+          $ors[] =  ['nfi.field_introduction_value', '%' . $pos_value . '%', 'LIKE'];
+          $ors[] = ['pfsai.field_study_accordion_intro_value','%' . $pos_value . '%', 'LIKE'];
+          $ors[] =  ['pfsac.field_study_accordion_content_value', '%' . $pos_value . '%', 'LIKE'];
+          $ors[] =  ['pfb.field_body_value','%' . $pos_value . '%', 'LIKE'];
+          $ors[] =  ['pfp.field_publisher_value', '%' . $pos_value . '%', 'LIKE'];
+          $ors[] =  ['pfa.field_author_value', '%' . $pos_value . '%', 'LIKE'];
+
+        }
+        $ors[] = ['nfd.title',  $filters['titleValue'] , 'LIKE'];
+        $ors[] =  ['nfc.field_content_value', $filters['titleValue'], 'LIKE'];
+        $ors[] =  ['nfi.field_introduction_value', $filters['titleValue'], 'LIKE'];
+        $ors[] = ['pfsai.field_study_accordion_intro_value', $filters['titleValue'], 'LIKE'];
+          $ors[] =  ['pfsac.field_study_accordion_content_value', $filters['titleValue'], 'LIKE'];
+          $ors[] =  ['pfb.field_body_value', $filters['titleValue'], 'LIKE'];
+          $ors[] =  ['pfp.field_publisher_value', $filters['titleValue'], 'LIKE'];
+          $ors[] =  ['pfa.field_author_value', $filters['titleValue'], 'LIKE'];
+
+        $condition_clauses[] = [
+          'or' => $ors
+        ];
+      } else {
       $condition_clauses[] = [
         'or' => [
           ['nfd.title', $filters['titleValue'], 'LIKE'],
@@ -400,7 +434,7 @@ class ListResource extends ResourceBase {
         ]
       ];
     }
-
+    }
     if (!empty($filters['studyLabelValue'])) {
       $join_clauses[] = ['node__field_label' => ['nfsl', 'n.nid=nfsl.entity_id']];
       $condition_clauses[] = [
@@ -461,7 +495,7 @@ class ListResource extends ResourceBase {
   private function buildEventPageSubquery($db, $filters) {
     $subquery = $db->select('node', 'n');
     $subquery->fields('n', ['nid']);
-
+    $synonyms = $this->getSynonyms();
     $join_clauses = [];
     $condition_clauses = [];
 
@@ -476,9 +510,33 @@ class ListResource extends ResourceBase {
         ]
       ];
     }
-    if (!empty($filters['title'])) {
+    if (!empty($filters['titleValue'])) {
+      $filters['titleValue'] = str_replace('%','',$filters['titleValue']);
       $join_clauses[] = ['node_field_data' => ['nfd', 'n.nid=nfd.nid']];
-      $condition_clauses[] = ['nfd.title', '%'.$filters['title'].'%', 'LIKE'];
+      $pos_search = null;
+      foreach ($synonyms as $key => $synonym_array) {
+        if (in_array($filters['titleValue'],$synonym_array)) {
+          $pos_search  = $synonym_array;
+        }
+      }
+      if ($pos_search) {
+        $ors = [];
+        foreach ($pos_search as $key => $pos_value) {
+          $ors[] = ['nfd.title', '%'.$pos_value.'%','LIKE'];
+        }
+        $ors[] = ['nfd.title', '%' . $filters['titleValue'] . '%', 'LIKE'];
+        $condition_clauses[]=[
+          'or' => $ors
+        ];
+      }
+      else {
+        $condition_clauses[] = [
+          'or' => [
+            ['nfd.title', '%' . $filters['titleValue'] . '%', 'LIKE'],
+//          ['pfjn.field_job_name_value', '%'.$filters['title'].'%', 'LIKE'],
+          ]
+        ];
+      }
     }
 
     if (!empty($filters['studyTopicValue'])) {
@@ -591,13 +649,37 @@ class ListResource extends ResourceBase {
   private function buildNewsPageSubquery($db, $filters) {
     $subquery = $db->select('node', 'n');
     $subquery->fields('n', ['nid']);
-
+    $synonyms = $this->getSynonyms();
     $join_clauses = [];
     $condition_clauses = [];
 
-    if (!empty($filters['title'])) {
+    if (!empty($filters['titleValue'])) {
+      $filters['titleValue'] = str_replace('%','',$filters['titleValue']);
       $join_clauses[] = ['node_field_data' => ['nfd', 'n.nid=nfd.nid']];
-      $condition_clauses[] = ['nfd.title', '%'.$filters['title'].'%', 'LIKE'];
+      $pos_search = null;
+      foreach ($synonyms as $key => $synonym_array) {
+        if (in_array($filters['titleValue'],$synonym_array)) {
+          $pos_search  = $synonym_array;
+        }
+      }
+      if ($pos_search) {
+        $ors = [];
+        foreach ($pos_search as $key => $pos_value) {
+          $ors[] = ['nfd.title', '%'.$pos_value.'%','LIKE'];
+        }
+        $ors[] = ['nfd.title', '%' . $filters['titleValue'] . '%', 'LIKE'];
+        $condition_clauses[]=[
+          'or' => $ors
+        ];
+      }
+      else {
+        $condition_clauses[] = [
+          'or' => [
+            ['nfd.title', '%' . $filters['titleValue'] . '%', 'LIKE'],
+//          ['pfjn.field_job_name_value', '%'.$filters['title'].'%', 'LIKE'],
+          ]
+        ];
+      }
     }
     if (!empty($filters['tag'])) {
       $join_clauses[] = ['node__field_tag' => ['nft', 'n.nid=nft.entity_id']];
@@ -666,28 +748,67 @@ class ListResource extends ResourceBase {
     }
     return $this->createSubQuery($condition_clauses,$join_clauses,$db);
   }
+  private function getSynonyms(){
+    $config = \Drupal::config('search_api_elasticsearch_synonym.settings');
+    $synonyms_array = preg_split("/\r\n|\n|\r/",$config->get('synonyms'));
+    $synonyms = array();
+
+    foreach ($synonyms_array as $synonyms_line) {
+      $parts = explode("#", $synonyms_line);
+
+      if (!empty($parts[0])) {
+        $exploded_synonyms = explode(',',$parts[0]);
+        foreach ($exploded_synonyms as $key => &$synonym) {
+          if (substr($synonym, 0, 1)==' ') {
+            $synonym = ltrim($synonym,' ');
+          }
+        }
+        $synonyms[] = $exploded_synonyms;
+      }
+    }
+    return $synonyms;
+  }
   private function buildOskaProfessionQuery($db, $filters) {
     $subquery = $db->select('node', 'n');
     $subquery->fields('n', ['nid']);
-
+    $synonyms = $this->getSynonyms();
     $join_clauses = [];
     $condition_clauses = [];
 
 
-
-    if (!empty($filters['title'])) {
+    if (!empty($filters['titleValue'])) {
+      $filters['titleValue'] = str_replace('%','',$filters['titleValue']);
       $join_clauses[] = [
         'node_field_data' => ['nfd', 'n.nid=nfd.nid'],
         'node__field_sidebar' => ['nfs', 'n.nid=nfs.entity_id'],
         'paragraph__field_jobs' => ['pfj', 'nfs.field_sidebar_target_id=pfj.entity_id','LEFT'],
         'paragraph__field_job_name' => ['pfjn', 'pfj.field_jobs_target_id=pfjn.entity_id','LEFT'],
       ];
-      $condition_clauses[] = [
-        'or' => [
-          ['nfd.title', '%'.$filters['title'].'%', 'LIKE'],
+      $pos_search = null;
+      foreach ($synonyms as $key => $synonym_array) {
+        if (in_array($filters['titleValue'],$synonym_array)) {
+          $pos_search  = $synonym_array;
+        }
+      }
+      if ($pos_search) {
+        $ors = [];
+        foreach ($pos_search as $key => $pos_value) {
+          $ors[] = ['nfd.title', '%'.$pos_value.'%','LIKE'];
+        }
+        $ors[] = ['nfd.title', '%' . $filters['titleValue'] . '%', 'LIKE'];
+        $condition_clauses[]=[
+          'or' => $ors
+        ];
+      }
+      else {
+        $condition_clauses[] = [
+          'or' => [
+            ['nfd.title', '%' . $filters['titleValue'] . '%', 'LIKE'],
 //          ['pfjn.field_job_name_value', '%'.$filters['title'].'%', 'LIKE'],
-        ]
-      ];
+          ]
+        ];
+      }
+
     }
     if (!empty($filters['oskaFieldValue'])) {
       $join_clauses[] = ['node__field_sidebar' => ['nfs', 'n.nid=nfs.entity_id']];
