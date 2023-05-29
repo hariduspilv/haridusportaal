@@ -475,16 +475,7 @@ class SchoolImportController extends ControllerBase {
               }
 
               $changed_coords = FALSE;
-              $saved_x = $loaded->get('field_maaamet_x')->value;
-              $saved_y = $loaded->get('field_maaamet_y')->value;
-              if($saved_x!=$ehis_school['field_maaamet_x']){
-                $loaded->set('field_maaamet_x',$ehis_school['field_maaamet_x']);
-                $changed_coords = TRUE;
-              }
-              if($saved_y!=$ehis_school['field_maaamet_y']){
-                $loaded->set('field_maaamet_x',$ehis_school['field_maaamet_x']);
-                $changed_coords = TRUE;
-              }
+           
               $coordinates = $loaded->get('field_coordinates')->getValue();
 
               if (!empty($coordinates)){
