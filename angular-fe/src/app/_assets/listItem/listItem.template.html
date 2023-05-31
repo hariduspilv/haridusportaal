@@ -225,7 +225,7 @@
                        fieldName === 'fieldSchoolName'"
 								>{{ item[fieldName] }}</span
 							>
-							<span class="item" *ngIf="fieldName === 'address'"
+							<span class="item" *ngIf="fieldName === 'address' || fieldName === 'fieldSchoolLocation'"
 								>{{ item[fieldName]?.[0]?.fieldAddress }}</span
 							>
 							<span class="item" *ngIf="fieldName === 'educationalInstitution'"
