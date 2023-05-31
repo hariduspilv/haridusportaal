@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.school_location.field_address
+    - field.field.paragraph.school_location.field_building_name
     - field.field.paragraph.school_location.field_coordinates
     - field.field.paragraph.school_location.field_location_type
     - field.field.paragraph.school_location.field_school_location
@@ -19,6 +20,14 @@ content:
   field_address:
     type: string_textfield
     weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_building_name:
+    type: string_textfield
+    weight: 11
     region: content
     settings:
       size: 60
@@ -49,6 +58,11 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

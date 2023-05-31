@@ -181,6 +181,12 @@ class SchoolImportController extends ControllerBase {
       $activitytype = $school->tegutsemiseOigused->tegutsemiseOigus[0]->tegevusloaLiigid->tegevusloaLiik;
       if(isset($activitytype)){
         foreach ($activitytype as $atype) {
+          if ($atype->tegutemisvormid==null) {
+            continue;
+          }
+          if ($atype->tegutsemisvormid->tegutsemisvorm == null){
+            continue;
+          }
           foreach($atype->tegutsemisvormid->tegutsemisvorm as $activity){
             $activityforms[$activity] = '';
           }
@@ -325,6 +331,10 @@ class SchoolImportController extends ControllerBase {
                   kint($maaamet_address->error);
                 }else if(isset($maaamet_address->addresses)) {
                   foreach ($maaamet_address->addresses as $address_maaamet) {
+
+                    if (isset($building['nimetus'])){
+                      $schoolnode['ehis_schools'][$i]['field_building_name'] = $building['nimetus'];
+                    }
                     $schoolnode['ehis_schools'][$i]['field_address'] = $address_maaamet->ipikkaadress;
                     $schoolnode['ehis_schools'][$i]['field_search_address'] = substr($address_maaamet->ipikkaadress, strpos($address_maaamet->ipikkaadress, ',') + 2);
                     $schoolnode['ehis_schools'][$i]['field_coordinates']['name'] = $address_maaamet->ipikkaadress;
@@ -454,8 +464,12 @@ class SchoolImportController extends ControllerBase {
       else{
         $locations_saved = $node->toArray()['field_school_location'];
         foreach ($school['ehis_schools'] as $ehis_school) {
-
-          $ehis_location_address = $ehis_school['field_address'];
+          if (isset($ehis_school['field_address'])) {
+            $ehis_location_address = $ehis_school['field_address'];
+          }
+          else{
+            continue;
+          }
           $location_changed = false;
           $location_exists = false;
           foreach ($locations_saved as $location) {
@@ -473,9 +487,15 @@ class SchoolImportController extends ControllerBase {
                 $loaded->set('field_search_address', $ehis_school['field_search_address']);
                 $location_changed = TRUE;
               }
+              $building_name_old = $loaded->get('field_building_name')->value;
+              $building_name_new = $ehis_school['field_building_name']??NULL;
+              if ($building_name_old != $building_name_new) {
+                $loaded->set('field_building_name',$building_name_new);
+                $location_changed = TRUE;
+              }
 
               $changed_coords = FALSE;
-           
+
               $coordinates = $loaded->get('field_coordinates')->getValue();
 
               if (!empty($coordinates)){
@@ -521,6 +541,7 @@ class SchoolImportController extends ControllerBase {
             $para_loc = Paragraph::create([
               'type' => 'school_location',
               'field_address' => $ehis_school['field_address'],
+              'field_building_name' => $ehis_school['field_building_name']??'',
               'field_search_address' => $ehis_school['field_search_address'],
               'field_coordinates' => $ehis_school['field_coordinates'],
             ]);
