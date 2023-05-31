@@ -25,7 +25,7 @@ export class ListItemComponent implements OnInit, OnChanges {
 			'duration',
 			'teachingLanguage',
 		],
-		school: ['address', 'webpage', 'phone', 'email'],
+		school: ['address', 'fieldSchoolLocation', 'webpage', 'phone', 'email'],
 		mainProfession: ['fillingBar'],
 		homeSearch: ['fieldSchoolName', 'studyProgrammeLevel', 'duration'],
 	};

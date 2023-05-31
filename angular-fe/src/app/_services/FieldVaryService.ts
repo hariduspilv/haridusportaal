@@ -69,7 +69,7 @@ const requestMap = {
 		'contentType',
 	],
 	educationalInstitution: ['fieldEducationalInstitution'],
-	address: ['fieldAddress', 'FieldAddress', 'fieldSchoolLocation'],
+	address: ['fieldAddress', 'FieldAddress'],
 	teachingLanguage: ['fieldTeachingLanguage', 'FieldTeachingLanguage'],
 	specialClass: ['fieldSpecialClass'],
 	studentHome: ['fieldStudentHome'],
