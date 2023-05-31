@@ -202,6 +202,37 @@ export class SidebarComponent implements OnInit, OnChanges {
         }
       });
 
+      // In order to make multiple instances of school location,
+      // we hack it in a way that the object contains keys with an index.
+      if (this.type === 'school' && this.mappedData.fieldSchoolLocation?.length > 1) {
+        const indexOf = this.orderedKeys.indexOf('fieldSchoolLocation');
+
+        // Each location gets indexed key
+        const keys = this.mappedData.fieldSchoolLocation.map((_, index: number) => `fieldSchoolLocation${index}`);
+
+        // Each location gets assigned its own key in the object
+        const values = this.mappedData.fieldSchoolLocation.reduce((newObject, current, index) => ({
+          ...newObject,
+          [`fieldSchoolLocation${index}`]: [current]
+        }), {});
+
+        // For the collection we also need to set the type for the new unique keys
+        const types = keys.reduce((newObject, current) => ({
+          ...newObject,
+          [current]: 'location'
+        }), {})
+
+        // Delete initial object
+        delete this.mappedData.fieldSchoolLocation;
+
+        // Assign new doctored values
+        Object.assign(this.mappedData, values);
+        Object.assign(this.collection, types);
+
+        // Insert new keys in place of old one
+        this.orderedKeys.splice(indexOf, 1, ...keys);
+      }
+
       if (this.mappedData.fieldEhisLinks) {
         this.mappedData.fieldEhisLinks = this.mappedData.fieldEhisLinks.map((item) => {
           return item.entity.fieldEhisLinkTitle ? item : false;
@@ -415,7 +446,7 @@ export class SidebarLocationComponent {
 
   mapLoaded() {
     setTimeout(() => {
-      const elements = this.el.nativeElement.querySelectorAll('agm-map a');
+      const elements = this.el.nativeElement.querySelectorAll('ol-map a');
       elements.forEach((element) => {
         element.setAttribute('tabindex', '-1');
       });
