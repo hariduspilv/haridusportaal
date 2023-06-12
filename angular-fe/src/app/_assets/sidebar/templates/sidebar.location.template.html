@@ -2,7 +2,7 @@
   <ng-container *ngFor="let location of data">
     <map *ngIf="markers && markers.length" aria-hidden="true" type="markers" [options]="options" [markers]="markers" (mapLoaded)="mapLoaded()"></map>
     <ng-container *ngIf="!location.fieldEventLocation && location.entity && location.entity.fieldAddress">
-      <h2>{{ 'school.legal_address' | translate }}</h2>
+      <h2>{{ location.entity?.fieldBuildingName || ('school.legal_address' | translate) }}</h2>
       <p>
         {{ location.entity?.fieldAddress }}
       </p>
