@@ -2249,11 +2249,15 @@ public class MtsysWorker extends Worker {
         Entry<String, JsonNode> fileType = fileTypes.next();
         fileType.getValue().get("okLiik").forEach(i -> {
           if (klOkLiik.equals(i.get("klOkLiik").asLong())) {
-            dokumendidValue.addObject()
-                .put("liik", i.get("required").asBoolean() ?
-                    fileType.getValue().get("et").asText() + " *" :
-                    fileType.getValue().get("et").asText())
-                .put("klLiik", Long.valueOf(fileType.getKey()));
+            //EDU-82 Eemaldada turvatöötaja tegevusloalt PPA arvamus
+            if(klOkLiik.equals(18053L) && 18080L == i.get("klFailTyyp").asLong()) {}
+            else {
+              dokumendidValue.addObject()
+                      .put("liik", i.get("required").asBoolean() ?
+                              fileType.getValue().get("et").asText() + " *" :
+                              fileType.getValue().get("et").asText())
+                      .put("klLiik", Long.valueOf(fileType.getKey()));
+            }
           }
         });
       }
