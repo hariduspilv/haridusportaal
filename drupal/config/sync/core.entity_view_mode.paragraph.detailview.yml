@@ -1,0 +1,10 @@
+uuid: 1ba3c48a-2ce5-42d0-a87b-5655572f45c3
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.detailview
+label: 'Detail view'
+targetEntityType: paragraph
+cache: true

@@ -1,0 +1,32 @@
+uuid: e8880e10-e902-4d00-a6cb-42d2d9d19e77
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.learning_to_teach.field_learning_to_teach_sitelink
+    - field.field.paragraph.learning_to_teach.field_learning_to_teach_title
+    - paragraphs.paragraphs_type.learning_to_teach
+id: paragraph.learning_to_teach.detailview
+targetEntityType: paragraph
+bundle: learning_to_teach
+mode: detailview
+content:
+  field_learning_to_teach_sitelink:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_learning_to_teach_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

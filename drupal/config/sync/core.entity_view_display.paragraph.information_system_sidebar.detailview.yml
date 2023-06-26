@@ -1,0 +1,63 @@
+uuid: f72a8081-284a-4c2f-987e-c4799808f143
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.information_system_sidebar.field_blocks
+    - field.field.paragraph.information_system_sidebar.field_button
+    - field.field.paragraph.information_system_sidebar.field_ehis_links
+    - field.field.paragraph.information_system_sidebar.field_legislation_block
+    - paragraphs.paragraphs_type.information_system_sidebar
+  module:
+    - entity_reference_revisions
+    - link
+id: paragraph.information_system_sidebar.detailview
+targetEntityType: paragraph
+bundle: information_system_sidebar
+mode: detailview
+content:
+  field_blocks:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_button:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_ehis_links:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_legislation_block:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

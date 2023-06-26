@@ -1,0 +1,48 @@
+uuid: 214de119-f6c7-4bdc-9114-143e2b3540e2
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.contact_section.field_email
+    - field.field.paragraph.contact_section.field_organization
+    - field.field.paragraph.contact_section.field_person
+    - field.field.paragraph.contact_section.field_phone
+    - paragraphs.paragraphs_type.contact_section
+id: paragraph.contact_section.detailview
+targetEntityType: paragraph
+bundle: contact_section
+mode: detailview
+content:
+  field_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_organization:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_person:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  search_api_excerpt: true

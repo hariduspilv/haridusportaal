@@ -1,0 +1,32 @@
+uuid: 2c31794f-825e-4696-8b89-8cb209cf5553
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.media_img.field_media_img
+    - paragraphs.paragraphs_type.media_img
+  module:
+    - svg_image
+id: paragraph.media_img.detailview
+targetEntityType: paragraph
+bundle: media_img
+mode: detailview
+content:
+  field_media_img:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,33 @@
+uuid: da330d3f-d9ca-4109-9c2a-b2202f4a8759
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.infosystem_support.field_support_content
+    - field.field.paragraph.infosystem_support.field_support_title
+    - paragraphs.paragraphs_type.infosystem_support
+  module:
+    - text
+id: paragraph.infosystem_support.detailview
+targetEntityType: paragraph
+bundle: infosystem_support
+mode: detailview
+content:
+  field_support_content:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_support_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

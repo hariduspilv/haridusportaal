@@ -1,0 +1,68 @@
+uuid: 3588252e-ba8f-4ea5-b997-811faae699ee
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.information_system_accordion.field_accordion_title
+    - field.field.paragraph.information_system_accordion.field_attachment_file
+    - field.field.paragraph.information_system_accordion.field_body
+    - field.field.paragraph.information_system_accordion.field_links
+    - field.field.paragraph.information_system_accordion.field_lower_paragraph
+    - paragraphs.paragraphs_type.information_system_accordion
+  module:
+    - entity_reference_revisions
+    - link
+    - text
+id: paragraph.information_system_accordion.detailview
+targetEntityType: paragraph
+bundle: information_system_accordion
+mode: detailview
+content:
+  field_accordion_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_attachment_file:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_links:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_lower_paragraph:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  search_api_excerpt: true

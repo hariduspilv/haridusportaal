@@ -1,0 +1,95 @@
+uuid: 12c8fd53-db01-4e18-93b9-58c4595e310d
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.detailview
+    - field.field.node.job_offer.field_adrid
+    - field.field.node.job_offer.field_date
+    - field.field.node.job_offer.field_id_number
+    - field.field.node.job_offer.field_institution
+    - field.field.node.job_offer.field_location
+    - field.field.node.job_offer.field_time
+    - field.field.node.job_offer.field_webpage_link
+    - node.type.job_offer
+  module:
+    - entity_reference_revisions
+    - link
+    - user
+id: node.job_offer.detailview
+targetEntityType: node
+bundle: job_offer
+mode: detailview
+content:
+  field_adrid:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_date:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_id_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_institution:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_location:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_time:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_webpage_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true
