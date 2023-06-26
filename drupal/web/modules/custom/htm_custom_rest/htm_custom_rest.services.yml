@@ -3,3 +3,6 @@ services:
     class: Drupal\htm_custom_rest\Services\CustomElasticQueryService
   htm_custom_rest.similarProgramme:
     class: Drupal\htm_custom_rest\Services\StudyProgrammeElastic
+  htm_custom_rest.fieldsAndViews:
+    class: Drupal\htm_custom_rest\Services\FieldsAndViewService
+    arguments: ['@entity_display.repository','@language_manager']
