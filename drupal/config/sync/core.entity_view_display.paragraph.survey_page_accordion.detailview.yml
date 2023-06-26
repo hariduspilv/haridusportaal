@@ -1,0 +1,47 @@
+uuid: c810b853-71f1-4743-b6c7-a5522e0cb86a
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.survey_page_accordion.field_survey_accordion_content
+    - field.field.paragraph.survey_page_accordion.field_survey_accordion_link
+    - field.field.paragraph.survey_page_accordion.field_survey_accordion_title
+    - paragraphs.paragraphs_type.survey_page_accordion
+  module:
+    - link
+    - text
+id: paragraph.survey_page_accordion.detailview
+targetEntityType: paragraph
+bundle: survey_page_accordion
+mode: detailview
+content:
+  field_survey_accordion_content:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_survey_accordion_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_survey_accordion_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

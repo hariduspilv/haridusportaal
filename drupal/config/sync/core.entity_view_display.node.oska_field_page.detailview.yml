@@ -1,0 +1,138 @@
+uuid: 0f4223a1-839c-4eb8-bd9e-9751963fa95e
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.detailview
+    - field.field.node.oska_field_page.body
+    - field.field.node.oska_field_page.field_dynamic_graph
+    - field.field.node.oska_field_page.field_gallery_btn
+    - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_media_gallery
+    - field.field.node.oska_field_page.field_oska_attachment_file
+    - field.field.node.oska_field_page.field_oska_field_accordion
+    - field.field.node.oska_field_page.field_oska_field_picture
+    - field.field.node.oska_field_page.field_oska_field_sidebar
+    - field.field.node.oska_field_page.field_oska_video
+    - field.field.node.oska_field_page.field_oska_web_page
+    - node.type.oska_field_page
+  module:
+    - entity_reference_revisions
+    - file
+    - htm_custom_oska
+    - htm_custom_video_field
+    - link
+    - options
+    - svg_image
+    - text
+    - user
+id: node.oska_field_page.detailview
+targetEntityType: node
+bundle: oska_field_page
+mode: detailview
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_dynamic_graph:
+    type: oska_graph_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 117
+    region: content
+  field_gallery_btn:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 118
+    region: content
+  field_introduction:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_media_gallery:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 119
+    region: content
+  field_oska_attachment_file:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_oska_field_accordion:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_oska_field_picture:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_oska_field_sidebar:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 115
+    region: content
+  field_oska_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_oska_web_page:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

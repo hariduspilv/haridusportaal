@@ -1,0 +1,78 @@
+uuid: bfc7b017-852d-44ed-8743-a7f5688cf1dd
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.youth_monitoring_accordion.field_title
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_body
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_introduction
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_link
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_picture
+    - field.field.paragraph.youth_monitoring_accordion.field_youth_video
+    - paragraphs.paragraphs_type.youth_monitoring_accordion
+  module:
+    - entity_reference_revisions
+    - htm_custom_video_field
+    - svg_image
+    - text
+id: paragraph.youth_monitoring_accordion.detailview
+targetEntityType: paragraph
+bundle: youth_monitoring_accordion
+mode: detailview
+content:
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_youth_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_youth_introduction:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_youth_link:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_youth_picture:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_youth_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  search_api_excerpt: true

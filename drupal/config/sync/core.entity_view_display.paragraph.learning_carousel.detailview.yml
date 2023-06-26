@@ -1,0 +1,60 @@
+uuid: 2f043a6f-554b-4bb0-b4c8-d7bbfef12529
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.learning_carousel.field_learn_carousel_link_title
+    - field.field.paragraph.learning_carousel.field_learning_carousel_content
+    - field.field.paragraph.learning_carousel.field_learning_carousel_image
+    - field.field.paragraph.learning_carousel.field_learning_carousel_link
+    - field.field.paragraph.learning_carousel.field_learning_carousel_title
+    - paragraphs.paragraphs_type.learning_carousel
+  module:
+    - file
+id: paragraph.learning_carousel.detailview
+targetEntityType: paragraph
+bundle: learning_carousel
+mode: detailview
+content:
+  field_learn_carousel_link_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_learning_carousel_content:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_learning_carousel_image:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_learning_carousel_link:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_learning_carousel_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

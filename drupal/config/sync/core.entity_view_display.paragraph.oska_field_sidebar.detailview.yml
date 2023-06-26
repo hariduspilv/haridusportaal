@@ -1,0 +1,96 @@
+uuid: 3e61fd77-3014-4072-89eb-231d57cb67d7
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.oska_field_sidebar.field_employment_change
+    - field.field.paragraph.oska_field_sidebar.field_neutral
+    - field.field.paragraph.oska_field_sidebar.field_number_employed
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_cons
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_contact
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_pros
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_quick_find
+    - field.field.paragraph.oska_field_sidebar.field_related_pages
+    - paragraphs.paragraphs_type.oska_field_sidebar
+  module:
+    - entity_reference_revisions
+    - link
+    - options
+id: paragraph.oska_field_sidebar.detailview
+targetEntityType: paragraph
+bundle: oska_field_sidebar
+mode: detailview
+content:
+  field_employment_change:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_neutral:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_number_employed:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_oska_field_cons:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_oska_field_contact:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_oska_field_pros:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_oska_field_quick_find:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_related_pages:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 6
+    region: content
+hidden:
+  search_api_excerpt: true

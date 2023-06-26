@@ -1,0 +1,31 @@
+uuid: d2e857a1-a5bb-454a-ac30-a63b3f56136d
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.additional_section.field_additional_body
+    - field.field.paragraph.additional_section.field_title
+    - paragraphs.paragraphs_type.additional_section
+id: paragraph.additional_section.detailview
+targetEntityType: paragraph
+bundle: additional_section
+mode: detailview
+content:
+  field_additional_body:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,58 @@
+uuid: f80fe9ec-b9f8-4bb3-8128-09ad88cabb3a
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.information_system_lower.field_paragraph_attachment
+    - field.field.paragraph.information_system_lower.field_paragraph_content
+    - field.field.paragraph.information_system_lower.field_paragraph_link
+    - field.field.paragraph.information_system_lower.field_paragraph_title
+    - paragraphs.paragraphs_type.information_system_lower
+  module:
+    - entity_reference_revisions
+    - link
+    - text
+id: paragraph.information_system_lower.detailview
+targetEntityType: paragraph
+bundle: information_system_lower
+mode: detailview
+content:
+  field_paragraph_attachment:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_paragraph_content:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_paragraph_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_paragraph_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

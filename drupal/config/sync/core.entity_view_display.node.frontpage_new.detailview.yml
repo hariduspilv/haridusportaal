@@ -1,0 +1,96 @@
+uuid: 6a172007-d5f0-45fd-9d26-868895561833
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.detailview
+    - field.field.node.frontpage_new.field_frontpage_contact_email
+    - field.field.node.frontpage_new.field_frontpage_contact_name
+    - field.field.node.frontpage_new.field_frontpage_contact_phone
+    - field.field.node.frontpage_new.field_frontpage_news
+    - field.field.node.frontpage_new.field_frontpage_quote
+    - field.field.node.frontpage_new.field_frontpage_references
+    - field.field.node.frontpage_new.field_frontpage_services
+    - field.field.node.frontpage_new.field_frontpage_topics
+    - node.type.frontpage_new
+  module:
+    - entity_reference_revisions
+    - user
+id: node.frontpage_new.detailview
+targetEntityType: node
+bundle: frontpage_new
+mode: detailview
+content:
+  field_frontpage_contact_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_frontpage_contact_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_frontpage_contact_phone:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_frontpage_news:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_frontpage_quote:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_frontpage_references:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_frontpage_services:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_frontpage_topics:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

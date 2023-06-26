@@ -1,0 +1,38 @@
+uuid: 5f0a4b6e-1d50-4739-a2c0-bd2463d9f121
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.link.field_link_name
+    - field.field.paragraph.link.field_webpage_link
+    - paragraphs.paragraphs_type.link
+  module:
+    - link
+id: paragraph.link.detailview
+targetEntityType: paragraph
+bundle: link
+mode: detailview
+content:
+  field_link_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_webpage_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

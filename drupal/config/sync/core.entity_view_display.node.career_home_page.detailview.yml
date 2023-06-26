@@ -1,0 +1,97 @@
+uuid: 08096fe1-a386-4176-8a83-d2b4501acc08
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.detailview
+    - field.field.node.career_home_page.field_career
+    - field.field.node.career_home_page.field_career_contact
+    - field.field.node.career_home_page.field_content_page_link
+    - field.field.node.career_home_page.field_external_links
+    - field.field.node.career_home_page.field_frontpage_news
+    - field.field.node.career_home_page.field_quote_author
+    - field.field.node.career_home_page.field_quote_author_occupation
+    - field.field.node.career_home_page.field_quote_text
+    - node.type.career_home_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.career_home_page.detailview
+targetEntityType: node
+bundle: career_home_page
+mode: detailview
+content:
+  field_career:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_career_contact:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_content_page_link:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_external_links:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_frontpage_news:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_quote_author:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_quote_author_occupation:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_quote_text:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

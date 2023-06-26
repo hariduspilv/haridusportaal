@@ -1,0 +1,38 @@
+uuid: b3b5de37-aaf0-4b1d-9a67-f1a624d4b368
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.ehis_icon_link.field_ehis_link_icon
+    - field.field.paragraph.ehis_icon_link.field_ehis_paragraph_link
+    - paragraphs.paragraphs_type.ehis_icon_link
+  module:
+    - link
+    - options
+id: paragraph.ehis_icon_link.detailview
+targetEntityType: paragraph
+bundle: ehis_icon_link
+mode: detailview
+content:
+  field_ehis_link_icon:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_ehis_paragraph_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true
