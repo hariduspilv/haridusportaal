@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57f97b3dd7b7dac8914669b51998cb70",
+    "content-hash": "e940f5dabd09f0194805b42d1e1c5bfb",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3962,6 +3962,111 @@
             }
         },
         {
+            "name": "drupal/decoupled_kit",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/decoupled_kit.git",
+                "reference": "8.x-1.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/decoupled_kit-8.x-1.4.zip",
+                "reference": "8.x-1.4",
+                "shasum": "195d0d720247d9663f8c37debb3d094d48b35f06"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9 || ^10"
+            },
+            "require-dev": {
+                "drupal/metatag": "*",
+                "drupal/redirect": "*",
+                "drupal/webform": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.4",
+                    "datestamp": "1679826417",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "goodboy",
+                    "homepage": "https://www.drupal.org/user/222910"
+                }
+            ],
+            "description": "Decoupled Kit",
+            "homepage": "https://www.drupal.org/project/decoupled_kit",
+            "support": {
+                "source": "https://git.drupalcode.org/project/decoupled_kit"
+            }
+        },
+        {
+            "name": "drupal/decoupled_router",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/decoupled_router.git",
+                "reference": "2.0.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/decoupled_router-2.0.4.zip",
+                "reference": "2.0.4",
+                "shasum": "8dacb4460c93a3fa9b034516a7e1caaf254be76b"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10"
+            },
+            "require-dev": {
+                "drupal/redirect": "^1.8"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.4",
+                    "datestamp": "1669803945",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Mateu Aguiló Bosch",
+                    "homepage": "https://www.drupal.org/user/103796",
+                    "email": "mateu.aguilo.bosch@gmail.com"
+                },
+                {
+                    "name": "e0ipso",
+                    "homepage": "https://www.drupal.org/user/550110"
+                },
+                {
+                    "name": "mglaman",
+                    "homepage": "https://www.drupal.org/user/2416470"
+                }
+            ],
+            "description": "Provides an endpoint that will help you resolve path aliases and redirects for entity related routes.",
+            "homepage": "https://www.drupal.org/project/decoupled_router",
+            "support": {
+                "source": "https://git.drupalcode.org/project/decoupled_router"
+            }
+        },
+        {
             "name": "drupal/devel",
             "version": "4.2.1",
             "source": {
@@ -4662,26 +4767,26 @@
         },
         {
             "name": "drupal/google_map_field",
-            "version": "1.14.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/google_map_field.git",
-                "reference": "8.x-1.14"
+                "reference": "2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/google_map_field-8.x-1.14.zip",
-                "reference": "8.x-1.14",
-                "shasum": "2ec797acb6591ab4ef96412da05930fdaaa15002"
+                "url": "https://ftp.drupal.org/files/projects/google_map_field-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "a37bc6ab1db07db356ff4d87c5db5b881b8ee7aa"
             },
             "require": {
-                "drupal/core": "^8 || ^9"
+                "drupal/core": "^9.4 || ^10.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.14",
-                    "datestamp": "1596020086",
+                    "version": "2.0.0",
+                    "datestamp": "1671969352",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4708,6 +4813,10 @@
                 {
                     "name": "See contributors",
                     "homepage": "https://www.drupal.org/node/1531046/committers"
+                },
+                {
+                    "name": "VVVi",
+                    "homepage": "https://www.drupal.org/user/355825"
                 }
             ],
             "description": "Defines a field type for Google Maps.",
