@@ -1,0 +1,128 @@
+uuid: 6de79215-07aa-4d26-b25c-1d36f42906d4
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.main_profession_sidebar.field_cons
+    - field.field.paragraph.main_profession_sidebar.field_contact
+    - field.field.paragraph.main_profession_sidebar.field_iscedf_search_link
+    - field.field.paragraph.main_profession_sidebar.field_job_opportunities
+    - field.field.paragraph.main_profession_sidebar.field_jobs
+    - field.field.paragraph.main_profession_sidebar.field_neutral
+    - field.field.paragraph.main_profession_sidebar.field_oska_field
+    - field.field.paragraph.main_profession_sidebar.field_pros
+    - field.field.paragraph.main_profession_sidebar.field_qualification_standard
+    - field.field.paragraph.main_profession_sidebar.field_quick_find
+    - field.field.paragraph.main_profession_sidebar.field_related_profession
+    - paragraphs.paragraphs_type.main_profession_sidebar
+  module:
+    - entity_reference_revisions
+    - link
+id: paragraph.main_profession_sidebar.detailview
+targetEntityType: paragraph
+bundle: main_profession_sidebar
+mode: detailview
+content:
+  field_cons:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_contact:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_iscedf_search_link:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_job_opportunities:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_jobs:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_neutral:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_oska_field:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_pros:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_qualification_standard:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_quick_find:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_related_profession:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+hidden:
+  search_api_excerpt: true

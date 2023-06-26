@@ -1,0 +1,63 @@
+uuid: b9dce894-970a-49b7-9aaf-0f7ea7234cac
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.right_sidebar_section_info.field_additional
+    - field.field.paragraph.right_sidebar_section_info.field_contact_section
+    - field.field.paragraph.right_sidebar_section_info.field_hyperlinks
+    - field.field.paragraph.right_sidebar_section_info.field_related_article
+    - paragraphs.paragraphs_type.right_sidebar_section_info
+  module:
+    - entity_reference_revisions
+    - link
+id: paragraph.right_sidebar_section_info.detailview
+targetEntityType: paragraph
+bundle: right_sidebar_section_info
+mode: detailview
+content:
+  field_additional:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_contact_section:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_hyperlinks:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_related_article:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  search_api_excerpt: true

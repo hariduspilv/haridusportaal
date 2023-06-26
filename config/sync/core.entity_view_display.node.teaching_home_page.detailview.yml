@@ -1,0 +1,108 @@
+uuid: bacca433-885f-4429-8564-7992e5c46c8f
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.detailview
+    - field.field.node.teaching_home_page.field_collaboration_offers
+    - field.field.node.teaching_home_page.field_contact
+    - field.field.node.teaching_home_page.field_external
+    - field.field.node.teaching_home_page.field_quote_author
+    - field.field.node.teaching_home_page.field_quote_author_occupation
+    - field.field.node.teaching_home_page.field_quote_text
+    - field.field.node.teaching_home_page.field_teaching_news
+    - field.field.node.teaching_home_page.field_teaching_themes
+    - field.field.node.teaching_home_page.field_toolbox
+    - node.type.teaching_home_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.teaching_home_page.detailview
+targetEntityType: node
+bundle: teaching_home_page
+mode: detailview
+content:
+  field_collaboration_offers:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_contact:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_external:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_quote_author:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_quote_author_occupation:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_quote_text:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_teaching_news:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_teaching_themes:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_toolbox:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

@@ -1,0 +1,32 @@
+uuid: 5f8b8e79-ee59-4cf8-ae7a-fa6c7172268d
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.youth_subject_links.field_internal_link
+    - field.field.paragraph.youth_subject_links.field_title
+    - paragraphs.paragraphs_type.youth_subject_links
+id: paragraph.youth_subject_links.detailview
+targetEntityType: paragraph
+bundle: youth_subject_links
+mode: detailview
+content:
+  field_internal_link:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

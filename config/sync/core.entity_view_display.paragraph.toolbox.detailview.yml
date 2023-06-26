@@ -1,0 +1,60 @@
+uuid: ab6780e7-20c2-46cb-bded-78bea61e45a1
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.toolbox.field_content
+    - field.field.paragraph.toolbox.field_internal_link
+    - field.field.paragraph.toolbox.field_link_name
+    - field.field.paragraph.toolbox.field_title
+    - field.field.paragraph.toolbox.field_toolbox_image
+    - paragraphs.paragraphs_type.toolbox
+  module:
+    - file
+id: paragraph.toolbox.detailview
+targetEntityType: paragraph
+bundle: toolbox
+mode: detailview
+content:
+  field_content:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_internal_link:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_link_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_toolbox_image:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  search_api_excerpt: true

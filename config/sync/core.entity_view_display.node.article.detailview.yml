@@ -1,0 +1,115 @@
+uuid: 5fb274b6-9e25-4471-9785-a3f8c37f0042
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.detailview
+    - field.field.node.article.field_accordion_section
+    - field.field.node.article.field_body
+    - field.field.node.article.field_body_summary
+    - field.field.node.article.field_image
+    - field.field.node.article.field_infograph
+    - field.field.node.article.field_metatags
+    - field.field.node.article.field_right_sidebar
+    - field.field.node.article.field_video
+    - image.style.crop_large
+    - node.type.article
+  module:
+    - entity_reference_revisions
+    - htm_custom_infograph
+    - htm_custom_video_field
+    - metatag
+    - svg_image
+    - text
+    - user
+_core:
+  default_config_hash: ChmU3AVqDKU32A_fyChG0W9dTRKmVBR58B6OClCLvZI
+id: node.article.detailview
+targetEntityType: node
+bundle: article
+mode: detailview
+content:
+  field_accordion_section:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_body_summary:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: crop_large
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_infograph:
+    type: dynamic_graph_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_metatags:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_right_sidebar:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  langcode:
+    type: language
+    label: above
+    settings:
+      link_to_entity: false
+      native_language: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

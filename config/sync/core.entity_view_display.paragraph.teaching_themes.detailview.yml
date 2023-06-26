@@ -1,0 +1,32 @@
+uuid: ead8dd65-316a-45a5-92f4-9365c887cdb6
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.teaching_themes.field_internal_link
+    - field.field.paragraph.teaching_themes.field_theme_title
+    - paragraphs.paragraphs_type.teaching_themes
+id: paragraph.teaching_themes.detailview
+targetEntityType: paragraph
+bundle: teaching_themes
+mode: detailview
+content:
+  field_internal_link:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_theme_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

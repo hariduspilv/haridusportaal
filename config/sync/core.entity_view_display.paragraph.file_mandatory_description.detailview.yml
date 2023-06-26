@@ -1,0 +1,34 @@
+uuid: 73933e00-081e-42f4-a2d8-09e15d0d3a57
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.file_mandatory_description.field_attachment
+    - field.field.paragraph.file_mandatory_description.field_name
+    - paragraphs.paragraphs_type.file_mandatory_description
+  module:
+    - file
+id: paragraph.file_mandatory_description.detailview
+targetEntityType: paragraph
+bundle: file_mandatory_description
+mode: detailview
+content:
+  field_attachment:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

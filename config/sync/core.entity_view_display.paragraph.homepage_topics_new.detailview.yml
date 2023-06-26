@@ -1,0 +1,29 @@
+uuid: e9573223-738b-45cf-90b6-e2cea3311ce0
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.homepage_topics_new.field_topic_link
+    - paragraphs.paragraphs_type.homepage_topics_new
+  module:
+    - link
+id: paragraph.homepage_topics_new.detailview
+targetEntityType: paragraph
+bundle: homepage_topics_new
+mode: detailview
+content:
+  field_topic_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  search_api_excerpt: true

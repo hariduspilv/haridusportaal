@@ -1,0 +1,35 @@
+uuid: 4d77b23f-7be5-4a8c-bd25-4c2ef74cf68a
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.ehis_links.field_ehis_block_links
+    - field.field.paragraph.ehis_links.field_ehis_link_title
+    - paragraphs.paragraphs_type.ehis_links
+  module:
+    - entity_reference_revisions
+id: paragraph.ehis_links.detailview
+targetEntityType: paragraph
+bundle: ehis_links
+mode: detailview
+content:
+  field_ehis_block_links:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_ehis_link_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

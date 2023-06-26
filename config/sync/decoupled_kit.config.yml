@@ -1,0 +1,5 @@
+langcode: et
+_core:
+  default_config_hash: o8aNvOgLJJrJ1W91ITelkhWM0cSaoKb-_ZgZXDuYp4k
+path_prefix: decoupled_kit
+current_path: /

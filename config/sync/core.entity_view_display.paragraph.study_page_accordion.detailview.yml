@@ -1,0 +1,49 @@
+uuid: 36dd37a0-e8b6-42f7-b909-7062858988aa
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.study_page_accordion.field_body
+    - field.field.paragraph.study_page_accordion.field_study_accordion_content
+    - field.field.paragraph.study_page_accordion.field_study_accordion_intro
+    - field.field.paragraph.study_page_accordion.field_study_page_accordion_title
+    - paragraphs.paragraphs_type.study_page_accordion
+  module:
+    - text
+id: paragraph.study_page_accordion.detailview
+targetEntityType: paragraph
+bundle: study_page_accordion
+mode: detailview
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_study_accordion_content:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_study_accordion_intro:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_study_page_accordion_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

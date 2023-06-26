@@ -1,0 +1,8 @@
+langcode: et
+_core:
+  default_config_hash: e77hcy-2yyP9GQE5S0hCgrESAvrwxYNIKFaiL1HYB0o
+need_front: true
+need_title: true
+path_patterns: ''
+use_bundle_name: false
+need_url_validate: true

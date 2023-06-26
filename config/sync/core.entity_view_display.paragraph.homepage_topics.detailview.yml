@@ -1,0 +1,46 @@
+uuid: 0cd73cbc-ee88-49c8-8ce9-105066c508ee
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.homepage_topics.field_topic_link
+    - field.field.paragraph.homepage_topics.field_topic_text
+    - field.field.paragraph.homepage_topics.field_topic_title
+    - paragraphs.paragraphs_type.homepage_topics
+  module:
+    - link
+id: paragraph.homepage_topics.detailview
+targetEntityType: paragraph
+bundle: homepage_topics
+mode: detailview
+content:
+  field_topic_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_topic_text:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_topic_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

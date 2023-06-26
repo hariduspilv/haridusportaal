@@ -1,0 +1,34 @@
+uuid: c822eaa1-02a6-4804-afd2-105ba073edc2
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.frontpage_service_image.field_alt
+    - field.field.paragraph.frontpage_service_image.field_service_img
+    - paragraphs.paragraphs_type.frontpage_service_image
+  module:
+    - file
+id: paragraph.frontpage_service_image.detailview
+targetEntityType: paragraph
+bundle: frontpage_service_image
+mode: detailview
+content:
+  field_alt:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_service_img:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,119 @@
+uuid: aaec1d18-459f-4039-9a63-48bfc84b7706
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.detailview
+    - field.field.node.oska_survey_page.body
+    - field.field.node.oska_survey_page.field_dynamic_graph
+    - field.field.node.oska_survey_page.field_survey_page_accordion
+    - field.field.node.oska_survey_page.field_survey_page_attachment
+    - field.field.node.oska_survey_page.field_survey_page_introduction
+    - field.field.node.oska_survey_page.field_survey_page_link
+    - field.field.node.oska_survey_page.field_survey_page_picture
+    - field.field.node.oska_survey_page.field_survey_page_sidebar
+    - field.field.node.oska_survey_page.field_survey_page_video
+    - node.type.oska_survey_page
+  module:
+    - entity_reference_revisions
+    - file
+    - htm_custom_oska
+    - htm_custom_video_field
+    - link
+    - svg_image
+    - text
+    - user
+id: node.oska_survey_page.detailview
+targetEntityType: node
+bundle: oska_survey_page
+mode: detailview
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_dynamic_graph:
+    type: oska_graph_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_survey_page_accordion:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_survey_page_attachment:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_survey_page_introduction:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_survey_page_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_survey_page_picture:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_survey_page_sidebar:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_survey_page_video:
+    type: custom_video_formatter_type
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true
