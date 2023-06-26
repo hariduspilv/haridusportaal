@@ -1,0 +1,58 @@
+uuid: 612437bc-ca95-4c7c-aa68-5a2824765fef
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.working_time.field_at_night
+    - field.field.paragraph.working_time.field_full_time
+    - field.field.paragraph.working_time.field_in_shifts
+    - field.field.paragraph.working_time.field_part_time
+    - paragraphs.paragraphs_type.working_time
+id: paragraph.working_time.detailview
+targetEntityType: paragraph
+bundle: working_time
+mode: detailview
+content:
+  field_at_night:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_full_time:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_in_shifts:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_part_time:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,41 @@
+uuid: a71278af-ae5e-49eb-921d-6cefa83a3375
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.location.field_address
+    - field.field.paragraph.location.field_lat
+    - field.field.paragraph.location.field_long
+    - paragraphs.paragraphs_type.location
+id: paragraph.location.detailview
+targetEntityType: paragraph
+bundle: location
+mode: detailview
+content:
+  field_address:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_lat:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_long:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

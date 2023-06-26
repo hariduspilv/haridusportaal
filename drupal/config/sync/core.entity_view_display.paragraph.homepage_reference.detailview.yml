@@ -1,0 +1,55 @@
+uuid: 1892c070-2ca0-44ab-a7bf-0bc16900e8a8
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.homepage_reference.field_reference_content
+    - field.field.paragraph.homepage_reference.field_reference_link
+    - field.field.paragraph.homepage_reference.field_reference_question_title
+    - field.field.paragraph.homepage_reference.field_reference_title
+    - paragraphs.paragraphs_type.homepage_reference
+  module:
+    - link
+id: paragraph.homepage_reference.detailview
+targetEntityType: paragraph
+bundle: homepage_reference
+mode: detailview
+content:
+  field_reference_content:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_reference_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_reference_question_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_reference_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,38 @@
+uuid: b5be402e-5e9b-4c71-a9b1-3a50cb926fb1
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.job.field_job_link
+    - field.field.paragraph.job.field_job_name
+    - paragraphs.paragraphs_type.job
+  module:
+    - link
+id: paragraph.job.detailview
+targetEntityType: paragraph
+bundle: job
+mode: detailview
+content:
+  field_job_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_job_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

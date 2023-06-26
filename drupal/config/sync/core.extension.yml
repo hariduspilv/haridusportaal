@@ -27,6 +27,9 @@ module:
   custom_menu_uri_translation: 0
   datetime: 0
   dblog: 0
+  decoupled_kit: 0
+  decoupled_kit_breadcrumb: 0
+  decoupled_router: 0
   devel: 0
   devel_entity_updates: 0
   devel_generate: 0

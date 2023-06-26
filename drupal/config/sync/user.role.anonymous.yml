@@ -8,6 +8,8 @@ dependencies:
     - rest.resource.feedback_rest_resource
     - rest.resource.get_certificate_public_rest_resource
     - rest.resource.highlighted_research
+    - rest.resource.htm_custom_rest_breadcrumbs
+    - rest.resource.htm_custom_rest_detail_view
     - rest.resource.htm_custom_rest_list_view
     - rest.resource.jwt_token_rest_resource
     - rest.resource.mobile_id_rest_resource
@@ -46,6 +48,8 @@ permissions:
   - 'restful get dashboard_service_rest_resource'
   - 'restful get get_certificate_public_rest_resource'
   - 'restful get highlighted_research'
+  - 'restful get htm_custom_rest_breadcrumbs'
+  - 'restful get htm_custom_rest_detail_view'
   - 'restful get htm_custom_rest_list_view'
   - 'restful get translations_rest_resource'
   - 'restful get variables_rest_resource'

@@ -1,0 +1,10 @@
+uuid: cb302398-88c6-4e5b-881c-4613857ad7db
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.detailview
+label: 'Detail view'
+targetEntityType: node
+cache: true

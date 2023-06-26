@@ -1,0 +1,50 @@
+uuid: 7df88263-2916-45d8-b191-9a3666e22126
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.iscedf_search.field_iscedf_broad
+    - field.field.paragraph.iscedf_search.field_iscedf_narrow
+    - field.field.paragraph.iscedf_search.field_iscedf_search_term
+    - field.field.paragraph.iscedf_search.field_level
+    - paragraphs.paragraphs_type.iscedf_search
+id: paragraph.iscedf_search.detailview
+targetEntityType: paragraph
+bundle: iscedf_search
+mode: detailview
+content:
+  field_iscedf_broad:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_iscedf_narrow:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_iscedf_search_term:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_level:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

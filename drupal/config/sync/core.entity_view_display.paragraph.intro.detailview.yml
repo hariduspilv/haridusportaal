@@ -1,0 +1,33 @@
+uuid: 3d52ae34-a374-48d4-b193-3ba7af2f188b
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.detailview
+    - field.field.paragraph.intro.field_body
+    - field.field.paragraph.intro.field_intro_title
+    - paragraphs.paragraphs_type.intro
+  module:
+    - text
+id: paragraph.intro.detailview
+targetEntityType: paragraph
+bundle: intro
+mode: detailview
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_intro_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true
