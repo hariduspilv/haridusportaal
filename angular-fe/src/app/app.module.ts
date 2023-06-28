@@ -42,7 +42,7 @@ registerLocaleData(localeEt);
     AmpService,
     TitleService,
     Location,
-    { provide: 'googleTagManagerId', useValue: 'GTM-WK8H92C' },
+    { provide: 'googleTagManagerId', useValue: 'G-GY5JMZHEYQ' },
     DeviceDetectorService,
   ],
   bootstrap: [
