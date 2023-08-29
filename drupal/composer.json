@@ -56,7 +56,7 @@
         "drupal/console": "~1.0",
         "drupal/console-extend-plugin": "^0.9.5",
         "drupal/consumers": "^1.17",
-        "drupal/core": "9.5.8",
+        "drupal/core": "9.5.10",
         "drupal/core-composer-scaffold": "9.5.8",
         "drupal/core-project-message": "9.5.8",
         "drupal/devel": "^4.1",
