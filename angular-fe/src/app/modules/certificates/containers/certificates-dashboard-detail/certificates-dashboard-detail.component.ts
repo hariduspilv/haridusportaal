@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SettingsService } from '@app/_services';
+import { AlertsService, SettingsService } from '@app/_services';
 import { Location } from '@angular/common';
 import { CertificateFileDownloadSidebar } from '../../models/interfaces/certificate-file-download-sidebar';
 import { ExamDocumentResponse, ExamDocumentValue } from '../../models/interfaces/exam-document';
@@ -39,6 +39,8 @@ export class CertificatesDashboardDetailComponent implements OnInit {
       title: '',
     },
   ];
+  // Use this to get rid of loader if query errors
+  public errors = this.alertsService?.getAlertsFromBlock('certificates');
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -46,6 +48,7 @@ export class CertificatesDashboardDetailComponent implements OnInit {
     public translate: TranslateService,
     public settings: SettingsService,
     public http: HttpClient,
+    private alertsService: AlertsService
   ) {}
 
   createAccordionTitle(item: { test_nimi: string; tulemus: string }): string {
@@ -83,7 +86,11 @@ export class CertificatesDashboardDetailComponent implements OnInit {
   examInit(): void {
     this.http.get<ExamDocumentResponse>(`${this.settings.url}/state-exams/${this.route.snapshot.params.id}?_format=json`)
       .subscribe((examResults) => {
-        if (examResults?.lang_cert_nr) {
+        if (examResults?.error) {
+          this.alertsService?.error(examResults?.error?.message_text?.et, 'certificates');
+          return;
+        }
+        if (examResults?.value?.tunnistus_id) {
           this.createSidebar(examResults);
         }
         this.examResults = {
@@ -105,11 +112,13 @@ export class CertificatesDashboardDetailComponent implements OnInit {
   }
 
   private createSidebar(examResults: ExamDocumentResponse): void {
+    // Add language certificate number to file name if it exists
+    const langCertNr = examResults?.lang_cert_nr ? `-${examResults?.lang_cert_nr}` : '';
     this.sidebar = {
       entity: {
         downloadFile: {
-          url: `${environment.API_URL}/certificate-download/${examResults.value.tunnistus_id}`,
-          filename: `tasemeeksam-${this.examinationYear}-${examResults.lang_cert_nr}.asice`,
+          url: `${environment.API_URL}/certificate-download/${examResults?.value?.tunnistus_id}`,
+          filename: `tasemeeksam-${this.examinationYear}${langCertNr}.asice`,
         },
       },
     };
