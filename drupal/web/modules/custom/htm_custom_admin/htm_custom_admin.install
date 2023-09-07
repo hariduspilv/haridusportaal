@@ -9,6 +9,7 @@
  */
 
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 
@@ -135,6 +136,30 @@ function htm_custom_admin_update_9104() {
 
   // Delete disabled menu links and unpublish their internal content.
   htm_custom_admin_get_disabled_links($menu_links);
+}
+
+/**
+ * Update field organizer length
+ */
+function htm_custom_admin_update_9110() {
+  $entity_type = 'node';
+  $field_name = 'field_organizer';
+  $database = \Drupal::database();
+  $database->query("ALTER TABLE node__field_organizer ALTER COLUMN field_organizer_value type varchar(255)");
+  $database->query("ALTER TABLE node_revision__field_organizer ALTER COLUMN field_organizer_value type varchar(255)");
+  $storage_key = 'node.field_schema_data.field_organizer';
+  $storage_schema = \Drupal::keyValue('entity.storage_schema.sql');
+  $field_schema = $storage_schema->get($storage_key);
+  $field_schema['node__field_organizer']['fields']['field_organizer_value']['length'] = 255;
+  $field_schema['node_revision__field_organizer']['fields']['field_organizer_value']['length'] = 255;
+  $storage_schema->set($storage_key, $field_schema);
+  // Update field configuration.
+  $config = \Drupal::configFactory()
+    ->getEditable('field.storage.node.field_organizer');
+  $config->set('settings.max_length', 255);
+  $config->save(TRUE);
+  // Update field storage configuration.
+  FieldStorageConfig::loadByName($entity_type, $field_name)->save();
 }
 /**
  * Recursively deletes disabled menu links and unpublishes their internal content.
