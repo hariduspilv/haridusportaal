@@ -1,0 +1,20 @@
+uuid: 041a2141-a9e5-4ebb-b3c1-cfdb1dc5a597
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_ehis_name_last_changed
+  module:
+    - user
+id: user.user.field_ehis_name_last_changed
+field_name: field_ehis_name_last_changed
+entity_type: user
+bundle: user
+label: 'Ehis nimi viimati uuendatud'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

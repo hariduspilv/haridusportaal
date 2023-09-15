@@ -424,6 +424,76 @@ class EhisConnectorService {
     $params['hash'] = 'eeIsikukaart';
     $response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
     \Drupal::logger('xjson')->notice('<pre><code>Personal card response: '. print_r($response, TRUE). '</code></pre>' );
+    $personalCard = $response;
+
+    if (!empty($personalCard)) {
+      if (!empty($personalCard['value'])) {
+        if (!empty($personalCard['value']['isikuandmed'])) {
+          $user = $this->currentUser->getAccount();
+          $user_firstname = $user->get('field_firstname')->value;
+          $user_lastname = $user->get('field_lastname')->value;
+          $useEhisName =false;
+          $updateEhisTime = false;
+          $personalData = $personalCard['value']['isikuandmed'];
+          $first_same = true;
+          $last_same = true;
+          if (!empty($personalData['eesnimi'])) {
+            if ($personalData['eesnimi']!= $user_firstname) {
+              $first_same =false;
+              $useEhisName = true;
+              $user_ehis_first = $user->get('field_ehis_firstname')->value;
+              if (empty($user_ehis_first)) {
+                $user->set('field_ehis_firstname', $personalData['eesnimi']);
+                $updateEhisTime = true;
+              }
+              else{
+                if ($user_ehis_first != $personalData['eesnimi']){
+                  $user->set('field_ehis_firstname', $personalData['eesnimi']);
+                  $updateEhisTime = true;
+                }
+              }
+            }
+            else{
+              $user->set('field_ehis_firstname','');
+              $first_same = true;
+            }
+          }
+          if (!empty($personalData['perenimi'])) {
+            if ($personalData['perenimi']!= $user_lastname) {
+              $last_same = false;
+              $useEhisName = true;
+              $user_ehis_last = $user->get('field_ehis_lastname')->value;
+              if (empty($user_ehis_last)) {
+                $user->set('field_ehis_lastname', $personalData['perenimi']);
+                $updateEhisTime = true;
+              }
+              else{
+                if ($user_ehis_last !=$personalData['perenimi']){
+                  $user->set('field_ehis_lastname', $personalData['perenimi']);
+                  $updateEhisTime = true;
+                }
+              }
+            }
+
+            else{
+              $user->set('field_ehis_lastname','');
+              $last_same = true;
+            }
+          }
+          if ($updateEhisTime) {
+            $user->set('field_ehis_name_last_changed', date('d.m.Y',time()));
+            $user->save();
+          }
+          if ($first_same && $last_same) {
+            $user->set('field_ehis_name_last_changed','');
+            $user->save();
+          }
+          if ($useEhisName) {
+            $response['useEhisNames'] = true;
+          }
+        }
+      }
+    }
     if($params['tab'] !== 'eeIsikukaartGDPR') {
       return $response;
     } else {
