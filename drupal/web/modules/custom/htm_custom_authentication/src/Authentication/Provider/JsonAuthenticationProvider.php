@@ -217,6 +217,12 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 		$event->addClaim('username', $this->roleSwitcher->returnUser()->getIdCode());
     $event->addClaim('firstname', $this->roleSwitcher->returnUser()->getFirstName());
     $event->addClaim('lastname', $this->roleSwitcher->returnUser()->getLastName());
+    $user = $this->roleSwitcher->returnUser()->getAccount();
+    if (!empty($user->get('field_ehis_firstname')->value) && !empty($user->get('field_ehis_lastname')->value)){
+
+      $event->addClaim('firstname', $user->get('field_ehis_firstname')->value);
+      $event->addClaim('lastname', $user->get('field_ehis_lastname')->value);
+    }
 		$jwt = $event->getToken();
 		return $this->transcoder->encode($jwt);
 	}
