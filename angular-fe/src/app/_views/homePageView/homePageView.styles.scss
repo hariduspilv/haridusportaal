@@ -631,7 +631,7 @@
 		color: $black;
 		display: block;
 		position: relative;
-		padding: 8.125rem 0 12.5rem 0;
+		padding: 1.5rem 0 12.5rem 0;
 		background: $white;
 		@include break-on(sm, max) {
 			padding-bottom: 7rem;
@@ -814,7 +814,7 @@
 		display: block;
 		position: relative;
 		background: $light-gray;
-		padding: 1.5rem 0 8rem 0;
+		padding: 8.125rem 0 8rem 0;
 
 		@include break-on(sm, max) {
 			padding-bottom: 6.5625rem;

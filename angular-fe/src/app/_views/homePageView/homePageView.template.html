@@ -1,34 +1,34 @@
 <loader *ngIf="loading"></loader>
 <ng-container *ngIf="!loading">
-  <homepage-navblock
-    [data]="topics"
-    [theme]="theme"
-    [title]="'home.slogan' | translate"
-    [image]="'/assets/img/homePage-navBlock.svg'"></homepage-navblock>
-  <homepage-articles
-    *ngIf="articles && articles.length"
-    [data]="articles"
-    [category]="'home.what_to_find' | translate"
-    [theme]="theme"></homepage-articles>
-  <homepage-slides
-    [data]="services"
-    [title]="'home.services_title' | translate"
-    [theme]="theme"></homepage-slides>
-  <homepage-topical
-    [article]="news"
-    [category]="'home.topical_default' | translate"
-    [image]="'/assets/img/homepage-topical-1.svg'"
-    [theme]="theme"></homepage-topical>
-  <homepage-study
-    [title]="study.title"
-    [intro]="study.intro"
-    [data]="study.data"
-    [theme]="theme"></homepage-study>
-  <homepage-slogan
-    [data]="slogan"
-    [image]="'/assets/img/homepage-slogan-1.svg'"
-    [theme]="theme"></homepage-slogan>
-  <homepage-footer
-    [data]="contact"
-    [theme]="theme"></homepage-footer>
+	<homepage-navblock
+		[data]="topics"
+		[theme]="theme"
+		[title]="'home.slogan' | translate"
+		[image]="'/assets/img/homePage-navBlock.svg'"></homepage-navblock>
+	<homepage-slides
+		[data]="services"
+		[title]="'home.services_title' | translate"
+		[theme]="theme"></homepage-slides>
+	<homepage-articles
+		*ngIf="articles && articles.length"
+		[data]="articles"
+		[category]="'home.what_to_find' | translate"
+		[theme]="theme"></homepage-articles>
+	<homepage-topical
+		[article]="news"
+		[category]="'home.topical_default' | translate"
+		[image]="'/assets/img/homepage-topical-1.svg'"
+		[theme]="theme"></homepage-topical>
+	<homepage-study
+		[title]="study.title"
+		[intro]="study.intro"
+		[data]="study.data"
+		[theme]="theme"></homepage-study>
+	<homepage-slogan
+		[data]="slogan"
+		[image]="'/assets/img/homepage-slogan-1.svg'"
+		[theme]="theme"></homepage-slogan>
+	<homepage-footer
+		[data]="contact"
+		[theme]="theme"></homepage-footer>
 </ng-container>
