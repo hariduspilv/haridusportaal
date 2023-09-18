@@ -33,6 +33,7 @@ query getSchoolSingle(
             fieldSchoolLocation {
               entity {
                 ... on ParagraphSchoolLocation {
+                  fieldBuildingName
                   fieldAddress
                   fieldLocationType
                   fieldSchoolLocation {
@@ -53,3 +54,4 @@ query getSchoolSingle(
       }
     }
   }
+

@@ -23,7 +23,6 @@ function import_school_data_cron() {
         $queue_factory = \Drupal::service('queue');
         /** @var QueueInterface $queue */
         $queue = $queue_factory->get('cron_import_school_data');
-
         $schoolnodes = $import_controller->import();
         foreach($schoolnodes as $schoolnode){
           $queue->createItem($schoolnode);

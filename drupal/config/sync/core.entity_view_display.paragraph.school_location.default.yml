@@ -4,9 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.school_location.field_address
+    - field.field.paragraph.school_location.field_building_name
     - field.field.paragraph.school_location.field_coordinates
     - field.field.paragraph.school_location.field_location_type
     - field.field.paragraph.school_location.field_school_location
+    - field.field.paragraph.school_location.field_search_address
     - paragraphs.paragraphs_type.school_location
   module:
     - google_map_field
@@ -23,6 +25,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_building_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 11
     region: content
   field_coordinates:
     type: google_map_field_default
@@ -47,4 +57,5 @@ content:
     weight: 10
     region: content
 hidden:
+  field_search_address: true
   search_api_excerpt: true
