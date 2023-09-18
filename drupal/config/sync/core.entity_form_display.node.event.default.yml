@@ -228,11 +228,11 @@ content:
     weight: 11
     region: content
     settings:
-      size: 60
+      size: 255
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 50
+        maxlength_js: 255
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   field_organizer_idcode:
     type: string_textfield
