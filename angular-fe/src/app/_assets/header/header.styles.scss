@@ -100,14 +100,8 @@
 			min-height: 1.25rem;
 			padding: 0;
 
-            button:focus {
-              outline: var(--border);
-            }
-
-			@include break-on(sm, min) {
-				&.active {
-					display: none;
-				}
+			button:focus {
+				outline: var(--border);
 			}
 			button {
 				// This "!important" is required here because the focus style doesn't work properly in Safari.
@@ -160,9 +154,9 @@
 	}
 	::ng-deep .login__wrapper {
 		display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-around;
+		width: 100%;
+		align-items: center;
+		justify-content: space-around;
 		flex-direction: column;
 		padding-bottom: 2rem;
 		.mobile-handshake {
