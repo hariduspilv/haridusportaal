@@ -1,0 +1,20 @@
+uuid: 2c982631-a725-4c61-b590-ee5921a11804
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_ehis_lastname
+  module:
+    - user
+id: user.user.field_ehis_lastname
+field_name: field_ehis_lastname
+entity_type: user
+bundle: user
+label: 'Ehis perenimi'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

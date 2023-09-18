@@ -3,13 +3,16 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_ehis_firstname
+    - field.field.user.user.field_ehis_lastname
+    - field.field.user.user.field_ehis_name_last_changed
     - field.field.user.user.field_firstname
     - field.field.user.user.field_lastname
     - field.field.user.user.field_user_idcode
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
-    - image
+    - svg_image
     - user
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
@@ -18,6 +21,30 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
+  field_ehis_firstname:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_ehis_lastname:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_ehis_name_last_changed:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
   field_firstname:
     type: string
     label: above
@@ -53,6 +80,12 @@ content:
     settings:
       image_link: content
       image_style: thumbnail
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content

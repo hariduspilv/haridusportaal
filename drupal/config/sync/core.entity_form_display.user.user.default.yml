@@ -3,6 +3,9 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_ehis_firstname
+    - field.field.user.user.field_ehis_lastname
+    - field.field.user.user.field_ehis_name_last_changed
     - field.field.user.user.field_firstname
     - field.field.user.user.field_lastname
     - field.field.user.user.field_user_idcode
@@ -28,6 +31,30 @@ content:
     weight: 5
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_ehis_firstname:
+    type: string_textfield
+    weight: 34
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_ehis_lastname:
+    type: string_textfield
+    weight: 35
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_ehis_name_last_changed:
+    type: string_textfield
+    weight: 36
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_firstname:
     type: string_textfield

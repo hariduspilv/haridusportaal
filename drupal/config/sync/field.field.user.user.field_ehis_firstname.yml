@@ -1,0 +1,20 @@
+uuid: 8209f733-b4c4-4717-9e0e-b0ac8bf8e4fc
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_ehis_firstname
+  module:
+    - user
+id: user.user.field_ehis_firstname
+field_name: field_ehis_firstname
+entity_type: user
+bundle: user
+label: 'Ehis eesnimi'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

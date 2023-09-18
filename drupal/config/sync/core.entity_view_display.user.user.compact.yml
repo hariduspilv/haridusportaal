@@ -4,10 +4,16 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.user.compact
+    - field.field.user.user.field_ehis_firstname
+    - field.field.user.user.field_ehis_lastname
+    - field.field.user.user.field_ehis_name_last_changed
+    - field.field.user.user.field_firstname
+    - field.field.user.user.field_lastname
+    - field.field.user.user.field_user_idcode
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
-    - image
+    - svg_image
     - user
 _core:
   default_config_hash: '-cLsS3M3JycipXQt9rEb81_HxKneReoGuRh8ijcOPXs'
@@ -22,10 +28,19 @@ content:
     settings:
       image_link: content
       image_style: thumbnail
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
 hidden:
+  field_ehis_firstname: true
+  field_ehis_lastname: true
+  field_ehis_name_last_changed: true
   field_firstname: true
   field_lastname: true
   field_user_idcode: true
