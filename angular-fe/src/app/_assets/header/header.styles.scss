@@ -103,6 +103,12 @@
 			button:focus {
 				outline: var(--border);
 			}
+
+			@include break-on(sm-edge, min) {
+				&.active {
+					display: none;
+				}
+			}
 			button {
 				// This "!important" is required here because the focus style doesn't work properly in Safari.
 				// Possibly a Safari bug.

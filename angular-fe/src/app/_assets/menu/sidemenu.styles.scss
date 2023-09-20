@@ -22,7 +22,7 @@
 	will-change: width;
 	transition: width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
 	&.is-visible {
-		z-index: 10;
+		z-index: 11;
 		width: 16.25rem;
 	}
 	@include break-on(sm, max) {

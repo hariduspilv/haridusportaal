@@ -1,28 +1,35 @@
 $breakpoints: (
-  xxs: 480px,
-  xs: 720px,
-  sm: 1024px,
-  md: 1280px,
-  lg: 1440px,
-  xl: 1920px,
-  xxl: 2580px
+	xxs: 480px,
+	xxs-edge: 480.98px,
+	xs: 720px,
+	xs-edge: 720.98px,
+	sm: 1024px,
+	sm-edge: 1024.98px,
+	md: 1280px,
+	md-edge: 1280.98px,
+	lg: 1440px,
+	lg-edge: 1440.98px,
+	xl: 1920px,
+	xl-edge: 1920.98px,
+	xxl: 2580px,
+	xxl-edge: 2580.98px
 );
 
 @mixin break-on($breakpoint, $type) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    $mediaValue: map-get($breakpoints, $breakpoint);
-    @if $type == min {
-      @media (min-width: $mediaValue) {
-        @content;
-      }
-    } @else if ($type == max) {
-      @media (max-width: $mediaValue) {
-        @content;
-      }
-    } @else {
-      @warn "Unknown `#{$type}` in $media query type";
-    }
-  } @else {
-    @warn "Unknown `#{$breakpoint}` in $breakpoints";
-  }
+	@if map-has-key($breakpoints, $breakpoint) {
+		$mediaValue: map-get($breakpoints, $breakpoint);
+		@if $type == min {
+			@media (min-width: $mediaValue) {
+				@content;
+			}
+		} @else if ($type == max) {
+			@media (max-width: $mediaValue) {
+				@content;
+			}
+		} @else {
+			@warn "Unknown `#{$type}` in $media query type";
+		}
+	} @else {
+		@warn "Unknown `#{$breakpoint}` in $breakpoints";
+	}
 }
